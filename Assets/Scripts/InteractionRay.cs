@@ -21,6 +21,7 @@ public class InteractionRay : MonoBehaviour
         {
             if (rhit.collider != CurrentCollider)
             {
+                CurrentCollider = rhit.collider;
                 CurrentInteractable = rhit.collider.GetComponent<InteractableEntity>();
                 if (CurrentInteractable != null)
                 {
@@ -28,8 +29,16 @@ public class InteractionRay : MonoBehaviour
                     return;
                 }
             }
+            else
+            {
+                return;
+            }
         }
-
+        else
+        {
+            CurrentCollider = null;
+        }
+        
         CurrentInteractable = null;
         UnHover();
     }
@@ -50,6 +59,7 @@ public class InteractionRay : MonoBehaviour
         }
 
         CurrentInteractable.Interact();
+        UnHover();
     }
 
     void OnHover()
