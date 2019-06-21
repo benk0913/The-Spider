@@ -18,12 +18,23 @@ public class EnvelopeEntity : MonoBehaviour
     TextMeshProUGUI FromText;
 
     [SerializeField]
+    TextMeshProUGUI ArchiveActionText;
+
+    [SerializeField]
+    TextMeshProUGUI DeleteActionText;
+
+    [SerializeField]
+    TextMeshProUGUI RetreiveActionText;
+
+    [SerializeField]
     MeshRenderer SealRenderer;
 
     private void Start()
     {
-        //DEBUG
-        RefreshUI();
+        if(CurrentLetter != null)
+        {
+            RefreshUI();
+        }
     }
 
     public void SetInfo(Letter letter)
@@ -48,5 +59,20 @@ public class EnvelopeEntity : MonoBehaviour
         TitleText.text = CurrentLetter.Title;
         DescriptionText.text = CurrentLetter.Description;
         FromText.text = CurrentLetter.From;
+
+        ArchiveActionText.text = "Press '" + InputMap.Map["Interact"].ToString() + "' to ARCHIVE.";
+        ArchiveActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to DISPOSE.";
+        ArchiveActionText.text = "Press 'Escape' to return...";
+    }
+
+    public void Archive()
+    {
+        LettersPanelUI.Instance.AddLetterToLog(this.CurrentLetter);
+        Destroy(this.gameObject);
+    }
+
+    public void Delete()
+    {
+        Destroy(this.gameObject);
     }
 }

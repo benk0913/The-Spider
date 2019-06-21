@@ -5,18 +5,11 @@ using UnityEngine;
 
 public class CursorTooltipUI : MonoBehaviour
 {
-    public static CursorTooltipUI Instance;
-
     [SerializeField]
     TextMeshProUGUI TextLabel;
 
     [SerializeField]
     CanvasGroup CG;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     public void Show(string message)
     {

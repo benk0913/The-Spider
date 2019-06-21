@@ -6,7 +6,40 @@ public class MouseLook : MonoBehaviour
 {
     public static MouseLook Instance;
 
-    public ActorState State;
+    public ActorState State
+    {
+        get
+        {
+            return _state;
+        }
+        set
+        {
+            switch(value)
+            {
+                case ActorState.Idle:
+                    {
+                        Cursor.visible = false;
+                        Cursor.lockState = CursorLockMode.Locked;
+                        break;
+                    }
+                case ActorState.ItemInHands:
+                    {
+                        Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.Confined;
+                        break;
+                    }
+                case ActorState.Focusing:
+                    {
+                        Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.Confined;
+                        break;
+                    }
+            }
+
+            _state = value;
+        }
+    }
+    ActorState _state;
 
     public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 
@@ -205,6 +238,10 @@ public class MouseLook : MonoBehaviour
             {
                 CurrentItemInHands.Interact();
             }
+            else if (Input.GetKeyDown(InputMap.Map["Secondary Interaction"]))
+            {
+                CurrentItemInHands.SecondaryInteract();
+            }
         }
     }
 
@@ -303,6 +340,13 @@ public class MouseLook : MonoBehaviour
         }
 
         PickupItemRoutineInstance = StartCoroutine(RetreiveItemRoutine());
+    }
+
+    public void ReleaseItem()
+    {
+        PickupItemRoutineInstance = null;
+        CurrentItemInHands = null;
+        State = ActorState.Idle;
     }
 
     Coroutine PickupItemRoutineInstance = null;
