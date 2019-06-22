@@ -7,6 +7,9 @@ public class CORE : MonoBehaviour
 {
     public static CORE Instance;
 
+    [SerializeField]
+    public GameDB Database;
+
     private void Awake()
     {
         Instance = this;
