@@ -78,13 +78,14 @@ public class LocationEntityUI : MonoBehaviour
         if(IsUpgrading)
         {
             CurrentUpgradeLength--;
-            RefreshUI();
-
+            
             if (CurrentUpgradeLength <= 0)
             {
                 IsUpgrading = false;
                 Level++;
             }
+
+            RefreshUI();
         }
     }
 
@@ -120,6 +121,7 @@ public class LocationEntityUI : MonoBehaviour
                 OwnerPortrait.SetDisabled();
             }
 
+            ClearEmployees();
 
             GameObject tempPort;
             for (int i = 0; i < PropertyReference.PropertyLevels[Level - 1].MaxEmployees; i++)
@@ -177,19 +179,27 @@ public class LocationEntityUI : MonoBehaviour
     {
         IsSelected = true;
         RefreshUI();
+
+        IdlePanel.gameObject.SetActive(false);
+        SelectedPanel.gameObject.SetActive(true);
     }
 
     public void Deselect()
     {
         IsSelected = false;
+        ClearEmployees();
+
+        IdlePanel.gameObject.SetActive(true);
+        SelectedPanel.gameObject.SetActive(false);
+    }
+
+    void ClearEmployees()
+    {
         while (EmployeesGrid.childCount > 0)
         {
             EmployeesGrid.GetChild(0).gameObject.SetActive(false);
             EmployeesGrid.GetChild(0).SetParent(transform);
         }
-
-        IdlePanel.gameObject.SetActive(true);
-        SelectedPanel.gameObject.SetActive(false);
     }
 
     public void PurchaseUpgrade()

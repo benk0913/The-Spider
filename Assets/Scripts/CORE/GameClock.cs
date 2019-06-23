@@ -34,6 +34,7 @@ public class GameClock : MonoBehaviour
         }
 
         CORE.Instance.InvokeEvent(CurrentTime.ToString());
+        OnTurnPassed.Invoke();
     }
 
     [System.Serializable]

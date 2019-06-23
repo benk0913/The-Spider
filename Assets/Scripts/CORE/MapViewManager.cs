@@ -8,6 +8,10 @@ public class MapViewManager : MonoBehaviour
 
     public LocationEntityUI SelectedLocation;
 
+    internal void PurchasePlot(PurchasablePlotUI purchasablePlotUI)
+    {
+    }
+
     public Character SelectedCharacter;
 
     private void Awake()
@@ -23,21 +27,27 @@ public class MapViewManager : MonoBehaviour
     public void Hide()
     {
         DeselectCurrentCharacter();
+        DeselectCurrentLocation();
     }
 
     public void SelectLocation(LocationEntityUI location)
     {
         if(SelectedLocation != null)
         {
-            DeslectCurrentLocation();
+            DeselectCurrentLocation();
         }
 
         SelectedLocation = location;
         SelectedLocation.Select();
     }
 
-    public void DeslectCurrentLocation()
+    public void DeselectCurrentLocation()
     {
+        if(SelectedLocation == null)
+        {
+            return;
+        }
+
         SelectedLocation.Deselect();
     }
 
