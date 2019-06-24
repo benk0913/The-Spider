@@ -7,8 +7,6 @@ public class PurchasablePlotUI : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI PriceText;
-
-
     int CurrentPrice;
 
     public void Initialize(int Price)
