@@ -26,7 +26,9 @@ public class TopdownCameraMovement : MonoBehaviour
     [SerializeField]
     Transform BottomLeftBorder;
 
-    
+    [SerializeField]
+    public bool IsOrthographic = true;
+
 
     bool isBeforeBorderTop
     {
@@ -60,6 +62,14 @@ public class TopdownCameraMovement : MonoBehaviour
         }
     }
 
+    float PerspectiveZoomValue
+    {
+        get
+        {
+            return Mathf.Clamp(transform.position.y - BottomLeftBorder.position.y, 0.01f, 99f);
+        }
+    } 
+
     private void Update()
     {
         RefreshInput();
@@ -69,30 +79,49 @@ public class TopdownCameraMovement : MonoBehaviour
     {
         if (Input.GetKey(InputMap.Map["MoveForward"]) && isBeforeBorderTop)
         {
-            transform.position += transform.up * MovementSpeed * CurrentCamera.orthographicSize * Time.deltaTime;
+            transform.position += transform.forward * MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
         }
         else if (Input.GetKey(InputMap.Map["MoveBackward"]) && isBeforeBorderBottom)
         {
-            transform.position += -transform.up * MovementSpeed * CurrentCamera.orthographicSize * Time.deltaTime;
+            transform.position += -transform.forward * MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
         }
 
         if (Input.GetKey(InputMap.Map["MoveLeft"]) && isBeforeBorderLeft)
         {
-            transform.position += -transform.right * MovementSpeed * CurrentCamera.orthographicSize * Time.deltaTime;
+            transform.position += -transform.right * MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
         }
         else if (Input.GetKey(InputMap.Map["MoveRight"]) && isBeforeBorderRight)
         {
-            transform.position += transform.right * MovementSpeed * CurrentCamera.orthographicSize * Time.deltaTime;
+            transform.position += transform.right * MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
         }
 
-        if(Input.mouseScrollDelta.y > 0 && CurrentCamera.orthographicSize > maxZoom)
+        if (IsOrthographic)
         {
-            CurrentCamera.orthographicSize -= ZoomSpeed * Time.deltaTime;
+            if (Input.mouseScrollDelta.y > 0 && CurrentCamera.orthographicSize > maxZoom)
+            {
+                CurrentCamera.orthographicSize -= ZoomSpeed * Time.deltaTime;
+            }
+            else if (Input.mouseScrollDelta.y < 0 && CurrentCamera.orthographicSize < minZoom)
+            {
+                CurrentCamera.orthographicSize += ZoomSpeed * Time.deltaTime;
+            }
+        }
+        else
+        {
+            if (Input.mouseScrollDelta.y > 0 && transform.position.y > BottomLeftBorder.position.y)
+            {
+                transform.position -= Vector3.up * ZoomSpeed * Time.deltaTime;
+            }
+            else if (Input.mouseScrollDelta.y < 0 && transform.position.y < TopRightBorder.position.y)
+            {
+                transform.position += Vector3.up * ZoomSpeed * Time.deltaTime;
+            }
+        }
 
-        }
-        else if (Input.mouseScrollDelta.y < 0 && CurrentCamera.orthographicSize < minZoom)
-        {
-            CurrentCamera.orthographicSize += ZoomSpeed * Time.deltaTime;
-        }
+        
     }
 }
