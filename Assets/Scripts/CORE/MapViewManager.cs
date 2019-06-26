@@ -6,7 +6,7 @@ public class MapViewManager : MonoBehaviour
 {
     public static MapViewManager Instance;
 
-    public LocationEntityUI SelectedLocation;
+    public LocationEntity SelectedLocation;
 
     internal void PurchasePlot(PurchasablePlotUI purchasablePlotUI)
     {
@@ -30,7 +30,7 @@ public class MapViewManager : MonoBehaviour
         DeselectCurrentLocation();
     }
 
-    public void SelectLocation(LocationEntityUI location)
+    public void SelectLocation(LocationEntity location)
     {
         if(SelectedLocation != null)
         {

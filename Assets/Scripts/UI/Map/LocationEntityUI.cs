@@ -172,7 +172,7 @@ public class LocationEntityUI : MonoBehaviour
 
     public void OnClick()
     {
-        MapViewManager.Instance.SelectLocation(this);
+       // MapViewManager.Instance.SelectLocation(this);
     }
 
     public void Select()

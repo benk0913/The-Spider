@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class InteractionRay : MonoBehaviour
 {
-    RaycastHit rhit;
+    protected RaycastHit rhit;
 
-    Collider CurrentCollider = null;
-
-    [SerializeField]
-    LayerMask HitMask;
+    protected Collider CurrentCollider = null;
 
     [SerializeField]
-    CursorTooltipUI Tooltip;
+    protected LayerMask HitMask;
+
+    [SerializeField]
+    protected CursorTooltipUI Tooltip;
 
     public InteractableEntity CurrentInteractable = null;
 
-    public void EmitRay()
+    public virtual void EmitRay()
     {
         Physics.Raycast(transform.position, transform.forward,  out rhit, HitMask);
 
         if (rhit.collider != null)
         {
+            
             if (rhit.collider != CurrentCollider)
             {
                 CurrentCollider = rhit.collider;
@@ -46,14 +47,14 @@ public class InteractionRay : MonoBehaviour
         UnHover();
     }
 
-    
 
-    public void OnHover()
+
+    public virtual void OnHover()
     {
         Tooltip.Show(CurrentInteractable.Name);
     }
 
-    public void UnHover()
+    public virtual void UnHover()
     {
         Tooltip.Hide();
     }
