@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseInteractionRay : MonoBehaviour
 {
@@ -17,8 +18,16 @@ public class MouseInteractionRay : MonoBehaviour
     [SerializeField]
     LayerMask HitMask;
 
+    [SerializeField]
+    EventSystem _UIEventSystem;
+
     private void Update()
     {
+        if (_UIEventSystem != null && _UIEventSystem.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         EmitRay();
 
         if (CurrentInteractable != null && Input.GetMouseButtonDown(0))

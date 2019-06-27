@@ -42,7 +42,7 @@ public class LocationEntity : MonoBehaviour
     [SerializeField]
     Collider LocationColider;
 
-    int Level;
+    int Level = 1;
 
     public bool IsSelected;
 
@@ -54,6 +54,8 @@ public class LocationEntity : MonoBehaviour
 
     private void Start()
     {
+        GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+
         if(CurrentProperty != null)
         {
             RefreshUI();
@@ -88,7 +90,6 @@ public class LocationEntity : MonoBehaviour
 
         IdlePanel.gameObject.SetActive(false);
         SelectedPanel.gameObject.SetActive(true);
-
     }
 
     public void Deselect()
@@ -120,11 +121,9 @@ public class LocationEntity : MonoBehaviour
 
         if (IsUpgrading)
         {
-            if (!UpgradeInProgressPanel.activeInHierarchy)
-            {
-                UpgradeInProgressPanel.SetActive(true);
-                IdleStatePanel.gameObject.SetActive(false);
-            }
+            UpgradeInProgressPanel.SetActive(true);
+            IdleStatePanel.gameObject.SetActive(false);
+            
 
             GameClock.GameTimeLength upgradeLength = new GameClock.GameTimeLength(CurrentUpgradeLength);
 
@@ -133,18 +132,15 @@ public class LocationEntity : MonoBehaviour
             if (upgradeLength.Days > 0)
             {
                 UpgradeLengthText.text += upgradeLength.Days.ToString()
-                    + ((upgradeLength.Days == 1) ? " day from now..." : " days from now...");
+                    + ((upgradeLength.Days == 1) ? " day from \n now..." : " days from \n now...");
             }
             
             UpgradeFillImage.fillAmount = ((float)CurrentUpgradeLength) / ((float)CurrentProperty.PropertyLevels[Level].UpgradeLength);
         }
         else
         {
-            if (UpgradeInProgressPanel.activeInHierarchy)
-            {
-                UpgradeInProgressPanel.SetActive(false);
-                IdleStatePanel.gameObject.SetActive(true);
-            }
+            UpgradeInProgressPanel.SetActive(false);
+            IdleStatePanel.gameObject.SetActive(true);
 
             UpgradePriceText.text = CurrentProperty.PropertyLevels[Level].UpgradePrice.ToString();
         }
