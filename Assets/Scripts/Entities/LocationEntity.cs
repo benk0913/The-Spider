@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class LocationEntity : MonoBehaviour
 {
+    public const float PORTRAITS_SPACING = 5f;
+    public const int PORTRAITS_MAX_IN_ROW = 5;
+
     [SerializeField]
     Image LocationIcon;
 
@@ -40,7 +43,18 @@ public class LocationEntity : MonoBehaviour
     GameObject SelectedPanel;
 
     [SerializeField]
-    Collider LocationColider;
+    PortraitStand OwnerPortrait;
+
+    [SerializeField]
+    Character OwnerCharacter;
+
+    [SerializeField]
+    List<Character> EmployeesCharacters = new List<Character>();
+
+    [SerializeField]
+    Transform EmployeeGridPoint;
+
+    List<PortraitStand> EmployeePortraits = new List<PortraitStand>();
 
     int Level = 1;
 
@@ -114,27 +128,77 @@ public class LocationEntity : MonoBehaviour
 
     public void RefreshUI()
     {
-        for(int i=0;i< RanksContainer.childCount; i++)
+        if (IsSelected)
+        {
+            RefreshPortraits();
+
+            RefreshRanks();
+
+            RefreshUpdatingState();
+        }
+    }
+
+    void RefreshRanks()
+    {
+        for (int i = 0; i < RanksContainer.childCount; i++)
         {
             RanksContainer.GetChild(i).gameObject.SetActive(Level > i);
         }
+    }
 
+    void RefreshPortraits()
+    {
+        OwnerPortrait.Portrait.SetCharacter(OwnerCharacter);
+
+
+        ClearEmployeePortraitStands();
+
+        PortraitStand tempPS;
+        for (int i = 0; i < CurrentProperty.PropertyLevels[Level - 1].MaxEmployees; i++)
+        {
+            tempPS = ResourcesLoader.Instance.GetRecycledObject("PortraitStand").GetComponent<PortraitStand>();
+            tempPS.transform.SetParent(EmployeeGridPoint);
+            tempPS.transform.position = EmployeeGridPoint.position + new Vector3(i*tempPS.transform.localScale.x*PORTRAITS_SPACING, 0, 0);
+            tempPS.transform.rotation = EmployeeGridPoint.rotation;
+
+            if (EmployeesCharacters.Count > i)
+            {
+                tempPS.Portrait.SetCharacter(EmployeesCharacters[i]);
+            }
+            else
+            {
+                tempPS.Portrait.SetCharacter(null);
+            }
+        }
+    }
+
+    void ClearEmployeePortraitStands()
+    {
+        while(EmployeeGridPoint.childCount > 0)
+        {
+            EmployeeGridPoint.GetChild(0).gameObject.SetActive(false);
+            EmployeeGridPoint.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void RefreshUpdatingState()
+    {
         if (IsUpgrading)
         {
             UpgradeInProgressPanel.SetActive(true);
             IdleStatePanel.gameObject.SetActive(false);
-            
+
 
             GameClock.GameTimeLength upgradeLength = new GameClock.GameTimeLength(CurrentUpgradeLength);
 
             UpgradeLengthText.text = "<color=black>Ready In:</color>\n";
-            UpgradeLengthText.text += ((GameClock.GameTime)upgradeLength.DayTime)+"\n";
+            UpgradeLengthText.text += ((GameClock.GameTime)upgradeLength.DayTime) + "\n";
             if (upgradeLength.Days > 0)
             {
                 UpgradeLengthText.text += upgradeLength.Days.ToString()
                     + ((upgradeLength.Days == 1) ? " day from \n now..." : " days from \n now...");
             }
-            
+
             UpgradeFillImage.fillAmount = ((float)CurrentUpgradeLength) / ((float)CurrentProperty.PropertyLevels[Level].UpgradeLength);
         }
         else
@@ -142,7 +206,10 @@ public class LocationEntity : MonoBehaviour
             UpgradeInProgressPanel.SetActive(false);
             IdleStatePanel.gameObject.SetActive(true);
 
-            UpgradePriceText.text = CurrentProperty.PropertyLevels[Level].UpgradePrice.ToString();
+            if (CurrentProperty.PropertyLevels.Count > Level)
+            {
+                UpgradePriceText.text = CurrentProperty.PropertyLevels[Level].UpgradePrice.ToString();
+            }
         }
     }
 
