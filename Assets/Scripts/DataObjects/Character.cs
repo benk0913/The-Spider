@@ -48,6 +48,7 @@ public class Character : ScriptableObject
             return _gold;
         }
     }
+    [SerializeField]
     int _gold;
 
 

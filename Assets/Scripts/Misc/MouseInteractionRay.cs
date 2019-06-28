@@ -30,7 +30,7 @@ public class MouseInteractionRay : MonoBehaviour
 
         EmitRay();
 
-        if (CurrentInteractable != null && Input.GetMouseButtonDown(0))
+        if (CurrentInteractable != null && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             CurrentInteractable.OnClick();
         }

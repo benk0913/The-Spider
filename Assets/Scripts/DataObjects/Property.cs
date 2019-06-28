@@ -11,6 +11,8 @@ public class Property : ScriptableObject
 
     public Sprite Icon;
 
+    public GameObject FigurePrefab;
+
     [System.Serializable]
     public class PropertyLevel
     {

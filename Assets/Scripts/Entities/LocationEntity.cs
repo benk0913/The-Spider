@@ -19,6 +19,9 @@ public class LocationEntity : MonoBehaviour
     [SerializeField]
     public List<Character> EmployeesCharacters = new List<Character>();
 
+    [SerializeField]
+    Transform FigurePoint;
+
     public int Level = 1;
 
     public int Gold;
@@ -86,6 +89,18 @@ public class LocationEntity : MonoBehaviour
     {
         CurrentProperty = property;
         CurrentAction = CurrentProperty.Actions[0];
+
+        if (FigurePoint.transform.childCount > 0)
+        {
+            FigurePoint.transform.GetChild(0).gameObject.SetActive(false);
+            FigurePoint.transform.GetChild(0).SetParent(transform);
+        }
+
+        GameObject tempFigure = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.FigurePrefab);
+        tempFigure.transform.SetParent(FigurePoint);
+        tempFigure.transform.position = FigurePoint.position;
+        tempFigure.transform.rotation = FigurePoint.rotation;
+
         StateUpdated.Invoke();
     }
 

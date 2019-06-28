@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ActionUI : MonoBehaviour
 {
 
-    public const string COLOR_DEFAULT = "894346";
+    public const string COLOR_DEFAULT = "#894346";
 
     public const string COLOR_SELECTED = "#FFFC2B";
 
@@ -43,7 +43,7 @@ public class ActionUI : MonoBehaviour
         }
         else
         {
-            QuestionMark.gameObject.SetActive(false);
+            QuestionMark.gameObject.SetActive(true);
             ActionTitle.text = "Locked";
         }
     }
