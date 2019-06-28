@@ -7,6 +7,8 @@ public class Property : ScriptableObject
 {
     public List<PropertyLevel> PropertyLevels = new List<PropertyLevel>();
 
+    public List<PropertyAction> Actions = new List<PropertyAction>();
+
     public Sprite Icon;
 
     [System.Serializable]
@@ -16,5 +18,17 @@ public class Property : ScriptableObject
         public int MaxActions;
         public int UpgradePrice;
         public int UpgradeLength;
+    }
+
+
+    [System.Serializable]
+    public class PropertyAction
+    {
+        public string Name;
+
+        public Sprite Icon;
+
+        public int GoldGeneratedMin = 1;
+        public int GoldGeneratedMax = 2;
     }
 }

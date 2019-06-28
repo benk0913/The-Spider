@@ -13,6 +13,8 @@ public class GameClock : MonoBehaviour
 
     public UnityEvent OnTurnPassed = new UnityEvent();
 
+    public UnityEvent OnDayPassed = new UnityEvent();
+
     private void Awake()
     {
         Instance = this;
@@ -31,6 +33,8 @@ public class GameClock : MonoBehaviour
         {
             CurrentTime = GameTime.Morning;
             DaysPast++;
+
+            OnDayPassed.Invoke();
         }
 
         CORE.Instance.InvokeEvent(CurrentTime.ToString());

@@ -11,10 +11,14 @@ public class StatsViewUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI ReputationText;
 
-    private void Start()
+    private void OnEnable()
     {
-        GameStorage.Instance.OnMoneyChanged.AddListener(RefreshGold);
-        GameStorage.Instance.OnReputationChanged.AddListener(RefreshRep);
+        StartCoroutine(UpdateState());
+    }
+
+    IEnumerator UpdateState()
+    {
+        yield return new WaitForSeconds(1f);
 
         RefreshGold();
         RefreshRep();
@@ -22,11 +26,11 @@ public class StatsViewUI : MonoBehaviour
 
     void RefreshGold()
     {
-        GoldText.text = GameStorage.Instance.Gold.ToString()+"c";
+        GoldText.text = CORE.PC.Gold.ToString()+"c";
     }
 
     void RefreshRep()
     {
-        ReputationText.text = GameStorage.Instance.Reputation.ToString();
+        ReputationText.text = "None";
     }
 }

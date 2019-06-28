@@ -87,6 +87,6 @@ public class PortraitUI : MonoBehaviour
             return;
         }
 
-        MapViewManager.Instance.SelectCharacter(this.CurrentCharacter);
+        SelectedPanelUI.Instance.SetSelected(this.CurrentCharacter);
     }
 }

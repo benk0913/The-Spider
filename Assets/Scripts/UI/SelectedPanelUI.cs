@@ -7,14 +7,48 @@ public class SelectedPanelUI : MonoBehaviour
 {
     public static SelectedPanelUI Instance;
 
-    public Character CurrentCharacter;
+    public SelectionType CurrentSelectionType
+    {
+        set
+        {
+            _currentSelectionType = value;
+
+            switch(value)
+            {
+                case SelectionType.None:
+                    {
+                        this.gameObject.SetActive(false);
+                        break;
+                    }
+                case SelectionType.Agent:
+                    {
+                        this.gameObject.SetActive(true);
+                        CharacterPanel.Show();
+                        LocationPanel.Hide();
+                        break;
+                    }
+                case SelectionType.Location:
+                    {
+                        this.gameObject.SetActive(true);
+                        CharacterPanel.Hide();
+                        LocationPanel.Show();
+                        break;
+                    }
+            }
+        }
+        get
+        {
+            return _currentSelectionType;
+        }
+    }
+    SelectionType _currentSelectionType;
 
     [SerializeField]
-    TextMeshProUGUI NameText;
+    public ControlCharacterPanelUI CharacterPanel;
 
     [SerializeField]
-    PortraitUI Portrait;
-
+    public ControlLocationPanelUI LocationPanel;
+    
     private void Awake()
     {
         Instance = this;
@@ -23,21 +57,46 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void SetSelected(Character character)
     {
-        if(!this.gameObject.activeInHierarchy)
-            this.gameObject.SetActive(true);
+        if (character.Employer == null)
+        {
+            return;
+        }
 
-        CurrentCharacter = character;
-        RefreshUI();
+        if (character.TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
+        if (character != null)
+        {
+            Deselect();
+        }
+
+        CharacterPanel.SetInfo(character);
+
+        CurrentSelectionType = SelectionType.Agent;
+    }
+
+    public void SetSelected(LocationEntity location)
+    {
+        LocationPanel.Select(location);
+
+        CurrentSelectionType = SelectionType.Location;
     }
 
     public void Deselect()
     {
         this.gameObject.SetActive(false);
+
+        CurrentSelectionType = SelectionType.None;
     }
 
-    void RefreshUI()
+
+
+    public enum SelectionType
     {
-        NameText.text = CurrentCharacter.name;
-        Portrait.SetCharacter(CurrentCharacter);
+        None,
+        Agent,
+        Location
     }
 }

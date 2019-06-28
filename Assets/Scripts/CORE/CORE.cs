@@ -10,6 +10,14 @@ public class CORE : MonoBehaviour
     [SerializeField]
     public GameDB Database;
 
+    public static Character PC
+    {
+        get
+        {
+            return Instance.Database.PlayerCharacter;
+        }
+    }
+
     private void Awake()
     {
         Instance = this;

@@ -6,8 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "Character", menuName = "DataObjects/Character", order = 2)]
 public class Character : ScriptableObject
 {
-    public UnityEvent VisualChanged = new UnityEvent();
-
+    #region Stats
 
     public string ID;
 
@@ -29,6 +28,27 @@ public class Character : ScriptableObject
             return Employer.TopEmployer;
         }
     }
+
+    public int Gold
+    {
+        set
+        {
+            int earnings = value - _gold;
+
+            if (Employer != null)
+            {
+                Employer.Gold += earnings / 2;
+                earnings /= 2;
+            }
+
+            _gold += earnings;
+        }
+        get
+        {
+            return _gold;
+        }
+    }
+    int _gold;
 
 
     public GenderType Gender
@@ -180,6 +200,10 @@ public class Character : ScriptableObject
     [SerializeField]
     VisualCharacteristic clothing;
 
+    #endregion
+
+    public UnityEvent VisualChanged = new UnityEvent();
+
     public Character()
     {
         this.ID = Util.GenerateUniqueID();
@@ -264,5 +288,6 @@ public class Character : ScriptableObject
 
         RefreshVisualTree();
     }
+
 
 }
