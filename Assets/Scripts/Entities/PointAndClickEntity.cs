@@ -6,13 +6,13 @@ using UnityEngine.Events;
 public class PointAndClickEntity : MonoBehaviour
 {
     [SerializeField]
-    UnityEvent OnClickEvent = new UnityEvent();
+    protected UnityEvent OnClickEvent = new UnityEvent();
 
     [SerializeField]
-    UnityEvent OnHover = new UnityEvent();
+    protected UnityEvent OnHover = new UnityEvent();
 
     [SerializeField]
-    UnityEvent OnUnhover = new UnityEvent();
+    protected UnityEvent OnUnhover = new UnityEvent();
 
     public void OnClick()
     {
@@ -22,10 +22,22 @@ public class PointAndClickEntity : MonoBehaviour
     public void Hover()
     {
         OnHover.Invoke();
+        InternalHover();
     }
 
     public void Unhover()
     {
         OnUnhover.Invoke();
+        InternalUnhover();
+    }
+
+    public virtual void InternalHover()
+    {
+
+    }
+
+    public virtual void InternalUnhover()
+    {
+
     }
 }

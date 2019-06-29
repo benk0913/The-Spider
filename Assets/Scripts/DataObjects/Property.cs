@@ -14,7 +14,8 @@ public class Property : ScriptableObject
     public GameObject FigurePrefab;
 
     public int RecruitingGenderType = -1;
-    public bool RecruitingOnlyChildren = false;
+    public int MinAge = 0;
+    public int MaxAge = 120;
 
     [System.Serializable]
     public class PropertyLevel

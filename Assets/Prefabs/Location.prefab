@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690061126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.0101, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8504677682827088125}
@@ -129,7 +129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091608671}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.0101, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2033767985}
@@ -207,8 +207,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.018, y: 0.01, z: 0.005}
-  m_Center: {x: -0.003, y: -0.002, z: -0.005}
+  m_Size: {x: 0.035391733, y: 0.016661545, z: 0.016995262}
+  m_Center: {x: -0.0036267475, y: 0.0013307728, z: -0.002355183}
 --- !u!1 &20109856025607741
 GameObject:
   m_ObjectHideFlags: 0
@@ -5169,13 +5169,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentProperty: {fileID: 11400000, guid: c6ba30c238914f64aa5d95df34184031, type: 2}
   OwnerCharacter: {fileID: 11400000, guid: 98740bc46d409ad4680c1b9730f14ce0, type: 2}
-  EmployeesCharacters:
-  - {fileID: 11400000, guid: 5b8b21618f866a046abfba9c6f93400e, type: 2}
+  EmployeesCharacters: []
   FigurePoint: {fileID: 5130299956500169602}
   Level: 1
   Gold: 0
   IsUpgrading: 0
   CurrentUpgradeLength: 0
+  isRecruiting: 0
+  CurrentRecruitmentLength: 0
   IsVisible: 0
   StateUpdated:
     m_PersistentCalls:
@@ -5211,7 +5212,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4275145246728194450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.0086, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2860604623998041270}

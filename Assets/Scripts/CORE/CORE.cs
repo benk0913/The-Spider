@@ -12,13 +12,7 @@ public class CORE : MonoBehaviour
 
     public List<Character> Characters = new List<Character>();
 
-    public static Character PC
-    {
-        get
-        {
-            return Instance.Database.PlayerCharacter;
-        }
-    }
+    public static Character PC;
 
     private void Awake()
     {
@@ -28,7 +22,10 @@ public class CORE : MonoBehaviour
 
     void Initialize()
     {
+        PC = Instantiate(Database.PlayerCharacter);
         Characters.Add(PC);
+
+        Characters.AddRange(Database.PresetCharacters);
     }
 
     public Dictionary<string, UnityEvent> DynamicEvents = new Dictionary<string, UnityEvent>();
@@ -64,7 +61,7 @@ public class CORE : MonoBehaviour
         DynamicEvents[eventKey].Invoke();
     }
 
-    public Character GenerateCharacter(int isFemale = -1, bool isChild = false)
+    public Character GenerateCharacter(int isFemale = -1, int minAge = 0, int maxAge = 150)
     {
         Character character = Instantiate(Database.HumanReference);
 
@@ -75,10 +72,7 @@ public class CORE : MonoBehaviour
             character.Gender = (GenderType)isFemale;
         }
 
-        if (isChild)
-        {
-            character.Age = Random.Range(0,15);
-        }
+        character.Age = Random.Range(minAge, maxAge);
 
         Characters.Add(character);
 

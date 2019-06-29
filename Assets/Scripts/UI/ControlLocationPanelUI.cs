@@ -163,10 +163,6 @@ public class ControlLocationPanelUI : MonoBehaviour
                 {
                     RecruitingPanel.gameObject.SetActive(true);
 
-                    RecruitingPanel.gameObject.transform.SetParent(tempPortrait.transform, true);
-                    RecruitingPanel.gameObject.transform.position = tempPortrait.transform.position;
-                    RecruitingPanel.gameObject.transform.localScale = Vector3.one;
-
                     RecruitingPanel.fillAmount =
                         (float)CurrentLocation.CurrentRecruitmentLength
                         /

@@ -18,10 +18,13 @@ public class StatsViewUI : MonoBehaviour
 
     IEnumerator UpdateState()
     {
-        yield return new WaitForSeconds(1f);
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
 
-        RefreshGold();
-        RefreshRep();
+            RefreshGold();
+            RefreshRep();
+        }
     }
 
     void RefreshGold()

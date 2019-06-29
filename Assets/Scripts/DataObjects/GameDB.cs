@@ -11,6 +11,8 @@ public class GameDB : ScriptableObject
 
     public Character HumanReference;
 
+    public List<Character> PresetCharacters = new List<Character>();
+
     public RaceSet GetRace(string raceName, bool fallback = true)
     {
         for(int i=0;i<Races.Count;i++)

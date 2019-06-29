@@ -49,6 +49,11 @@ public class LocationEntity : MonoBehaviour
         if(CurrentProperty != null)
         {
             SetInfo(CurrentProperty);
+
+            if (OwnerCharacter == CORE.Instance.Database.PlayerCharacter)
+            {
+                OwnerCharacter = CORE.PC;
+            }
         }
     }
 
@@ -72,7 +77,7 @@ public class LocationEntity : MonoBehaviour
             if(CurrentRecruitmentLength <= 0)
             {
                 isRecruiting = false;
-                CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.RecruitingOnlyChildren).Join(this);
+                CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.MinAge, CurrentProperty.MaxAge).Join(this);
             }
         }
         else
