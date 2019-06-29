@@ -9,6 +9,8 @@ public class GameDB : ScriptableObject
 
     public Character PlayerCharacter;
 
+    public Character HumanReference;
+
     public RaceSet GetRace(string raceName, bool fallback = true)
     {
         for(int i=0;i<Races.Count;i++)
@@ -26,4 +28,5 @@ public class GameDB : ScriptableObject
 
         return null;
     }
+
 }

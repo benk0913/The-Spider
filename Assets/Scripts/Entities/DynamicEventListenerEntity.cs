@@ -8,6 +8,8 @@ public class DynamicEventListenerEntity : MonoBehaviour
     [SerializeField]
     public List<DynamicEventListenerInstance> Events = new List<DynamicEventListenerInstance>();
 
+    public bool ShutOnInit = false;
+
     private void Start()
     {
         foreach (DynamicEventListenerInstance eventListener in Events)
@@ -20,13 +22,21 @@ public class DynamicEventListenerEntity : MonoBehaviour
 
             CORE.Instance.SubscribeToEvent(eventListener.Key, eventListener.Action);
         }
+
+        if(ShutOnInit)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     private void OnDisable()
     {
-        foreach (DynamicEventListenerInstance eventListener in Events)
+        if (!ShutOnInit)
         {
-            CORE.Instance.UnsubscribeFromEvent(eventListener.Key, eventListener.Action);
+            foreach (DynamicEventListenerInstance eventListener in Events)
+            {
+                CORE.Instance.UnsubscribeFromEvent(eventListener.Key, eventListener.Action);
+            }
         }
     }
 

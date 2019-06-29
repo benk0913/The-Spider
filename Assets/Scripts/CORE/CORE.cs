@@ -10,6 +10,8 @@ public class CORE : MonoBehaviour
     [SerializeField]
     public GameDB Database;
 
+    public List<Character> Characters = new List<Character>();
+
     public static Character PC
     {
         get
@@ -21,6 +23,12 @@ public class CORE : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        Characters.Add(PC);
     }
 
     public Dictionary<string, UnityEvent> DynamicEvents = new Dictionary<string, UnityEvent>();
@@ -54,5 +62,26 @@ public class CORE : MonoBehaviour
         }
 
         DynamicEvents[eventKey].Invoke();
+    }
+
+    public Character GenerateCharacter(int isFemale = -1, bool isChild = false)
+    {
+        Character character = Instantiate(Database.HumanReference);
+
+        character.Randomize();
+
+        if(isFemale >= 0)
+        {
+            character.Gender = (GenderType)isFemale;
+        }
+
+        if (isChild)
+        {
+            character.Age = Random.Range(0,15);
+        }
+
+        Characters.Add(character);
+
+        return character;
     }
 }

@@ -6,15 +6,23 @@ using UnityEngine;
 public class CursorTooltipUI : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI TextLabel;
+    protected TextMeshProUGUI TextLabel;
 
     [SerializeField]
-    CanvasGroup CG;
+    protected CanvasGroup CG;
 
     public void Show(string message)
     {
         StopAllCoroutines();
         StartCoroutine(FadeIn());
+
+        TextLabel.text = message;
+    }
+
+    public void Show(string message, float Length)
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeIn(Length));
 
         TextLabel.text = message;
     }
@@ -26,7 +34,7 @@ public class CursorTooltipUI : MonoBehaviour
 
     }
 
-    IEnumerator FadeIn()
+    protected IEnumerator FadeIn(float Length = 0f)
     {
         while(CG.alpha < 1f)
         {
@@ -34,9 +42,15 @@ public class CursorTooltipUI : MonoBehaviour
 
             yield return 0;
         }
+
+        if(Length > 0)
+        {
+            yield return new WaitForSeconds(Length);
+            Hide();
+        }
     }
 
-    IEnumerator FadeOut()
+    protected IEnumerator FadeOut()
     {
         while (CG.alpha > 0f)
         {

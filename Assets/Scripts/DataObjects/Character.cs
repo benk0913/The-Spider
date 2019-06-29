@@ -290,5 +290,10 @@ public class Character : ScriptableObject
         RefreshVisualTree();
     }
 
+    public void Join(LocationEntity location)
+    {
+        location.EmployeesCharacters.Add(this);
+        Employer = location.OwnerCharacter;
+    }
 
 }

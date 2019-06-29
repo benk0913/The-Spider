@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: Manor
   m_EditorClassIdentifier: 
   PropertyLevels:
-  - MaxEmployees: 1
+  - MaxEmployees: 2
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 5
-  - MaxEmployees: 2
+    RecruitmentLength: 10
+  - MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 250
     UpgradeLength: 7
-  - MaxEmployees: 3
+    RecruitmentLength: 8
+  - MaxEmployees: 4
     MaxActions: 3
     UpgradePrice: 750
     UpgradeLength: 23
+    RecruitmentLength: 6
   Actions:
   - Name: Beg
     Icon: {fileID: 21300000, guid: 402527792b005b44289870e39723aecb, type: 3}
@@ -39,5 +42,7 @@ MonoBehaviour:
     GoldGeneratedMin: 0
     GoldGeneratedMax: 2
   Icon: {fileID: 21300000, guid: 117032de806261d48ae0f03586ed21bf, type: 3}
-  FigurePrefab: {fileID: 4410676136326942142, guid: 77ab17d81da6ac74b9a6881ee5b028a3,
+  FigurePrefab: {fileID: 3751449078466721607, guid: f885c82b3ea77404ab4c86f0b6db1176,
     type: 3}
+  RecruitingGenderType: -1
+  RecruitingOnlyChildren: 0

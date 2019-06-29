@@ -48,6 +48,9 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     Transform ActionGrid;
 
+    [SerializeField]
+    Image RecruitingPanel;
+
     LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
@@ -132,6 +135,17 @@ public class ControlLocationPanelUI : MonoBehaviour
 
         ClearEmployeeInstances();
 
+        bool hasSetRecruitingBar = true;
+        if(CurrentLocation.CurrentRecruitmentLength > 0)
+        {
+            RecruitingPanel.gameObject.SetActive(true);
+            hasSetRecruitingBar = false;
+        }
+        else
+        {
+            RecruitingPanel.gameObject.SetActive(false);
+        }
+
         PortraitUI tempPortrait;
         for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxEmployees; i++)
         {
@@ -145,6 +159,22 @@ public class ControlLocationPanelUI : MonoBehaviour
             }
             else
             {
+                if (CurrentLocation.CurrentRecruitmentLength > 0 && !hasSetRecruitingBar)
+                {
+                    RecruitingPanel.gameObject.SetActive(true);
+
+                    RecruitingPanel.gameObject.transform.SetParent(tempPortrait.transform, true);
+                    RecruitingPanel.gameObject.transform.position = tempPortrait.transform.position;
+                    RecruitingPanel.gameObject.transform.localScale = Vector3.one;
+
+                    RecruitingPanel.fillAmount =
+                        (float)CurrentLocation.CurrentRecruitmentLength
+                        /
+                        (float)CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level].RecruitmentLength;
+
+                    hasSetRecruitingBar = true;
+                }
+
                 tempPortrait.SetCharacter(null);
             }
         }

@@ -30,6 +30,10 @@ public class LocationEntity : MonoBehaviour
 
     public int CurrentUpgradeLength;
 
+    public bool isRecruiting;
+
+    public int CurrentRecruitmentLength;
+
     public bool IsVisible = false;
 
     public UnityEvent StateUpdated;
@@ -59,10 +63,29 @@ public class LocationEntity : MonoBehaviour
                 IsUpgrading = false;
                 Level++;
             }
-
-            StateUpdated.Invoke();
         }
-       
+
+        if (isRecruiting)
+        {
+            CurrentRecruitmentLength--;
+
+            if(CurrentRecruitmentLength <= 0)
+            {
+                isRecruiting = false;
+                CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.RecruitingOnlyChildren).Join(this);
+            }
+        }
+        else
+        {
+            if (EmployeesCharacters.Count < CurrentProperty.PropertyLevels[Level - 1].MaxEmployees)
+            {
+                CurrentRecruitmentLength = CurrentProperty.PropertyLevels[Level - 1].RecruitmentLength;
+
+                isRecruiting = true;
+            }
+        }
+
+        StateUpdated.Invoke();
     }
 
     void DayPassed()

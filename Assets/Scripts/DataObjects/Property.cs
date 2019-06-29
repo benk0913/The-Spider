@@ -13,6 +13,9 @@ public class Property : ScriptableObject
 
     public GameObject FigurePrefab;
 
+    public int RecruitingGenderType = -1;
+    public bool RecruitingOnlyChildren = false;
+
     [System.Serializable]
     public class PropertyLevel
     {
@@ -20,6 +23,7 @@ public class Property : ScriptableObject
         public int MaxActions;
         public int UpgradePrice;
         public int UpgradeLength;
+        public int RecruitmentLength;
     }
 
 
