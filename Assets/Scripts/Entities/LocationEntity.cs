@@ -24,8 +24,6 @@ public class LocationEntity : MonoBehaviour
 
     public int Level = 1;
 
-    public int Gold;
-
     public bool IsUpgrading;
 
     public int CurrentUpgradeLength;
