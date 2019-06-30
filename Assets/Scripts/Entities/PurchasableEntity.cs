@@ -16,16 +16,8 @@ public class PurchasableEntity : MonoBehaviour
     [SerializeField]
     public float RiskMultiplier = 1f;
 
-    [System.Serializable]
-    public enum PurchasablePlotType
-    {
-        Urban,
-        Coastal,
-        Naval
-    }
-
     public void OnClick()
     {
-        
+        SelectedPanelUI.Instance.SetSelected(this);
     }
 }

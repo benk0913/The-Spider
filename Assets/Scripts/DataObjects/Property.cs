@@ -17,6 +17,10 @@ public class Property : ScriptableObject
     public int MinAge = 0;
     public int MaxAge = 120;
 
+    public PurchasablePlotType PlotType = PurchasablePlotType.Urban;
+
+    public GameObject LocationPrefab;
+
     [System.Serializable]
     public class PropertyLevel
     {

@@ -35,3 +35,11 @@ public enum Equation
     Below
 }
 
+[System.Serializable]
+public enum PurchasablePlotType
+{
+    Urban,
+    Coastal,
+    Naval
+}
+

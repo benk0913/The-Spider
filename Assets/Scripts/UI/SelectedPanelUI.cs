@@ -25,6 +25,7 @@ public class SelectedPanelUI : MonoBehaviour
                         this.gameObject.SetActive(true);
                         CharacterPanel.Show();
                         LocationPanel.Hide();
+                        PurchasePlotPanel.Hide();
                         break;
                     }
                 case SelectionType.Location:
@@ -32,13 +33,15 @@ public class SelectedPanelUI : MonoBehaviour
                         this.gameObject.SetActive(true);
                         CharacterPanel.Hide();
                         LocationPanel.Show();
+                        PurchasePlotPanel.Hide();
                         break;
                     }
                 case SelectionType.PurchasablePlot:
                     {
                         this.gameObject.SetActive(true);
                         CharacterPanel.Hide();
-                        LocationPanel.Show();
+                        LocationPanel.Hide();
+                        PurchasePlotPanel.Show();
                         break;
                     }
             }
@@ -96,7 +99,7 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void SetSelected(PurchasableEntity plot)
     {
-        PurchasePlotPanel.Select(location);
+        PurchasePlotPanel.Select(plot);
 
         CurrentSelectionType = SelectionType.PurchasablePlot;
     }
