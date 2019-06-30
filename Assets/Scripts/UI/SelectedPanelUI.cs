@@ -70,6 +70,7 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void SetSelected(Character character)
     {
+
         if (character.Employer == null)
         {
             return;
@@ -78,11 +79,6 @@ public class SelectedPanelUI : MonoBehaviour
         if (character.TopEmployer != CORE.PC)
         {
             return;
-        }
-
-        if (character != null)
-        {
-            Deselect();
         }
 
         CharacterPanel.SetInfo(character);

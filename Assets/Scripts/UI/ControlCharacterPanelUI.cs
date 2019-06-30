@@ -35,4 +35,9 @@ public class ControlCharacterPanelUI : MonoBehaviour
     {
         this.gameObject.SetActive(false);
     }
+
+    public void ShowInfo()
+    {
+        CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+    }
 }

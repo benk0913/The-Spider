@@ -87,6 +87,18 @@ public class PortraitUI : MonoBehaviour
             return;
         }
 
+        if (CurrentCharacter.Employer == null)
+        {
+            CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+            return;
+        }
+
+        if (CurrentCharacter.TopEmployer != CORE.PC)
+        {
+            CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+            return;
+        }
+
         SelectedPanelUI.Instance.SetSelected(this.CurrentCharacter);
     }
 }

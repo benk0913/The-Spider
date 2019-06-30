@@ -13,6 +13,8 @@ public class GameDB : ScriptableObject
 
     public List<Character> PresetCharacters = new List<Character>();
 
+    public Property EmptyProperty;
+
     public List<Property> Properties = new List<Property>();
     
 

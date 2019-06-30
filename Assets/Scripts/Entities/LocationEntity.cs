@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class LocationEntity : MonoBehaviour
+public class LocationEntity : AgentInteractable
 {
     public const float PORTRAITS_SPACING = 5f;
     public const int PORTRAITS_MAX_IN_ROW = 5;

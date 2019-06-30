@@ -6,9 +6,6 @@ public class MapViewManager : MonoBehaviour
 {
     public static MapViewManager Instance;
 
-    [SerializeField]
-    GameObject Regions;
-
     private void Awake()
     {
         Instance = this;
@@ -27,12 +24,10 @@ public class MapViewManager : MonoBehaviour
 
     void AttemptBuild()
     {
-        Regions.SetActive(true);
     }
 
     void HideBuild()
     {
-        Regions.SetActive(false);
     }
 
     public void ShowMap()
