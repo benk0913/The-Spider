@@ -43,3 +43,10 @@ public enum PurchasablePlotType
     Naval
 }
 
+public static class DEF
+{
+    public const string LOCATION_PREFAB = "Location";
+
+    //TODO Move all game consts to here.
+}
+

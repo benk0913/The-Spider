@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PurchasePlotPanelUI : MonoBehaviour
+public class PlotInfoPanelUI : MonoBehaviour
 {
-    public const string PROPERTY_BUTTON_PREFAB = "PurchasablePropertyItemUI";
+    public static PlotInfoPanelUI Instance;
 
     PurchasableEntity CurrentPlot;
 
@@ -21,6 +21,12 @@ public class PurchasePlotPanelUI : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI RiskMultiText;
+
+    private void Start()
+    {
+        Instance = this;
+        this.gameObject.SetActive(false);
+    }
 
     public void Select(PurchasableEntity plot)
     {

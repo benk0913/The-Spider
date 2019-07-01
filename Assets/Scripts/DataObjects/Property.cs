@@ -19,8 +19,6 @@ public class Property : ScriptableObject
 
     public PurchasablePlotType PlotType = PurchasablePlotType.Urban;
 
-    public GameObject LocationPrefab;
-
     [System.Serializable]
     public class PropertyLevel
     {

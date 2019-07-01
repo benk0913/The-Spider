@@ -21,7 +21,7 @@ public class PurchasableEntity : AgentInteractable
 
     public void OnClick()
     {
-        SelectedPanelUI.Instance.SetSelected(this);
+        PlotInfoPanelUI.Instance.Select(this);
     }
 
     public override List<AgentAction> GetPossibleActions(Character forCharacter)
@@ -49,7 +49,7 @@ public class PurchasableEntity : AgentInteractable
             return;
         }
 
-        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject(CORE.Instance.Database.EmptyProperty.LocationPrefab);
+        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject(DEF.LOCATION_PREFAB);
 
         locationPrefab.transform.position = transform.position;
         locationPrefab.transform.rotation = transform.rotation;
