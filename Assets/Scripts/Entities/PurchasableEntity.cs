@@ -23,6 +23,25 @@ public class PurchasableEntity : AgentInteractable
     {
         PlotInfoPanelUI.Instance.Select(this);
     }
+    
+    public void OnRightClick()
+    {
+        if(ControlCharacterPanelUI.CurrentCharacter == null)
+        {
+            return;
+        }
+
+        List<AgentAction> currentActions = GetPossibleActions(ControlCharacterPanelUI.CurrentCharacter);
+        List<KeyActionPair> KeyActions = new List<KeyActionPair>();
+
+        foreach(AgentAction action in currentActions)
+        {
+            KeyActions.Add(new KeyActionPair(action.name,
+                ()=> ExecuteAgentAction(ControlCharacterPanelUI.CurrentCharacter, action)));
+        }
+
+        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform);
+    }
 
     public override List<AgentAction> GetPossibleActions(Character forCharacter)
     {

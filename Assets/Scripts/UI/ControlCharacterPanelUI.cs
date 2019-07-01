@@ -11,7 +11,7 @@ public class ControlCharacterPanelUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI NameText;
 
-    Character CurrentCharacter;
+    public static Character CurrentCharacter;
 
     public void SetInfo(Character character)
     {
@@ -40,4 +40,6 @@ public class ControlCharacterPanelUI : MonoBehaviour
     {
         CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
     }
+
+    
 }

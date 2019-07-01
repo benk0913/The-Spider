@@ -36,6 +36,8 @@ public class PlotInfoPanelUI : MonoBehaviour
         PriceText.text = plot.Price.ToString();
         RevMultiText.text = plot.RevenueMultiplier.ToString()+"x";
         RiskMultiText.text = plot.RiskMultiplier.ToString() + "x";
+
+        Show();
     }
 
     public void Show()

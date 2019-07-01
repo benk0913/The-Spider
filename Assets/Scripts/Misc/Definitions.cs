@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine.Events;
+
 public enum GenderType
 {
     Male,
@@ -46,7 +48,18 @@ public enum PurchasablePlotType
 public static class DEF
 {
     public const string LOCATION_PREFAB = "Location";
-
+    public const string RIGHT_CLICK_DROPDOWN_ITEM = "RightClickMenuItem";
     //TODO Move all game consts to here.
 }
 
+public class KeyActionPair
+{
+    public string Key;
+    public UnityAction Action;
+
+    public KeyActionPair(string key, UnityAction action)
+    {
+        this.Key = key;
+        this.Action = action;
+    }
+}

@@ -9,6 +9,9 @@ public class PointAndClickEntity : MonoBehaviour
     protected UnityEvent OnClickEvent = new UnityEvent();
 
     [SerializeField]
+    protected UnityEvent OnRightClickEvent = new UnityEvent();
+
+    [SerializeField]
     protected UnityEvent OnHover = new UnityEvent();
 
     [SerializeField]
@@ -17,6 +20,11 @@ public class PointAndClickEntity : MonoBehaviour
     public void OnClick()
     {
         OnClickEvent.Invoke();
+    }
+
+    public void OnRightClick()
+    {
+        OnRightClickEvent.Invoke();
     }
 
     public void Hover()
