@@ -64,6 +64,8 @@ public class PurchasableEntity : AgentInteractable
     {
         if (forCharacter.TopEmployer.Gold < Price)
         {
+            GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
+                "(You need more " + (Price - forCharacter.TopEmployer.Gold) + ")", 1f, Color.red);
             //TODO NOT ENOUGH MONEY ALERT.
             return;
         }

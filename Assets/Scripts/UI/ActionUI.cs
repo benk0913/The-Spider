@@ -52,6 +52,7 @@ public class ActionUI : MonoBehaviour
     {
         if(CurrentAction == null)
         {
+            GlobalMessagePrompterUI.Instance.Show("You cant do that...", 1f);
             //TODO ACTION LOCKED ALERT
             return;
         }

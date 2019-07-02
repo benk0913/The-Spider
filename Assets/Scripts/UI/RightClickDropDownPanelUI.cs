@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RightClickDropDownPanelUI : MonoBehaviour
 {
@@ -29,8 +30,12 @@ public class RightClickDropDownPanelUI : MonoBehaviour
         for(int i=0;i<MenuItems.Count;i++)
         {
             tempItem = ResourcesLoader.Instance.GetRecycledObject(DEF.RIGHT_CLICK_DROPDOWN_ITEM);
-            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(MenuItems[i].Key, MenuItems[i].Action);
+
+            UnityAction[] actions = new UnityAction[] { MenuItems[i].Action, Hide };
+            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(MenuItems[i].Key, actions);
+
             tempItem.transform.SetParent(MenuItemsContainer, false);
+
             tempItem.transform.localScale = Vector3.one;
         }
     }
@@ -42,7 +47,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
 
     private void Update()
     {
-        if (CurrentTargetTransform != null)
+        if (CurrentTargetTransform != null && Camera.current != null)
         {
             transform.position = Camera.current.WorldToScreenPoint(CurrentTargetTransform.position);
         }

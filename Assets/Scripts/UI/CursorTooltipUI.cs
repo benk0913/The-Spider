@@ -11,12 +11,20 @@ public class CursorTooltipUI : MonoBehaviour
     [SerializeField]
     protected CanvasGroup CG;
 
+    Color baseColor;
+
+    private void Start()
+    {
+        baseColor = TextLabel.color;
+    }
+
     public void Show(string message)
     {
         StopAllCoroutines();
         StartCoroutine(FadeIn());
 
         TextLabel.text = message;
+        TextLabel.color = baseColor;
     }
 
     public void Show(string message, float Length)
@@ -25,6 +33,16 @@ public class CursorTooltipUI : MonoBehaviour
         StartCoroutine(FadeIn(Length));
 
         TextLabel.text = message;
+        TextLabel.color = baseColor;
+    }
+
+    public void Show(string message, float Length, Color color)
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeIn(Length));
+
+        TextLabel.text = message;
+        TextLabel.color = Color.red;
     }
 
     public void Hide()

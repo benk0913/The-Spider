@@ -139,6 +139,8 @@ public class LocationEntity : AgentInteractable
 
         if (OwnerCharacter.TopEmployer.Gold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
         {
+            GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
+                "(You need more " + (CurrentProperty.PropertyLevels[Level].UpgradePrice - OwnerCharacter.TopEmployer.Gold)+")", 1f, Color.red);
             //TODO "NO MONEY ALERT"
             return;
         }

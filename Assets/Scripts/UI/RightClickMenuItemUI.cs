@@ -19,4 +19,13 @@ public class RightClickMenuItemUI : MonoBehaviour
         _Button.onClick.RemoveAllListeners();
         _Button.onClick.AddListener(Action);
     }
+
+    public void SetInfo(string title, UnityAction[] Actions)
+    {
+        Title.text = title;
+        _Button.onClick.RemoveAllListeners();
+
+        foreach(UnityAction act in Actions)
+            _Button.onClick.AddListener(act);
+    }
 }
