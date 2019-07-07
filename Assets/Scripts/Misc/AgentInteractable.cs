@@ -8,10 +8,4 @@ public class AgentInteractable : MonoBehaviour
     {
         return null;
     }
-
-    public virtual void ExecuteAgentAction(Character byCharacter, AgentAction action)
-    {
-
-    }
-
 }

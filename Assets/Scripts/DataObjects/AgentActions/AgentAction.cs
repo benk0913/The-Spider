@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AgentAction", menuName = "DataObjects/AgentAction", order = 2)]
+[CreateAssetMenu(fileName = "AgentAction", menuName = "DataObjects/AgentActions/AgentAction", order = 2)]
 public class AgentAction : ScriptableObject
 {
     public Sprite Icon;
@@ -11,4 +11,9 @@ public class AgentAction : ScriptableObject
     public string Description;
 
     public List<Trait> RequiredTraits = new List<Trait>();
+
+    public virtual void Execute(Character character, AgentInteractable target)
+    {
+        
+    }
 }

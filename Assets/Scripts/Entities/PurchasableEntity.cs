@@ -37,7 +37,7 @@ public class PurchasableEntity : AgentInteractable
         foreach(AgentAction action in currentActions)
         {
             KeyActions.Add(new KeyActionPair(action.name,
-                ()=> ExecuteAgentAction(ControlCharacterPanelUI.CurrentCharacter, action)));
+                () => action.Execute(ControlCharacterPanelUI.CurrentCharacter, this)));
         }
 
         RightClickDropDownPanelUI.Instance.Show(KeyActions, transform);
@@ -46,18 +46,6 @@ public class PurchasableEntity : AgentInteractable
     public override List<AgentAction> GetPossibleActions(Character forCharacter)
     {
         return PossibleActions;
-    }
-
-    public override void ExecuteAgentAction(Character byCharacter, AgentAction action)
-    {
-        switch(action.name)
-        {
-            case "Buy Property":
-                {
-                    PurchasePlot(byCharacter);
-                    break;
-                }
-        }
     }
 
     public void PurchasePlot(Character forCharacter)

@@ -40,6 +40,8 @@ public class PortraitUI : MonoBehaviour
 
     public void SetCharacter(Character character)
     {
+        CurrentCharacter = character;
+
         CG.alpha = 1f;
 
         if (character == null)
