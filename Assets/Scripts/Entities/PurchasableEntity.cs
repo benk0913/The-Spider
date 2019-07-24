@@ -70,7 +70,7 @@ public class PurchasableEntity : AgentInteractable
         LocationEntity location = locationPrefab.GetComponent<LocationEntity>();
 
         location.SetInfo(CORE.Instance.Database.EmptyProperty);
-        location.OwnerCharacter = forCharacter;
+        forCharacter.StartOwningLocation(location);
 
         HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
         hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);

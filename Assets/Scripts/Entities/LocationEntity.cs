@@ -50,7 +50,7 @@ public class LocationEntity : AgentInteractable
 
             if (OwnerCharacter == CORE.Instance.Database.PlayerCharacter)
             {
-                OwnerCharacter = CORE.PC;
+                CORE.PC.StartOwningLocation(this);
             }
         }
     }
@@ -92,7 +92,7 @@ public class LocationEntity : AgentInteractable
             }
         }
 
-        StateUpdated.Invoke();
+        RefreshState();
     }
 
     void DayPassed()
@@ -119,7 +119,11 @@ public class LocationEntity : AgentInteractable
     {
         CurrentProperty = property;
         CurrentAction = CurrentProperty.Actions[0];
+        RefreshState();
+    }
 
+    public void RefreshState()
+    {
         if (FigurePoint.transform.childCount > 0)
         {
             FigurePoint.transform.GetChild(0).gameObject.SetActive(false);
@@ -130,6 +134,18 @@ public class LocationEntity : AgentInteractable
         tempFigure.transform.SetParent(FigurePoint);
         tempFigure.transform.position = FigurePoint.position;
         tempFigure.transform.rotation = FigurePoint.rotation;
+
+
+        //TODO Replace getchilds with script
+        if (OwnerCharacter == null)
+        {
+            tempFigure.transform.GetChild(0).GetComponent<MeshRenderer>().material = CORE.Instance.Database.DefaultFaction.WaxMaterial;
+        }
+        else
+        {
+            tempFigure.transform.GetChild(0).GetComponent<MeshRenderer>().material = OwnerCharacter.CurrentFaction.WaxMaterial;
+        }
+
 
         StateUpdated.Invoke();
     }

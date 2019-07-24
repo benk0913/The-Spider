@@ -26,6 +26,7 @@ public class CORE : MonoBehaviour
     void Initialize()
     {
         PC = Instantiate(Database.PlayerCharacter);
+        PC.name = Database.PlayerCharacter.name;
         Characters.Add(PC);
 
         Characters.AddRange(Database.PresetCharacters);

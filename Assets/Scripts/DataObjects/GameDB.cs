@@ -16,7 +16,11 @@ public class GameDB : ScriptableObject
     public Property EmptyProperty;
 
     public List<Property> Properties = new List<Property>();
-    
+
+    public Faction DefaultFaction;
+    public List<Faction> Factions = new List<Faction>();
+
+
 
     public RaceSet GetRace(string raceName, bool fallback = true)
     {

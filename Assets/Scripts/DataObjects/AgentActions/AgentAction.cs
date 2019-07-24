@@ -12,6 +12,8 @@ public class AgentAction : ScriptableObject
 
     public List<Trait> RequiredTraits = new List<Trait>();
 
+    public int MinimumAge = 0;
+
     public virtual void Execute(Character character, AgentInteractable target)
     {
         

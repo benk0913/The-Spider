@@ -10,17 +10,25 @@ public class Character : ScriptableObject
 
     public string ID;
 
-    [SerializeField]
-    public GenderSet VisualSet;
 
-    [SerializeField]
-    public Character Employer;
+    public Character Employer
+    {
+        get
+        {
+            if (WorkLocation == null)
+            {
+                return null;
+            }
+
+            return WorkLocation.OwnerCharacter;
+        }
+    }
 
     public Character TopEmployer
     {
         get
         {
-            if(Employer == null)
+            if (Employer == null)
             {
                 return this;
             }
@@ -51,6 +59,34 @@ public class Character : ScriptableObject
     [SerializeField]
     int _gold;
 
+
+    public Faction CurrentFaction
+    {
+        get
+        {
+            if (Employer == null)
+            {
+                return _currentFaction != null? _currentFaction : CORE.Instance.Database.DefaultFaction;
+            }
+
+            return Employer.CurrentFaction;
+        }
+        set
+        {
+            _currentFaction = value;
+        }
+    }
+    [SerializeField]
+    Faction _currentFaction;
+
+    public LocationEntity WorkLocation;
+
+    public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
+
+    #region Visual
+
+    [SerializeField]
+    public GenderSet VisualSet;
 
     public GenderType Gender
     {
@@ -114,7 +150,7 @@ public class Character : ScriptableObject
     int age = 16;
 
     [SerializeField]
-    public AgeTypeEnum AgeType { private set; get; }
+    public AgeTypeEnum AgeType;
 
     public VisualCharacteristic SkinColor
     {
@@ -203,6 +239,9 @@ public class Character : ScriptableObject
 
     #endregion
 
+    #endregion
+
+
     public UnityEvent VisualChanged = new UnityEvent();
 
     public Character()
@@ -290,6 +329,8 @@ public class Character : ScriptableObject
         RefreshVisualTree();
     }
 
+
+
     public void StartWorkingFor(LocationEntity location)
     {
         location.EmployeesCharacters.Add(this);
@@ -298,7 +339,12 @@ public class Character : ScriptableObject
         hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
         hoverPanel.Show(Camera.main.WorldToScreenPoint(location.transform.position), "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
 
-        Employer = location.OwnerCharacter;
+        WorkLocation = location;
+
+        foreach (LocationEntity ownedLocation in PropertiesOwned)
+        {
+            ownedLocation.RefreshState();
+        }
     }
 
     public void StopWorkingFor(LocationEntity location)
@@ -309,7 +355,37 @@ public class Character : ScriptableObject
         }
 
         location.EmployeesCharacters.Remove(this);
-        Employer = null;
+
+        WorkLocation = null;
+
+        foreach(LocationEntity ownedLocation in PropertiesOwned)
+        {
+            ownedLocation.RefreshState();
+        }
     }
+
+    public void StartOwningLocation(LocationEntity location)
+    {
+        location.OwnerCharacter = this;
+        location.RefreshState();
+
+        if(!PropertiesOwned.Contains(location))
+        {
+            PropertiesOwned.Add(location);
+        }
+    }
+
+    public void StopOwningLocation(LocationEntity location)
+    {
+        location.OwnerCharacter = null;
+        location.RefreshState();
+
+        if (PropertiesOwned.Contains(location))
+        {
+            PropertiesOwned.Remove(location);
+        }
+    }
+
+    
 
 }
