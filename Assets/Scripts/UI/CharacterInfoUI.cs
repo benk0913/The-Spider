@@ -27,6 +27,9 @@ public class CharacterInfoUI : MonoBehaviour
     Button ControlButton;
 
     [SerializeField]
+    GameObject XImage;
+
+    [SerializeField]
     PortraitUI Portrait;
 
     Character CurrentCharacter;
@@ -44,6 +47,11 @@ public class CharacterInfoUI : MonoBehaviour
 
     public void ShowInfo(Character character)
     {
+        if(character == null)
+        {
+            return;
+        }
+
         CurrentCharacter = character;
 
         this.gameObject.SetActive(true);
@@ -55,6 +63,7 @@ public class CharacterInfoUI : MonoBehaviour
         GenderText.text  = character.Gender.ToString();
 
         ControlButton.interactable = (character.TopEmployer != character && character.TopEmployer == CORE.PC);
+        XImage.SetActive(!ControlButton.interactable);
 
         Portrait.SetCharacter(character);
     }

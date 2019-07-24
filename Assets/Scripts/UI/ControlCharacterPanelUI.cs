@@ -33,6 +33,7 @@ public class ControlCharacterPanelUI : MonoBehaviour
 
     public void Hide()
     {
+        CurrentCharacter = null;
         this.gameObject.SetActive(false);
     }
 

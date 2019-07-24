@@ -17,6 +17,8 @@ public class SelectedPanelUI : MonoBehaviour
             {
                 case SelectionType.None:
                     {
+                        LocationPanel.Hide();
+                        CharacterPanel.Hide();
                         this.gameObject.SetActive(false);
                         break;
                     }
@@ -82,8 +84,6 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void Deselect()
     {
-        this.gameObject.SetActive(false);
-
         CurrentSelectionType = SelectionType.None;
     }
 

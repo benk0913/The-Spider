@@ -290,10 +290,26 @@ public class Character : ScriptableObject
         RefreshVisualTree();
     }
 
-    public void Join(LocationEntity location)
+    public void StartWorkingFor(LocationEntity location)
     {
         location.EmployeesCharacters.Add(this);
+
+        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        hoverPanel.Show(Camera.main.WorldToScreenPoint(location.transform.position), "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
+
         Employer = location.OwnerCharacter;
+    }
+
+    public void StopWorkingFor(LocationEntity location)
+    {
+        if (!location.EmployeesCharacters.Contains(this))
+        {
+            return;
+        }
+
+        location.EmployeesCharacters.Remove(this);
+        Employer = null;
     }
 
 }

@@ -42,24 +42,31 @@ public enum PurchasablePlotType
 {
     Urban,
     Coastal,
-    Naval
+    Naval,
+    Unique
 }
 
 public static class DEF
 {
     public const string LOCATION_PREFAB = "Location";
     public const string RIGHT_CLICK_DROPDOWN_ITEM = "RightClickMenuItem";
+    public const string PORTRAIT_PREFAB = "PortraitUI";
+    public const string ACTION_PREFAB   = "ActionUI";
+    public const string HOVER_PANEL_PREFAB = "HoverPanelUI";
+    public const string UNIQUE_PLOT     = "Unique";
     //TODO Move all game consts to here.
 }
 
-public class KeyActionPair
+public class DescribedAction
 {
     public string Key;
+    public string Description;
     public UnityAction Action;
 
-    public KeyActionPair(string key, UnityAction action)
+    public DescribedAction(string key, UnityAction action, string description = "Possible Action")
     {
         this.Key = key;
         this.Action = action;
+        this.Description = description;
     }
 }

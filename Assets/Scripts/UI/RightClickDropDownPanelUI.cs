@@ -18,7 +18,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Show(List<KeyActionPair> MenuItems, Transform targetTransform)
+    public void Show(List<DescribedAction> MenuItems, Transform targetTransform)
     {
         CurrentTargetTransform = targetTransform;
 
@@ -32,7 +32,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             tempItem = ResourcesLoader.Instance.GetRecycledObject(DEF.RIGHT_CLICK_DROPDOWN_ITEM);
 
             UnityAction[] actions = new UnityAction[] { MenuItems[i].Action, Hide };
-            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(MenuItems[i].Key, actions);
+            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(MenuItems[i].Key , actions, MenuItems[i].Description);
 
             tempItem.transform.SetParent(MenuItemsContainer, false);
 

@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
-  m_Name: EmptyNavalProperty
+  m_Name: Empty Coastal Property
   m_EditorClassIdentifier: 
+  Description: An empty and abandoned property, will do nothing, and no one will
+    be employed in it....
   PropertyLevels:
   - MaxEmployees: 0
     MaxActions: 0
@@ -19,14 +21,15 @@ MonoBehaviour:
     UpgradeLength: 0
     RecruitmentLength: 0
   Actions:
-  - Name: Docking, deserted...
-    Icon: {fileID: -4053363177961448577, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
+  - Name: 'Closed And Empty '
+    Description: Does nothing...
+    Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
     GoldGeneratedMin: 0
     GoldGeneratedMax: 0
-  Icon: {fileID: 21300000, guid: 33bdc8bb430010f47828b97ed8e6996b, type: 3}
-  FigurePrefab: {fileID: 4410676136326942142, guid: 77ab17d81da6ac74b9a6881ee5b028a3,
+  Icon: {fileID: 21300000, guid: 71c8db8c9078eac4e8ee280a4f0efc8d, type: 3}
+  FigurePrefab: {fileID: 808478850817181922, guid: 7f4a145faad6a274ca380f8095294398,
     type: 3}
   RecruitingGenderType: -1
   MinAge: 10
   MaxAge: 100
-  PlotType: 0
+  PlotType: {fileID: 11400000, guid: 61762f3c065e8914c962e5df6f1d5fcd, type: 2}

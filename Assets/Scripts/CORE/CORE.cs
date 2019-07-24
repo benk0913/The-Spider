@@ -10,6 +10,9 @@ public class CORE : MonoBehaviour
     [SerializeField]
     public GameDB Database;
 
+    [SerializeField]
+    public Canvas MainCanvas;
+
     public List<Character> Characters = new List<Character>();
 
     public static Character PC;

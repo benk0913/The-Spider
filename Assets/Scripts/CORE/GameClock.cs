@@ -60,8 +60,14 @@ public class GameClock : MonoBehaviour
 
         public GameTimeLength(int turns)
         {
-            Days = Mathf.FloorToInt((float)turns / 5f);
-            DayTime = turns % 5;
+            //Days = Mathf.FloorToInt((float)turns / 5f);
+            Days = Mathf.FloorToInt((float)(turns + GameClock.Instance.CurrentTime) / 5f);
+
+            Debug.Log("Current Time Number " + ((int)GameClock.Instance.CurrentTime)+" | " + GameClock.Instance.CurrentTime.ToString());
+            Debug.Log("turns " + turns);
+            Debug.Log("days " + Days);
+
+            DayTime = (int)GameClock.Instance.CurrentTime + (turns - (Days * 5));
         }
     }
 }

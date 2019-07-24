@@ -26,11 +26,14 @@ public class ActionUI : MonoBehaviour
     [SerializeField]
     GameObject QuestionMark;
 
+    [SerializeField]
+    TooltipTargetUI TooltipTarget;
+
 
     public Property.PropertyAction CurrentAction;
     public LocationEntity CurrentLocation;
 
-    public void SetInfo(LocationEntity location, Property.PropertyAction action = null)
+    public void SetInfo(LocationEntity location = null, Property.PropertyAction action = null)
     {
         CurrentAction = action;
         CurrentLocation = location;
@@ -40,12 +43,24 @@ public class ActionUI : MonoBehaviour
             QuestionMark.gameObject.SetActive(false);
             ActionIcon.sprite = action.Icon;
             ActionTitle.text = action.Name;
+            
+            if (TooltipTarget != null)
+            {
+                TooltipTarget.Text = action.Description;
+            }
         }
         else
         {
             QuestionMark.gameObject.SetActive(true);
             ActionTitle.text = "Locked";
+
+
+            if (TooltipTarget != null)
+            {
+                TooltipTarget.Text = "Action Is Unavailable";
+            }
         }
+
     }
 
     public void AttemptSelect()
@@ -54,6 +69,12 @@ public class ActionUI : MonoBehaviour
         {
             GlobalMessagePrompterUI.Instance.Show("You cant do that...", 1f);
             //TODO ACTION LOCKED ALERT
+            return;
+        }
+
+        if(CurrentLocation == null)
+        {
+            GlobalMessagePrompterUI.Instance.Show("You cant do that...", 1f);
             return;
         }
 

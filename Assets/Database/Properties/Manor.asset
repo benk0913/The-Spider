@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
   m_Name: Manor
   m_EditorClassIdentifier: 
+  Description: The manor acts as headquarters for your operations, from there you
+    may govern your agents and command them to do as you bid.
   PropertyLevels:
   - MaxEmployees: 2
     MaxActions: 1
@@ -30,6 +32,7 @@ MonoBehaviour:
     RecruitmentLength: 6
   Actions:
   - Name: 'Business As Usual '
+    Description: This location currently does nothing particular.
     Icon: {fileID: -6353499345697145280, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
     GoldGeneratedMin: 0
     GoldGeneratedMax: 0
@@ -39,3 +42,4 @@ MonoBehaviour:
   RecruitingGenderType: -1
   MinAge: 20
   MaxAge: 70
+  PlotType: {fileID: 11400000, guid: a1ab827bf97116440b46b833ba1e68e6, type: 2}

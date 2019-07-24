@@ -65,6 +65,10 @@ public class LocationEntity : AgentInteractable
             {
                 IsUpgrading = false;
                 Level++;
+
+                HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+                hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+                hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
             }
         }
 
@@ -75,7 +79,7 @@ public class LocationEntity : AgentInteractable
             if(CurrentRecruitmentLength <= 0)
             {
                 isRecruiting = false;
-                CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.MinAge, CurrentProperty.MaxAge).Join(this);
+                CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.MinAge, CurrentProperty.MaxAge).StartWorkingFor(this);
             }
         }
         else
@@ -93,7 +97,7 @@ public class LocationEntity : AgentInteractable
 
     void DayPassed()
     {
-        InvokeCurrentAction();
+        JobActionComplete();
     }
 
     public void OnClick()
@@ -170,14 +174,40 @@ public class LocationEntity : AgentInteractable
         StateUpdated.Invoke();
     }
 
-    public void InvokeCurrentAction()
+    public void JobActionComplete()
     {
+        int totalRevenue = 0;
         for (int i = 0; i < EmployeesCharacters.Count; i++)
         {
-            EmployeesCharacters[i].Gold += Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax);
+            int sumEarned = Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax);
+
+            totalRevenue += sumEarned;
+            EmployeesCharacters[i].Gold += sumEarned;
         }
 
+        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), string.Format("{0:n0}",totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"));
+
         StateUpdated.Invoke();
+    }
+
+    public void Rebrand(Property newProperty)
+    {
+        Deselect();
+
+        CancelUpgrade();
+        isRecruiting = false;
+        Level = 1;
+
+        while(EmployeesCharacters.Count > 0)
+        {
+            EmployeesCharacters[0].StopWorkingFor(this);
+        }
+
+        SetInfo(newProperty);
+
+        Select();
     }
 
 }

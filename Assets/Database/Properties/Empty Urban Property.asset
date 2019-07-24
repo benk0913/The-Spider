@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
-  m_Name: EmptyCoastalProperty
+  m_Name: Empty Urban Property
   m_EditorClassIdentifier: 
+  Description: An empty and abandoned property, will do nothing, and no one will
+    be employed in it....
   PropertyLevels:
   - MaxEmployees: 0
     MaxActions: 0
@@ -20,13 +22,14 @@ MonoBehaviour:
     RecruitmentLength: 0
   Actions:
   - Name: 'Closed And Empty '
-    Icon: {fileID: -4053363177961448577, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
+    Description: 
+    Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
     GoldGeneratedMin: 0
     GoldGeneratedMax: 0
   Icon: {fileID: 21300000, guid: 33bdc8bb430010f47828b97ed8e6996b, type: 3}
-  FigurePrefab: {fileID: 808478850817181922, guid: 7f4a145faad6a274ca380f8095294398,
+  FigurePrefab: {fileID: 3751449078466721607, guid: f885c82b3ea77404ab4c86f0b6db1176,
     type: 3}
   RecruitingGenderType: -1
   MinAge: 10
   MaxAge: 100
-  PlotType: 0
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}

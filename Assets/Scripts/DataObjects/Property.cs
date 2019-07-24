@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Property", menuName = "DataObjects/Property", order = 2)]
 public class Property : ScriptableObject
 {
+    [TextArea(2,3)]
+    public string Description;
+
     public List<PropertyLevel> PropertyLevels = new List<PropertyLevel>();
 
     public List<PropertyAction> Actions = new List<PropertyAction>();
@@ -17,7 +20,7 @@ public class Property : ScriptableObject
     public int MinAge = 0;
     public int MaxAge = 120;
 
-    public PurchasablePlotType PlotType = PurchasablePlotType.Urban;
+    public PlotType PlotType;
 
     [System.Serializable]
     public class PropertyLevel
@@ -34,6 +37,9 @@ public class Property : ScriptableObject
     public class PropertyAction
     {
         public string Name;
+
+        [TextArea(2,3)]
+        public string Description;
 
         public Sprite Icon;
 

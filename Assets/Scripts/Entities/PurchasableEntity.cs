@@ -8,7 +8,7 @@ public class PurchasableEntity : AgentInteractable
     public int Price;
 
     [SerializeField]
-    public PurchasablePlotType Type;
+    public PlotType Type;
 
     [SerializeField]
     public float RevenueMultiplier = 1f;
@@ -32,12 +32,15 @@ public class PurchasableEntity : AgentInteractable
         }
 
         List<AgentAction> currentActions = GetPossibleActions(ControlCharacterPanelUI.CurrentCharacter);
-        List<KeyActionPair> KeyActions = new List<KeyActionPair>();
+        List<DescribedAction> KeyActions = new List<DescribedAction>();
 
         foreach(AgentAction action in currentActions)
         {
-            KeyActions.Add(new KeyActionPair(action.name,
-                () => action.Execute(ControlCharacterPanelUI.CurrentCharacter, this)));
+            KeyActions.Add(
+                new DescribedAction(
+                    action.name,
+                    () => action.Execute(ControlCharacterPanelUI.CurrentCharacter, this)
+                    , action.Description));
         }
 
         RightClickDropDownPanelUI.Instance.Show(KeyActions, transform);
@@ -63,7 +66,16 @@ public class PurchasableEntity : AgentInteractable
         locationPrefab.transform.position = transform.position;
         locationPrefab.transform.rotation = transform.rotation;
 
-        locationPrefab.GetComponent<LocationEntity>().SetInfo(CORE.Instance.Database.EmptyProperty);
+
+        LocationEntity location = locationPrefab.GetComponent<LocationEntity>();
+
+        location.SetInfo(CORE.Instance.Database.EmptyProperty);
+        location.OwnerCharacter = forCharacter;
+
+        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"));
+
 
         Destroy(this.gameObject);
     }

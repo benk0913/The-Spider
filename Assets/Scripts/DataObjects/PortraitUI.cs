@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PortraitUI : MonoBehaviour
+public class PortraitUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     public Character CurrentCharacter = null;
@@ -25,6 +26,9 @@ public class PortraitUI : MonoBehaviour
 
     [SerializeField]
     CanvasGroup CG;
+
+    [SerializeField]
+    TooltipTargetUI TooltipTarget;
 
     private void Start()
     {
@@ -62,6 +66,12 @@ public class PortraitUI : MonoBehaviour
         if(CurrentCharacter != null)
         {
             character.VisualChanged.RemoveListener(RefreshVisuals);
+
+            TooltipTarget.Text = CurrentCharacter.name + " - 'Right Click' for more info...";
+        }
+        else
+        {
+            TooltipTarget.Text = "This character slot is unoccupied...";
         }
 
         CurrentCharacter = character;
@@ -102,5 +112,17 @@ public class PortraitUI : MonoBehaviour
         }
 
         SelectedPanelUI.Instance.SetSelected(this.CurrentCharacter);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left)
+        {
+            SelectCharacter();
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+        }
     }
 }

@@ -22,6 +22,9 @@ public class PlotInfoPanelUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI RiskMultiText;
 
+    [SerializeField]
+    PlotTypeUI PlotTypeView;
+
     private void Start()
     {
         Instance = this;
@@ -32,10 +35,11 @@ public class PlotInfoPanelUI : MonoBehaviour
     {
         CurrentPlot = plot;
 
-        TypeText.text = plot.Type.ToString();
+        TypeText.text = plot.Type.name;
         PriceText.text = plot.Price.ToString();
         RevMultiText.text = plot.RevenueMultiplier.ToString()+"x";
         RiskMultiText.text = plot.RiskMultiplier.ToString() + "x";
+        PlotTypeView.SetInfo(plot.Type);
 
         Show();
     }

@@ -9,8 +9,6 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public const float PORTRAITS_SPACING = 5f;
     public const int PORTRAITS_MAX_IN_ROW = 5;
-    public const string PORTRAIT_PREFAB = "PortraitUI";
-    public const string ACTION_PREFAB   = "ActionUI";
 
     [SerializeField]
     Image LocationIcon;
@@ -51,6 +49,9 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     Image RecruitingPanel;
 
+    [SerializeField]
+    GameObject RebrandBlockedSymbol;
+
     LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
@@ -81,6 +82,10 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void RefreshUI()
     {
+        RebrandBlockedSymbol.gameObject.SetActive(CurrentLocation.CurrentProperty.PlotType.name == DEF.UNIQUE_PLOT);
+        LocationTitle.text = CurrentLocation.CurrentProperty.name;
+        LocationIcon.sprite = CurrentLocation.CurrentProperty.Icon;
+
         RefreshPortraits();
 
         RefreshRanks();
@@ -97,7 +102,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         ActionUI tempActionUI;
         for (int i = 0; i < CurrentLocation.CurrentProperty.Actions.Count; i++)
         {
-            tempActionUI = ResourcesLoader.Instance.GetRecycledObject(ACTION_PREFAB).GetComponent<ActionUI>();
+            tempActionUI = ResourcesLoader.Instance.GetRecycledObject(DEF.ACTION_PREFAB).GetComponent<ActionUI>();
             tempActionUI.transform.SetParent(ActionGrid, false);
             tempActionUI.transform.localScale = Vector3.one;
 
@@ -149,7 +154,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         PortraitUI tempPortrait;
         for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxEmployees; i++)
         {
-            tempPortrait = ResourcesLoader.Instance.GetRecycledObject(PORTRAIT_PREFAB).GetComponent<PortraitUI>();
+            tempPortrait = ResourcesLoader.Instance.GetRecycledObject(DEF.PORTRAIT_PREFAB).GetComponent<PortraitUI>();
             tempPortrait.transform.SetParent(EmployeeGrid,false);
             tempPortrait.transform.localScale = Vector3.one;
 
@@ -166,7 +171,7 @@ public class ControlLocationPanelUI : MonoBehaviour
                     RecruitingPanel.fillAmount =
                         (float)CurrentLocation.CurrentRecruitmentLength
                         /
-                        (float)CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level].RecruitmentLength;
+                        (float)CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level-1].RecruitmentLength;
 
                     hasSetRecruitingBar = true;
                 }
@@ -248,5 +253,10 @@ public class ControlLocationPanelUI : MonoBehaviour
     public void CancelUpgrade()
     {
         CurrentLocation.CancelUpgrade();
+    }
+
+    public void ShowRebrandWindow()
+    {
+        RebrandWindowUI.Instance.Show(CurrentLocation);
     }
 }

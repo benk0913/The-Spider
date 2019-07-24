@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Orphanage
+  m_EditorClassIdentifier: 
+  Description: 'The Orphanage is a place of piety, which runs *almost* always by
+    men and women of great virtue.
+
+    The orphan''s dirty and struggle-full life
+    gives him the stimulation to do dangerous and shameful things. A dirty and poor
+    orphan blends well within the crowd, mostly because people often prefer to look
+    the other way, when a starving kid is walking about helpless, looking for food.'
+  PropertyLevels:
+  - MaxEmployees: 3
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  - MaxEmployees: 5
+    MaxActions: 2
+    UpgradePrice: 250
+    UpgradeLength: 20
+    RecruitmentLength: 8
+  - MaxEmployees: 7
+    MaxActions: 3
+    UpgradePrice: 750
+    UpgradeLength: 30
+    RecruitmentLength: 6
+  Actions:
+  - Name: Beg
+    Description: The orphans will spend the day begging in the streets, and earn
+      small amounts of copper, yet, will not take risk in doing criminal acts.
+    Icon: {fileID: 21300000, guid: 402527792b005b44289870e39723aecb, type: 3}
+    GoldGeneratedMin: 0
+    GoldGeneratedMax: 5
+  - Name: Pick-Pocket
+    Description: The orphans will use distractions to snatch a purse or pick a coin
+      from a loose pocket. They may even create the distraction themselves, if a
+      good opportunity is available.
+    Icon: {fileID: 21300000, guid: 6e4e3c60583509b4c82fbbf878396f20, type: 3}
+    GoldGeneratedMin: 2
+    GoldGeneratedMax: 12
+  - Name: Burglary
+    Description: The orphans will climb in to open windows, navigate while jumping
+      from roof to roof, and use the cover of night to enter and steal valuable objects
+      from those who are distracted in dream.
+    Icon: {fileID: 21300000, guid: 950dcc766a51d264a9d22a5618ab312d, type: 3}
+    GoldGeneratedMin: 10
+    GoldGeneratedMax: 30
+  Icon: {fileID: 21300000, guid: 60a53fd7f2a59444a88d40ed043f0214, type: 3}
+  FigurePrefab: {fileID: 2342781096238859390, guid: 0ddb91aecdcbe8a43903d0afd531989f,
+    type: 3}
+  RecruitingGenderType: -1
+  MinAge: 6
+  MaxAge: 14
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
