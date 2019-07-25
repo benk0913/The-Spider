@@ -81,6 +81,8 @@ public class CORE : MonoBehaviour
     {
         Character character = Instantiate(Database.HumanReference);
 
+        character.Initialize();
+
         character.Randomize();
 
         if(isFemale >= 0)
@@ -90,7 +92,6 @@ public class CORE : MonoBehaviour
 
         character.Age = Random.Range(minAge, maxAge);
 
-        character.Initialize();
 
         Characters.Add(character);
 
