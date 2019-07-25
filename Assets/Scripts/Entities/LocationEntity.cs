@@ -38,6 +38,30 @@ public class LocationEntity : AgentInteractable
 
     public Property.PropertyAction CurrentAction;
 
+    [SerializeField]
+    List<AgentAction> PossibleAgentActions = new List<AgentAction>();
+
+    [SerializeField]
+    List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
+
+    public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
+    {
+        return PossibleAgentActions;
+    }
+
+    public override List<PlayerAction> GetPossiblePlayerActions()
+    {
+        return PossiblePlayerActions;
+    }
+
+    public void OnRightClick()
+    {
+        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        {
+            ShowActionMenu();
+        }
+    }
+
 
     private void Start()
     {

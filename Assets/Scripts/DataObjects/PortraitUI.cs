@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PortraitUI : MonoBehaviour, IPointerClickHandler
+public class PortraitUI : AgentInteractable, IPointerClickHandler
 {
     [SerializeField]
     public Character CurrentCharacter = null;
@@ -118,11 +118,21 @@ public class PortraitUI : MonoBehaviour, IPointerClickHandler
     {
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            SelectCharacter();
+            CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+            ShowActionMenu();
         }
     }
+
+    public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
+    {
+        return base.GetPossibleAgentActions(forCharacter);
+    }
+
+    public override List<PlayerAction> GetPossiblePlayerActions()
+    {
+        return CORE.Instance.Database.PlayerActionsOnAgent;
+    } 
 }

@@ -403,6 +403,5 @@ public class Character : ScriptableObject
             PropertiesOwned.Remove(location);
         }
     }
-    
-
+   
 }

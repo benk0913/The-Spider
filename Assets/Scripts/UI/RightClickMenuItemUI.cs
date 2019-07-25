@@ -16,15 +16,17 @@ public class RightClickMenuItemUI : MonoBehaviour
     [SerializeField]
     TooltipTargetUI TooltipTarget;
 
-    public void SetInfo(string title, UnityAction Action, string description = "")
+    public void SetInfo(string title, UnityAction Action, string description = "", bool interactable = false)
     {
         Title.text = title;
         _Button.onClick.RemoveAllListeners();
         _Button.onClick.AddListener(Action);
         TooltipTarget.Text = description;
+
+        _Button.interactable = interactable;
     }
 
-    public void SetInfo(string title, UnityAction[] Actions, string description = "")
+    public void SetInfo(string title, UnityAction[] Actions, string description = "", bool interactable = false)
     {
         Title.text = title;
         _Button.onClick.RemoveAllListeners();
@@ -33,5 +35,7 @@ public class RightClickMenuItemUI : MonoBehaviour
             _Button.onClick.AddListener(act);
 
         TooltipTarget.Text = description;
+
+        _Button.interactable = interactable;
     }
 }

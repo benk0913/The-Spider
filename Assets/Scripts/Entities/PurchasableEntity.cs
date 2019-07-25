@@ -29,7 +29,7 @@ public class PurchasableEntity : AgentInteractable
         ShowActionMenu();
     }
 
-    public override List<AgentAction> GetPossibleActions(Character forCharacter)
+    public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return PossibleActions;
     }

@@ -62,11 +62,13 @@ public class DescribedAction
     public string Key;
     public string Description;
     public UnityAction Action;
+    public bool Interactable;
 
-    public DescribedAction(string key, UnityAction action, string description = "Possible Action")
+    public DescribedAction(string key, UnityAction action, string description = "Possible Action", bool interactable = false)
     {
         this.Key = key;
         this.Action = action;
         this.Description = description;
+        this.Interactable = interactable;
     }
 }

@@ -164,6 +164,22 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  OnRightClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2420670220342199233}
+        m_MethodName: OnRightClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   OnHover:
     m_PersistentCalls:
       m_Calls:
@@ -5184,9 +5200,14 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   CurrentAction:
     Name: 
+    Description: 
     Icon: {fileID: 0}
     GoldGeneratedMin: 1
     GoldGeneratedMax: 2
+  PossibleAgentActions: []
+  PossiblePlayerActions:
+  - {fileID: 11400000, guid: 3e378206a3eabe94191e194d846db153, type: 2}
+  - {fileID: 11400000, guid: 21d4875c70a8f23459b636bfcf0fcbfc, type: 2}
 --- !u!1 &4275145246728194450
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,11 @@ public class TooltipTargetUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     void OnDisable()
     {
+        if(PointAndClickTooltipUI.Instance == null)
+        {
+            return;
+        }
+
         PointAndClickTooltipUI.Instance.Hide();
     }
 }

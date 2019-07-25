@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class AgentInteractable : MonoBehaviour
 {
-    public virtual List<AgentAction> GetPossibleActions(Character forCharacter)
+    public virtual List<AgentAction> GetPossibleAgentActions(Character forCharacter)
+    {
+        return null;
+    }
+
+    public virtual List<PlayerAction> GetPossiblePlayerActions()
     {
         return null;
     }
@@ -13,24 +18,29 @@ public class AgentInteractable : MonoBehaviour
     {
         if (ControlCharacterPanelUI.CurrentCharacter == null)
         {
-            return;
+            ShowPlayerActionMenu();
         }
+        else
+        {
+            ShowAgentActionMenu();
+        }
+    }
 
-        List<AgentAction> currentActions = GetPossibleActions(ControlCharacterPanelUI.CurrentCharacter);
+    public void ShowAgentActionMenu()
+    {
+
+        List<AgentAction> currentActions = GetPossibleAgentActions(ControlCharacterPanelUI.CurrentCharacter);
         List<DescribedAction> KeyActions = new List<DescribedAction>();
 
         foreach (AgentAction action in currentActions)
         {
-            if (!action.CanDoAction(ControlCharacterPanelUI.CurrentCharacter, this))
-            {
-                continue;
-            }
 
             KeyActions.Add(
                 new DescribedAction(
                     action.name,
                     () => action.Execute(ControlCharacterPanelUI.CurrentCharacter, this)
-                    , action.Description));
+                    , action.Description
+                    , action.CanDoAction(ControlCharacterPanelUI.CurrentCharacter, this)));
         }
 
         if (KeyActions.Count == 0)
@@ -38,6 +48,30 @@ public class AgentInteractable : MonoBehaviour
             return;
         }
 
-        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform);
+        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, ControlCharacterPanelUI.CurrentCharacter);
+    }
+
+    public void ShowPlayerActionMenu()
+    {
+
+        List<PlayerAction> currentActions = GetPossiblePlayerActions();
+        List<DescribedAction> KeyActions = new List<DescribedAction>();
+
+        foreach (PlayerAction action in currentActions)
+        {
+            KeyActions.Add(
+                new DescribedAction(
+                    action.name,
+                    () => action.Execute(this)
+                    , action.Description
+                    , action.CanDoAction(this)));
+        }
+
+        if (KeyActions.Count == 0)
+        {
+            return;
+        }
+
+        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, null);
     }
 }
