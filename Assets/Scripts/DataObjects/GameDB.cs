@@ -24,20 +24,19 @@ public class GameDB : ScriptableObject
 
     public RaceSet GetRace(string raceName, bool fallback = true)
     {
-        for(int i=0;i<Races.Count;i++)
+        for (int i = 0; i < Races.Count; i++)
         {
-            if(raceName == Races[i].name)
+            if (raceName == Races[i].name)
             {
                 return Races[i];
             }
         }
 
-        if(fallback)
+        if (fallback)
         {
             return Races[0];
         }
 
         return null;
     }
-
 }

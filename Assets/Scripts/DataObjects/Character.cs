@@ -251,8 +251,8 @@ public class Character : ScriptableObject
 
     public void Randomize()
     {
-        this.name = "Random Name";
         this.Gender = (GenderType) Random.Range(0, 2);
+        this.name = Names.GetRandomName(Gender);
         this.Age = Random.Range(5, 50);
         this.HairColor = VisualSet.HairColor.Pool[Random.Range(0, VisualSet.HairColor.Pool.Count)];
         this.Hair = HairColor.Pool[Random.Range(0, HairColor.Pool.Count)];
@@ -327,8 +327,26 @@ public class Character : ScriptableObject
         Clothing = VisualSet.Clothing.Pool[0];
 
         RefreshVisualTree();
+
+        if (CORE.PC != this)
+        {
+            GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassedAI);
+        }
     }
 
+    void OnTurnPassedAI()
+    {
+        foreach (LocationEntity location in PropertiesOwned)
+        {
+            ManageProperty(location);
+        }
+    }
+
+    void ManageProperty(LocationEntity location)
+    {
+        //TODO Bad skill delays this.
+        location.StartRecruiting();
+    }
 
 
     public void StartWorkingFor(LocationEntity location)
@@ -385,7 +403,6 @@ public class Character : ScriptableObject
             PropertiesOwned.Remove(location);
         }
     }
-
     
 
 }

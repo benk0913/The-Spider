@@ -52,46 +52,36 @@ public class LocationEntity : AgentInteractable
             {
                 CORE.PC.StartOwningLocation(this);
             }
+
+            List<Character> charactersToAdd = new List<Character>();
+            while(EmployeesCharacters.Count > 0)
+            {
+                Character tempChar = CORE.Instance.GetCharacter(EmployeesCharacters[0].name);
+
+                EmployeesCharacters.RemoveAt(0);
+
+                if (tempChar == null)
+                {
+                    continue;
+                }
+
+                charactersToAdd.Add(tempChar);
+            }
+            foreach(Character character in charactersToAdd)
+            {
+                character.StartWorkingFor(this);
+            }
+
+
         }
     }
 
     void TurnPassed()
     {
-        if (IsUpgrading)
-        {
-            CurrentUpgradeLength--;
+        ProgressUpgrade();
 
-            if (CurrentUpgradeLength <= 0)
-            {
-                IsUpgrading = false;
-                Level++;
-
-                HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
-                hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-                hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
-            }
-        }
-
-        if (isRecruiting)
-        {
-            CurrentRecruitmentLength--;
-
-            if(CurrentRecruitmentLength <= 0)
-            {
-                isRecruiting = false;
-                CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.MinAge, CurrentProperty.MaxAge).StartWorkingFor(this);
-            }
-        }
-        else
-        {
-            if (EmployeesCharacters.Count < CurrentProperty.PropertyLevels[Level - 1].MaxEmployees)
-            {
-                CurrentRecruitmentLength = CurrentProperty.PropertyLevels[Level - 1].RecruitmentLength;
-
-                isRecruiting = true;
-            }
-        }
-
+        ProgressRecruiting();
+ 
         RefreshState();
     }
 
@@ -171,6 +161,26 @@ public class LocationEntity : AgentInteractable
         StateUpdated.Invoke();
     }
 
+    public void ProgressUpgrade()
+    {
+        if (!IsUpgrading)
+        {
+            return;
+        }
+        
+        CurrentUpgradeLength--;
+
+        if (CurrentUpgradeLength <= 0)
+        {
+            IsUpgrading = false;
+            Level++;
+
+            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+            hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
+        }
+    }
+
     public void CancelUpgrade()
     {
         if (!IsUpgrading)
@@ -181,6 +191,47 @@ public class LocationEntity : AgentInteractable
         OwnerCharacter.TopEmployer.Gold += CurrentProperty.PropertyLevels[Level].UpgradePrice;
         IsUpgrading = false;
         StateUpdated.Invoke();
+    }
+
+    public void StartRecruiting()
+    {
+        if(isRecruiting)
+        {
+            return;
+        }
+
+        if (EmployeesCharacters.Count >= CurrentProperty.PropertyLevels[Level - 1].MaxEmployees)
+        {
+            return;
+        }
+
+        CurrentRecruitmentLength = CurrentProperty.PropertyLevels[Level - 1].RecruitmentLength;
+
+        isRecruiting = true;
+    }
+
+
+    public void ProgressRecruiting()
+    {
+        if (!isRecruiting)
+        {
+            return;
+        }
+
+        CurrentRecruitmentLength--;
+
+        if (CurrentRecruitmentLength <= 0)
+        {
+            CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.MinAge, CurrentProperty.MaxAge).StartWorkingFor(this);
+            StopRecruiting();
+        }
+    }
+
+    public void StopRecruiting()
+    {
+        isRecruiting = false;
+
+        CurrentRecruitmentLength = 0;
     }
 
     public void SelectAction(Property.PropertyAction action)
@@ -213,7 +264,7 @@ public class LocationEntity : AgentInteractable
         Deselect();
 
         CancelUpgrade();
-        isRecruiting = false;
+        StopRecruiting();
         Level = 1;
 
         while(EmployeesCharacters.Count > 0)

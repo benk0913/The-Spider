@@ -10,6 +10,11 @@ public class PurchasePlotAction : AgentAction
     {
         base.Execute(character, target);
 
+        if (!CanDoAction(character, target))
+        {
+            return;
+        }
+
         PurchasableEntity targetEntity = (PurchasableEntity)target;
 
         targetEntity.PurchasePlot(character);

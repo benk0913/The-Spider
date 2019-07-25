@@ -26,24 +26,7 @@ public class PurchasableEntity : AgentInteractable
     
     public void OnRightClick()
     {
-        if(ControlCharacterPanelUI.CurrentCharacter == null)
-        {
-            return;
-        }
-
-        List<AgentAction> currentActions = GetPossibleActions(ControlCharacterPanelUI.CurrentCharacter);
-        List<DescribedAction> KeyActions = new List<DescribedAction>();
-
-        foreach(AgentAction action in currentActions)
-        {
-            KeyActions.Add(
-                new DescribedAction(
-                    action.name,
-                    () => action.Execute(ControlCharacterPanelUI.CurrentCharacter, this)
-                    , action.Description));
-        }
-
-        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform);
+        ShowActionMenu();
     }
 
     public override List<AgentAction> GetPossibleActions(Character forCharacter)
@@ -57,7 +40,7 @@ public class PurchasableEntity : AgentInteractable
         {
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
                 "(You need more " + (Price - forCharacter.TopEmployer.Gold) + ")", 1f, Color.red);
-            //TODO NOT ENOUGH MONEY ALERT.
+
             return;
         }
 
@@ -78,14 +61,5 @@ public class PurchasableEntity : AgentInteractable
 
 
         Destroy(this.gameObject);
-    }
-
-    public void ShowTooltip()
-    {
-
-    }
-
-    public void HideTooltip()
-    {
     }
 }

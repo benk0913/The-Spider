@@ -16,6 +16,21 @@ public class AgentAction : ScriptableObject
 
     public virtual void Execute(Character character, AgentInteractable target)
     {
-        
+        if(!CanDoAction(character,target))
+        {
+            GlobalMessagePrompterUI.Instance.Show("This character can not do this action! ", 1f, Color.red);
+
+            return;
+        }
+    }
+
+    public virtual bool CanDoAction(Character character, AgentInteractable target)
+    {
+        if(character.Age < MinimumAge)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

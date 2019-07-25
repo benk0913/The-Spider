@@ -20,6 +20,10 @@ public class CORE : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         Initialize();
     }
 
@@ -28,8 +32,16 @@ public class CORE : MonoBehaviour
         PC = Instantiate(Database.PlayerCharacter);
         PC.name = Database.PlayerCharacter.name;
         Characters.Add(PC);
+        PC.Initialize();
 
-        Characters.AddRange(Database.PresetCharacters);
+        foreach(Character character in Database.PresetCharacters)
+        {
+            Character tempCharacter = Instantiate(character);
+            tempCharacter.Initialize();
+            tempCharacter.name = character.name;
+
+            Characters.Add(tempCharacter);
+        }
     }
 
     public Dictionary<string, UnityEvent> DynamicEvents = new Dictionary<string, UnityEvent>();
@@ -78,8 +90,23 @@ public class CORE : MonoBehaviour
 
         character.Age = Random.Range(minAge, maxAge);
 
+        character.Initialize();
+
         Characters.Add(character);
 
         return character;
+    }
+
+    public Character GetCharacter(string sName)
+    {
+        for(int i=0;i<Characters.Count;i++)
+        {
+            if(Characters[i].name == sName)
+            {
+                return Characters[i];
+            }
+        }
+
+        return null;
     }
 }
