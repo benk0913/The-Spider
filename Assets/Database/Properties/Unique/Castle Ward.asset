@@ -12,11 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
   m_Name: Castle Ward
   m_EditorClassIdentifier: 
-  Description: 
-  PropertyLevels: []
-  Actions: []
+  Description: This is a public area, which belongs to no one but the local governor.
+  PropertyLevels:
+  - MaxEmployees: 0
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    RecruitmentLength: 0
+  Actions:
+  - Name: Public Area
+    Description: This is a public area, which belongs to no one but the local governor.
+    Icon: {fileID: 21300000, guid: 117032de806261d48ae0f03586ed21bf, type: 3}
+    GoldGeneratedMin: 0
+    GoldGeneratedMax: 0
   Icon: {fileID: 21300000, guid: 117032de806261d48ae0f03586ed21bf, type: 3}
-  FigurePrefab: {fileID: 0}
+  FigurePrefab: {fileID: 3751449078466721607, guid: 1484f17cc2617cd40864f9e6caef7bb8,
+    type: 3}
   RecruitingGenderType: -1
   MinAge: 5
   MaxAge: 120

@@ -22,6 +22,9 @@ public class LocationEntity : AgentInteractable
     [SerializeField]
     Transform FigurePoint;
 
+    [SerializeField]
+    GameObject IdleStateObject;
+
     public int Level = 1;
 
     public bool IsUpgrading;
@@ -74,9 +77,12 @@ public class LocationEntity : AgentInteractable
         {
             SetInfo(CurrentProperty);
 
-            if (OwnerCharacter == CORE.Instance.Database.PlayerCharacter)
+            if (OwnerCharacter != null)
             {
-                CORE.PC.StartOwningLocation(this);
+                if (OwnerCharacter == CORE.Instance.Database.PlayerCharacter)
+                {
+                    CORE.PC.StartOwningLocation(this);
+                }
             }
 
             List<Character> charactersToAdd = new List<Character>();
@@ -127,6 +133,10 @@ public class LocationEntity : AgentInteractable
         SelectedMarkerObject.transform.SetParent(transform);
         SelectedMarkerObject.transform.position = transform.position;
 
+        if (IdleStateObject != null)
+        {
+            IdleStateObject.gameObject.SetActive(true);
+        }
     }
 
     public void SetDeselected()
@@ -134,6 +144,11 @@ public class LocationEntity : AgentInteractable
 
         SelectedMarkerObject.gameObject.SetActive(false);
         SelectedMarkerObject = null;
+
+        if (IdleStateObject != null)
+        {
+            IdleStateObject.gameObject.SetActive(false);
+        }
     }
 
     public void SetInfo(Property property)
