@@ -54,6 +54,7 @@ public static class DEF
     public const string ACTION_PREFAB   = "ActionUI";
     public const string HOVER_PANEL_PREFAB = "HoverPanelUI";
     public const string UNIQUE_PLOT     = "Unique";
+    public const string LOCATION_MARKER_PREFAB = "LocationMarker";
     //TODO Move all game consts to here.
 }
 

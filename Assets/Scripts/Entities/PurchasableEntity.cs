@@ -46,6 +46,7 @@ public class PurchasableEntity : AgentInteractable
 
         GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject(DEF.LOCATION_PREFAB);
 
+        locationPrefab.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
         locationPrefab.transform.position = transform.position;
         locationPrefab.transform.rotation = transform.rotation;
 

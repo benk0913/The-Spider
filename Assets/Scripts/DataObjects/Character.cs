@@ -81,6 +81,8 @@ public class Character : ScriptableObject
 
     public LocationEntity WorkLocation;
 
+    public LocationEntity CurrentLocation;
+
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
     #region Visual

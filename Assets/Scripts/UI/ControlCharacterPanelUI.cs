@@ -13,10 +13,15 @@ public class ControlCharacterPanelUI : MonoBehaviour
 
     public static Character CurrentCharacter;
 
-    public void SetInfo(Character character)
+    public void Select(Character character)
     {
         CurrentCharacter = character;
         RefreshUI();
+    }
+
+    public void Deselect()
+    {
+        CurrentCharacter = null;
     }
 
     void RefreshUI()

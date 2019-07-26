@@ -53,14 +53,13 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             Face.color = Color.black;
             Hair.color = Color.black;
             Clothing.color = Color.black;
-            QuestionMark.SetActive(true);
+
             return;
         }
         
         Face.color = Color.white;
         Hair.color = Color.white;
         Clothing.color = Color.white;
-        QuestionMark.SetActive(false);
         
 
         if(CurrentCharacter != null)
@@ -116,9 +115,21 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
         if(eventData.button == PointerEventData.InputButton.Left)
         {
-            CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+            if (CurrentCharacter.TopEmployer == CORE.PC)
+            {
+                SelectedPanelUI.Instance.SetSelected(this.CurrentCharacter);
+            }
+            else
+            {
+                CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+            }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {

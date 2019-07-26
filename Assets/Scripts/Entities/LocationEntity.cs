@@ -38,6 +38,8 @@ public class LocationEntity : AgentInteractable
 
     public Property.PropertyAction CurrentAction;
 
+    GameObject SelectedMarkerObject;
+
     [SerializeField]
     List<AgentAction> PossibleAgentActions = new List<AgentAction>();
 
@@ -116,17 +118,22 @@ public class LocationEntity : AgentInteractable
 
     public void OnClick()
     {
-        SelectedPanelUI.Instance.SetSelected(this);
+        SelectedPanelUI.Instance.Select(this);
     }
 
-    public void Select()
+    public void SetSelected()
     {
-        SelectedPanelUI.Instance.SetSelected(this);
+        SelectedMarkerObject = ResourcesLoader.Instance.GetRecycledObject(DEF.LOCATION_MARKER_PREFAB);
+        SelectedMarkerObject.transform.SetParent(transform);
+        SelectedMarkerObject.transform.position = transform.position;
+
     }
 
-    public void Deselect()
+    public void SetDeselected()
     {
-        SelectedPanelUI.Instance.Deselect();
+
+        SelectedMarkerObject.gameObject.SetActive(false);
+        SelectedMarkerObject = null;
     }
 
     public void SetInfo(Property property)
@@ -285,7 +292,7 @@ public class LocationEntity : AgentInteractable
 
     public void Rebrand(Property newProperty)
     {
-        Deselect();
+        SelectedPanelUI.Instance.Deselect();
 
         CancelUpgrade();
         StopRecruiting();
@@ -298,7 +305,7 @@ public class LocationEntity : AgentInteractable
 
         SetInfo(newProperty);
 
-        Select();
+        SelectedPanelUI.Instance.Select(this);
     }
 
 }

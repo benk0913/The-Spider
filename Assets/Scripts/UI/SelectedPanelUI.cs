@@ -70,12 +70,12 @@ public class SelectedPanelUI : MonoBehaviour
             return;
         }
 
-        CharacterPanel.SetInfo(character);
+        CharacterPanel.Select(character);
 
         CurrentSelectionType = SelectionType.Agent;
     }
 
-    public void SetSelected(LocationEntity location)
+    public void Select(LocationEntity location)
     {
         LocationPanel.Select(location);
 
@@ -84,6 +84,9 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void Deselect()
     {
+        LocationPanel.Deselect();
+        CharacterPanel.Deselect();
+
         CurrentSelectionType = SelectionType.None;
     }
 

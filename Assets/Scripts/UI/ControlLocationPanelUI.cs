@@ -56,15 +56,26 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void Select(LocationEntity location)
     {
+        if(CurrentLocation != null)
+        {
+            Deselect();
+        }
+
         CurrentLocation = location;
+        CurrentLocation.SetSelected();
         CurrentLocation.StateUpdated.AddListener(RefreshUI);
         RefreshUI();
     }
 
     public void Deselect()
     {
-        CurrentLocation.StateUpdated.RemoveListener(RefreshUI);
-        CurrentLocation = null;
+        if (CurrentLocation != null)
+        {
+            CurrentLocation.SetDeselected();
+            CurrentLocation.StateUpdated.RemoveListener(RefreshUI);
+            CurrentLocation = null;
+        }
+
         Hide();
     }
 

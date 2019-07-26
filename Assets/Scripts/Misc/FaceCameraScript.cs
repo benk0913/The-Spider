@@ -7,11 +7,14 @@ public class FaceCameraScript : MonoBehaviour
     [SerializeField]
     Camera m_Camera;
 
+    [SerializeField]
+    public string CameraTag;
+
     private void Awake()
     {
-        if(m_Camera)
+        if(m_Camera == null)
         {
-            m_Camera = Camera.current;
+            m_Camera = GameObject.FindGameObjectWithTag(CameraTag).GetComponent<Camera>();
         }
     }
 

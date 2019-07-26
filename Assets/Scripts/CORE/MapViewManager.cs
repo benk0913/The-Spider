@@ -6,6 +6,9 @@ public class MapViewManager : MonoBehaviour
 {
     public static MapViewManager Instance;
 
+    [SerializeField]
+    public Transform MapElementsContainer;
+
     private void Awake()
     {
         Instance = this;
@@ -38,11 +41,13 @@ public class MapViewManager : MonoBehaviour
     public void HideMap()
     {
         SelectedPanelUI.Instance.Deselect();
+        RightClickDropDownPanelUI.Instance.Hide();
         CORE.Instance.InvokeEvent("HideMap");
     }
 
     public void Deselect()
     {
         SelectedPanelUI.Instance.Deselect();
+        RightClickDropDownPanelUI.Instance.Hide();
     }
 }
