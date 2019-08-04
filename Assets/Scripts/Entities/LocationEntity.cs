@@ -49,6 +49,7 @@ public class LocationEntity : AgentInteractable
     [SerializeField]
     List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
+
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return PossibleAgentActions;
@@ -70,6 +71,8 @@ public class LocationEntity : AgentInteractable
 
     private void Start()
     {
+        CORE.Instance.Locations.Add(this);
+
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
         GameClock.Instance.OnDayPassed.AddListener(DayPassed);
 

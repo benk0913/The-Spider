@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 public class CORE : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class CORE : MonoBehaviour
     public Canvas MainCanvas;
 
     public List<Character> Characters = new List<Character>();
+
+    public List<LocationEntity> Locations = new List<LocationEntity>();
 
     public static Character PC;
 
@@ -77,6 +80,8 @@ public class CORE : MonoBehaviour
         DynamicEvents[eventKey].Invoke();
     }
 
+    #region Characters
+
     public Character GenerateCharacter(int isFemale = -1, int minAge = 0, int maxAge = 150)
     {
         Character character = Instantiate(Database.HumanReference);
@@ -110,4 +115,38 @@ public class CORE : MonoBehaviour
 
         return null;
     }
+
+    #endregion
+
+    #region Locations
+
+    public LocationEntity GetRandomLocationWithTrait(PropertyTrait trait)
+    {
+        Locations = Locations.OrderBy(x => Random.value).ToList();
+
+        for(int i=0;i<Locations.Count;i++)
+        {
+            if(Locations[i].CurrentProperty.Traits.Contains(trait))
+            {
+                return Locations[i];
+            }
+        }
+
+        return null;
+    }
+
+    public LocationEntity GetLocationOfProperty(Property property)
+    {
+        foreach(LocationEntity location in Locations)
+        {
+            if(location.CurrentProperty == property)
+            {
+                return location;
+            }
+        }
+
+        return null;
+    }
+
+    #endregion
 }

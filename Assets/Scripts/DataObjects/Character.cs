@@ -334,7 +334,11 @@ public class Character : ScriptableObject
         {
             GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassedAI);
         }
+
+        GoToLocation(CORE.Instance.GetLocationOfProperty(CORE.Instance.Database.DefaultLocationProperty));
     }
+
+    #region AI
 
     void OnTurnPassedAI()
     {
@@ -342,6 +346,35 @@ public class Character : ScriptableObject
         {
             ManageProperty(location);
         }
+
+        GoToRandomLocation();
+    }
+
+    void GoToRandomLocation()
+    {
+        //TODO Change later to a better algorythm
+        
+        if (WorkLocation != null && Random.Range(0, 2) == 0)//To work
+        {
+            GoToLocation(WorkLocation);
+            return;
+        }
+
+        if (PropertiesOwned.Count > 0 && Random.Range(0, 2) == 0)//To one of my properties
+        {
+            GoToLocation(PropertiesOwned[Random.Range(0,PropertiesOwned.Count)]);
+            return;
+        }
+        else // To random public location
+        {
+            GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait));
+            return;
+        }
+    }
+
+    void GoToLocation(LocationEntity targetLocation)
+    {
+        CurrentLocation = targetLocation;
     }
 
     void ManageProperty(LocationEntity location)
@@ -349,6 +382,8 @@ public class Character : ScriptableObject
         //TODO Bad skill delays this.
         location.StartRecruiting();
     }
+
+    #endregion
 
 
     public void StartWorkingFor(LocationEntity location)
@@ -365,6 +400,8 @@ public class Character : ScriptableObject
         {
             ownedLocation.RefreshState();
         }
+
+        GoToLocation(location);
     }
 
     public void StopWorkingFor(LocationEntity location)
@@ -382,6 +419,8 @@ public class Character : ScriptableObject
         {
             ownedLocation.RefreshState();
         }
+
+        GoToRandomLocation();
     }
 
     public void StartOwningLocation(LocationEntity location)
@@ -393,6 +432,8 @@ public class Character : ScriptableObject
         {
             PropertiesOwned.Add(location);
         }
+
+        GoToLocation(location);
     }
 
     public void StopOwningLocation(LocationEntity location)
@@ -404,6 +445,8 @@ public class Character : ScriptableObject
         {
             PropertiesOwned.Remove(location);
         }
+
+        GoToRandomLocation();
     }
    
 }

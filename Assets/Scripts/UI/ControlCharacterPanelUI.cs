@@ -13,8 +13,15 @@ public class ControlCharacterPanelUI : MonoBehaviour
 
     public static Character CurrentCharacter;
 
+    CommandChainModule CurrentChainModule;
+
     public void Select(Character character)
     {
+        if(CurrentCharacter != null)
+        {
+            Deselect();
+        }
+
         CurrentCharacter = character;
         RefreshUI();
     }
@@ -22,12 +29,16 @@ public class ControlCharacterPanelUI : MonoBehaviour
     public void Deselect()
     {
         CurrentCharacter = null;
+
+        ClearCurrentChain();
     }
 
     void RefreshUI()
     {
         NameText.text = CurrentCharacter.name;
         Portrait.SetCharacter(CurrentCharacter);
+
+        ShowCommandChain();
     }
 
     public void Show()
@@ -38,7 +49,7 @@ public class ControlCharacterPanelUI : MonoBehaviour
 
     public void Hide()
     {
-        CurrentCharacter = null;
+        Deselect();
         this.gameObject.SetActive(false);
     }
 
@@ -47,5 +58,29 @@ public class ControlCharacterPanelUI : MonoBehaviour
         CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
     }
 
-    
+    void ShowCommandChain()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        if(CurrentChainModule != null)
+        {
+            ClearCurrentChain();
+        }
+
+        CurrentChainModule = ResourcesLoader.Instance.GetRecycledObject(DEF.COMMAND_CHAIN_PREFAB).GetComponent<CommandChainModule>();
+        CurrentChainModule.SetInfo(CurrentCharacter);
+    }
+
+    void ClearCurrentChain()
+    {
+        if (CurrentChainModule != null)
+        {
+            CurrentChainModule.gameObject.SetActive(false);
+            CurrentChainModule = null;
+        }
+    }
+
 }

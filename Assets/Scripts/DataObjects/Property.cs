@@ -12,6 +12,8 @@ public class Property : ScriptableObject
 
     public List<PropertyAction> Actions = new List<PropertyAction>();
 
+    public List<PropertyTrait> Traits = new List<PropertyTrait>();
+
     public Sprite Icon;
 
     public GameObject FigurePrefab;
@@ -21,6 +23,8 @@ public class Property : ScriptableObject
     public int MaxAge = 120;
 
     public PlotType PlotType;
+
+    public bool isPublicArea = false;
 
     [System.Serializable]
     public class PropertyLevel
