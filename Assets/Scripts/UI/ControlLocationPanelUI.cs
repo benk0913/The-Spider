@@ -56,10 +56,7 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void Select(LocationEntity location)
     {
-        if(CurrentLocation != null)
-        {
-            Deselect();
-        }
+        Deselect();
 
         CurrentLocation = location;
         CurrentLocation.SetSelected();
@@ -69,26 +66,25 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void Deselect()
     {
-        if (CurrentLocation != null)
+        if (CurrentLocation == null)
         {
-            CurrentLocation.SetDeselected();
-            CurrentLocation.StateUpdated.RemoveListener(RefreshUI);
-            CurrentLocation = null;
+            return;
         }
 
-        Hide();
+        CurrentLocation.SetDeselected();
+        CurrentLocation.StateUpdated.RemoveListener(RefreshUI);
+        CurrentLocation = null;
     }
 
     public void Show()
     {
         this.gameObject.SetActive(true);
-        RefreshUI();
     }
 
     public void Hide()
     {
         this.gameObject.SetActive(false);
-        
+        Deselect();
     }
 
     public void RefreshUI()

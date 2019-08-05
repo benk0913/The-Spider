@@ -30,6 +30,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     [SerializeField]
     TooltipTargetUI TooltipTarget;
 
+    [SerializeField]
+    WorldPositionLerperUI Lerper;
+
     private void Start()
     {
         if(Random)
@@ -40,6 +43,13 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         }
 
         SetCharacter(CurrentCharacter);
+    }
+
+    public void SetCharacter(Character character, Vector3 position)
+    {
+        Lerper.SetPosition(position);
+
+        SetCharacter(character);
     }
 
     public void SetCharacter(Character character)

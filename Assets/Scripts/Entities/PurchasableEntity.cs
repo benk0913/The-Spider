@@ -58,7 +58,7 @@ public class PurchasableEntity : AgentInteractable
 
         HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
         hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"));
+        hoverPanel.Show(transform.position, string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"));
 
 
         Destroy(this.gameObject);

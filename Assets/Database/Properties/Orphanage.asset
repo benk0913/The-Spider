@@ -27,12 +27,12 @@ MonoBehaviour:
     RecruitmentLength: 10
   - MaxEmployees: 5
     MaxActions: 2
-    UpgradePrice: 250
+    UpgradePrice: 50
     UpgradeLength: 20
     RecruitmentLength: 8
   - MaxEmployees: 7
     MaxActions: 3
-    UpgradePrice: 750
+    UpgradePrice: 150
     UpgradeLength: 30
     RecruitmentLength: 6
   Actions:
@@ -41,21 +41,22 @@ MonoBehaviour:
       small amounts of copper, yet, will not take risk in doing criminal acts.
     Icon: {fileID: 21300000, guid: 402527792b005b44289870e39723aecb, type: 3}
     GoldGeneratedMin: 0
-    GoldGeneratedMax: 5
+    GoldGeneratedMax: 2
   - Name: Pick-Pocket
     Description: The orphans will use distractions to snatch a purse or pick a coin
       from a loose pocket. They may even create the distraction themselves, if a
       good opportunity is available.
     Icon: {fileID: 21300000, guid: 6e4e3c60583509b4c82fbbf878396f20, type: 3}
-    GoldGeneratedMin: 2
-    GoldGeneratedMax: 12
+    GoldGeneratedMin: 0
+    GoldGeneratedMax: 3
   - Name: Burglary
     Description: The orphans will climb in to open windows, navigate while jumping
       from roof to roof, and use the cover of night to enter and steal valuable objects
       from those who are distracted in dream.
     Icon: {fileID: 21300000, guid: 950dcc766a51d264a9d22a5618ab312d, type: 3}
-    GoldGeneratedMin: 10
-    GoldGeneratedMax: 30
+    GoldGeneratedMin: 0
+    GoldGeneratedMax: 6
+  Traits: []
   Icon: {fileID: 21300000, guid: 60a53fd7f2a59444a88d40ed043f0214, type: 3}
   FigurePrefab: {fileID: 2342781096238859390, guid: 0ddb91aecdcbe8a43903d0afd531989f,
     type: 3}
@@ -63,3 +64,4 @@ MonoBehaviour:
   MinAge: 6
   MaxAge: 14
   PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
+  isPublicArea: 0

@@ -9,6 +9,9 @@ public class MapViewManager : MonoBehaviour
     [SerializeField]
     public Transform MapElementsContainer;
 
+    [SerializeField]
+    public Camera Cam;
+
     private void Awake()
     {
         Instance = this;

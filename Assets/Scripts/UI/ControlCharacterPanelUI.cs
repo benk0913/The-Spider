@@ -17,10 +17,7 @@ public class ControlCharacterPanelUI : MonoBehaviour
 
     public void Select(Character character)
     {
-        if(CurrentCharacter != null)
-        {
-            Deselect();
-        }
+        Deselect();
 
         CurrentCharacter = character;
         RefreshUI();
@@ -28,6 +25,11 @@ public class ControlCharacterPanelUI : MonoBehaviour
 
     public void Deselect()
     {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
         CurrentCharacter = null;
 
         ClearCurrentChain();
@@ -44,7 +46,6 @@ public class ControlCharacterPanelUI : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
-        RefreshUI();
     }
 
     public void Hide()
@@ -78,6 +79,7 @@ public class ControlCharacterPanelUI : MonoBehaviour
     {
         if (CurrentChainModule != null)
         {
+            CurrentChainModule.Hide();
             CurrentChainModule.gameObject.SetActive(false);
             CurrentChainModule = null;
         }

@@ -226,7 +226,7 @@ public class LocationEntity : AgentInteractable
 
             HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
             hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-            hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
+            hoverPanel.Show(transform.position, "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
         }
     }
 
@@ -301,9 +301,12 @@ public class LocationEntity : AgentInteractable
             EmployeesCharacters[i].Gold += sumEarned;
         }
 
-        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
-        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(Camera.main.WorldToScreenPoint(transform.position), string.Format("{0:n0}",totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"));
+        if (totalRevenue > 0)
+        {
+            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+            hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            hoverPanel.Show(transform.position, string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"));
+        }
 
         StateUpdated.Invoke();
     }

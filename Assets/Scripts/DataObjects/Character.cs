@@ -354,17 +354,18 @@ public class Character : ScriptableObject
     {
         //TODO Change later to a better algorythm
         
-        if (WorkLocation != null && Random.Range(0, 2) == 0)//To work
+        if (WorkLocation != null && Random.Range(0, 2) != 0)//To work
         {
             GoToLocation(WorkLocation);
             return;
         }
 
-        if (PropertiesOwned.Count > 0 && Random.Range(0, 2) == 0)//To one of my properties
+        if (PropertiesOwned.Count > 0 && Random.Range(0, 4) != 0)//To one of my properties
         {
             GoToLocation(PropertiesOwned[Random.Range(0,PropertiesOwned.Count)]);
             return;
         }
+
         else // To random public location
         {
             GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait));
@@ -392,7 +393,7 @@ public class Character : ScriptableObject
 
         HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
         hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(Camera.main.WorldToScreenPoint(location.transform.position), "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
+        hoverPanel.Show(location.transform.position, "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
 
         WorkLocation = location;
 
