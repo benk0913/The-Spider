@@ -244,9 +244,7 @@ public class LocationEntity : AgentInteractable
             IsUpgrading = false;
             Level++;
 
-            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
-            hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-            hoverPanel.Show(transform, "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
+            CORE.Instance.ShowHoverMessage("Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"), transform);
         }
     }
 
@@ -322,10 +320,8 @@ public class LocationEntity : AgentInteractable
         }
 
         if (totalRevenue > 0)
-        {
-            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
-            hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-            hoverPanel.Show(transform, string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"));
+        { 
+            CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"), transform);
         }
 
         StateUpdated.Invoke();

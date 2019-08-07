@@ -47,6 +47,8 @@ public class CORE : MonoBehaviour
         }
     }
 
+    #region Events
+
     public Dictionary<string, UnityEvent> DynamicEvents = new Dictionary<string, UnityEvent>();
 
     public void SubscribeToEvent(string eventKey, UnityAction action)
@@ -79,6 +81,20 @@ public class CORE : MonoBehaviour
 
         DynamicEvents[eventKey].Invoke();
     }
+
+    #endregion
+
+    #region Misc
+
+    public void ShowHoverMessage(string content, Sprite icon, Transform targetTransform)
+    {
+        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
+        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        hoverPanel.transform.SetAsFirstSibling();
+        hoverPanel.Show(targetTransform, content, icon);
+    }
+
+    #endregion
 
     #region Characters
 

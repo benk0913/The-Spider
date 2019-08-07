@@ -56,9 +56,9 @@ public class PurchasableEntity : AgentInteractable
         location.SetInfo(CORE.Instance.Database.EmptyProperty);
         forCharacter.StartOwningLocation(location);
 
-        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
-        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(transform, string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"));
+        forCharacter.TopEmployer.Gold -= Price;
+
+        CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
 
 
         Destroy(this.gameObject);

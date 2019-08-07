@@ -18,6 +18,7 @@ public class WorldPositionLerperUI : MonoBehaviour
     public void SetTransform(Transform targetTransform)
     {
         CurrentTransform = targetTransform;
+        CurrentPos = targetTransform.position;
     }
 
     void Update()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class RightClickDropDownPanelUI : MonoBehaviour
 {
@@ -47,6 +48,23 @@ public class RightClickDropDownPanelUI : MonoBehaviour
         this.gameObject.SetActive(true);
 
         ClearContainer();
+
+        if (Input.mousePosition.y > Screen.height / 2)
+        {
+            MenuItemsContainer.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.UpperLeft;
+            MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.UpperLeft;
+            MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(0f, 1f);
+            MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(0f, 1f);
+            MenuItemsContainer.GetComponent<RectTransform>().pivot     = new Vector2(0f, 1f);
+        }
+        else
+        {
+            MenuItemsContainer.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.LowerRight;
+            MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.LowerRight;
+            MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(1f, 0f);
+            MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(1f, 0f);
+            MenuItemsContainer.GetComponent<RectTransform>().pivot     = new Vector2(1f, 0f);
+        }
 
         GameObject tempItem;
         for(int i=0;i<MenuItems.Count;i++)

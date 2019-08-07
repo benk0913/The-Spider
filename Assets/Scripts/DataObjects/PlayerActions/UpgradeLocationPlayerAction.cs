@@ -6,8 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UpgradeLocationPlayerAction", menuName = "DataObjects/PlayerActions/UpgradeLocationPlayerAction", order = 2)]
 public class UpgradeLocationPlayerAction : PlayerAction
 {
-    [TextArea(2, 3)]
-    public string Description;
 
     public override void Execute(AgentInteractable target)
     {

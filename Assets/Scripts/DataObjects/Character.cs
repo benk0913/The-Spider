@@ -41,13 +41,23 @@ public class Character : ScriptableObject
     {
         set
         {
+            
             int earnings = value - _gold;
-
+            
             if (Employer != null)
             {
-                Employer.Gold += earnings / 2;
-                earnings /= 2;
+                if (earnings < 2)
+                {
+                    Employer.Gold += earnings;
+                    earnings = 0;
+                }
+                else
+                {
+                    Employer.Gold += earnings / 2;
+                    earnings /= 2;
+                }
             }
+
 
             _gold += earnings;
         }
@@ -387,12 +397,11 @@ public class Character : ScriptableObject
     public void StartWorkingFor(LocationEntity location)
     {
         location.EmployeesCharacters.Add(this);
-
-        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
-        hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(location.transform, "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
+        
+        CORE.Instance.ShowHoverMessage("New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"), location.transform);
 
         WorkLocation = location;
+        WorkLocation.RefreshState();
 
         foreach (LocationEntity ownedLocation in PropertiesOwned)
         {
@@ -411,7 +420,9 @@ public class Character : ScriptableObject
 
         location.EmployeesCharacters.Remove(this);
 
+        LocationEntity tempLocation = WorkLocation;
         WorkLocation = null;
+        tempLocation.RefreshState();
 
         foreach(LocationEntity ownedLocation in PropertiesOwned)
         {

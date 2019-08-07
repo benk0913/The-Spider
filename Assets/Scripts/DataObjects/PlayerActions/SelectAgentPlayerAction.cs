@@ -23,7 +23,12 @@ public class SelectAgentPlayerAction : PlayerAction
     {
         PortraitUI agent = (PortraitUI)target;
 
-        if(agent.CurrentCharacter.TopEmployer != CORE.PC)
+        if (agent.CurrentCharacter == CORE.PC)
+        {
+            return false;
+        }
+
+        if (agent.CurrentCharacter.TopEmployer != CORE.PC)
         {
             return false;
         }

@@ -32,6 +32,11 @@ public class AgentInteractable : MonoBehaviour
         List<AgentAction> currentActions = GetPossibleAgentActions(ControlCharacterPanelUI.CurrentCharacter);
         List<DescribedAction> KeyActions = new List<DescribedAction>();
 
+        if(currentActions == null || currentActions.Count == 0)
+        {
+            return;
+        }
+
         foreach (AgentAction action in currentActions)
         {
 
@@ -56,6 +61,11 @@ public class AgentInteractable : MonoBehaviour
 
         List<PlayerAction> currentActions = GetPossiblePlayerActions();
         List<DescribedAction> KeyActions = new List<DescribedAction>();
+
+        if(currentActions == null || currentActions.Count == 0)
+        {
+            return;
+        }
 
         foreach (PlayerAction action in currentActions)
         {

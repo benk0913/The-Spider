@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LetterDispenserEntity : MonoBehaviour
 {
+    public static LetterDispenserEntity Instance;
+
     [SerializeField]
     GameObject LetterPrefab;
 
@@ -13,27 +15,10 @@ public class LetterDispenserEntity : MonoBehaviour
     [SerializeField]
     float DispensingSpeed = 1f;
 
-
-    //TEST
-    public Letter TEST_LETTER;
-    public bool TEST;
-    public bool TEST2;
-
-    private void Update()
+    private void Awake()
     {
-        if(TEST)
-        {
-            DispenseLetter(TEST_LETTER);
-            TEST = false;
-        }
-
-        if (TEST2)
-        {
-            DispenseLetters(new Letter[]{ TEST_LETTER,TEST_LETTER,TEST_LETTER,TEST_LETTER });
-            TEST2 = false;
-        }
+        Instance = this;
     }
-    ///
 
     public void DispenseLetters(Letter[] letters)
     {
