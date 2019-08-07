@@ -23,6 +23,9 @@ public class LocationEntity : AgentInteractable
     Transform FigurePoint;
 
     [SerializeField]
+    Transform HoverPoint;
+
+    [SerializeField]
     GameObject IdleStateObject;
 
     public int Level = 1;
@@ -132,7 +135,7 @@ public class LocationEntity : AgentInteractable
 
     public void SetSelected()
     {
-        SelectedMarkerObject = ResourcesLoader.Instance.GetRecycledObject(DEF.LOCATION_MARKER_PREFAB);
+        SelectedMarkerObject = ResourcesLoader.Instance.GetRecycledObject("LocationMarker");
         SelectedMarkerObject.transform.SetParent(transform);
         SelectedMarkerObject.transform.position = transform.position;
 
@@ -163,10 +166,16 @@ public class LocationEntity : AgentInteractable
 
     public void RefreshState()
     {
-        if (FigurePoint.transform.childCount > 0)
+        //TODO Better clearing solution then GetChilds
+        while(FigurePoint.transform.childCount > 0)
         {
             FigurePoint.transform.GetChild(0).gameObject.SetActive(false);
             FigurePoint.transform.GetChild(0).SetParent(transform);
+        }
+
+        for(int i=0;i<HoverPoint.transform.childCount;i++)
+        {
+            Destroy(HoverPoint.transform.GetChild(i).gameObject);
         }
 
         GameObject tempFigure = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.FigurePrefab);
@@ -174,15 +183,26 @@ public class LocationEntity : AgentInteractable
         tempFigure.transform.position = FigurePoint.position;
         tempFigure.transform.rotation = FigurePoint.rotation;
 
+        GameObject hoverModel = Instantiate(CurrentProperty.HoverPrefab);
+        hoverModel.transform.SetParent(HoverPoint);
+        hoverModel.transform.position = HoverPoint.position;
+        hoverModel.transform.rotation = HoverPoint.rotation;
 
-        //TODO Replace getchilds with script
-        if (OwnerCharacter == null)
+
+        if (CurrentProperty.MaterialOverride != null)
         {
-            tempFigure.transform.GetChild(0).GetComponent<MeshRenderer>().material = CORE.Instance.Database.DefaultFaction.WaxMaterial;
+            tempFigure.GetComponent<FigureController>().SetMaterial(CurrentProperty.MaterialOverride);
         }
         else
         {
-            tempFigure.transform.GetChild(0).GetComponent<MeshRenderer>().material = OwnerCharacter.CurrentFaction.WaxMaterial;
+            if (OwnerCharacter == null)
+            {
+                tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+            }
+            else
+            {
+                tempFigure.GetComponent<FigureController>().SetMaterial(OwnerCharacter.CurrentFaction.WaxMaterial);
+            }
         }
 
 
@@ -200,7 +220,7 @@ public class LocationEntity : AgentInteractable
         {
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
                 "(You need more " + (CurrentProperty.PropertyLevels[Level].UpgradePrice - OwnerCharacter.TopEmployer.Gold)+")", 1f, Color.red);
-            //TODO "NO MONEY ALERT"
+
             return;
         }
 
@@ -224,9 +244,9 @@ public class LocationEntity : AgentInteractable
             IsUpgrading = false;
             Level++;
 
-            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
             hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-            hoverPanel.Show(transform.position, "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
+            hoverPanel.Show(transform, "Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"));
         }
     }
 
@@ -303,9 +323,9 @@ public class LocationEntity : AgentInteractable
 
         if (totalRevenue > 0)
         {
-            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+            HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
             hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-            hoverPanel.Show(transform.position, string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"));
+            hoverPanel.Show(transform, string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"));
         }
 
         StateUpdated.Invoke();

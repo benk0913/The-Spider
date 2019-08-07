@@ -264,7 +264,6 @@ public class Character : ScriptableObject
 
     public void RefreshVisualTree()
     {
-        //TODO Get rid of this when we have enough data.
         RaceSet raceSet = CORE.Instance.Database.GetRace("Human");
 
         AgeSet ageSet = CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult);
@@ -298,7 +297,6 @@ public class Character : ScriptableObject
 
     public void Initialize()
     {
-        //TODO Get rid of this when we have enough data.
         RaceSet raceSet = CORE.Instance.Database.GetRace("Human");
 
         AgeSet ageSet = CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult);
@@ -352,8 +350,8 @@ public class Character : ScriptableObject
 
     void GoToRandomLocation()
     {
-        //TODO Change later to a better algorythm
         
+        //TODO Change later to a better algorythm
         if (WorkLocation != null && Random.Range(0, 2) != 0)//To work
         {
             GoToLocation(WorkLocation);
@@ -380,7 +378,6 @@ public class Character : ScriptableObject
 
     void ManageProperty(LocationEntity location)
     {
-        //TODO Bad skill delays this.
         location.StartRecruiting();
     }
 
@@ -391,9 +388,9 @@ public class Character : ScriptableObject
     {
         location.EmployeesCharacters.Add(this);
 
-        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
         hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(location.transform.position, "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
+        hoverPanel.Show(location.transform, "New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"));
 
         WorkLocation = location;
 

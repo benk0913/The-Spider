@@ -89,7 +89,7 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void RefreshUI()
     {
-        RebrandBlockedSymbol.gameObject.SetActive(CurrentLocation.CurrentProperty.PlotType.name == DEF.UNIQUE_PLOT);
+        RebrandBlockedSymbol.gameObject.SetActive(CurrentLocation.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType);
         LocationTitle.text = CurrentLocation.CurrentProperty.name;
         LocationIcon.sprite = CurrentLocation.CurrentProperty.Icon;
 
@@ -109,7 +109,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         ActionUI tempActionUI;
         for (int i = 0; i < CurrentLocation.CurrentProperty.Actions.Count; i++)
         {
-            tempActionUI = ResourcesLoader.Instance.GetRecycledObject(DEF.ACTION_PREFAB).GetComponent<ActionUI>();
+            tempActionUI = ResourcesLoader.Instance.GetRecycledObject("ActionUI").GetComponent<ActionUI>();
             tempActionUI.transform.SetParent(ActionGrid, false);
             tempActionUI.transform.localScale = Vector3.one;
 
@@ -161,7 +161,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         PortraitUI tempPortrait;
         for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxEmployees; i++)
         {
-            tempPortrait = ResourcesLoader.Instance.GetRecycledObject(DEF.PORTRAIT_PREFAB).GetComponent<PortraitUI>();
+            tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
             tempPortrait.transform.SetParent(EmployeeGrid,false);
             tempPortrait.transform.localScale = Vector3.one;
 

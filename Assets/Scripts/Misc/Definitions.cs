@@ -48,18 +48,6 @@ public enum PurchasablePlotType
 
 public static class DEF
 {
-    public const string LOCATION_PREFAB = "Location";
-    public const string RIGHT_CLICK_DROPDOWN_ITEM = "RightClickMenuItem";
-    public const string PORTRAIT_PREFAB = "PortraitUI";
-    public const string WORLD_PORTRAIT_PREFAB = "PortraitUIWorld";
-    public const string ACTION_PREFAB   = "ActionUI";
-    public const string HOVER_PANEL_PREFAB = "HoverPanelUI";
-    public const string UNIQUE_PLOT     = "Unique";
-    public const string LOCATION_MARKER_PREFAB = "LocationMarker";
-    public const string PUBLIC_AREA_TRAIT = "Public Area";
-    public const string COMMAND_CHAIN_PREFAB = "CommandChain";
-    public const string ARROW_POINTER_PREFAB = "ArrowPointer";
-    //TODO Move all consts including these to Database.
 }
 
 public class DescribedAction

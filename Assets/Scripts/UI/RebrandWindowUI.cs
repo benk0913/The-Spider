@@ -98,7 +98,7 @@ public class RebrandWindowUI : MonoBehaviour
         ClearPossibleActionsContainer();
         for(int i=0;i<property.Actions.Count;i++)
         {
-            GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject(DEF.ACTION_PREFAB);
+            GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("ActionUI");
             tempObj.transform.SetParent(PossibleActionsContainer, false);
             tempObj.transform.localScale = Vector3.one;
             tempObj.GetComponent<ActionUI>().SetInfo(null, property.Actions[i]);

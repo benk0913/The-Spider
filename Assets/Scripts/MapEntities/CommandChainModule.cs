@@ -88,7 +88,7 @@ public class CommandChainModule : MonoBehaviour
             tempChar = tempChar.Employer;
         }
         
-        CurrentArrowObject = ResourcesLoader.Instance.GetRecycledObject(DEF.ARROW_POINTER_PREFAB);
+        CurrentArrowObject = ResourcesLoader.Instance.GetRecycledObject("ArrowPointer");
         CurrentArrowObject.transform.SetParent(MapViewManager.Instance.gameObject.transform);
         CurrentArrowObject.transform.position = CurrentCharacter.CurrentLocation.transform.position + new Vector3(0f, AdditionalY, 0f);
 
@@ -107,7 +107,7 @@ public class CommandChainModule : MonoBehaviour
 
     public void SpawnPortraitObject(Character character, Vector3 position)
     {
-        GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject(DEF.WORLD_PORTRAIT_PREFAB);
+        GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUIWorld");
         tempPortrait.transform.SetParent(CORE.Instance.MainCanvas.transform);
         tempPortrait.transform.GetComponent<PortraitUI>().SetCharacter(character, position);
         PortraitObjects.Add(tempPortrait);

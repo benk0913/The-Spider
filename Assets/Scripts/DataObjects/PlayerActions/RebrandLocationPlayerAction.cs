@@ -26,7 +26,7 @@ public class RebrandLocationPlayerAction : PlayerAction
     {
         LocationEntity location = (LocationEntity)target;
 
-        if (location.CurrentProperty.PlotType.name == DEF.UNIQUE_PLOT)
+        if (location.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType)
         {
             return false;
         }

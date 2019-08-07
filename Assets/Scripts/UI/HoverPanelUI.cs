@@ -15,19 +15,16 @@ public class HoverPanelUI : MonoBehaviour
     [SerializeField]
     WorldPositionLerperUI Lerper;
 
-    public void Show(Vector2 position, Color textColor, string text = "", Sprite icon = null)
+    public void Show(Transform targetTransform, Color textColor, string text = "", Sprite icon = null)
     {
         Title.color = textColor;
 
-        Show(position, text, icon);
+        Show(targetTransform, text, icon);
     }
 
-    public void Show(Vector2 position ,string text = "",Sprite icon = null)
+    public void Show(Transform targetTransform ,string text = "",Sprite icon = null)
     {
-
-        gameObject.SetActive(true);
-
-        Lerper.SetPosition(position);
+        Lerper.SetTransform(targetTransform);
 
         Title.text = text;
 

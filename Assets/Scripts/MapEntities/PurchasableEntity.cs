@@ -44,7 +44,7 @@ public class PurchasableEntity : AgentInteractable
             return;
         }
 
-        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject(DEF.LOCATION_PREFAB);
+        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject("Location");
 
         locationPrefab.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
         locationPrefab.transform.position = transform.position;
@@ -56,9 +56,9 @@ public class PurchasableEntity : AgentInteractable
         location.SetInfo(CORE.Instance.Database.EmptyProperty);
         forCharacter.StartOwningLocation(location);
 
-        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject(DEF.HOVER_PANEL_PREFAB).GetComponent<HoverPanelUI>();
+        HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();
         hoverPanel.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        hoverPanel.Show(transform.position, string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"));
+        hoverPanel.Show(transform, string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"));
 
 
         Destroy(this.gameObject);

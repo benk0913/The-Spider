@@ -17,6 +17,9 @@ public class Property : ScriptableObject
     public Sprite Icon;
 
     public GameObject FigurePrefab;
+    public GameObject HoverPrefab;
+
+    public Material MaterialOverride;
 
     public int RecruitingGenderType = -1;
     public int MinAge = 0;

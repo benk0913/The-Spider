@@ -71,7 +71,7 @@ public class ControlCharacterPanelUI : MonoBehaviour
             ClearCurrentChain();
         }
 
-        CurrentChainModule = ResourcesLoader.Instance.GetRecycledObject(DEF.COMMAND_CHAIN_PREFAB).GetComponent<CommandChainModule>();
+        CurrentChainModule = ResourcesLoader.Instance.GetRecycledObject("CommandChain").GetComponent<CommandChainModule>();
         CurrentChainModule.SetInfo(CurrentCharacter);
     }
 

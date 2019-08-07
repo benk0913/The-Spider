@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Game Database", menuName = "DataObjects/Game Database", order = 2)]
 public class GameDB : ScriptableObject
 {
+    //TODO Add tooltips for each serialized field.
     public List<RaceSet> Races = new List<RaceSet>();
 
     public Character PlayerCharacter;
@@ -13,11 +14,13 @@ public class GameDB : ScriptableObject
 
     public Property EmptyProperty;
 
+    public Property DefaultLocationProperty;
+
     public PropertyTrait PublicAreaTrait;
 
     public Faction DefaultFaction;
 
-    public Property DefaultLocationProperty;
+    public PlotType UniquePlotType;
 
 
     public List<Character> PresetCharacters = new List<Character>();

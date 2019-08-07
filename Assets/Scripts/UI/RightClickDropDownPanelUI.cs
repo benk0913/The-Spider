@@ -51,7 +51,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
         GameObject tempItem;
         for(int i=0;i<MenuItems.Count;i++)
         {
-            tempItem = ResourcesLoader.Instance.GetRecycledObject(DEF.RIGHT_CLICK_DROPDOWN_ITEM);
+            tempItem = ResourcesLoader.Instance.GetRecycledObject("RightClickMenuItem");
 
             UnityAction[] actions = new UnityAction[] { MenuItems[i].Action, Hide };
             tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(MenuItems[i].Key , actions, MenuItems[i].Description, MenuItems[i].Interactable);
