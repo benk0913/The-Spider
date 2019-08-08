@@ -48,5 +48,7 @@ public class GameDB : ScriptableObject
 
     public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
 
-    
+    public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
+
+
 }

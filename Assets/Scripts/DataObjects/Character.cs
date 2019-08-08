@@ -434,6 +434,11 @@ public class Character : ScriptableObject
 
     public void StartOwningLocation(LocationEntity location)
     {
+        if(location.OwnerCharacter != null)
+        {
+            location.OwnerCharacter.StopOwningLocation(location);
+        }
+
         location.OwnerCharacter = this;
         location.RefreshState();
 
@@ -455,7 +460,7 @@ public class Character : ScriptableObject
             PropertiesOwned.Remove(location);
         }
 
-        GoToRandomLocation();
+        GoToRandomLocation();        
     }
    
 }

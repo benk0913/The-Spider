@@ -22,6 +22,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     Image Clothing;
 
     [SerializeField]
+    Image Frame;
+
+    [SerializeField]
     GameObject QuestionMark;
 
     [SerializeField]
@@ -63,6 +66,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             Face.color = Color.black;
             Hair.color = Color.black;
             Clothing.color = Color.black;
+            Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
             return;
         }
@@ -99,6 +103,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         Face.sprite = CurrentCharacter.Face.Sprite;
         Hair.sprite = CurrentCharacter.Hair.Sprite;
         Clothing.sprite = CurrentCharacter.Clothing.Sprite;
+        Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
     }
 
     public void SelectCharacter()
@@ -149,7 +154,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
-        return base.GetPossibleAgentActions(forCharacter);
+        return CORE.Instance.Database.AgentActionsOnAgent;
     }
 
     public override List<PlayerAction> GetPossiblePlayerActions()

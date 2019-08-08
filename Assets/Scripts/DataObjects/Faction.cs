@@ -6,4 +6,5 @@ using UnityEngine;
 public class Faction : ScriptableObject
 {
     public Material WaxMaterial;
+    public Color FactionColor;
 }

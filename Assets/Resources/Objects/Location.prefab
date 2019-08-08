@@ -5140,6 +5140,8 @@ MonoBehaviour:
   FigurePoint: {fileID: 5130299956500169602}
   HoverPoint: {fileID: 8097929756995624753}
   IdleStateObject: {fileID: 0}
+  UpgradeButton: {fileID: 0}
+  RebrandButton: {fileID: 0}
   Level: 1
   IsUpgrading: 0
   CurrentUpgradeLength: 0
@@ -5157,7 +5159,8 @@ MonoBehaviour:
     Icon: {fileID: 0}
     GoldGeneratedMin: 1
     GoldGeneratedMax: 2
-  PossibleAgentActions: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: f3fc8332ec7240d499e52b02f3a6d04f, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 3e378206a3eabe94191e194d846db153, type: 2}
   - {fileID: 11400000, guid: 21d4875c70a8f23459b636bfcf0fcbfc, type: 2}

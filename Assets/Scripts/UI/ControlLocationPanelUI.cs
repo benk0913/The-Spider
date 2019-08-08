@@ -11,22 +11,19 @@ public class ControlLocationPanelUI : MonoBehaviour
     public const int PORTRAITS_MAX_IN_ROW = 5;
 
     [SerializeField]
-    Image LocationIcon;
-
-    [SerializeField]
     TextMeshProUGUI LocationTitle;
 
     [SerializeField]
     Transform RanksContainer;
 
     [SerializeField]
-    GameObject IdleStatePanel;
-
-    [SerializeField]
     GameObject UpgradeInProgressPanel;
 
     [SerializeField]
     GameObject UpgradeButton;
+
+    [SerializeField]
+    GameObject RebrandButton;
 
     [SerializeField]
     TextMeshProUGUI UpgradeLengthText;
@@ -51,6 +48,9 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     [SerializeField]
     GameObject RebrandBlockedSymbol;
+
+    [SerializeField]
+    LocationPortraitUI LocationPortrait;
 
     LocationEntity CurrentLocation;
 
@@ -91,7 +91,7 @@ public class ControlLocationPanelUI : MonoBehaviour
     {
         RebrandBlockedSymbol.gameObject.SetActive(CurrentLocation.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType);
         LocationTitle.text = CurrentLocation.CurrentProperty.name;
-        LocationIcon.sprite = CurrentLocation.CurrentProperty.Icon;
+        LocationPortrait.SetLocation(CurrentLocation);
 
         RefreshPortraits();
 
@@ -100,6 +100,13 @@ public class ControlLocationPanelUI : MonoBehaviour
         RefreshUpgradeState();
 
         RefreshActions();
+
+        UpgradeButton.gameObject.SetActive(
+            CurrentLocation.IsOwnedByPlayer 
+            && !CurrentLocation.IsUpgrading
+            && CurrentLocation.CurrentProperty.PropertyLevels.Count > CurrentLocation.Level);
+
+        RebrandButton.gameObject.SetActive(CurrentLocation.IsOwnedByPlayer);
     }
 
     void RefreshActions()
@@ -211,9 +218,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         if (CurrentLocation.IsUpgrading)
         {
             UpgradeInProgressPanel.SetActive(true);
-            IdleStatePanel.gameObject.SetActive(false);
-            UpgradeButton.gameObject.SetActive(false);
-
+            LocationPortrait.gameObject.SetActive(false);
 
             GameClock.GameTimeLength upgradeLength = new GameClock.GameTimeLength(CurrentLocation.CurrentUpgradeLength);
 
@@ -233,20 +238,14 @@ public class ControlLocationPanelUI : MonoBehaviour
         else
         {
             UpgradeInProgressPanel.SetActive(false);
-            IdleStatePanel.gameObject.SetActive(true);
+            LocationPortrait.gameObject.SetActive(true);
 
             if (CurrentLocation.CurrentProperty.PropertyLevels.Count > CurrentLocation.Level)
             {
-                UpgradeButton.gameObject.SetActive(true);
-
                 if (CurrentLocation.CurrentProperty.PropertyLevels.Count > CurrentLocation.Level)
                 {
                     UpgradePriceText.text = CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level].UpgradePrice.ToString();
                 }
-            }
-            else
-            {
-                UpgradeButton.gameObject.SetActive(false);
             }
         }
     }

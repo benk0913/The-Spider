@@ -28,6 +28,12 @@ public class LocationEntity : AgentInteractable
     [SerializeField]
     GameObject IdleStateObject;
 
+    [SerializeField]
+    Button UpgradeButton;
+
+    [SerializeField]
+    Button RebrandButton;
+
     public int Level = 1;
 
     public bool IsUpgrading;
@@ -52,6 +58,13 @@ public class LocationEntity : AgentInteractable
     [SerializeField]
     List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
+    public bool IsOwnedByPlayer
+    {
+        get
+        {
+            return OwnerCharacter != null && (OwnerCharacter == CORE.PC || OwnerCharacter.TopEmployer == CORE.PC);
+        }
+    }
 
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
@@ -211,6 +224,12 @@ public class LocationEntity : AgentInteractable
 
     public void PurchaseUpgrade()
     {
+        if(!IsOwnedByPlayer)
+        {
+            GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+            return;
+        }
+
         if (Level >= CurrentProperty.PropertyLevels.Count)
         {
             return;
@@ -303,6 +322,12 @@ public class LocationEntity : AgentInteractable
 
     public void SelectAction(Property.PropertyAction action)
     {
+        if (!IsOwnedByPlayer)
+        {
+            GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+            return;
+        }
+
         CurrentAction = action;
 
         StateUpdated.Invoke();
@@ -329,6 +354,12 @@ public class LocationEntity : AgentInteractable
 
     public void Rebrand(Property newProperty)
     {
+        if (!IsOwnedByPlayer)
+        {
+            GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+            return;
+        }
+
         SelectedPanelUI.Instance.Deselect();
 
         CancelUpgrade();

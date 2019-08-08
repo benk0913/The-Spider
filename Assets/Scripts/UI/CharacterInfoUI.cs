@@ -24,6 +24,9 @@ public class CharacterInfoUI : MonoBehaviour
     TextMeshProUGUI GenderText;
 
     [SerializeField]
+    TextMeshProUGUI CurrentLocationText;
+
+    [SerializeField]
     Button ControlButton;
 
     [SerializeField]
@@ -32,6 +35,15 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     PortraitUI Portrait;
 
+    [SerializeField]
+    PortraitUI EmployerPortrait;
+
+    [SerializeField]
+    LocationPortraitUI WorkLocationPortrait;
+
+    [SerializeField]
+    Transform PropertiesOwnedContainer;
+    
     Character CurrentCharacter;
 
     void Awake()
@@ -61,11 +73,33 @@ public class CharacterInfoUI : MonoBehaviour
         AgeText.text     = "Age: "+character.Age.ToString();
         AgeTypeText.text = character.AgeType.ToString();
         GenderText.text  = character.Gender.ToString();
+        CurrentLocationText.text = "Location: " + character.CurrentLocation.CurrentProperty.name;
 
         ControlButton.interactable = (character.TopEmployer != character && character.TopEmployer == CORE.PC);
         XImage.SetActive(!ControlButton.interactable);
 
         Portrait.SetCharacter(character);
+        EmployerPortrait.SetCharacter(character.Employer);
+        WorkLocationPortrait.SetLocation(character.WorkLocation);
+
+        ClearPropertiesOwned();
+        for(int i=0;i<CurrentCharacter.PropertiesOwned.Count;i++)
+        {
+            GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("LocationPortraitUI");
+            tempPortrait.transform.SetParent(PropertiesOwnedContainer, false);
+            tempPortrait.transform.localScale = Vector3.one;
+            tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(CurrentCharacter.PropertiesOwned[i]);
+        }
+
+    }
+
+    void ClearPropertiesOwned()
+    {
+        while(PropertiesOwnedContainer.childCount > 0)
+        {
+            PropertiesOwnedContainer.GetChild(0).gameObject.SetActive(false);
+            PropertiesOwnedContainer.GetChild(0).SetParent(transform);
+        }
     }
 
     public void Command()
