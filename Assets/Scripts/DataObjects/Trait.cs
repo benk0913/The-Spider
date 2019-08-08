@@ -8,5 +8,15 @@ public class Trait : ScriptableObject
     [TextArea(2, 3)]
     public string Description;
 
-    public Sprite icon; 
+    public Sprite icon;
+
+    public List<Bonus> Bonuses = new List<Bonus>();
+}
+
+[System.Serializable]
+public class Bonus
+{
+    public BonusType Type;
+    public float Value;
+    public bool Positive = true;
 }

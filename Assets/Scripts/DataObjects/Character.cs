@@ -95,6 +95,8 @@ public class Character : ScriptableObject
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
+    public List<Trait> Traits = new List<Trait>();
+
     #region Visual
 
     [SerializeField]

@@ -43,7 +43,10 @@ public class CharacterInfoUI : MonoBehaviour
 
     [SerializeField]
     Transform PropertiesOwnedContainer;
-    
+
+    [SerializeField]
+    Transform TraitsContainer;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -91,6 +94,15 @@ public class CharacterInfoUI : MonoBehaviour
             tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(CurrentCharacter.PropertiesOwned[i]);
         }
 
+
+        ClearTraits();
+        for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
+        {
+            GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
+            tempTrait.transform.SetParent(TraitsContainer, false);
+            tempTrait.transform.localScale = Vector3.one;
+            tempTrait.GetComponent<TraitUI>().SetInfo(CurrentCharacter.Traits[i]);
+        }
     }
 
     void ClearPropertiesOwned()
@@ -99,6 +111,15 @@ public class CharacterInfoUI : MonoBehaviour
         {
             PropertiesOwnedContainer.GetChild(0).gameObject.SetActive(false);
             PropertiesOwnedContainer.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void ClearTraits()
+    {
+        while (TraitsContainer.childCount > 0)
+        {
+            TraitsContainer.GetChild(0).gameObject.SetActive(false);
+            TraitsContainer.GetChild(0).SetParent(transform);
         }
     }
 
