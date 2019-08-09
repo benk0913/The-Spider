@@ -18,5 +18,11 @@ public class Bonus
 {
     public BonusType Type;
     public float Value;
-    public bool Positive = true;
+}
+
+[System.Serializable]
+public class BonusChallenge
+{
+    public BonusType Type;
+    public int ChallengeValue;
 }

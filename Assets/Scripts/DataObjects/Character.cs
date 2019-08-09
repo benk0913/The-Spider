@@ -95,7 +95,115 @@ public class Character : ScriptableObject
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
-    public List<Trait> Traits = new List<Trait>();
+    #region Traits & Bonuses
+
+    public List<Trait> Traits { get; private set; } = new List<Trait>();
+
+    public void AddTrait(Trait trait)
+    {
+        if(Traits.Contains(trait))
+        {
+            return;
+        }
+
+        Traits.Add(trait);
+        _bonuses = null;
+    }
+
+    public void RemoveTrait(Trait trait)
+    {
+        Traits.Remove(trait);
+        _bonuses = null;
+    }
+
+    public List<Bonus> Bonuses
+    {
+        get
+        {
+            if (_bonuses == null)
+            {
+                List<Bonus> bonuses = new List<Bonus>();
+
+                foreach (Trait trait in Traits)
+                {
+                    foreach (Bonus traitBonus in trait.Bonuses)
+                    {
+                        bool bonusExists = false;
+
+                        foreach (Bonus existingBonus in bonuses)
+                        {
+                            if (existingBonus.Type == traitBonus.Type)
+                            {
+                                existingBonus.Value += traitBonus.Value;
+
+                                if(existingBonus.Value < 1)
+                                {
+                                    existingBonus.Value = 1;
+                                }
+
+                                bonusExists = true;
+                                break;
+                            }
+                        }
+
+                        if (bonusExists)
+                        {
+                            continue;
+                        }
+
+                        Bonus bonus = new Bonus();
+                        bonus.Type = traitBonus.Type;
+                        bonus.Value = traitBonus.Value;
+
+                        if(bonus.Value < 1)
+                        {
+                            bonus.Value = 1;
+                        }
+
+                        bonuses.Add(traitBonus);
+                        
+                    }
+                }
+
+                _bonuses = bonuses;
+            }
+
+            return _bonuses;
+        }
+    }
+    List<Bonus> _bonuses = null;
+
+    public Bonus GetBonus(BonusType type)
+    {
+        List<Bonus> bonuses;
+
+        if (_bonuses != null)
+        {
+            bonuses = this._bonuses;
+        }
+        else
+        {
+            bonuses = this.Bonuses;
+        }
+
+        for(int i=0;i<bonuses.Count;i++)
+        {
+            if(bonuses[i].Type == type)
+            {
+                return bonuses[i];
+            }
+        }
+
+
+        //No bonus.
+        Bonus bonus = new Bonus();
+        bonus.Type  = type;
+        bonus.Value = 1;
+
+        return bonus;
+    }
+
+    #endregion
 
     #region Visual
 

@@ -340,10 +340,30 @@ public class LocationEntity : AgentInteractable
         {
             int sumEarned = Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax);
 
+            //Employee Skills Bonus to revenue
+            foreach(BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
+            {
+                float multi = EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
+                sumEarned = Mathf.CeilToInt(sumEarned * multi);
+            }
+
             totalRevenue += sumEarned;
-            EmployeesCharacters[i].Gold += sumEarned;
         }
 
+        //Management Bonus
+        foreach (BonusChallenge bonusChallenge in CurrentProperty.ManagementBonusChallenges)
+        {
+            float multi = OwnerCharacter.GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
+            totalRevenue = Mathf.CeilToInt(totalRevenue * multi);
+        }
+
+        //Share revenue with employees.
+        foreach (Character employee in EmployeesCharacters)
+        {
+            employee.Gold += totalRevenue / EmployeesCharacters.Count;
+        }
+
+        //Show Revenue Message
         if (totalRevenue > 0)
         { 
             CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"), transform);

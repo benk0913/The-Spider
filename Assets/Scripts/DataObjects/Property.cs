@@ -29,6 +29,8 @@ public class Property : ScriptableObject
 
     public bool isPublicArea = false;
 
+    public List<BonusChallenge> ManagementBonusChallenges = new List<BonusChallenge>();
+
     [System.Serializable]
     public class PropertyLevel
     {
@@ -52,5 +54,7 @@ public class Property : ScriptableObject
 
         public int GoldGeneratedMin = 1;
         public int GoldGeneratedMax = 2;
+
+        public List<BonusChallenge> ActionBonusChallenges = new List<BonusChallenge>();
     }
 }

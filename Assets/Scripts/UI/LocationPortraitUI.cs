@@ -26,17 +26,23 @@ public class LocationPortraitUI : MonoBehaviour
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
             return;
         }
+        else
+        {
+            Icon.color = Color.white;
+
+            if (CurrentLocation.OwnerCharacter != null)
+            {
+                Frame.color = CurrentLocation.OwnerCharacter.CurrentFaction.FactionColor;
+            }
+            else
+            {
+                Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+            }
+        }
 
         Icon.sprite = CurrentLocation.CurrentProperty.Icon;
 
-        if (CurrentLocation.OwnerCharacter != null)
-        {
-            Frame.color = CurrentLocation.OwnerCharacter.CurrentFaction.FactionColor;
-        }
-        else
-        {
-            Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
-        }
+
 
         TooltipTarget.Text = CurrentLocation.CurrentProperty.name + " - Which belongs to " + CurrentLocation.OwnerCharacter.name;
     }

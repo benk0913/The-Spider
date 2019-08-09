@@ -47,6 +47,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     Transform TraitsContainer;
 
+    [SerializeField]
+    Transform BonusesContainer;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -94,6 +97,14 @@ public class CharacterInfoUI : MonoBehaviour
             tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(CurrentCharacter.PropertiesOwned[i]);
         }
 
+        ClearBonuses();
+        for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
+        {
+            GameObject tempBonus = ResourcesLoader.Instance.GetRecycledObject("BonusUI");
+            tempBonus.transform.SetParent(BonusesContainer, false);
+            tempBonus.transform.localScale = Vector3.one;
+            tempBonus.GetComponent<BonusUI>().SetInfo(CurrentCharacter.Bonuses[i]);
+        }
 
         ClearTraits();
         for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
@@ -111,6 +122,15 @@ public class CharacterInfoUI : MonoBehaviour
         {
             PropertiesOwnedContainer.GetChild(0).gameObject.SetActive(false);
             PropertiesOwnedContainer.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void ClearBonuses()
+    {
+        while (BonusesContainer.childCount > 0)
+        {
+            BonusesContainer.GetChild(0).gameObject.SetActive(false);
+            BonusesContainer.GetChild(0).SetParent(transform);
         }
     }
 
