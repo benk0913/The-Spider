@@ -112,23 +112,26 @@ public class Character : ScriptableObject
             return;
         }
 
-        if(Traits.Contains(trait.OppositeTrait))
+        for (int i = 0; i < trait.OppositeTraits.Length; i++)
         {
-            Trait previousTrait = trait.OppositeTrait.PreviousTrait;
-
-            if (previousTrait != null)
+            if (Traits.Contains(trait.OppositeTraits[i]))
             {
-                Traits.Remove(trait.OppositeTrait);
-                AddTrait(previousTrait);
-            }
-            else
-            {
-                Traits.Remove(trait.OppositeTrait);
-            }
+                Trait previousTrait = trait.OppositeTraits[i].PreviousTrait;
 
-            return;
+                if (previousTrait != null)
+                {
+                    Traits.Remove(trait.OppositeTraits[i]);
+                    AddTrait(previousTrait);
+                }
+                else
+                {
+                    Traits.Remove(trait.OppositeTraits[i]);
+                }
+
+                return;
+            }
         }
-        
+
         Traits.Add(trait);
         _bonuses = null;
     }
@@ -398,16 +401,39 @@ public class Character : ScriptableObject
         this.ID = Util.GenerateUniqueID();
     }
 
+    #region Randomize
+
     public void Randomize()
     {
         this.Gender = (GenderType) Random.Range(0, 2);
         this.name = Names.GetRandomName(Gender);
         this.Age = Random.Range(5, 50);
+
+        RandomizeLook();
+
+        RandomizeTraits();
+    }
+
+    void RandomizeLook()
+    {
         this.HairColor = VisualSet.HairColor.Pool[Random.Range(0, VisualSet.HairColor.Pool.Count)];
         this.Hair = HairColor.Pool[Random.Range(0, HairColor.Pool.Count)];
         this.SkinColor = VisualSet.SkinColors.Pool[Random.Range(0, VisualSet.SkinColors.Pool.Count)];
         this.Clothing = VisualSet.Clothing.Pool[Random.Range(0, VisualSet.Clothing.Pool.Count)];
     }
+
+    void RandomizeTraits()
+    {
+        this.Traits.Clear();
+        Trait[] newTraits = CORE.Instance.Database.GetRandomTraits();
+
+        foreach (Trait trait in newTraits)
+        {
+            AddTrait(trait);
+        }
+    }
+
+    #endregion
 
     public void RefreshVisualTree()
     {
@@ -528,9 +554,6 @@ public class Character : ScriptableObject
         location.StartRecruiting();
     }
 
-    #endregion
-
-
     public void StartWorkingFor(LocationEntity location)
     {
         location.EmployeesCharacters.Add(this);
@@ -599,5 +622,8 @@ public class Character : ScriptableObject
 
         GoToRandomLocation();        
     }
+
+    #endregion
+
    
 }

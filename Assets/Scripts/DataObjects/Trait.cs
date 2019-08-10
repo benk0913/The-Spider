@@ -16,7 +16,9 @@ public class Trait : ScriptableObject
 
     public Trait PreviousTrait;
 
-    public Trait OppositeTrait;
+    public Trait[] OppositeTraits;
+
+    public float DropChance = 0f;
 }
 
 [System.Serializable]

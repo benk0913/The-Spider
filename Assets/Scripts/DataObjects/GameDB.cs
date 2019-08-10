@@ -50,5 +50,23 @@ public class GameDB : ScriptableObject
 
     public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
 
+    public Trait[] Traits;
+
+    
+    public Trait[] GetRandomTraits()
+    {
+        List<Trait> GeneratedTraits = new List<Trait>();
+
+        for(int i=0;i<Traits.Length;i++)
+        {
+            if (Random.Range(0f, 1f) <= Traits[i].DropChance)
+            {
+                GeneratedTraits.Add(Traits[i]);
+            }
+        }
+
+        return GeneratedTraits.ToArray();
+    }
+
 
 }
