@@ -103,9 +103,32 @@ public class Character : ScriptableObject
     {
         if(Traits.Contains(trait))
         {
+            Trait nextTrait = trait.NextTrait;
+            if (nextTrait != null)
+            {
+                Traits.Remove(trait);
+                AddTrait(nextTrait);
+            }
             return;
         }
 
+        if(Traits.Contains(trait.OppositeTrait))
+        {
+            Trait previousTrait = trait.OppositeTrait.PreviousTrait;
+
+            if (previousTrait != null)
+            {
+                Traits.Remove(trait.OppositeTrait);
+                AddTrait(previousTrait);
+            }
+            else
+            {
+                Traits.Remove(trait.OppositeTrait);
+            }
+
+            return;
+        }
+        
         Traits.Add(trait);
         _bonuses = null;
     }
@@ -115,6 +138,7 @@ public class Character : ScriptableObject
         Traits.Remove(trait);
         _bonuses = null;
     }
+
 
     public List<Bonus> Bonuses
     {
@@ -135,11 +159,6 @@ public class Character : ScriptableObject
                             if (existingBonus.Type == traitBonus.Type)
                             {
                                 existingBonus.Value += traitBonus.Value;
-
-                                if(existingBonus.Value < 1)
-                                {
-                                    existingBonus.Value = 1;
-                                }
 
                                 bonusExists = true;
                                 break;
@@ -162,6 +181,14 @@ public class Character : ScriptableObject
 
                         bonuses.Add(traitBonus);
                         
+                    }
+                }
+
+                foreach(Bonus bonus in bonuses)
+                {
+                    if (bonus.Value < 1)
+                    {
+                        bonus.Value = 1;
                     }
                 }
 

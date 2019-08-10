@@ -11,6 +11,12 @@ public class Trait : ScriptableObject
     public Sprite icon;
 
     public List<Bonus> Bonuses = new List<Bonus>();
+
+    public Trait NextTrait;
+
+    public Trait PreviousTrait;
+
+    public Trait OppositeTrait;
 }
 
 [System.Serializable]
