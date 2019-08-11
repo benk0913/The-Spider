@@ -275,7 +275,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8053939378937913142}
+      - m_Target: {fileID: 0}
         m_MethodName: CancelUpgrade
         m_Mode: 1
         m_Arguments:
@@ -957,7 +957,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8053939378937913142}
+      - m_Target: {fileID: 0}
         m_MethodName: PurchaseUpgrade
         m_Mode: 1
         m_Arguments:
@@ -1201,7 +1201,7 @@ Animator:
   m_GameObject: {fileID: 3342888550273824613}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 599b037593221964c809b64704d7ae7d, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1378,9 +1378,8 @@ GameObject:
   - component: {fileID: 8053939378937913139}
   - component: {fileID: 8053939378937913141}
   - component: {fileID: 8053939378937913140}
-  - component: {fileID: 8053939378937913142}
   m_Layer: 5
-  m_Name: Location
+  m_Name: LocationUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1446,40 +1445,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8053939378937913142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8053939378937913138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3f684c16cfa74d4a9b4f61bbafea6d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IdlePanel: {fileID: 8053939380851997126}
-  SelectedPanel: {fileID: 3342888550273824613}
-  PropertyReference: {fileID: 11400000, guid: c6ba30c238914f64aa5d95df34184031, type: 2}
-  PropertyIcon: {fileID: 7786443754977010176}
-  TitleTextHover: {fileID: 8053939380455728728}
-  TitleTextSelected: {fileID: 8053939380047170185}
-  UpgradePriceText: {fileID: 792939129}
-  CurrentLevelText: {fileID: 1372152223}
-  UpgradeLengthDaytimeText: {fileID: 5216406327149714130}
-  UpgradeLengthDaysCountText: {fileID: 5400770630751114782}
-  UpgradeFillImage: {fileID: 779029162}
-  UpgradePanel: {fileID: 1971004331}
-  UpgradeInProgressPanel: {fileID: 713279964}
-  EmployeesGrid: {fileID: 8053939379728457673}
-  OwnerPortrait: {fileID: 8992295217990852115}
-  Level: 1
-  Owner: {fileID: 11400000, guid: 98740bc46d409ad4680c1b9730f14ce0, type: 2}
-  Employees:
-  - {fileID: 11400000, guid: 5b8b21618f866a046abfba9c6f93400e, type: 2}
-  IsSelected: 0
-  IsUpgrading: 0
-  CurrentUpgradeLength: 0
 --- !u!1 &8053939379728457672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,7 +1773,7 @@ Animator:
   m_GameObject: {fileID: 8053939380140374493}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 389233ef7258454488b06e634485e2df, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2253,7 +2218,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 8053939378937913142}
+        - m_Target: {fileID: 0}
           m_MethodName: OnClick
           m_Mode: 1
           m_Arguments:
@@ -2310,10 +2275,10 @@ RectTransform:
   m_Father: {fileID: 8053939378937913139}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.035182, y: 1.1980866}
-  m_SizeDelta: {x: 115.89154, y: 121.001335}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -1.0351868, y: 1.1980896}
+  m_SizeDelta: {x: 1061.8916, y: 1511.0013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1705408326282155805
 CanvasRenderer:
@@ -2517,11 +2482,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6656121378274755417}
     m_Modifications:
-    - target: {fileID: 1478687570250304421, guid: fe9fbc50662ee0344ae86693cdebb22b,
-        type: 3}
-      propertyPath: m_Name
-      value: OwnerPortrait
-      objectReference: {fileID: 0}
     - target: {fileID: 7403428293492866969, guid: fe9fbc50662ee0344ae86693cdebb22b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2642,6 +2602,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.38839763
       objectReference: {fileID: 0}
+    - target: {fileID: 1478687570250304421, guid: fe9fbc50662ee0344ae86693cdebb22b,
+        type: 3}
+      propertyPath: m_Name
+      value: OwnerPortrait
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe9fbc50662ee0344ae86693cdebb22b, type: 3}
 --- !u!224 &683163953790213035 stripped
@@ -2650,15 +2615,3 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8053939379887121458}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8992295217990852115 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1373135998107154977, guid: fe9fbc50662ee0344ae86693cdebb22b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8053939379887121458}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32c437d5742fc245b7a83d1e5e35c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
