@@ -6,4 +6,7 @@ using UnityEngine;
 public class BonusType : ScriptableObject
 {
     public Sprite icon;
+
+    [TextArea(2,3)]
+    public string Description;
 }

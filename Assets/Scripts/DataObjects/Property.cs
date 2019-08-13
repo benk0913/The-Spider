@@ -55,6 +55,7 @@ public class Property : ScriptableObject
         public int GoldGeneratedMin = 1;
         public int GoldGeneratedMax = 2;
 
-        public List<BonusChallenge> ActionBonusChallenges = new List<BonusChallenge>();
+        [SerializeField]
+        public BonusChallenge[] ActionBonusChallenges;
     }
 }

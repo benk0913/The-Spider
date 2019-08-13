@@ -173,14 +173,14 @@ public class Character : ScriptableObject
                             continue;
                         }
 
+                        if (traitBonus.Value < 1)
+                        {
+                            continue;
+                        }
+
                         Bonus bonus = new Bonus();
                         bonus.Type = traitBonus.Type;
                         bonus.Value = traitBonus.Value;
-
-                        if(bonus.Value < 1)
-                        {
-                            bonus.Value = 1;
-                        }
 
                         bonuses.Add(traitBonus);
                         

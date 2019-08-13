@@ -42,6 +42,9 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 402527792b005b44289870e39723aecb, type: 3}
     GoldGeneratedMin: 0
     GoldGeneratedMax: 2
+    ActionBonusChallenges:
+    - Type: {fileID: 11400000, guid: 44aa6025642ecb7409350f2d12312c11, type: 2}
+      ChallengeValue: 1
   - Name: Pick-Pocket
     Description: The orphans will use distractions to snatch a purse or pick a coin
       from a loose pocket. They may even create the distraction themselves, if a
@@ -49,6 +52,9 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 6e4e3c60583509b4c82fbbf878396f20, type: 3}
     GoldGeneratedMin: 0
     GoldGeneratedMax: 3
+    ActionBonusChallenges:
+    - Type: {fileID: 11400000, guid: 806729eebea73e84c8a24a1976d26ebe, type: 2}
+      ChallengeValue: 1
   - Name: Burglary
     Description: The orphans will climb in to open windows, navigate while jumping
       from roof to roof, and use the cover of night to enter and steal valuable objects
@@ -56,6 +62,9 @@ MonoBehaviour:
     Icon: {fileID: 21300000, guid: 950dcc766a51d264a9d22a5618ab312d, type: 3}
     GoldGeneratedMin: 0
     GoldGeneratedMax: 6
+    ActionBonusChallenges:
+    - Type: {fileID: 11400000, guid: 806729eebea73e84c8a24a1976d26ebe, type: 2}
+      ChallengeValue: 1
   Traits: []
   Icon: {fileID: 21300000, guid: 60a53fd7f2a59444a88d40ed043f0214, type: 3}
   FigurePrefab: {fileID: 2342781096238859390, guid: 0ddb91aecdcbe8a43903d0afd531989f,
@@ -68,3 +77,4 @@ MonoBehaviour:
   MaxAge: 14
   PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
   isPublicArea: 0
+  ManagementBonusChallenges: []

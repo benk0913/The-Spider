@@ -14,12 +14,17 @@ public class BonusUI : MonoBehaviour
     [SerializeField]
     Image Icon;
 
+    [SerializeField]
+    TooltipTargetUI TooltipTarget;
+
     public void SetInfo(Bonus bonus)
     {
         CurrentBonus = bonus;
 
         ContentText.text = CurrentBonus.Type.name + " - " + CurrentBonus.Value;
         Icon.sprite = CurrentBonus.Type.icon;
+
+        TooltipTarget.Text = CurrentBonus.Type.Description;
     }
 
 }

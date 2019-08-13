@@ -28,7 +28,7 @@ public class TraitUI : MonoBehaviour
             TooltipTarget.Text +=  "\n <size=12>" 
                 + (CurrentTrait.Bonuses[i].Value > 0? "<color=green>" : "<color=red>") 
                 +  CurrentTrait.Bonuses[i].Type.name 
-                + " - " 
+                + " : " 
                 + CurrentTrait.Bonuses[i].Value 
                 + "</color></size>";
         }
