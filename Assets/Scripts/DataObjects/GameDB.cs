@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Game Database", menuName = "DataObjects/Game Database", order = 2)]
 public class GameDB : ScriptableObject
 {
+    public GameStats Stats;
+
     //TODO Add tooltips for each serialized field.
     public List<RaceSet> Races = new List<RaceSet>();
 
@@ -69,4 +71,10 @@ public class GameDB : ScriptableObject
     }
 
 
+}
+
+[System.Serializable]
+public class GameStats
+{
+    public float GlobalRevenueMultiplier = 1f;
 }

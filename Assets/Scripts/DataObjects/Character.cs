@@ -20,6 +20,11 @@ public class Character : ScriptableObject
                 return null;
             }
 
+            if(WorkLocation.OwnerCharacter == this)
+            {
+                return null;
+            }
+
             return WorkLocation.OwnerCharacter;
         }
     }
@@ -182,7 +187,7 @@ public class Character : ScriptableObject
                         bonus.Type = traitBonus.Type;
                         bonus.Value = traitBonus.Value;
 
-                        bonuses.Add(traitBonus);
+                        bonuses.Add(bonus);
                         
                     }
                 }

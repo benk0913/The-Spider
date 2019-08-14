@@ -53,7 +53,7 @@ public class PurchasableEntity : AgentInteractable
 
         LocationEntity location = locationPrefab.GetComponent<LocationEntity>();
 
-        location.SetInfo(CORE.Instance.Database.EmptyProperty);
+        location.SetInfo(CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier);
         forCharacter.StartOwningLocation(location);
 
         forCharacter.TopEmployer.Gold -= Price;

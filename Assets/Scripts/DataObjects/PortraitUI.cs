@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
-public class PortraitUI : AgentInteractable, IPointerClickHandler
+public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     public Character CurrentCharacter = null;
@@ -13,30 +14,34 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     public bool Random = false;
 
     [SerializeField]
-    Image Face;
+    protected Image Face;
 
     [SerializeField]
-    Image Hair;
+    protected Image Hair;
 
     [SerializeField]
-    Image Clothing;
+    protected Image Clothing;
 
     [SerializeField]
-    Image Frame;
+    protected Image Frame;
 
     [SerializeField]
-    GameObject QuestionMark;
+    protected GameObject QuestionMark;
 
     [SerializeField]
-    CanvasGroup CG;
+    GameObject InfoButton;
 
     [SerializeField]
-    TooltipTargetUI TooltipTarget;
+    protected CanvasGroup CG;
 
     [SerializeField]
-    WorldPositionLerperUI Lerper;
+    protected TooltipTargetUI TooltipTarget;
 
-    private void Start()
+    [SerializeField]
+    protected WorldPositionLerperUI Lerper;
+
+
+    protected void Start()
     {
         if(Random)
         {
@@ -48,14 +53,14 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         SetCharacter(CurrentCharacter);
     }
 
-    public void SetCharacter(Character character, Vector3 position)
+    public virtual void SetCharacter(Character character, Vector3 position)
     {
         Lerper.SetPosition(position);
 
         SetCharacter(character);
     }
 
-    public void SetCharacter(Character character)
+    public virtual void SetCharacter(Character character)
     {
         CurrentCharacter = character;
 
@@ -93,12 +98,12 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         character.VisualChanged.AddListener(RefreshVisuals);
     }
 
-    public void SetDisabled()
+    public virtual void SetDisabled()
     {
         CG.alpha = 0.5f;
     }
 
-    public void RefreshVisuals()
+    public virtual void RefreshVisuals()
     {
         Face.sprite = CurrentCharacter.Face.Sprite;
         Hair.sprite = CurrentCharacter.Hair.Sprite;
@@ -106,7 +111,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
     }
 
-    public void SelectCharacter()
+    public virtual void SelectCharacter()
     {
         if(this.CurrentCharacter == null)
         {
@@ -128,7 +133,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         SelectedPanelUI.Instance.SetSelected(this.CurrentCharacter);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         if(CurrentCharacter == null)
         {
@@ -161,4 +166,29 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     {
         return CORE.Instance.Database.PlayerActionsOnAgent;
     } 
+
+    public void ShowCharacterInfo()
+    {
+        CharacterInfoUI.Instance.ShowInfo(this.CurrentCharacter);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    { 
+        if(InfoButton == null)
+        {
+            return;
+        }
+
+        InfoButton.gameObject.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (InfoButton == null)
+        {
+            return;
+        }
+
+        InfoButton.gameObject.SetActive(false);
+    }
 }

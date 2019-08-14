@@ -36,6 +36,9 @@ public class LocationEntity : AgentInteractable
 
     public int Level = 1;
 
+    public float RevneueMultiplier;
+    public float RiskMultiplier;
+
     public bool IsUpgrading;
 
     public int CurrentUpgradeLength;
@@ -170,8 +173,11 @@ public class LocationEntity : AgentInteractable
         }
     }
 
-    public void SetInfo(Property property)
+    public void SetInfo(Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f)
     {
+        this.RevneueMultiplier = revenueMultiplier;
+        this.RiskMultiplier = RiskMultiplier;
+
         CurrentProperty = property;
         CurrentAction = CurrentProperty.Actions[0];
         RefreshState();
@@ -338,10 +344,13 @@ public class LocationEntity : AgentInteractable
         int totalRevenue = 0;
         for (int i = 0; i < EmployeesCharacters.Count; i++)
         {
-            int sumEarned = Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax);
+            int sumEarned = 
+                Mathf.CeilToInt(Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax)
+                * this.RevneueMultiplier
+                * CORE.Instance.Database.Stats.GlobalRevenueMultiplier);
 
             //Employee Skills Bonus to revenue
-            foreach(BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
+            foreach (BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
             {
                 float multi = EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
                 sumEarned = Mathf.CeilToInt(sumEarned * multi);
@@ -351,10 +360,9 @@ public class LocationEntity : AgentInteractable
         }
 
         //Management Bonus
-        foreach (BonusChallenge bonusChallenge in CurrentProperty.ManagementBonusChallenges)
+        if (OwnerCharacter != null)
         {
-            float multi = OwnerCharacter.GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
-            totalRevenue = Mathf.CeilToInt(totalRevenue * multi);
+            totalRevenue = Mathf.RoundToInt(totalRevenue * OwnerCharacter.GetBonus(CurrentProperty.ManagementBonus).Value / OwnerCharacter.PropertiesOwned.Count);
         }
 
         //Share revenue with employees.
@@ -391,7 +399,7 @@ public class LocationEntity : AgentInteractable
             EmployeesCharacters[0].StopWorkingFor(this);
         }
 
-        SetInfo(newProperty);
+        SetInfo(newProperty, this.RevneueMultiplier, this.RiskMultiplier);
 
         SelectedPanelUI.Instance.Select(this);
     }

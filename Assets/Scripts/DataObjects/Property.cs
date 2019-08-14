@@ -27,9 +27,9 @@ public class Property : ScriptableObject
 
     public PlotType PlotType;
 
-    public bool isPublicArea = false;
+    public BonusType ManagementBonus;
 
-    public List<BonusChallenge> ManagementBonusChallenges = new List<BonusChallenge>();
+    public bool isPublicArea = false;
 
     [System.Serializable]
     public class PropertyLevel

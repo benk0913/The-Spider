@@ -44,7 +44,12 @@ public class ReplaceOwner : AgentAction
     {
         LocationEntity location = (LocationEntity)target;
 
-        if(character.TopEmployer != CORE.PC)
+        if (!base.CanDoAction(character, target))
+        {
+            return false;
+        }
+
+        if (character.TopEmployer != CORE.PC)
         {
             return false;   
         }

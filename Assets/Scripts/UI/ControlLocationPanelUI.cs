@@ -35,7 +35,7 @@ public class ControlLocationPanelUI : MonoBehaviour
     Image UpgradeFillImage;
 
     [SerializeField]
-    PortraitUI OwnerPortrait;
+    PortraitUIEmployee OwnerPortrait;
 
     [SerializeField]
     Transform EmployeeGrid;
@@ -150,7 +150,12 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     void RefreshPortraits()
     {
-        OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter);
+        float productivity = 
+                CurrentLocation.OwnerCharacter.GetBonus(CurrentLocation.CurrentProperty.ManagementBonus).Value
+                /
+                CurrentLocation.OwnerCharacter.PropertiesOwned.Count;
+
+        OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter, string.Format("x{0:F1}", productivity), productivity >= 1f);
 
         ClearEmployeeInstances();
 
@@ -165,16 +170,23 @@ public class ControlLocationPanelUI : MonoBehaviour
             RecruitingPanel.gameObject.SetActive(false);
         }
 
-        PortraitUI tempPortrait;
+        PortraitUIEmployee tempPortrait;
         for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxEmployees; i++)
         {
-            tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+            tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUIEmployee").GetComponent<PortraitUIEmployee>();
             tempPortrait.transform.SetParent(EmployeeGrid,false);
             tempPortrait.transform.localScale = Vector3.one;
 
             if (CurrentLocation.EmployeesCharacters.Count > i)
             {
-                tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i]);
+                productivity = 1f;
+
+                foreach (BonusChallenge bonusChallenge in CurrentLocation.CurrentAction.ActionBonusChallenges)
+                {
+                    productivity = CurrentLocation.EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
+                }
+
+                tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], string.Format("x{0:F1}", productivity), productivity >= 1f); 
             }
             else
             {
@@ -190,7 +202,7 @@ public class ControlLocationPanelUI : MonoBehaviour
                     hasSetRecruitingBar = true;
                 }
 
-                tempPortrait.SetCharacter(null);
+                tempPortrait.SetCharacter(null, "--");
             }
         }
     }

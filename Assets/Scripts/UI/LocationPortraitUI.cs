@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LocationPortraitUI : MonoBehaviour
+public class LocationPortraitUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     Image Icon;
@@ -13,6 +14,10 @@ public class LocationPortraitUI : MonoBehaviour
 
     [SerializeField]
     TooltipTargetUI TooltipTarget;
+
+    [SerializeField]
+    GameObject InfoButton;
+
 
     LocationEntity CurrentLocation;
 
@@ -38,12 +43,39 @@ public class LocationPortraitUI : MonoBehaviour
             {
                 Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
             }
+
+            Icon.sprite = CurrentLocation.CurrentProperty.Icon;
+
+            TooltipTarget.Text = CurrentLocation.CurrentProperty.name + " - Which belongs to "
+                + CurrentLocation.OwnerCharacter == null ?
+                " no one."
+                :
+                CurrentLocation.OwnerCharacter.name;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (InfoButton == null)
+        {
+            return;
         }
 
-        Icon.sprite = CurrentLocation.CurrentProperty.Icon;
+        InfoButton.gameObject.SetActive(true);
+    }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (InfoButton == null)
+        {
+            return;
+        }
 
+        InfoButton.gameObject.SetActive(false);
+    }
 
-        TooltipTarget.Text = CurrentLocation.CurrentProperty.name + " - Which belongs to " + CurrentLocation.OwnerCharacter.name;
+    public void ShowLocationInfo()
+    {
+        LocationInfoUI.Instance.Show(CurrentLocation);
     }
 }

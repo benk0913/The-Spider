@@ -22,7 +22,12 @@ public class ShowCharacterInfoAgent : AgentAction
 
     public override bool CanDoAction(Character character, AgentInteractable target)
     {
-        if(target == null)
+        if (!base.CanDoAction(character, target))
+        {
+            return false;
+        }
+
+        if (target == null)
         {
             return false;
         }

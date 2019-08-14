@@ -65,7 +65,9 @@ public class CharacterInfoUI : MonoBehaviour
 
     public void ShowInfo(Character character)
     {
-        if(character == null)
+        LocationInfoUI.Instance.Hide();
+
+        if (character == null)
         {
             return;
         }
