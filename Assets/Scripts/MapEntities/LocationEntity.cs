@@ -230,6 +230,11 @@ public class LocationEntity : AgentInteractable
 
     public void PurchaseUpgrade()
     {
+        PurchaseUpgrade(OwnerCharacter.TopEmployer);
+    }
+
+    public void PurchaseUpgrade(Character funder)
+    { 
         if(!IsOwnedByPlayer)
         {
             GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
@@ -241,18 +246,27 @@ public class LocationEntity : AgentInteractable
             return;
         }
 
-        if (OwnerCharacter.TopEmployer.Gold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
+        if (funder.Gold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
         {
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                "(You need more " + (CurrentProperty.PropertyLevels[Level].UpgradePrice - OwnerCharacter.TopEmployer.Gold)+")", 1f, Color.red);
+                "(You need more " + (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold)+")", 1f, Color.red);
 
             return;
         }
 
-        OwnerCharacter.TopEmployer.Gold -= CurrentProperty.PropertyLevels[Level].UpgradePrice;
+        funder.Gold -= CurrentProperty.PropertyLevels[Level].UpgradePrice;
         IsUpgrading = true;
         CurrentUpgradeLength = CurrentProperty.PropertyLevels[Level].UpgradeLength;
         StateUpdated.Invoke();
+
+
+        OwnerCharacter.DynamicRelationsModifiers.Add
+        (
+        new DynamicRelationsModifier(
+        new RelationsModifier("Upgraded my property!", 2)
+        , 10
+        , funder)
+        );
     }
 
     public void ProgressUpgrade()

@@ -6,17 +6,17 @@ using UnityEngine;
 public class PurchasePlotAction : AgentAction
 {
 
-    public override void Execute(Character character, AgentInteractable target)
+    public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(character, target);
+        base.Execute(requester, character, target);
 
-        if (!CanDoAction(character, target))
+        if (!CanDoAction(requester, character, target))
         {
             return;
         }
 
         PurchasableEntity targetEntity = (PurchasableEntity)target;
 
-        targetEntity.PurchasePlot(character);
+        targetEntity.PurchasePlot(requester, character);
     }
 }

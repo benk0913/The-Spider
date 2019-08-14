@@ -34,12 +34,12 @@ public class PurchasableEntity : AgentInteractable
         return PossibleActions;
     }
 
-    public void PurchasePlot(Character forCharacter)
+    public void PurchasePlot(Character funder, Character forCharacter)
     {
-        if (forCharacter.TopEmployer.Gold < Price)
+        if (funder.Gold < Price)
         {
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                "(You need more " + (Price - forCharacter.TopEmployer.Gold) + ")", 1f, Color.red);
+                "(You need more " + (Price - funder.Gold) + ")", 1f, Color.red);
 
             return;
         }
@@ -56,10 +56,19 @@ public class PurchasableEntity : AgentInteractable
         location.SetInfo(CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier);
         forCharacter.StartOwningLocation(location);
 
-        forCharacter.TopEmployer.Gold -= Price;
+        funder.Gold -= Price;
 
         CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
 
+
+
+        forCharacter.DynamicRelationsModifiers.Add
+        (
+        new DynamicRelationsModifier(
+        new RelationsModifier("Purchased a property for me!", 5)
+        , 10
+        , funder)
+        );
 
         Destroy(this.gameObject);
     }

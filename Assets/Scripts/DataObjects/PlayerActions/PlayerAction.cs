@@ -9,9 +9,9 @@ public class PlayerAction : ScriptableObject
     [TextArea(2, 3)]
     public string Description;
 
-    public virtual void Execute(AgentInteractable target)
+    public virtual void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(target))
+        if (!CanDoAction(requester, target))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot do this action!", 1f, Color.red);
 
@@ -19,7 +19,7 @@ public class PlayerAction : ScriptableObject
         }
     }
 
-    public virtual bool CanDoAction(AgentInteractable target)
+    public virtual bool CanDoAction(Character requester, AgentInteractable target)
     {
         return true;
     }

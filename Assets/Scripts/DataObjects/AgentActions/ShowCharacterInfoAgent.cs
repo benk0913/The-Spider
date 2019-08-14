@@ -6,11 +6,11 @@ using UnityEngine;
 public class ShowCharacterInfoAgent : AgentAction
 {
 
-    public override void Execute(Character character, AgentInteractable target)
+    public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(character, target);
+        base.Execute(requester, character, target);
 
-        if (!CanDoAction(character, target))
+        if (!CanDoAction(requester, character, target))
         {
             return;
         }
@@ -20,9 +20,9 @@ public class ShowCharacterInfoAgent : AgentAction
         CharacterInfoUI.Instance.ShowInfo(portrait.CurrentCharacter);
     }
 
-    public override bool CanDoAction(Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
     {
-        if (!base.CanDoAction(character, target))
+        if (!base.CanDoAction(requester, character, target))
         {
             return false;
         }

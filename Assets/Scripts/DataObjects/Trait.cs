@@ -18,6 +18,8 @@ public class Trait : ScriptableObject
 
     public Trait[] OppositeTraits;
 
+    public RelationsModifier[] RelationModifiers;
+
     public float DropChance = 0f;
 }
 

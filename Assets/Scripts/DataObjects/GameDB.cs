@@ -52,6 +52,8 @@ public class GameDB : ScriptableObject
 
     public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
 
+    public BonusType[] BonusTypes;
+
     public Trait[] Traits;
 
     
@@ -68,6 +70,19 @@ public class GameDB : ScriptableObject
         }
 
         return GeneratedTraits.ToArray();
+    }
+
+    public BonusType GetBonusType(string bonusTypeName)
+    {
+        foreach(BonusType bonusType in BonusTypes)
+        {
+            if(bonusTypeName == bonusType.name)
+            {
+                return bonusType;
+            }
+        }
+
+        return null;
     }
 
 

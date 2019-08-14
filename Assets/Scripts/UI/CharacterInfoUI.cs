@@ -50,6 +50,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     Transform BonusesContainer;
 
+    [SerializeField]
+    RelationUI RelationIcon;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -116,6 +119,8 @@ public class CharacterInfoUI : MonoBehaviour
             tempTrait.transform.localScale = Vector3.one;
             tempTrait.GetComponent<TraitUI>().SetInfo(CurrentCharacter.Traits[i]);
         }
+
+        RelationIcon.SetInfo(CurrentCharacter, CORE.PC);
     }
 
     void ClearPropertiesOwned()

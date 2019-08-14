@@ -6,60 +6,77 @@ using UnityEngine;
 public class ReplaceOwner : AgentAction
 {
 
-    public override void Execute(Character character, AgentInteractable target)
+    public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(character, target);
+        base.Execute(requester, character, target);
 
-        if (!CanDoAction(character, target))
+        if (!CanDoAction(requester, character, target))
         {
             return;
         }
 
         LocationEntity location = (LocationEntity)target;
 
-        if(character.WorkLocation == location && character.Employer != CORE.PC)
+        if(character.WorkLocation == location && character.Employer != requester)
         {
             WarningWindowUI.Instance.Show("Warning! Doing this will cut off the chain of command you have on this agent: \n <color=red> * this means it will no longer work for you. \n * All of it's properties will be out of your control. </color>", delegate 
             {
-                DoTheReplacement(character, location);
+                DoTheReplacement(requester, character, location);
             });
 
             return;
         }
 
-        DoTheReplacement(character, location);
+        DoTheReplacement(requester, character, location);
     }
 
-    void DoTheReplacement(Character character, LocationEntity location)
+    void DoTheReplacement(Character requester, Character character, LocationEntity location)
     {
         if (location == character.WorkLocation)
         {
             character.StopWorkingFor(location);
         }
 
+
+        character.DynamicRelationsModifiers.Add
+        (
+        new DynamicRelationsModifier(
+        new RelationsModifier("Preferred me over someone else!", 5)
+        , 10
+        , requester)
+        );
+
+        location.OwnerCharacter.DynamicRelationsModifiers.Add
+        (
+        new DynamicRelationsModifier(
+        new RelationsModifier("Preferred someone else over me!", -7)
+        , 10
+        , requester)
+        );
+
         character.StartOwningLocation(location);
     }
 
-    public override bool CanDoAction(Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
     {
         LocationEntity location = (LocationEntity)target;
 
-        if (!base.CanDoAction(character, target))
+        if (!base.CanDoAction(requester, character, target))
         {
             return false;
         }
 
-        if (character.TopEmployer != CORE.PC)
+        if (character.TopEmployer != requester)
         {
             return false;   
         }
 
-        if(location.OwnerCharacter == CORE.PC)
+        if(location.OwnerCharacter == requester)
         {
             return false;
         }
 
-        if(location.OwnerCharacter.TopEmployer != CORE.PC)
+        if(location.OwnerCharacter.TopEmployer != requester)
         {
             return false;
         }

@@ -43,9 +43,9 @@ public class AgentInteractable : MonoBehaviour
             KeyActions.Add(
                 new DescribedAction(
                     action.name,
-                    () => action.Execute(ControlCharacterPanelUI.CurrentCharacter, this)
+                    () => action.Execute(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)
                     , action.Description
-                    , action.CanDoAction(ControlCharacterPanelUI.CurrentCharacter, this)));
+                    , action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)));
         }
 
         if (KeyActions.Count == 0)
@@ -72,9 +72,9 @@ public class AgentInteractable : MonoBehaviour
             KeyActions.Add(
                 new DescribedAction(
                     action.name,
-                    () => action.Execute(this)
+                    () => action.Execute(CORE.PC, this)
                     , action.Description
-                    , action.CanDoAction(this)));
+                    , action.CanDoAction(CORE.PC, this)));
         }
 
         if (KeyActions.Count == 0)

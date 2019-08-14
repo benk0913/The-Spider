@@ -7,36 +7,42 @@ using UnityEngine;
 public class WorkFor : AgentAction
 {
 
-    public override void Execute(Character character, AgentInteractable target)
+    public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(character, target);
+        base.Execute(requester, character, target);
 
-        if (!CanDoAction(character, target))
+        if (!CanDoAction(requester, character, target))
         {
             return;
         }
 
         LocationEntity targetLocation = (LocationEntity)target;
 
+        if (character.WorkLocation.OwnerCharacter.GetRelationsWith(character) > 5)
+        {
+            character.WorkLocation.OwnerCharacter.DynamicRelationsModifiers.Add
+            (
+            new DynamicRelationsModifier(
+            new RelationsModifier("Took an employee I liked!", -2)
+            , 10
+            , requester)
+            );
+        }
+
         character.StopWorkingFor(character.WorkLocation);
         character.StartWorkingFor(targetLocation);
     }
 
-    public override bool CanDoAction(Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
     {
         LocationEntity location = (LocationEntity)target;
 
-        if (!base.CanDoAction(character, target))
+        if (!base.CanDoAction(requester, character, target))
         {
             return false;
         }
 
-        if (character.TopEmployer != CORE.PC)
-        {
-            return false;
-        }
-
-        if (location.OwnerCharacter.TopEmployer != CORE.PC)
+        if (character.TopEmployer != requester)
         {
             return false;
         }

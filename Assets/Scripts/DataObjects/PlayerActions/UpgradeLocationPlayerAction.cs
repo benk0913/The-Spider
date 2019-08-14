@@ -7,20 +7,20 @@ using UnityEngine;
 public class UpgradeLocationPlayerAction : PlayerAction
 {
 
-    public override void Execute(AgentInteractable target)
+    public override void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(target))
+        if (!CanDoAction(requester, target))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot upgrade this property yet.", 1f, Color.yellow);
             return;
         }
 
         LocationEntity location = (LocationEntity)target;
-
-        location.PurchaseUpgrade();
+        
+        location.PurchaseUpgrade(requester);
     }
 
-    public override bool CanDoAction(AgentInteractable target)
+    public override bool CanDoAction(Character requester, AgentInteractable target)
     {
         LocationEntity location = (LocationEntity)target;
 
@@ -34,7 +34,7 @@ public class UpgradeLocationPlayerAction : PlayerAction
             return false;
         }
 
-        if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > CORE.PC.Gold)
+        if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > requester.Gold)
         {
             return false;
         }

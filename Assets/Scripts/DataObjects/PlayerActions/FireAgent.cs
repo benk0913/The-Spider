@@ -6,9 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FireAgent", menuName = "DataObjects/PlayerActions/FireAgent", order = 2)]
 public class FireAgent : PlayerAction
 {
-    public override void Execute(AgentInteractable target)
+    public override void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(target))
+        if (!CanDoAction(requester, target))
         {
             GlobalMessagePrompterUI.Instance.Show("This agent is not yours to fire.", 1f, Color.yellow);
             return;
@@ -16,7 +16,18 @@ public class FireAgent : PlayerAction
 
         Character character = ((PortraitUI)target).CurrentCharacter;
 
-        if(character.Employer == CORE.PC)
+        if (character.WorkLocation.OwnerCharacter.GetRelationsWith(character) > 5)
+        {
+            character.WorkLocation.OwnerCharacter.DynamicRelationsModifiers.Add
+            (
+            new DynamicRelationsModifier(
+            new RelationsModifier("Took an employee I liked!", -2)
+            , 10
+            , requester)
+            );
+        }
+
+        if (character.Employer == requester)
         {
             character.StopWorkingFor(character.WorkLocation);
         }
@@ -26,7 +37,7 @@ public class FireAgent : PlayerAction
         }
     }
 
-    public override bool CanDoAction(AgentInteractable target)
+    public override bool CanDoAction(Character requester, AgentInteractable target)
     {
         PortraitUI portrait = ((PortraitUI)target);
 
@@ -35,12 +46,12 @@ public class FireAgent : PlayerAction
             return false;
         }
 
-        if (portrait.CurrentCharacter == CORE.PC)
+        if (portrait.CurrentCharacter == requester)
         {
             return false;
         }
 
-        if (portrait.CurrentCharacter.TopEmployer != CORE.PC)
+        if (portrait.CurrentCharacter.TopEmployer != requester)
         {
             return false;
         }

@@ -102,7 +102,10 @@ public class Character : ScriptableObject
 
     #region Traits & Bonuses
 
-    public List<Trait> Traits { get; private set; } = new List<Trait>();
+    /// <summary>
+    /// DO NOT EVER SET (PUBLIC FOR SERIALIZATION)
+    /// </summary>
+    public List<Trait> Traits = new List<Trait>();
 
     public void AddTrait(Trait trait)
     {
@@ -237,6 +240,8 @@ public class Character : ScriptableObject
 
         return bonus;
     }
+
+    public List<DynamicRelationsModifier> DynamicRelationsModifiers = new List<DynamicRelationsModifier>();
 
     #endregion
 
@@ -440,6 +445,8 @@ public class Character : ScriptableObject
 
     #endregion
 
+    #region Misc
+
     public void RefreshVisualTree()
     {
         RaceSet raceSet = CORE.Instance.Database.GetRace("Human");
@@ -514,10 +521,102 @@ public class Character : ScriptableObject
         GoToLocation(CORE.Instance.GetLocationOfProperty(CORE.Instance.Database.DefaultLocationProperty));
     }
 
+    public int GetRelationsWith(Character otherCharacter)
+    {
+        int result = 0;
+
+        RelationsModifier[] modifiers = GetRelationModifiers(otherCharacter);
+
+        foreach(RelationsModifier modifier in modifiers)
+        {
+            result += modifier.Value;
+        }
+
+        return result;
+    }
+
+    public RelationsModifier[] GetRelationModifiers(Character otherCharacter)
+    {
+        List<RelationsModifier> modifiers = new List<RelationsModifier>();
+
+        foreach(Trait trait in otherCharacter.Traits)
+        {
+            foreach(RelationsModifier traitModifier in trait.RelationModifiers)
+            {
+                modifiers.Add(traitModifier);
+            }
+
+            if(Traits.Contains(trait))
+            {
+                modifiers.Add(new RelationsModifier("Likes \"" + trait.name + "\"", 2));
+                continue;
+            }
+
+            foreach (Trait oppositeTrait in trait.OppositeTraits)
+            {
+                if (Traits.Contains(oppositeTrait))
+                {
+                    modifiers.Add(new RelationsModifier("Hates \"" + trait.name +"\"", -2));
+                    continue;
+                }
+            }
+        }
+
+        foreach(DynamicRelationsModifier dynamicMod in DynamicRelationsModifiers)
+        {
+            if(dynamicMod.ToCharacter == otherCharacter)
+            {
+                modifiers.Add(dynamicMod.Modifier);
+            }
+        }
+
+        if(otherCharacter.Employer == this)
+        {
+            modifiers.Add(new RelationsModifier("My Employer", 1));
+        }
+
+        if (otherCharacter.Employer == this)
+        {
+            modifiers.Add(new RelationsModifier("My Employee", 1));
+        }
+
+        if (otherCharacter.Gender != this.Gender && otherCharacter.Age > 15 && this.Age > 15)
+        {
+            modifiers.Add(new RelationsModifier("Opposite Sex", 1));
+        }
+
+        if (otherCharacter.AgeType == this.AgeType)
+        {
+            modifiers.Add(new RelationsModifier("Same Age Range", 1));
+        }
+
+        float charmModifier = otherCharacter.GetBonus(CORE.Instance.Database.GetBonusType("Charm")).Value;
+
+        if (charmModifier> 1)
+        {
+            modifiers.Add(new RelationsModifier("Charming", Mathf.RoundToInt(charmModifier - 1)));
+        }
+
+        return modifiers.ToArray();
+    }
+
+    #endregion
+
     #region AI
 
     void OnTurnPassedAI()
     {
+        for(int i=0;i<DynamicRelationsModifiers.Count;i++)
+        {
+            DynamicRelationsModifiers[i].Turns--;
+
+            if(DynamicRelationsModifiers[i].Turns <= 0)
+            {
+                DynamicRelationsModifiers.RemoveAt(i);
+                i--;
+            }
+        }
+
         foreach (LocationEntity location in PropertiesOwned)
         {
             ManageProperty(location);
@@ -631,4 +730,33 @@ public class Character : ScriptableObject
     #endregion
 
    
+}
+
+public class DynamicRelationsModifier
+{
+    public RelationsModifier Modifier;
+    public int Turns;
+    public Character ToCharacter;
+
+    public DynamicRelationsModifier(RelationsModifier modifier, int turns, Character toCharacter)
+    {
+        this.Modifier = modifier;
+        this.Turns = turns;
+        this.ToCharacter = toCharacter;
+    }
+}
+
+
+[System.Serializable]
+public class RelationsModifier
+{
+    public string Message;
+    public int Value;
+
+    public RelationsModifier(string message, int value)
+    {
+        //this.Message = (value > 0 ? "<color=green>" : "<color=red>") + message + " (" + value + ")</color>";
+        this.Message =  message;
+        this.Value = value;
+    }
 }

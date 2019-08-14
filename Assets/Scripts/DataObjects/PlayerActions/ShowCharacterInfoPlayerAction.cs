@@ -6,9 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ShowCharacterInfoPlayerAction", menuName = "DataObjects/PlayerActions/ShowCharacterInfoPlayerAction", order = 2)]
 public class ShowCharacterInfoPlayerAction : PlayerAction
 {
-    public override void Execute(AgentInteractable target)
+    public override void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(target))
+        if (!CanDoAction(requester, target))
         {
             GlobalMessagePrompterUI.Instance.Show("This agent is not yours to select.", 1f, Color.yellow);
             return;
@@ -19,7 +19,7 @@ public class ShowCharacterInfoPlayerAction : PlayerAction
         CharacterInfoUI.Instance.ShowInfo(agent.CurrentCharacter);
     }
 
-    public override bool CanDoAction(AgentInteractable target)
+    public override bool CanDoAction(Character requester, AgentInteractable target)
     {
         return true;
     }
