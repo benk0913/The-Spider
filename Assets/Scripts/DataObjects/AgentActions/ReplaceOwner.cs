@@ -14,6 +14,16 @@ public class ReplaceOwner : AgentAction
         {
             return;
         }
+        
+        if (!RollSucceed(character))
+        {
+            if (FailureResult != null)
+            {
+                FailureResult.Execute(requester, character, target);
+            }
+
+            return;
+        }
 
         LocationEntity location = (LocationEntity)target;
 

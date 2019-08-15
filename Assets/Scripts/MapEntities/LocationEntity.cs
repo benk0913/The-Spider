@@ -81,10 +81,7 @@ public class LocationEntity : AgentInteractable
 
     public void OnRightClick()
     {
-        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
-        {
-            ShowActionMenu();
-        }
+        ShowActionMenu();
     }
 
 
@@ -101,9 +98,10 @@ public class LocationEntity : AgentInteractable
 
             if (OwnerCharacter != null)
             {
-                if (OwnerCharacter == CORE.Instance.Database.PlayerCharacter)
+                Character ownerGameInstance = CORE.Instance.GetCharacter(OwnerCharacter.name);
+                if (ownerGameInstance != null)
                 {
-                    CORE.PC.StartOwningLocation(this);
+                    ownerGameInstance.StartOwningLocation(this);
                 }
             }
 

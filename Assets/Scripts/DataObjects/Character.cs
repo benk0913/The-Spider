@@ -429,6 +429,7 @@ public class Character : ScriptableObject
         this.HairColor = VisualSet.HairColor.Pool[Random.Range(0, VisualSet.HairColor.Pool.Count)];
         this.Hair = HairColor.Pool[Random.Range(0, HairColor.Pool.Count)];
         this.SkinColor = VisualSet.SkinColors.Pool[Random.Range(0, VisualSet.SkinColors.Pool.Count)];
+        this.Face = SkinColor.Pool[Random.Range(0, SkinColor.Pool.Count)];
         this.Clothing = VisualSet.Clothing.Pool[Random.Range(0, VisualSet.Clothing.Pool.Count)];
     }
 
@@ -492,24 +493,27 @@ public class Character : ScriptableObject
             return;
         }
 
-        VisualSet = Gender == GenderType.Male? 
-            CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult).Male : 
-            CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult).Female;
-
         if (VisualSet == null)
         {
-            Debug.LogError("NO VISUAL SET! " + AgeTypeEnum.Adult.ToString());
-            return;
+            VisualSet = Gender == GenderType.Male ?
+                CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult).Male :
+                CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult).Female;
+
+            if (VisualSet == null)
+            {
+                Debug.LogError("NO VISUAL SET! " + AgeTypeEnum.Adult.ToString());
+                return;
+            }
+
+            skinColor = VisualSet.SkinColors.Pool[0];
+            hairColor = VisualSet.HairColor.Pool[0];
+
+            Face = skinColor.Pool[0];
+            Hair = hairColor.Pool[0];
+
+            //TODO Add item support
+            Clothing = VisualSet.Clothing.Pool[0];
         }
-
-        skinColor = VisualSet.SkinColors.Pool[0];
-        hairColor = VisualSet.HairColor.Pool[0];
-
-        Face = skinColor.Pool[0];
-        Hair = hairColor.Pool[0];
-        
-        //TODO Add item support
-        Clothing = VisualSet.Clothing.Pool[0];
 
         RefreshVisualTree();
 
@@ -590,7 +594,7 @@ public class Character : ScriptableObject
             modifiers.Add(new RelationsModifier("Same Age Range", 1));
         }
 
-        float charmModifier = otherCharacter.GetBonus(CORE.Instance.Database.GetBonusType("Charm")).Value;
+        float charmModifier = otherCharacter.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
 
         if (charmModifier> 1)
         {

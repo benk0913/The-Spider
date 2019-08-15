@@ -15,6 +15,16 @@ public class WorkFor : AgentAction
         {
             return;
         }
+        
+        if (!RollSucceed(character))
+        {
+            if (FailureResult != null)
+            {
+                FailureResult.Execute(requester, character, target);
+            }
+
+            return;
+        }
 
         LocationEntity targetLocation = (LocationEntity)target;
 

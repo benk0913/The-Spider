@@ -15,6 +15,16 @@ public class ShowCharacterInfoAgent : AgentAction
             return;
         }
 
+        if (!RollSucceed(character))
+        {
+            if (FailureResult != null)
+            {
+                FailureResult.Execute(requester, character, target);
+            }
+
+            return;
+        }
+
         PortraitUI portrait = (PortraitUI)target;
 
         CharacterInfoUI.Instance.ShowInfo(portrait.CurrentCharacter);

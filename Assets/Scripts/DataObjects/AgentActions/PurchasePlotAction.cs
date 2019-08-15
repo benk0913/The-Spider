@@ -15,6 +15,16 @@ public class PurchasePlotAction : AgentAction
             return;
         }
 
+        if(!RollSucceed(character))
+        {
+            if(FailureResult != null)
+            {
+                FailureResult.Execute(requester, character, target);
+            }
+
+            return;
+        }
+
         PurchasableEntity targetEntity = (PurchasableEntity)target;
 
         targetEntity.PurchasePlot(requester, character);

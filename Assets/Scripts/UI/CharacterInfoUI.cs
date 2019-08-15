@@ -84,7 +84,11 @@ public class CharacterInfoUI : MonoBehaviour
         AgeText.text     = "Age: "+character.Age.ToString();
         AgeTypeText.text = character.AgeType.ToString();
         GenderText.text  = character.Gender.ToString();
-        CurrentLocationText.text = "Location: " + character.CurrentLocation.CurrentProperty.name;
+
+        if (character.CurrentLocation != null)
+        {
+            CurrentLocationText.text = "Location: " + character.CurrentLocation.CurrentProperty.name;
+        }
 
         ControlButton.interactable = (character.TopEmployer != character && character.TopEmployer == CORE.PC);
         XImage.SetActive(!ControlButton.interactable);

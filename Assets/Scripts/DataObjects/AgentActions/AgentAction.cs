@@ -14,6 +14,10 @@ public class AgentAction : ScriptableObject
 
     public int MinimumAge = 0;
 
+    public BonusChallenge Challenge;
+
+    public AgentAction FailureResult;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         if(!CanDoAction(requester, character, target))
@@ -21,6 +25,14 @@ public class AgentAction : ScriptableObject
             GlobalMessagePrompterUI.Instance.Show("This character can not do this action! ", 1f, Color.red);
 
             return;
+        }
+
+        if(!RollSucceed(character))
+        {
+            if (FailureResult != null)
+            {
+                FailureResult.Execute(requester, character, target);
+            }
         }
     }
 
@@ -32,5 +44,18 @@ public class AgentAction : ScriptableObject
         }
 
         return true;
+    }
+
+    public virtual bool RollSucceed(Character character)
+    {
+        if(this.Challenge == null || this.Challenge.Type == null)
+        {
+            return true;
+        }
+
+        float characterSkill = character.GetBonus(this.Challenge.Type).Value;
+        float result = Random.Range(0f, characterSkill + Challenge.ChallengeValue);
+
+        return (characterSkill >= result);
     }
 }
