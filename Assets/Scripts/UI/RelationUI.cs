@@ -30,7 +30,7 @@ public class RelationUI : MonoBehaviour
 
         RelationsModifier[] modifiers = CurrentCharacter.GetRelationModifiers(TargetCharacter);
 
-        TooltipTarget.Text += "<size=12>";
+        TooltipTarget.Text += "<size=16>";
 
         foreach (RelationsModifier modifier in modifiers)
         {
