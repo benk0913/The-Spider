@@ -61,6 +61,8 @@ public class LocationEntity : AgentInteractable
     [SerializeField]
     List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
+    public LongTermTaskDurationUI TaskDurationUI;
+
     public bool IsOwnedByPlayer
     {
         get
@@ -415,5 +417,51 @@ public class LocationEntity : AgentInteractable
 
         SelectedPanelUI.Instance.Select(this);
     }
+
+
+    public void AddLongTermTask(LongTermTaskEntity entity)
+    {
+        if(TaskDurationUI == null)
+        {
+            TaskDurationUI = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskWorld").GetComponent<LongTermTaskDurationUI>();
+            TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        }
+        else
+        {
+            if (TaskDurationUI.Instances.Contains(entity))
+            {
+                return;
+            }
+        }
+
+        TaskDurationUI.AddEntity(entity);
+    }
+
+    public void RemoveLongTermTask(LongTermTaskEntity entity)
+    {
+        if(TaskDurationUI == null)
+        {
+            return;
+        }
+
+        if(!TaskDurationUI.Instances.Contains(entity))
+        {
+            return;
+        }
+
+        TaskDurationUI.RemoveEntity(entity);
+
+        if (TaskDurationUI.Instances.Count > 0)
+        {
+            return;
+        }
+
+        TaskDurationUI.gameObject.SetActive(false);
+        TaskDurationUI = null;
+    }
+
+   
+
+
 
 }

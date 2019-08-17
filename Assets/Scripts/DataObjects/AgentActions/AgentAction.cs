@@ -43,12 +43,17 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
+        if(character.CurrentTaskEntity != null)
+        {
+            return false;
+        }
+
         return true;
     }
 
     public virtual bool RollSucceed(Character character)
     {
-        if(this.Challenge == null || this.Challenge.Type == null)
+        if (this.Challenge == null || this.Challenge.Type == null)
         {
             return true;
         }
@@ -56,6 +61,12 @@ public class AgentAction : ScriptableObject
         float characterSkill = character.GetBonus(this.Challenge.Type).Value;
         float result = Random.Range(0f, characterSkill + Challenge.ChallengeValue);
 
-        return (characterSkill >= result);
+
+        bool finalResult = !Challenge.InvertedChance ? (characterSkill >= result) : (characterSkill < result); ;
+
+        if (finalResult)
+        { Debug.Log(character.name + " - " + this.name); }
+
+        return finalResult;
     }
 }

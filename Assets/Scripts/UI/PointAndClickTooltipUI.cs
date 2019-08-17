@@ -38,6 +38,8 @@ public class PointAndClickTooltipUI : MonoBehaviour
         }
 
         ShowRoutineInstance = StartCoroutine(ShowRoutine());
+
+        transform.SetAsLastSibling();
     }
 
     IEnumerator ShowRoutine()

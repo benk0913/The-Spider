@@ -15,6 +15,8 @@ public class LongTermTask : ScriptableObject
     public AgentAction[] PossibleResults;
     public AgentAction[] DefaultResults;
 
+    public bool Cancelable = true;
+
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();

@@ -35,4 +35,5 @@ public class BonusChallenge
 {
     public BonusType Type;
     public int ChallengeValue;
+    public bool InvertedChance = false;
 }

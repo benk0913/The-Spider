@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "LongTermTaskExecuter", menuName = "DataObjects/AgentActions/LongTermTaskExecuter", order = 2)]
-public class LongTermTaskExecuter : AgentAction
+public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
 {
     public LongTermTask Task;
 
@@ -43,7 +43,7 @@ public class LongTermTaskExecuter : AgentAction
             return false;
         }
 
-        if (character.TopEmployer != requester)
+        if (requester != CORE.Instance.Database.GOD && character.TopEmployer != requester)
         {
             return false;
         }

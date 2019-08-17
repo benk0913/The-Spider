@@ -100,6 +100,8 @@ public class Character : ScriptableObject
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
+    public LongTermTaskEntity CurrentTaskEntity;
+
     #region Traits & Bonuses
 
     /// <summary>
@@ -731,9 +733,64 @@ public class Character : ScriptableObject
         GoToRandomLocation();        
     }
 
+    public bool StartDoingTask(LongTermTaskEntity task)
+    {
+        if(task == CurrentTaskEntity)
+        {
+            return true;
+        }
+
+        if(!StopDoingCurrentTask())
+        {
+            return false;
+        }
+       
+        CurrentTaskEntity = task;
+        return true;
+    }
+
+    public bool StopDoingCurrentTask(bool forced = false)
+    {
+        if (CurrentTaskEntity == null)
+        {
+            return true;
+        }
+
+        if (!forced && !CurrentTaskEntity.CurrentTask.Cancelable)
+        {
+            GlobalMessagePrompterUI.Instance.Show(this.name + " Cannot Stop " + CurrentTaskEntity.CurrentTask.name, 1f, Color.red);
+            return false;
+        }
+
+        CurrentTaskEntity = null;
+
+        return true;
+    }
+
+    public void ForceTask(LongTermTaskEntity task)
+    {
+        CurrentTaskEntity.Cancel();
+        StartDoingTask(task);
+    }
+
+    public void Death()
+    {
+        if (WorkLocation != null)
+        {
+            StopWorkingFor(WorkLocation);
+        }
+
+        foreach (LocationEntity location in PropertiesOwned)
+        {
+            StopOwningLocation(location);
+        }
+
+        this.name += " (DECEASED)";
+    }
+
     #endregion
 
-   
+
 }
 
 public class DynamicRelationsModifier

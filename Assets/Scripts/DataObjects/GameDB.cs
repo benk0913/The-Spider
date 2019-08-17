@@ -14,6 +14,8 @@ public class GameDB : ScriptableObject
 
     public Character HumanReference;
 
+    public Character GOD;
+
     public Property EmptyProperty;
 
     public Property DefaultLocationProperty;
@@ -86,6 +88,21 @@ public class GameDB : ScriptableObject
     }
 
 
+
+    public AgentAction[] EventActions;
+
+    public AgentAction GetEventAction(string key)
+    {
+        foreach(AgentAction action in EventActions)
+        {
+            if(action.name == key)
+            {
+                return action;
+            }
+        }
+
+        return null;
+    }
 }
 
 [System.Serializable]

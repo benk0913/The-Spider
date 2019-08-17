@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class LongTermTaskEntity : AgentInteractable
+public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 {
     [SerializeField]
     public LongTermTask CurrentTask;
@@ -16,10 +17,9 @@ public class LongTermTaskEntity : AgentInteractable
     [SerializeField]
     public AgentInteractable CurrentTarget;
 
-    [SerializeField]
-    LongTermTaskDurationUI DurationEntity;
-
     public int TurnsLeft;
+
+    LocationEntity CurrentLocation;
 
     public void SetInfo(LongTermTask task, Character requester, Character character, AgentInteractable target)
     {
@@ -29,16 +29,17 @@ public class LongTermTaskEntity : AgentInteractable
         this.CurrentTarget = target;
         TurnsLeft = task.TurnsToComplete;
 
+        this.CurrentCharacter.StartDoingTask(this);
+
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
 
-        DurationEntity = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskWorld").GetComponent<LongTermTaskDurationUI>();
-        DurationEntity.transform.SetParent(CORE.Instance.MainCanvas.transform);
-        DurationEntity.SetInfo(this);
+        CurrentLocation = ((LocationEntity)target);
+
+        CurrentLocation.AddLongTermTask(this);
     }
 
     private void OnDisable()
     {
-        DurationEntity.gameObject.SetActive(false);
         GameClock.Instance.OnTurnPassed.RemoveListener(TurnPassed);
     }
 
@@ -52,20 +53,39 @@ public class LongTermTaskEntity : AgentInteractable
             return;
         }
 
-        DurationEntity.Refresh();
+        CurrentLocation.TaskDurationUI.Refresh();
     }
 
     public void Complete()
     {
+        CurrentLocation.RemoveLongTermTask(this);
+
+        this.CurrentCharacter.StopDoingCurrentTask(true);
+
         AgentAction resultAction = CurrentTask.GetResult(CurrentCharacter);
-        resultAction.Execute(CurrentRequester, CurrentCharacter, CurrentTarget);
+        resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTarget);
 
         this.gameObject.SetActive(false);
     }
 
     public void Cancel()
     {
+        CurrentLocation.RemoveLongTermTask(this);
+        CurrentCharacter.StopDoingCurrentTask();
         this.gameObject.SetActive(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            ShowActionMenu();
+        }
+    }
+
+    public void ShowActionMenu()
+    {
+
     }
 
 }

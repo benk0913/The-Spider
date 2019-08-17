@@ -595,6 +595,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1001 &73713510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6501,6 +6502,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1 &195870973
 GameObject:
   m_ObjectHideFlags: 0
@@ -11860,6 +11862,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9701c9a48aaebe40813707f15a57b7d, type: 3}
+--- !u!1 &249682740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 249682741}
+  - component: {fileID: 249682743}
+  - component: {fileID: 249682742}
+  m_Layer: 0
+  m_Name: WildsWest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &249682741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249682740}
+  m_LocalRotation: {x: -0.6830107, y: 0.18301637, z: -0.18301572, w: -0.68301296}
+  m_LocalPosition: {x: -0.1937122, y: -0.0051004216, z: 0.120254494}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 619947186}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: -180.00002}
+--- !u!23 &249682742
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249682740}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9e69c80f92baae74f9b2152a4ef4e808, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &249682743
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249682740}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &258864256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4686351410737048, guid: 69b54264a2c33f9409434d043441552c,
@@ -19103,36 +19184,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 541839238}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &542303228
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 542303229}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &542303229
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542303228}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 829298174}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543704840
 GameObject:
   m_ObjectHideFlags: 0
@@ -24598,7 +24649,7 @@ Transform:
   m_Children:
   - {fileID: 174110174}
   - {fileID: 1451089748}
-  - {fileID: 931847201}
+  - {fileID: 249682741}
   m_Father: {fileID: 829298174}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24748,6 +24799,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1 &652581912
 GameObject:
   m_ObjectHideFlags: 0
@@ -25089,8 +25141,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.035391733, y: 0.016661545, z: 0.0353}
-  m_Center: {x: -0.0036267475, y: 0.0013307728, z: -0.002355183}
+  m_Size: {x: 0.035391733, y: 0.035241008, z: 0.0353}
+  m_Center: {x: -0.0036267482, y: 0.010620524, z: -0.002355182}
 --- !u!114 &688595996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26835,13 +26887,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829298173}
   m_LocalRotation: {x: -0.18301402, y: -0.68301237, z: 0.68301237, w: 0.18301402}
-  m_LocalPosition: {x: -0.084, y: 0.306, z: 0.836}
+  m_LocalPosition: {x: -0.031, y: 0.238, z: 0.836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1877303221}
   - {fileID: 688595994}
   - {fileID: 619947186}
-  - {fileID: 542303229}
   m_Father: {fileID: 372559747}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26887,6 +26938,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1 &829918926
 GameObject:
   m_ObjectHideFlags: 0
@@ -37819,85 +37871,6 @@ PrefabInstance:
     - {fileID: 64213791675566706, guid: 6ebcf73f55c8b42429dd1e4efb9d30d4, type: 3}
     - {fileID: 64529715089357254, guid: 6ebcf73f55c8b42429dd1e4efb9d30d4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6ebcf73f55c8b42429dd1e4efb9d30d4, type: 3}
---- !u!1 &931847200
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 931847201}
-  - component: {fileID: 931847203}
-  - component: {fileID: 931847202}
-  m_Layer: 0
-  m_Name: WildsNorth
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &931847201
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931847200}
-  m_LocalRotation: {x: -0.6830107, y: 0.18301636, z: -0.18301573, w: -0.68301296}
-  m_LocalPosition: {x: -0.27361155, y: -0.0051004216, z: 0.15264396}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 619947186}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: -180.00002}
---- !u!23 &931847202
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931847200}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 9e69c80f92baae74f9b2152a4ef4e808, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &931847203
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931847200}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &938039322
 GameObject:
   m_ObjectHideFlags: 0
@@ -39923,8 +39896,10 @@ MonoBehaviour:
     GoldGeneratedMin: 1
     GoldGeneratedMax: 2
     ActionBonusChallenges: []
-  PossibleAgentActions: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: bc7f0950027c4034eae7969b268329a3, type: 2}
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!4 &1154370245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4198195060786464, guid: 41849f19442adff4a951d0ff9430516c,
@@ -45539,6 +45514,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1 &1231895137
 GameObject:
   m_ObjectHideFlags: 0
@@ -45820,6 +45796,7 @@ MonoBehaviour:
   PossibleAgentActions:
   - {fileID: 11400000, guid: 9ec34f32bfdaa0e4c85a7180fbecf203, type: 2}
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1001 &1240094295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51107,6 +51084,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1 &1281200443
 GameObject:
   m_ObjectHideFlags: 0
@@ -52866,6 +52844,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1001 &1532896968
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54424,6 +54403,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!1 &1674845265
 GameObject:
   m_ObjectHideFlags: 0
@@ -56984,6 +56964,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!4 &1940166308 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4834809529978220, guid: 0322a304fb9696e458d22e11b9c7c5a7,
@@ -97858,6 +97839,7 @@ MonoBehaviour:
     ActionBonusChallenges: []
   PossibleAgentActions: []
   PossiblePlayerActions: []
+  TaskDurationUI: {fileID: 0}
 --- !u!111 &5605649369828370292
 Animation:
   m_ObjectHideFlags: 0

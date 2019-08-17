@@ -20,32 +20,49 @@ public class RightClickDropDownPanelUI : MonoBehaviour
 
     Transform CurrentTargetTransform;
 
+    List<DescribedAction> CurrentMenuItems;
+
+    Character CurrentByCharacter;
+
+    AgentInteractable CurrentSource;
+
     private void Awake()
     {
         Instance = this;
         this.gameObject.SetActive(false);
     }
 
-    public void Show(List<DescribedAction> MenuItems, Transform targetTransform, Character byCharacter = null)
+    public void Show(List<DescribedAction> MenuItems, Transform targetTransform, Character byCharacter = null, AgentInteractable source = null)
     {
-        if(byCharacter != null)
+        Hide();
+
+        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+
+        this.gameObject.SetActive(true);
+
+        CurrentSource = source;
+        CurrentMenuItems = MenuItems;
+        CurrentTargetTransform = targetTransform;
+        CurrentByCharacter = byCharacter;
+
+        RefreshUI();
+    }
+
+    void RefreshUI()
+    {
+        if (CurrentByCharacter != null)
         {
             AgentPortrait.gameObject.SetActive(true);
             AgentNameText.gameObject.SetActive(true);
 
-            AgentPortrait.SetCharacter(byCharacter);
-            AgentNameText.text = byCharacter.name;
+            AgentPortrait.SetCharacter(CurrentByCharacter);
+            AgentNameText.text = CurrentByCharacter.name;
         }
         else
         {
             AgentPortrait.gameObject.SetActive(false);
             AgentNameText.gameObject.SetActive(false);
         }
-
-
-        CurrentTargetTransform = targetTransform;
-
-        this.gameObject.SetActive(true);
 
         ClearContainer();
 
@@ -55,7 +72,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.UpperLeft;
             MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(0f, 1f);
             MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(0f, 1f);
-            MenuItemsContainer.GetComponent<RectTransform>().pivot     = new Vector2(0f, 1f);
+            MenuItemsContainer.GetComponent<RectTransform>().pivot = new Vector2(0f, 1f);
         }
         else
         {
@@ -63,26 +80,39 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.LowerRight;
             MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(1f, 0f);
             MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(1f, 0f);
-            MenuItemsContainer.GetComponent<RectTransform>().pivot     = new Vector2(1f, 0f);
+            MenuItemsContainer.GetComponent<RectTransform>().pivot = new Vector2(1f, 0f);
         }
 
         GameObject tempItem;
-        for(int i=0;i<MenuItems.Count;i++)
+        for (int i = 0; i < CurrentMenuItems.Count; i++)
         {
             tempItem = ResourcesLoader.Instance.GetRecycledObject("RightClickMenuItem");
 
-            UnityAction[] actions = new UnityAction[] { MenuItems[i].Action, Hide };
-            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(MenuItems[i].Key , actions, MenuItems[i].Description, MenuItems[i].Interactable);
+            UnityAction[] actions = new UnityAction[] { CurrentMenuItems[i].Action, Hide };
+            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(CurrentMenuItems[i].Key, actions, CurrentMenuItems[i].Description, CurrentMenuItems[i].Interactable);
 
             tempItem.transform.SetParent(MenuItemsContainer, false);
 
             tempItem.transform.localScale = Vector3.one;
         }
+
+        transform.SetAsLastSibling();
     }
 
     public void Hide()
     {
+        GameClock.Instance.OnTurnPassed.RemoveListener(OnTurnPassed);
         this.gameObject.SetActive(false);
+    }
+
+    void OnTurnPassed()
+    {
+        if(CurrentSource == null)
+        {
+            return;
+        }
+
+        CurrentSource.ShowActionMenu();
     }
 
     private void Update()

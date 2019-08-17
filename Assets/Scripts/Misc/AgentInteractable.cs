@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AgentInteractable : MonoBehaviour
 {
+
     public virtual List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return null;
@@ -53,7 +54,7 @@ public class AgentInteractable : MonoBehaviour
             return;
         }
 
-        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, ControlCharacterPanelUI.CurrentCharacter);
+        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, ControlCharacterPanelUI.CurrentCharacter, this);
     }
 
     public void ShowPlayerActionMenu()
@@ -82,6 +83,6 @@ public class AgentInteractable : MonoBehaviour
             return;
         }
 
-        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, null);
+        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, null, this);
     }
 }

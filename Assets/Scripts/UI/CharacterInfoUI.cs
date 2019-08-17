@@ -53,6 +53,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     RelationUI RelationIcon;
 
+    [SerializeField]
+    ActionPortraitUI ActionPortrait;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -125,6 +128,16 @@ public class CharacterInfoUI : MonoBehaviour
         }
 
         RelationIcon.SetInfo(CurrentCharacter, CORE.PC);
+
+        if(CurrentCharacter.CurrentTaskEntity != null)
+        {
+            ActionPortrait.gameObject.SetActive(true);
+            ActionPortrait.SetAction(CurrentCharacter.CurrentTaskEntity);
+        }
+        else
+        {
+            ActionPortrait.gameObject.SetActive(false);
+        }
     }
 
     void ClearPropertiesOwned()
