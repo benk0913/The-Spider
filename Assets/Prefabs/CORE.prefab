@@ -10497,7 +10497,7 @@ RectTransform:
   m_GameObject: {fileID: 3923367258773298131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 6489630220571736623}
   - {fileID: 8937271374866305685}
@@ -18263,6 +18263,7 @@ MonoBehaviour:
   RankText: {fileID: 4273050635494717950}
   RevenueMultiText: {fileID: 3431938749990603870}
   RiskMultiText: {fileID: 8477707209590015813}
+  TraitsContainer: {fileID: 7336181468735943101}
 --- !u!1 &8276007528248873784
 GameObject:
   m_ObjectHideFlags: 0
@@ -20581,11 +20582,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7079866017514698818}
     m_Modifications:
-    - target: {fileID: 6150651281934796503, guid: eccc9f19c9dbb884a99bea86680e7b43,
-        type: 3}
-      propertyPath: m_Name
-      value: ActionPortraitUI
-      objectReference: {fileID: 0}
     - target: {fileID: 335876064900425535, guid: eccc9f19c9dbb884a99bea86680e7b43,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20705,6 +20701,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.67599994
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150651281934796503, guid: eccc9f19c9dbb884a99bea86680e7b43,
+        type: 3}
+      propertyPath: m_Name
+      value: ActionPortraitUI
       objectReference: {fileID: 0}
     - target: {fileID: 8658592737223491251, guid: eccc9f19c9dbb884a99bea86680e7b43,
         type: 3}
@@ -21009,6 +21010,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CharPortrait
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373135998107154977, guid: fe9fbc50662ee0344ae86693cdebb22b,
+        type: 3}
+      propertyPath: ActionPortrait
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe9fbc50662ee0344ae86693cdebb22b, type: 3}
@@ -21739,6 +21745,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PortraitUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339392744200843525, guid: fe9fbc50662ee0344ae86693cdebb22b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -2.353199
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339392744200843525, guid: fe9fbc50662ee0344ae86693cdebb22b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.7843018
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe9fbc50662ee0344ae86693cdebb22b, type: 3}

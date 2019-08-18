@@ -176,7 +176,7 @@ public class LocationEntity : AgentInteractable
     public void SetInfo(Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f)
     {
         this.RevneueMultiplier = revenueMultiplier;
-        this.RiskMultiplier = RiskMultiplier;
+        this.RiskMultiplier = riskMultiplier;
 
         CurrentProperty = property;
         CurrentAction = CurrentProperty.Actions[0];
@@ -358,16 +358,12 @@ public class LocationEntity : AgentInteractable
         int totalRevenue = 0;
         for (int i = 0; i < EmployeesCharacters.Count; i++)
         {
-            int sumEarned = 
-                Mathf.CeilToInt(Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax)
-                * this.RevneueMultiplier
-                * CORE.Instance.Database.Stats.GlobalRevenueMultiplier);
+            int sumEarned = GetEmployeeEarning(EmployeesCharacters[i]);
 
-            //Employee Skills Bonus to revenue
-            foreach (BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
+            if(!AttemptEscapeRisk(EmployeesCharacters[i]))
             {
-                float multi = EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
-                sumEarned = Mathf.CeilToInt(sumEarned * multi);
+                CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, EmployeesCharacters[i], this);
+                continue;
             }
 
             totalRevenue += sumEarned;
@@ -392,6 +388,42 @@ public class LocationEntity : AgentInteractable
         }
 
         StateUpdated.Invoke();
+    }
+
+    int GetEmployeeEarning(Character employee)
+    {
+        int sum = Mathf.CeilToInt(Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax)
+                * this.RevneueMultiplier
+                * CORE.Instance.Database.Stats.GlobalRevenueMultiplier);
+
+        //Employee Skills Bonus to revenue
+        foreach (BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
+        {
+            float multi = employee.GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
+            sum = Mathf.CeilToInt(sum * multi);
+        }
+
+        return sum;
+    }
+
+    bool AttemptEscapeRisk(Character character)
+    {
+        float riskChance = 1f - (CurrentAction.Risk * this.RiskMultiplier);
+        if (Random.Range(0f, 1f) > riskChance) // Risk chance roll
+        {
+            if (CurrentAction.EscapeChallange != null) //Can escape with skill?
+            {
+                float escapeSkillValue = character.GetBonus(CurrentAction.EscapeChallange.Type).Value; // Attempt escape with skill
+                if (Random.Range(0f, CurrentAction.EscapeChallange.ChallengeValue + escapeSkillValue) > escapeSkillValue)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     public void Rebrand(Property newProperty)

@@ -37,6 +37,40 @@ public class FireAgent : PlayerAction
         }
     }
 
+
+    bool CanBeFired(Character character)
+    {
+        if (character == null)
+        {
+            return false;
+        }
+
+        if (character.CurrentTaskEntity != null)
+        {
+            switch (character.CurrentTaskEntity.CurrentTask.name)
+            {
+                case "Being Hanged":
+                    {
+                        return false;
+                    }
+                case "Being Interrogated":
+                    {
+                        return false;
+                    }
+                case "Locked In Prison":
+                    {
+                        return false;
+                    }
+                case "Obsolescence":
+                    {
+                        return false;
+                    }
+            }
+        }
+
+        return true;
+    }
+
     public override bool CanDoAction(Character requester, AgentInteractable target)
     {
         PortraitUI portrait = ((PortraitUI)target);
@@ -52,6 +86,11 @@ public class FireAgent : PlayerAction
         }
 
         if (portrait.CurrentCharacter.TopEmployer != requester)
+        {
+            return false;
+        }
+        
+        if(!CanBeFired(portrait.CurrentCharacter))
         {
             return false;
         }

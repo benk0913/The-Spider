@@ -151,6 +151,36 @@ public class CORE : MonoBehaviour
         return null;
     }
 
+    public LocationEntity FindClosestLocationWithTrait(PropertyTrait trait, LocationEntity targetLocation)
+    {
+        List<LocationEntity> LocationsWithTrait = new List<LocationEntity>();
+        for (int i = 0; i < Locations.Count; i++)
+        {
+            if (Locations[i].CurrentProperty.Traits.Contains(trait))
+            {
+                LocationsWithTrait.Add(Locations[i]);
+            }
+        }
+
+        LocationEntity foundLocation = null;
+        if (LocationsWithTrait.Count > 0)
+        {
+            float minDistance = Mathf.Infinity;
+            
+            foreach(LocationEntity location in LocationsWithTrait)
+            {
+                float dist = Vector3.Distance(location.transform.position, targetLocation.transform.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    foundLocation = location;
+                }
+            }
+        }
+
+        return foundLocation;
+    }
+
     public LocationEntity GetLocationOfProperty(Property property)
     {
         foreach(LocationEntity location in Locations)

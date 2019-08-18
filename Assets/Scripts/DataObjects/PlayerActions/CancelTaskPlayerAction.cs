@@ -55,6 +55,11 @@ public class CancelTaskPlayerAction : PlayerAction
                 return false;
             }
 
+            if (portrait.CurrentCharacter.CurrentTaskEntity == null)
+            {
+                return false;
+            }
+
             if (portrait.CurrentCharacter.CurrentTaskEntity.CurrentRequester != requester)
             {
                 return false;
@@ -64,6 +69,7 @@ public class CancelTaskPlayerAction : PlayerAction
             {
                 return false;
             }
+            
         }
         
         return true;

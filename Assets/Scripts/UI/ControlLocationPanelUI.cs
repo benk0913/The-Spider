@@ -79,12 +79,19 @@ public class ControlLocationPanelUI : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
+        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
     }
 
     public void Hide()
     {
         this.gameObject.SetActive(false);
+        GameClock.Instance.OnTurnPassed.RemoveListener(OnTurnPassed);
         Deselect();
+    }
+
+    void OnTurnPassed()
+    {
+        RefreshPortraits();
     }
 
     public void RefreshUI()
@@ -150,10 +157,14 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     void RefreshPortraits()
     {
-        float productivity = 
+        float productivity = 0f;
+        if (CurrentLocation.OwnerCharacter != null)
+        {
+            productivity =
                 CurrentLocation.OwnerCharacter.GetBonus(CurrentLocation.CurrentProperty.ManagementBonus).Value
                 /
                 CurrentLocation.OwnerCharacter.PropertiesOwned.Count;
+        }
 
         OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter, string.Format("x{0:F1}", productivity), productivity >= 1f);
 

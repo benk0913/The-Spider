@@ -28,6 +28,9 @@ public class LocationInfoUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI RiskMultiText;
 
+    [SerializeField]
+    Transform TraitsContainer;
+
     LocationEntity CurrentLocation;
 
 
@@ -73,6 +76,15 @@ public class LocationInfoUI : MonoBehaviour
             tempPortrait.transform.localScale = Vector3.one;
             tempPortrait.GetComponent<PortraitUI>().SetCharacter(character);
         }
+
+        ClearTraits();
+        for (int i = 0; i < CurrentLocation.CurrentProperty.Traits.Count; i++)
+        {
+            GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
+            tempTrait.transform.SetParent(TraitsContainer, false);
+            tempTrait.transform.localScale = Vector3.one;
+            tempTrait.GetComponent<TraitUI>().SetInfo(CurrentLocation.CurrentProperty.Traits[i]);
+        }
     }
 
     void ClearEmployeesContainer()
@@ -83,4 +95,14 @@ public class LocationInfoUI : MonoBehaviour
             EmployeesContainer.GetChild(0).SetParent(transform);
         }
     }
+
+    void ClearTraits()
+    {
+        while (TraitsContainer.childCount > 0)
+        {
+            TraitsContainer.GetChild(0).gameObject.SetActive(false);
+            TraitsContainer.GetChild(0).SetParent(transform);
+        }
+    }
+
 }

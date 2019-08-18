@@ -22,6 +22,8 @@ public class GameDB : ScriptableObject
 
     public PropertyTrait PublicAreaTrait;
 
+    public PropertyTrait LawAreaTrait;
+
     public Faction DefaultFaction;
 
     public PlotType UniquePlotType;

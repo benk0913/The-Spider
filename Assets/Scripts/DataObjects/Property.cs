@@ -55,6 +55,9 @@ public class Property : ScriptableObject
         public int GoldGeneratedMin = 1;
         public int GoldGeneratedMax = 2;
 
+        public float Risk = 0f;
+        public BonusChallenge EscapeChallange;
+
         [SerializeField]
         public BonusChallenge[] ActionBonusChallenges;
     }

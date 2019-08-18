@@ -72,7 +72,7 @@ public class LongTermTaskDurationUI : MonoBehaviour
         InstanceCount.gameObject.SetActive(Instances.Count > 1);
         ButtonsContainer.gameObject.SetActive(Instances.Count > 1);
 
-        InstanceCount.text = (CurrentIndex) + "/" + (Instances.Count);
+        InstanceCount.text = (CurrentIndex+1) + "/" + (Instances.Count);
     }
 
     public void NavigateRight()

@@ -40,6 +40,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
     [SerializeField]
     protected WorldPositionLerperUI Lerper;
 
+    [SerializeField]
+    protected ActionPortraitUI ActionPortrait;
+
 
     protected void Start()
     {
@@ -73,6 +76,11 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
             Clothing.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
+            if(ActionPortrait != null)
+            {
+                ActionPortrait.gameObject.SetActive(false);
+            }
+
             return;
         }
         
@@ -96,6 +104,19 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
         RefreshVisuals();
 
         character.VisualChanged.AddListener(RefreshVisuals);
+
+        if(ActionPortrait != null)
+        {
+            if(character.CurrentTaskEntity != null)
+            {
+                ActionPortrait.gameObject.SetActive(true);
+                ActionPortrait.SetAction(character.CurrentTaskEntity);
+            }
+            else
+            {
+                ActionPortrait.gameObject.SetActive(false);
+            }
+        }
     }
 
     public virtual void SetDisabled()

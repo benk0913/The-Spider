@@ -47,10 +47,10 @@ public class LocationPortraitUI : MonoBehaviour, IPointerEnterHandler, IPointerE
             Icon.sprite = CurrentLocation.CurrentProperty.Icon;
 
             TooltipTarget.Text = CurrentLocation.CurrentProperty.name + " - Which belongs to "
-                + CurrentLocation.OwnerCharacter == null ?
+                + (CurrentLocation.OwnerCharacter == null ?
                 " no one."
                 :
-                CurrentLocation.OwnerCharacter.name;
+                CurrentLocation.OwnerCharacter.name);
         }
     }
 
