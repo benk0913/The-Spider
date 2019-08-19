@@ -622,36 +622,45 @@ public class Character : ScriptableObject
                 i--;
             }
         }
-
-        foreach (LocationEntity location in PropertiesOwned)
+        
+        if(CurrentTaskEntity == null)
         {
-            ManageProperty(location);
+            bool hasSomethingToDo = TryToDoSomething();
+            
+            if(!hasSomethingToDo)
+            {
+                GoToRandomLocation();
+            }
+        }
+    }
+
+    bool TryToDoSomething()
+    {
+        if ((int)GameClock.Instance.CurrentTime < 3) //(Before evening?) - WORK
+        {
+            foreach (LocationEntity location in PropertiesOwned)
+            {
+                if (AttemptManagePropertyAI(location))
+                {
+                    return true;
+                }
+            }
+
+            if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
+            {
+                WorkLocation.CurrentAction.WorkAction.Execute(TopEmployer, this, WorkLocation);
+                return true;
+            }
         }
 
-        GoToRandomLocation();
+        // After evening? - Pass Time / Sleep
+        return false;
     }
 
     void GoToRandomLocation()
     {
-        
-        //TODO Change later to a better algorythm
-        if (WorkLocation != null && Random.Range(0, 2) != 0)//To work
-        {
-            GoToLocation(WorkLocation);
-            return;
-        }
-
-        if (PropertiesOwned.Count > 0 && Random.Range(0, 4) != 0)//To one of my properties
-        {
-            GoToLocation(PropertiesOwned[Random.Range(0,PropertiesOwned.Count)]);
-            return;
-        }
-
-        else // To random public location
-        {
-            GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait));
-            return;
-        }
+        GoToLocation(CORE.Instance.Locations[Random.Range(0,CORE.Instance.Locations.Count)]);
+        return;
     }
 
     void GoToLocation(LocationEntity targetLocation)
@@ -659,9 +668,14 @@ public class Character : ScriptableObject
         CurrentLocation = targetLocation;
     }
 
-    void ManageProperty(LocationEntity location)
+    bool AttemptManagePropertyAI(LocationEntity location)
     {
-        location.StartRecruiting();
+        if(location.AttemptRecruiting())
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void StartWorkingFor(LocationEntity location)

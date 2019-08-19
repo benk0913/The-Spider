@@ -48,14 +48,11 @@ public class ActionUI : MonoBehaviour
             {
                 TooltipTarget.Text = action.Description;
 
-                if (CurrentAction.ActionBonusChallenges.Length > 0)
+                if (CurrentAction.WorkAction != null && CurrentAction.WorkAction.Challenge != null)
                 {
-                    TooltipTarget.Text += "\n \n Essential Skills:";
+                    TooltipTarget.Text += "\n \n Essential Skill:";
 
-                    foreach (BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
-                    {
-                        TooltipTarget.Text += "\n <color=green>" + bonusChallenge.Type.name + " </color>";
-                    }
+                    TooltipTarget.Text += "\n <color=green>" + CurrentAction.WorkAction.Challenge.Type.name + " </color>";
                 }
             }
         }

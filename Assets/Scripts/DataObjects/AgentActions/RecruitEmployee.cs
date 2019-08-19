@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "LongTermTaskExecuter", menuName = "DataObjects/AgentActions/LongTermTaskExecuter", order = 2)]
-public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
+[CreateAssetMenu(fileName = "RecruitEmployee", menuName = "DataObjects/AgentActions/RecruitEmployee", order = 2)]
+public class RecruitEmployee : AgentAction
 {
-    public LongTermTask Task;
-
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
@@ -27,23 +25,30 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             return;
         }
 
-        LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
+        LocationEntity location = (LocationEntity)target;
 
-        longTermTask.transform.SetParent(MapViewManager.Instance.transform);
-        longTermTask.transform.position = target.transform.position;
-        longTermTask.SetInfo(this.Task, requester, character, target);
+        if(location.EmployeesCharacters.Count >= location.CurrentProperty.PropertyLevels[location.Level - 1].MaxEmployees)
+        {
+            GlobalMessagePrompterUI.Instance.Show(location.CurrentProperty.name + " has no more space for another recruit!", 1f, Color.red);
+            return;
+        }
+
+        CORE.Instance.GenerateCharacter(
+            location.CurrentProperty.RecruitingGenderType, 
+            location.CurrentProperty.MinAge,
+            location.CurrentProperty.MaxAge
+
+            ).StartWorkingFor(location);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
     {
-        LocationEntity location = (LocationEntity)target;
-
         if (!base.CanDoAction(requester, character, target))
         {
             return false;
         }
 
-        if (requester != character && requester != CORE.Instance.Database.GOD && character.TopEmployer != requester)
+        if (requester != CORE.Instance.Database.GOD && character.TopEmployer != requester && requester != character)
         {
             return false;
         }

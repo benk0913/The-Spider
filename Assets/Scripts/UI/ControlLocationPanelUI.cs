@@ -170,17 +170,6 @@ public class ControlLocationPanelUI : MonoBehaviour
 
         ClearEmployeeInstances();
 
-        bool hasSetRecruitingBar = true;
-        if(CurrentLocation.CurrentRecruitmentLength > 0)
-        {
-            RecruitingPanel.gameObject.SetActive(true);
-            hasSetRecruitingBar = false;
-        }
-        else
-        {
-            RecruitingPanel.gameObject.SetActive(false);
-        }
-
         PortraitUIEmployee tempPortrait;
         for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxEmployees; i++)
         {
@@ -188,33 +177,29 @@ public class ControlLocationPanelUI : MonoBehaviour
             tempPortrait.transform.SetParent(EmployeeGrid,false);
             tempPortrait.transform.localScale = Vector3.one;
 
+
             if (CurrentLocation.EmployeesCharacters.Count > i)
             {
                 productivity = 1f;
 
-                foreach (BonusChallenge bonusChallenge in CurrentLocation.CurrentAction.ActionBonusChallenges)
+                if (CurrentLocation.CurrentAction.WorkAction != null && CurrentLocation.CurrentAction.WorkAction.Challenge != null)
                 {
-                    productivity = CurrentLocation.EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
-                }
+                    BonusChallenge bonusChallenge = CurrentLocation.CurrentAction.WorkAction.Challenge;
 
-                tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], string.Format("x{0:F1}", productivity), productivity >= 1f); 
+                    productivity = CurrentLocation.EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
+
+                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], string.Format("x{0:F1}", productivity), productivity >= 1f);
+                }
+                else
+                {
+                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], "", true);
+                }
             }
             else
             {
-                if (CurrentLocation.CurrentRecruitmentLength > 0 && !hasSetRecruitingBar)
-                {
-                    RecruitingPanel.gameObject.SetActive(true);
-
-                    RecruitingPanel.fillAmount =
-                        (float)CurrentLocation.CurrentRecruitmentLength
-                        /
-                        (float)CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level-1].RecruitmentLength;
-
-                    hasSetRecruitingBar = true;
-                }
-
-                tempPortrait.SetCharacter(null, "--");
+                tempPortrait.SetCharacter(null, "", true);
             }
+            
         }
     }
 

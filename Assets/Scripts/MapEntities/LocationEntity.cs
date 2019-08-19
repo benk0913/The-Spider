@@ -43,10 +43,6 @@ public class LocationEntity : AgentInteractable
 
     public int CurrentUpgradeLength;
 
-    public bool isRecruiting;
-
-    public int CurrentRecruitmentLength;
-
     public bool IsVisible = false;
 
     public UnityEvent StateUpdated;
@@ -92,7 +88,6 @@ public class LocationEntity : AgentInteractable
         CORE.Instance.Locations.Add(this);
 
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
-        GameClock.Instance.OnDayPassed.AddListener(DayPassed);
 
         if(CurrentProperty != null)
         {
@@ -133,15 +128,8 @@ public class LocationEntity : AgentInteractable
     void TurnPassed()
     {
         ProgressUpgrade();
-
-        ProgressRecruiting();
  
         RefreshState();
-    }
-
-    void DayPassed()
-    {
-        JobActionComplete();
     }
 
     public void OnClick()
@@ -299,45 +287,16 @@ public class LocationEntity : AgentInteractable
         StateUpdated.Invoke();
     }
 
-    public void StartRecruiting()
+    public bool AttemptRecruiting()
     {
-        if(isRecruiting)
-        {
-            return;
-        }
-
         if (EmployeesCharacters.Count >= CurrentProperty.PropertyLevels[Level - 1].MaxEmployees)
         {
-            return;
+            return false;
         }
 
-        CurrentRecruitmentLength = CurrentProperty.PropertyLevels[Level - 1].RecruitmentLength;
+        CORE.Instance.Database.GetEventAction("Recruit Employees").Execute(OwnerCharacter, OwnerCharacter, this);
 
-        isRecruiting = true;
-    }
-
-
-    public void ProgressRecruiting()
-    {
-        if (!isRecruiting)
-        {
-            return;
-        }
-
-        CurrentRecruitmentLength--;
-
-        if (CurrentRecruitmentLength <= 0)
-        {
-            CORE.Instance.GenerateCharacter(CurrentProperty.RecruitingGenderType, CurrentProperty.MinAge, CurrentProperty.MaxAge).StartWorkingFor(this);
-            StopRecruiting();
-        }
-    }
-
-    public void StopRecruiting()
-    {
-        isRecruiting = false;
-
-        CurrentRecruitmentLength = 0;
+        return true;
     }
 
     public void SelectAction(Property.PropertyAction action)
@@ -353,79 +312,6 @@ public class LocationEntity : AgentInteractable
         StateUpdated.Invoke();
     }
 
-    public void JobActionComplete()
-    {
-        int totalRevenue = 0;
-        for (int i = 0; i < EmployeesCharacters.Count; i++)
-        {
-            int sumEarned = GetEmployeeEarning(EmployeesCharacters[i]);
-
-            if(!AttemptEscapeRisk(EmployeesCharacters[i]))
-            {
-                CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, EmployeesCharacters[i], this);
-                continue;
-            }
-
-            totalRevenue += sumEarned;
-        }
-
-        //Management Bonus
-        if (OwnerCharacter != null)
-        {
-            totalRevenue = Mathf.RoundToInt(totalRevenue * OwnerCharacter.GetBonus(CurrentProperty.ManagementBonus).Value / OwnerCharacter.PropertiesOwned.Count);
-        }
-
-        //Share revenue with employees.
-        foreach (Character employee in EmployeesCharacters)
-        {
-            employee.Gold += totalRevenue / EmployeesCharacters.Count;
-        }
-
-        //Show Revenue Message
-        if (totalRevenue > 0)
-        { 
-            CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", totalRevenue.ToString()), ResourcesLoader.Instance.GetSprite("receive_money"), transform);
-        }
-
-        StateUpdated.Invoke();
-    }
-
-    int GetEmployeeEarning(Character employee)
-    {
-        int sum = Mathf.CeilToInt(Random.Range(CurrentAction.GoldGeneratedMin, CurrentAction.GoldGeneratedMax)
-                * this.RevneueMultiplier
-                * CORE.Instance.Database.Stats.GlobalRevenueMultiplier);
-
-        //Employee Skills Bonus to revenue
-        foreach (BonusChallenge bonusChallenge in CurrentAction.ActionBonusChallenges)
-        {
-            float multi = employee.GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
-            sum = Mathf.CeilToInt(sum * multi);
-        }
-
-        return sum;
-    }
-
-    bool AttemptEscapeRisk(Character character)
-    {
-        float riskChance = 1f - (CurrentAction.Risk * this.RiskMultiplier);
-        if (Random.Range(0f, 1f) > riskChance) // Risk chance roll
-        {
-            if (CurrentAction.EscapeChallange != null) //Can escape with skill?
-            {
-                float escapeSkillValue = character.GetBonus(CurrentAction.EscapeChallange.Type).Value; // Attempt escape with skill
-                if (Random.Range(0f, CurrentAction.EscapeChallange.ChallengeValue + escapeSkillValue) > escapeSkillValue)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
     public void Rebrand(Property newProperty)
     {
         if (!IsOwnedByPlayer)
@@ -437,7 +323,7 @@ public class LocationEntity : AgentInteractable
         SelectedPanelUI.Instance.Deselect();
 
         CancelUpgrade();
-        StopRecruiting();
+        //TODO - Stop recruitments...
         Level = 1;
 
         while(EmployeesCharacters.Count > 0)
