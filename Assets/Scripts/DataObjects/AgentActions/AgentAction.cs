@@ -18,6 +18,8 @@ public class AgentAction : ScriptableObject
 
     public AgentAction FailureResult;
 
+    public bool ShowHover = true;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         if(!CanDoAction(requester, character, target))
@@ -33,6 +35,11 @@ public class AgentAction : ScriptableObject
             {
                 FailureResult.Execute(requester, character, target);
             }
+        }
+
+        if (ShowHover)
+        {
+            CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
         }
     }
 

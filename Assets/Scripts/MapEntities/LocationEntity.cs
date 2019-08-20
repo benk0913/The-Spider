@@ -343,6 +343,7 @@ public class LocationEntity : AgentInteractable
         {
             TaskDurationUI = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskWorld").GetComponent<LongTermTaskDurationUI>();
             TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            TaskDurationUI.transform.SetAsFirstSibling();
         }
         else
         {
