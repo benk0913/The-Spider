@@ -63,6 +63,19 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
         SetCharacter(character);
     }
 
+    public virtual void SetCharacter(Character character, bool ShowActionPortrait = true)
+    {
+        SetCharacter(character);
+        
+        if(ActionPortrait == null)
+        {
+            return;
+        }
+
+        ActionPortrait.gameObject.SetActive(false);
+        ActionPortrait = null;
+    }
+
     public virtual void SetCharacter(Character character)
     {
         CurrentCharacter = character;

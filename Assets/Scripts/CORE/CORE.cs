@@ -151,7 +151,7 @@ public class CORE : MonoBehaviour
         return null;
     }
 
-    public LocationEntity FindClosestLocationWithTrait(PropertyTrait trait, LocationEntity targetLocation)
+    public LocationEntity GetClosestLocationWithTrait(PropertyTrait trait, LocationEntity targetLocation)
     {
         List<LocationEntity> LocationsWithTrait = new List<LocationEntity>();
         for (int i = 0; i < Locations.Count; i++)

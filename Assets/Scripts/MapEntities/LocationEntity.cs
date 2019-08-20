@@ -346,7 +346,7 @@ public class LocationEntity : AgentInteractable
         }
         else
         {
-            if (TaskDurationUI.Instances.Contains(entity))
+            if (TaskDurationUI.Instances.ContainsKey(entity.CurrentTask) && TaskDurationUI.Instances[entity.CurrentTask].Contains(entity))
             {
                 return;
             }
@@ -362,7 +362,7 @@ public class LocationEntity : AgentInteractable
             return;
         }
 
-        if(!TaskDurationUI.Instances.Contains(entity))
+        if(!(TaskDurationUI.Instances.ContainsKey(entity.CurrentTask) && TaskDurationUI.Instances[entity.CurrentTask].Contains(entity)))
         {
             return;
         }

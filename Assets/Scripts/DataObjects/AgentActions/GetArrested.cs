@@ -33,7 +33,7 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
 
             if (!targetLocation.CurrentProperty.Traits.Contains(CORE.Instance.Database.LawAreaTrait)) //LOCATION IS NOT A CONSTABULARY / ETC..
             {
-                targetLocation = CORE.Instance.FindClosestLocationWithTrait(CORE.Instance.Database.LawAreaTrait, targetLocation);
+                targetLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.LawAreaTrait, targetLocation);
                 if (targetLocation != null)
                 {
                     target = targetLocation;

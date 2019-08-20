@@ -30,7 +30,14 @@ public class WorkInNearbyPlace : AgentAction //DO NOT INHERIT FROM
         LocationEntity location = (LocationEntity)target;
 
         //FIND Closest public area
-        target = CORE.Instance.FindClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, location);
+        if (Random.Range(0, 1f) > 0.2f)
+        {
+            target = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, location);
+        }
+        else
+        {
+            target = CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait);
+        }
 
         LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
 
