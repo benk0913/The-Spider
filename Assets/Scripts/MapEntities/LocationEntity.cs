@@ -353,7 +353,10 @@ public class LocationEntity : AgentInteractable
             }
         }
 
-        TaskDurationUI.AddEntity(entity);
+        if (entity.CurrentCharacter.CurrentFaction == CORE.PC.CurrentFaction)
+        {
+            TaskDurationUI.AddEntity(entity);
+        }
     }
 
     public void RemoveLongTermTask(LongTermTaskEntity entity)

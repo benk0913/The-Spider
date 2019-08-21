@@ -99,6 +99,11 @@ public class TellOnColleague : AgentAction
             }
         }
 
+        if(CurrentCharacter.GetRelationsWith(character) > 5)
+        {
+            return false;
+        }
+
         return true;
     }
 

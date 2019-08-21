@@ -100,7 +100,19 @@ public class Character : ScriptableObject
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
-    public LongTermTaskEntity CurrentTaskEntity;
+    public LongTermTaskEntity CurrentTaskEntity
+    {
+        get
+        {
+            return _currentTaskEntity;
+        }
+        set
+        {
+            _currentTaskEntity = value;
+            StateChanged.Invoke();
+        }
+    }
+    LongTermTaskEntity _currentTaskEntity;
 
     #region Traits & Bonuses
 
@@ -111,27 +123,56 @@ public class Character : ScriptableObject
 
     public void AddTrait(Trait trait)
     {
-        if(Traits.Contains(trait))
+        Trait nextTrait = trait.NextTrait; //-- Upgrade already upgraded traits.
+        while(nextTrait != null)
         {
-            Trait nextTrait = trait.NextTrait;
-            if (nextTrait != null)
+            if(Traits.Contains(nextTrait))
+            {
+                if(nextTrait.NextTrait != null)
+                {
+                    Trait tempTrait = nextTrait.NextTrait;
+                    Traits.Remove(nextTrait);
+                    Traits.Add(tempTrait);
+                }
+
+                return;
+            }
+
+            nextTrait = nextTrait.NextTrait;
+        }
+
+        Trait previousTrait = trait.PreviousTrait; //-- Remove traits which are in lower rank of this.
+        while (previousTrait != null)
+        {
+            if (Traits.Contains(previousTrait))
+            {
+                Traits.Remove(previousTrait);
+            }
+
+            previousTrait = previousTrait.PreviousTrait;
+        }
+
+        if (Traits.Contains(trait)) // -- Upgrade if trait exists and has upgrade.
+        {
+            Trait traitsNextTrait = trait.NextTrait;
+            if (traitsNextTrait != null)
             {
                 Traits.Remove(trait);
-                AddTrait(nextTrait);
+                AddTrait(traitsNextTrait);
             }
             return;
         }
 
-        for (int i = 0; i < trait.OppositeTraits.Length; i++)
+        for (int i = 0; i < trait.OppositeTraits.Length; i++) // -- If opposite traits exist, degrade them or dispose of them.
         {
             if (Traits.Contains(trait.OppositeTraits[i]))
             {
-                Trait previousTrait = trait.OppositeTraits[i].PreviousTrait;
+                Trait traitsPreviousTrait = trait.OppositeTraits[i].PreviousTrait;
 
-                if (previousTrait != null)
+                if (traitsPreviousTrait != null)
                 {
                     Traits.Remove(trait.OppositeTraits[i]);
-                    AddTrait(previousTrait);
+                    AddTrait(traitsPreviousTrait);
                 }
                 else
                 {
@@ -202,6 +243,13 @@ public class Character : ScriptableObject
                     if (bonus.Value < 1)
                     {
                         bonus.Value = 1;
+                        continue;
+                    }
+
+                    if (bonus.Value == 1)
+                    {
+                        bonus.Value = 2;
+                        continue;
                     }
                 }
 
@@ -330,7 +378,7 @@ public class Character : ScriptableObject
             skinColor = value;
 
             Face = skinColor.GetVCByName(Face.name);
-            VisualChanged.Invoke();
+            StateChanged.Invoke();
         }
     }
     [SerializeField]
@@ -350,7 +398,7 @@ public class Character : ScriptableObject
             hairColor = value;
 
             Hair = hairColor.GetVCByName(Hair.name);
-            VisualChanged.Invoke();
+            StateChanged.Invoke();
         }
     }
     [SerializeField]
@@ -365,7 +413,7 @@ public class Character : ScriptableObject
         set
         {
             face = value;
-            VisualChanged.Invoke();
+            StateChanged.Invoke();
         }
     }
     [SerializeField]
@@ -380,7 +428,7 @@ public class Character : ScriptableObject
         set
         {
             hair = value;
-            VisualChanged.Invoke();
+            StateChanged.Invoke();
         }
     }
     [SerializeField]
@@ -395,7 +443,7 @@ public class Character : ScriptableObject
         set
         {
             clothing = value;
-            VisualChanged.Invoke();
+            StateChanged.Invoke();
         }
     }
     [SerializeField]
@@ -406,7 +454,7 @@ public class Character : ScriptableObject
     #endregion
 
 
-    public UnityEvent VisualChanged = new UnityEvent();
+    public UnityEvent StateChanged = new UnityEvent();
 
     public Character()
     {
@@ -480,7 +528,7 @@ public class Character : ScriptableObject
 
         Clothing = VisualSet.Clothing.GetVCByName(Clothing.name);
 
-        VisualChanged.Invoke();
+        StateChanged.Invoke();
     }
 
     public void Initialize()
@@ -681,8 +729,6 @@ public class Character : ScriptableObject
     public void StartWorkingFor(LocationEntity location)
     {
         location.EmployeesCharacters.Add(this);
-        
-        CORE.Instance.ShowHoverMessage("New Recruit", ResourcesLoader.Instance.GetSprite("three-friends"), location.transform);
 
         WorkLocation = location;
         WorkLocation.RefreshState();
@@ -754,7 +800,7 @@ public class Character : ScriptableObject
             return true;
         }
 
-        if(!StopDoingCurrentTask())
+        if(CurrentTaskEntity != null && !CurrentTaskEntity.Cancel())
         {
             return false;
         }

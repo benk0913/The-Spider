@@ -58,7 +58,10 @@ public class PurchasableEntity : AgentInteractable
 
         funder.Gold -= Price;
 
-        CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
+        if (funder.CurrentFaction == CORE.PC.CurrentFaction)
+        {
+            CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", Price.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
+        }
 
 
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.Events;
 
 public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -104,7 +105,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
 
         if(CurrentCharacter != null)
         {
-            character.VisualChanged.RemoveListener(RefreshVisuals);
+            character.StateChanged.RemoveListener(RefreshState);
 
             TooltipTarget.Text = CurrentCharacter.name + " - 'Right Click' for more info...";
         }
@@ -114,22 +115,12 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
         }
 
         CurrentCharacter = character;
-        RefreshVisuals();
 
-        character.VisualChanged.AddListener(RefreshVisuals);
+        RefreshState();
 
-        if(ActionPortrait != null)
-        {
-            if(character.CurrentTaskEntity != null)
-            {
-                ActionPortrait.gameObject.SetActive(true);
-                ActionPortrait.SetAction(character.CurrentTaskEntity);
-            }
-            else
-            {
-                ActionPortrait.gameObject.SetActive(false);
-            }
-        }
+        character.StateChanged.AddListener(RefreshState);
+
+        
     }
 
     public virtual void SetDisabled()
@@ -143,6 +134,33 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
         Hair.sprite = CurrentCharacter.Hair.Sprite;
         Clothing.sprite = CurrentCharacter.Clothing.Sprite;
         Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
+    }
+
+    public virtual void RefreshState()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        RefreshVisuals();
+        RefreshAction();
+    }
+
+    public virtual void RefreshAction()
+    {
+        if (ActionPortrait != null)
+        {
+            if (CurrentCharacter.CurrentTaskEntity != null)
+            {
+                ActionPortrait.gameObject.SetActive(true);
+                ActionPortrait.SetAction(CurrentCharacter.CurrentTaskEntity);
+            }
+            else
+            {
+                ActionPortrait.gameObject.SetActive(false);
+            }
+        }
     }
 
     public virtual void SelectCharacter()

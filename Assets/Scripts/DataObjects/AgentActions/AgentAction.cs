@@ -37,7 +37,12 @@ public class AgentAction : ScriptableObject
             }
         }
 
-        if (ShowHover)
+        if (character.CurrentTaskEntity != null && character.CurrentTaskEntity.CurrentTask.Cancelable)
+        {
+            character.CurrentTaskEntity.Cancel();
+        }
+
+        if (ShowHover && character.CurrentFaction == CORE.PC.CurrentFaction)
         {
             CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
         }
@@ -50,7 +55,7 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
-        if(character.CurrentTaskEntity != null)
+        if(character.CurrentTaskEntity != null && !character.CurrentTaskEntity.CurrentTask.Cancelable)
         {
             return false;
         }
@@ -66,13 +71,10 @@ public class AgentAction : ScriptableObject
         }
 
         float characterSkill = character.GetBonus(this.Challenge.Type).Value;
-        float result = Random.Range(0f, characterSkill + Challenge.ChallengeValue);
+        float result = Random.Range(0f, characterSkill + Challenge.ChallengeValue + Challenge.RarityValue);
 
 
         bool finalResult = !Challenge.InvertedChance ? (characterSkill >= result) : (characterSkill < result); ;
-
-        if (finalResult)
-        { Debug.Log(character.name + " - " + this.name); }
 
         return finalResult;
     }

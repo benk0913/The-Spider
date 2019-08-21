@@ -10,8 +10,6 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(requester, character, target);
-
         if (!CanDoAction(requester, character, target))
         {
             return;
@@ -26,6 +24,8 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
 
             return;
         }
+
+        base.Execute(requester, character, target);
 
         if (target.GetType() == typeof(LocationEntity))
         {
@@ -53,11 +53,6 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
         LocationEntity location = (LocationEntity)target;
 
         if (!base.CanDoAction(requester, character, target))
-        {
-            return false;
-        }
-
-        if (requester != CORE.Instance.Database.GOD && character.TopEmployer != requester)
         {
             return false;
         }

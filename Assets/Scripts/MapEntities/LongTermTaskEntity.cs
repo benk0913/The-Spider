@@ -53,6 +53,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             return;
         }
 
+        if(CurrentLocation.TaskDurationUI == null)
+        {
+            return;
+        }
+
         CurrentLocation.TaskDurationUI.Refresh();
     }
 
@@ -68,11 +73,18 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         this.gameObject.SetActive(false);
     }
 
-    public void Cancel()
+    public bool Cancel()
     {
+        if(!CurrentTask.Cancelable)
+        {
+            return false;
+        }
+
         CurrentLocation.RemoveLongTermTask(this);
         CurrentCharacter.StopDoingCurrentTask();
         this.gameObject.SetActive(false);
+
+        return true;
     }
 
     public void OnPointerClick(PointerEventData eventData)

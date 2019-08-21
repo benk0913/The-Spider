@@ -88,6 +88,11 @@ public class LongTermTaskDurationUI : MonoBehaviour
             return;
         }
 
+        if(Instances.Keys.Count <= ListIndex || !Instances.Keys.Contains(Instances.Keys.ElementAt(ListIndex)))
+        {
+            return;
+        }
+
         LongTermTaskEntity currentEntity = Instances[Instances.Keys.ElementAt(ListIndex)][ChunkIndex];
 
         ActionPortrait.SetAction(currentEntity);
