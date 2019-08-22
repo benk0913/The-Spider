@@ -22,7 +22,22 @@ public class CORE : MonoBehaviour
 
     public List<LongTermTaskEntity> LongTermTasks = new List<LongTermTaskEntity>();
 
+    public List<LocationEntity> PresetLocations = new List<LocationEntity>();
+
     public static Character PC;
+
+    public bool LOAD_ON_START_tEST;
+
+    public bool SAVE_FILE_TEST;
+
+    private void Update()
+    {
+        if(SAVE_FILE_TEST)
+        {
+            SaveGame();
+            SAVE_FILE_TEST = false;
+        }
+    }
 
     private void Awake()
     {
@@ -36,6 +51,25 @@ public class CORE : MonoBehaviour
 
     void Initialize()
     {
+        //TODO Remove when save/load complete.
+
+        if(LOAD_ON_START_tEST)
+        {
+            ReadAllSaveFiles();
+            foreach(SaveFile file in SaveFiles)
+            {
+                Debug.Log(file.Name + " - " + file.Content);
+            }
+
+            LoadGame(SaveFiles[SaveFiles.Count - 1]);
+            return;
+        }
+
+        NewGame();
+    }
+
+    void NewGame()
+    {
         PC = Instantiate(Database.PlayerCharacter);
         PC.name = Database.PlayerCharacter.name;
         Characters.Add(PC);
@@ -48,6 +82,11 @@ public class CORE : MonoBehaviour
             tempCharacter.name = character.name;
 
             Characters.Add(tempCharacter);
+        }
+
+        foreach(LocationEntity presetLocation in PresetLocations)
+        {
+            presetLocation.InitializePreset();
         }
     }
 
@@ -102,6 +141,15 @@ public class CORE : MonoBehaviour
 
     #region Characters
 
+    public Character GenerateSimpleCharacter()
+    {
+        Character character = Instantiate(Database.HumanReference);
+
+        character.Initialize();
+
+        return character;
+    }
+
     public Character GenerateCharacter(int isFemale = -1, int minAge = 0, int maxAge = 150)
     {
         Character character = Instantiate(Database.HumanReference);
@@ -152,6 +200,30 @@ public class CORE : MonoBehaviour
     #endregion
 
     #region Locations
+
+    public LocationEntity GetPresetLocationByID(string locationID)
+    {
+        foreach(LocationEntity location in PresetLocations)
+        {
+            if(location.name == locationID)
+            {
+                return location;
+            }
+        }
+
+        return null;
+    }
+
+    public LocationEntity GenerateNewLocation(Vector3 atPosition, Quaternion atRotation)
+    {
+        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject("Location");
+
+        locationPrefab.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
+        locationPrefab.transform.position = atPosition;
+        locationPrefab.transform.rotation = atRotation;
+
+        return locationPrefab.GetComponent<LocationEntity>();
+    }
 
     public LocationEntity GetRandomLocationWithTrait(PropertyTrait trait)
     {
@@ -226,25 +298,6 @@ public class CORE : MonoBehaviour
 
     #endregion
 
-    #region Long Term Tasks
-
-    public LongTermTaskEntity GetLongTermTaskByID(string ID)
-    {
-        for (int i = 0; i < LongTermTasks.Count; i++)
-        {
-            if (ID == LongTermTasks[i].ID)
-            {
-                return LongTermTasks[i];
-            }
-        }
-
-        return null;
-    }
-
-    #endregion
-
-
-
     #region Saving & Loading
 
     List<SaveFile> SaveFiles = new List<SaveFile>();
@@ -256,9 +309,17 @@ public class CORE : MonoBehaviour
         JSONClass savefile = new JSONClass();
         savefile["Name"] = "Save" + SaveFiles.Count;
 
-        //savefile["CurrentDialog"] = SM.Dialog.CurrentDialog.Key;
+        for(int i=0;i<Characters.Count;i++)
+        {
+            savefile["Characters"][i] = Characters[i].ToJSON();
+        }
 
-    
+        for (int i = 0; i < Locations.Count; i++)
+        {
+            savefile["Locations"][i] = Locations[i].ToJSON();
+        }
+
+
         string ePath = Application.dataPath + "/Saves/" + savefile["Name"] + ".json";
         JSONNode tempNode = (JSONNode)savefile;
         File.WriteAllText(ePath, tempNode.ToString());
@@ -268,9 +329,50 @@ public class CORE : MonoBehaviour
 
     public void LoadGame(SaveFile file)
     {
-        //SM.Game.NewGame();
+        if(LoadGameRoutineInstance != null)
+        {
+            return;
+        }
 
-        //SM.Game.CurrentDayPhase = (DayPhase)file.Content["DayPhase"].AsInt;
+        LoadGameRoutineInstance = StartCoroutine(LoadGameRoutine(file));
+    }
+
+    Coroutine LoadGameRoutineInstance;
+    IEnumerator LoadGameRoutine(SaveFile file)
+    {
+        while(ResourcesLoader.Instance.m_bLoading)
+        {
+            yield return 0;
+        }
+
+        for (int i = 0; i < file.Content["Characters"].Count; i++)
+        {
+            Character tempChar = GenerateSimpleCharacter();
+            tempChar.FromJSON(file.Content["Characters"][i]);
+            Characters.Add(tempChar);
+        }
+
+        for (int i = 0; i < file.Content["Locations"].Count; i++)
+        {
+            LocationEntity tempLocation = GetPresetLocationByID(file.Content["Locations"][i]["ID"]);
+
+            if (tempLocation == null)
+            {
+                tempLocation = GenerateNewLocation(new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+            }
+
+            tempLocation.FromJSON(file.Content["Locations"][i]);
+            Locations.Add(tempLocation);
+        }
+
+        foreach (Character character in Characters)
+        {
+            character.ImplementIDs();
+        }
+
+        PC = GetCharacter("You");
+
+        LoadGameRoutineInstance = null;
     }
 
     public void ReadAllSaveFiles()

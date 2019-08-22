@@ -44,16 +44,10 @@ public class PurchasableEntity : AgentInteractable
             return;
         }
 
-        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject("Location");
 
-        locationPrefab.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
-        locationPrefab.transform.position = transform.position;
-        locationPrefab.transform.rotation = transform.rotation;
+        LocationEntity location = CORE.Instance.GenerateNewLocation(transform.position, transform.rotation);
 
-
-        LocationEntity location = locationPrefab.GetComponent<LocationEntity>();
-
-        location.SetInfo(CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier);
+        location.SetInfo(Util.GenerateUniqueID(), CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier);
         forCharacter.StartOwningLocation(location);
 
         funder.Gold -= Price;

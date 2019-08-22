@@ -708,6 +708,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     void GoToRandomLocation()
     {
+        if(CORE.Instance.Locations.Count == 0)
+        {
+            return;
+        }
+
         GoToLocation(CORE.Instance.Locations[Random.Range(0,CORE.Instance.Locations.Count)]);
         return;
     }
@@ -856,7 +861,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
     string _workLocationID;
     string[] _propertiesOwnedIDs;
     string _currentLocationID;
-    string _currentTaskID;
 
     public JSONNode ToJSON()
     {
@@ -870,12 +874,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["CurrentLocation"] = CurrentLocation == null ? "" : CurrentLocation.ID;
 
+        node["CurrentFaction"] = CurrentFaction.name;
+
         for(int i=0;i<PropertiesOwned.Count;i++)
         {
             node["PropertiesOwned"][i] = PropertiesOwned[i].ID;
         }
-
-        node["CurrentTaskEntity"] = CurrentTaskEntity.ID;
 
         for(int i=0;i<Traits.Count;i++)
         {
@@ -909,13 +913,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         _currentLocationID = node["CurrentLocation"];
 
+        CurrentFaction = CORE.Instance.Database.GetFactionByName(node["CurrentFaction"]);
+
         _propertiesOwnedIDs = new string[node["PropertiesOwned"].Count];
         for (int i = 0; i < node["PropertiesOwned"].Count; i++)
         {
             _propertiesOwnedIDs[i] = node["PropertiesOwned"][i];
         }
-
-        _currentTaskEntity.ID = node["CurrentTaskEntity"];
 
         for (int i = 0; i < node["Traits"].Count; i++)
         {
@@ -942,15 +946,20 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void ImplementIDs()
     {
-        StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));
-        GoToLocation(CORE.Instance.GetLocationByID(_currentLocationID));
+        if (!string.IsNullOrEmpty(_workLocationID))
+        {
+            StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));
+        }
+
+        if (!string.IsNullOrEmpty(_currentLocationID))
+        {
+            GoToLocation(CORE.Instance.GetLocationByID(_currentLocationID));
+        }
 
         foreach(string proeprtyID in _propertiesOwnedIDs)
         {
             StartOwningLocation(CORE.Instance.GetLocationByID(proeprtyID));
         }
-
-        CurrentTaskEntity = StartDoingTask(CORE.Instance.GetLongTermTaskByID(_currentTaskID));
     }
 
     #endregion

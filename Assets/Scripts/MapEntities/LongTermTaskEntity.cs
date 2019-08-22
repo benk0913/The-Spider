@@ -4,10 +4,8 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler, ISaveFileCompatible
+public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 {
-    public string ID;
-
     [SerializeField]
     public LongTermTask CurrentTask;
 
@@ -24,10 +22,6 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler, ISave
 
     LocationEntity CurrentLocation;
 
-    void Awake()
-    {
-        ID = Util.GenerateUniqueID();
-    }
 
     private void Start()
     {
@@ -115,47 +109,4 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler, ISave
 
     }
 
-    string _currentCharacterID;
-    string _currentRequesterID;
-    string _currentTargetLocationID;
-    string _currentLocationID;
-
-    public JSONNode ToJSON()
-    {
-        JSONClass node = new JSONClass();
-
-        node["ID"] = ID;
-        node["CurrentTask"] = CurrentTask.name;
-        node["CurrentCharacter"] = CurrentCharacter.ID;
-        node["CurrentRequester"] = CurrentRequester.ID;
-
-        if (CurrentTarget.GetType() == typeof(LocationEntity))
-        {
-            node["CurrentTargetLocation"] = ((LocationEntity)CurrentTarget).ID;
-        }
-        else
-        {
-            Debug.LogError("SUPPORT FOR NON LOCATION LONG-TERM-TASKS NOT IMPLEMENTED!");
-        }
-
-        node["TurnsLeft"] = TurnsLeft.ToString();
-
-        node["CurrentLocation"] = CurrentLocation.ID;
-
-
-        return node;
-    }
-
-    public void FromJSON(JSONNode node)
-    {
-        ID = node["ID"];
-        CurrentTask = CORE.Instance.Database.GetTask(node["CurrentTask"]);
-
-
-    }
-
-    public void ImplementIDs()
-    {
-        throw new System.NotImplementedException();
-    }
 }

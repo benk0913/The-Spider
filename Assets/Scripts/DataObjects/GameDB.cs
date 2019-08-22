@@ -35,7 +35,41 @@ public class GameDB : ScriptableObject
 
     public List<Property> Properties = new List<Property>();
     public List<Faction> Factions = new List<Faction>();
-    
+
+    public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
+
+    public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
+
+    public BonusType[] BonusTypes;
+
+    public Trait[] Traits;
+
+    public Property GetPropertyByName(string propertyName)
+    {
+        foreach (Property property in Properties)
+        {
+            if (property.name == propertyName)
+            {
+                return property;
+            }
+        }
+
+        return null;
+    }
+
+    public Faction GetFactionByName(string factionName)
+    {
+        foreach (Faction faction in Factions)
+        {
+            if (faction.name == factionName)
+            {
+                return faction;
+            }
+        }
+
+        return DefaultFaction;
+    }
+
     public RaceSet GetRace(string raceName, bool fallback = true)
     {
         for (int i = 0; i < Races.Count; i++)
@@ -53,14 +87,6 @@ public class GameDB : ScriptableObject
 
         return null;
     }
-
-    public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
-
-    public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
-
-    public BonusType[] BonusTypes;
-
-    public Trait[] Traits;
 
 
     public Trait GetTrait(string traitName)

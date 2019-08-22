@@ -60,10 +60,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public LongTermTaskDurationUI TaskDurationUI;
 
-    private void Awake()
-    {
-        this.ID = Util.GenerateUniqueID();
-    }
 
     public bool IsOwnedByPlayer
     {
@@ -116,10 +112,13 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         CORE.Instance.Locations.Add(this);
 
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+    }
 
-        if(CurrentProperty != null)
+    public void InitializePreset()
+    {
+        if (CurrentProperty != null)
         {
-            SetInfo(CurrentProperty);
+            SetInfo(this.name, CurrentProperty);
 
             if (OwnerCharacter != null)
             {
@@ -131,7 +130,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
 
             List<Character> charactersToAdd = new List<Character>();
-            while(EmployeesCharacters.Count > 0)
+            while (EmployeesCharacters.Count > 0)
             {
                 Character tempChar = CORE.Instance.GetCharacter(EmployeesCharacters[0].name);
 
@@ -144,7 +143,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
                 charactersToAdd.Add(tempChar);
             }
-            foreach(Character character in charactersToAdd)
+            foreach (Character character in charactersToAdd)
             {
                 character.StartWorkingFor(this);
             }
@@ -189,8 +188,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
-    public void SetInfo(Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f)
+    public void SetInfo(string id, Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f)
     {
+        this.ID = id;
         this.RevneueMultiplier = revenueMultiplier;
         this.RiskMultiplier = riskMultiplier;
 
@@ -359,7 +359,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             EmployeesCharacters[0].StopWorkingFor(this);
         }
 
-        SetInfo(newProperty, this.RevneueMultiplier, this.RiskMultiplier);
+        SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier);
 
         SelectedPanelUI.Instance.Select(this);
     }
@@ -431,21 +431,37 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["RiskMultiplier"] = RiskMultiplier.ToString();
         node["IsUpgrading"] = IsUpgrading.ToString();
         node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
-        if(CurrentAction != null)
+
+        if (CurrentAction != null)
         {
-            node["CurrentAction"] = CurrentAction.Name
+            node["CurrentAction"] = CurrentAction.Name;
         }
+
+
+        node["PositionX"] = transform.position.x.ToString();
+        node["PositionY"] = transform.position.y.ToString();
+        node["PositionZ"] = transform.position.z.ToString();
+
+        node["RotationX"] = transform.rotation.eulerAngles.x.ToString();
+        node["RotationY"] = transform.rotation.eulerAngles.y.ToString();
+        node["RotationZ"] = transform.rotation.eulerAngles.z.ToString();
 
         return node;
     }
 
     public void FromJSON(JSONNode node)
     {
-        throw new System.NotImplementedException();
+        Level = int.Parse(node["Level"]);
+        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), float.Parse(node["RevneueMultiplier"]), float.Parse(node["RiskMultiplier"]));
+        IsUpgrading = bool.Parse(node["IsUpgrading"]);
+        CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
+        CurrentProperty.GetActionByName(node["CurrentAction"]);
+
+        transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
+        transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));
     }
 
     public void ImplementIDs()
     {
-        throw new System.NotImplementedException();
     }
 }
