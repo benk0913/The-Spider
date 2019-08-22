@@ -950,7 +950,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             StartOwningLocation(CORE.Instance.GetLocationByID(proeprtyID));
         }
 
-        CurrentTaskEntity = CORE.Instance.GetLongTermTaskByID(_currentTaskID);
+        CurrentTaskEntity = StartDoingTask(CORE.Instance.GetLongTermTaskByID(_currentTaskID));
     }
 
     #endregion

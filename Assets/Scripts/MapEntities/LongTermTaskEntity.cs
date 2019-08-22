@@ -149,7 +149,9 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler, ISave
     public void FromJSON(JSONNode node)
     {
         ID = node["ID"];
-        
+        CurrentTask = CORE.Instance.Database.GetTask(node["CurrentTask"]);
+
+
     }
 
     public void ImplementIDs()
