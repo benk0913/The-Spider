@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using SimpleJSON;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "Character", menuName = "DataObjects/Character", order = 2)]
-public class Character : ScriptableObject
+public class Character : ScriptableObject, ISaveFileCompatible
 {
     #region Stats
 
@@ -850,14 +851,121 @@ public class Character : ScriptableObject
 
     #endregion
 
+    #region Save & Load
+
+    string _workLocationID;
+    string[] _propertiesOwnedIDs;
+    string _currentLocationID;
+    string _currentTaskID;
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["ID"] = ID;
+
+        node["Gold"] = _gold.ToString();
+
+        node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
+
+        node["CurrentLocation"] = CurrentLocation == null ? "" : CurrentLocation.ID;
+
+        for(int i=0;i<PropertiesOwned.Count;i++)
+        {
+            node["PropertiesOwned"][i] = PropertiesOwned[i].ID;
+        }
+
+        node["CurrentTaskEntity"] = CurrentTaskEntity.ID;
+
+        for(int i=0;i<Traits.Count;i++)
+        {
+            node["Traits"][i] = Traits[i].name;
+        }
+
+        for(int i=0;i<DynamicRelationsModifiers.Count;i++)
+        {
+            node["DynamicRelationsModifiers"][i] = DynamicRelationsModifiers[i].ToJSON();
+        }
+
+        node["age"] = Age.ToString();
+        node["skinColor"] = SkinColor.name;
+        node["hairColor"] = HairColor.name;
+        node["face"] = Face.name;
+        node["hair"] = Hair.name;
+        node["clothing"] = Clothing.name;
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        Initialize();
+
+        ID = node["ID"];
+
+        _gold = int.Parse(node["Gold"]);
+
+        _workLocationID = node["WorkLocation"];
+
+        _currentLocationID = node["CurrentLocation"];
+
+        _propertiesOwnedIDs = new string[node["PropertiesOwned"].Count];
+        for (int i = 0; i < node["PropertiesOwned"].Count; i++)
+        {
+            _propertiesOwnedIDs[i] = node["PropertiesOwned"][i];
+        }
+
+        _currentTaskEntity.ID = node["CurrentTaskEntity"];
+
+        for (int i = 0; i < node["Traits"].Count; i++)
+        {
+            AddTrait(CORE.Instance.Database.GetTrait(node["Traits"][i]));
+        }
+
+        for (int i = 0; i < node["DynamicRelationsModifiers"].Count; i++)
+        {
+            DynamicRelationsModifier modifier = new DynamicRelationsModifier();
+
+            modifier.FromJSON(node["DynamicRelationsModifiers"][i]);
+
+            DynamicRelationsModifiers.Add(modifier);
+        }
+
+        Age = int.Parse(node["age"]);
+        skinColor = VisualSet.GetVCByName(node["skinColor"]);
+        hairColor = VisualSet.GetVCByName(node["hairColor"]);
+        face = VisualSet.GetVCByName(node["face"]);
+        hair = VisualSet.GetVCByName(node["hair"]);
+        clothing = VisualSet.GetVCByName(node["clothing"]);
+
+    }
+
+    public void ImplementIDs()
+    {
+        StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));
+        GoToLocation(CORE.Instance.GetLocationByID(_currentLocationID));
+
+        foreach(string proeprtyID in _propertiesOwnedIDs)
+        {
+            StartOwningLocation(CORE.Instance.GetLocationByID(proeprtyID));
+        }
+
+        CurrentTaskEntity = CORE.Instance.GetLongTermTaskByID(_currentTaskID);
+    }
+
+    #endregion
 
 }
 
-public class DynamicRelationsModifier
+public class DynamicRelationsModifier : ISaveFileCompatible
 {
     public RelationsModifier Modifier;
     public int Turns;
     public Character ToCharacter;
+
+    public DynamicRelationsModifier()
+    {
+    }
 
     public DynamicRelationsModifier(RelationsModifier modifier, int turns, Character toCharacter)
     {
@@ -865,19 +973,72 @@ public class DynamicRelationsModifier
         this.Turns = turns;
         this.ToCharacter = toCharacter;
     }
+
+    string toCharacterID;
+
+    public void FromJSON(JSONNode node)
+    {
+        RelationsModifier modifier = new RelationsModifier();
+        modifier.FromJSON(node["Modifier"]);
+        Modifier = modifier;
+
+        Turns = int.Parse(node["Turns"]);
+
+        toCharacterID = node["ToCharacter"];
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["Modifier"] = Modifier.ToJSON();
+        node["Turns"] = Turns.ToString();
+        node["ToCharacter"] = ToCharacter.ID.ToString();
+
+        return node;
+    }
+
+    public void ImplementIDs()
+    {
+        ToCharacter = CORE.Instance.GetCharacterByID(toCharacterID);
+    }
 }
 
 
 [System.Serializable]
-public class RelationsModifier
+public class RelationsModifier : ISaveFileCompatible
 {
     public string Message;
     public int Value;
+
+    public RelationsModifier()
+    {
+    }
 
     public RelationsModifier(string message, int value)
     {
         //this.Message = (value > 0 ? "<color=green>" : "<color=red>") + message + " (" + value + ")</color>";
         this.Message =  message;
         this.Value = value;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        Message = node["Message"];
+        Value = int.Parse(node["Value"]);
+    }
+
+    public void ImplementIDs()
+    {
+       
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+        node["Message"] = Message;
+        node["Value"] = Value.ToString();
+
+        return node;
     }
 }

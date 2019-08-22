@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class LocationEntity : AgentInteractable
+public class LocationEntity : AgentInteractable, ISaveFileCompatible
 {
+    public string ID;
+
     public const float PORTRAITS_SPACING = 5f;
     public const int PORTRAITS_MAX_IN_ROW = 5;
 
@@ -43,8 +46,6 @@ public class LocationEntity : AgentInteractable
 
     public int CurrentUpgradeLength;
 
-    public bool IsVisible = false;
-
     public UnityEvent StateUpdated;
 
     public Property.PropertyAction CurrentAction;
@@ -58,6 +59,11 @@ public class LocationEntity : AgentInteractable
     List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
     public LongTermTaskDurationUI TaskDurationUI;
+
+    private void Awake()
+    {
+        this.ID = Util.GenerateUniqueID();
+    }
 
     public bool IsOwnedByPlayer
     {
@@ -414,8 +420,32 @@ public class LocationEntity : AgentInteractable
         TaskDurationUI = null;
     }
 
-   
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
 
+        node["ID"] = ID;
+        node["CurrentProperty"] = CurrentProperty.name;
+        node["Level"] = Level.ToString();
+        node["RevneueMultiplier"] = RevneueMultiplier.ToString();
+        node["RiskMultiplier"] = RiskMultiplier.ToString();
+        node["IsUpgrading"] = IsUpgrading.ToString();
+        node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
+        if(CurrentAction != null)
+        {
+            node["CurrentAction"] = CurrentAction.Name
+        }
 
+        return node;
+    }
 
+    public void FromJSON(JSONNode node)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ImplementIDs()
+    {
+        throw new System.NotImplementedException();
+    }
 }

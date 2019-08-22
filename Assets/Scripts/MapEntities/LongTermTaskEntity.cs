@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
+public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler, ISaveFileCompatible
 {
+    public string ID;
+
     [SerializeField]
     public LongTermTask CurrentTask;
 
@@ -20,6 +23,17 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     public int TurnsLeft;
 
     LocationEntity CurrentLocation;
+
+    void Awake()
+    {
+        ID = Util.GenerateUniqueID();
+    }
+
+    private void Start()
+    {
+        CORE.Instance.LongTermTasks.Add(this);
+    }
+
 
     public void SetInfo(LongTermTask task, Character requester, Character character, AgentInteractable target)
     {
@@ -41,6 +55,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     private void OnDisable()
     {
         GameClock.Instance.OnTurnPassed.RemoveListener(TurnPassed);
+        CORE.Instance.LongTermTasks.Remove(this);
     }
 
     void TurnPassed()
@@ -100,4 +115,45 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     }
 
+    string _currentCharacterID;
+    string _currentRequesterID;
+    string _currentTargetLocationID;
+    string _currentLocationID;
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["ID"] = ID;
+        node["CurrentTask"] = CurrentTask.name;
+        node["CurrentCharacter"] = CurrentCharacter.ID;
+        node["CurrentRequester"] = CurrentRequester.ID;
+
+        if (CurrentTarget.GetType() == typeof(LocationEntity))
+        {
+            node["CurrentTargetLocation"] = ((LocationEntity)CurrentTarget).ID;
+        }
+        else
+        {
+            Debug.LogError("SUPPORT FOR NON LOCATION LONG-TERM-TASKS NOT IMPLEMENTED!");
+        }
+
+        node["TurnsLeft"] = TurnsLeft.ToString();
+
+        node["CurrentLocation"] = CurrentLocation.ID;
+
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        ID = node["ID"];
+        
+    }
+
+    public void ImplementIDs()
+    {
+        throw new System.NotImplementedException();
+    }
 }

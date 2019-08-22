@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using SimpleJSON;
+using System.IO;
 
 public class CORE : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class CORE : MonoBehaviour
     public List<Character> Characters = new List<Character>();
 
     public List<LocationEntity> Locations = new List<LocationEntity>();
+
+    public List<LongTermTaskEntity> LongTermTasks = new List<LongTermTaskEntity>();
 
     public static Character PC;
 
@@ -132,6 +136,19 @@ public class CORE : MonoBehaviour
         return null;
     }
 
+    public Character GetCharacterByID(string ID)
+    {
+        for(int i=0;i<Characters.Count;i++)
+        {
+            if(ID == Characters[i].ID)
+            {
+                return Characters[i];
+            }
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region Locations
@@ -194,5 +211,102 @@ public class CORE : MonoBehaviour
         return null;
     }
 
+    public LocationEntity GetLocationByID(string ID)
+    {
+        for (int i = 0; i < Locations.Count; i++)
+        {
+            if (ID == Locations[i].ID)
+            {
+                return Locations[i];
+            }
+        }
+
+        return null;
+    }
+
     #endregion
+
+    #region Long Term Tasks
+
+    public LongTermTaskEntity GetLongTermTaskByID(string ID)
+    {
+        for (int i = 0; i < LongTermTasks.Count; i++)
+        {
+            if (ID == LongTermTasks[i].ID)
+            {
+                return LongTermTasks[i];
+            }
+        }
+
+        return null;
+    }
+
+    #endregion
+
+
+
+    #region Saving & Loading
+
+    List<SaveFile> SaveFiles = new List<SaveFile>();
+
+    public void SaveGame()
+    {
+        ReadAllSaveFiles();
+
+        JSONClass savefile = new JSONClass();
+        savefile["Name"] = "Save" + SaveFiles.Count;
+
+        //savefile["CurrentDialog"] = SM.Dialog.CurrentDialog.Key;
+
+    
+        string ePath = Application.dataPath + "/Saves/" + savefile["Name"] + ".json";
+        JSONNode tempNode = (JSONNode)savefile;
+        File.WriteAllText(ePath, tempNode.ToString());
+
+        ReadAllSaveFiles();
+    }
+
+    public void LoadGame(SaveFile file)
+    {
+        //SM.Game.NewGame();
+
+        //SM.Game.CurrentDayPhase = (DayPhase)file.Content["DayPhase"].AsInt;
+    }
+
+    public void ReadAllSaveFiles()
+    {
+        SaveFiles.Clear();
+
+        if (!Directory.Exists(Application.dataPath + "/Saves"))
+        {
+            Directory.CreateDirectory(Application.dataPath + "/Saves");
+        }
+        string[] tempSaveFiles = Directory.GetFiles(Application.dataPath + "/Saves");
+
+        if (tempSaveFiles.Length > 0)
+        {
+            for (int i = 0; i < tempSaveFiles.Length; i++)
+            {
+                if (tempSaveFiles[i].Contains("Save") && !tempSaveFiles[i].Contains(".meta"))
+                {
+                    string content = File.ReadAllText(tempSaveFiles[i]);
+                    SaveFiles.Add(new SaveFile(content));
+                }
+            }
+        }
+    }
+
+    #endregion
+}
+
+public class SaveFile
+{
+    public SaveFile(string content)
+    {
+        this.Content = JSON.Parse(content);
+        this.Name = this.Content["Name"].Value;
+    }
+
+    public string Name;
+    public JSONNode Content;
 }

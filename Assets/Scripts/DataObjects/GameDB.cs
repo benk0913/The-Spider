@@ -62,7 +62,21 @@ public class GameDB : ScriptableObject
 
     public Trait[] Traits;
 
-    
+
+    public Trait GetTrait(string traitName)
+    {
+        for(int i=0;i<Traits.Length;i++)
+        {
+            if(Traits[i].name == traitName)
+            {
+                return Traits[i];
+            }
+        }
+
+        return null;
+    }
+
+
     public Trait[] GetRandomTraits()
     {
         List<Trait> GeneratedTraits = new List<Trait>();
