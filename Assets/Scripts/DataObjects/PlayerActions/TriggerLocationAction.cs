@@ -1,0 +1,59 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+[CreateAssetMenu(fileName = "TriggerLocationAction", menuName = "DataObjects/PlayerActions/TriggerLocationAction", order = 2)]
+public class TriggerLocationAction : PlayerAction
+{
+    [SerializeField]
+    LongTermTask OwnerTask;
+
+    [SerializeField]
+    PropertyTrait TargetPropertyTrait;
+
+    public override void Execute(Character requester, AgentInteractable target)
+    {
+        if (!CanDoAction(requester, target))
+        {
+            GlobalMessagePrompterUI.Instance.Show("You cannot change this property.", 1f, Color.yellow);
+            return;
+        }
+
+        LocationEntity location = (LocationEntity)target;
+        Character locationOwner = location.OwnerCharacter;
+
+        if(TargetPropertyTrait != null)
+        {
+            location = CORE.Instance.GetClosestLocationWithTrait(TargetPropertyTrait, location);
+        }
+
+        LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
+
+        longTermTask.transform.SetParent(MapViewManager.Instance.transform);
+        longTermTask.transform.position = target.transform.position;
+        longTermTask.SetInfo(this.OwnerTask, requester, locationOwner, location);
+    }
+
+    public override bool CanDoAction(Character requester, AgentInteractable target)
+    {
+        LocationEntity location = (LocationEntity)target;
+
+        if (location.OwnerCharacter == null)
+        {
+            return false;
+        }
+
+        if (location.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return false;
+        }
+
+        if (location.OwnerCharacter.CurrentTaskEntity != null && !location.OwnerCharacter.CurrentTaskEntity.CurrentTask.Cancelable)
+        {
+            return false;
+        }
+
+        return true;
+    }
+}

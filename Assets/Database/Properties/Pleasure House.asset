@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Pleasure House
+  m_EditorClassIdentifier: 
+  Description: The house of pleasure provides unique entertainment  for a price.
+  PropertyLevels:
+  - MaxEmployees: 2
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 100
+    RecruitmentLength: 10
+  - MaxEmployees: 3
+    MaxActions: 2
+    UpgradePrice: 300
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  - MaxEmployees: 4
+    MaxActions: 2
+    UpgradePrice: 600
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  - MaxEmployees: 8
+    MaxActions: 3
+    UpgradePrice: 2000
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  Actions:
+  - Name: Pleasure I
+    Description: The pleasure house will provide it's unique services.
+    Icon: {fileID: 21300000, guid: 8269f618f576bb84a958288b3737a11a, type: 3}
+    GoldGeneratedMin: 4
+    GoldGeneratedMax: 8
+    WorkAction: {fileID: 11400000, guid: fa4dd3407f087914abea8233483cdd89, type: 2}
+  - Name: Pleasure II
+    Description: The pleasure house will provide it's unique services.
+    Icon: {fileID: 21300000, guid: 8269f618f576bb84a958288b3737a11a, type: 3}
+    GoldGeneratedMin: 6
+    GoldGeneratedMax: 10
+    WorkAction: {fileID: 11400000, guid: fa4dd3407f087914abea8233483cdd89, type: 2}
+  - Name: Premium Pleasure III
+    Description: The pleasure house will provide it's unique services at premium
+      quality.
+    Icon: {fileID: 21300000, guid: 8269f618f576bb84a958288b3737a11a, type: 3}
+    GoldGeneratedMin: 12
+    GoldGeneratedMax: 12
+    WorkAction: {fileID: 11400000, guid: fa4dd3407f087914abea8233483cdd89, type: 2}
+  Traits: []
+  Icon: {fileID: 21300000, guid: 209c7764c4ed62a44812cdff5ec1577b, type: 3}
+  FigurePrefab: {fileID: 3751449078466721607, guid: 20771ff63b90feb4492f5aa8780883e6,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: 4f0cc0e695debac4b81fdb11db235267,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: 1
+  MinAge: 18
+  MaxAge: 45
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isPublicArea: 0

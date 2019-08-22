@@ -44,6 +44,9 @@ public class ResourcesLoader : MonoBehaviour {
     [Tooltip("Add only objects which are hidden on initialization but meant to be preloaded...")]
     public List<GameObject> m_listPreloadObjects = new List<GameObject>();
 
+    public string[] PoolPrewarmObjects;
+
+
     #endregion
 
     #region External Methods
@@ -429,6 +432,24 @@ public class ResourcesLoader : MonoBehaviour {
             print(this + " - Has finished loading scene objects...");
         }
 
+        List<GameObject> prewarmed = new List<GameObject>();
+        foreach (string objName in PoolPrewarmObjects)
+        {
+            prewarmed.Add(GetRecycledObject(objName));
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        foreach(GameObject obj in prewarmed)
+        {
+            obj.SetActive(false);
+        }
+
+        if (debugMode)
+        {
+            print(this + " - Has finished prewarming pool objects...");
+        }
+
     }
 
     protected List<GameObject> m_listObjectPool = new List<GameObject>();
@@ -528,6 +549,7 @@ public class ResourcesLoader : MonoBehaviour {
         if (tempObj == null)
         {
             tempObj = (GameObject)Instantiate(m_dicLoadedObjects[gObject.name]);
+
 
             if (debugMode)
             {

@@ -31,6 +31,9 @@ public class Property : ScriptableObject
 
     public bool isPublicArea = false;
 
+    public PlayerAction[] UniquePlayerActions;
+    public AgentAction[] UniqueAgentActions;
+
     [System.Serializable]
     public class PropertyLevel
     {

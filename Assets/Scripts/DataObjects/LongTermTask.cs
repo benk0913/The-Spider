@@ -17,6 +17,8 @@ public class LongTermTask : ScriptableObject
 
     public bool Cancelable = true;
 
+    public Trait[] TraitsToTargetDuringAction;
+
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();

@@ -6,9 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RebrandLocationPlayerAction", menuName = "DataObjects/PlayerActions/RebrandLocationPlayerAction", order = 2)]
 public class RebrandLocationPlayerAction : PlayerAction
 {
-    [TextArea(2, 3)]
-    public string Description;
-
     public override void Execute(Character requester, AgentInteractable target)
     {
         if (!CanDoAction(requester, target))

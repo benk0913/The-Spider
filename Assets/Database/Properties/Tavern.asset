@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Tavern
+  m_EditorClassIdentifier: 
+  Description: The Tavern acts as a public house, mostly used in the evening when
+    people are off-work and have the spare time for meeting, drinking, chatting and
+    so on.
+  PropertyLevels:
+  - MaxEmployees: 1
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  - MaxEmployees: 2
+    MaxActions: 2
+    UpgradePrice: 200
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  - MaxEmployees: 3
+    MaxActions: 3
+    UpgradePrice: 500
+    UpgradeLength: 10
+    RecruitmentLength: 10
+  Actions:
+  - Name: Serve Alcohol
+    Description: The establishment will serve alcohol to clients.
+    Icon: {fileID: 21300000, guid: c6b74802c38a2934e94d928d5ff6c179, type: 3}
+    GoldGeneratedMin: 2
+    GoldGeneratedMax: 6
+    WorkAction: {fileID: 11400000, guid: 3dd714fc53e832d48aba1c855ebfe0d6, type: 2}
+  - Name: Alcohol & Food
+    Description: The establishment will serve alcohol & Food to clients.
+    Icon: {fileID: 21300000, guid: e0927371780f6a047a4ed642f5fa3fce, type: 3}
+    GoldGeneratedMin: 4
+    GoldGeneratedMax: 9
+    WorkAction: {fileID: 11400000, guid: 3dd714fc53e832d48aba1c855ebfe0d6, type: 2}
+  - Name: Tavern & Inn
+    Description: The establishment will serve alcohol and food. It may also provide
+      a clean bed to sleep on.
+    Icon: {fileID: 21300000, guid: 37a99873f6332bb40834b80d4b3350eb, type: 3}
+    GoldGeneratedMin: 8
+    GoldGeneratedMax: 10
+    WorkAction: {fileID: 11400000, guid: 3dd714fc53e832d48aba1c855ebfe0d6, type: 2}
+  Traits: []
+  Icon: {fileID: 21300000, guid: 70611f3024079c740a05f154a2ae70b5, type: 3}
+  FigurePrefab: {fileID: 3751449078466721607, guid: 2108641c8e037bd46be971652bda7028,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: ab861fcd9637f094793457c2eb20184b,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 12
+  MaxAge: 45
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isPublicArea: 0

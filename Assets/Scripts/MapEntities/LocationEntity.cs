@@ -67,14 +67,36 @@ public class LocationEntity : AgentInteractable
         }
     }
 
+    public PropertyTrait[] Traits
+    {
+        get
+        {
+            List<PropertyTrait> traits = new List<PropertyTrait>();
+            traits.InsertRange(0, TemporaryTraits);
+            traits.InsertRange(0, CurrentProperty.Traits);
+
+            return traits.ToArray();
+        }
+    }
+
+    public List<PropertyTrait> TemporaryTraits = new List<PropertyTrait>();
+
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
-        return PossibleAgentActions;
+        List<AgentAction> actions = new List<AgentAction>();
+        actions.InsertRange(0, PossibleAgentActions);
+        actions.InsertRange(0, CurrentProperty.UniqueAgentActions);
+
+        return actions;
     }
 
     public override List<PlayerAction> GetPossiblePlayerActions()
     {
-        return PossiblePlayerActions;
+        List<PlayerAction> actions = new List<PlayerAction>();
+        actions.InsertRange(0, PossiblePlayerActions);
+        actions.InsertRange(0, CurrentProperty.UniquePlayerActions);
+
+        return actions;
     }
 
     public void OnRightClick()
@@ -353,6 +375,11 @@ public class LocationEntity : AgentInteractable
             }
         }
 
+        foreach(PropertyTrait trait in entity.CurrentTask.TraitsToTargetDuringAction)
+        {
+            TemporaryTraits.Add(trait);
+        }
+
         if (entity.CurrentCharacter.CurrentFaction == CORE.PC.CurrentFaction)
         {
             TaskDurationUI.AddEntity(entity);
@@ -369,6 +396,11 @@ public class LocationEntity : AgentInteractable
         if(!(TaskDurationUI.Instances.ContainsKey(entity.CurrentTask) && TaskDurationUI.Instances[entity.CurrentTask].Contains(entity)))
         {
             return;
+        }
+        
+        foreach (PropertyTrait trait in entity.CurrentTask.TraitsToTargetDuringAction)
+        {
+            TemporaryTraits.Remove(trait);
         }
 
         TaskDurationUI.RemoveEntity(entity);

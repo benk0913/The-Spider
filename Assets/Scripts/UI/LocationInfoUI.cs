@@ -78,12 +78,12 @@ public class LocationInfoUI : MonoBehaviour
         }
 
         ClearTraits();
-        for (int i = 0; i < CurrentLocation.CurrentProperty.Traits.Count; i++)
+        for (int i = 0; i < CurrentLocation.Traits.Length; i++)
         {
             GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
             tempTrait.transform.SetParent(TraitsContainer, false);
             tempTrait.transform.localScale = Vector3.one;
-            tempTrait.GetComponent<TraitUI>().SetInfo(CurrentLocation.CurrentProperty.Traits[i]);
+            tempTrait.GetComponent<TraitUI>().SetInfo(CurrentLocation.Traits[i]);
         }
     }
 

@@ -36,10 +36,27 @@ public class WorkComplete : AgentAction
 
         BonusChallenge workChallenge = character.WorkLocation.CurrentAction.WorkAction.Challenge;
 
+        float characterBonusValue = character.GetBonus(workChallenge.Type).Value; // character natural skill
+
+        if(target.GetType() == typeof(LocationEntity)) // location effects on skill
+        {
+            LocationEntity location = (LocationEntity)target;
+            foreach(PropertyTrait trait in location.Traits)
+            {
+                foreach(Bonus bonus in trait.Bonuses)
+                {
+                    if(bonus.Type == workChallenge.Type)
+                    {
+                        characterBonusValue += bonus.Value;
+                    }
+                }
+            }
+        }
+
         float earnedSum =
             Random.Range(character.WorkLocation.CurrentAction.GoldGeneratedMin, character.WorkLocation.CurrentAction.GoldGeneratedMax)
             * CORE.Instance.Database.Stats.GlobalRevenueMultiplier
-            * (workChallenge != null? ((float)character.GetBonus(workChallenge.Type).Value / (float)workChallenge.ChallengeValue) : 1);
+            * (workChallenge != null? (characterBonusValue / (float)workChallenge.ChallengeValue) : 1);
 
         if (character.WorkLocation.OwnerCharacter != null && character.WorkLocation.CurrentProperty.ManagementBonus != null)
         {
