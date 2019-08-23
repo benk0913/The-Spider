@@ -40,9 +40,24 @@ public class GameDB : ScriptableObject
 
     public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
 
+    public List<LongTermTask> LongTermTasks = new List<LongTermTask>();
+
     public BonusType[] BonusTypes;
 
     public Trait[] Traits;
+
+    public LongTermTask GetLongTermTaskByName(string taskName)
+    {
+        foreach (LongTermTask longTermTask in LongTermTasks)
+        {
+            if (longTermTask.name == taskName)
+            {
+                return longTermTask;
+            }
+        }
+
+        return null;
+    }
 
     public Property GetPropertyByName(string propertyName)
     {

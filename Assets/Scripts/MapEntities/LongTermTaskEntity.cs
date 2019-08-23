@@ -16,30 +16,39 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     public Character CurrentRequester;
 
     [SerializeField]
-    public AgentInteractable CurrentTarget;
+    public Character TargetCharacter;
+
+    [SerializeField]
+    public AgentInteractable CurrentTargetLocation;
 
     public int TurnsLeft;
 
     LocationEntity CurrentLocation;
 
-    public void SetInfo(LongTermTask task, Character requester, Character character, AgentInteractable target)
+    public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1)
     {
+        if(turnsLeft > 0)
+        {
+            this.TurnsLeft = turnsLeft;
+        }
+
+        this.TargetCharacter = targetCharacter;
         this.CurrentCharacter = character;
         this.CurrentRequester = requester;
         this.CurrentTask = task;
-        this.CurrentTarget = target;
+        this.CurrentTargetLocation = targetLocation;
         TurnsLeft = task.TurnsToComplete;
 
         this.CurrentCharacter.StartDoingTask(this);
 
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
-
-        CurrentLocation = ((LocationEntity)target);
+        
+        CurrentLocation = ((LocationEntity)targetLocation);
 
         CurrentLocation.AddLongTermTask(this);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameClock.Instance.OnTurnPassed.RemoveListener(TurnPassed);
     }
@@ -69,9 +78,9 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         this.CurrentCharacter.StopDoingCurrentTask(true);
 
         AgentAction resultAction = CurrentTask.GetResult(CurrentCharacter);
-        resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTarget);
+        resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTargetLocation);
 
-        this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
 
     public bool Cancel()
@@ -83,7 +92,8 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
         CurrentLocation.RemoveLongTermTask(this);
         CurrentCharacter.StopDoingCurrentTask();
-        this.gameObject.SetActive(false);
+
+        Destroy(this.gameObject);
 
         return true;
     }

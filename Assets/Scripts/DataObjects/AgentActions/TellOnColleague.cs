@@ -57,11 +57,7 @@ public class TellOnColleague : AgentAction
         }
 
 
-        LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
-
-        longTermTask.transform.SetParent(MapViewManager.Instance.transform);
-        longTermTask.transform.position = target.transform.position;
-        longTermTask.SetInfo(this.Task, requester, character, target);
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
     bool CanBeSnitchedUpon(Character character)

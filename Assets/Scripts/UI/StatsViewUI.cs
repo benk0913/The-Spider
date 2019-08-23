@@ -25,6 +25,11 @@ public class StatsViewUI : MonoBehaviour
             yield return 0;
         }
 
+        while (CORE.Instance.LoadGameRoutineInstance != null)
+        {
+            yield return 0;
+        }
+
         while (true)
         {
             yield return new WaitForSeconds(0.1f);

@@ -1,5 +1,4 @@
 ﻿using SimpleJSON;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -458,11 +457,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public UnityEvent StateChanged = new UnityEvent();
 
-    public Character()
-    {
-        this.ID = Util.GenerateUniqueID();
-    }
-
     #region Randomize
 
     public void Randomize()
@@ -535,6 +529,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void Initialize()
     {
+        ID = Util.GenerateUniqueID();
+
         RaceSet raceSet = CORE.Instance.Database.GetRace("Human");
 
         AgeSet ageSet = CORE.Instance.Database.GetRace("Human").GetAgeSet(AgeTypeEnum.Adult);
@@ -807,9 +803,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return true;
         }
 
-        if(CurrentTaskEntity != null && !CurrentTaskEntity.Cancel())
+        if(CurrentTaskEntity != null)
         {
-            return false;
+            if (!CurrentTaskEntity.Cancel())
+            {
+                return false;
+            }
         }
        
         CurrentTaskEntity = task;
@@ -901,14 +900,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if(CurrentTaskEntity != null)
         {
-            node["CurrentTaskEntity"]["CurrentTask"] = CurrentTaskEntity.CurrentTask.name;
-            node["CurrentTaskEntity"]["CurrentRequester"] = CurrentTaskEntity.CurrentRequester.ID;
-            node["CurrentTaskEntity"]["CurrentCharacter"] = CurrentTaskEntity.CurrentCharacter.ID;
-            node["CurrentTaskEntity"]["CurrentTargetLoction"] = ((LocationEntity)CurrentTaskEntity.CurrentTarget).ID;
-
-            node["CurrentTaskEntity"]["TurnsLeft"] = CurrentTaskEntity.TurnsLeft.ToString();
+            node["CurrentTaskEntityCurrentTask"] = CurrentTaskEntity.CurrentTask.name;
+            node["CurrentTaskEntityCurrentRequester"] = CurrentTaskEntity.CurrentRequester.ID;
+            node["CurrentTaskEntityCurrentCharacter"] = CurrentTaskEntity.CurrentCharacter.ID;
+            node["CurrentTaskEntityCurrentTarget"] = ((LocationEntity)CurrentTaskEntity.CurrentTargetLocation).ID;
+            node["CurrentTaskEntityCurrentTargetCharacter"] = CurrentTaskEntity.TargetCharacter != null ? CurrentTaskEntity.TargetCharacter.ID : "";
+            node["CurrentTaskEntityTurnsLeft"] = CurrentTaskEntity.TurnsLeft.ToString();
         }
-        
+
         return node;
     }
 
@@ -957,25 +956,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Hair = HairColor.GetVCByName(node["hair"]);
         clothing = VisualSet.GetVCByName(node["clothing"]);
 
-
-
-        if (!string.IsNullOrEmpty(node["CurrentTaskEntity"]))
+        if (!string.IsNullOrEmpty(node["CurrentTaskEntityCurrentTask"]))
         {
-            _currentTaskTurnsLeft = int.Parse(node["CurrentTaskEntity"]["TurnsLeft"]);
-            _currentTaskName = node["CurrentTaskEntity"]["CurrentTask"];
-            _currentTaskRequesterID = node["CurrentTaskEntity"]["CurrentRequester"];
-            _currentTaskCharacterID = node["CurrentTaskEntity"]["CurrentCharacter"];
-
-            if(!string.IsNullOrEmpty(node["CurrentTaskEntity"]["CurrentTargetCharacter"]))
-            {
-                _currentTaskTargetType = typeof(PortraitUI);
-                _currentTaskTargetID = node["CurrentTaskEntity"]["CurrentTargetCharacter"];
-            }
-            else if (!string.IsNullOrEmpty(node["CurrentTaskEntity"]["CurrentTargetLoction"]))
-            {
-                _currentTaskTargetType = typeof(LocationEntity);
-                _currentTaskTargetID = node["CurrentTaskEntity"]["CurrentTargetLoction"];
-            }
+            _currentTaskTurnsLeft = int.Parse(node["CurrentTaskEntityTurnsLeft"]);
+            _currentTaskName = node["CurrentTaskEntityCurrentTask"];
+            _currentTaskRequesterID = node["CurrentTaskEntityCurrentRequester"];
+            _currentTaskCharacterID = node["CurrentTaskEntityCurrentCharacter"];
+            _currentTaskTargetID = node["CurrentTaskEntityCurrentTarget"];
+            _currentTaskTargetCharacterID = node["CurrentTaskEntityCurrentTargetCharacter"];
         }
     }
 
@@ -989,7 +977,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     int    _currentTaskTurnsLeft;
     string _currentTaskRequesterID;
     string _currentTaskCharacterID;
-    string _currentTaskTargetLocationID;
+    string _currentTaskTargetCharacterID;
+    string _currentTaskTargetID;
 
     public void ImplementIDs()
     {
@@ -1010,17 +999,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (!string.IsNullOrEmpty(_currentTaskName))
         {
-
-            CORE.Instance.Database.GetLongTermTaskByName(_currentTaskName).Execute(
-                CORE.Instance.GetCharacterByID(_currentTaskRequesterID), 
-                snitchTarget, 
-                target);
-
-            LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
-
-            longTermTask.transform.SetParent(MapViewManager.Instance.transform);
-            longTermTask.transform.position = target.transform.position;
-            longTermTask.SetInfo(this.Task, requester, character, target);
+            CORE.Instance.GenerateLongTermTask(
+                CORE.Instance.Database.GetLongTermTaskByName(_currentTaskName),
+                CORE.Instance.GetCharacterByID(_currentTaskRequesterID),
+                CORE.Instance.GetCharacterByID(_currentTaskCharacterID),
+                CORE.Instance.GetLocationByID(_currentTaskTargetID),
+                CORE.Instance.GetCharacterByID(_currentTaskTargetCharacterID),
+                _currentTaskTurnsLeft);
         }
     }
 

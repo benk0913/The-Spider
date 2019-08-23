@@ -39,6 +39,18 @@ public class LongTermTaskDurationUI : MonoBehaviour
     public int ChunkIndex = 0;
     public int ListIndex  = 0;
 
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("ShowMap", Show);
+        CORE.Instance.SubscribeToEvent("HideMap", Hide);
+    }
+
+    private void OnDestroy()
+    {
+        CORE.Instance.UnsubscribeFromEvent("ShowMap", Show);
+        CORE.Instance.UnsubscribeFromEvent("HideMap", Hide);
+    }
+
     public void AddEntity(LongTermTaskEntity entity)
     {
         if(!Instances.ContainsKey(entity.CurrentTask))
@@ -76,9 +88,25 @@ public class LongTermTaskDurationUI : MonoBehaviour
             Instances.Remove(entity.CurrentTask);
         }
 
+        if(Instances.Keys.Count == 0)
+        {
+            Destroy(this.gameObject);
+        }
+
         Refresh();
 
 
+    }
+
+    public void Show()
+    {
+        this.gameObject.SetActive(true);
+        Refresh();
+    }
+
+    public void Hide()
+    {
+        this.gameObject.SetActive(false);
     }
 
     public void Refresh()

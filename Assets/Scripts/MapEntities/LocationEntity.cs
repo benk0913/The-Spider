@@ -372,7 +372,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         if(TaskDurationUI == null)
         {
-            TaskDurationUI = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskWorld").GetComponent<LongTermTaskDurationUI>();
+            TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
             TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
             TaskDurationUI.transform.SetAsFirstSibling();
         }

@@ -22,6 +22,8 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
+    
+
     public static Character PC;
 
     public bool LOAD_ON_START_tEST;
@@ -136,6 +138,14 @@ public class CORE : MonoBehaviour
         hoverPanel.Show(targetTransform, content, icon);
     }
 
+    public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1)
+    {
+        LongTermTaskEntity longTermTask = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskEntity")).GetComponent<LongTermTaskEntity>();
+
+        longTermTask.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
+        longTermTask.transform.position = target.transform.position;
+        longTermTask.SetInfo(task, requester, character, target, targetCharacter, turnsLeft);
+    }
     #endregion
 
     #region Characters
@@ -336,10 +346,15 @@ public class CORE : MonoBehaviour
         LoadGameRoutineInstance = StartCoroutine(LoadGameRoutine(file));
     }
 
-    Coroutine LoadGameRoutineInstance;
+    public Coroutine LoadGameRoutineInstance;
     IEnumerator LoadGameRoutine(SaveFile file)
     {
-        while(ResourcesLoader.Instance.m_bLoading)
+        MapViewManager.Instance.ShowMap();
+        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
+
+        yield return 0;
+
+        while (ResourcesLoader.Instance.m_bLoading)
         {
             yield return 0;
         }
@@ -349,6 +364,8 @@ public class CORE : MonoBehaviour
             Character tempChar = GenerateSimpleCharacter();
             tempChar.FromJSON(file.Content["Characters"][i]);
             Characters.Add(tempChar);
+
+            yield return 0;
         }
 
         for (int i = 0; i < file.Content["Locations"].Count; i++)
@@ -362,16 +379,23 @@ public class CORE : MonoBehaviour
 
             tempLocation.FromJSON(file.Content["Locations"][i]);
             Locations.Add(tempLocation);
+
+            yield return 0;
         }
 
         yield return 0;
 
+        PC = GetCharacter("You");
+
         foreach (Character character in Characters)
         {
             character.ImplementIDs();
+
+            yield return 0;
         }
 
-        PC = GetCharacter("You");
+        MapViewManager.Instance.HideMap();
+        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
 
         LoadGameRoutineInstance = null;
     }
