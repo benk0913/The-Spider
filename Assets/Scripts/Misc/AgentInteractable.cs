@@ -5,6 +5,7 @@ using UnityEngine;
 public class AgentInteractable : MonoBehaviour
 {
 
+
     public virtual List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return null;

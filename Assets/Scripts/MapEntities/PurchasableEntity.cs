@@ -47,8 +47,10 @@ public class PurchasableEntity : AgentInteractable
 
         LocationEntity location = CORE.Instance.GenerateNewLocation(transform.position, transform.rotation);
 
-        location.SetInfo(Util.GenerateUniqueID(), CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier);
+        location.SetInfo(Util.GenerateUniqueID(), CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier, true);
         forCharacter.StartOwningLocation(location);
+
+        CORE.Instance.Locations.Add(location);
 
         funder.Gold -= Price;
 

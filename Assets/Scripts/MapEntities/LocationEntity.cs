@@ -109,8 +109,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     private void Start()
     {
-        CORE.Instance.Locations.Add(this);
-
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
     }
 
@@ -118,7 +116,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         if (CurrentProperty != null)
         {
-            SetInfo(this.name, CurrentProperty);
+            SetInfo(this.name, CurrentProperty, 1f, 1f, false);
 
             if (OwnerCharacter != null)
             {
@@ -147,7 +145,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             {
                 character.StartWorkingFor(this);
             }
-
 
         }
     }
@@ -188,8 +185,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
-    public void SetInfo(string id, Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f)
+    public void SetInfo(string id, Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f, bool Clear = false)
     {
+        if(Clear)
+        {
+            EmployeesCharacters.Clear();
+            OwnerCharacter = null;
+        }
+
         this.ID = id;
         this.RevneueMultiplier = revenueMultiplier;
         this.RiskMultiplier = riskMultiplier;
@@ -213,7 +216,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             Destroy(HoverPoint.transform.GetChild(i).gameObject);
         }
 
-        GameObject tempFigure = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.FigurePrefab);
+        GameObject tempFigure = Instantiate(CurrentProperty.FigurePrefab);
         tempFigure.transform.SetParent(FigurePoint);
         tempFigure.transform.position = FigurePoint.position;
         tempFigure.transform.rotation = FigurePoint.rotation;
@@ -359,7 +362,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             EmployeesCharacters[0].StopWorkingFor(this);
         }
 
-        SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier);
+        SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier, false);
 
         SelectedPanelUI.Instance.Select(this);
     }
@@ -452,10 +455,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public void FromJSON(JSONNode node)
     {
         Level = int.Parse(node["Level"]);
-        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), float.Parse(node["RevneueMultiplier"]), float.Parse(node["RiskMultiplier"]));
+        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), float.Parse(node["RevneueMultiplier"]), float.Parse(node["RiskMultiplier"]), true);
         IsUpgrading = bool.Parse(node["IsUpgrading"]);
         CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
-        CurrentProperty.GetActionByName(node["CurrentAction"]);
+        CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
+        
 
         transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
         transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));

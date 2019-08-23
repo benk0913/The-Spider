@@ -1,4 +1,5 @@
 ﻿using SimpleJSON;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -858,15 +859,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     #region Save & Load
 
-    string _workLocationID;
-    string[] _propertiesOwnedIDs;
-    string _currentLocationID;
-
     public JSONNode ToJSON()
     {
         JSONClass node = new JSONClass();
 
         node["ID"] = ID;
+
+        node["name"] = name;
+
+        node["Gender"] = ((int)Gender).ToString();
 
         node["Gold"] = _gold.ToString();
 
@@ -898,6 +899,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["hair"] = Hair.name;
         node["clothing"] = Clothing.name;
 
+        if(CurrentTaskEntity != null)
+        {
+            node["CurrentTaskEntity"]["CurrentTask"] = CurrentTaskEntity.CurrentTask.name;
+            node["CurrentTaskEntity"]["CurrentRequester"] = CurrentTaskEntity.CurrentRequester.ID;
+            node["CurrentTaskEntity"]["CurrentCharacter"] = CurrentTaskEntity.CurrentCharacter.ID;
+            node["CurrentTaskEntity"]["CurrentTargetLoction"] = ((LocationEntity)CurrentTaskEntity.CurrentTarget).ID;
+
+            node["CurrentTaskEntity"]["TurnsLeft"] = CurrentTaskEntity.TurnsLeft.ToString();
+        }
+        
         return node;
     }
 
@@ -906,6 +917,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Initialize();
 
         ID = node["ID"];
+
+        name = node["name"];
+
+        Gender = (GenderType)int.Parse(node["Gender"]);
 
         _gold = int.Parse(node["Gold"]);
 
@@ -936,13 +951,45 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         Age = int.Parse(node["age"]);
-        skinColor = VisualSet.GetVCByName(node["skinColor"]);
-        hairColor = VisualSet.GetVCByName(node["hairColor"]);
-        face = VisualSet.GetVCByName(node["face"]);
-        hair = VisualSet.GetVCByName(node["hair"]);
+        SkinColor = VisualSet.GetVCByName(node["skinColor"]);
+        HairColor = VisualSet.GetVCByName(node["hairColor"]);
+        Face = SkinColor.GetVCByName(node["face"]);
+        Hair = HairColor.GetVCByName(node["hair"]);
         clothing = VisualSet.GetVCByName(node["clothing"]);
 
+
+
+        if (!string.IsNullOrEmpty(node["CurrentTaskEntity"]))
+        {
+            _currentTaskTurnsLeft = int.Parse(node["CurrentTaskEntity"]["TurnsLeft"]);
+            _currentTaskName = node["CurrentTaskEntity"]["CurrentTask"];
+            _currentTaskRequesterID = node["CurrentTaskEntity"]["CurrentRequester"];
+            _currentTaskCharacterID = node["CurrentTaskEntity"]["CurrentCharacter"];
+
+            if(!string.IsNullOrEmpty(node["CurrentTaskEntity"]["CurrentTargetCharacter"]))
+            {
+                _currentTaskTargetType = typeof(PortraitUI);
+                _currentTaskTargetID = node["CurrentTaskEntity"]["CurrentTargetCharacter"];
+            }
+            else if (!string.IsNullOrEmpty(node["CurrentTaskEntity"]["CurrentTargetLoction"]))
+            {
+                _currentTaskTargetType = typeof(LocationEntity);
+                _currentTaskTargetID = node["CurrentTaskEntity"]["CurrentTargetLoction"];
+            }
+        }
     }
+
+
+
+    string _workLocationID;
+    string[] _propertiesOwnedIDs;
+    string _currentLocationID;
+
+    string _currentTaskName;
+    int    _currentTaskTurnsLeft;
+    string _currentTaskRequesterID;
+    string _currentTaskCharacterID;
+    string _currentTaskTargetLocationID;
 
     public void ImplementIDs()
     {
@@ -959,6 +1006,21 @@ public class Character : ScriptableObject, ISaveFileCompatible
         foreach(string proeprtyID in _propertiesOwnedIDs)
         {
             StartOwningLocation(CORE.Instance.GetLocationByID(proeprtyID));
+        }
+
+        if (!string.IsNullOrEmpty(_currentTaskName))
+        {
+
+            CORE.Instance.Database.GetLongTermTaskByName(_currentTaskName).Execute(
+                CORE.Instance.GetCharacterByID(_currentTaskRequesterID), 
+                snitchTarget, 
+                target);
+
+            LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
+
+            longTermTask.transform.SetParent(MapViewManager.Instance.transform);
+            longTermTask.transform.position = target.transform.position;
+            longTermTask.SetInfo(this.Task, requester, character, target);
         }
     }
 

@@ -22,13 +22,6 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     LocationEntity CurrentLocation;
 
-
-    private void Start()
-    {
-        CORE.Instance.LongTermTasks.Add(this);
-    }
-
-
     public void SetInfo(LongTermTask task, Character requester, Character character, AgentInteractable target)
     {
         this.CurrentCharacter = character;
@@ -49,7 +42,6 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     private void OnDisable()
     {
         GameClock.Instance.OnTurnPassed.RemoveListener(TurnPassed);
-        CORE.Instance.LongTermTasks.Remove(this);
     }
 
     void TurnPassed()

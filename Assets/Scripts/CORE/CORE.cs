@@ -20,8 +20,6 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> Locations = new List<LocationEntity>();
 
-    public List<LongTermTaskEntity> LongTermTasks = new List<LongTermTaskEntity>();
-
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
     public static Character PC;
@@ -87,6 +85,7 @@ public class CORE : MonoBehaviour
         foreach(LocationEntity presetLocation in PresetLocations)
         {
             presetLocation.InitializePreset();
+            CORE.Instance.Locations.Add(presetLocation);
         }
     }
 
@@ -216,7 +215,7 @@ public class CORE : MonoBehaviour
 
     public LocationEntity GenerateNewLocation(Vector3 atPosition, Quaternion atRotation)
     {
-        GameObject locationPrefab = ResourcesLoader.Instance.GetRecycledObject("Location");
+        GameObject locationPrefab = Instantiate(ResourcesLoader.Instance.GetObject("Location"));
 
         locationPrefab.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
         locationPrefab.transform.position = atPosition;
@@ -364,6 +363,8 @@ public class CORE : MonoBehaviour
             tempLocation.FromJSON(file.Content["Locations"][i]);
             Locations.Add(tempLocation);
         }
+
+        yield return 0;
 
         foreach (Character character in Characters)
         {
