@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
-public class PurchasableEntity : AgentInteractable
+public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
 {
     [SerializeField]
     public int Price;
@@ -18,6 +19,8 @@ public class PurchasableEntity : AgentInteractable
 
     [SerializeField]
     List<AgentAction> PossibleActions = new List<AgentAction>();
+
+    public bool Available = true;
 
     public void OnClick()
     {
@@ -69,6 +72,43 @@ public class PurchasableEntity : AgentInteractable
         , funder)
         );
 
-        Destroy(this.gameObject);
+        SetUnavailable();
+    }
+
+    public void SetAvailable()
+    {
+        Available = true;
+        this.gameObject.SetActive(true);
+    }
+
+    public void SetUnavailable()
+    {
+        Available = false;
+        this.gameObject.SetActive(false);
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+        
+        node["Available"] = Available.ToString();
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        if(bool.Parse(node["Available"]))
+        {
+            SetAvailable();
+        }
+        else
+        {
+            SetUnavailable();
+        }
+    }
+
+    public void ImplementIDs()
+    {
     }
 }

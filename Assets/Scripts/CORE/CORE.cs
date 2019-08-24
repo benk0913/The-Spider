@@ -22,22 +22,11 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
-    
+    public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();
+
+
 
     public static Character PC;
-
-    public bool LOAD_ON_START_tEST;
-
-    public bool SAVE_FILE_TEST;
-
-    private void Update()
-    {
-        if(SAVE_FILE_TEST)
-        {
-            SaveGame();
-            SAVE_FILE_TEST = false;
-        }
-    }
 
     private void Awake()
     {
@@ -51,29 +40,15 @@ public class CORE : MonoBehaviour
 
     void Initialize()
     {
-        //TODO Remove when save/load complete.
-
-        if(LOAD_ON_START_tEST)
-        {
-            ReadAllSaveFiles();
-            foreach(SaveFile file in SaveFiles)
-            {
-                Debug.Log(file.Name + " - " + file.Content);
-            }
-
-            LoadGame(SaveFiles[SaveFiles.Count - 1]);
-            return;
-        }
-
         NewGame();
     }
 
     void NewGame()
     {
-        PC = Instantiate(Database.PlayerCharacter);
-        PC.name = Database.PlayerCharacter.name;
-        Characters.Add(PC);
-        PC.Initialize();
+        //PC = Instantiate(Database.PlayerCharacter);
+        //PC.name = Database.PlayerCharacter.name;
+        //Characters.Add(PC);
+        //PC.Initialize();
 
         foreach(Character character in Database.PresetCharacters)
         {
@@ -83,12 +58,16 @@ public class CORE : MonoBehaviour
 
             Characters.Add(tempCharacter);
         }
-
-        foreach(LocationEntity presetLocation in PresetLocations)
+        
+        foreach (LocationEntity presetLocation in PresetLocations)
         {
             presetLocation.InitializePreset();
             CORE.Instance.Locations.Add(presetLocation);
         }
+
+        PC = GetCharacter("You");
+
+
     }
 
     #region Events
@@ -309,7 +288,7 @@ public class CORE : MonoBehaviour
 
     #region Saving & Loading
 
-    List<SaveFile> SaveFiles = new List<SaveFile>();
+    public List<SaveFile> SaveFiles = new List<SaveFile>();
 
     public void SaveGame()
     {
@@ -317,8 +296,9 @@ public class CORE : MonoBehaviour
 
         JSONClass savefile = new JSONClass();
         savefile["Name"] = "Save" + SaveFiles.Count;
+        savefile["Date"] = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
-        for(int i=0;i<Characters.Count;i++)
+        for (int i=0;i<Characters.Count;i++)
         {
             savefile["Characters"][i] = Characters[i].ToJSON();
         }
@@ -326,6 +306,11 @@ public class CORE : MonoBehaviour
         for (int i = 0; i < Locations.Count; i++)
         {
             savefile["Locations"][i] = Locations[i].ToJSON();
+        }
+
+        for(int i=0;i<PurchasablePlots.Count;i++)
+        {
+            savefile["PurchasablePlots"][i] = PurchasablePlots[i].ToJSON();
         }
 
 
@@ -383,6 +368,13 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
+        for (int i = 0; i < file.Content["PurchasablePlots"].Count; i++)
+        {
+            PurchasablePlots[i].FromJSON(file.Content["PurchasablePlots"][i]);
+
+            yield return 0;
+        }
+
         yield return 0;
 
         PC = GetCharacter("You");
@@ -417,23 +409,36 @@ public class CORE : MonoBehaviour
                 if (tempSaveFiles[i].Contains("Save") && !tempSaveFiles[i].Contains(".meta"))
                 {
                     string content = File.ReadAllText(tempSaveFiles[i]);
-                    SaveFiles.Add(new SaveFile(content));
+                    SaveFiles.Add(new SaveFile(content, tempSaveFiles[i]));
                 }
             }
         }
     }
+
+    public void RemoveSave(SaveFile currentSave)
+    {
+        File.Delete(currentSave.Path);
+        ReadAllSaveFiles();
+    }
+
 
     #endregion
 }
 
 public class SaveFile
 {
-    public SaveFile(string content)
+    public SaveFile(string content, string path)
     {
         this.Content = JSON.Parse(content);
+
         this.Name = this.Content["Name"].Value;
+        this.Date = this.Content["Date"].Value;
+
+        this.Path = path;
     }
 
     public string Name;
+    public string Date;
+    public string Path;
     public JSONNode Content;
 }
