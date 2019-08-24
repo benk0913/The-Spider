@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class LocationEntity : AgentInteractable
+public class LocationEntity : AgentInteractable, ISaveFileCompatible
 {
+    public string ID;
+
     public const float PORTRAITS_SPACING = 5f;
     public const int PORTRAITS_MAX_IN_ROW = 5;
 
@@ -43,8 +46,6 @@ public class LocationEntity : AgentInteractable
 
     public int CurrentUpgradeLength;
 
-    public bool IsVisible = false;
-
     public UnityEvent StateUpdated;
 
     public Property.PropertyAction CurrentAction;
@@ -58,6 +59,7 @@ public class LocationEntity : AgentInteractable
     List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
     public LongTermTaskDurationUI TaskDurationUI;
+
 
     public bool IsOwnedByPlayer
     {
@@ -107,13 +109,14 @@ public class LocationEntity : AgentInteractable
 
     private void Start()
     {
-        CORE.Instance.Locations.Add(this);
-
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+    }
 
-        if(CurrentProperty != null)
+    public void InitializePreset()
+    {
+        if (CurrentProperty != null)
         {
-            SetInfo(CurrentProperty);
+            SetInfo(this.name, CurrentProperty, 1f, 1f, false);
 
             if (OwnerCharacter != null)
             {
@@ -125,7 +128,7 @@ public class LocationEntity : AgentInteractable
             }
 
             List<Character> charactersToAdd = new List<Character>();
-            while(EmployeesCharacters.Count > 0)
+            while (EmployeesCharacters.Count > 0)
             {
                 Character tempChar = CORE.Instance.GetCharacter(EmployeesCharacters[0].name);
 
@@ -138,11 +141,10 @@ public class LocationEntity : AgentInteractable
 
                 charactersToAdd.Add(tempChar);
             }
-            foreach(Character character in charactersToAdd)
+            foreach (Character character in charactersToAdd)
             {
                 character.StartWorkingFor(this);
             }
-
 
         }
     }
@@ -183,8 +185,15 @@ public class LocationEntity : AgentInteractable
         }
     }
 
-    public void SetInfo(Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f)
+    public void SetInfo(string id, Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f, bool Clear = false)
     {
+        if(Clear)
+        {
+            EmployeesCharacters.Clear();
+            OwnerCharacter = null;
+        }
+
+        this.ID = id;
         this.RevneueMultiplier = revenueMultiplier;
         this.RiskMultiplier = riskMultiplier;
 
@@ -207,7 +216,7 @@ public class LocationEntity : AgentInteractable
             Destroy(HoverPoint.transform.GetChild(i).gameObject);
         }
 
-        GameObject tempFigure = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.FigurePrefab);
+        GameObject tempFigure = Instantiate(CurrentProperty.FigurePrefab);
         tempFigure.transform.SetParent(FigurePoint);
         tempFigure.transform.position = FigurePoint.position;
         tempFigure.transform.rotation = FigurePoint.rotation;
@@ -353,7 +362,7 @@ public class LocationEntity : AgentInteractable
             EmployeesCharacters[0].StopWorkingFor(this);
         }
 
-        SetInfo(newProperty, this.RevneueMultiplier, this.RiskMultiplier);
+        SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier, false);
 
         SelectedPanelUI.Instance.Select(this);
     }
@@ -363,7 +372,7 @@ public class LocationEntity : AgentInteractable
     {
         if(TaskDurationUI == null)
         {
-            TaskDurationUI = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskWorld").GetComponent<LongTermTaskDurationUI>();
+            TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
             TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
             TaskDurationUI.transform.SetAsFirstSibling();
         }
@@ -414,8 +423,49 @@ public class LocationEntity : AgentInteractable
         TaskDurationUI = null;
     }
 
-   
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["ID"] = ID;
+        node["CurrentProperty"] = CurrentProperty.name;
+        node["Level"] = Level.ToString();
+        node["RevneueMultiplier"] = RevneueMultiplier.ToString();
+        node["RiskMultiplier"] = RiskMultiplier.ToString();
+        node["IsUpgrading"] = IsUpgrading.ToString();
+        node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
+
+        if (CurrentAction != null)
+        {
+            node["CurrentAction"] = CurrentAction.Name;
+        }
 
 
+        node["PositionX"] = transform.position.x.ToString();
+        node["PositionY"] = transform.position.y.ToString();
+        node["PositionZ"] = transform.position.z.ToString();
 
+        node["RotationX"] = transform.rotation.eulerAngles.x.ToString();
+        node["RotationY"] = transform.rotation.eulerAngles.y.ToString();
+        node["RotationZ"] = transform.rotation.eulerAngles.z.ToString();
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        Level = int.Parse(node["Level"]);
+        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), float.Parse(node["RevneueMultiplier"]), float.Parse(node["RiskMultiplier"]), true);
+        IsUpgrading = bool.Parse(node["IsUpgrading"]);
+        CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
+        CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
+        
+
+        transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
+        transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));
+    }
+
+    public void ImplementIDs()
+    {
+    }
 }

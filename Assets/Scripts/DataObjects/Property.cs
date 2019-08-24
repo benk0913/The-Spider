@@ -34,6 +34,19 @@ public class Property : ScriptableObject
     public PlayerAction[] UniquePlayerActions;
     public AgentAction[] UniqueAgentActions;
 
+    public PropertyAction GetActionByName(string actionName)
+    {
+        foreach(PropertyAction action in Actions)
+        {
+            if(action.Name == actionName)
+            {
+                return action;
+            }
+        }
+
+        return null;
+    }
+
     [System.Serializable]
     public class PropertyLevel
     {

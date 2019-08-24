@@ -18,4 +18,30 @@ public class GenderSet : ScriptableObject
     [SerializeField]
     public VisualCharacteristic Clothing;
 
+    public VisualCharacteristic GetVCByName(string vcName)
+    {
+        VisualCharacteristic result = SkinColors.GetVCByName(vcName, false);
+
+        if (result != null)
+        {
+            return result;
+        }
+
+        result = HairColor.GetVCByName(vcName, false);
+
+        if (result != null)
+        {
+            return result;
+        }
+
+        result = Clothing.GetVCByName(vcName, false);
+
+        if (result != null)
+        {
+            return result;
+        }
+
+        return null;
+    }
+
 }

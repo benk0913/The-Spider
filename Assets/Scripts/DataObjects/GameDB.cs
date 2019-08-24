@@ -35,7 +35,56 @@ public class GameDB : ScriptableObject
 
     public List<Property> Properties = new List<Property>();
     public List<Faction> Factions = new List<Faction>();
-    
+
+    public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
+
+    public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
+
+    public List<LongTermTask> LongTermTasks = new List<LongTermTask>();
+
+    public BonusType[] BonusTypes;
+
+    public Trait[] Traits;
+
+    public LongTermTask GetLongTermTaskByName(string taskName)
+    {
+        foreach (LongTermTask longTermTask in LongTermTasks)
+        {
+            if (longTermTask.name == taskName)
+            {
+                return longTermTask;
+            }
+        }
+
+        return null;
+    }
+
+    public Property GetPropertyByName(string propertyName)
+    {
+        foreach (Property property in Properties)
+        {
+            if (property.name == propertyName)
+            {
+                return property;
+            }
+        }
+
+        return null;
+    }
+
+    public Faction GetFactionByName(string factionName)
+    {
+        foreach (Faction faction in Factions)
+        {
+            if (faction.name == factionName)
+            {
+                return faction;
+            }
+        }
+
+        return DefaultFaction;
+    }
+
     public RaceSet GetRace(string raceName, bool fallback = true)
     {
         for (int i = 0; i < Races.Count; i++)
@@ -54,15 +103,21 @@ public class GameDB : ScriptableObject
         return null;
     }
 
-    public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
 
-    public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
+    public Trait GetTrait(string traitName)
+    {
+        for(int i=0;i<Traits.Length;i++)
+        {
+            if(Traits[i].name == traitName)
+            {
+                return Traits[i];
+            }
+        }
 
-    public BonusType[] BonusTypes;
+        return null;
+    }
 
-    public Trait[] Traits;
 
-    
     public Trait[] GetRandomTraits()
     {
         List<Trait> GeneratedTraits = new List<Trait>();

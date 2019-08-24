@@ -89,7 +89,7 @@ public class CommandChainModule : MonoBehaviour
         }
         
         CurrentArrowObject = ResourcesLoader.Instance.GetRecycledObject("ArrowPointer");
-        CurrentArrowObject.transform.SetParent(MapViewManager.Instance.gameObject.transform);
+        CurrentArrowObject.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
         CurrentArrowObject.transform.position = CurrentCharacter.CurrentLocation.transform.position + new Vector3(0f, AdditionalY, 0f);
 
         if (Points.Count > 1)

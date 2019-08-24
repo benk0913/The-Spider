@@ -27,12 +27,8 @@ public class TriggerLocationAction : PlayerAction
         {
             location = CORE.Instance.GetClosestLocationWithTrait(TargetPropertyTrait, location);
         }
-
-        LongTermTaskEntity longTermTask = ResourcesLoader.Instance.GetRecycledObject("LongTermTaskEntity").GetComponent<LongTermTaskEntity>();
-
-        longTermTask.transform.SetParent(MapViewManager.Instance.transform);
-        longTermTask.transform.position = target.transform.position;
-        longTermTask.SetInfo(this.OwnerTask, requester, locationOwner, location);
+        
+        CORE.Instance.GenerateLongTermTask(this.OwnerTask, requester, locationOwner, location);
     }
 
     public override bool CanDoAction(Character requester, AgentInteractable target)
