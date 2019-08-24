@@ -22,7 +22,18 @@ public class GameClock : MonoBehaviour
 
     private void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         CORE.Instance.SubscribeToEvent("PassTime", PassTime);
+    }
+
+    public void Wipe()
+    {
+        OnTurnPassed.RemoveAllListeners();
+        OnDayPassed.RemoveAllListeners();
     }
 
     public void PassTime()

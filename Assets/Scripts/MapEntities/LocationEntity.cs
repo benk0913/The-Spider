@@ -37,6 +37,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     [SerializeField]
     Button RebrandButton;
 
+    [SerializeField]
+    public bool PresetLocation = false;
+
     public int Level = 1;
 
     public float RevneueMultiplier;
@@ -60,6 +63,18 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public LongTermTaskDurationUI TaskDurationUI;
 
+    void Awake()
+    {
+        if (PresetLocation)
+        {
+            CORE.Instance.PresetLocations.Add(this);
+        }
+    }
+
+    void Start()
+    {
+        GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+    }
 
     public bool IsOwnedByPlayer
     {
@@ -104,12 +119,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public void OnRightClick()
     {
         ShowActionMenu();
-    }
-
-
-    private void Start()
-    {
-        GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
     }
 
     public void InitializePreset()

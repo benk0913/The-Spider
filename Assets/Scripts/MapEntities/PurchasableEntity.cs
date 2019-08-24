@@ -22,6 +22,17 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
 
     public bool Available = true;
 
+    [SerializeField]
+    bool PresetPlot;
+
+    void Awake()
+    {
+        if (PresetPlot)
+        {
+            CORE.Instance.PurchasablePlots.Add(this);
+        }
+    }
+
     public void OnClick()
     {
         PlotInfoPanelUI.Instance.Select(this);

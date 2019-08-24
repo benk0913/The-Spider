@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CursorTooltipUI : MonoBehaviour
 {
+    public static CursorTooltipUI TooltipInstance;
+
     [SerializeField]
     protected TextMeshProUGUI TextLabel;
 
@@ -12,6 +14,11 @@ public class CursorTooltipUI : MonoBehaviour
     protected CanvasGroup CG;
 
     Color baseColor;
+
+    private void Awake()
+    {
+        TooltipInstance = this;
+    }
 
     private void Start()
     {

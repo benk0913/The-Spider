@@ -19,13 +19,8 @@ public class StatsViewUI : MonoBehaviour
     IEnumerator UpdateState()
     {
         yield return 0;
-
-        while(ResourcesLoader.Instance.m_bLoading)
-        {
-            yield return 0;
-        }
-
-        while (CORE.Instance.LoadGameRoutineInstance != null)
+        
+        while (CORE.Instance.isLoading)
         {
             yield return 0;
         }

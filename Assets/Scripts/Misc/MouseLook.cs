@@ -25,13 +25,13 @@ public class MouseLook : MonoBehaviour
                 case ActorState.ItemInHands:
                     {
                         Cursor.visible = true;
-                        Cursor.lockState = CursorLockMode.Confined;
+                        Cursor.lockState = CursorLockMode.None;
                         break;
                     }
                 case ActorState.Focusing:
                     {
                         Cursor.visible = true;
-                        Cursor.lockState = CursorLockMode.Confined;
+                        Cursor.lockState = CursorLockMode.None;
                         break;
                     }
             }
@@ -96,7 +96,7 @@ public class MouseLook : MonoBehaviour
     {
         get
         {
-            return State == ActorState.Idle || State == ActorState.ItemInHands;
+            return (State == ActorState.Idle || State == ActorState.ItemInHands) && FocusingRoutineInstance == null;
         }
     }
 
@@ -104,7 +104,7 @@ public class MouseLook : MonoBehaviour
     {
         get
         {
-            return State == ActorState.Idle || State == ActorState.ItemInHands;
+            return (State == ActorState.Idle || State == ActorState.ItemInHands) && FocusingRoutineInstance == null;
         }
     }
 
@@ -112,7 +112,7 @@ public class MouseLook : MonoBehaviour
     {
         get
         {
-            return State == ActorState.Idle || State == ActorState.ItemInHands;
+            return (State == ActorState.Idle || State == ActorState.ItemInHands) && FocusingRoutineInstance == null;
         }
     }
 
@@ -123,8 +123,12 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
+        if(CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         RefreshInput();
-        
 
         if(State == ActorState.ItemInHands)
         {
@@ -253,13 +257,14 @@ public class MouseLook : MonoBehaviour
     {
         if (FocusingRoutineInstance != null)
         {
-            return;
+            StopCoroutine(FocusingRoutineInstance);
         }
 
-        State = ActorState.Focusing;
         CurrentFocus = view;
         preFocusPosition = CameraTransform.position;
         preFocusRotation = CameraTransform.rotation;
+
+        State = ActorState.Focusing;
 
         FocusingRoutineInstance = StartCoroutine(FocusOnViewRoutine(view));
     }
@@ -268,9 +273,11 @@ public class MouseLook : MonoBehaviour
     {
         if (FocusingRoutineInstance != null)
         {
-            return;
+            StopCoroutine(FocusingRoutineInstance);
         }
-        
+
+        State = ActorState.Idle;
+
         FocusingRoutineInstance = StartCoroutine(UnfocusViewRoutine());
     }
 
@@ -278,15 +285,18 @@ public class MouseLook : MonoBehaviour
     IEnumerator FocusOnViewRoutine(FocusView view)
     {
         float t = 0f;
-        while(t<1f)
+        while(t<0.1f)
         {
-            t += 1f * Time.deltaTime;
+            t += 0.1f * Time.deltaTime;
 
-            CameraTransform.position = Vector3.Lerp(preFocusPosition,    view.CurrentCamera.transform.position, t);
-            CameraTransform.rotation = Quaternion.Lerp(preFocusRotation, view.CurrentCamera.transform.rotation, t);
+            CameraTransform.position = Vector3.Lerp(CameraTransform.position,    view.CurrentCamera.transform.position, t);
+            CameraTransform.rotation = Quaternion.Lerp(CameraTransform.rotation, view.CurrentCamera.transform.rotation, t);
 
             yield return 0;
         }
+
+        CameraTransform.position = view.CurrentCamera.transform.position;
+        CameraTransform.rotation = view.CurrentCamera.transform.rotation;
 
         CameraTransform.gameObject.SetActive(false);
         view.CurrentCamera.gameObject.SetActive(true);
@@ -299,19 +309,22 @@ public class MouseLook : MonoBehaviour
         CurrentFocus.CurrentCamera.gameObject.SetActive(false);
         
         float t = 0f;
-        while (t < 1f)
+        while (t < 0.1f)
         {
-            t += 1f * Time.deltaTime;
+            t += 0.1f * Time.deltaTime;
 
-            CameraTransform.position = Vector3.Lerp(CurrentFocus.CurrentCamera.transform.position, preFocusPosition, t);
-            CameraTransform.rotation = Quaternion.Lerp(CurrentFocus.CurrentCamera.transform.rotation, preFocusRotation, t);
+            CameraTransform.position = Vector3.Lerp(CameraTransform.position, preFocusPosition, t);
+            CameraTransform.rotation = Quaternion.Lerp(CameraTransform.rotation, preFocusRotation, t);
 
             yield return 0;
         }
 
+        CameraTransform.position = preFocusPosition;
+        CameraTransform.rotation = preFocusRotation;
+
+
         FocusingRoutineInstance = null;
         CurrentFocus = null;
-        State = ActorState.Idle;
     }
 
     #endregion

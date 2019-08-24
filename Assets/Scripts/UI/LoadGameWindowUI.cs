@@ -49,6 +49,6 @@ public class LoadGameWindowUI : MonoBehaviour
     public void LoadSave(SaveFile file)
     {
         CORE.Instance.LoadGame(file);
-        RefreshUI();
+        CORE.Instance.InvokeEvent("HideEscapeMenu");
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using System.Linq;
 using SimpleJSON;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class CORE : MonoBehaviour
 {
@@ -22,14 +23,22 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
-    public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();
-
+    public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();    
 
 
     public static Character PC;
 
+    public bool isLoading
+    {
+        get
+        {
+            return LoadingGameRoutine != null;
+        }
+    }
+
     private void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         Instance = this;
     }
 
@@ -45,20 +54,49 @@ public class CORE : MonoBehaviour
 
     void NewGame()
     {
-        //PC = Instantiate(Database.PlayerCharacter);
-        //PC.name = Database.PlayerCharacter.name;
-        //Characters.Add(PC);
-        //PC.Initialize();
+        if(LoadingGameRoutine != null)
+        {
+            return;
+        }
 
-        foreach(Character character in Database.PresetCharacters)
+        LoadingGameRoutine = StartCoroutine(NewGameRoutine());
+    }
+
+    Coroutine LoadingGameRoutine;
+    IEnumerator NewGameRoutine()
+    {
+        while (ResourcesLoader.Instance.m_bLoading)
+        {
+            yield return 0;
+        }
+
+        yield return StartCoroutine(LoadMainScene());
+
+        LoadingGameRoutine = null;
+    }
+
+    IEnumerator LoadMainScene()
+    {
+        SceneManager.LoadScene("Game");
+        while (SceneManager.GetActiveScene().name != "Game")
+        {
+            yield return 0;
+        }
+        
+        MapViewManager.Instance.ShowMap();
+        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
+
+        yield return 0;
+
+        foreach (Character character in Database.PresetCharacters)
         {
             Character tempCharacter = Instantiate(character);
-            tempCharacter.Initialize();
+            tempCharacter.Initialize(true);
             tempCharacter.name = character.name;
 
             Characters.Add(tempCharacter);
         }
-        
+
         foreach (LocationEntity presetLocation in PresetLocations)
         {
             presetLocation.InitializePreset();
@@ -67,7 +105,25 @@ public class CORE : MonoBehaviour
 
         PC = GetCharacter("You");
 
+        MapViewManager.Instance.HideMap();
+        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
 
+    }
+
+
+    void WipeCurrentGame()
+    {
+        foreach(Character character in Characters)
+        {
+            character.Wipe();
+        }
+
+        Characters.Clear();
+        Locations.Clear();
+        PresetLocations.Clear();
+        PurchasablePlots.Clear();
+
+        GameClock.Instance.Wipe();
     }
 
     #region Events
@@ -323,32 +379,49 @@ public class CORE : MonoBehaviour
 
     public void LoadGame(SaveFile file)
     {
-        if(LoadGameRoutineInstance != null)
+        if(LoadingGameRoutine != null)
         {
             return;
         }
 
-        LoadGameRoutineInstance = StartCoroutine(LoadGameRoutine(file));
+        LoadingGameRoutine = StartCoroutine(LoadGameRoutine(file));
     }
 
-    public Coroutine LoadGameRoutineInstance;
+
     IEnumerator LoadGameRoutine(SaveFile file)
     {
-        MapViewManager.Instance.ShowMap();
-        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
-
-        yield return 0;
-
         while (ResourcesLoader.Instance.m_bLoading)
         {
             yield return 0;
         }
 
+
+        WipeCurrentGame();
+
+        SceneManager.LoadScene("POSTLOADER");
+        while (SceneManager.GetActiveScene().name != "POSTLOADER")
+        {
+            yield return 0;
+        }
+
+        yield return StartCoroutine(LoadMainScene());
+
+
+        MapViewManager.Instance.ShowMap();
+        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
+
+
         for (int i = 0; i < file.Content["Characters"].Count; i++)
         {
-            Character tempChar = GenerateSimpleCharacter();
-            tempChar.FromJSON(file.Content["Characters"][i]);
-            Characters.Add(tempChar);
+            Character tempCharacter = GetCharacterByID(file.Content["Characters"][i]["ID"]);
+
+            if (tempCharacter == null)
+            {
+                tempCharacter = GenerateSimpleCharacter();
+            }
+
+            tempCharacter.FromJSON(file.Content["Characters"][i]);
+            Characters.Add(tempCharacter);
 
             yield return 0;
         }
@@ -389,7 +462,7 @@ public class CORE : MonoBehaviour
         MapViewManager.Instance.HideMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
 
-        LoadGameRoutineInstance = null;
+        LoadingGameRoutine = null;
     }
 
     public void ReadAllSaveFiles()

@@ -11,9 +11,6 @@ public class InteractionRay : MonoBehaviour
     [SerializeField]
     protected LayerMask HitMask;
 
-    [SerializeField]
-    protected CursorTooltipUI Tooltip;
-
     public InteractableEntity CurrentInteractable = null;
 
     public virtual void EmitRay()
@@ -51,11 +48,11 @@ public class InteractionRay : MonoBehaviour
 
     public virtual void OnHover()
     {
-        Tooltip.Show(CurrentInteractable.Name);
+        CursorTooltipUI.TooltipInstance.Show(CurrentInteractable.Name);
     }
 
     public virtual void UnHover()
     {
-        Tooltip.Hide();
+        CursorTooltipUI.TooltipInstance.Hide();
     }
 }

@@ -450,6 +450,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     [SerializeField]
     VisualCharacteristic clothing;
 
+
     #endregion
 
     #endregion
@@ -494,6 +495,24 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     #region Misc
 
+    public void Wipe()
+    {
+        RemoveListeners();
+        Destroy(this);
+    }
+
+    void AddListeners()
+    {
+        RemoveListeners();
+        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassedAI);
+    }
+
+    void RemoveListeners()
+    {
+        GameClock.Instance.OnTurnPassed.RemoveListener(OnTurnPassedAI);
+        StateChanged.RemoveAllListeners();
+    }
+
     public void RefreshVisualTree()
     {
         RaceSet raceSet = CORE.Instance.Database.GetRace("Human");
@@ -527,9 +546,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
         StateChanged.Invoke();
     }
 
-    public void Initialize()
+    public void Initialize(bool presetCharacter = false)
     {
-        ID = Util.GenerateUniqueID();
+        if (presetCharacter)
+        {
+            ID = this.name;
+        }
+        else
+        {
+            ID = Util.GenerateUniqueID();
+        }
 
         RaceSet raceSet = CORE.Instance.Database.GetRace("Human");
 
@@ -565,10 +591,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         RefreshVisualTree();
 
-        if (CORE.PC != this)
-        {
-            GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassedAI);
-        }
+        AddListeners();
 
         GoToLocation(CORE.Instance.GetLocationOfProperty(CORE.Instance.Database.DefaultLocationProperty));
     }
@@ -668,8 +691,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 i--;
             }
         }
-        
-        if(CurrentTaskEntity == null)
+
+        if (this == CORE.PC)
+        {
+            return;
+        }
+
+        if (CurrentTaskEntity == null)
         {
             bool hasSomethingToDo = TryToDoSomething();
             
@@ -992,9 +1020,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             GoToLocation(CORE.Instance.GetLocationByID(_currentLocationID));
         }
 
-        foreach(string proeprtyID in _propertiesOwnedIDs)
+        if (_propertiesOwnedIDs != null)
         {
-            StartOwningLocation(CORE.Instance.GetLocationByID(proeprtyID));
+            foreach (string proeprtyID in _propertiesOwnedIDs)
+            {
+                StartOwningLocation(CORE.Instance.GetLocationByID(proeprtyID));
+            }
         }
 
         if (!string.IsNullOrEmpty(_currentTaskName))

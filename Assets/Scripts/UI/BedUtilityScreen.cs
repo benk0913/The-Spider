@@ -13,7 +13,8 @@ public class BedUtilityScreen : MonoBehaviour
 
     private void Start()
     {
-        CORE.Instance.SubscribeToEvent("BedPressed", Show);
+        CORE.Instance.SubscribeToEvent("ShowEscapeMenu", Show);
+        CORE.Instance.SubscribeToEvent("HideEscapeMenu", Hide);
 
         Hide();
     }
@@ -26,6 +27,11 @@ public class BedUtilityScreen : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void Resume()
+    {
+        CORE.Instance.InvokeEvent("QuitBed");
     }
 
     public void QuitGame()
