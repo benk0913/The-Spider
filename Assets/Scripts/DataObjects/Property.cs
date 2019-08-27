@@ -72,5 +72,7 @@ public class Property : ScriptableObject
         public int GoldGeneratedMax = 2;
 
         public AgentAction WorkAction;
+
+        public List<GameEvent> PossibleEvents = new List<GameEvent>();
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(fileName = "Letter", menuName = "DataObjects/Letter", order = 2)]
-public class Letter : ScriptableObject
+[CreateAssetMenu(fileName = "LetterPreset", menuName = "DataObjects/LetterPreset", order = 2)]
+public class LetterPreset : ScriptableObject
 {
     [SerializeField]
     public string Title;
@@ -18,7 +18,6 @@ public class Letter : ScriptableObject
 
     [SerializeField]
     public Material Seal;
-
 
 
 }

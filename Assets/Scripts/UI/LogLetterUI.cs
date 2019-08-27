@@ -19,7 +19,7 @@ public class LogLetterUI : MonoBehaviour
     public void SetInfo(Letter letter, LettersPanelUI parent)
     {
         CurrentLetter = letter;
-        TitleText.text = CurrentLetter.From;
+        TitleText.text = letter.Title;
         CurrentParent = parent;
     }
 

@@ -723,6 +723,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
             {
                 WorkLocation.CurrentAction.WorkAction.Execute(TopEmployer, this, WorkLocation);
+                
                 return true;
             }
         }

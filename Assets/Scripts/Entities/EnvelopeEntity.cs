@@ -46,10 +46,10 @@ public class EnvelopeEntity : MonoBehaviour
 
     void RefreshUI()
     {
-        if(CurrentLetter.Seal != null)
+        if(CurrentLetter.Preset.Seal != null)
         {
             SealRenderer.gameObject.SetActive(true);
-            SealRenderer.material = CurrentLetter.Seal;
+            SealRenderer.material = CurrentLetter.Preset.Seal;
         }
         else
         {
@@ -57,8 +57,8 @@ public class EnvelopeEntity : MonoBehaviour
         }
 
         TitleText.text = CurrentLetter.Title;
-        DescriptionText.text = CurrentLetter.Description;
-        FromText.text = CurrentLetter.From;
+        DescriptionText.text = CurrentLetter.Content;
+        FromText.text = ((Character)CurrentLetter.Parameters["Letter_From"]).name;
 
         ArchiveActionText.text = "Press '" + InputMap.Map["Interact"].ToString() + "' to ARCHIVE.";
         ArchiveActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to DISPOSE.";

@@ -102,9 +102,9 @@ public class LettersPanelUI : MonoBehaviour
         SelectedLetter = letter;
         SelectedLetter.Select();
 
-        TitleText.text = letter.CurrentLetter.Title;
-        DescText.text = letter.CurrentLetter.Description;
-        FromText.text = letter.CurrentLetter.From;
+        //TitleText.text = letter.CurrentLetter.Title; //TODO Fix
+        DescText.text = letter.CurrentLetter.Content;
+        //FromText.text = letter.CurrentLetter.From;
     }
 }
 

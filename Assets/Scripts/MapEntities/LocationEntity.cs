@@ -74,6 +74,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     void Start()
     {
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+        GameClock.Instance.OnDayPassed.AddListener(DayPassed);
     }
 
     public bool IsOwnedByPlayer
@@ -163,6 +164,28 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         ProgressUpgrade();
  
         RefreshState();
+    }
+
+    void DayPassed()
+    {
+        AttemptRandomEvent();
+    }
+
+    void AttemptRandomEvent()
+    {
+        foreach (GameEvent gEvent in CurrentAction.PossibleEvents)
+        {
+            if(gEvent.RollChance())
+            {
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                parameters.Add("Location", this);
+                parameters.Add("From", OwnerCharacter);
+                gEvent.Execute(
+                    parameters, 
+                    OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC);
+                return;
+            }
+        }
     }
 
     public void OnClick()
