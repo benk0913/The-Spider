@@ -840,6 +840,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
        
         CurrentTaskEntity = task;
+        GoToLocation(task.CurrentTargetLocation);
         return true;
     }
 

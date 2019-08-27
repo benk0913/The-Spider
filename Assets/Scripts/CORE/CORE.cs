@@ -418,10 +418,10 @@ public class CORE : MonoBehaviour
             if (tempCharacter == null)
             {
                 tempCharacter = GenerateSimpleCharacter();
+                Characters.Add(tempCharacter);
             }
 
             tempCharacter.FromJSON(file.Content["Characters"][i]);
-            Characters.Add(tempCharacter);
 
             yield return 0;
         }

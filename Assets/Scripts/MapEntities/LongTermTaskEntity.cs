@@ -19,7 +19,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     public Character TargetCharacter;
 
     [SerializeField]
-    public AgentInteractable CurrentTargetLocation;
+    public LocationEntity CurrentTargetLocation;
 
     public int TurnsLeft;
 
