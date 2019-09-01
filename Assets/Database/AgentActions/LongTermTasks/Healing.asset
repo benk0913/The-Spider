@@ -9,10 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fba3441939d08b49b7daa443b5369cc, type: 3}
-  m_Name: Orphan Wounded While Pickpocketing
+  m_Script: {fileID: 11500000, guid: 68101a18fb5f09d4c9328c455e08282a, type: 3}
+  m_Name: Healing
   m_EditorClassIdentifier: 
-  Description: Orphan got wounded
+  Description: Currently resting, waiting for the wounds to heal...
   Icon: {fileID: 21300000, guid: 15900ff33e40e264eb3042ed52fbda55, type: 3}
-  Chance: 0.01
-  LetterMessage: {fileID: 11400000, guid: bf2b5039cb9e8f24ab62758ddbd3e7e6, type: 2}
+  TurnsToComplete: 20
+  PossibleResults: []
+  DefaultResults:
+  - {fileID: 11400000, guid: 663e2ca8018d91943926641e6ed4eae7, type: 2}
+  Cancelable: 0
+  ExecuteAtHome: 0
+  TraitsToTargetDuringAction: []

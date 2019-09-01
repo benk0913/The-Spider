@@ -882,6 +882,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         this.name += " (DECEASED)";
+        CORE.Instance.Characters.Remove(this);
     }
 
     #endregion

@@ -17,6 +17,8 @@ public class LongTermTask : ScriptableObject
 
     public bool Cancelable = true;
 
+    public bool ExecuteAtHome = false;
+
     public Trait[] TraitsToTargetDuringAction;
 
     public AgentAction GetResult(Character character)
