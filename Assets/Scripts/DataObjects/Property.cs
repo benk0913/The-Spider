@@ -34,6 +34,8 @@ public class Property : ScriptableObject
     public PlayerAction[] UniquePlayerActions;
     public AgentAction[] UniqueAgentActions;
 
+    public string EmployeeRole;
+
     public PropertyAction GetActionByName(string actionName)
     {
         foreach(PropertyAction action in Actions)

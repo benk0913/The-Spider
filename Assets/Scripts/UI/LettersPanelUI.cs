@@ -18,7 +18,19 @@ public class LettersPanelUI : MonoBehaviour
     TextMeshProUGUI DescText;
 
     [SerializeField]
+    TextMeshProUGUI SideNotesText;
+
+    [SerializeField]
     TextMeshProUGUI FromText;
+
+    [SerializeField]
+    PortraitUI FromPortrait;
+
+    [SerializeField]
+    PortraitUI ToPortrait;
+
+    [SerializeField]
+    PortraitUI SubjectPortrait;
 
     LogLetterUI SelectedLetter;
 
@@ -34,6 +46,7 @@ public class LettersPanelUI : MonoBehaviour
     void Start()
     {
         CORE.Instance.SubscribeToEvent("ShowLettersUI", Show);
+        CORE.Instance.SubscribeToEvent("HideLettersUI", Hide);
 
         this.gameObject.SetActive(false);
     }
@@ -49,6 +62,11 @@ public class LettersPanelUI : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
+    }
+
+    public void CloseWindow()
+    {
+        CORE.Instance.InvokeEvent("QuitLetters");
     }
 
     public void Hide()
@@ -102,9 +120,44 @@ public class LettersPanelUI : MonoBehaviour
         SelectedLetter = letter;
         SelectedLetter.Select();
 
-        //TitleText.text = letter.CurrentLetter.Title; //TODO Fix
+        TitleText.text = letter.CurrentLetter.Title;
         DescText.text = letter.CurrentLetter.Content;
-        //FromText.text = letter.CurrentLetter.From;
+        SideNotesText.text = letter.CurrentLetter.Preset.SideNotes;
+        FromText.text = ((Character)letter.CurrentLetter.Parameters["Letter_From"]).name;
+        FromPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_From"]));
+        ToPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_To"]));
+
+        if (letter.CurrentLetter.Parameters.ContainsKey("Letter_From"))
+        {
+            FromPortrait.gameObject.SetActive(true);
+            FromPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_From"]));
+        }
+        else
+        {
+            FromPortrait.gameObject.SetActive(false);
+        }
+
+        if (letter.CurrentLetter.Parameters.ContainsKey("Letter_To"))
+        {
+            ToPortrait.gameObject.SetActive(true);
+            ToPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_To"]));
+        }
+        else
+        {
+            ToPortrait.gameObject.SetActive(false);
+        }
+
+        if (letter.CurrentLetter.Parameters.ContainsKey("Letter_SubjectCharacter"))
+        {
+            SubjectPortrait.gameObject.SetActive(true);
+            SubjectPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_SubjectCharacter"]));
+        }
+        else
+        {
+            SubjectPortrait.gameObject.SetActive(false);
+        }
+
+
     }
 }
 

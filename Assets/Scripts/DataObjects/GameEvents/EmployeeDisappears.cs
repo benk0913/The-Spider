@@ -9,11 +9,10 @@ public class EmployeeDisappears : GameEvent
     {
         LocationEntity location = (LocationEntity)parameters["Location"];
         
-        if (location.EmployeesCharacters.Count < 0)
+        if (location.EmployeesCharacters.Count <= 0)
         {
             return;
         }
-
 
         Character character = location.EmployeesCharacters[Random.Range(0, location.EmployeesCharacters.Count)];
         character.StopWorkingFor(location);

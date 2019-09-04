@@ -23,8 +23,7 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
-    public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();    
-
+    public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();
 
     public static Character PC;
 

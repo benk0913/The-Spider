@@ -17,19 +17,21 @@ public class GameEvent : ScriptableObject
 
     public virtual void Execute(Dictionary<string, object> parameters = null, bool sendLetter = true)
     {
-        Dictionary<string, object> letterParameters = parameters;
-
-        letterParameters.Add("Letter_From", (Character)parameters["From"]);
-
         if (LetterMessage != null)
         {
+            Dictionary<string, object> letterParameters = parameters;
+
+            letterParameters.Add("Letter_From", (Character)parameters["From"]);
+            letterParameters.Add("Letter_To", (Character)parameters["To"]);
+
             LetterDispenserEntity.Instance.DispenseLetter(new Letter(LetterMessage, letterParameters));
         }
     }
 
     public virtual bool RollChance()
     {
-        if(Random.Range(0f,1f) < Chance)
+        float roll = Random.Range(0f, 1f);
+        if (roll < Chance)
         {
             return true;
         }

@@ -180,6 +180,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 Dictionary<string, object> parameters = new Dictionary<string, object>();
                 parameters.Add("Location", this);
                 parameters.Add("From", OwnerCharacter);
+                parameters.Add("To", OwnerCharacter.TopEmployer);
                 gEvent.Execute(
                     parameters, 
                     OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC);

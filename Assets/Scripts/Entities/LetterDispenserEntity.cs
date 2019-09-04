@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LetterDispenserEntity : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class LetterDispenserEntity : MonoBehaviour
 
     [SerializeField]
     float DispensingSpeed = 1f;
+
+    List<EnvelopeEntity> Envelopes = new List<EnvelopeEntity>();
 
     private void Awake()
     {
@@ -44,10 +47,20 @@ public class LetterDispenserEntity : MonoBehaviour
         {
             t += DispensingSpeed * Time.deltaTime;
 
-            letterTransform.position = Vector3.Lerp(letterTransform.position, targetPoint.position +new Vector3(0f,addedY/100f,0f), t);
+            letterTransform.position = Vector3.Lerp(letterTransform.position, targetPoint.position +new Vector3(0f,addedY/100f+Envelopes.Count/100f,0f), t);
             letterTransform.rotation = Quaternion.Lerp(letterTransform.rotation, targetRotation, t);
 
             yield return 0;
+        }
+
+        RefreshEnvelopesHeight();
+    }
+
+    void RefreshEnvelopesHeight()
+    {
+        for(int i=0;i<Envelopes.Count;i++)
+        {
+            Envelopes[i].transform.position = targetPoint.position + new Vector3(0f, i / 100f, 0f);
         }
     }
 
@@ -56,10 +69,18 @@ public class LetterDispenserEntity : MonoBehaviour
         GameObject tempLetter = Instantiate(LetterPrefab);
         tempLetter.transform.position = transform.position;
         tempLetter.transform.rotation = transform.rotation;
-        tempLetter.GetComponent<EnvelopeEntity>().SetInfo(letter);
+
+        EnvelopeEntity envelope = tempLetter.GetComponent<EnvelopeEntity>();
+        envelope.SetInfo(letter, DisposeLetter);
+        Envelopes.Add(envelope);
 
         return tempLetter;
     }
 
+    public void DisposeLetter(EnvelopeEntity envelope)
+    {
+        Envelopes.Remove(envelope);
+        RefreshEnvelopesHeight();
+    }
 
 }

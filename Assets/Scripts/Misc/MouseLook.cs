@@ -352,7 +352,10 @@ public class MouseLook : MonoBehaviour
             return;
         }
 
-        PickupItemRoutineInstance = StartCoroutine(RetreiveItemRoutine());
+        PickupItemRoutineInstance = StartCoroutine(RetreiveItemRoutine(CurrentItemInHands));
+
+        CurrentItemInHands = null;
+        State = ActorState.Idle;
     }
 
     public void ReleaseItem()
@@ -370,6 +373,11 @@ public class MouseLook : MonoBehaviour
         {
             t += 1f * Time.deltaTime;
 
+            if(CurrentItemInHands == null)
+            {
+                break;
+            }
+
             CurrentItemInHands.transform.position = Vector3.Lerp(CurrentItemInHands.transform.position, ItemPickViewPoint.position, t);
             CurrentItemInHands.transform.rotation = Quaternion.Lerp(CurrentItemInHands.transform.rotation, ItemPickViewPoint.rotation, t);
 
@@ -379,22 +387,20 @@ public class MouseLook : MonoBehaviour
         PickupItemRoutineInstance = null;
     }
 
-    IEnumerator RetreiveItemRoutine()
+    IEnumerator RetreiveItemRoutine(PickableItem item)
     {
         float t = 0f;
         while (t < 1f)
         {
             t += 1f * Time.deltaTime;
 
-            CurrentItemInHands.transform.position = Vector3.Lerp(CurrentItemInHands.transform.position, prePickupItemPosition, t);
-            CurrentItemInHands.transform.rotation = Quaternion.Lerp(CurrentItemInHands.transform.rotation, prePickupItemRotation, t);
+            item.transform.position = Vector3.Lerp(item.transform.position, prePickupItemPosition, t);
+            item.transform.rotation = Quaternion.Lerp(item.transform.rotation, prePickupItemRotation, t);
 
             yield return 0;
         }
 
         PickupItemRoutineInstance = null;
-        CurrentItemInHands = null;
-        State = ActorState.Idle;
     }
 
 

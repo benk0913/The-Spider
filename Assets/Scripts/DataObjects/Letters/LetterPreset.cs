@@ -10,8 +10,12 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public string Title;
 
-    [SerializeField][TextArea(4,2)]
+    [SerializeField][TextArea(4,6)]
     public string Description;
+
+    [SerializeField]
+    [TextArea(4, 6)]
+    public string SideNotes;
 
     [SerializeField]
     public string From;

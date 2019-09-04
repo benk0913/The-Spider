@@ -20,6 +20,8 @@ public class AgentAction : ScriptableObject
 
     public bool ShowHover = true;
 
+    public LetterPreset employerLetterPreset;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         if(!CanDoAction(requester, character, target))
@@ -45,6 +47,22 @@ public class AgentAction : ScriptableObject
         if (ShowHover && character.CurrentFaction == CORE.PC.CurrentFaction)
         {
             CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
+        }
+
+        if(employerLetterPreset != null)
+        {
+            if (character.Employer != null && character.TopEmployer != null && character.Employer != character.TopEmployer)
+            {
+                Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+
+                letterParameters.Add("Target_Name", character.name);
+                letterParameters.Add("Target_Role", character.CurrentRole);
+                letterParameters.Add("Letter_From", character.Employer);
+                letterParameters.Add("Letter_To", character.TopEmployer);
+                letterParameters.Add("Letter_SubjectCharacter", character);
+
+                LetterDispenserEntity.Instance.DispenseLetter(new Letter(employerLetterPreset, letterParameters));
+            }
         }
     }
 

@@ -11,9 +11,13 @@ public class PickableItem : MonoBehaviour
     [SerializeField]
     UnityEvent SecondaryInteraction = new UnityEvent();
 
+    [SerializeField]
+    UnityEvent OnRetreive;
+
     public int CurrentInteractionIndex;
 
     public bool isPicked = false;
+
 
     public void PickUp()
     {
@@ -24,6 +28,10 @@ public class PickableItem : MonoBehaviour
     public void Retrieve()
     {
         MouseLook.Instance.RetreiveItem();
+        OnRetreive.Invoke();
+
+        CurrentInteractionIndex = 0;
+
         isPicked = false;
     }
 

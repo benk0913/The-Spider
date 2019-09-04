@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "LongTermTaskExecuter", menuName = "DataObjects/AgentActions/LongTermTaskExecuter", order = 2)]
-public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
+[CreateAssetMenu(fileName = "ExecuteActionInWorkLocation", menuName = "DataObjects/AgentActions/ExecuteActionInWorkLocation", order = 2)]
+public class ExecuteActionInWorkLocation : AgentAction //DO NOT INHERIT FROM
 {
     public LongTermTask Task;
 
@@ -27,17 +27,13 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             return;
         }
 
-        if(Task == null)
-        {
-            return;
-        }
+        target = character.WorkLocation;
 
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
     {
-        LocationEntity location = (LocationEntity)target;
 
         if (!base.CanDoAction(requester, character, target))
         {

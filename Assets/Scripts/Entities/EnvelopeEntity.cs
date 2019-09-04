@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnvelopeEntity : MonoBehaviour
 {
@@ -29,6 +30,21 @@ public class EnvelopeEntity : MonoBehaviour
     [SerializeField]
     MeshRenderer SealRenderer;
 
+    [SerializeField]
+    public PortraitUI FromPortrait;
+
+    [SerializeField]
+    public PortraitUI ToPortrait;
+
+    [SerializeField]
+    public PortraitUI SubjectPortrait;
+
+    [SerializeField]
+    TextMeshProUGUI SideNotesText;
+
+    UnityAction<EnvelopeEntity> DisposeAction;
+
+
     private void Start()
     {
         if(CurrentLetter != null)
@@ -37,11 +53,14 @@ public class EnvelopeEntity : MonoBehaviour
         }
     }
 
-    public void SetInfo(Letter letter)
+    public void SetInfo(Letter letter, UnityAction<EnvelopeEntity> disposeAction)
     {
         CurrentLetter = letter;
+        DisposeAction = disposeAction;
 
         RefreshUI();
+
+
     }
 
     void RefreshUI()
@@ -58,21 +77,37 @@ public class EnvelopeEntity : MonoBehaviour
 
         TitleText.text = CurrentLetter.Title;
         DescriptionText.text = CurrentLetter.Content;
+        SideNotesText.text = CurrentLetter.Preset.SideNotes;
         FromText.text = ((Character)CurrentLetter.Parameters["Letter_From"]).name;
+        FromPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_From"]));
+        ToPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_To"]));
+
+        if (CurrentLetter.Parameters.ContainsKey("Letter_SubjectCharacter"))
+        {
+            SubjectPortrait.gameObject.SetActive(true);
+            SubjectPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_SubjectCharacter"]));
+        }
+        else
+        {
+            SubjectPortrait.gameObject.SetActive(false);
+        }
+
 
         ArchiveActionText.text = "Press '" + InputMap.Map["Interact"].ToString() + "' to ARCHIVE.";
-        ArchiveActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to DISPOSE.";
-        ArchiveActionText.text = "Press 'Escape' to return...";
+        DeleteActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to DISPOSE.";
+        RetreiveActionText.text = "Press 'Escape' to return...";
     }
 
     public void Archive()
     {
         LettersPanelUI.Instance.AddLetterToLog(this.CurrentLetter);
+        DisposeAction(this);
         Destroy(this.gameObject);
     }
 
     public void Delete()
     {
+        DisposeAction(this);
         Destroy(this.gameObject);
     }
 }

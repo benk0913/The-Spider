@@ -115,6 +115,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
     }
     LongTermTaskEntity _currentTaskEntity;
 
+    public string CurrentRole
+    {
+        get
+        {
+            return WorkLocation != null ? WorkLocation.CurrentProperty.EmployeeRole : "";
+        }
+    }
+    
     #region Traits & Bonuses
 
     /// <summary>
@@ -876,12 +884,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
             StopWorkingFor(WorkLocation);
         }
 
-        foreach (LocationEntity location in PropertiesOwned)
+        while(PropertiesOwned.Count > 0)
         {
-            StopOwningLocation(location);
+            StopOwningLocation(PropertiesOwned[0]);
         }
 
-        this.name += " (DECEASED)";
+        StopDoingCurrentTask();
+        
+        RemoveListeners();
+
         CORE.Instance.Characters.Remove(this);
     }
 
