@@ -102,7 +102,7 @@ public class CORE : MonoBehaviour
             CORE.Instance.Locations.Add(presetLocation);
         }
 
-        PC = GetCharacter("You");
+        PC = GetCharacter("'Juliana'");
 
         MapViewManager.Instance.HideMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
@@ -449,7 +449,7 @@ public class CORE : MonoBehaviour
 
         yield return 0;
 
-        PC = GetCharacter("You");
+        PC = GetCharacter("'Juliana'");
 
         foreach (Character character in Characters)
         {

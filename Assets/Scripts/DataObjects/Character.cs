@@ -549,7 +549,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         HairColor = VisualSet.HairColor.GetVCByName(HairColor.name);
 
-        Clothing = VisualSet.Clothing.GetVCByName(Clothing.name);
+        if (WorkLocation != null && WorkLocation.CurrentAction.EmployeeUniform != null)
+        {
+            Clothing = Gender == GenderType.Male ? WorkLocation.CurrentAction.EmployeeUniform.MaleClothing : WorkLocation.CurrentAction.EmployeeUniform.FemaleClothing;
+        }
+        else
+        {
+            Clothing = VisualSet.Clothing.GetVCByName(Clothing.name);
+        }
 
         StateChanged.Invoke();
     }
@@ -778,7 +785,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             ownedLocation.RefreshState();
         }
 
-        GoToLocation(location);
+        RefreshVisualTree();
     }
 
     public void StopWorkingFor(LocationEntity location)
@@ -799,7 +806,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             ownedLocation.RefreshState();
         }
 
-        GoToRandomLocation();
+        RefreshVisualTree();
     }
 
     public void StartOwningLocation(LocationEntity location)
@@ -817,7 +824,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
             PropertiesOwned.Add(location);
         }
 
-        GoToLocation(location);
     }
 
     public void StopOwningLocation(LocationEntity location)
@@ -849,7 +855,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
        
         CurrentTaskEntity = task;
-        GoToLocation(task.CurrentTargetLocation);
         return true;
     }
 

@@ -76,5 +76,7 @@ public class Property : ScriptableObject
         public AgentAction WorkAction;
 
         public List<GameEvent> PossibleEvents = new List<GameEvent>();
+        
+        public Uniform EmployeeUniform;
     }
 }
