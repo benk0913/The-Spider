@@ -11,9 +11,26 @@ public class StatsViewUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI ReputationText;
 
+    [SerializeField]
+    TextMeshProUGUI TurnText;
+
+    [SerializeField]
+    TextMeshProUGUI WeekText;
+
     private void OnEnable()
     {
         StartCoroutine(UpdateState());
+    }
+
+    private void Start()
+    {
+        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+    }
+
+    void OnTurnPassed()
+    {
+        TurnText.text = GameClock.Instance.CurrentTurn.ToString();
+        WeekText.text = GameClock.Instance.CurrentWeek.ToString();
     }
 
     IEnumerator UpdateState()

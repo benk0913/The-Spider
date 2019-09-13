@@ -65,9 +65,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Baron your momma has been doing some bad thingies.... You must stop him
-    before he goes mad with all of the bad thingies.... So many thingies, just one
-    baron. AND THEY ARE ALL BAD! YAYIKES! YUCKERZ! Goodbye Baron...
+  m_text: Yoinks
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e1f3d096f259bc14e8e4d079d22b2c3b, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 268a48a49ff7de84f83d1aec11dcc95b, type: 2}
@@ -95,12 +93,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14.5
+  m_fontSize: 42.5
   m_fontSizeBase: 14.5
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 0.6
+  m_fontSizeMax: 42.5
   m_fontStyle: 0
   m_textAlignment: 257
   m_characterSpacing: 0
@@ -136,12 +134,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 2258023446998689276}
-    characterCount: 214
+    characterCount: 6
     spriteCount: 0
-    spaceCount: 37
-    wordCount: 38
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 11
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -321,6 +319,7 @@ GameObject:
   - component: {fileID: 7711161229517383948}
   - component: {fileID: 5492398895826222961}
   - component: {fileID: 8283993850722598081}
+  - component: {fileID: 3984047103187684786}
   m_Layer: 5
   m_Name: RumorContentUI
   m_TagString: Untagged
@@ -406,6 +405,25 @@ MonoBehaviour:
   RumorIcon: {fileID: 3476284883584369988}
   RelevantCharacterPortrait: {fileID: 1707401973543989424}
   DefaultIcon: {fileID: 21300000, guid: 182c78cdac6d29b43be5b6d07207253e, type: 3}
+--- !u!95 &3984047103187684786
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210107297639329531}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3c1afeeb3c50dd846b21dba409d745b5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9000805151275145788
 GameObject:
   m_ObjectHideFlags: 0

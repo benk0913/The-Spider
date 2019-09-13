@@ -56,7 +56,7 @@ public class GameClock : MonoBehaviour
 
     public void PassTime()
     {
-        int currentDay = CurrentDay;
+        int currentWeek = CurrentWeek;
 
         CurrentTimeOfDay++;
         CurrentTurn++;
@@ -68,7 +68,7 @@ public class GameClock : MonoBehaviour
             OnDayPassed.Invoke();
         }
 
-        if (currentDay != CurrentDay)
+        if (currentWeek != CurrentWeek)
         {
             OnWeekPassed.Invoke();
         }

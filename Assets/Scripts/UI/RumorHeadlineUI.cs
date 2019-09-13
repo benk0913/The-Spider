@@ -15,17 +15,22 @@ public class RumorHeadlineUI : MonoBehaviour
 
     GameObject ShowingObject;
 
-    public void SetInfo(Rumor rumor)
+    RumorsPanelUI ParentPanel;
+
+    public void SetInfo(Rumor rumor, RumorsPanelUI parentPanel)
     {
         CurrentRumor = rumor;
+        ParentPanel = parentPanel;
 
         Title.text = CurrentRumor.Title;
     }
 
     public void Archive()
     {
+        Hide();
         this.gameObject.SetActive(false);
         this.transform.SetParent(transform.parent.parent);
+        ParentPanel.Archive(CurrentRumor);
     }
 
     public void Toggle()
@@ -39,16 +44,23 @@ public class RumorHeadlineUI : MonoBehaviour
         Anim.SetBool("Showing", true);
         ShowingObject = ResourcesLoader.Instance.GetRecycledObject("RumorContentUI");
         ShowingObject.transform.SetParent(transform.parent, false);
-        ShowingObject.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        ShowingObject.transform.SetSiblingIndex(transform.GetSiblingIndex()+1);
         ShowingObject.GetComponent<RumorContentUI>().SetInfo(CurrentRumor);
     }
 
     public void Hide()
     {
+        if(ShowingObject == null)
+        {
+            return;
+        }
+
         ShowingObject.gameObject.SetActive(false);
         ShowingObject.transform.SetParent(transform.parent.parent);
         ShowingObject = null;
         Anim.SetBool("Showing", false);
     }
+
+
 
 }

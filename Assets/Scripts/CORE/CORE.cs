@@ -368,6 +368,8 @@ public class CORE : MonoBehaviour
             savefile["PurchasablePlots"][i] = PurchasablePlots[i].ToJSON();
         }
 
+        savefile["Rumors"] = RumorsPanelUI.Instance.ToJSON();
+
 
         string ePath = Application.dataPath + "/Saves/" + savefile["Name"] + ".json";
         JSONNode tempNode = (JSONNode)savefile;
@@ -446,6 +448,8 @@ public class CORE : MonoBehaviour
 
             yield return 0;
         }
+
+        RumorsPanelUI.Instance.FromJSON(file.Content["Rumors"]);
 
         yield return 0;
 

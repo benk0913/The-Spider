@@ -48,6 +48,22 @@ public class GameDB : ScriptableObject
 
     public TimelineInstance[] Timeline;
 
+    public Rumor GetRumor(string rumorName)
+    {
+        for(int i=0;i<Timeline.Length;i++)
+        {
+            for(int r=0;r<Timeline[i].Rumors.Length;r++)
+            {
+                if (Timeline[i].Rumors[r].name == rumorName)
+                {
+                    return Timeline[i].Rumors[r];
+                }
+            }
+        }
+
+        return null;
+    }
+
     public LongTermTask GetLongTermTaskByName(string taskName)
     {
         foreach (LongTermTask longTermTask in LongTermTasks)
