@@ -7,13 +7,31 @@ public class GameClock : MonoBehaviour
 {
     public static GameClock Instance;
 
-    public GameTime CurrentTime = GameTime.Morning;
+    public GameTime CurrentTimeOfDay = GameTime.Morning;
 
-    public int DaysPast = 0;
+    public int CurrentWeek
+    {
+        get
+        {
+            return Mathf.FloorToInt(CurrentDay / 7f);
+        }
+    }
+
+    public int CurrentDay
+    {
+        get
+        {
+            return Mathf.FloorToInt(CurrentTurn / 5f);
+        }
+    }
+
+    public int CurrentTurn = 0;
 
     public UnityEvent OnTurnPassed = new UnityEvent();
 
     public UnityEvent OnDayPassed = new UnityEvent();
+
+    public UnityEvent OnWeekPassed = new UnityEvent();
 
     private void Awake()
     {
@@ -38,20 +56,27 @@ public class GameClock : MonoBehaviour
 
     public void PassTime()
     {
-        CurrentTime++;
+        int currentDay = CurrentDay;
 
-        if(CurrentTime > GameTime.Night)
+        CurrentTimeOfDay++;
+        CurrentTurn++;
+
+        if (CurrentTimeOfDay > GameTime.Night)
         {
-            CurrentTime = GameTime.Morning;
-            DaysPast++;
+            CurrentTimeOfDay = GameTime.Morning;
 
             OnDayPassed.Invoke();
         }
 
-        CORE.Instance.InvokeEvent(CurrentTime.ToString());
+        if (currentDay != CurrentDay)
+        {
+            OnWeekPassed.Invoke();
+        }
+
+        CORE.Instance.InvokeEvent(CurrentTimeOfDay.ToString());
         OnTurnPassed.Invoke();
 
-        GlobalMessagePrompterUI.Instance.Show(CurrentTime.ToString(), 1f);
+        GlobalMessagePrompterUI.Instance.Show(CurrentTimeOfDay.ToString(), 1f);
     }
 
     [System.Serializable]
@@ -72,9 +97,9 @@ public class GameClock : MonoBehaviour
         public GameTimeLength(int turns)
         {
             //Days = Mathf.FloorToInt((float)turns / 5f);
-            Days = Mathf.FloorToInt((float)(turns + GameClock.Instance.CurrentTime) / 5f);
+            Days = Mathf.FloorToInt((float)(turns + GameClock.Instance.CurrentTimeOfDay) / 5f);
 
-            DayTime = (int)GameClock.Instance.CurrentTime + (turns - (Days * 5));
+            DayTime = (int)GameClock.Instance.CurrentTimeOfDay + (turns - (Days * 5));
         }
     }
 }

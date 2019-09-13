@@ -725,7 +725,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     bool TryToDoSomething()
     {
-        if ((int)GameClock.Instance.CurrentTime < 3) //(Before evening?) - WORK
+        if ((int)GameClock.Instance.CurrentTimeOfDay < 3) //(Before evening?) - WORK
         {
             foreach (LocationEntity location in PropertiesOwned)
             {

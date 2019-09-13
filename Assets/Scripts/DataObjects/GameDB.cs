@@ -46,6 +46,8 @@ public class GameDB : ScriptableObject
 
     public Trait[] Traits;
 
+    public TimelineInstance[] Timeline;
+
     public LongTermTask GetLongTermTaskByName(string taskName)
     {
         foreach (LongTermTask longTermTask in LongTermTasks)
@@ -169,3 +171,10 @@ public class GameStats
 {
     public float GlobalRevenueMultiplier = 1f;
 }
+
+[System.Serializable]
+public class TimelineInstance
+{
+    public Rumor[] Rumors;
+}
+   
