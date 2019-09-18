@@ -53,7 +53,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public Property.PropertyAction CurrentAction;
 
+    public List<Character> CharactersInLocation = new List<Character>();
+
     GameObject SelectedMarkerObject;
+
+    CharactersInLocationUI CharactersInLocationUIInstance;
 
     [SerializeField]
     List<AgentAction> PossibleAgentActions = new List<AgentAction>();
@@ -398,6 +402,35 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier, false);
 
         SelectedPanelUI.Instance.Select(this);
+    }
+
+    public void CharacterEnteredLocation(Character character)
+    {
+        CharactersInLocation.Add(character);
+
+        if(CharactersInLocationUIInstance == null)
+        {
+            CharactersInLocationUIInstance = ResourcesLoader.Instance.GetRecycledObject("CharactersInLocationUI").GetComponent<CharactersInLocationUI>();
+            CharactersInLocationUIInstance.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            CharactersInLocationUIInstance.transform.localScale = Vector3.one;
+            CharactersInLocationUIInstance.transform.SetAsFirstSibling();
+        }
+
+        CharactersInLocationUIInstance.SetInfo(this);
+    }
+
+    public void CharacterLeftLocation(Character character)
+    {
+        CharactersInLocation.Remove(character);
+
+        if (CharactersInLocation.Count == 0 && CharactersInLocationUIInstance != null)
+        {
+            CharactersInLocationUIInstance.gameObject.SetActive(false);
+            CharactersInLocationUIInstance = null;
+            return;
+        }
+
+        CharactersInLocationUIInstance.SetInfo(this);
     }
 
 

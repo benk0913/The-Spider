@@ -755,7 +755,19 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     void GoToLocation(LocationEntity targetLocation)
     {
+        if (CurrentLocation != null)
+        {
+            CurrentLocation.CharacterLeftLocation(this);
+        }
+
+        if(targetLocation == null)
+        {
+            return;
+        }
+
         CurrentLocation = targetLocation;
+
+        CurrentLocation.CharacterEnteredLocation(this);
     }
 
     bool AttemptManagePropertyAI(LocationEntity location)
