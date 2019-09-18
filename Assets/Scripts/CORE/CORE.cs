@@ -35,6 +35,8 @@ public class CORE : MonoBehaviour
         }
     }
 
+    public string GameScene = "Game";
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -76,14 +78,17 @@ public class CORE : MonoBehaviour
 
     IEnumerator LoadMainScene()
     {
-        SceneManager.LoadScene("Game");
-        while (SceneManager.GetActiveScene().name != "Game")
+        SceneManager.LoadScene(GameScene);
+        while (SceneManager.GetActiveScene().name != GameScene)
         {
             yield return 0;
         }
-        
-        MapViewManager.Instance.ShowMap();
-        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
+
+        if (MapViewManager.Instance != null)
+        {
+            MapViewManager.Instance.ShowMap();
+            MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
+        }
 
         yield return 0;
 
@@ -104,8 +109,11 @@ public class CORE : MonoBehaviour
 
         PC = GetCharacter("'Juliana'");
 
-        MapViewManager.Instance.HideMap();
-        MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
+        if (MapViewManager.Instance != null)
+        {
+            MapViewManager.Instance.HideMap();
+            MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
+        }
 
     }
 
