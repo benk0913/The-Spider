@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
 {
@@ -14,6 +15,12 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     Transform RumorsContainer;
 
+    [SerializeField]
+    Button visibleRumorsButton;
+
+    [SerializeField]
+    Button archivedRumorsButton;
+
     private void Awake()
     {
         Instance = this;
@@ -24,14 +31,30 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
         GameClock.Instance.OnWeekPassed.AddListener(OnWeekPassed);
     }
 
+    void OnEnable()
+    {
+        ShowVisible();
+    }
+
     public void OnWeekPassed()
     {
-        if(GameClock.Instance.CurrentWeek >= CORE.Instance.Database.Timeline.Length)
+        if(GameClock.Instance.CurrentWeek < CORE.Instance.Database.Timeline.Length)
         {
-            return;
+            AllAvailableRumors.InsertRange(0, CORE.Instance.Database.Timeline[GameClock.Instance.CurrentWeek].Rumors);
         }
 
-        AllAvailableRumors.InsertRange(0, CORE.Instance.Database.Timeline[GameClock.Instance.CurrentWeek].Rumors);
+        int rumorsToGenerate = 0;
+        foreach (LocationEntity location in CORE.Instance.Locations)
+        {
+            
+            if(location.OwnerCharacter != null && location.OwnerCharacter.TopEmployer == CORE.PC && location.CurrentProperty.Traits.Contains(CORE.Instance.Database.RumorsHubTrait))
+            {
+                CORE.Instance.ShowHoverMessage("Generated Rumors", null,location.transform);
+                rumorsToGenerate += location.Level;
+            }
+        }
+
+        GainRumors(rumorsToGenerate);
     }
 
     public void GainRumors(int amount)
@@ -48,15 +71,56 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
             VisibleRumors.Add(randomRumor);
             AllAvailableRumors.Remove(randomRumor);
 
-            GameObject rumorPanel = ResourcesLoader.Instance.GetRecycledObject("RumorHeadlineUI");
-            rumorPanel.transform.SetParent(RumorsContainer, false);
-            rumorPanel.GetComponent<RumorHeadlineUI>().SetInfo(randomRumor, this);
+            AddRumorToContainer(randomRumor);
         }
     }
 
     public void Archive(Rumor rumor)
     {
+        VisibleRumors.Remove(rumor);
         ArchivedRumors.Add(rumor);
+    }
+
+    public void ShowVisible()
+    {
+        ClearContainer();
+
+        visibleRumorsButton.interactable = false;
+        archivedRumorsButton.interactable = true;
+
+        foreach (Rumor rumor in VisibleRumors)
+        {
+            AddRumorToContainer(rumor);
+        }
+    }
+
+    public void ShowArchived()
+    {
+        ClearContainer();
+
+        visibleRumorsButton.interactable = true;
+        archivedRumorsButton.interactable = false;
+
+        foreach (Rumor rumor in ArchivedRumors)
+        {
+            AddRumorToContainer(rumor, false);
+        }
+    }
+
+    void AddRumorToContainer(Rumor rumor, bool canArchive = true)
+    {
+        GameObject rumorPanel = ResourcesLoader.Instance.GetRecycledObject("RumorHeadlineUI");
+        rumorPanel.transform.SetParent(RumorsContainer, false);
+        rumorPanel.GetComponent<RumorHeadlineUI>().SetInfo(rumor, this, canArchive);
+    }
+
+    void ClearContainer()
+    {
+        while(RumorsContainer.childCount > 0)
+        {
+            RumorsContainer.GetChild(0).gameObject.SetActive(false);
+            RumorsContainer.GetChild(0).SetParent(transform);
+        }
     }
 
     public JSONNode ToJSON()
@@ -111,19 +175,5 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
     public void ImplementIDs()
     {
         throw new System.NotImplementedException();
-    }
-
-
-    //TODO DEBUG
-
-    public bool DEBUG;
-
-    private void Update()
-    {
-        if (DEBUG)
-        {
-            GainRumors(1);
-            DEBUG = false;
-        }
     }
 }

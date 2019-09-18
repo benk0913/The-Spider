@@ -112,6 +112,11 @@ public class CharacterInfoUI : MonoBehaviour
         ClearBonuses();
         for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
         {
+            if(CurrentCharacter.Bonuses[i].Value < 2)
+            {
+                continue;
+            }
+
             GameObject tempBonus = ResourcesLoader.Instance.GetRecycledObject("BonusUI");
             tempBonus.transform.SetParent(BonusesContainer, false);
             tempBonus.transform.localScale = Vector3.one;

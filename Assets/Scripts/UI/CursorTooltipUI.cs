@@ -10,6 +10,7 @@ public class CursorTooltipUI : MonoBehaviour
     [SerializeField]
     protected TextMeshProUGUI TextLabel;
 
+
     [SerializeField]
     protected CanvasGroup CG;
 
@@ -61,7 +62,7 @@ public class CursorTooltipUI : MonoBehaviour
 
     protected IEnumerator FadeIn(float Length = 0f)
     {
-        while(CG.alpha < 1f)
+        while (CG.alpha < 1f)
         {
             CG.alpha += 2f * Time.deltaTime;
 

@@ -11,18 +11,27 @@ public class RumorHeadlineUI : MonoBehaviour
     [SerializeField]
     Animator Anim;
 
+    [SerializeField]
+    GameObject archiveButton;
+
+    [SerializeField]
+    GameObject oldMarker;
+
     public Rumor CurrentRumor;
 
     GameObject ShowingObject;
 
     RumorsPanelUI ParentPanel;
 
-    public void SetInfo(Rumor rumor, RumorsPanelUI parentPanel)
+    public void SetInfo(Rumor rumor, RumorsPanelUI parentPanel, bool canArchive = true)
     {
         CurrentRumor = rumor;
         ParentPanel = parentPanel;
 
         Title.text = CurrentRumor.Title;
+
+        archiveButton.SetActive(canArchive);
+        oldMarker.SetActive(false);
     }
 
     public void Archive()

@@ -26,6 +26,8 @@ public class GameDB : ScriptableObject
 
     public PropertyTrait WildernessAreaTrait;
 
+    public PropertyTrait RumorsHubTrait;
+
     public Faction DefaultFaction;
 
     public PlotType UniquePlotType;

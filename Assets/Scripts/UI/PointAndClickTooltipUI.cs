@@ -13,6 +13,9 @@ public class PointAndClickTooltipUI : MonoBehaviour
     [SerializeField]
     CanvasGroup CG;
 
+    [SerializeField]
+    RectTransform rectT;
+
     Coroutine ShowRoutineInstance;
 
     private void Awake()
@@ -27,6 +30,13 @@ public class PointAndClickTooltipUI : MonoBehaviour
         {
             return;
         }
+
+        bool xInRightSide = Input.mousePosition.x > Screen.width / 2;
+        bool yInUpperSide = Input.mousePosition.y > Screen.height / 2;
+
+        rectT.anchorMin = new Vector2(xInRightSide ? 1 : 0, yInUpperSide ? 1 : 0);
+        rectT.anchorMax = new Vector2(xInRightSide ? 1 : 0, yInUpperSide ? 1 : 0);
+        rectT.pivot = new Vector2(xInRightSide ? 1 : 0, yInUpperSide ? 1 : 0);
 
         Text.text = message;
 

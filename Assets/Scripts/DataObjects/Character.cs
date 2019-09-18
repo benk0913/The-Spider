@@ -233,11 +233,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
                             continue;
                         }
 
-                        if (traitBonus.Value < 1)
-                        {
-                            continue;
-                        }
-
                         Bonus bonus = new Bonus();
                         bonus.Type = traitBonus.Type;
                         bonus.Value = traitBonus.Value;
