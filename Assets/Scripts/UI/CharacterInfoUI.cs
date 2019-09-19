@@ -56,6 +56,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     ActionPortraitUI ActionPortrait;
 
+    [SerializeField]
+    Image PinImage;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -87,6 +90,7 @@ public class CharacterInfoUI : MonoBehaviour
         AgeText.text     = "Age: "+character.Age.ToString();
         AgeTypeText.text = character.AgeType.ToString();
         GenderText.text  = character.Gender.ToString();
+        PinImage.color = character.Pinned ? Color.yellow : Color.black;
 
         if (character.CurrentLocation != null)
         {
@@ -196,5 +200,11 @@ public class CharacterInfoUI : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void TogglePin()
+    {
+        CurrentCharacter.Pinned = !CurrentCharacter.Pinned;
+        PinImage.color = CurrentCharacter.Pinned ? Color.yellow : Color.black;
     }
 }

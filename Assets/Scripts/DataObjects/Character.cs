@@ -11,6 +11,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public string ID;
 
+    public bool isImportant
+    {
+        get
+        {
+            return (Pinned || Employer == CORE.PC); 
+        }
+    }
 
     public Character Employer
     {
@@ -98,6 +105,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     public LocationEntity WorkLocation;
 
     public LocationEntity CurrentLocation;
+
+    public bool Pinned;
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
@@ -862,6 +871,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
        
         CurrentTaskEntity = task;
+        GoToLocation(task.CurrentTargetLocation);
         return true;
     }
 
@@ -930,7 +940,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["CurrentFaction"] = CurrentFaction.name;
 
-        for(int i=0;i<PropertiesOwned.Count;i++)
+        node["Pinned"] = Pinned.ToString();
+
+        for (int i=0;i<PropertiesOwned.Count;i++)
         {
             node["PropertiesOwned"][i] = PropertiesOwned[i].ID;
         }
@@ -980,6 +992,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         _workLocationID = node["WorkLocation"];
 
         _currentLocationID = node["CurrentLocation"];
+
+        Pinned = bool.Parse(node["Pinned"]);
 
         CurrentFaction = CORE.Instance.Database.GetFactionByName(node["CurrentFaction"]);
 

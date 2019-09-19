@@ -48,6 +48,12 @@ public class CommandChainModule : MonoBehaviour
 
     void GenerateLine()
     {
+        if (CurrentCharacter.CurrentLocation == null)
+        {
+            return;
+        }
+
+
         List<Vector3> Points = new List<Vector3>();
         Vector3 targetLocation;
         Character tempChar;

@@ -51,6 +51,11 @@ public class CharactersInLocationUI : MonoBehaviour
 
         foreach (Character character in currentLocation.CharactersInLocation)
         {
+            if(!character.isImportant)
+            {
+                continue;
+            }
+            
             PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
             portrait.transform.SetParent(Container, false);
             portrait.transform.localScale = Vector3.one;
