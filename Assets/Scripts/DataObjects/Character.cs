@@ -15,7 +15,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         get
         {
-            return (Pinned || Employer == CORE.PC); 
+            return (Pinned || Employer == CORE.PC) ; 
         }
     }
 
@@ -244,7 +244,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
                         Bonus bonus = new Bonus();
                         bonus.Type = traitBonus.Type;
-                        bonus.Value = traitBonus.Value;
+                        bonus.Value = 1+traitBonus.Value;
 
                         bonuses.Add(bonus);
                         
@@ -465,6 +465,26 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     #endregion
 
+    #region Known / Information
+
+
+    public Knowledge Known = new Knowledge();
+
+    public bool IsKnown(string itemKey)
+    {
+        foreach(KnowledgeInstance item in Known.Items)
+        {
+            if(item.Key == itemKey)
+            {
+                return item.IsKnown;
+            }
+        }
+
+        return false;
+    }
+
+    #endregion
+
     #endregion
 
 
@@ -613,6 +633,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         AddListeners();
 
         GoToLocation(CORE.Instance.GetLocationOfProperty(CORE.Instance.Database.DefaultLocationProperty));
+
+        if(Employer == CORE.PC)
+        {
+            Known.KnowAllBasic();
+        }
     }
 
     public int GetRelationsWith(Character otherCharacter)
@@ -799,6 +824,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         foreach (LocationEntity ownedLocation in PropertiesOwned)
         {
             ownedLocation.RefreshState();
+        }
+
+        if(CORE.PC == location.OwnerCharacter.TopEmployer)
+        {
+            Known.KnowAllBasic();
         }
 
         RefreshVisualTree();

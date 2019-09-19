@@ -46,6 +46,8 @@ public class GameDB : ScriptableObject
 
     public BonusType[] BonusTypes;
 
+    public Trait UnknownTrait;
+
     public Trait[] Traits;
 
     public TimelineInstance[] Timeline;

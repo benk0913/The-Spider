@@ -21,8 +21,18 @@ public class BonusUI : MonoBehaviour
     {
         CurrentBonus = bonus;
 
+        if (CurrentBonus == null)
+        {
+            ContentText.text = "???";
+            Icon.color = Color.clear;
+
+            TooltipTarget.Text = "Unknown Bonus";
+            return;
+        }
+
         ContentText.text = CurrentBonus.Type.name + " - " + CurrentBonus.Value;
         Icon.sprite = CurrentBonus.Type.icon;
+        Icon.color = Color.white;
 
         TooltipTarget.Text = CurrentBonus.Type.Description;
     }

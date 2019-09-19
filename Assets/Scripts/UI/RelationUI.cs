@@ -19,6 +19,13 @@ public class RelationUI : MonoBehaviour
         this.CurrentCharacter = currentCharacter;
         this.TargetCharacter = targetCharacter;
 
+        if(this.CurrentCharacter == null || this.TargetCharacter == null)
+        {
+            TooltipTarget.Text = "Relations Unknown";
+            imageIcon.sprite = ResourcesLoader.Instance.GetSprite("Indifferent");
+            return;
+        }
+
         int relationValue = CurrentCharacter.GetRelationsWith(TargetCharacter);
         TooltipTarget.Text = 
             "<u> Opinion of " 

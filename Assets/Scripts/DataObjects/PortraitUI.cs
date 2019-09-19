@@ -83,6 +83,8 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
 
         CG.alpha = 1f;
 
+        QuestionMark.gameObject.SetActive(false);
+
         if (character == null)
         {
             Face.color = Color.black;
@@ -94,6 +96,26 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
             {
                 ActionPortrait.gameObject.SetActive(false);
             }
+
+            return;
+        }
+
+        if(!character.IsKnown("Appearance"))
+        {
+
+            Face.color = Color.black;
+            Hair.color = Color.black;
+            Clothing.color = Color.black;
+            Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+
+            if (ActionPortrait != null)
+            {
+                ActionPortrait.gameObject.SetActive(false);
+            }
+
+            TooltipTarget.Text = "This character is unknown";
+
+            QuestionMark.gameObject.SetActive(true);
 
             return;
         }

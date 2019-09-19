@@ -59,6 +59,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     Image PinImage;
 
+    [SerializeField]
+    Transform KnownInformationContainer;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -70,6 +73,184 @@ public class CharacterInfoUI : MonoBehaviour
     {
         CORE.Instance.SubscribeToEvent("HideMap",Hide);
         this.gameObject.SetActive(false);
+    }
+
+
+    void SetName()
+    {
+        if (CurrentCharacter.IsKnown("Name"))
+        {
+            NameText.text = CurrentCharacter.name;
+        }
+        else
+        {
+            NameText.text = "???";
+        }
+    }
+
+    void SetGold()
+    {
+        if (CurrentCharacter.IsKnown("Gold"))
+        {
+            GoldText.text = CurrentCharacter.Gold + "c";
+        }
+        else
+        {
+            GoldText.text = "???";
+        }
+    }
+
+    void SetAppearance()
+    {
+        Portrait.SetCharacter(CurrentCharacter);
+
+        if (CurrentCharacter.IsKnown("Appearance"))
+        {
+            AgeText.text = "Age: " + CurrentCharacter.Age.ToString();
+            AgeTypeText.text = CurrentCharacter.AgeType.ToString();
+            GenderText.text = CurrentCharacter.Gender.ToString();
+        }
+        else
+        {
+            AgeText.text = "Age: ???";
+            AgeTypeText.text = "???";
+            GenderText.text = "???";
+        }
+    }
+
+    void SetPersonality()
+    {
+        ClearTraits();
+
+        if (CurrentCharacter.IsKnown("Personality"))
+        {
+            for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
+            {
+                GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
+                tempTrait.transform.SetParent(TraitsContainer, false);
+                tempTrait.transform.localScale = Vector3.one;
+
+                tempTrait.GetComponent<TraitUI>().SetInfo(CurrentCharacter.Traits[i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
+            {
+                GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
+                tempTrait.transform.SetParent(TraitsContainer, false);
+                tempTrait.transform.localScale = Vector3.one;
+
+                tempTrait.GetComponent<TraitUI>().SetInfo(CORE.Instance.Database.UnknownTrait);
+            }
+        }
+
+    }
+
+    void SetCurrentLocation()
+    {
+        if (CurrentCharacter.IsKnown("CurrentLocation"))
+        {
+            if (CurrentCharacter.CurrentLocation != null)
+            {
+                CurrentLocationText.text = "Location: " + CurrentCharacter.CurrentLocation.CurrentProperty.name;
+            }
+
+            if (CurrentCharacter.CurrentTaskEntity != null)
+            {
+                ActionPortrait.gameObject.SetActive(true);
+                ActionPortrait.SetAction(CurrentCharacter.CurrentTaskEntity);
+            }
+            else
+            {
+                ActionPortrait.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            CurrentLocationText.text = "Location: ???";
+            ActionPortrait.gameObject.SetActive(false);
+        }
+    }
+
+    void SetWorkLocation()
+    {
+        ClearPropertiesOwned();
+
+        if (CurrentCharacter.IsKnown("CurrentLocation"))
+        {
+            EmployerPortrait.SetCharacter(CurrentCharacter.Employer);
+            WorkLocationPortrait.SetLocation(CurrentCharacter.WorkLocation);
+
+            for (int i = 0; i < CurrentCharacter.PropertiesOwned.Count; i++)
+            {
+                GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("LocationPortraitUI");
+                tempPortrait.transform.SetParent(PropertiesOwnedContainer, false);
+                tempPortrait.transform.localScale = Vector3.one;
+                tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(CurrentCharacter.PropertiesOwned[i]);
+            }
+        }
+        else
+        {
+            EmployerPortrait.SetCharacter(null);
+            WorkLocationPortrait.SetLocation(null);
+
+            for (int i = 0; i < CurrentCharacter.PropertiesOwned.Count; i++)
+            {
+                GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("LocationPortraitUI");
+                tempPortrait.transform.SetParent(PropertiesOwnedContainer, false);
+                tempPortrait.transform.localScale = Vector3.one;
+                tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(null);
+            }
+        }
+    }
+
+    void SetSkills()
+    {
+        ClearBonuses();
+
+        if (CurrentCharacter.IsKnown("Skills"))
+        {
+            for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
+            {
+                if (CurrentCharacter.Bonuses[i].Value < 2)
+                {
+                    continue;
+                }
+
+                GameObject tempBonus = ResourcesLoader.Instance.GetRecycledObject("BonusUI");
+                tempBonus.transform.SetParent(BonusesContainer, false);
+                tempBonus.transform.localScale = Vector3.one;
+                tempBonus.GetComponent<BonusUI>().SetInfo(CurrentCharacter.Bonuses[i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
+            {
+                if (CurrentCharacter.Bonuses[i].Value < 2)
+                {
+                    continue;
+                }
+
+                GameObject tempBonus = ResourcesLoader.Instance.GetRecycledObject("BonusUI");
+                tempBonus.transform.SetParent(BonusesContainer, false);
+                tempBonus.transform.localScale = Vector3.one;
+                tempBonus.GetComponent<BonusUI>().SetInfo(null);
+            }
+        }
+    }
+
+    void SetRelation()
+    {
+        if (CurrentCharacter.IsKnown("Relations"))
+        {
+            RelationIcon.SetInfo(CurrentCharacter, CORE.PC);
+        }
+        else
+        {
+            RelationIcon.SetInfo(null, null);
+        }
     }
 
     public void ShowInfo(Character character)
@@ -85,68 +266,28 @@ public class CharacterInfoUI : MonoBehaviour
 
         this.gameObject.SetActive(true);
 
-        NameText.text    = character.name;
-        GoldText.text = character.Gold + "c";
-        AgeText.text     = "Age: "+character.Age.ToString();
-        AgeTypeText.text = character.AgeType.ToString();
-        GenderText.text  = character.Gender.ToString();
         PinImage.color = character.Pinned ? Color.yellow : Color.black;
-
-        if (character.CurrentLocation != null)
-        {
-            CurrentLocationText.text = "Location: " + character.CurrentLocation.CurrentProperty.name;
-        }
-
         ControlButton.interactable = (character.TopEmployer != character && character.TopEmployer == CORE.PC);
         XImage.SetActive(!ControlButton.interactable);
 
-        Portrait.SetCharacter(character);
-        EmployerPortrait.SetCharacter(character.Employer);
-        WorkLocationPortrait.SetLocation(character.WorkLocation);
+        //Known Info
+        ClearKnownInfo();
 
-        ClearPropertiesOwned();
-        for(int i=0;i<CurrentCharacter.PropertiesOwned.Count;i++)
+        foreach (KnowledgeInstance kInstance in CurrentCharacter.Known.Items)
         {
-            GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("LocationPortraitUI");
-            tempPortrait.transform.SetParent(PropertiesOwnedContainer, false);
-            tempPortrait.transform.localScale = Vector3.one;
-            tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(CurrentCharacter.PropertiesOwned[i]);
+            KnownInstanceUI uiInstance = ResourcesLoader.Instance.GetRecycledObject("KnownInstanceUI").GetComponent<KnownInstanceUI>();
+            uiInstance.SetInfo(kInstance.Key, kInstance.Description, kInstance.IsKnown);
+            uiInstance.transform.SetParent(KnownInformationContainer, false);
         }
 
-        ClearBonuses();
-        for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
-        {
-            if(CurrentCharacter.Bonuses[i].Value < 2)
-            {
-                continue;
-            }
-
-            GameObject tempBonus = ResourcesLoader.Instance.GetRecycledObject("BonusUI");
-            tempBonus.transform.SetParent(BonusesContainer, false);
-            tempBonus.transform.localScale = Vector3.one;
-            tempBonus.GetComponent<BonusUI>().SetInfo(CurrentCharacter.Bonuses[i]);
-        }
-
-        ClearTraits();
-        for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
-        {
-            GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
-            tempTrait.transform.SetParent(TraitsContainer, false);
-            tempTrait.transform.localScale = Vector3.one;
-            tempTrait.GetComponent<TraitUI>().SetInfo(CurrentCharacter.Traits[i]);
-        }
-
-        RelationIcon.SetInfo(CurrentCharacter, CORE.PC);
-
-        if(CurrentCharacter.CurrentTaskEntity != null)
-        {
-            ActionPortrait.gameObject.SetActive(true);
-            ActionPortrait.SetAction(CurrentCharacter.CurrentTaskEntity);
-        }
-        else
-        {
-            ActionPortrait.gameObject.SetActive(false);
-        }
+        SetName();
+        SetGold();
+        SetAppearance();
+        SetPersonality();
+        SetCurrentLocation();
+        SetWorkLocation();
+        SetSkills();
+        SetRelation();
     }
 
     void ClearPropertiesOwned()
@@ -164,6 +305,15 @@ public class CharacterInfoUI : MonoBehaviour
         {
             BonusesContainer.GetChild(0).gameObject.SetActive(false);
             BonusesContainer.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void ClearKnownInfo()
+    {
+        while (KnownInformationContainer.childCount > 0)
+        {
+            KnownInformationContainer.GetChild(0).gameObject.SetActive(false);
+            KnownInformationContainer.GetChild(0).SetParent(transform);
         }
     }
 
