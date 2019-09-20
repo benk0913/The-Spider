@@ -972,6 +972,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["Pinned"] = Pinned.ToString();
 
+        foreach(KnowledgeInstance item in Known.Items)
+        {
+            node["Knowledge"][item.Key] = item.IsKnown.ToString();
+        }
+
         for (int i=0;i<PropertiesOwned.Count;i++)
         {
             node["PropertiesOwned"][i] = PropertiesOwned[i].ID;
@@ -1024,6 +1029,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         _currentLocationID = node["CurrentLocation"];
 
         Pinned = bool.Parse(node["Pinned"]);
+
+        foreach (KnowledgeInstance item in Known.Items)
+        {
+            item.IsKnown = bool.Parse(node["Knowledge"][item.Key]);
+        }
 
         CurrentFaction = CORE.Instance.Database.GetFactionByName(node["CurrentFaction"]);
 
