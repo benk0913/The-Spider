@@ -54,7 +54,22 @@ public class GameDB : ScriptableObject
 
     public QuestObjective[] AllQuestObjectives;
 
+    public Item[] AllItems;
+
     public TimelineInstance[] Timeline;
+
+    public Item GetItem(string itemKey)
+    {
+        for (int i = 0; i < AllItems.Length; i++)
+        {
+            if (AllItems[i].name == itemKey)
+            {
+                return AllItems[i];
+            }
+        }
+
+        return null;
+    }
 
     public Quest GetQuest(string questName)
     {
