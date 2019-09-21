@@ -4,21 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RumorContentUI : MonoBehaviour
+public class RumorContentUI : HeadlineContentUI
 {
     public Rumor CurrentRumor;
 
     [SerializeField]
-    TextMeshProUGUI ContentText;
-
-    [SerializeField]
-    Image RumorIcon;
-
-    [SerializeField]
     PortraitUI RelevantCharacterPortrait;
 
-    [SerializeField]
-    Sprite DefaultIcon;
 
     public void SetInfo(Rumor rumor)
     {
@@ -28,11 +20,11 @@ public class RumorContentUI : MonoBehaviour
 
         if (CurrentRumor.Icon != null)
         {
-            RumorIcon.sprite = CurrentRumor.Icon;
+            Icon.sprite = CurrentRumor.Icon;
         }
         else
         {
-            RumorIcon.sprite = DefaultIcon;
+            Icon.sprite = DefaultIcon;
         }
 
         if(!string.IsNullOrEmpty(CurrentRumor.RelevantCharacterID))

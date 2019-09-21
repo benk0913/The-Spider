@@ -49,7 +49,8 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
             
             if(location.OwnerCharacter != null && location.OwnerCharacter.TopEmployer == CORE.PC && location.CurrentProperty.Traits.Contains(CORE.Instance.Database.RumorsHubTrait))
             {
-                CORE.Instance.ShowHoverMessage("Generated Rumors", null,location.transform);
+                CORE.Instance.ShowHoverMessage("Generated Rumors", null
+                    ,location.transform);
                 rumorsToGenerate += location.Level;
             }
         }
@@ -148,6 +149,8 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
     public void FromJSON(JSONNode node)
     {
         AllAvailableRumors.Clear();
+        VisibleRumors.Clear();
+        ArchivedRumors.Clear();
 
         for (int i=0;i<node["AllAvailableRumors"].Count;i++)
         {

@@ -50,7 +50,37 @@ public class GameDB : ScriptableObject
 
     public Trait[] Traits;
 
+    public Quest[] AllQuests;
+
+    public QuestObjective[] AllQuestObjectives;
+
     public TimelineInstance[] Timeline;
+
+    public Quest GetQuest(string questName)
+    {
+        for (int i = 0; i < AllQuests.Length; i++)
+        {
+            if (AllQuests[i].name == questName)
+            {
+                return AllQuests[i];
+            }
+        }
+
+        return null;
+    }
+
+    public QuestObjective GetQuestObjective(string questObjectiveName)
+    {
+        for (int i = 0; i < AllQuestObjectives.Length; i++)
+        {
+            if (AllQuestObjectives[i].name == questObjectiveName)
+            {
+                return AllQuestObjectives[i];
+            }
+        }
+
+        return null;
+    }
 
     public Rumor GetRumor(string rumorName)
     {

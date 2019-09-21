@@ -3,28 +3,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class RumorHeadlineUI : HeadlineUI
+public class QuestHeadlineUI : HeadlineUI
 {
 
-    [SerializeField]
-    GameObject archiveButton;
 
-    [SerializeField]
-    GameObject marker;
+    public Quest CurrentQuest;
+    
+    QuestsPanelUI ParentPanel;
 
-    public Rumor CurrentRumor;
-
-    RumorsPanelUI ParentPanel;
-
-    public void SetInfo(Rumor rumor, RumorsPanelUI parentPanel, bool canArchive = false)
+    public void SetInfo(Quest quest, QuestsPanelUI parentPanel)
     {
-        CurrentRumor = rumor;
+        CurrentQuest = quest;
         ParentPanel = parentPanel;
 
-        Title.text = CurrentRumor.Title;
+        Title.text = CurrentQuest.name;
 
-        archiveButton.SetActive(canArchive);
-        marker.SetActive(false);
     }
 
     public override void Archive()
@@ -32,27 +25,27 @@ public class RumorHeadlineUI : HeadlineUI
         Hide();
         this.gameObject.SetActive(false);
         this.transform.SetParent(transform.parent.parent);
-        ParentPanel.Archive(CurrentRumor);
+        ParentPanel.Complete(CurrentQuest);
     }
 
     public override void Toggle()
     {
-        if(ShowingObject != null)
+        if (ShowingObject != null)
         {
             Hide();
             return;
         }
 
         Anim.SetBool("Showing", true);
-        ShowingObject = ResourcesLoader.Instance.GetRecycledObject("RumorContentUI");
+        ShowingObject = ResourcesLoader.Instance.GetRecycledObject("QuestContentUI");
         ShowingObject.transform.SetParent(transform.parent, false);
-        ShowingObject.transform.SetSiblingIndex(transform.GetSiblingIndex()+1);
-        ShowingObject.GetComponent<RumorContentUI>().SetInfo(CurrentRumor);
+        ShowingObject.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+        ShowingObject.GetComponent<QuestContentUI>().SetInfo(CurrentQuest);
     }
 
     public override void Hide()
     {
-        if(ShowingObject == null)
+        if (ShowingObject == null)
         {
             return;
         }
@@ -62,7 +55,5 @@ public class RumorHeadlineUI : HeadlineUI
         ShowingObject = null;
         Anim.SetBool("Showing", false);
     }
-
-
 
 }
