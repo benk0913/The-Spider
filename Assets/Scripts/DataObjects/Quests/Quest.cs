@@ -17,6 +17,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
     {
         Quest quest = Instantiate(this);
 
+        quest.name = this.name;
+
         List<QuestObjective> objectives = new List<QuestObjective>();
         foreach(QuestObjective objective in this.Objectives)
         {

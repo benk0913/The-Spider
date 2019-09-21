@@ -7,6 +7,9 @@ using UnityEngine.Events;
 public class EnvelopeEntity : MonoBehaviour
 {
     [SerializeField]
+    LetterPreset PresetLetter;
+
+    [SerializeField]
     Letter CurrentLetter;
 
     [SerializeField]
@@ -42,6 +45,21 @@ public class EnvelopeEntity : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI SideNotesText;
 
+    [SerializeField]
+    GameObject QuestPanel;
+
+    [SerializeField]
+    TextMeshProUGUI QuestName;
+
+    [SerializeField]
+    TextMeshProUGUI QuestFirstObjective;
+
+    [SerializeField]
+    TextMeshProUGUI QuestAcceptText1;
+
+    [SerializeField]
+    TextMeshProUGUI QuestAcceptText2;
+
     UnityAction<EnvelopeEntity> DisposeAction;
 
 
@@ -49,6 +67,11 @@ public class EnvelopeEntity : MonoBehaviour
     {
         if(CurrentLetter != null)
         {
+            RefreshUI();
+        }
+        else if(PresetLetter != null)
+        {
+            CurrentLetter = new Letter(PresetLetter, null);
             RefreshUI();
         }
     }
@@ -100,12 +123,33 @@ public class EnvelopeEntity : MonoBehaviour
         }
         else
         {
-            FromText.text = "";
+            FromText.text = CurrentLetter.Preset.From;
             FromPortrait.gameObject.SetActive(false);
             SubjectPortrait.gameObject.SetActive(false);
             ToPortrait.gameObject.SetActive(false);
         }
 
+        if(CurrentLetter.Preset.QuestAttachment != null && !QuestsPanelUI.Instance.HasQuest(CurrentLetter.Preset.QuestAttachment))
+        {
+            QuestPanel.gameObject.SetActive(true);
+            QuestName.text = CurrentLetter.Preset.QuestAttachment.name;
+
+            QuestAcceptText1.text = "PRESS '" + InputMap.Map["Accept Interaction"].ToString() + "' TO ACCEPT";
+            QuestAcceptText2.text = "PRESS '" + InputMap.Map["Accept Interaction"].ToString() + "' TO ACCEPT";
+
+            if (CurrentLetter.Preset.QuestAttachment.Objectives.Length > 0)
+            {
+                QuestFirstObjective.text = CurrentLetter.Preset.QuestAttachment.Objectives[0].name;
+            }
+            else
+            {
+                QuestFirstObjective.text = "";
+            }
+        }
+        else
+        {
+            QuestPanel.gameObject.SetActive(false);
+        }
 
         ArchiveActionText.text = "Press '" + InputMap.Map["Interact"].ToString() + "' to ARCHIVE.";
         DeleteActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to DISPOSE.";
@@ -115,7 +159,9 @@ public class EnvelopeEntity : MonoBehaviour
     public void Archive()
     {
         LettersPanelUI.Instance.AddLetterToLog(this.CurrentLetter);
-        DisposeAction(this);
+
+        DisposeAction?.Invoke(this);
+
         Destroy(this.gameObject);
     }
 
@@ -123,5 +169,22 @@ public class EnvelopeEntity : MonoBehaviour
     {
         DisposeAction(this);
         Destroy(this.gameObject);
+    }
+
+    public void AcceptQuest()
+    {
+        if(CurrentLetter.Preset.QuestAttachment == null)
+        {
+            return;
+        }
+        
+        if(QuestsPanelUI.Instance.HasQuest(CurrentLetter.Preset.QuestAttachment))
+        {
+            return;
+        }
+
+
+        QuestsPanelUI.Instance.AddNewQuest(CurrentLetter.Preset.QuestAttachment);
+        QuestPanel.gameObject.SetActive(false);
     }
 }

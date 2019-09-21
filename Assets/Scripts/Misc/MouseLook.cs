@@ -246,6 +246,10 @@ public class MouseLook : MonoBehaviour
             {
                 CurrentItemInHands.SecondaryInteract();
             }
+            else if (Input.GetKeyDown(InputMap.Map["Accept Interaction"]))
+            {
+                CurrentItemInHands.AcceptInteract();
+            }
         }
     }
 

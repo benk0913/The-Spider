@@ -32,6 +32,15 @@ public class LettersPanelUI : MonoBehaviour
     [SerializeField]
     PortraitUI SubjectPortrait;
 
+    [SerializeField]
+    GameObject QuestPanel;
+
+    [SerializeField]
+    TextMeshProUGUI QuestTitle;
+
+    [SerializeField]
+    TextMeshProUGUI QuestFIrstObjective;
+
     LogLetterUI SelectedLetter;
 
     public static LettersPanelUI Instance;
@@ -172,7 +181,37 @@ public class LettersPanelUI : MonoBehaviour
 
         }
 
+        if(letter.CurrentLetter.Preset.QuestAttachment != null && !QuestsPanelUI.Instance.HasQuest(letter.CurrentLetter.Preset.QuestAttachment))
+        {
+            QuestPanel.gameObject.SetActive(true);
+            QuestTitle.text = letter.CurrentLetter.Preset.QuestAttachment.name;
 
+            if(letter.CurrentLetter.Preset.QuestAttachment.Objectives.Length > 0)
+            {
+                QuestFIrstObjective.text = letter.CurrentLetter.Preset.QuestAttachment.Objectives[0].name;
+            }
+        }
+        else
+        {
+            QuestPanel.gameObject.SetActive(false);
+        }
+
+    }
+
+    public void AcceptQuest()
+    {
+        if (SelectedLetter.CurrentLetter.Preset.QuestAttachment == null)
+        {
+            return;
+        }
+
+        if(QuestsPanelUI.Instance.HasQuest(SelectedLetter.CurrentLetter.Preset.QuestAttachment))
+        {
+            return;
+        }
+
+        QuestsPanelUI.Instance.AddNewQuest(SelectedLetter.CurrentLetter.Preset.QuestAttachment);
+        QuestPanel.SetActive(false);
     }
 }
 

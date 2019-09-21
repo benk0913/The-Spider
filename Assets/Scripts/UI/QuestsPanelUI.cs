@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
@@ -84,6 +85,28 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             questsContainer.GetChild(0).gameObject.SetActive(false);
             questsContainer.GetChild(0).SetParent(transform);
         }
+    }
+
+
+    public bool HasQuest(Quest questAttachment)
+    {
+        foreach(Quest quest in ActiveQuests)
+        {
+            if(quest.name == questAttachment.name)
+            {
+                return true;
+            }
+        }
+
+        foreach (Quest quest in CompletedQuests)
+        {
+            if (quest.name == questAttachment.name)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public JSONNode ToJSON()

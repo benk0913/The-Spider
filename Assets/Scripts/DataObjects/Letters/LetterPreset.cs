@@ -23,5 +23,8 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public Material Seal;
 
+    [SerializeField]
+    public Quest QuestAttachment;
+
 
 }

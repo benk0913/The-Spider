@@ -12,6 +12,9 @@ public class PickableItem : MonoBehaviour
     UnityEvent SecondaryInteraction = new UnityEvent();
 
     [SerializeField]
+    UnityEvent AcceptInteraction = new UnityEvent();
+
+    [SerializeField]
     UnityEvent OnRetreive;
 
     public int CurrentInteractionIndex;
@@ -56,5 +59,10 @@ public class PickableItem : MonoBehaviour
     public void SecondaryInteract()
     {
         SecondaryInteraction.Invoke();
+    }
+
+    public void AcceptInteract()
+    {
+        AcceptInteraction.Invoke();
     }
 }

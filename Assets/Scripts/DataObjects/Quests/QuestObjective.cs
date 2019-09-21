@@ -12,6 +12,7 @@ public class QuestObjective : ScriptableObject
     public QuestObjective CreateClone()
     {
         QuestObjective objective = Instantiate(this);
+        objective.name = this.name;
         objective.Initialize();
 
         return objective;
