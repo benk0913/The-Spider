@@ -361,6 +361,8 @@ public class CORE : MonoBehaviour
         savefile["Name"] = "Save" + SaveFiles.Count;
         savefile["Date"] = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
+        savefile["GameClock"] = GameClock.Instance.ToJSON();
+
         for (int i=0;i<Characters.Count;i++)
         {
             savefile["Characters"][i] = Characters[i].ToJSON();
@@ -419,6 +421,7 @@ public class CORE : MonoBehaviour
         MapViewManager.Instance.ShowMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
 
+        GameClock.Instance.FromJSON(file.Content["GameClock"]);
 
         for (int i = 0; i < file.Content["Characters"].Count; i++)
         {

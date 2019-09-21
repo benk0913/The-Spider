@@ -196,5 +196,7 @@ public class GameStats
 public class TimelineInstance
 {
     public Rumor[] Rumors;
+
+    public LetterPreset[] Letters;
 }
    

@@ -23,8 +23,34 @@ public class LetterDispenserEntity : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        GameClock.Instance.OnWeekPassed.AddListener(OnWeekPassed);
+
+        if(GameClock.Instance.CurrentTurn == 0)
+        {
+            foreach (LetterPreset letter in CORE.Instance.Database.Timeline[0].Letters)
+            {
+                DispenseLetter(new Letter(letter));
+            }
+        }
+    }
+
+    void OnWeekPassed()
+    {
+        foreach (LetterPreset letter in CORE.Instance.Database.Timeline[GameClock.Instance.CurrentWeek].Letters)
+        {
+            DispenseLetter(new Letter(letter));
+        }
+    }
+
     public void DispenseLetters(Letter[] letters)
     {
+        if(letters == null || letters.Length == 0)
+        {
+            return;
+        }
+
         for(int i=0;i<letters.Length;i++)
         {
             StartCoroutine(DispenseLetterRoutine(GenerateLetter(letters[i]).transform, i));

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GameClock : MonoBehaviour
+public class GameClock : MonoBehaviour, ISaveFileCompatible
 {
     public static GameClock Instance;
 
@@ -79,6 +80,24 @@ public class GameClock : MonoBehaviour
         GlobalMessagePrompterUI.Instance.Show(CurrentTimeOfDay.ToString(), 1f);
     }
 
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["CurrentTurn"] = CurrentTurn.ToString();
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        CurrentTurn = int.Parse(node["CurrentTurn"]);
+    }
+
+    public void ImplementIDs()
+    {
+    }
+
     [System.Serializable]
     public enum GameTime
     {
@@ -102,4 +121,6 @@ public class GameClock : MonoBehaviour
             DayTime = (int)GameClock.Instance.CurrentTimeOfDay + (turns - (Days * 5));
         }
     }
+
+
 }

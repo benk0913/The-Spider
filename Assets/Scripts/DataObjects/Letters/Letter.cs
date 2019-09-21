@@ -13,14 +13,17 @@ public class Letter
         {
             string title = Preset.Title;
 
-            foreach (string key in Parameters.Keys)
+            if (Parameters != null)
             {
-                if (!title.Contains("{" + key + "}"))
+                foreach (string key in Parameters.Keys)
                 {
-                    continue;
-                }
+                    if (!title.Contains("{" + key + "}"))
+                    {
+                        continue;
+                    }
 
-                title = title.Replace("{" + key + "}", (string)Parameters[key]);
+                    title = title.Replace("{" + key + "}", (string)Parameters[key]);
+                }
             }
 
             return title;
@@ -33,14 +36,17 @@ public class Letter
         {
             string description = Preset.Description;
 
-            foreach(string key in Parameters.Keys)
+            if (Parameters != null)
             {
-                if(!description.Contains("{"+key+"}"))
+                foreach (string key in Parameters.Keys)
                 {
-                    continue;
-                }
+                    if (!description.Contains("{" + key + "}"))
+                    {
+                        continue;
+                    }
 
-                description = description.Replace("{" + key + "}", (string)Parameters[key]);
+                    description = description.Replace("{" + key + "}", (string)Parameters[key]);
+                }
             }
             
             return description;

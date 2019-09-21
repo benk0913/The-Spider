@@ -78,18 +78,32 @@ public class EnvelopeEntity : MonoBehaviour
         TitleText.text = CurrentLetter.Title;
         DescriptionText.text = CurrentLetter.Content;
         SideNotesText.text = CurrentLetter.Preset.SideNotes;
-        FromText.text = ((Character)CurrentLetter.Parameters["Letter_From"]).name;
-        FromPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_From"]));
-        ToPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_To"]));
 
-        if (CurrentLetter.Parameters.ContainsKey("Letter_SubjectCharacter"))
+        if (CurrentLetter.Parameters != null)
         {
-            SubjectPortrait.gameObject.SetActive(true);
-            SubjectPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_SubjectCharacter"]));
+            FromPortrait.gameObject.SetActive(true);
+            ToPortrait.gameObject.SetActive(true);
+
+            FromText.text = ((Character)CurrentLetter.Parameters["Letter_From"]).name;
+            FromPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_From"]));
+            ToPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_To"]));
+
+            if (CurrentLetter.Parameters.ContainsKey("Letter_SubjectCharacter"))
+            {
+                SubjectPortrait.gameObject.SetActive(true);
+                SubjectPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_SubjectCharacter"]));
+            }
+            else
+            {
+                SubjectPortrait.gameObject.SetActive(false);
+            }
         }
         else
         {
+            FromText.text = "";
+            FromPortrait.gameObject.SetActive(false);
             SubjectPortrait.gameObject.SetActive(false);
+            ToPortrait.gameObject.SetActive(false);
         }
 
 
