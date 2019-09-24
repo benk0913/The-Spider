@@ -33,12 +33,30 @@ public class RecruitEmployee : AgentAction
             return;
         }
 
-        CORE.Instance.GenerateCharacter(
-            location.CurrentProperty.RecruitingGenderType, 
-            location.CurrentProperty.MinAge,
-            location.CurrentProperty.MaxAge
+        LocationEntity closestLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, location);
 
-            ).StartWorkingFor(location);
+        Character randomNewEmployee =
+            CORE.Instance.Characters.Find(delegate (Character charInQuestion) 
+            {
+                return
+                charInQuestion != CORE.PC
+                && charInQuestion.WorkLocation == null
+                && charInQuestion.PropertiesOwned.Count == 0
+                && charInQuestion.Age > location.CurrentProperty.MinAge
+                && charInQuestion.Age < location.CurrentProperty.MaxAge
+                && !location.FiredEmployeees.Contains(charInQuestion)
+                && (location.CurrentProperty.RecruitingGenderType == - 1? 
+                        true 
+                        :
+                        charInQuestion.Gender == (GenderType)location.CurrentProperty.RecruitingGenderType);
+            });
+
+        if(randomNewEmployee == null)
+        {
+            return;
+        }
+
+        randomNewEmployee.StartWorkingFor(location);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target)

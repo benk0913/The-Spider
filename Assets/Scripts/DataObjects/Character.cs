@@ -106,7 +106,23 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public LocationEntity CurrentLocation;
 
-    public bool Pinned;
+    public bool Pinned
+    {
+        get
+        {
+            return _pinned;
+        }
+        set
+        {
+            _pinned = value;
+            
+            if(CurrentLocation != null)
+            {
+                CurrentLocation.RefreshCharactersInLocationUI();
+            }
+        }
+    }
+    bool _pinned;
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
@@ -747,7 +763,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             
             if(!hasSomethingToDo)
             {
-                GoToRandomLocation();
+                //GoToRandomLocation(); //TODO Go home 
             }
         }
     }
@@ -776,7 +792,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         return false;
     }
 
-    void GoToRandomLocation()
+    public void GoToRandomLocation()
     {
         if(CORE.Instance.Locations.Count == 0)
         {
@@ -787,7 +803,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         return;
     }
 
-    void GoToLocation(LocationEntity targetLocation)
+    public void GoToLocation(LocationEntity targetLocation)
     {
         if (CurrentLocation != null)
         {

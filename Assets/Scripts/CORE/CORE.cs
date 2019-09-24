@@ -511,7 +511,10 @@ public class CORE : MonoBehaviour
         ReadAllSaveFiles();
     }
 
+    #endregion
 
+    #region Character Utils
+    
     #endregion
 }
 

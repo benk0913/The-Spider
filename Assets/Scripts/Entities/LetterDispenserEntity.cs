@@ -34,10 +34,17 @@ public class LetterDispenserEntity : MonoBehaviour
                 DispenseLetter(new Letter(letter));
             }
         }
+
+        
     }
 
     void OnWeekPassed()
     {
+        if(GameClock.Instance.CurrentWeek >= CORE.Instance.Database.Timeline.Length)
+        {
+            return;
+        }
+
         foreach (LetterPreset letter in CORE.Instance.Database.Timeline[GameClock.Instance.CurrentWeek].Letters)
         {
             DispenseLetter(new Letter(letter));

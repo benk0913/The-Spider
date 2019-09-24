@@ -40,6 +40,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     [SerializeField]
     public bool PresetLocation = false;
 
+    public List<Character> FiredEmployeees = new List<Character>();
+
     public int Level = 1;
 
     public float RevneueMultiplier;
@@ -173,6 +175,23 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     void DayPassed()
     {
         AttemptRandomEvent();
+
+        GenerateRandomBystanders();
+    }
+
+    void GenerateRandomBystanders()
+    {
+        if (!CurrentProperty.Traits.Contains(CORE.Instance.Database.PublicAreaTrait))
+        {
+            return;
+        }
+
+        if (CharactersInLocation.Count >= 15) //TODO replace magic number...
+        {
+            return;
+        }
+
+        CORE.Instance.GenerateCharacter().GoToLocation(this);
     }
 
     void AttemptRandomEvent()
@@ -212,7 +231,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void SetDeselected()
     {
-
         SelectedMarkerObject.gameObject.SetActive(false);
         SelectedMarkerObject = null;
 
@@ -408,15 +426,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         CharactersInLocation.Add(character);
 
-        if(CharactersInLocationUIInstance == null)
-        {
-            CharactersInLocationUIInstance = ResourcesLoader.Instance.GetRecycledObject("CharactersInLocationUI").GetComponent<CharactersInLocationUI>();
-            CharactersInLocationUIInstance.transform.SetParent(CORE.Instance.MainCanvas.transform);
-            CharactersInLocationUIInstance.transform.localScale = Vector3.one;
-            CharactersInLocationUIInstance.transform.SetAsFirstSibling();
-        }
-
-        CharactersInLocationUIInstance.SetInfo(this);
+        RefreshCharactersInLocationUI();
     }
 
     public void CharacterLeftLocation(Character character)
@@ -428,6 +438,19 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             CharactersInLocationUIInstance.gameObject.SetActive(false);
             CharactersInLocationUIInstance = null;
             return;
+        }
+
+        RefreshCharactersInLocationUI();
+    }
+    
+    public void RefreshCharactersInLocationUI()
+    {
+        if (CharactersInLocationUIInstance == null)
+        {
+            CharactersInLocationUIInstance = ResourcesLoader.Instance.GetRecycledObject("CharactersInLocationUI").GetComponent<CharactersInLocationUI>();
+            CharactersInLocationUIInstance.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            CharactersInLocationUIInstance.transform.localScale = Vector3.one;
+            CharactersInLocationUIInstance.transform.SetAsFirstSibling();
         }
 
         CharactersInLocationUIInstance.SetInfo(this);

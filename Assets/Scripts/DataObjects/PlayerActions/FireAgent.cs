@@ -33,6 +33,7 @@ public class FireAgent : PlayerAction
         }
         else
         {
+            character.WorkLocation.FiredEmployeees.Add(character);
             character.StopWorkingFor(character.WorkLocation);
         }
     }
