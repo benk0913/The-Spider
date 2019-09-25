@@ -39,7 +39,7 @@ public class WorkFor : AgentAction
             );
         }
 
-        character.StopWorkingFor(character.WorkLocation);
+        character.StopWorkingForCurrentLocation();
         character.StartWorkingFor(targetLocation);
     }
 

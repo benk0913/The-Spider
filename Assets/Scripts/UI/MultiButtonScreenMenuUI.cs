@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class MultiButtonScreenMenuUI : MonoBehaviour
@@ -48,6 +49,8 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 
         instance.Screen.gameObject.SetActive(true);
         instance.SelectionButton.interactable = false;
+
+        instance.OnSwitchEvent?.Invoke();
     }
 }
 
@@ -56,4 +59,5 @@ public class MultiButtonScreenInstance
 {
     public Button SelectionButton;
     public GameObject Screen;
+    public UnityEvent OnSwitchEvent;
 }

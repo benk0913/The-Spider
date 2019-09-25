@@ -44,7 +44,7 @@ public class ReplaceOwner : AgentAction
     {
         if (location == character.WorkLocation)
         {
-            character.StopWorkingFor(location);
+            character.StopWorkingForCurrentLocation();
         }
 
 

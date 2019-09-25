@@ -56,6 +56,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public Property.PropertyAction CurrentAction;
 
     public List<Character> CharactersInLocation = new List<Character>();
+    public List<Character> CharactersLivingInLocation = new List<Character>();
 
     GameObject SelectedMarkerObject;
 
@@ -162,6 +163,43 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 character.StartWorkingFor(this);
             }
 
+            charactersToAdd.Clear();
+            while (CharactersLivingInLocation.Count > 0)
+            {
+                Character tempChar = CORE.Instance.GetCharacter(CharactersLivingInLocation[0].name);
+
+                CharactersLivingInLocation.RemoveAt(0);
+
+                if (tempChar == null)
+                {
+                    continue;
+                }
+
+                charactersToAdd.Add(tempChar);
+            }
+            foreach (Character character in charactersToAdd)
+            {
+                character.StartLivingIn(this);
+            }
+
+            charactersToAdd.Clear();
+            while (CharactersInLocation.Count > 0)
+            {
+                Character tempChar = CORE.Instance.GetCharacter(CharactersInLocation[0].name);
+
+                CharactersInLocation.RemoveAt(0);
+
+                if (tempChar == null)
+                {
+                    continue;
+                }
+
+                charactersToAdd.Add(tempChar);
+            }
+            foreach (Character character in charactersToAdd)
+            {
+                character.GoToLocation(this);
+            }
         }
     }
 
@@ -187,6 +225,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
         if (CharactersInLocation.Count >= 15) //TODO replace magic number...
+        {
+            return;
+        }
+
+        if(Random.Range(0f,1f) < 0.5f) //TODO replace magic number...
         {
             return;
         }
@@ -414,7 +457,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         while(EmployeesCharacters.Count > 0)
         {
-            EmployeesCharacters[0].StopWorkingFor(this);
+            EmployeesCharacters[0].StopWorkingForCurrentLocation();
         }
 
         SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier, false);

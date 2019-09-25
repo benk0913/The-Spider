@@ -5134,6 +5134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6724c7a6eec441041a4b23d863e1a76e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 
   CurrentProperty: {fileID: 11400000, guid: c6ba30c238914f64aa5d95df34184031, type: 2}
   OwnerCharacter: {fileID: 0}
   EmployeesCharacters: []
@@ -5142,12 +5143,13 @@ MonoBehaviour:
   IdleStateObject: {fileID: 0}
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
+  PresetLocation: 0
+  FiredEmployeees: []
   Level: 1
+  RevneueMultiplier: 0
+  RiskMultiplier: 0
   IsUpgrading: 0
   CurrentUpgradeLength: 0
-  isRecruiting: 0
-  CurrentRecruitmentLength: 0
-  IsVisible: 0
   StateUpdated:
     m_PersistentCalls:
       m_Calls: []
@@ -5159,13 +5161,21 @@ MonoBehaviour:
     Icon: {fileID: 0}
     GoldGeneratedMin: 1
     GoldGeneratedMax: 2
-    ActionBonusChallenges: []
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  CharactersInLocation: []
+  CharactersLivingInLocation: []
   PossibleAgentActions:
   - {fileID: 11400000, guid: f3fc8332ec7240d499e52b02f3a6d04f, type: 2}
   - {fileID: 11400000, guid: d5f0f255abc923f44a38b085c7c40716, type: 2}
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 3e378206a3eabe94191e194d846db153, type: 2}
   - {fileID: 11400000, guid: 21d4875c70a8f23459b636bfcf0fcbfc, type: 2}
+  TaskDurationUI: {fileID: 0}
+  TemporaryTraits: []
 --- !u!1 &4275145246728194450
 GameObject:
   m_ObjectHideFlags: 0

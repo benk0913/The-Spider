@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68101a18fb5f09d4c9328c455e08282a, type: 3}
+  m_Name: Mingling With People
+  m_EditorClassIdentifier: 
+  Description: 'The agent will mingle with characters in the area.
+
+
+    <color=yellow>Current
+    Location, Name, Appearance, Personality. </color>
+
+
+    <color=green>Charming</color>
+    VS <color=red>Discreet</color>'
+  Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
+  TurnsToComplete: 1
+  PossibleResults:
+  - {fileID: 11400000, guid: afe1fff4c518d8348aa64b2a5f6b05aa, type: 2}
+  DefaultResults:
+  - {fileID: 11400000, guid: 31db8c7e23dcc874a87b47dc24b8fff7, type: 2}
+  Cancelable: 1
+  ExecuteAtHome: 0
+  TraitsToTargetDuringAction: []

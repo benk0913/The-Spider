@@ -15,7 +15,7 @@ public class EmployeeDisappears : GameEvent
         }
 
         Character character = location.EmployeesCharacters[Random.Range(0, location.EmployeesCharacters.Count)];
-        character.StopWorkingFor(location);
+        character.StopWorkingForCurrentLocation();
         parameters.Add("Target_Name", character.name);
 
         base.Execute(parameters, sendLetter);

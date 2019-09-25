@@ -42,6 +42,9 @@ public class CharacterInfoUI : MonoBehaviour
     LocationPortraitUI WorkLocationPortrait;
 
     [SerializeField]
+    LocationPortraitUI HomeLocationPortrait;
+
+    [SerializeField]
     Transform PropertiesOwnedContainer;
 
     [SerializeField]
@@ -177,7 +180,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearPropertiesOwned();
 
-        if (CurrentCharacter.IsKnown("CurrentLocation"))
+        if (CurrentCharacter.IsKnown("WorkLocation"))
         {
             EmployerPortrait.SetCharacter(CurrentCharacter.Employer);
             WorkLocationPortrait.SetLocation(CurrentCharacter.WorkLocation);
@@ -202,6 +205,18 @@ public class CharacterInfoUI : MonoBehaviour
                 tempPortrait.transform.localScale = Vector3.one;
                 tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(null);
             }
+        }
+    }
+
+    void SetHomeLocation()
+    {
+        if (CurrentCharacter.IsKnown("HomeLocation"))
+        {
+            HomeLocationPortrait.SetLocation(CurrentCharacter.HomeLocation);
+        }
+        else
+        {
+            HomeLocationPortrait.SetLocation(null);
         }
     }
 
@@ -286,6 +301,7 @@ public class CharacterInfoUI : MonoBehaviour
         SetPersonality();
         SetCurrentLocation();
         SetWorkLocation();
+        SetHomeLocation();
         SetSkills();
         SetRelation();
     }

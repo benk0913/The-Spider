@@ -29,6 +29,24 @@ public class Knowledge
             item.IsKnown = true;
         }
     }
+
+    public void Know(string key)
+    {
+        GetKnowledgeInstance(key).IsKnown = true;
+    }
+
+    public KnowledgeInstance GetKnowledgeInstance(string key)
+    {
+        foreach(KnowledgeInstance instance in Items)
+        {
+            if(instance.Key == key)
+            {
+                return instance;
+            }
+        }
+
+        return null;
+    }
 }
 
 public class KnowledgeInstance

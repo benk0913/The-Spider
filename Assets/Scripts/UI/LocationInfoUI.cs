@@ -17,6 +17,12 @@ public class LocationInfoUI : MonoBehaviour
     Transform EmployeesContainer;
 
     [SerializeField]
+    Transform PeopleInLocationContainer;
+
+    [SerializeField]
+    Transform PeopleLivingContainer;
+
+    [SerializeField]
     TextMeshProUGUI PropertyNameText;
 
     [SerializeField]
@@ -40,8 +46,13 @@ public class LocationInfoUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("HideMap", Hide);
+    }
     public void Hide()
     {
+        GameClock.Instance.OnTurnPassed.RemoveListener(RefreshUI);
         this.gameObject.SetActive(false);
     }
 
@@ -58,21 +69,48 @@ public class LocationInfoUI : MonoBehaviour
 
         CurrentLocation = location;
 
+        GameClock.Instance.OnTurnPassed.AddListener(RefreshUI);
+    }
 
-        LocationPortrait.SetLocation(location);
+    public void RefreshUI()
+    {
+        if(CurrentLocation == null)
+        {
+            return;
+        }
 
-        OwnerPortrait.SetCharacter(location.OwnerCharacter);
+        LocationPortrait.SetLocation(CurrentLocation);
 
-        PropertyNameText.text = location.CurrentProperty.name;
-        RankText.text = "Rank - " + location.Level;
-        RevenueMultiText.text = "Revenue Multiplier - x" + location.RevneueMultiplier;
-        RiskMultiText.text = "Risk Multiplier - x" + location.RiskMultiplier;
-        
-        ClearEmployeesContainer();
-        foreach(Character character in location.EmployeesCharacters)
+        OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter);
+
+        PropertyNameText.text = CurrentLocation.CurrentProperty.name;
+        RankText.text = "Rank - " + CurrentLocation.Level;
+        RevenueMultiText.text = "Revenue Multiplier - x" + CurrentLocation.RevneueMultiplier;
+        RiskMultiText.text = "Risk Multiplier - x" + CurrentLocation.RiskMultiplier;
+
+        ClearContainer(EmployeesContainer);
+        foreach (Character character in CurrentLocation.EmployeesCharacters)
         {
             GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
             tempPortrait.transform.SetParent(EmployeesContainer, false);
+            tempPortrait.transform.localScale = Vector3.one;
+            tempPortrait.GetComponent<PortraitUI>().SetCharacter(character);
+        }
+
+        ClearContainer(PeopleInLocationContainer);
+        foreach (Character character in CurrentLocation.CharactersInLocation)
+        {
+            GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+            tempPortrait.transform.SetParent(PeopleInLocationContainer, false);
+            tempPortrait.transform.localScale = Vector3.one;
+            tempPortrait.GetComponent<PortraitUI>().SetCharacter(character);
+        }
+
+        ClearContainer(PeopleLivingContainer);
+        foreach (Character character in CurrentLocation.CharactersLivingInLocation)
+        {
+            GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+            tempPortrait.transform.SetParent(PeopleLivingContainer, false);
             tempPortrait.transform.localScale = Vector3.one;
             tempPortrait.GetComponent<PortraitUI>().SetCharacter(character);
         }
@@ -87,12 +125,12 @@ public class LocationInfoUI : MonoBehaviour
         }
     }
 
-    void ClearEmployeesContainer()
+    void ClearContainer(Transform containerTransform)
     {
-        while(EmployeesContainer.childCount > 0)
+        while(containerTransform.childCount > 0)
         {
-            EmployeesContainer.GetChild(0).gameObject.SetActive(false);
-            EmployeesContainer.GetChild(0).SetParent(transform);
+            containerTransform.GetChild(0).gameObject.SetActive(false);
+            containerTransform.GetChild(0).SetParent(transform);
         }
     }
 

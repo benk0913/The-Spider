@@ -29,12 +29,12 @@ public class FireAgent : PlayerAction
 
         if (character.Employer == requester)
         {
-            character.StopWorkingFor(character.WorkLocation);
+            character.StopWorkingForCurrentLocation();
         }
         else
         {
             character.WorkLocation.FiredEmployeees.Add(character);
-            character.StopWorkingFor(character.WorkLocation);
+            character.StopWorkingForCurrentLocation();
         }
     }
 

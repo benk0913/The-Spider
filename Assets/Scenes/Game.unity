@@ -580,6 +580,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -600,7 +601,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -6490,6 +6494,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -6510,7 +6515,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -13675,6 +13683,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1291954423120672, guid: c6fe0381847dcbd49882de385243245a, type: 3}
+      propertyPath: m_Name
+      value: P_Rock_01
+      objectReference: {fileID: 0}
     - target: {fileID: 4172234733235080, guid: c6fe0381847dcbd49882de385243245a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 36.388187
@@ -13730,10 +13742,6 @@ PrefabInstance:
     - target: {fileID: 4172234733235080, guid: c6fe0381847dcbd49882de385243245a, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.8405013
-      objectReference: {fileID: 0}
-    - target: {fileID: 1291954423120672, guid: c6fe0381847dcbd49882de385243245a, type: 3}
-      propertyPath: m_Name
-      value: P_Rock_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6fe0381847dcbd49882de385243245a, type: 3}
@@ -24837,6 +24845,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -24857,7 +24866,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -26994,6 +27006,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -27014,7 +27027,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -37264,6 +37280,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1013803126987112, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
+      propertyPath: m_Name
+      value: dfk_flag_02_a (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4189177640814570, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.244186
@@ -37307,10 +37327,6 @@ PrefabInstance:
     - target: {fileID: 4189177640814570, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1013803126987112, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
-      propertyPath: m_Name
-      value: dfk_flag_02_a (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
@@ -39187,6 +39203,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1618768248407598, guid: 278e8eacf74c6154ebc173a666e00c27, type: 3}
+      propertyPath: m_Name
+      value: dfk_floor_01
+      objectReference: {fileID: 0}
     - target: {fileID: 4432975863972712, guid: 278e8eacf74c6154ebc173a666e00c27, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.218187
@@ -39242,10 +39262,6 @@ PrefabInstance:
     - target: {fileID: 4432975863972712, guid: 278e8eacf74c6154ebc173a666e00c27, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1618768248407598, guid: 278e8eacf74c6154ebc173a666e00c27, type: 3}
-      propertyPath: m_Name
-      value: dfk_floor_01
       objectReference: {fileID: 0}
     - target: {fileID: 65929102457261050, guid: 278e8eacf74c6154ebc173a666e00c27,
         type: 3}
@@ -39544,6 +39560,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1291954423120672, guid: c6fe0381847dcbd49882de385243245a, type: 3}
+      propertyPath: m_Name
+      value: P_Rock_01 (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 4172234733235080, guid: c6fe0381847dcbd49882de385243245a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 37.208187
@@ -39599,10 +39619,6 @@ PrefabInstance:
     - target: {fileID: 4172234733235080, guid: c6fe0381847dcbd49882de385243245a, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5621792
-      objectReference: {fileID: 0}
-    - target: {fileID: 1291954423120672, guid: c6fe0381847dcbd49882de385243245a, type: 3}
-      propertyPath: m_Name
-      value: P_Rock_01 (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6fe0381847dcbd49882de385243245a, type: 3}
@@ -39967,6 +39983,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -39986,8 +40003,12 @@ MonoBehaviour:
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
-  CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersInLocation:
+  - {fileID: 11400000, guid: 77b01014cd68ac843b3defb0b8ebb6da, type: 2}
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -40167,6 +40188,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1940977867849830, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
+      propertyPath: m_Name
+      value: dfk_shelf_01 (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4675272594081762, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.785187
@@ -40210,10 +40235,6 @@ PrefabInstance:
     - target: {fileID: 4675272594081762, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1940977867849830, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
-      propertyPath: m_Name
-      value: dfk_shelf_01 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
@@ -45788,6 +45809,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -45808,7 +45830,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -46072,6 +46097,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -46092,8 +46118,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
+  CharactersLivingInLocation: []
   PossibleAgentActions:
-  - {fileID: 11400000, guid: 9ec34f32bfdaa0e4c85a7180fbecf203, type: 2}
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -51409,6 +51437,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -51429,7 +51458,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -51961,6 +51993,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1460113053511152, guid: b9f4a9682ca0a4441a5cd19f4f2fa1bc, type: 3}
+      propertyPath: m_Name
+      value: dfk_desk_02 (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 1226275691400070, guid: b9f4a9682ca0a4441a5cd19f4f2fa1bc, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -51968,10 +52004,6 @@ PrefabInstance:
     - target: {fileID: 1226275691400070, guid: b9f4a9682ca0a4441a5cd19f4f2fa1bc, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1460113053511152, guid: b9f4a9682ca0a4441a5cd19f4f2fa1bc, type: 3}
-      propertyPath: m_Name
-      value: dfk_desk_02 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4265507469990348, guid: b9f4a9682ca0a4441a5cd19f4f2fa1bc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -53655,6 +53687,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -53675,7 +53708,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -54616,6 +54652,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4013186861977458}
     m_Modifications:
+    - target: {fileID: 1566018262228020, guid: 84cdff24186c12d4ca92d020d540b891, type: 3}
+      propertyPath: m_Name
+      value: dfk_candle_04
+      objectReference: {fileID: 0}
     - target: {fileID: 4860893651570426, guid: 84cdff24186c12d4ca92d020d540b891, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.005262375
@@ -54659,10 +54699,6 @@ PrefabInstance:
     - target: {fileID: 4860893651570426, guid: 84cdff24186c12d4ca92d020d540b891, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1566018262228020, guid: 84cdff24186c12d4ca92d020d540b891, type: 3}
-      propertyPath: m_Name
-      value: dfk_candle_04
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84cdff24186c12d4ca92d020d540b891, type: 3}
@@ -55388,6 +55424,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -55408,7 +55445,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation: []
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -55783,6 +55823,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1921508391727336, guid: 91db971f356a07d42b095b71e57a75af, type: 3}
+      propertyPath: m_Name
+      value: dfk_door_01
+      objectReference: {fileID: 0}
     - target: {fileID: 4684852159627100, guid: 91db971f356a07d42b095b71e57a75af, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.837
@@ -55826,10 +55870,6 @@ PrefabInstance:
     - target: {fileID: 4684852159627100, guid: 91db971f356a07d42b095b71e57a75af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1921508391727336, guid: 91db971f356a07d42b095b71e57a75af, type: 3}
-      propertyPath: m_Name
-      value: dfk_door_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91db971f356a07d42b095b71e57a75af, type: 3}
@@ -56487,6 +56527,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1276330849123174, guid: 3d0e048f29527f243b99783f25df9eb1, type: 3}
+      propertyPath: m_Name
+      value: dfk_carpet_black_small
+      objectReference: {fileID: 0}
     - target: {fileID: 4097500270151942, guid: 3d0e048f29527f243b99783f25df9eb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.669188
@@ -56530,10 +56574,6 @@ PrefabInstance:
     - target: {fileID: 4097500270151942, guid: 3d0e048f29527f243b99783f25df9eb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1276330849123174, guid: 3d0e048f29527f243b99783f25df9eb1, type: 3}
-      propertyPath: m_Name
-      value: dfk_carpet_black_small
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d0e048f29527f243b99783f25df9eb1, type: 3}
@@ -57698,6 +57738,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1940977867849830, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
+      propertyPath: m_Name
+      value: dfk_shelf_01
+      objectReference: {fileID: 0}
     - target: {fileID: 4675272594081762, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.903187
@@ -57741,10 +57785,6 @@ PrefabInstance:
     - target: {fileID: 4675272594081762, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1940977867849830, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
-      propertyPath: m_Name
-      value: dfk_shelf_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ae0024b38f872845858e81222f5beac, type: 3}
@@ -57957,6 +57997,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1962677989927716, guid: 6a30c620bcca8ed448dd43ba86c3f699, type: 3}
+      propertyPath: m_Name
+      value: dfk_wardrobe_01
+      objectReference: {fileID: 0}
     - target: {fileID: 1802545090086594, guid: 6a30c620bcca8ed448dd43ba86c3f699, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -57964,10 +58008,6 @@ PrefabInstance:
     - target: {fileID: 1802545090086594, guid: 6a30c620bcca8ed448dd43ba86c3f699, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1962677989927716, guid: 6a30c620bcca8ed448dd43ba86c3f699, type: 3}
-      propertyPath: m_Name
-      value: dfk_wardrobe_01
       objectReference: {fileID: 0}
     - target: {fileID: 1803435338003192, guid: 6a30c620bcca8ed448dd43ba86c3f699, type: 3}
       propertyPath: m_Layer
@@ -58405,6 +58445,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -58425,7 +58466,11 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation:
+  - {fileID: 11400000, guid: 77b01014cd68ac843b3defb0b8ebb6da, type: 2}
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
@@ -58442,6 +58487,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1291954423120672, guid: c6fe0381847dcbd49882de385243245a, type: 3}
+      propertyPath: m_Name
+      value: P_Rock_01 (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 4172234733235080, guid: c6fe0381847dcbd49882de385243245a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 29.608187
@@ -58497,10 +58546,6 @@ PrefabInstance:
     - target: {fileID: 4172234733235080, guid: c6fe0381847dcbd49882de385243245a, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5621805
-      objectReference: {fileID: 0}
-    - target: {fileID: 1291954423120672, guid: c6fe0381847dcbd49882de385243245a, type: 3}
-      propertyPath: m_Name
-      value: P_Rock_01 (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6fe0381847dcbd49882de385243245a, type: 3}
@@ -68850,6 +68895,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1338609483781932, guid: 81fba7e031514c140a9ba21c9edce8e8, type: 3}
+      propertyPath: m_Name
+      value: dfk_chair_01
+      objectReference: {fileID: 0}
     - target: {fileID: 4351705893840692, guid: 81fba7e031514c140a9ba21c9edce8e8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.025
@@ -68905,10 +68954,6 @@ PrefabInstance:
     - target: {fileID: 4351705893840692, guid: 81fba7e031514c140a9ba21c9edce8e8, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338609483781932, guid: 81fba7e031514c140a9ba21c9edce8e8, type: 3}
-      propertyPath: m_Name
-      value: dfk_chair_01
       objectReference: {fileID: 0}
     - target: {fileID: 64882613659105632, guid: 81fba7e031514c140a9ba21c9edce8e8,
         type: 3}
@@ -69110,6 +69155,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1797334555253888, guid: 0c0aee4764d3c1e47bc704c0fbfa3a77, type: 3}
+      propertyPath: m_Name
+      value: dfk_chest_02_closed
+      objectReference: {fileID: 0}
     - target: {fileID: 4372640194763882, guid: 0c0aee4764d3c1e47bc704c0fbfa3a77, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.266
@@ -69165,10 +69214,6 @@ PrefabInstance:
     - target: {fileID: 4372640194763882, guid: 0c0aee4764d3c1e47bc704c0fbfa3a77, type: 3}
       propertyPath: m_LocalScale.z
       value: 1.5827999
-      objectReference: {fileID: 0}
-    - target: {fileID: 1797334555253888, guid: 0c0aee4764d3c1e47bc704c0fbfa3a77, type: 3}
-      propertyPath: m_Name
-      value: dfk_chest_02_closed
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0aee4764d3c1e47bc704c0fbfa3a77, type: 3}
@@ -79259,6 +79304,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1364613259}
     m_Modifications:
+    - target: {fileID: 1013803126987112, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
+      propertyPath: m_Name
+      value: dfk_flag_02_a
+      objectReference: {fileID: 0}
     - target: {fileID: 4189177640814570, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.171
@@ -79302,10 +79351,6 @@ PrefabInstance:
     - target: {fileID: 4189177640814570, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1013803126987112, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
-      propertyPath: m_Name
-      value: dfk_flag_02_a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70eb0852fd599cc4d8fa9ce8901a90ff, type: 3}
@@ -98925,6 +98970,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
         type: 3}
+      propertyPath: CharactersInLocation.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
+        type: 3}
+      propertyPath: CharactersLivingInLocation.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
+        type: 3}
       propertyPath: OwnerCharacter
       value: 
       objectReference: {fileID: 11400000, guid: 98740bc46d409ad4680c1b9730f14ce0,
@@ -98950,6 +99005,30 @@ PrefabInstance:
       propertyPath: EmployeesCharacters.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 0dc740c570a8c1f47992334192580c45,
+        type: 2}
+    - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
+        type: 3}
+      propertyPath: CharactersInLocation.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 98740bc46d409ad4680c1b9730f14ce0,
+        type: 2}
+    - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
+        type: 3}
+      propertyPath: CharactersInLocation.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8b21618f866a046abfba9c6f93400e,
+        type: 2}
+    - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
+        type: 3}
+      propertyPath: CharactersInLocation.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dc740c570a8c1f47992334192580c45,
+        type: 2}
+    - target: {fileID: 2420670220342199233, guid: 20864e424187a674bbb0c7d876ced182,
+        type: 3}
+      propertyPath: CharactersLivingInLocation.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 98740bc46d409ad4680c1b9730f14ce0,
         type: 2}
     - target: {fileID: 5130299956500169602, guid: 20864e424187a674bbb0c7d876ced182,
         type: 3}
@@ -99435,6 +99514,7 @@ MonoBehaviour:
   UpgradeButton: {fileID: 0}
   RebrandButton: {fileID: 0}
   PresetLocation: 1
+  FiredEmployeees: []
   Level: 1
   RevneueMultiplier: 0
   RiskMultiplier: 0
@@ -99455,7 +99535,12 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   CharactersInLocation: []
-  PossibleAgentActions: []
+  CharactersLivingInLocation:
+  - {fileID: 11400000, guid: 5b8b21618f866a046abfba9c6f93400e, type: 2}
+  - {fileID: 11400000, guid: 0dc740c570a8c1f47992334192580c45, type: 2}
+  PossibleAgentActions:
+  - {fileID: 11400000, guid: 72a6c6954c633ac4cbe19264bd552b26, type: 2}
+  - {fileID: 11400000, guid: d115a565037ebc041a449703ee6cef9c, type: 2}
   PossiblePlayerActions: []
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []

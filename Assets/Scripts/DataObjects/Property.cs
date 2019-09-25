@@ -29,7 +29,7 @@ public class Property : ScriptableObject
 
     public BonusType ManagementBonus;
 
-    public bool isPublicArea = false;
+    public bool isHomeOfEmployees = false;
 
     public PlayerAction[] UniquePlayerActions;
     public AgentAction[] UniqueAgentActions;

@@ -7,7 +7,7 @@ public class AgentAction : ScriptableObject
 {
     public Sprite Icon;
 
-    [TextArea(2,3)]
+    [TextArea(6, 10)]
     public string Description;
 
     public List<Trait> RequiredTraits = new List<Trait>();

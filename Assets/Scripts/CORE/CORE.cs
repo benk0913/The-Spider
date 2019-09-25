@@ -203,9 +203,7 @@ public class CORE : MonoBehaviour
 
     public Character GenerateCharacter(int isFemale = -1, int minAge = 0, int maxAge = 150)
     {
-        Character character = Instantiate(Database.HumanReference);
-
-        character.Initialize();
+        Character character = GenerateSimpleCharacter();
 
         character.Randomize();
 
@@ -216,6 +214,8 @@ public class CORE : MonoBehaviour
 
         character.Age = Random.Range(minAge, maxAge);
 
+        character.GoToLocation(GetRandomLocationWithTrait(Database.PublicAreaTrait));
+        character.StartLivingIn(character.CurrentLocation);
 
         Characters.Add(character);
 

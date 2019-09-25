@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LongTermTask", menuName = "DataObjects/AgentActions/LongTermTasks/LongTermTask", order = 2)]
 public class LongTermTask : ScriptableObject
 {
-    [TextArea(2, 3)]
+    [TextArea(6, 10)]
     public string Description;
 
     public Sprite Icon;

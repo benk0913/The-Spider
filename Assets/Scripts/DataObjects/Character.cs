@@ -11,6 +11,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public string ID;
 
+    public bool isKnownOnStart = false;
+
     public bool isImportant
     {
         get
@@ -103,6 +105,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     Faction _currentFaction;
 
     public LocationEntity WorkLocation;
+
+    public LocationEntity HomeLocation;
 
     public LocationEntity CurrentLocation;
 
@@ -648,9 +652,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         AddListeners();
 
-        GoToLocation(CORE.Instance.GetLocationOfProperty(CORE.Instance.Database.DefaultLocationProperty));
-
-        if(Employer == CORE.PC)
+        if (isKnownOnStart)
         {
             Known.KnowAllBasic();
         }
@@ -763,7 +765,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             
             if(!hasSomethingToDo)
             {
-                //GoToRandomLocation(); //TODO Go home 
+                GoToLocation(HomeLocation);
             }
         }
     }
@@ -837,12 +839,17 @@ public class Character : ScriptableObject, ISaveFileCompatible
         WorkLocation = location;
         WorkLocation.RefreshState();
 
+        if(WorkLocation.CurrentProperty.isHomeOfEmployees)
+        {
+            StartLivingIn(WorkLocation);
+        }
+
         foreach (LocationEntity ownedLocation in PropertiesOwned)
         {
             ownedLocation.RefreshState();
         }
 
-        if(CORE.PC == location.OwnerCharacter.TopEmployer)
+        if(isKnownOnStart || CORE.PC == location.OwnerCharacter.TopEmployer)
         {
             Known.KnowAllBasic();
         }
@@ -850,14 +857,21 @@ public class Character : ScriptableObject, ISaveFileCompatible
         RefreshVisualTree();
     }
 
-    public void StopWorkingFor(LocationEntity location)
+    public void StopWorkingForCurrentLocation()
     {
+        LocationEntity location = WorkLocation;
+
         if (!location.EmployeesCharacters.Contains(this))
         {
             return;
         }
 
         location.EmployeesCharacters.Remove(this);
+
+        if(location.CharactersLivingInLocation.Contains(this))
+        {
+            StartLivingIn(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, CurrentLocation));
+        }
 
         LocationEntity tempLocation = WorkLocation;
         WorkLocation = null;
@@ -899,6 +913,25 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         GoToRandomLocation();        
+    }
+
+    public void StartLivingIn(LocationEntity location)
+    {
+        StopLivingInCurrentLocation();
+
+        location.CharactersLivingInLocation.Add(this);
+        HomeLocation = location;
+    }
+
+    public void StopLivingInCurrentLocation()
+    {
+        if(HomeLocation == null)
+        {
+            return;
+        }
+
+        HomeLocation.CharactersLivingInLocation.Remove(this);
+        HomeLocation = null;
     }
 
     public bool StartDoingTask(LongTermTaskEntity task)
@@ -949,7 +982,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         if (WorkLocation != null)
         {
-            StopWorkingFor(WorkLocation);
+            StopWorkingForCurrentLocation();
         }
 
         while(PropertiesOwned.Count > 0)
@@ -981,6 +1014,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Gold"] = _gold.ToString();
 
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
+
+        node["HomeLocation"] = HomeLocation == null ? "" : HomeLocation.ID;
 
         node["CurrentLocation"] = CurrentLocation == null ? "" : CurrentLocation.ID;
 
@@ -1042,6 +1077,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         _workLocationID = node["WorkLocation"];
 
+        _homeLocationID = node["HomeLocation"];
+
         _currentLocationID = node["CurrentLocation"];
 
         Pinned = bool.Parse(node["Pinned"]);
@@ -1094,6 +1131,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
 
     string _workLocationID;
+    string _homeLocationID;
     string[] _propertiesOwnedIDs;
     string _currentLocationID;
 
@@ -1109,6 +1147,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         if (!string.IsNullOrEmpty(_workLocationID))
         {
             StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));
+        }
+
+        if (!string.IsNullOrEmpty(_homeLocationID))
+        {
+            StartLivingIn(CORE.Instance.GetLocationByID(_homeLocationID));
         }
 
         if (!string.IsNullOrEmpty(_currentLocationID))
