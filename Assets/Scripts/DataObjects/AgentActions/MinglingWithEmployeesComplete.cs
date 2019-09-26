@@ -40,9 +40,18 @@ public class MinglingWithEmployeesComplete : AgentAction
                 continue;
             }
 
-            charInLocation.Known.Know("Name");
-            charInLocation.Known.Know("Appearance");
-            charInLocation.Known.Know("CurrentLocation");
+            if (!charInLocation.IsKnown("Name"))
+            {
+                charInLocation.Known.Know("Name");
+            }
+            if (!charInLocation.IsKnown("Appearance"))
+            {
+                charInLocation.Known.Know("Appearance");
+            }
+            if (!charInLocation.IsKnown("CurrentLocation"))
+            {
+                charInLocation.Known.Know("CurrentLocation");
+            }
         }
 
         foreach (Character charInLocation in possibleTargets)
@@ -56,7 +65,10 @@ public class MinglingWithEmployeesComplete : AgentAction
                 continue;
             }
 
-            charInLocation.Known.Know("Personality");
+            if (!charInLocation.IsKnown("Personality"))
+            {
+                charInLocation.Known.Know("Personality");
+            }
         }
     }
 

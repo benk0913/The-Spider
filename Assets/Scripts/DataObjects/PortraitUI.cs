@@ -44,6 +44,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
     [SerializeField]
     protected ActionPortraitUI ActionPortrait;
 
+    [SerializeField]
+    protected Image Unique;
+
 
     protected void Start()
     {
@@ -82,6 +85,8 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
         CurrentCharacter = character;
 
         CG.alpha = 1f;
+        Unique.gameObject.SetActive(false);
+        Face.gameObject.SetActive(true);
 
         QuestionMark.gameObject.SetActive(false);
 
@@ -142,6 +147,12 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
 
         character.StateChanged.AddListener(RefreshState);
 
+        if(CurrentCharacter.UniquePortrait != null)
+        {
+            Unique.gameObject.SetActive(true);
+            Face.gameObject.SetActive(false);
+            Unique.sprite = CurrentCharacter.UniquePortrait;
+        }
         
     }
 

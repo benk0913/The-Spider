@@ -29,8 +29,9 @@ public class LookAroundComplete : AgentAction
 
         List<Character> possibleTargets = new List<Character>();
         possibleTargets.InsertRange(0, location.CharactersInLocation);
+        possibleTargets.Remove(character);
 
-        foreach(Character charInLocation in possibleTargets)
+        foreach (Character charInLocation in possibleTargets)
         {
             float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
             float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value;
@@ -40,17 +41,19 @@ public class LookAroundComplete : AgentAction
                 continue;
             }
 
-            charInLocation.Known.Know("Appearance");
-            charInLocation.Known.Know("CurrentLocation");
+            if (!charInLocation.IsKnown("Appearance"))
+            {
+                charInLocation.Known.Know("Appearance");
+            }
+
+            if (!charInLocation.IsKnown("CurrentLocation"))
+            {
+                charInLocation.Known.Know("CurrentLocation");
+            }
         }
 
         foreach (Character charInLocation in possibleTargets)
         {
-            if (charInLocation.IsKnown("Name"))
-            {
-                continue;
-            }
-
             float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value + 5; //BONUS DEFFICULTY
             float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
 
@@ -59,7 +62,10 @@ public class LookAroundComplete : AgentAction
                 continue;
             }
 
-            charInLocation.Known.Know("Name");
+            if (!charInLocation.IsKnown("Name"))
+            {
+                charInLocation.Known.Know("Name");
+            }
         }
     }
 

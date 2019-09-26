@@ -482,6 +482,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     [SerializeField]
     VisualCharacteristic clothing;
 
+    [SerializeField]
+    public Sprite UniquePortrait;
 
     #endregion
 

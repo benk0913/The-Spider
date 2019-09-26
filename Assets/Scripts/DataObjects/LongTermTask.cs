@@ -24,8 +24,9 @@ public class LongTermTask : ScriptableObject
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();
+        AgentAction finalResult;
 
-        foreach(AgentAction possibleResult in PossibleResults)
+        foreach (AgentAction possibleResult in PossibleResults)
         {
             if(possibleResult.RollSucceed(character))
             {
@@ -35,9 +36,22 @@ public class LongTermTask : ScriptableObject
 
         if(results.Count > 0)
         {
-            return results[Random.Range(0, results.Count)];
+            finalResult = results[Random.Range(0, results.Count)];
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": <color=yellow>" + finalResult.name + "</color>", Icon, character));
+            }
+
+            return finalResult;
         }
 
-        return DefaultResults[Random.Range(0, DefaultResults.Length)];
+        finalResult = DefaultResults[Random.Range(0, DefaultResults.Length)];
+
+        if (character.TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": <color=yellow>" + finalResult.name + "</color>", Icon, character));
+        }
+        return finalResult;
     }
 }

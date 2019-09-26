@@ -25,6 +25,26 @@ public class PortraitUIEmployee : PortraitUI
 
         ProductivityText.text = bottomRightMessage;
         ProductivityText.color = positiveState ? PositiveColor : NegativeColor;
+
+        if (character != null && !character.IsKnown("WorkLocation"))
+        {
+
+            Face.color = Color.black;
+            Hair.color = Color.black;
+            Clothing.color = Color.black;
+            Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+
+            if (ActionPortrait != null)
+            {
+                ActionPortrait.gameObject.SetActive(false);
+            }
+
+            TooltipTarget.Text = "This character is unknown";
+
+            QuestionMark.gameObject.SetActive(true);
+
+            return;
+        }
     }
 
 

@@ -29,6 +29,7 @@ public class LocationPortraitUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             Icon.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+            TooltipTarget.Text = "Unknown...";
             return;
         }
         else
