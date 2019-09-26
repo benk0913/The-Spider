@@ -18,6 +18,9 @@ public class RightClickDropDownPanelUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI AgentNameText;
 
+    [SerializeField]
+    CircleLayoutUI CircleLayout;
+
     Transform CurrentTargetTransform;
 
     List<DescribedAction> CurrentMenuItems;
@@ -66,22 +69,22 @@ public class RightClickDropDownPanelUI : MonoBehaviour
 
         ClearContainer();
 
-        if (Input.mousePosition.y > Screen.height / 2)
-        {
-            MenuItemsContainer.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.UpperLeft;
-            MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.UpperLeft;
-            MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(0f, 1f);
-            MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(0f, 1f);
-            MenuItemsContainer.GetComponent<RectTransform>().pivot = new Vector2(0f, 1f);
-        }
-        else
-        {
-            MenuItemsContainer.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.LowerRight;
-            MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.LowerRight;
-            MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(1f, 0f);
-            MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(1f, 0f);
-            MenuItemsContainer.GetComponent<RectTransform>().pivot = new Vector2(1f, 0f);
-        }
+        //if (Input.mousePosition.y > Screen.height / 2)
+        //{
+        //    MenuItemsContainer.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.UpperLeft;
+        //    MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.UpperLeft;
+        //    MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(0f, 1f);
+        //    MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(0f, 1f);
+        //    MenuItemsContainer.GetComponent<RectTransform>().pivot = new Vector2(0f, 1f);
+        //}
+        //else
+        //{
+        //    MenuItemsContainer.GetComponent<GridLayoutGroup>().childAlignment = TextAnchor.LowerRight;
+        //    MenuItemsContainer.GetComponent<GridLayoutGroup>().startCorner = GridLayoutGroup.Corner.LowerRight;
+        //    MenuItemsContainer.GetComponent<RectTransform>().anchorMin = new Vector2(1f, 0f);
+        //    MenuItemsContainer.GetComponent<RectTransform>().anchorMax = new Vector2(1f, 0f);
+        //    MenuItemsContainer.GetComponent<RectTransform>().pivot = new Vector2(1f, 0f);
+        //}
 
         GameObject tempItem;
         for (int i = 0; i < CurrentMenuItems.Count; i++)
@@ -89,12 +92,14 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             tempItem = ResourcesLoader.Instance.GetRecycledObject("RightClickMenuItem");
 
             UnityAction[] actions = new UnityAction[] { CurrentMenuItems[i].Action, Hide };
-            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(CurrentMenuItems[i].Key, actions, CurrentMenuItems[i].Description, CurrentMenuItems[i].Interactable);
+            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(CurrentMenuItems[i].Key, actions, CurrentMenuItems[i].Description, CurrentMenuItems[i].Icon, CurrentMenuItems[i].Interactable);
 
             tempItem.transform.SetParent(MenuItemsContainer, false);
 
             tempItem.transform.localScale = Vector3.one;
         }
+
+        CircleLayout.RefreshLayout();
 
         transform.SetAsLastSibling();
     }

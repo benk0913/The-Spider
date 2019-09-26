@@ -6,6 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MinglingWithEmployeesComplete", menuName = "DataObjects/AgentActions/Spying/MinglingWithEmployeesComplete", order = 2)]
 public class MinglingWithEmployeesComplete : AgentAction 
 {
+    [SerializeField]
+    LongTermTask Task;
+
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
@@ -34,42 +37,34 @@ public class MinglingWithEmployeesComplete : AgentAction
         {
             float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
             float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
+            
+            if (charInLocation.IsKnown("Name") 
+                && charInLocation.IsKnown("Appearance") 
+                && charInLocation.IsKnown("CurrentLocation") 
+                && charInLocation.IsKnown("Personality"))
+            {
+                continue;
+            }
 
             if (Random.Range(0, Mathf.RoundToInt(enemyValue+agentValue)) > agentValue) // if lost in stat duel
             {
                 continue;
             }
 
-            if (!charInLocation.IsKnown("Name"))
-            {
-                charInLocation.Known.Know("Name");
-            }
-            if (!charInLocation.IsKnown("Appearance"))
-            {
-                charInLocation.Known.Know("Appearance");
-            }
-            if (!charInLocation.IsKnown("CurrentLocation"))
-            {
-                charInLocation.Known.Know("CurrentLocation");
-            }
+            charInLocation.Known.Know("Name");
+            charInLocation.Known.Know("Appearance");
+            charInLocation.Known.Know("CurrentLocation");
+            charInLocation.Known.Know("Personality");
+
+            break;
         }
 
-        foreach (Character charInLocation in possibleTargets)
+        if (Task == null)
         {
-
-            float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value + 5; // EXTRA DEFFICULTY
-            float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
-
-            if (Random.Range(0, Mathf.RoundToInt(enemyValue + agentValue)) > agentValue) // if lost in stat duel
-            {
-                continue;
-            }
-
-            if (!charInLocation.IsKnown("Personality"))
-            {
-                charInLocation.Known.Know("Personality");
-            }
+            return;
         }
+
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target)

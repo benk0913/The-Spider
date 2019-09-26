@@ -110,7 +110,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
     spaceCount: 6
     wordCount: 7
     linkCount: 0
-    lineCount: 3
+    lineCount: 35
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 8177559343113062974}
   - component: {fileID: 1274125918126541771}
   - component: {fileID: 4712201162191475534}
+  - component: {fileID: 5675622293935032853}
   m_Layer: 5
   m_Name: TurnReportItemUI
   m_TagString: Untagged
@@ -251,6 +252,25 @@ MonoBehaviour:
   Content: {fileID: 1097018413100474797}
   Portrait: {fileID: 8851707366397360477}
   Icon: {fileID: 9202427066175811014}
+--- !u!95 &5675622293935032853
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2985106400493477981}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 59e6d09bfa349ef4b90b3df5123cd289, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4458216817099634851
 GameObject:
   m_ObjectHideFlags: 0

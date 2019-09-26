@@ -11,7 +11,6 @@ public class Knowledge
         Items.Add(new KnowledgeInstance("Name", "The name of the person.", false));
         Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique.", false));
         Items.Add(new KnowledgeInstance("Relations","This person's relations with you.", false));
-        Items.Add(new KnowledgeInstance("Skills", "This persons unique skills.", false));
         Items.Add(new KnowledgeInstance("WorkLocation", "Where this person works.", false));
         Items.Add(new KnowledgeInstance("HomeLocation", "Where this person lives.", false));
 

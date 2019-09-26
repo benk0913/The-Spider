@@ -19,6 +19,8 @@ public class LongTermTask : ScriptableObject
 
     public bool ExecuteAtHome = false;
 
+    public bool HideFromLog = false;
+
     public Trait[] TraitsToTargetDuringAction;
 
     public AgentAction GetResult(Character character)
@@ -38,7 +40,7 @@ public class LongTermTask : ScriptableObject
         {
             finalResult = results[Random.Range(0, results.Count)];
 
-            if (character.TopEmployer == CORE.PC)
+            if (!HideFromLog && character.TopEmployer == CORE.PC)
             {
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": <color=yellow>" + finalResult.name + "</color>", Icon, character));
             }
@@ -48,7 +50,7 @@ public class LongTermTask : ScriptableObject
 
         finalResult = DefaultResults[Random.Range(0, DefaultResults.Length)];
 
-        if (character.TopEmployer == CORE.PC)
+        if (!HideFromLog && character.TopEmployer == CORE.PC)
         {
             TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": <color=yellow>" + finalResult.name + "</color>", Icon, character));
         }

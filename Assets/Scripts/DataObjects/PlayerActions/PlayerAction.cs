@@ -9,6 +9,9 @@ public class PlayerAction : ScriptableObject
     [TextArea(2, 3)]
     public string Description;
 
+    [SerializeField]
+    public Sprite Icon;
+
     public virtual void Execute(Character requester, AgentInteractable target)
     {
         if (!CanDoAction(requester, target))

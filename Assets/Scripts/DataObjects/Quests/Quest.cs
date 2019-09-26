@@ -13,6 +13,10 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public QuestObjective[] Objectives;
 
+    public Character RelevantCharacter;
+
+    public List<string> InfoGivenOnCharacter = new List<string>();
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);
@@ -26,6 +30,11 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         }
 
         quest.Objectives = objectives.ToArray();
+
+        if (RelevantCharacter != null)
+        {
+            quest.RelevantCharacter = CORE.Instance.GetCharacter(RelevantCharacter.name);
+        }
 
         return quest;
     }

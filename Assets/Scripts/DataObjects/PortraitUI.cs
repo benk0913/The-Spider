@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.Events;
 
-public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class PortraitUI : AgentInteractable, IPointerClickHandler
 {
     [SerializeField]
     public Character CurrentCharacter = null;
@@ -28,9 +28,6 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
 
     [SerializeField]
     protected GameObject QuestionMark;
-
-    [SerializeField]
-    GameObject InfoButton;
 
     [SerializeField]
     protected CanvasGroup CG;
@@ -255,25 +252,5 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler, IPointerEnter
     public void ShowCharacterInfo()
     {
         CharacterInfoUI.Instance.ShowInfo(this.CurrentCharacter);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    { 
-        if(InfoButton == null)
-        {
-            return;
-        }
-
-        InfoButton.gameObject.SetActive(true);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (InfoButton == null)
-        {
-            return;
-        }
-
-        InfoButton.gameObject.SetActive(false);
     }
 }

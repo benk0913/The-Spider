@@ -47,6 +47,7 @@ public class AgentInteractable : MonoBehaviour
                     action.name,
                     () => action.Execute(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)
                     , action.Description
+                    , action.Icon
                     , action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)));
         }
 
@@ -76,6 +77,7 @@ public class AgentInteractable : MonoBehaviour
                     action.name,
                     () => action.Execute(CORE.PC, this)
                     , action.Description
+                    , action.Icon
                     , action.CanDoAction(CORE.PC, this)));
         }
 

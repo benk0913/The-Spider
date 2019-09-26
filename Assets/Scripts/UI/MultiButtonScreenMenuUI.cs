@@ -8,6 +8,8 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 {
     public List<MultiButtonScreenInstance> ButtonScreens = new List<MultiButtonScreenInstance>();
 
+    int lastIndex = 0;
+
     private void OnEnable()
     {
         for(int i=0;i<ButtonScreens.Count;i++)
@@ -20,7 +22,7 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 
     private void Init()
     {
-        Select(ButtonScreens[0]);
+        Select(ButtonScreens[lastIndex]);
     }
 
     public void OnDisable()
@@ -38,6 +40,8 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 
     void Select(MultiButtonScreenInstance instance)
     {
+        lastIndex = ButtonScreens.IndexOf(instance);
+
         foreach(MultiButtonScreenInstance inst in ButtonScreens)
         {
             if(inst != instance)

@@ -224,7 +224,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearBonuses();
 
-        if (CurrentCharacter.IsKnown("Skills"))
+        if (CurrentCharacter.IsKnown("Personality"))
         {
             for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
             {

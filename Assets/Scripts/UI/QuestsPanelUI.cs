@@ -37,6 +37,14 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         Quest newQuest = quest.CreateClone();
         ActiveQuests.Add(newQuest);
         AddQuestToContainer(newQuest);
+
+        if (newQuest.RelevantCharacter != null)
+        {
+            foreach (string infoKey in newQuest.InfoGivenOnCharacter)
+            {
+                newQuest.RelevantCharacter.Known.Know(infoKey);
+            }
+        }
     }
 
     public void Complete(Quest quest)

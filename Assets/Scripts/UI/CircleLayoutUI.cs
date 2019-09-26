@@ -7,13 +7,25 @@ public class CircleLayoutUI : MonoBehaviour
     [SerializeField]
     float DistanceFromCenter = 1f;
 
+    [SerializeField]
+    bool RefreshOnEnable;
+
     private void OnEnable()
     {
-        RefreshLayout();
+        if (RefreshOnEnable)
+        {
+            RefreshLayout();
+        }
     }
 
-    void RefreshLayout()
+    public void RefreshLayout()
     {
+        if(transform.childCount <= 1)
+        {
+            transform.GetChild(0).transform.position = transform.position;
+            return;
+        }
+
         float angleDistance = 360f / transform.childCount;
 
         for (int i=0;i<transform.childCount;i++)

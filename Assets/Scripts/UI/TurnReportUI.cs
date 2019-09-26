@@ -36,18 +36,18 @@ public class TurnReportUI : MonoBehaviour
 
     void DelayedRefresh()
     {
-        if(Log.Count == 0)
-        {
-            return;
-        }
-
         while (Container.childCount > 0)
         {
             Container.GetChild(0).gameObject.SetActive(false);
             Container.GetChild(0).SetParent(transform);
         }
 
-        foreach(TurnReportLogItemInstance logitem in Log)
+        if (Log.Count == 0)
+        {
+            return;
+        }
+
+        foreach (TurnReportLogItemInstance logitem in Log)
         {
             GameObject turnReportItem = ResourcesLoader.Instance.GetRecycledObject("TurnReportItemUI");
             turnReportItem.transform.SetParent(Container, false);

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LocationPortraitUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class LocationPortraitUI : MonoBehaviour
 {
     [SerializeField]
     Image Icon;
@@ -15,8 +15,6 @@ public class LocationPortraitUI : MonoBehaviour, IPointerEnterHandler, IPointerE
     [SerializeField]
     TooltipTargetUI TooltipTarget;
 
-    [SerializeField]
-    GameObject InfoButton;
 
 
     LocationEntity CurrentLocation;
@@ -53,26 +51,6 @@ public class LocationPortraitUI : MonoBehaviour, IPointerEnterHandler, IPointerE
                 :
                 CurrentLocation.OwnerCharacter.name);
         }
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (InfoButton == null)
-        {
-            return;
-        }
-
-        InfoButton.gameObject.SetActive(true);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (InfoButton == null)
-        {
-            return;
-        }
-
-        InfoButton.gameObject.SetActive(false);
     }
 
     public void ShowLocationInfo()
