@@ -23,9 +23,23 @@ public class InventoryPanelUI : MonoBehaviour, ISaveFileCompatible
         RefreshInventory();
     }
 
+    public Item GetItem(string itemName)
+    {
+        foreach(Item item in Items)
+        {
+            if(item.name == itemName)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
     public void AddNewItem(Item item)
     {
         Item newItem = Instantiate(item);
+        newItem.name = item.name;
         Items.Add(newItem);
         AddItemToContainer(newItem);
     }
