@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogWindowUI : MonoBehaviour
 {
@@ -12,6 +14,15 @@ public class DialogWindowUI : MonoBehaviour
 
     public int SequenceIndex { private set; get; }
 
+    public DialogPiece CurrentPiece
+    {
+        get
+        {
+            return DialogSequence[SequenceIndex];
+        }
+    }
+
+
     #endregion
 
 
@@ -21,6 +32,18 @@ public class DialogWindowUI : MonoBehaviour
     private List<DialogPiece> DialogSequence = new List<DialogPiece>();
 
     private Dictionary<string, object> DialogParameters = new Dictionary<string, object>();
+
+    [SerializeField]
+    Transform DecisionContainer;
+
+    [SerializeField]
+    TextMeshProUGUI Description;
+
+    [SerializeField]
+    Image SceneImage;
+
+    [SerializeField]
+    PortraitUI ActorPortrait;
 
     #endregion
 
@@ -33,6 +56,62 @@ public class DialogWindowUI : MonoBehaviour
         Instance = this;
         this.gameObject.SetActive(false);
     }
+
+    private void ClearDecisionContainer()
+    {
+        while(DecisionContainer.childCount > 0)
+        {
+            DecisionContainer.GetChild(0).gameObject.SetActive(false);
+            DecisionContainer.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void RefreshUI()
+    {
+        Description.text = Util.FormatTags(CurrentPiece.Description, DialogParameters);
+
+
+        SceneImage.sprite = CurrentPiece.Image;
+
+        Character actor = (Character)GetDialogParameter("Actor");
+
+        if (actor == null)
+        {
+            ActorPortrait.gameObject.SetActive(false);
+        }
+        else
+        {
+            ActorPortrait.gameObject.SetActive(true);
+            ActorPortrait.SetCharacter(actor);
+        }
+
+        ClearDecisionContainer();
+
+        bool skipDecision = false;
+        foreach(DialogDecision decision in CurrentPiece.Decisions)
+        {
+            foreach(DialogDecisionCondition condition in decision.AppearanceConditions)
+            {
+                if(!condition.CheckCondition())
+                {
+                    skipDecision = true;
+                    break;
+                }
+            }
+            
+            if(skipDecision)
+            {
+                skipDecision = false;
+                continue;
+            }
+
+            DialogDecisionItemUI tempDecision = ResourcesLoader.Instance.GetRecycledObject("DecisionItemUI").GetComponent<DialogDecisionItemUI>();
+            tempDecision.transform.SetParent(DecisionContainer, false);
+            tempDecision.SetInfo(decision);
+
+        }
+    }
+
 
     #endregion
 
@@ -57,9 +136,27 @@ public class DialogWindowUI : MonoBehaviour
 
     public void AddToDialog(List<DialogPiece> pieces)
     {
-        DialogSequence.InsertRange(DialogSequence.Count-1, pieces);
+        if (DialogSequence.Count == 0)
+        {
+            DialogSequence.InsertRange(0, pieces);
+        }
+        else
+        {
+            DialogSequence.InsertRange(DialogSequence.Count - 1, pieces);
+        }
     }
-    
+
+    public void InsertNextPiece(DialogPiece piece)
+    {
+        DialogSequence.Insert(SequenceIndex+1, piece);
+    }
+
+    public void InsertNextPiece(List<DialogPiece> pieces)
+    {
+        DialogSequence.InsertRange(SequenceIndex+1, pieces);
+    }
+
+
     public void SetDialogParameters(Dictionary<string, object> parameters)
     {
         DialogParameters = parameters;
@@ -79,7 +176,7 @@ public class DialogWindowUI : MonoBehaviour
     public void WipeCurrentDialog()
     {
         DialogSequence.Clear();
-
+        SequenceIndex = 0;
         if(IsShowingDialog)
         {
             HideCurrentDialog();
@@ -90,6 +187,8 @@ public class DialogWindowUI : MonoBehaviour
     {
         IsShowingDialog = true;
         this.gameObject.SetActive(true);
+
+        RefreshUI();
     }
 
     public void HideCurrentDialog()
@@ -107,6 +206,7 @@ public class DialogWindowUI : MonoBehaviour
 
         SequenceIndex = index;
 
+        RefreshUI();
     }
 
     public void ShowNextDialogPiece()

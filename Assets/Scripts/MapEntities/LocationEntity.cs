@@ -92,15 +92,15 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
-    public PropertyTrait[] Traits
+    public List<Trait> Traits
     {
         get
         {
-            List<PropertyTrait> traits = new List<PropertyTrait>();
+            List<Trait> traits = new List<Trait>();
             traits.InsertRange(0, TemporaryTraits);
             traits.InsertRange(0, CurrentProperty.Traits);
 
-            return traits.ToArray();
+            return traits;
         }
     }
 

@@ -116,7 +116,7 @@ public class LocationInfoUI : MonoBehaviour
         }
 
         ClearTraits();
-        for (int i = 0; i < CurrentLocation.Traits.Length; i++)
+        for (int i = 0; i < CurrentLocation.Traits.Count; i++)
         {
             GameObject tempTrait = ResourcesLoader.Instance.GetRecycledObject("TraitUI");
             tempTrait.transform.SetParent(TraitsContainer, false);

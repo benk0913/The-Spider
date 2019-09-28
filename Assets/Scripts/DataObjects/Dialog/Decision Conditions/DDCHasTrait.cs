@@ -11,16 +11,36 @@ public class DDCHasTrait : DialogDecisionCondition
 
     public override bool CheckCondition()
     {
-        Character character = (Character)DialogWindowUI.Instance.GetDialogParameter(ParameterKey);
+        object target = DialogWindowUI.Instance.GetDialogParameter(ParameterKey);
 
-        if(!character.Traits.Contains(TheTrait))
+        if (target.GetType() == typeof(Character))
         {
-            if(Inverted)
-            {
-                return base.CheckCondition();
-            }
+            Character character = (Character)target;
 
-            return false;
+
+            if (!character.Traits.Contains(TheTrait))
+            {
+                if (Inverted)
+                {
+                    return base.CheckCondition();
+                }
+
+                return false;
+            }
+        }
+        else if (target.GetType() == typeof(LocationEntity))
+        {
+            LocationEntity location = (LocationEntity)target;
+
+            if (!location.Traits.Contains(TheTrait))
+            {
+                if (Inverted)
+                {
+                    return base.CheckCondition();
+                }
+
+                return false;
+            }
         }
 
         return base.CheckCondition();
