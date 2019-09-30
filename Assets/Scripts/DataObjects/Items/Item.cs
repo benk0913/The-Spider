@@ -7,4 +7,12 @@ public class Item : ScriptableObject
 {
     public string Description;
     public Sprite Icon;
+
+    public Item Clone()
+    {
+        Item newItem = Instantiate(this);
+        newItem.name = this.name;
+
+        return newItem;
+    }
 }

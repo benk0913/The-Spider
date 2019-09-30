@@ -23,7 +23,7 @@ public class SimpleScenario : ScriptableObject
 
     public virtual void TriggerScenario(Dictionary<string, object> parameters)
     {
-        DialogWindowUI.Instance.StartNewDialog(DefaultScenario.DialogPieces, parameters);
+        DialogWindowUI.Instance.StartNewDialog(DefaultScenario.Piece, parameters);
     }
 
 }
@@ -31,5 +31,5 @@ public class SimpleScenario : ScriptableObject
 [System.Serializable]
 public class ScenarioInstance
 {
-    public List<DialogPiece> DialogPieces = new List<DialogPiece>();
+    public DialogPiece Piece;
 }

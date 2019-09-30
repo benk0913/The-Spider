@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: Spotted Entering The Kitchen
   m_EditorClassIdentifier: 
   Description: '{ActorName} tried to slip by and enter the kitchen, but was spotted
-    by one of the employees. "You are not allowed to go in there..." '
-  Image: {fileID: 21300000, guid: fed3968bea1752046aad8a1697ffc55f, type: 3}
+    by the employees. "You are not allowed to go in there..." '
+  Image: {fileID: 21300000, guid: 3902d355ab76190479dab9fb4572fbb0, type: 3}
+  LobbyPiece: 0
   Decisions:
+  - {fileID: 11400000, guid: ee2ccc4e6e48e6548b8737a910ee80fc, type: 2}
+  - {fileID: 11400000, guid: 20ef61765ea8c384095e02fb032de118, type: 2}
   - {fileID: 11400000, guid: 4444bb5efd1fdfa47886771cd7cfa8a9, type: 2}
   RandomDescriptions:
   - One of the employees stops {ActorName}. "This door is for the <LocationName>'s
     staff only."
   - '"Hey! You do not work here! Begone!", One of the employees yells at {ActorName}
     to leave... '
-  TargetCharacter: {fileID: 0}
+  TargetCharacters: []

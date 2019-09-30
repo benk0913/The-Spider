@@ -36,18 +36,26 @@ public class DialogDecision : ScriptableObject
     [Tooltip("Actions - which should always execute for decision.")]
     public List<DialogDecisionAction> Actions = new List<DialogDecisionAction>();
 
-    public List<DialogPiece> PiecesToInsertNext = new List<DialogPiece>();
+    public DialogPiece NextPiece;
 
     public void Activate()
     {
-        if (PiecesToInsertNext.Count > 0)
-        {
-            DialogWindowUI.Instance.InsertNextPiece(PiecesToInsertNext);
-        }
-
         foreach(DialogDecisionAction action in Actions)
         {
             action.Activate();
         }
+
+        if (NextPiece != null)
+        {
+            DialogWindowUI.Instance.ShowDialogPiece(NextPiece);
+        }
+    }
+
+    public DialogDecision Clone()
+    {
+        DialogDecision newDecision = Instantiate(this);
+        newDecision.name = this.name;
+
+        return newDecision;
     }
 }

@@ -485,6 +485,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     [SerializeField]
     public Sprite UniquePortrait;
 
+    public List<Item> Belogings = new List<Item>();
     #endregion
 
     #region Known / Information
@@ -1045,6 +1046,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             node["DynamicRelationsModifiers"][i] = DynamicRelationsModifiers[i].ToJSON();
         }
 
+        for(int i=0;i<Belogings.Count;i++)
+        {
+            node["Inventory"][i] = Belogings[i].name;
+        }
+
         node["age"] = Age.ToString();
         node["skinColor"] = SkinColor.name;
         node["hairColor"] = HairColor.name;
@@ -1110,6 +1116,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             modifier.FromJSON(node["DynamicRelationsModifiers"][i]);
 
             DynamicRelationsModifiers.Add(modifier);
+        }
+
+        for (int i = 0; i < node["Inventory"].Count; i++)
+        {
+            Belogings.Add(CORE.Instance.Database.GetItem(node["Inventory"][i]).Clone());
         }
 
         Age = int.Parse(node["age"]);

@@ -12,24 +12,15 @@ public class DialogWindowUI : MonoBehaviour
 
     public bool IsShowingDialog { private set; get; }
 
-    public int SequenceIndex { private set; get; }
+    public DialogPiece CurrentPiece;
 
-    public DialogPiece CurrentPiece
-    {
-        get
-        {
-            return DialogSequence[SequenceIndex];
-        }
-    }
-
+    public DialogPiece LastLobbyPiece;
 
     #endregion
 
 
 
     #region Private Parameters
-
-    private List<DialogPiece> DialogSequence = new List<DialogPiece>();
 
     private Dictionary<string, object> DialogParameters = new Dictionary<string, object>();
 
@@ -46,7 +37,7 @@ public class DialogWindowUI : MonoBehaviour
     PortraitUI ActorPortrait;
 
     [SerializeField]
-    PortraitUI TargetPortrait;
+    Transform TargetPortraitsContainer;
 
     #endregion
 
@@ -88,14 +79,27 @@ public class DialogWindowUI : MonoBehaviour
             ActorPortrait.SetCharacter(actor);
         }
 
-        if(CurrentPiece.TargetCharacter != null)
+        if(CurrentPiece.TargetCharacters != null && CurrentPiece.TargetCharacters.Length > 0)
         {
-            TargetPortrait.gameObject.SetActive(true);
-            TargetPortrait.SetCharacter(CurrentPiece.TargetCharacter);
+            TargetPortraitsContainer.gameObject.SetActive(true);
+
+            while(TargetPortraitsContainer.childCount > 0)
+            {
+                TargetPortraitsContainer.GetChild(0).gameObject.SetActive(false);
+                TargetPortraitsContainer.GetChild(0).SetParent(transform);
+            }
+
+            foreach (Character targetCharacter in CurrentPiece.TargetCharacters)
+            {
+                PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+                portrait.transform.SetParent(TargetPortraitsContainer, false);
+                portrait.transform.localScale = Vector3.one;
+                portrait.SetCharacter(targetCharacter);
+            }
         }
         else
         {
-            TargetPortrait.gameObject.SetActive(false);
+            TargetPortraitsContainer.gameObject.SetActive(false);
         }
 
         ClearDecisionContainer();
@@ -133,40 +137,10 @@ public class DialogWindowUI : MonoBehaviour
     #region Public Methods
 
     //THE method to start dialogs with...
-    public void StartNewDialog(List<DialogPiece> dialogPieces, Dictionary<string, object> parameters)
+    public void StartNewDialog(DialogPiece piece, Dictionary<string, object> parameters)
     {
-        WipeCurrentDialog();
         SetDialogParameters(parameters);
-        AddToDialog(dialogPieces);
-
-        ShowDialogPiece(0);
-    }
-
-    public void AddToDialog(DialogPiece piece)
-    {
-        DialogSequence.Add(piece);
-    }
-
-    public void AddToDialog(List<DialogPiece> pieces)
-    {
-        if (DialogSequence.Count == 0)
-        {
-            DialogSequence.InsertRange(0, pieces);
-        }
-        else
-        {
-            DialogSequence.InsertRange(DialogSequence.Count - 1, pieces);
-        }
-    }
-
-    public void InsertNextPiece(DialogPiece piece)
-    {
-        DialogSequence.Insert(SequenceIndex+1, piece);
-    }
-
-    public void InsertNextPiece(List<DialogPiece> pieces)
-    {
-        DialogSequence.InsertRange(SequenceIndex+1, pieces);
+        ShowDialogPiece(piece);
     }
 
 
@@ -197,16 +171,6 @@ public class DialogWindowUI : MonoBehaviour
         }
     }
 
-    public void WipeCurrentDialog()
-    {
-        DialogSequence.Clear();
-        SequenceIndex = 0;
-        if(IsShowingDialog)
-        {
-            HideCurrentDialog();
-        }
-    }
-
     public void ShowCurrentDialog()
     {
         IsShowingDialog = true;
@@ -217,31 +181,26 @@ public class DialogWindowUI : MonoBehaviour
 
     public void HideCurrentDialog()
     {
+        CurrentPiece = null;
         IsShowingDialog = false;
         this.gameObject.SetActive(false);
     }
 
-    public void ShowDialogPiece(int index)
+    public void ShowDialogPiece(DialogPiece piece)
     {
-        if(!IsShowingDialog)
+        CurrentPiece = piece;
+
+        if (!IsShowingDialog)
         {
             ShowCurrentDialog();
         }
 
-        SequenceIndex = index;
-
-        RefreshUI();
-    }
-
-    public void ShowNextDialogPiece()
-    {
-        if(SequenceIndex + 1 > DialogSequence.Count)
+        if(CurrentPiece.LobbyPiece)
         {
-            HideCurrentDialog();
-            return;
+            LastLobbyPiece = CurrentPiece;
         }
 
-        ShowDialogPiece(SequenceIndex + 1);
+        RefreshUI();
     }
 
     #endregion

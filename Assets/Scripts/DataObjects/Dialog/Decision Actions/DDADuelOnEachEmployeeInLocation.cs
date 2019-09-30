@@ -6,42 +6,51 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DDADuelOnEachEmployeeInLocation", menuName = "DataObjects/Dialog/Actions/DDADuelOnEachEmployeeInLocation", order = 2)]
 public class DDADuelOnEachEmployeeInLocation : DDAPossibleDialogStatDuel
 {
+    public int MaxPeople = 999;
+
     public override void Activate()
     {
         LocationEntity location = (LocationEntity)DialogWindowUI.Instance.GetDialogParameter("Location");
         Character Actor = (Character)DialogWindowUI.Instance.GetDialogParameter("Actor");
 
-        foreach(Character character in location.EmployeesCharacters)
+        List<Character> enemyWinners = new List<Character>();
+
+        foreach (Character character in location.CharactersInLocation)
         {
-            if(!location.CharactersInLocation.Contains(character))
+            if (!location.EmployeesCharacters.Contains(character))
             {
                 continue;
             }
 
-            float actorSkill = Actor.GetBonus(ActorSkill).Value;
-
-            if (Random.Range(0f, actorSkill + Challenge.RarityValue + Challenge.ChallengeValue) < (actorSkill + Challenge.RarityValue))
+            if (enemyWinners.Count > MaxPeople)
             {
-                if (WinPiece == null)
-                {
-                    continue;
-                }
+                break;
+            }
 
-                DialogPiece pieceClone = Instantiate(WinPiece);
-                pieceClone.TargetCharacter = character;
-                DialogWindowUI.Instance.InsertNextPiece(pieceClone);
+            float actorSkill = Actor.GetBonus(ActorSkill).Value;
+            float enemySkill = character.GetBonus(Challenge.Type).Value;
+
+            if (Random.Range(0f, actorSkill + enemySkill) < actorSkill)
+            {
+                continue;
             }
             else
             {
-                if (LosePiece == null)
-                {
-                    continue;
-                }
+                character.Known.Know("Appearance");
 
-                DialogPiece pieceClone = Instantiate(LosePiece);
-                pieceClone.TargetCharacter = character;
-                DialogWindowUI.Instance.InsertNextPiece(pieceClone);
+                enemyWinners.Add(character);
             }
+        }
+
+        if (enemyWinners.Count > 0)
+        {
+            DialogPiece piece = LosePiece.Clone();
+            piece.TargetCharacters = enemyWinners.ToArray();
+            DialogWindowUI.Instance.ShowDialogPiece(piece);
+        }
+        else
+        {
+            DialogWindowUI.Instance.ShowDialogPiece(WinPiece);
         }
     }
 }

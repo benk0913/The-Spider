@@ -30,7 +30,7 @@ public class DDAPossibleDialogStatDuel : DialogDecisionAction
                 return;
             }
 
-            DialogWindowUI.Instance.InsertNextPiece(WinPiece);
+            DialogWindowUI.Instance.ShowDialogPiece(WinPiece);
         }
         else
         {
@@ -39,7 +39,7 @@ public class DDAPossibleDialogStatDuel : DialogDecisionAction
                 return;
             }
 
-            DialogWindowUI.Instance.InsertNextPiece(LosePiece);
+            DialogWindowUI.Instance.ShowDialogPiece(LosePiece);
         }
     }
 }

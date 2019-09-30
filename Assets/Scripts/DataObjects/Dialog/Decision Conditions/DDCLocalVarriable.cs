@@ -43,6 +43,11 @@ public class DDCLocalVarriable : DialogDecisionCondition
             return false;
         }
 
+        if (Inverted)
+        {
+            return false;
+        }
+
         return base.CheckCondition();
     }
 }

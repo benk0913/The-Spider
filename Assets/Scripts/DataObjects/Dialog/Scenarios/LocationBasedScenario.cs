@@ -17,7 +17,7 @@ public class LocationBasedScenario : SimpleScenario
             instance = DefaultScenario;
         }
 
-        DialogWindowUI.Instance.StartNewDialog(instance.DialogPieces, parameters);
+        DialogWindowUI.Instance.StartNewDialog(instance.Piece, parameters);
     }
 
     public LocationScenarioInstance GetInstance(LocationEntity byLocation)

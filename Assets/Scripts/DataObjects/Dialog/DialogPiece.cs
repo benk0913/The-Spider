@@ -10,11 +10,23 @@ public class DialogPiece : ScriptableObject
 
     public Sprite Image;
 
+    public bool LobbyPiece = false;
+
+
     [Expandable]
     public List<DialogDecision> Decisions = new List<DialogDecision>();
 
     [TextArea(6, 12)]
     public string[] RandomDescriptions;
 
-    public Character TargetCharacter;
+    public Character[] TargetCharacters;
+
+    public DialogPiece Clone()
+    {
+        DialogPiece newPiece = Instantiate(this);
+        newPiece.name = this.name;
+
+        return newPiece;
+    }
+
 }
