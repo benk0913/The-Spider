@@ -10,5 +10,11 @@ public class DialogPiece : ScriptableObject
 
     public Sprite Image;
 
+    [Expandable]
     public List<DialogDecision> Decisions = new List<DialogDecision>();
+
+    [TextArea(6, 12)]
+    public string[] RandomDescriptions;
+
+    public Character TargetCharacter;
 }

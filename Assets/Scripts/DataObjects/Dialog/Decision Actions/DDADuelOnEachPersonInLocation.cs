@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "DDADuelOnEachEmployeeInLocation", menuName = "DataObjects/Dialog/Actions/DDADuelOnEachEmployeeInLocation", order = 2)]
-public class DDADuelOnEachEmployeeInLocation : DDAPossibleDialogStatDuel
+[CreateAssetMenu(fileName = "DDADuelOnEachPersonInLocation", menuName = "DataObjects/Dialog/Actions/DDADuelOnEachPersonInLocation", order = 2)]
+public class DDADuelOnEachPersonInLocation : DDAPossibleDialogStatDuel
 {
+    [SerializeField]
+    public bool OnlyOfDifferentFaction;
+
+
     public override void Activate()
     {
         LocationEntity location = (LocationEntity)DialogWindowUI.Instance.GetDialogParameter("Location");
         Character Actor = (Character)DialogWindowUI.Instance.GetDialogParameter("Actor");
 
-        foreach(Character character in location.EmployeesCharacters)
+        foreach(Character character in location.CharactersInLocation)
         {
-            if(!location.CharactersInLocation.Contains(character))
+            if(OnlyOfDifferentFaction)
             {
-                continue;
+                if(character.CurrentFaction == Actor.CurrentFaction)
+                {
+                    continue;
+                }
             }
 
             float actorSkill = Actor.GetBonus(ActorSkill).Value;
@@ -27,7 +34,9 @@ public class DDADuelOnEachEmployeeInLocation : DDAPossibleDialogStatDuel
                     continue;
                 }
 
-                DialogWindowUI.Instance.InsertNextPiece(WinPiece);
+                DialogPiece pieceClone = Instantiate(WinPiece);
+                pieceClone.TargetCharacter = character;
+                DialogWindowUI.Instance.InsertNextPiece(pieceClone);
             }
             else
             {
@@ -36,7 +45,9 @@ public class DDADuelOnEachEmployeeInLocation : DDAPossibleDialogStatDuel
                     continue;
                 }
 
-                DialogWindowUI.Instance.InsertNextPiece(LosePiece);
+                DialogPiece pieceClone = Instantiate(LosePiece);
+                pieceClone.TargetCharacter = character;
+                DialogWindowUI.Instance.InsertNextPiece(pieceClone);
             }
         }
     }

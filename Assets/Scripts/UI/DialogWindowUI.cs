@@ -45,6 +45,9 @@ public class DialogWindowUI : MonoBehaviour
     [SerializeField]
     PortraitUI ActorPortrait;
 
+    [SerializeField]
+    PortraitUI TargetPortrait;
+
     #endregion
 
 
@@ -83,6 +86,16 @@ public class DialogWindowUI : MonoBehaviour
         {
             ActorPortrait.gameObject.SetActive(true);
             ActorPortrait.SetCharacter(actor);
+        }
+
+        if(CurrentPiece.TargetCharacter != null)
+        {
+            TargetPortrait.gameObject.SetActive(true);
+            TargetPortrait.SetCharacter(CurrentPiece.TargetCharacter);
+        }
+        else
+        {
+            TargetPortrait.gameObject.SetActive(false);
         }
 
         ClearDecisionContainer();
@@ -166,11 +179,22 @@ public class DialogWindowUI : MonoBehaviour
     {
         if(!DialogParameters.ContainsKey(key))
         {
-            Debug.LogError("DialogWindow - NO PARAMETER WITH KEY: " + key);
             return null;
         }
 
         return DialogParameters[key];
+    }
+
+    public void SetDialogParameter(string key, object value)
+    {
+        if(DialogParameters.ContainsKey(key))
+        {
+            DialogParameters[key] = value;
+        }
+        else
+        {
+            DialogParameters.Add(key, value);
+        }
     }
 
     public void WipeCurrentDialog()

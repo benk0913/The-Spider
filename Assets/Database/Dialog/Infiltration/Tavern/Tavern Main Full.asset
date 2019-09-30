@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d431cca442f92e44ebdcbe5a083d4254, type: 3}
+  m_Name: Tavern Main Full
+  m_EditorClassIdentifier: 
+  Description: '{ActorName} enters the {LocationName} casually... The {LocationName}
+    seems packed. The locals are hanging out in different packs and groups all around
+    the room... Drinking, laughing and talking in composition which screens each
+    and every conversation.
+
+'
+  Image: {fileID: 21300000, guid: 6b9e79eff233c5c4c968603d123cb0c7, type: 3}
+  Decisions:
+  - {fileID: 11400000, guid: 4444bb5efd1fdfa47886771cd7cfa8a9, type: 2}
+  - {fileID: 11400000, guid: f31c98f11964ae747960c779c772d0a8, type: 2}
+  RandomDescriptions:
+  - '{ActorName} enters the {LocationName} nonchalantly... This {LocationName} is
+    not very full today, the locals are seated here and there, chatting, rolling
+    dice and drinking.'
+  - '{ActorName} is in the {LocationName} main hall...  {LocationName} is working
+    as usual, nobody gives any notice or greetings but a small glance from a patron
+    which is seated beside the door.'
+  TargetCharacter: {fileID: 0}

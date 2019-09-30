@@ -24,12 +24,15 @@ public class DialogDecision : ScriptableObject
 
     public Sprite Icon;
 
+    [Expandable]
     [Tooltip("Conditions - should the decision appear?")]
     public List<DialogDecisionCondition> AppearanceConditions = new List<DialogDecisionCondition>();
 
+    [Expandable]
     [Tooltip("Conditions - is the decision available?")]
     public List<DialogDecisionCondition> ActiveConditions = new List<DialogDecisionCondition>();
 
+    [Expandable]
     [Tooltip("Actions - which should always execute for decision.")]
     public List<DialogDecisionAction> Actions = new List<DialogDecisionAction>();
 
