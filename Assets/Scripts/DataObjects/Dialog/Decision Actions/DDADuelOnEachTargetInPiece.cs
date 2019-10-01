@@ -14,6 +14,7 @@ public class DDADuelOnEachTargetInPiece : DDAPossibleDialogStatDuel
         Character Actor = (Character)DialogWindowUI.Instance.GetDialogParameter("Actor");
 
         List<Character> enemyWinners = new List<Character>();
+        List<Character> enemyLosers = new List<Character>();
 
         if (DialogWindowUI.Instance.CurrentPiece.TargetCharacters != null)
         {
@@ -27,14 +28,14 @@ public class DDADuelOnEachTargetInPiece : DDAPossibleDialogStatDuel
                 float actorSkill = Actor.GetBonus(ActorSkill).Value;
                 float enemySkill = character.GetBonus(Challenge.Type).Value;
 
+                character.Known.Know("Appearance");
+
                 if (Random.Range(0f, actorSkill + enemySkill) < actorSkill)
                 {
-                    continue;
+                    enemyLosers.Add(character);
                 }
                 else
                 {
-                    character.Known.Know("Appearance");
-
                     enemyWinners.Add(character);
                 }
             }
@@ -48,7 +49,9 @@ public class DDADuelOnEachTargetInPiece : DDAPossibleDialogStatDuel
         }
         else
         {
-            DialogWindowUI.Instance.ShowDialogPiece(WinPiece);
+            DialogPiece piece = WinPiece.Clone();
+            piece.TargetCharacters = enemyLosers.ToArray();
+            DialogWindowUI.Instance.ShowDialogPiece(piece);
         }
     }
 }

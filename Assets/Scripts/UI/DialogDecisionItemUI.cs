@@ -45,11 +45,11 @@ public class DialogDecisionItemUI : MonoBehaviour
 
         if(!ClickableButton.interactable)
         {
-            TooltipTarget.Text += "<color=yellow><u> Requires Conditions: </u>";
+            TooltipTarget.Text += "\n <color=yellow><u> Requires Conditions: </u>";
 
             foreach (DialogDecisionCondition condition in CurrentDecision.ActiveConditions)
             {
-                TooltipTarget.Text += (condition.CheckCondition() ? "<color=green>" : "<color=red>") + condition.name + "</color>";
+                TooltipTarget.Text += "\n "+  (condition.CheckCondition() ? "<color=green>" : "<color=red>") + condition.name + "</color>";
             }
 
             TooltipTarget.Text += "</color>";

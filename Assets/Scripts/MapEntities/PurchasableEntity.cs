@@ -33,6 +33,13 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
+    public void SetInfo(float revenueMulti, float riskMulti, PlotType type)
+    {
+        this.RevenueMultiplier = revenueMulti;
+        this.RiskMultiplier = riskMulti;
+        this.Type = type;
+    }
+
     public void OnClick()
     {
         PlotInfoPanelUI.Instance.Select(this);

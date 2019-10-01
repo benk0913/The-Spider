@@ -600,4 +600,33 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public void ImplementIDs()
     {
     }
+
+    public void Dispose()
+    {
+        while(CharactersInLocation.Count > 0)
+        {
+            CharactersInLocation[0].GoToRandomLocation();
+        }
+
+        while (CharactersLivingInLocation.Count > 0)
+        {
+            CharactersLivingInLocation[0].StopLivingInCurrentLocation();
+        }
+
+        while (EmployeesCharacters.Count > 0)
+        {
+            EmployeesCharacters[0].StopWorkingForCurrentLocation();
+        }
+
+        if(TaskDurationUI != null)
+        {
+            TaskDurationUI.Wipe();
+        }
+
+        GameObject purchasablePlot = Instantiate(ResourcesLoader.Instance.GetObject("PurchasablePlot"));
+        purchasablePlot.transform.position = transform.position;
+        purchasablePlot.GetComponent<PurchasableEntity>().SetInfo(RevneueMultiplier, RiskMultiplier, CurrentProperty.PlotType);
+
+        Destroy(this.gameObject);
+    }
 }

@@ -39,6 +39,12 @@ public class DialogWindowUI : MonoBehaviour
     [SerializeField]
     Transform TargetPortraitsContainer;
 
+    [SerializeField]
+    GameObject ItemsLootedPanel;
+
+    [SerializeField]
+    Transform ItemsLootedContainer;
+
     #endregion
 
 
@@ -201,6 +207,24 @@ public class DialogWindowUI : MonoBehaviour
         }
 
         RefreshUI();
+    }
+
+    public void ShowItemsLooted(Item[] items)
+    {
+        ItemsLootedPanel.gameObject.SetActive(true);
+
+        while(ItemsLootedContainer.childCount > 0)
+        {
+            ItemsLootedContainer.GetChild(0).gameObject.SetActive(false);
+            ItemsLootedContainer.GetChild(0).SetParent(transform);
+        }
+
+        foreach(Item item in items)
+        {
+            GameObject rumorPanel = ResourcesLoader.Instance.GetRecycledObject("ItemUI");
+            rumorPanel.transform.SetParent(ItemsLootedContainer, false);
+            rumorPanel.GetComponent<ItemUI>().SetInfo(item);
+        }
     }
 
     #endregion

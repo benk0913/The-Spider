@@ -351,6 +351,12 @@ public class CORE : MonoBehaviour
 
     #region Saving & Loading
 
+    public void RestartGame()
+    {
+        Destroy(this.gameObject);
+        SceneManager.LoadScene(0);
+    }
+
     public List<SaveFile> SaveFiles = new List<SaveFile>();
 
     public void SaveGame()
@@ -388,7 +394,7 @@ public class CORE : MonoBehaviour
         ReadAllSaveFiles();
     }
 
-    public void LoadGame(SaveFile file)
+    public void LoadGame(SaveFile file = null)
     {
         if(LoadingGameRoutine != null)
         {
@@ -399,7 +405,7 @@ public class CORE : MonoBehaviour
     }
 
 
-    IEnumerator LoadGameRoutine(SaveFile file)
+    IEnumerator LoadGameRoutine(SaveFile file = null)
     {
         while (ResourcesLoader.Instance.m_bLoading)
         {
@@ -421,48 +427,52 @@ public class CORE : MonoBehaviour
         MapViewManager.Instance.ShowMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
 
-        GameClock.Instance.FromJSON(file.Content["GameClock"]);
-
-        for (int i = 0; i < file.Content["Characters"].Count; i++)
+        if (file != null)
         {
-            Character tempCharacter = GetCharacterByID(file.Content["Characters"][i]["ID"]);
 
-            if (tempCharacter == null)
+            GameClock.Instance.FromJSON(file.Content["GameClock"]);
+
+            for (int i = 0; i < file.Content["Characters"].Count; i++)
             {
-                tempCharacter = GenerateSimpleCharacter();
-                Characters.Add(tempCharacter);
+                Character tempCharacter = GetCharacterByID(file.Content["Characters"][i]["ID"]);
+
+                if (tempCharacter == null)
+                {
+                    tempCharacter = GenerateSimpleCharacter();
+                    Characters.Add(tempCharacter);
+                }
+
+                tempCharacter.FromJSON(file.Content["Characters"][i]);
+
+                yield return 0;
             }
 
-            tempCharacter.FromJSON(file.Content["Characters"][i]);
-
-            yield return 0;
-        }
-
-        for (int i = 0; i < file.Content["Locations"].Count; i++)
-        {
-            LocationEntity tempLocation = GetPresetLocationByID(file.Content["Locations"][i]["ID"]);
-
-            if (tempLocation == null)
+            for (int i = 0; i < file.Content["Locations"].Count; i++)
             {
-                tempLocation = GenerateNewLocation(new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+                LocationEntity tempLocation = GetPresetLocationByID(file.Content["Locations"][i]["ID"]);
+
+                if (tempLocation == null)
+                {
+                    tempLocation = GenerateNewLocation(new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+                }
+
+                tempLocation.FromJSON(file.Content["Locations"][i]);
+                Locations.Add(tempLocation);
+
+                yield return 0;
             }
 
-            tempLocation.FromJSON(file.Content["Locations"][i]);
-            Locations.Add(tempLocation);
+            for (int i = 0; i < file.Content["PurchasablePlots"].Count; i++)
+            {
+                PurchasablePlots[i].FromJSON(file.Content["PurchasablePlots"][i]);
 
-            yield return 0;
+                yield return 0;
+            }
+
+            RumorsPanelUI.Instance.FromJSON(file.Content["Rumors"]);
+            QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
+
         }
-
-        for (int i = 0; i < file.Content["PurchasablePlots"].Count; i++)
-        {
-            PurchasablePlots[i].FromJSON(file.Content["PurchasablePlots"][i]);
-
-            yield return 0;
-        }
-
-        RumorsPanelUI.Instance.FromJSON(file.Content["Rumors"]);
-        QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
-
         yield return 0;
 
         PC = GetCharacter("'Juliana'");

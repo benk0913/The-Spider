@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DialogDecision", menuName = "DataObjects/Dialog/DialogDecision", order = 2)]
 public class DialogDecision : ScriptableObject
 {
+    
     public string Title
     {
         get
@@ -38,11 +39,18 @@ public class DialogDecision : ScriptableObject
 
     public DialogPiece NextPiece;
 
+    public bool RefreshCurrentPiece;
+
     public void Activate()
     {
         foreach(DialogDecisionAction action in Actions)
         {
             action.Activate();
+        }
+
+        if(RefreshCurrentPiece)
+        {
+            DialogWindowUI.Instance.ShowDialogPiece(DialogWindowUI.Instance.CurrentPiece);
         }
 
         if (NextPiece != null)

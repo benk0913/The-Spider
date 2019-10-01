@@ -65,6 +65,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     Transform KnownInformationContainer;
 
+    [SerializeField]
+    GameObject DeceasedPanel;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -294,6 +297,8 @@ public class CharacterInfoUI : MonoBehaviour
             uiInstance.SetInfo(kInstance.Key, kInstance.Description, kInstance.IsKnown);
             uiInstance.transform.SetParent(KnownInformationContainer, false);
         }
+
+        DeceasedPanel.gameObject.SetActive(character.IsDead);
 
         SetName();
         SetGold();

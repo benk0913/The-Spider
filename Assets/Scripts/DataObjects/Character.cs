@@ -11,6 +11,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public string ID;
 
+    public bool IsDead = false;
+
     public bool isKnownOnStart = false;
 
     public bool isImportant
@@ -485,7 +487,25 @@ public class Character : ScriptableObject, ISaveFileCompatible
     [SerializeField]
     public Sprite UniquePortrait;
 
+    #endregion
+
+    #region Items
+
     public List<Item> Belogings = new List<Item>();
+
+    public Item GetItem(string itemKey)
+    {
+        foreach (Item item in Belogings)
+        {
+            if (item.name == itemKey)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region Known / Information
@@ -613,6 +633,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
         if (presetCharacter)
         {
             ID = this.name;
+
+            List<Item> newBelogings = new List<Item>();
+            foreach(Item item in Belogings)
+            {
+                newBelogings.Add(item.Clone());
+            }
+
+            this.Belogings = newBelogings;
         }
         else
         {
@@ -792,6 +820,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 return true;
             }
         }
+        else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
+        {
+            CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
+        }
 
         // After evening? - Pass Time / Sleep
         return false;
@@ -905,8 +937,30 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     }
 
-    public void StopOwningLocation(LocationEntity location)
+    public void StopOwningLocation(LocationEntity location, bool lookForReplacement = false)
     {
+        if(lookForReplacement)
+        {
+            Character possibleReplacement = location.EmployeesCharacters.Find((Character employee) => { return employee.age > 15; });
+
+            if(possibleReplacement == null)
+            {
+                possibleReplacement = this.TopEmployer;
+            }
+
+            if (possibleReplacement == null)
+            {
+                //TODO KILL LOCATION
+                location.Dispose();
+                return;
+            }
+            else
+            {
+                possibleReplacement.StartOwningLocation(location);
+                return;
+            }
+        }
+
         location.OwnerCharacter = null;
         location.RefreshState();
 
@@ -926,15 +980,23 @@ public class Character : ScriptableObject, ISaveFileCompatible
         HomeLocation = location;
     }
 
-    public void StopLivingInCurrentLocation()
+    public void StopLivingInCurrentLocation(bool findReplacement = false)
     {
-        if(HomeLocation == null)
+        if (HomeLocation == null)
         {
             return;
         }
 
         HomeLocation.CharactersLivingInLocation.Remove(this);
-        HomeLocation = null;
+
+        if (findReplacement)
+        {
+            StartLivingIn(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, HomeLocation));
+        }
+        else
+        {
+            HomeLocation = null;
+        }
     }
 
     public bool StartDoingTask(LongTermTaskEntity task)
@@ -981,23 +1043,44 @@ public class Character : ScriptableObject, ISaveFileCompatible
         StartDoingTask(task);
     }
 
-    public void Death()
+    public void Death(bool notify = true)
     {
+        IsDead = true;
+
+        GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait));
+
         if (WorkLocation != null)
         {
             StopWorkingForCurrentLocation();
         }
 
+        if(HomeLocation != null)
+        {
+            StopLivingInCurrentLocation();
+        }
+
         while(PropertiesOwned.Count > 0)
         {
-            StopOwningLocation(PropertiesOwned[0]);
+            StopOwningLocation(PropertiesOwned[0], true);
         }
+
 
         StopDoingCurrentTask();
         
         RemoveListeners();
 
         CORE.Instance.Characters.Remove(this);
+
+        if (notify)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": <color=red> Has Died </color>", ResourcesLoader.Instance.GetSprite("DeceasedIcon"), this));
+            WarningWindowUI.Instance.Show(this.name + " has died!", () => { });
+        }
+
+        if (this == CORE.PC)
+        {
+            WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { CORE.Instance.RestartGame(); });
+        }
     }
 
     #endregion
@@ -1026,7 +1109,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["Pinned"] = Pinned.ToString();
 
-        foreach(KnowledgeInstance item in Known.Items)
+        node["IsDead"] = IsDead.ToString();
+
+        foreach (KnowledgeInstance item in Known.Items)
         {
             node["Knowledge"][item.Key] = item.IsKnown.ToString();
         }
@@ -1090,6 +1175,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         _currentLocationID = node["CurrentLocation"];
 
         Pinned = bool.Parse(node["Pinned"]);
+
+        IsDead = bool.Parse(node["IsDead"]);
 
         foreach (KnowledgeInstance item in Known.Items)
         {
@@ -1189,6 +1276,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 CORE.Instance.GetLocationByID(_currentTaskTargetID),
                 CORE.Instance.GetCharacterByID(_currentTaskTargetCharacterID),
                 _currentTaskTurnsLeft);
+        }
+
+        if(IsDead)
+        {
+            Death(false);
         }
     }
 

@@ -77,6 +77,17 @@ public class WorkFor : AgentAction
             return false;
         }
 
+        Character tempChar = location.OwnerCharacter;
+        while(tempChar != null)
+        {
+            if(tempChar == character)
+            {
+                return false;
+            }
+
+            tempChar = tempChar.Employer;
+        }
+
         return true;
     }
 }

@@ -211,4 +211,18 @@ public class LongTermTaskDurationUI : MonoBehaviour
 
         Refresh();
     }
+
+    public void Wipe()
+    {
+        for(int i=0;i<Instances.Keys.Count;i++)
+        {
+            foreach(LongTermTaskEntity entity in Instances[Instances.Keys.ElementAt(i)])
+            {
+                entity.CurrentCharacter.StopDoingCurrentTask(true);
+            }
+        }
+
+        ClearTaskList();
+        Hide();
+    }
 }

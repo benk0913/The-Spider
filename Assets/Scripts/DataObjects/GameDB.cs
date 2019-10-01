@@ -31,12 +31,14 @@ public class GameDB : ScriptableObject
     public Faction DefaultFaction;
 
     public PlotType UniquePlotType;
-
+    
 
     public List<Character> PresetCharacters = new List<Character>();
 
     public List<Property> Properties = new List<Property>();
     public List<Faction> Factions = new List<Faction>();
+
+    public AgentAction SleepAction;
 
     public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
 
