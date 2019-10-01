@@ -15,6 +15,11 @@ public class FocusView : MonoBehaviour
 
     public void Activate()
     {
+        if(CORE.Instance.FocusViewLocked)
+        {
+            return;
+        }
+
         this.gameObject.SetActive(true);
         MouseLook.Instance.FocusOnView(this);
         OnActivate.Invoke();
@@ -22,6 +27,11 @@ public class FocusView : MonoBehaviour
     
     public void Deactivate()
     {
+        if (CORE.Instance.FocusViewLocked)
+        {
+            return;
+        }
+
         MouseLook.Instance.UnfocusCurrentView();
         this.gameObject.SetActive(false);
         OnDeactivate.Invoke();

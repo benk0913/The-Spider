@@ -8,6 +8,7 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 {
     public List<MultiButtonScreenInstance> ButtonScreens = new List<MultiButtonScreenInstance>();
 
+    [SerializeField]
     int lastIndex = 0;
 
     private void OnEnable()

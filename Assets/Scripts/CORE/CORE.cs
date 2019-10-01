@@ -37,6 +37,8 @@ public class CORE : MonoBehaviour
 
     public string GameScene = "Game";
 
+    public bool FocusViewLocked = false;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);

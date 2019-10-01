@@ -179,6 +179,7 @@ public class DialogWindowUI : MonoBehaviour
 
     public void ShowCurrentDialog()
     {
+        CORE.Instance.FocusViewLocked = true;
         IsShowingDialog = true;
         this.gameObject.SetActive(true);
 
@@ -187,6 +188,7 @@ public class DialogWindowUI : MonoBehaviour
 
     public void HideCurrentDialog()
     {
+        CORE.Instance.FocusViewLocked = false;
         CurrentPiece = null;
         IsShowingDialog = false;
         this.gameObject.SetActive(false);

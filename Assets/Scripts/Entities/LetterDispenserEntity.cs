@@ -71,6 +71,8 @@ public class LetterDispenserEntity : MonoBehaviour
 
     IEnumerator DispenseLetterRoutine(Transform letterTransform, float addedY = 0f)
     {
+        CORE.Instance.InvokeEvent("NewLetter");
+
         yield return 0;
 
         Quaternion targetRotation = Quaternion.Euler(letterTransform.rotation.x+90f, letterTransform.rotation.y, letterTransform.rotation.z+ Random.Range(0f, 180f));
