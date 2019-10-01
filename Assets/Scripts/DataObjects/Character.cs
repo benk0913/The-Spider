@@ -1047,6 +1047,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         IsDead = true;
 
+        SelectedPanelUI.Instance.Deselect();
+
         GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait));
 
         if (WorkLocation != null)
