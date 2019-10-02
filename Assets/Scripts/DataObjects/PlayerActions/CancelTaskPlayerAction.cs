@@ -53,6 +53,11 @@ public class CancelTaskPlayerAction : PlayerAction
         {
             PortraitUI portrait = (PortraitUI)target;
 
+            if(portrait.CurrentCharacter == CORE.PC)
+            {
+                return false;
+            }
+
             if (portrait.CurrentCharacter.TopEmployer != requester)
             {
                 return false;

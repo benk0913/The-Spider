@@ -86,6 +86,8 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             tempPortrait.transform.position = Vector3.zero;
 
             resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, tempPortrait);
+
+            tempPortrait.gameObject.SetActive(false);
         }
         else
         {
