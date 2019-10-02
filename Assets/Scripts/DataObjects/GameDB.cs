@@ -21,12 +21,11 @@ public class GameDB : ScriptableObject
     public Property DefaultLocationProperty;
 
     public PropertyTrait PublicAreaTrait;
-
     public PropertyTrait LawAreaTrait;
-
     public PropertyTrait WildernessAreaTrait;
-
     public PropertyTrait RumorsHubTrait;
+    public PropertyTrait HouseOfWorshipTrait;
+    public PropertyTrait HouseOfPleasureTrait;
 
     public Faction DefaultFaction;
 

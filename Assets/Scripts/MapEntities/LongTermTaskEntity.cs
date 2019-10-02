@@ -78,7 +78,20 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         this.CurrentCharacter.StopDoingCurrentTask(true);
 
         AgentAction resultAction = CurrentTask.GetResult(CurrentCharacter);
-        resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTargetLocation);
+
+        if(TargetCharacter != null)
+        {
+            PortraitUI tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+            tempPortrait.SetCharacter(TargetCharacter);
+            tempPortrait.transform.position = Vector3.zero;
+
+            resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, tempPortrait);
+        }
+        else
+        {
+            resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTargetLocation);
+        }
+        
 
         Destroy(this.gameObject);
     }

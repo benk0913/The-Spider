@@ -9,7 +9,8 @@ public class UpgradeLocationPlayerAction : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(requester, target))
+        string reason;
+        if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot upgrade this property yet.", 1f, Color.yellow);
             return;
@@ -20,22 +21,26 @@ public class UpgradeLocationPlayerAction : PlayerAction
         location.PurchaseUpgrade(requester);
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
     {
+        reason = "";
         LocationEntity location = (LocationEntity)target;
 
         if(location.IsUpgrading)
         {
+            reason = location.CurrentProperty.name+" is already upgrading.";
             return false;
         }
 
         if (location.CurrentProperty.PropertyLevels.Count == location.Level)
         {
+            reason = location.CurrentProperty.name + " has reached the highest level.";
             return false;
         }
 
         if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > requester.Gold)
         {
+            reason = "Requires more: " + (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice - requester.Gold) + " gold.";
             return false;
         }
 

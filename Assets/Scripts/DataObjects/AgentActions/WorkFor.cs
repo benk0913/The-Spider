@@ -11,7 +11,8 @@ public class WorkFor : AgentAction
     {
         base.Execute(requester, character, target);
 
-        if (!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
@@ -43,11 +44,11 @@ public class WorkFor : AgentAction
         character.StartWorkingFor(targetLocation);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
         LocationEntity location = (LocationEntity)target;
 
-        if (!base.CanDoAction(requester, character, target))
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }
@@ -57,13 +58,15 @@ public class WorkFor : AgentAction
             return false;
         }
 
-        if(location.EmployeesCharacters.Count >= location.CurrentProperty.PropertyLevels[location.Level-1].MaxEmployees) // (Has free slots?)
+        if(location.EmployeesCharacters.Count > 0 && location.EmployeesCharacters.Count >= location.CurrentProperty.PropertyLevels[location.Level-1].MaxEmployees) // (Has free slots?)
         {
+            reason = location.CurrentProperty.name + " is already full of employees.";
             return false;
         }
 
         if(location.CurrentProperty.MinAge > character.Age)
         {
+            reason = character.name + " is too young...";
             return false;
         }
 
@@ -74,6 +77,7 @@ public class WorkFor : AgentAction
 
         if (character.PropertiesOwned.Contains(location))
         {
+            reason = character.name + " owns the place.";
             return false;
         }
 
@@ -82,6 +86,7 @@ public class WorkFor : AgentAction
         {
             if(tempChar == character)
             {
+                reason = character.name+" is an employer of "+location.OwnerCharacter.name;
                 return false;
             }
 

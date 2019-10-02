@@ -8,7 +8,8 @@ public class RebrandLocationPlayerAction : PlayerAction
 {
     public override void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(requester, target))
+        string reason;
+        if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot change this property.", 1f, Color.yellow);
             return;
@@ -19,12 +20,15 @@ public class RebrandLocationPlayerAction : PlayerAction
         RebrandWindowUI.Instance.Show(location);
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
     {
         LocationEntity location = (LocationEntity)target;
 
+        reason = "";
+
         if (location.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType)
         {
+            reason = "This location is unique and cannot be changed.";
             return false;
         }
 

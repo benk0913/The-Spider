@@ -41,14 +41,20 @@ public class AgentInteractable : MonoBehaviour
 
         foreach (AgentAction action in currentActions)
         {
+            string reason = "";
+            
+            if(!action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this, out reason) && string.IsNullOrEmpty(reason))
+            {
+                continue;
+            }
 
             KeyActions.Add(
                 new DescribedAction(
                     action.name,
                     () => action.Execute(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)
-                    , action.Description
+                    , action.Description + "\n <color=red>" + reason + "</color>"
                     , action.Icon
-                    , action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)));
+                    , action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this, out reason)));
         }
 
         if (KeyActions.Count == 0)
@@ -72,13 +78,20 @@ public class AgentInteractable : MonoBehaviour
 
         foreach (PlayerAction action in currentActions)
         {
+            string reason = "";
+
+            if (!action.CanDoAction(CORE.PC, this, out reason) && string.IsNullOrEmpty(reason))
+            {
+                continue;
+            }
+
             KeyActions.Add(
                 new DescribedAction(
                     action.name,
                     () => action.Execute(CORE.PC, this)
-                    , action.Description
+                    , action.Description + "\n <color=red>" + reason + "</color>"
                     , action.Icon
-                    , action.CanDoAction(CORE.PC, this)));
+                    , action.CanDoAction(CORE.PC, this, out reason)));
         }
 
         if (KeyActions.Count == 0)

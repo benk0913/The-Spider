@@ -13,7 +13,6 @@ public class DialogPiece : ScriptableObject
     public bool LobbyPiece = false;
 
 
-    [Expandable]
     public List<DialogDecision> Decisions = new List<DialogDecision>();
 
     [TextArea(6, 12)]

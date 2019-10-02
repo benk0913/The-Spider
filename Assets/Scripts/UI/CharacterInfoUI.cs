@@ -78,7 +78,19 @@ public class CharacterInfoUI : MonoBehaviour
     void Start()
     {
         CORE.Instance.SubscribeToEvent("HideMap",Hide);
+        GameClock.Instance.OnTurnPassed.AddListener(RefreshTurnPassed);
         this.gameObject.SetActive(false);
+    }
+
+    void RefreshTurnPassed()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        SetGold();
+        SetCurrentLocation();
     }
 
 

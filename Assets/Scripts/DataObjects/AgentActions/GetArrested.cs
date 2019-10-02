@@ -10,7 +10,8 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        if (!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
@@ -44,11 +45,11 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
         LocationEntity location = (LocationEntity)target;
 
-        if (!base.CanDoAction(requester, character, target))
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }

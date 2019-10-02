@@ -9,7 +9,8 @@ public class CancelTaskPlayerAction : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        if (!CanDoAction(requester, target))
+        string reason;
+        if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot interact with that task.", 1f, Color.yellow);
             return;
@@ -30,8 +31,10 @@ public class CancelTaskPlayerAction : PlayerAction
         }
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
     {
+        reason = "";
+
         if (target.GetType() == typeof(ActionPortraitUI))
         {
             ActionPortraitUI taskUI = (ActionPortraitUI)target;
@@ -46,7 +49,7 @@ public class CancelTaskPlayerAction : PlayerAction
                 return false;
             }
         }
-        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+        else if (target.GetType() == typeof(PortraitUI))
         {
             PortraitUI portrait = (PortraitUI)target;
 

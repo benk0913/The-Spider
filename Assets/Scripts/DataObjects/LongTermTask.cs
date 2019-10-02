@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LongTermTask", menuName = "DataObjects/AgentActions/LongTermTasks/LongTermTask", order = 2)]
+[CreateAssetMenu(fileName = "LongTermTask", menuName = "DataObjects/AgentActions/LongTermTask", order = 2)]
 public class LongTermTask : ScriptableObject
 {
     [TextArea(6, 10)]

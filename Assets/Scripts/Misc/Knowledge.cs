@@ -34,6 +34,11 @@ public class Knowledge
         GetKnowledgeInstance(key).IsKnown = true;
     }
 
+    public void Forget(string key)
+    {
+        GetKnowledgeInstance(key).IsKnown = false;
+    }
+
     public KnowledgeInstance GetKnowledgeInstance(string key)
     {
         foreach(KnowledgeInstance instance in Items)

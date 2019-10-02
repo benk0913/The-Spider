@@ -9,7 +9,8 @@ public class WorkComplete : AgentAction
     {
         base.Execute(requester, character, target);
 
-        if (!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
@@ -67,9 +68,9 @@ public class WorkComplete : AgentAction
         character.Gold += Mathf.RoundToInt(earnedSum);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
-        if (!base.CanDoAction(requester, character, target))
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }

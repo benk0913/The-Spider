@@ -219,17 +219,21 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     void GenerateRandomBystanders()
     {
-        if (!CurrentProperty.Traits.Contains(CORE.Instance.Database.PublicAreaTrait))
+        if (CurrentProperty.Traits.Contains(CORE.Instance.Database.PublicAreaTrait))
         {
-            return;
+            if (CharactersInLocation.Count >= 15) //TODO replace magic number...
+            {
+                return;
+            }
         }
-
-        if (CharactersInLocation.Count >= 15) //TODO replace magic number...
+        else if(CurrentProperty.Traits.Contains(CORE.Instance.Database.RumorsHubTrait))
         {
-            return;
+            if (CharactersInLocation.Count >= 8) //TODO replace magic number...
+            {
+                return;
+            }
         }
-
-        if(Random.Range(0f,1f) < 0.5f) //TODO replace magic number...
+        else
         {
             return;
         }

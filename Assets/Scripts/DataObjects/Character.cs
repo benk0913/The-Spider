@@ -803,7 +803,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     bool TryToDoSomething()
     {
-        if ((int)GameClock.Instance.CurrentTimeOfDay < 3) //(Before evening?) - WORK
+        if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning 
+            || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Noon 
+            || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Afternoon)
         {
             foreach (LocationEntity location in PropertiesOwned)
             {
@@ -823,9 +825,30 @@ public class Character : ScriptableObject, ISaveFileCompatible
         else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
         {
             CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
+
+            return true;
         }
 
-        // After evening? - Pass Time / Sleep
+        if(Traits.Contains(CORE.Instance.Database.GetTrait("Drunkard")) )
+        {
+            GoToLocation(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.RumorsHubTrait, HomeLocation));
+
+            return true;
+        }
+        else if (Traits.Contains(CORE.Instance.Database.GetTrait("Religious")))
+        {
+            GoToLocation(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfWorshipTrait, HomeLocation));
+
+            return true;
+        }
+        else if (Traits.Contains(CORE.Instance.Database.GetTrait("Lustful")))
+        {
+            GoToLocation(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfPleasureTrait, HomeLocation));
+
+            return true;
+        }
+
+        // After evening? - Pass Time
         return false;
     }
 
@@ -842,6 +865,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void GoToLocation(LocationEntity targetLocation)
     {
+        if(targetLocation == CurrentLocation)
+        {
+            return;
+        }
+
         if (CurrentLocation != null)
         {
             CurrentLocation.CharacterLeftLocation(this);
@@ -850,6 +878,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
         if(targetLocation == null)
         {
             return;
+        }
+
+        //If new location doesnt have agents and the character is not players agent
+        if(TopEmployer.name != "'Juliana'"
+            && targetLocation.CharactersInLocation.FindAll((Character charInLocation) => { return charInLocation.TopEmployer == CORE.PC; }).Count == 0)
+        {
+            Known.Forget("CurrentLocation");
         }
 
         CurrentLocation = targetLocation;

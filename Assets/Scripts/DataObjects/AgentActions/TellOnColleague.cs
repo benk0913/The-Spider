@@ -13,7 +13,8 @@ public class TellOnColleague : AgentAction
     {
         base.Execute(requester, character, target);
 
-        if (!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
@@ -103,11 +104,11 @@ public class TellOnColleague : AgentAction
         return true;
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
         LocationEntity location = (LocationEntity)target;
 
-        if (!base.CanDoAction(requester, character, target))
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }

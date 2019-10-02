@@ -24,7 +24,8 @@ public class AgentAction : ScriptableObject
 
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
-        if(!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("This character can not do this action! ", 1f, Color.red);
 
@@ -66,18 +67,21 @@ public class AgentAction : ScriptableObject
         }
     }
 
-    public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
         if(character.Age < MinimumAge)
         {
+            reason = "Too young to do so.";
             return false;
         }
 
         if(character.CurrentTaskEntity != null && !character.CurrentTaskEntity.CurrentTask.Cancelable)
         {
+            reason = "";
             return false;
         }
 
+        reason = "";
         return true;
     }
 

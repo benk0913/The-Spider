@@ -12,7 +12,8 @@ public class WorkInNearbyPlace : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
-        if (!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
@@ -42,10 +43,10 @@ public class WorkInNearbyPlace : AgentAction //DO NOT INHERIT FROM
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
 
-        if (!base.CanDoAction(requester, character, target))
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }

@@ -10,7 +10,8 @@ public class ShowLocationInfoAgent : AgentAction
     {
         base.Execute(requester, character, target);
 
-        if (!CanDoAction(requester, character, target))
+        string reason;
+        if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
@@ -30,9 +31,9 @@ public class ShowLocationInfoAgent : AgentAction
         LocationInfoUI.Instance.Show(location);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
     {
-        if (!base.CanDoAction(requester, character, target))
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }
