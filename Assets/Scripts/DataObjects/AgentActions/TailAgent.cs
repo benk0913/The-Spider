@@ -13,22 +13,6 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
-        string reason;
-        if (!CanDoAction(requester, character, target, out reason))
-        {
-            return;
-        }
-        
-        if (!RollSucceed(character))
-        {
-            if (FailureResult != null)
-            {
-                FailureResult.Execute(requester, character, target);
-            }
-
-            return;
-        }
-
         if(Task == null)
         {
             return;

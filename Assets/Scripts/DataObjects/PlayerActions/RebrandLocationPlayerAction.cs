@@ -26,6 +26,11 @@ public class RebrandLocationPlayerAction : PlayerAction
 
         reason = "";
 
+        if (location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return false;
+        }
+
         if (location.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType)
         {
             reason = "This location is unique and cannot be changed.";

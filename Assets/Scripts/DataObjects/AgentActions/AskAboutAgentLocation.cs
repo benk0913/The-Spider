@@ -13,22 +13,6 @@ public class AskAboutAgentLocation : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
-        string reason;
-        if (!CanDoAction(requester, character, target, out reason))
-        {
-            return;
-        }
-
-        if (!RollSucceed(character))
-        {
-            if (FailureResult != null)
-            {
-                FailureResult.Execute(requester, character, target);
-            }
-
-            return;
-        }
-
         if (Task == null)
         {
             return;
@@ -75,7 +59,7 @@ public class AskAboutAgentLocation : AgentAction //DO NOT INHERIT FROM
         }
     
         
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.CurrentLocation, targetChar);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)

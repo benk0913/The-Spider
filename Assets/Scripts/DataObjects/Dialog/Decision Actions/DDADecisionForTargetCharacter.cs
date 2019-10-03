@@ -14,7 +14,7 @@ public class DDADecisionForTargetCharacter : DialogDecisionAction
     public override void Activate()
     {
         LocationEntity location = (LocationEntity)DialogWindowUI.Instance.GetDialogParameter("Location");
-        Character character = (Character) DialogWindowUI.Instance.GetDialogParameter("Target");
+        Character character = (Character)DialogWindowUI.Instance.GetDialogParameter("Target");
 
         DialogPiece piece = NextPiece.Clone();
 

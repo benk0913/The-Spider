@@ -26,6 +26,11 @@ public class UpgradeLocationPlayerAction : PlayerAction
         reason = "";
         LocationEntity location = (LocationEntity)target;
 
+        if(location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return false;
+        }
+
         if(location.IsUpgrading)
         {
             reason = location.CurrentProperty.name+" is already upgrading.";
