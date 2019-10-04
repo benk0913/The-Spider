@@ -81,7 +81,12 @@ public class AskAboutAgentLocation : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.IsKnown("CurrentLocation"))
+        if (targetChar.TopEmployer == CORE.PC)
+        {
+            return false;
+        }
+
+        if (targetChar.IsKnown("CurrentLocation"))
         {
             reason = "You already know where this person is.";
             return false;

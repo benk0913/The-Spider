@@ -56,6 +56,11 @@ public class CharactersInLocationUI : MonoBehaviour
                 continue;
             }
 
+            if(!character.IsKnown("CurrentLocation"))
+            {
+                continue;
+            }
+
             PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
             portrait.transform.SetParent(Container, false);
             portrait.transform.localScale = Vector3.one;

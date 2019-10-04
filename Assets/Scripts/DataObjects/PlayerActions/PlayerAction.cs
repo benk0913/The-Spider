@@ -14,6 +14,7 @@ public class PlayerAction : ScriptableObject
 
     public virtual void Execute(Character requester, AgentInteractable target)
     {
+
         string reason;
         if (!CanDoAction(requester, target, out reason))
         {

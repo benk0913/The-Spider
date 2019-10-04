@@ -30,6 +30,10 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
     {
         foreach (MultiButtonScreenInstance inst in ButtonScreens)
         {
+            if(inst.Screen == null)
+            {
+                continue;
+            }
             inst.Screen.gameObject.SetActive(true);
         }
     }
@@ -47,12 +51,21 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
         {
             if(inst != instance)
             {
-                inst.Screen.gameObject.SetActive(false);
                 inst.SelectionButton.interactable = true;
+
+                if (inst.Screen != null)
+                {
+                    inst.Screen.gameObject.SetActive(false);
+                }
+                
             }
         }
 
-        instance.Screen.gameObject.SetActive(true);
+        if (instance.Screen != null)
+        {
+            instance.Screen.gameObject.SetActive(true);
+        }
+
         instance.SelectionButton.interactable = false;
 
         instance.OnSwitchEvent?.Invoke();

@@ -8,8 +8,12 @@ public class SelectCharacterViewUI : MonoBehaviour
 {
     [SerializeField]
     protected Transform Container;
-    
-    public virtual void Show(Action<Character> onSelect, Predicate<Character> filter = null)
+
+    [SerializeField]
+    public string PortraitPrefab = "SelectablePortraitUI";
+
+
+    public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null)
     {
         if(PopulateGridRoutine != null)
         {
@@ -20,7 +24,7 @@ public class SelectCharacterViewUI : MonoBehaviour
     }
 
     protected Coroutine PopulateGridRoutine;
-    protected IEnumerator PopulateGrid(Action<Character> onSelect, Predicate<Character> filter = null)
+    protected IEnumerator PopulateGrid(Action<Character> onSelect = null, Predicate<Character> filter = null)
     {
         while(Container.childCount > 0)
         {
@@ -36,17 +40,21 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         foreach (Character character in characters)
         {
-            GameObject selectableChar = ResourcesLoader.Instance.GetRecycledObject("SelectablePortraitUI");
+            GameObject selectableChar = ResourcesLoader.Instance.GetRecycledObject(PortraitPrefab);
 
             selectableChar.transform.SetParent(Container, false);
+            selectableChar.transform.localScale = Vector3.one;
 
-            Button tempButton = selectableChar.GetComponent<Button>();
-            tempButton.onClick.RemoveAllListeners();
-            tempButton.onClick.AddListener(() => 
+            if (onSelect != null)
             {
-                onSelect.Invoke(character);
-                this.gameObject.SetActive(false);
-            });
+                Button tempButton = selectableChar.GetComponent<Button>();
+                tempButton.onClick.RemoveAllListeners();
+                tempButton.onClick.AddListener(() =>
+                {
+                    onSelect.Invoke(character);
+                    this.gameObject.SetActive(false);
+                });
+            }
 
             selectableChar.transform.GetComponentInChildren<PortraitUI>().SetCharacter(character);
             yield return 0;

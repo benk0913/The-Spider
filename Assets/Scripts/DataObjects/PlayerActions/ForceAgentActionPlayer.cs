@@ -21,6 +21,7 @@ public class ForceAgentActionPlayer : PlayerAction
         SelectAgentWindowUI.Instance.Show(
                 (Character character) => { ActionToForce.Execute(requester, character, target); }
                 , (Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC && charInQuestion != CORE.PC; });
+
     }
 
     public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)

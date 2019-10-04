@@ -40,6 +40,8 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         if (newQuest.RelevantCharacter != null)
         {
+            newQuest.RelevantCharacter.Pinned = true;
+
             foreach (string infoKey in newQuest.InfoGivenOnCharacter)
             {
                 newQuest.RelevantCharacter.Known.Know(infoKey);
@@ -117,6 +119,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         return false;
     }
 
+    public void AddCompletedQuest(Quest quest)
+    {
+        CompletedQuests.Add(quest);
+    }
+
     public JSONNode ToJSON()
     {
         JSONClass node = new JSONClass();
@@ -144,7 +151,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["ActiveQuests"][i]);
 
-            ActiveQuests.Add(quest);
+            AddNewQuest(quest);
         }
 
         for (int i = 0; i < node["CompletedQuests"].Count; i++)
@@ -152,7 +159,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["CompletedQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["CompletedQuests"][i]);
 
-            CompletedQuests.Add(quest);
+            AddCompletedQuest(quest);
         }
 
     }

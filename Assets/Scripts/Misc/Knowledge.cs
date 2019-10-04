@@ -6,6 +6,21 @@ public class Knowledge
 {
     public List<KnowledgeInstance> Items = new List<KnowledgeInstance>();
 
+    public bool IsSomethingKnown
+    {
+        get
+        {
+            foreach(KnowledgeInstance item in Items)
+            {
+                if(item.IsKnown)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
     public Knowledge()
     {
         Items.Add(new KnowledgeInstance("Name", "The name of the person.", false));
