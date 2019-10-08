@@ -6,6 +6,8 @@ public class Knowledge
 {
     public List<KnowledgeInstance> Items = new List<KnowledgeInstance>();
 
+    public Character CurrentCharacter;
+
     public bool IsSomethingKnown
     {
         get
@@ -21,8 +23,10 @@ public class Knowledge
             return false;
         }
     }
-    public Knowledge()
+    public Knowledge(Character ofCharacter)
     {
+        CurrentCharacter = ofCharacter;
+
         Items.Add(new KnowledgeInstance("Name", "The name of the person.", false));
         Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique.", false));
         Items.Add(new KnowledgeInstance("Relations","This person's relations with you.", false));
@@ -46,7 +50,12 @@ public class Knowledge
 
     public void Know(string key)
     {
-        GetKnowledgeInstance(key).IsKnown = true;
+        KnowledgeInstance instance = GetKnowledgeInstance(key);
+        if (!instance.IsKnown)
+        {
+            InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
+            instance.IsKnown = true;
+        }
     }
 
     public void Forget(string key)

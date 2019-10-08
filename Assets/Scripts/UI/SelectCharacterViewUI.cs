@@ -15,6 +15,11 @@ public class SelectCharacterViewUI : MonoBehaviour
 
     public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null)
     {
+        if(!this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         if(PopulateGridRoutine != null)
         {
             return;

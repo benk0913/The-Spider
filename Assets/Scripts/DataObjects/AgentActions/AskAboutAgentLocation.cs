@@ -31,6 +31,7 @@ public class AskAboutAgentLocation : AgentAction //DO NOT INHERIT FROM
             {
                 targetChar.Known.Know("CurrentLocation");
                 targetChar.Known.Know("Appearance");
+
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(character.name + " has found " + targetChar.name + "'s current location", ResourcesLoader.Instance.GetSprite("thumb-up"), character));
 
                 return;
@@ -40,6 +41,7 @@ public class AskAboutAgentLocation : AgentAction //DO NOT INHERIT FROM
                 targetChar.Known.Know("CurrentLocation");
                 targetChar.Known.Know("WorkLocation");
                 targetChar.Known.Know("Appearance");
+
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(character.name + " has found " + targetChar.name + "'s work location", ResourcesLoader.Instance.GetSprite("thumb-up"), character));
 
                 return;

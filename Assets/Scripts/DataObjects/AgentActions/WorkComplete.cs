@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WorkComplete", menuName = "DataObjects/AgentActions/Work/WorkComplete", order = 2)]
 public class WorkComplete : AgentAction
 {
+
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
@@ -65,7 +66,25 @@ public class WorkComplete : AgentAction
             earnedSum *= bossMulti;
         }
 
-        character.Gold += Mathf.RoundToInt(earnedSum);
+        if (Mathf.RoundToInt(earnedSum) > 0)
+        {
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
+                    prefabKey: "CoinCollectedWorld",
+                    startPoint: character.WorkLocation.transform,
+                    targetPoint: StatsViewUI.Instance.transform,
+                    OnComplete: () =>
+                    {
+                        character.Gold += Mathf.RoundToInt(earnedSum);
+                    },
+                    canvasElement: false);
+            }
+            else
+            {
+                character.Gold += Mathf.RoundToInt(earnedSum);
+            }
+        }
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)

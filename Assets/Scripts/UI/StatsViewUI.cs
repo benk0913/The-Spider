@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StatsViewUI : MonoBehaviour
 {
+    public static StatsViewUI Instance;
+
     [SerializeField]
     TextMeshProUGUI GoldText;
     
@@ -17,9 +20,17 @@ public class StatsViewUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI WeekText;
 
+    [SerializeField]
+    UnityEvent OnGoldChanged;
+
     private void OnEnable()
     {
         StartCoroutine(UpdateState());
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 
     private void Start()
@@ -53,7 +64,11 @@ public class StatsViewUI : MonoBehaviour
 
     void RefreshGold()
     {
-        GoldText.text = CORE.PC.Gold.ToString()+"c";
+        if(GoldText.text != CORE.PC.Gold.ToString()+"c")
+        {
+            GoldText.text = CORE.PC.Gold.ToString() + "c";
+            OnGoldChanged?.Invoke();
+        }
     }
 
     void RefreshRep()

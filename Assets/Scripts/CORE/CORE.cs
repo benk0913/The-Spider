@@ -174,6 +174,19 @@ public class CORE : MonoBehaviour
 
     #region Misc
 
+    public void SplineAnimationObject(string prefabKey,Transform startPoint,Transform targetPoint,System.Action OnComplete = null, bool canvasElement = true)
+    {
+        GameObject prefabObj = ResourcesLoader.Instance.GetRecycledObject(prefabKey);
+
+        if (canvasElement)
+        {
+            prefabObj.transform.SetParent(MainCanvas.transform);
+            prefabObj.transform.localScale = Vector3.one;
+        }
+
+        prefabObj.GetComponent<SplineLerperWorldUI>().SetInfo(startPoint ,targetPoint, OnComplete);
+    }
+
     public void ShowHoverMessage(string content, Sprite icon, Transform targetTransform)
     {
         HoverPanelUI hoverPanel = ResourcesLoader.Instance.GetRecycledObject("HoverPanelUI").GetComponent<HoverPanelUI>();

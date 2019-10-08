@@ -53,6 +53,7 @@ public class LookAroundComplete : AgentAction
 
             charInLocation.Known.Know("Appearance");
             charInLocation.Known.Know("CurrentLocation");
+            
 
             enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value + 5; //BONUS DEFFICULTY
             agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;

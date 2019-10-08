@@ -56,6 +56,7 @@ public class MinglingWithEmployeesComplete : AgentAction
             charInLocation.Known.Know("Appearance");
             charInLocation.Known.Know("CurrentLocation");
             charInLocation.Known.Know("Personality");
+            
 
             break;
         }

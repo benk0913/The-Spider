@@ -20,7 +20,9 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
 
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+
         targetChar.Known.Know("CurrentLocation");
+
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)

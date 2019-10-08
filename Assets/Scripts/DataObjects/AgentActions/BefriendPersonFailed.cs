@@ -31,6 +31,7 @@ public class BefriendPersonFailed : AgentAction //DO NOT INHERIT FROM
                 character.name + " has befriended " + targetChar.name, 
                 ResourcesLoader.Instance.GetSprite("three-friends"), 
                 targetChar));
+        
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)

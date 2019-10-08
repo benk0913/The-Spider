@@ -511,7 +511,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     #region Known / Information
 
 
-    public Knowledge Known = new Knowledge();
+    public Knowledge Known;
 
     public bool IsKnown(string itemKey)
     {
@@ -682,6 +682,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         RefreshVisualTree();
 
         AddListeners();
+
+        Known = new Knowledge(this);
 
         if (isKnownOnStart)
         {
@@ -957,7 +959,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void StartOwningLocation(LocationEntity location)
     {
-        if(location.OwnerCharacter != null)
+        if(location.OwnerCharacter != null && CORE.Instance.Characters.Contains(location.OwnerCharacter))
         {
             location.OwnerCharacter.StopOwningLocation(location);
         }
