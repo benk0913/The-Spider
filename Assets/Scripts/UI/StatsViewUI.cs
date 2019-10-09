@@ -9,7 +9,7 @@ public class StatsViewUI : MonoBehaviour
     public static StatsViewUI Instance;
 
     [SerializeField]
-    TextMeshProUGUI GoldText;
+    public TextMeshProUGUI GoldText;
     
     [SerializeField]
     TextMeshProUGUI ReputationText;

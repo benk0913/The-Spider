@@ -13,6 +13,9 @@ public class InformationLogUI : MonoBehaviour
     [SerializeField]
     Transform Container;
 
+    [SerializeField]
+    public NotificationUI Notification;
+
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class InformationLogUI : MonoBehaviour
     public void OnTurnPassed()
     {
         InformationGatheredThisTurn.Clear();
+        Notification.Wipe();
 
         if(this.gameObject.activeInHierarchy)
         {
@@ -53,11 +57,16 @@ public class InformationLogUI : MonoBehaviour
         {
             AddInformationToContainer(instance);
         }
+        else
+        {
+            Notification.Add(1);
+        }
     }
 
     public void ShowVisible()
     {
         ClearContainer();
+        Notification.Wipe();
 
         foreach (NewInformationInstance instance in InformationGatheredThisTurn)
         {

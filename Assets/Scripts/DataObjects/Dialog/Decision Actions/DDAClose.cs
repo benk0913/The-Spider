@@ -33,7 +33,6 @@ public class DDAClose : DialogDecisionAction
                 endResult += item.name + " - ";
             }
 
-            CORE.PC.Belogings.AddRange(actor.Belogings);
             actor.Belogings.Clear();
         }
 

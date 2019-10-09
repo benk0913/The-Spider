@@ -73,7 +73,7 @@ public class WorkComplete : AgentAction
                 CORE.Instance.SplineAnimationObject(
                     prefabKey: "CoinCollectedWorld",
                     startPoint: character.WorkLocation.transform,
-                    targetPoint: StatsViewUI.Instance.transform,
+                    targetPoint: StatsViewUI.Instance.GoldText.transform,
                     OnComplete: () =>
                     {
                         character.Gold += Mathf.RoundToInt(earnedSum);

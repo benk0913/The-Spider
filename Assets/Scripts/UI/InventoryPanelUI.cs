@@ -10,6 +10,9 @@ public class InventoryPanelUI : MonoBehaviour
     [SerializeField]
     Transform itemsContainer;
 
+    [SerializeField]
+    public NotificationUI Notification;
+
     private void Awake()
     {
         Instance = this;
@@ -34,6 +37,14 @@ public class InventoryPanelUI : MonoBehaviour
         return null;
     }
 
+    public void ItemWasAdded(int amount = 1)
+    {
+        if (!this.gameObject.activeInHierarchy)
+        {
+            Notification.Add(amount);
+        }
+    }
+
     public void RefreshInventory()
     {
         ClearContainer();
@@ -42,6 +53,8 @@ public class InventoryPanelUI : MonoBehaviour
         {
             return;
         }
+
+        Notification.Wipe();
 
         foreach (Item item in CORE.PC.Belogings)
         {

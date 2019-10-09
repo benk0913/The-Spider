@@ -21,6 +21,9 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     Button archivedRumorsButton;
 
+    [SerializeField]
+    public NotificationUI Notification;
+
     private void Awake()
     {
         Instance = this;
@@ -49,13 +52,20 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
             
             if(location.OwnerCharacter != null && location.OwnerCharacter.TopEmployer == CORE.PC && location.CurrentProperty.Traits.Contains(CORE.Instance.Database.RumorsHubTrait))
             {
-                CORE.Instance.ShowHoverMessage("Generated Rumors", null
-                    ,location.transform);
-                rumorsToGenerate += location.Level;
+                CORE.Instance.ShowHoverMessage("Generated Rumors", null, location.transform);
+
+                CORE.Instance.SplineAnimationObject("EarCollectedWorld",
+                    location.transform,
+                    RumorsPanelUI.Instance.Notification.transform,
+                    () =>
+                    {
+                        GainRumors(location.Level);
+                    },
+                    false);
             }
         }
 
-        GainRumors(rumorsToGenerate);
+        
     }
 
     public void GainRumors(int amount)
@@ -72,7 +82,14 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
             VisibleRumors.Add(randomRumor);
             AllAvailableRumors.Remove(randomRumor);
 
-            AddRumorToContainer(randomRumor);
+            if (this.gameObject.activeInHierarchy)
+            {
+                AddRumorToContainer(randomRumor);
+            }
+            else
+            {
+                Notification.Add(1);
+            }
         }
     }
 
@@ -93,6 +110,8 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             AddRumorToContainer(rumor);
         }
+
+        Notification.Wipe();
     }
 
     public void ShowArchived()

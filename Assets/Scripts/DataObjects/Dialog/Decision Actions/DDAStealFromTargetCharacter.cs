@@ -21,6 +21,8 @@ public class DDAStealFromTargetCharacter : DialogDecisionAction
         DialogWindowUI.Instance.CurrentPiece.TargetCharacters[0].Belogings.Clear();
 
         actor.Belogings.InsertRange(0, itemsStolen);
+        CORE.PC.Belogings.InsertRange(0, itemsStolen);
+        InventoryPanelUI.Instance.ItemWasAdded(itemsStolen.Length);
 
         DialogWindowUI.Instance.ShowItemsLooted(itemsStolen);
     }

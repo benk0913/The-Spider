@@ -53,7 +53,16 @@ public class Knowledge
         KnowledgeInstance instance = GetKnowledgeInstance(key);
         if (!instance.IsKnown)
         {
-            InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
+            CORE.Instance.SplineAnimationObject(
+                "PaperCollectedWorld",
+                CurrentCharacter.CurrentLocation.transform,
+                InformationLogUI.Instance.Notification.transform,
+                () =>
+                {
+                    InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
+                },
+                false);
+
             instance.IsKnown = true;
         }
     }

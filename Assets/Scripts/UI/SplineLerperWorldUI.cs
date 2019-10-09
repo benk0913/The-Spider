@@ -103,7 +103,7 @@ public class SplineLerperWorldUI : MonoBehaviour
         }
 
         float t = 0f;
-        while(t<0.9f)
+        while(t<1f)
         {
             t += randomSpeed * Time.deltaTime;
 
