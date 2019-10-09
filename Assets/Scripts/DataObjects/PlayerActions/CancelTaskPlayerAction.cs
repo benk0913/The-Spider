@@ -68,11 +68,6 @@ public class CancelTaskPlayerAction : PlayerAction
                 return false;
             }
 
-            if (portrait.CurrentCharacter.CurrentTaskEntity.CurrentRequester != requester)
-            {
-                return false;
-            }
-
             if (!portrait.CurrentCharacter.CurrentTaskEntity.CurrentTask.Cancelable)
             {
                 return false;

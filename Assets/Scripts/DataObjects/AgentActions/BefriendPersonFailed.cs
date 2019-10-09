@@ -28,8 +28,8 @@ public class BefriendPersonFailed : AgentAction //DO NOT INHERIT FROM
 
         TurnReportUI.Instance.Log.Add(
             new TurnReportLogItemInstance(
-                character.name + " has befriended " + targetChar.name, 
-                ResourcesLoader.Instance.GetSprite("three-friends"), 
+                character.name + " has failed to befriend " + targetChar.name, 
+                ResourcesLoader.Instance.GetSprite("thumb-down"), 
                 targetChar));
         
     }

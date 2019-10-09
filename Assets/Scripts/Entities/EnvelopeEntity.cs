@@ -151,8 +151,8 @@ public class EnvelopeEntity : MonoBehaviour
             QuestPanel.gameObject.SetActive(false);
         }
 
-        ArchiveActionText.text = "Press '" + InputMap.Map["Interact"].ToString() + "' to ARCHIVE.";
-        DeleteActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to DISPOSE.";
+        ArchiveActionText.text = "Press '" + InputMap.Map["Secondary Interaction"].ToString() + "' to ARCHIVE.";
+        DeleteActionText.text = "";
         RetreiveActionText.text = "Press 'Escape' to return...";
     }
 

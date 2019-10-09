@@ -30,7 +30,8 @@ public class GameDB : ScriptableObject
     public Faction DefaultFaction;
 
     public PlotType UniquePlotType;
-    
+
+    public Rumor CustomRumor;
 
     public List<Character> PresetCharacters = new List<Character>();
 

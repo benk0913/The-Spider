@@ -93,6 +93,20 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
         }
     }
 
+    public void GainCustomRumor(Rumor rumor)
+    {
+        VisibleRumors.Add(rumor);
+
+        if (this.gameObject.activeInHierarchy)
+        {
+            AddRumorToContainer(rumor);
+        }
+        else
+        {
+            Notification.Add(1);
+        }
+    }
+
     public void Archive(Rumor rumor)
     {
         VisibleRumors.Remove(rumor);

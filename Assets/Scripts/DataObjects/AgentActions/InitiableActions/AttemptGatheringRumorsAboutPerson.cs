@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "AttemptResarchingPersonLocation", menuName = "DataObjects/AgentActions/AttemptResarchingPersonLocation", order = 2)]
-public class AttemptResarchingPersonLocation : AgentAction //DO NOT INHERIT FROM
+[CreateAssetMenu(fileName = "AttemptGatheringRumorsAboutPerson", menuName = "DataObjects/AgentActions/AttemptGatheringRumorsAboutPerson", order = 2)]
+public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 {
     public LongTermTask Task;
 
@@ -57,8 +57,9 @@ public class AttemptResarchingPersonLocation : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.IsKnown("CurrentLocation") && targetChar.IsKnown("WorkLocation"))
+        if(targetChar.IsKnown("CurrentLocation"))
         {
+            reason = "You already know where this person is...";
             return false;
         }
 

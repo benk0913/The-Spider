@@ -290,6 +290,11 @@ public class CORE : MonoBehaviour
 
         return locationPrefab.GetComponent<LocationEntity>();
     }
+    
+    public LocationEntity GetRandomLocation()
+    {
+        return Locations[Random.Range(0, Locations.Count)];
+    }
 
     public LocationEntity GetRandomLocationWithTrait(PropertyTrait trait)
     {

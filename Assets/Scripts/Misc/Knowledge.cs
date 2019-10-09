@@ -23,6 +23,22 @@ public class Knowledge
             return false;
         }
     }
+
+    public int KnownCount
+    {
+        get
+        {
+            int count = 0;
+            foreach(KnowledgeInstance instance in Items)
+            {
+                if (instance.IsKnown)
+                    count++;
+            }
+
+            return count;
+        }
+    }
+
     public Knowledge(Character ofCharacter)
     {
         CurrentCharacter = ofCharacter;
