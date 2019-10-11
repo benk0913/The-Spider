@@ -1053,6 +1053,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
        
         CurrentTaskEntity = task;
         GoToLocation(task.CurrentTargetLocation);
+
+        if (TopEmployer == CORE.PC)
+        {
+            CORE.Instance.InvokeEvent("AgentRefreshedAction");
+        }
+
         return true;
     }
 
@@ -1067,6 +1073,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             GlobalMessagePrompterUI.Instance.Show(this.name + " Cannot Stop " + CurrentTaskEntity.CurrentTask.name, 1f, Color.red);
             return false;
+        }
+
+        if (TopEmployer == CORE.PC)
+        {
+            CORE.Instance.InvokeEvent("AgentRefreshedAction");
         }
 
         CurrentTaskEntity = null;

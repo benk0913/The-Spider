@@ -37,6 +37,8 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
                 + character.name
                 + " is 'Aware'! <color=yellow>(" + character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value+")</color>";
             rumor.RelevantCharacterID = targetChar.ID;
+            rumor.RelevantLocationID = targetChar.CurrentLocation.ID;
+            rumor.isTemporary = true;
 
             gatheredRumor = rumor;
         }
@@ -51,6 +53,8 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
                 + character.name
                 + " is 'Aware'! <color=yellow>(" + character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value + ")</color>";
             rumor.RelevantCharacterID = targetChar.ID;
+            rumor.RelevantLocationID = targetChar.CurrentLocation.ID;
+            rumor.isTemporary = true;
 
             gatheredRumor = rumor;
         }

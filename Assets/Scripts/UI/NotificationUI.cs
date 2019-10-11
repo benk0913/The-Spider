@@ -28,11 +28,19 @@ public class NotificationUI : MonoBehaviour
     {
         this.Amount += amount;
 
-        Show();
+        if (amount > 0)
+        {
+            Show();
 
-        NotificationLabel.text = Amount.ToString();
+            NotificationLabel.text = Amount.ToString();
 
-        Anim.SetTrigger("Pop");
+            Anim.SetTrigger("Pop");
+        }
+        else
+        {
+            Hide();
+            this.Amount = 0;
+        }
     }
 
     public void Wipe()

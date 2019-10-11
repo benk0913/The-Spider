@@ -32,11 +32,57 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
     private void Start()
     {
         GameClock.Instance.OnWeekPassed.AddListener(OnWeekPassed);
+        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
     }
 
     void OnEnable()
     {
         ShowVisible();
+    }
+
+    public void OnTurnPassed()
+    {
+        List<Rumor> rumorsToRemove = new List<Rumor>();
+
+        foreach(Rumor rumor in VisibleRumors)
+        {
+            if(rumor.isTemporary)
+            {
+                rumorsToRemove.Add(rumor);
+            }
+        }
+
+        foreach(Rumor rumor in rumorsToRemove)
+        {
+            Notification.Add(-1);
+            VisibleRumors.Remove(rumor);
+        }
+
+        rumorsToRemove.Clear();
+        foreach (Rumor rumor in ArchivedRumors)
+        {
+            if (rumor.isTemporary)
+            {
+                rumorsToRemove.Add(rumor);
+            }
+        }
+
+        foreach (Rumor rumor in rumorsToRemove)
+        {
+            ArchivedRumors.Remove(rumor);
+        }
+
+        if (this.gameObject.activeInHierarchy)
+        {
+            if(visibleRumorsButton.interactable)
+            {
+                ShowVisible();
+            }
+            else
+            {
+                ShowArchived();
+            }
+        }
     }
 
     public void OnWeekPassed()

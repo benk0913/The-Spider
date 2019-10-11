@@ -29,7 +29,13 @@ public class CommandChainModule : MonoBehaviour
         CurrentCharacter = forCharacter;
 
         GameClock.Instance.OnTurnPassed.AddListener(Refresh);
+        CORE.Instance.SubscribeToEvent("AgentRefreshedAction", AgentRefreshedAction);
 
+        Refresh();
+    }
+
+    void AgentRefreshedAction()
+    {
         Refresh();
     }
 
@@ -142,6 +148,7 @@ public class CommandChainModule : MonoBehaviour
     {
         DisposeCurrentChain();
         GameClock.Instance.OnTurnPassed.RemoveListener(Refresh);
+        CORE.Instance.UnsubscribeFromEvent("AgentRefreshedAction", AgentRefreshedAction);
     }
 
     

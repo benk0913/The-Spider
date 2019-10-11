@@ -143,4 +143,8 @@ public class LocationInfoUI : MonoBehaviour
         }
     }
 
+    public void SelectCurrentLocation()
+    {
+        SelectedPanelUI.Instance.Select(CurrentLocation);
+    }
 }

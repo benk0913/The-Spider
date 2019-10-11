@@ -13,4 +13,8 @@ public class Rumor : ScriptableObject
     public Sprite Icon;
 
     public string RelevantCharacterID;
+
+    public string RelevantLocationID;
+
+    public bool isTemporary = false;
 }

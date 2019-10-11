@@ -11,6 +11,9 @@ public class RumorContentUI : HeadlineContentUI
     [SerializeField]
     PortraitUI RelevantCharacterPortrait;
 
+    [SerializeField]
+    LocationPortraitUI RelevantLocationPortrait;
+
 
     public void SetInfo(Rumor rumor)
     {
@@ -35,6 +38,16 @@ public class RumorContentUI : HeadlineContentUI
         else
         {
             RelevantCharacterPortrait.gameObject.SetActive(false);
+        }
+
+        if (!string.IsNullOrEmpty(CurrentRumor.RelevantLocationID))
+        {
+            RelevantLocationPortrait.gameObject.SetActive(true);
+            RelevantLocationPortrait.SetLocation(CORE.Instance.GetLocationByID(CurrentRumor.RelevantLocationID));
+        }
+        else
+        {
+            RelevantLocationPortrait.gameObject.SetActive(false);
         }
     }
 }
