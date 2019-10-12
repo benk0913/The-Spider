@@ -607,6 +607,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1001 &73713510
@@ -1204,6 +1205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapElementsContainer: {fileID: 1202731180}
   Cam: {fileID: 1933776171}
+  TopDownCamera: {fileID: 1231895141}
 --- !u!1 &160137544
 GameObject:
   m_ObjectHideFlags: 0
@@ -6522,6 +6524,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1 &195870973
@@ -11494,6 +11497,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11579,7 +11587,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &218200467 stripped
@@ -12021,6 +12029,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot_Naval (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 955341245794608873, guid: 008cdbd7caa543148bbed2bf73dbd517,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 821651637180226017, guid: 008cdbd7caa543148bbed2bf73dbd517,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12106,7 +12119,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 008cdbd7caa543148bbed2bf73dbd517, type: 3}
 --- !u!4 &282759102 stripped
@@ -13177,6 +13190,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13252,7 +13270,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &416539288 stripped
@@ -18740,6 +18758,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18815,7 +18838,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &478087641 stripped
@@ -18835,6 +18858,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchasablePlot (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
@@ -18921,7 +18949,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &485810737 stripped
@@ -25064,6 +25092,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1 &652581912
@@ -25407,8 +25436,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.035391733, y: 0.035241008, z: 0.0353}
-  m_Center: {x: -0.0036267482, y: 0.010620524, z: -0.002355182}
+  m_Size: {x: 0.06626745, y: 0.026281383, z: 0.06529233}
+  m_Center: {x: 0.011811147, y: 0.015100452, z: -0.0173513}
 --- !u!114 &688595996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25576,6 +25605,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25656,7 +25690,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &694264075 stripped
@@ -26429,6 +26463,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26504,7 +26543,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &773129903 stripped
@@ -26603,6 +26642,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchasablePlot_Coastal (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 743668299291796707, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 898204665586555883, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
         type: 3}
@@ -27226,6 +27270,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1 &829918926
@@ -37055,6 +37100,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37140,7 +37190,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &860948229 stripped
@@ -37688,6 +37738,11 @@ MonoBehaviour:
   ReputationText: {fileID: 1650453188}
   TurnText: {fileID: 0}
   WeekText: {fileID: 0}
+  OnGoldChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!4 &887703751 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 2f88b215942aee34290b2b856a7a9869,
@@ -37763,6 +37818,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchasablePlot (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
@@ -37849,7 +37909,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &889689899 stripped
@@ -38387,6 +38447,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38472,7 +38537,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &971925931 stripped
@@ -39202,6 +39267,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchasablePlot_Coastal (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 743668299291796707, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 898204665586555883, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
         type: 3}
@@ -39940,6 +40010,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -40025,7 +40100,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1108989323 stripped
@@ -40205,6 +40280,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!4 &1154370245 stripped
@@ -46031,6 +46107,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1 &1231895137
@@ -46320,6 +46397,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1001 &1240094295
@@ -51661,6 +51739,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1 &1281200443
@@ -52422,6 +52501,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52507,7 +52591,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1384148685 stripped
@@ -52957,6 +53041,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -53042,7 +53131,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1461760946 stripped
@@ -53565,6 +53654,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -53650,7 +53744,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1515887556 stripped
@@ -53740,6 +53834,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -53820,7 +53919,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1529747659 stripped
@@ -53912,6 +54011,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1001 &1532896968
@@ -55650,6 +55750,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!1 &1674845265
@@ -57338,6 +57439,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -57423,7 +57529,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1822594489 stripped
@@ -57927,6 +58033,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -58012,7 +58123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &1899253881 stripped
@@ -58594,6 +58705,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!4 &1940166308 stripped
@@ -63935,6 +64047,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -64020,7 +64137,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &2006423152 stripped
@@ -64040,6 +64157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchasablePlot_Naval (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 955341245794608873, guid: 008cdbd7caa543148bbed2bf73dbd517,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 821651637180226017, guid: 008cdbd7caa543148bbed2bf73dbd517,
         type: 3}
@@ -64126,7 +64248,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 008cdbd7caa543148bbed2bf73dbd517, type: 3}
 --- !u!4 &2009405562 stripped
@@ -69176,6 +69298,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot_Coastal (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 743668299291796707, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 898204665586555883, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -74212,6 +74339,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -74297,7 +74429,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &2072526251 stripped
@@ -79078,6 +79210,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 488834238094262134, guid: f91d79042efd634408ff83ee5a58d748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 66896645006753918, guid: f91d79042efd634408ff83ee5a58d748,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79163,7 +79300,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &2091730862 stripped
@@ -99189,6 +99326,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurchasablePlot_Naval
       objectReference: {fileID: 0}
+    - target: {fileID: 955341245794608873, guid: 008cdbd7caa543148bbed2bf73dbd517,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 821651637180226017, guid: 008cdbd7caa543148bbed2bf73dbd517,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -99274,7 +99416,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     - target: {fileID: 1051296160479804484, guid: 008cdbd7caa543148bbed2bf73dbd517,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -99394,7 +99536,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1a16e60050183e143bb94ed46e3a2717, type: 2}
+      objectReference: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f91d79042efd634408ff83ee5a58d748, type: 3}
 --- !u!4 &2860604623804277920 stripped
@@ -99667,6 +99809,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f11d3efd6d1cd4d4b84290adc7e1f9a4, type: 2}
   PossiblePlayerActions:
   - {fileID: 11400000, guid: 1eb593102a6792d48b8ea409a0c5638e, type: 2}
+  - {fileID: 11400000, guid: d92a4f3690c1cf144990ff2b8f986e38, type: 2}
   TaskDurationUI: {fileID: 0}
   TemporaryTraits: []
 --- !u!111 &5605649369828370292
@@ -100074,6 +100217,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurchasablePlot_Coastal
+      objectReference: {fileID: 0}
+    - target: {fileID: 743668299291796707, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 898204665586555883, guid: 82b167f8d5e8f2c4bb8b48e00f6e4741,
         type: 3}

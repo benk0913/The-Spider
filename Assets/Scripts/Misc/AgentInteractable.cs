@@ -28,7 +28,19 @@ public class AgentInteractable : MonoBehaviour
         }
     }
 
-    public void ShowAgentActionMenu()
+    public void ShowActionMenu(Transform uniqueTransform)
+    {
+        if (ControlCharacterPanelUI.CurrentCharacter == null)
+        {
+            ShowPlayerActionMenu(uniqueTransform);
+        }
+        else
+        {
+            ShowAgentActionMenu(uniqueTransform);
+        }
+    }
+
+    public void ShowAgentActionMenu(Transform uniqueTransform = null)
     {
 
         List<AgentAction> currentActions = GetPossibleAgentActions(ControlCharacterPanelUI.CurrentCharacter);
@@ -62,10 +74,14 @@ public class AgentInteractable : MonoBehaviour
             return;
         }
 
-        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, ControlCharacterPanelUI.CurrentCharacter, this);
+        RightClickDropDownPanelUI.Instance.Show(
+            KeyActions,
+            uniqueTransform == null? transform : uniqueTransform, 
+            ControlCharacterPanelUI.CurrentCharacter, 
+            this);
     }
 
-    public void ShowPlayerActionMenu()
+    public void ShowPlayerActionMenu(Transform uniqueTransform = null)
     {
 
         List<PlayerAction> currentActions = GetPossiblePlayerActions();
@@ -99,6 +115,10 @@ public class AgentInteractable : MonoBehaviour
             return;
         }
 
-        RightClickDropDownPanelUI.Instance.Show(KeyActions, transform, null, this);
+        RightClickDropDownPanelUI.Instance.Show(
+            KeyActions, 
+            uniqueTransform==null? transform : uniqueTransform, 
+            null, 
+            this);
     }
 }

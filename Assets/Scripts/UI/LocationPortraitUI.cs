@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LocationPortraitUI : MonoBehaviour
+public class LocationPortraitUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     Image Icon;
@@ -56,5 +56,22 @@ public class LocationPortraitUI : MonoBehaviour
     public void ShowLocationInfo()
     {
         LocationInfoUI.Instance.Show(CurrentLocation);
+    }
+
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+        if (CurrentLocation == null)
+        {
+            return;
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            SelectedPanelUI.Instance.Select(this.CurrentLocation);
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            CurrentLocation.ShowActionMenu(transform);
+        }
     }
 }

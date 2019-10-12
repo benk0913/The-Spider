@@ -20,6 +20,9 @@ public class ControlCharacterPanelUI : MonoBehaviour
         Deselect();
 
         CurrentCharacter = character;
+
+        MapViewManager.Instance.FocusOnEntity(CurrentCharacter.CurrentLocation.transform);
+
         RefreshUI();
     }
 

@@ -35,12 +35,12 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
 
         if (target.GetType() == typeof(LocationEntity))
         {
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.WorkLocation);
         }
         else if (target.GetType() == typeof(PortraitUI))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.WorkLocation, targetChar);
         }
     }
 

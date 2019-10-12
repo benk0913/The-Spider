@@ -12,6 +12,9 @@ public class MapViewManager : MonoBehaviour
     [SerializeField]
     public Camera Cam;
 
+    [SerializeField]
+    public TopdownCameraMovement TopDownCamera;
+
     private void Awake()
     {
         Instance = this;
@@ -52,5 +55,10 @@ public class MapViewManager : MonoBehaviour
     {
         SelectedPanelUI.Instance.Deselect();
         RightClickDropDownPanelUI.Instance.Hide();
+    }
+
+    public void FocusOnEntity(Transform entityTransform)
+    {
+        TopDownCamera.ViewTarget(entityTransform);
     }
 }

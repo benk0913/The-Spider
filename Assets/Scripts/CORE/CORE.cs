@@ -27,6 +27,8 @@ public class CORE : MonoBehaviour
 
     public static Character PC;
 
+    public List<SplineLerperWorldUI> ActiveLerpers = new List<SplineLerperWorldUI>();
+
     public bool isLoading
     {
         get
@@ -184,7 +186,12 @@ public class CORE : MonoBehaviour
             prefabObj.transform.localScale = Vector3.one;
         }
 
-        prefabObj.GetComponent<SplineLerperWorldUI>().SetInfo(startPoint ,targetPoint, OnComplete);
+        SplineLerperWorldUI lerper = prefabObj.GetComponent<SplineLerperWorldUI>();
+
+        ActiveLerpers.Add(lerper);
+        OnComplete += (() => { ActiveLerpers.Remove(lerper); });
+
+        lerper.SetInfo(startPoint ,targetPoint, OnComplete);
     }
 
     public void ShowHoverMessage(string content, Sprite icon, Transform targetTransform)

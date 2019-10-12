@@ -28,6 +28,8 @@ public class TopdownCameraMovement : MonoBehaviour
 
     [SerializeField]
     public bool IsOrthographic = true;
+    
+    public bool PlayerGivesInput { private set; get; }
 
 
     bool isBeforeBorderTop
@@ -81,22 +83,34 @@ public class TopdownCameraMovement : MonoBehaviour
         {
             transform.position += transform.forward * MovementSpeed * Time.deltaTime *
                 (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+            PlayerGivesInput = true;
         }
         else if (Input.GetKey(InputMap.Map["MoveBackward"]) && isBeforeBorderBottom)
         {
             transform.position += -transform.forward * MovementSpeed * Time.deltaTime *
                 (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+            PlayerGivesInput = true;
         }
 
         if (Input.GetKey(InputMap.Map["MoveLeft"]) && isBeforeBorderLeft)
         {
             transform.position += -transform.right * MovementSpeed * Time.deltaTime *
                 (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+            PlayerGivesInput = true;
         }
         else if (Input.GetKey(InputMap.Map["MoveRight"]) && isBeforeBorderRight)
         {
             transform.position += transform.right * MovementSpeed * Time.deltaTime *
                 (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+            PlayerGivesInput = true;
+        }
+        else
+        {
+            PlayerGivesInput = false;
         }
 
         if (IsOrthographic)
@@ -123,5 +137,40 @@ public class TopdownCameraMovement : MonoBehaviour
         }
 
         
+    }
+
+    public void ViewTarget(Transform target)
+    {
+        if(ViewTargetRoutineInstance != null)
+        {
+            StopCoroutine(ViewTargetRoutineInstance);
+        }
+
+        ViewTargetRoutineInstance = StartCoroutine(ViewTargetRoutine(target));
+    }
+
+    Coroutine ViewTargetRoutineInstance;
+    IEnumerator ViewTargetRoutine(Transform target)
+    {
+        Vector3 targetPos;
+
+        float t = 0f;
+        while(t<1f)
+        {
+            if(PlayerGivesInput)
+            {
+                ViewTargetRoutineInstance = null;
+                yield break;
+            }
+
+            t += 0.3f * Time.deltaTime;
+
+            targetPos = new Vector3(target.position.x - 0.20f, transform.position.y, target.position.z - 0.20f);
+            transform.position = Vector3.Slerp(transform.position, targetPos, t);
+
+            yield return 0;
+        }
+
+        ViewTargetRoutineInstance = null;
     }
 }

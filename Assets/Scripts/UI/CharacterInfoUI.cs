@@ -273,7 +273,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     void SetRelation()
     {
-        if (CurrentCharacter.IsKnown("Relations"))
+        if (CurrentCharacter.IsKnown("Personality"))
         {
             RelationIcon.SetInfo(CurrentCharacter, CORE.PC);
         }

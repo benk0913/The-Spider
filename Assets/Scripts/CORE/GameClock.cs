@@ -57,6 +57,11 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
 
     public void PassTime()
     {
+        if(PassTimeDelayInstance != null)
+        {
+            return;
+        }
+
         int currentWeek = CurrentWeek;
 
         CurrentTimeOfDay++;
@@ -75,9 +80,25 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
         }
 
         CORE.Instance.InvokeEvent(CurrentTimeOfDay.ToString());
+        CORE.Instance.InvokeEvent("PassTimeComplete");
         OnTurnPassed.Invoke();
 
         GlobalMessagePrompterUI.Instance.Show(CurrentTimeOfDay.ToString(), 1f);
+
+        PassTimeDelayInstance = StartCoroutine(PassTimeDelay());
+    }
+
+    Coroutine PassTimeDelayInstance;
+    IEnumerator PassTimeDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        while(CORE.Instance.ActiveLerpers.Count > 0)
+        {
+            yield return 0;
+        }
+
+        PassTimeDelayInstance = null;
     }
 
     public JSONNode ToJSON()
@@ -121,6 +142,7 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
             DayTime = (int)GameClock.Instance.CurrentTimeOfDay + (turns - (Days * 5));
         }
     }
+
 
 
 }

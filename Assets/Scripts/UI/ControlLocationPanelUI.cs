@@ -61,6 +61,9 @@ public class ControlLocationPanelUI : MonoBehaviour
         CurrentLocation = location;
         CurrentLocation.SetSelected();
         CurrentLocation.StateUpdated.AddListener(RefreshUI);
+
+        MapViewManager.Instance.FocusOnEntity(CurrentLocation.transform);
+
         RefreshUI();
     }
 

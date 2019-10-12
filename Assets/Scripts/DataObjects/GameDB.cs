@@ -186,6 +186,10 @@ public class GameDB : ScriptableObject
         return null;
     }
 
+    public Trait GetRandomTrait()
+    {
+        return Traits[Random.Range(0, Traits.Length)];
+    }
 
     public Trait[] GetRandomTraits()
     {

@@ -10,11 +10,14 @@ public class CharactersInLocationUI : MonoBehaviour
     [SerializeField]
     WorldPositionLerperUI Lerper;
 
+
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("ShowMap", Show);
-        CORE.Instance.SubscribeToEvent("HideMap", Hide);
+        CORE.Instance.SubscribeToEvent("ShowPeopleInLocation", SetUnHidden);
 
+        CORE.Instance.SubscribeToEvent("HideMap", Hide);
+        CORE.Instance.SubscribeToEvent("HidePeopleInLocation", SetHidden);
         Hide();
     }
 
@@ -30,9 +33,19 @@ public class CharactersInLocationUI : MonoBehaviour
         Refresh();
     }
 
+    public void SetHidden()
+    {
+        Container.gameObject.SetActive(false);
+    }
+
     public void Hide()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void SetUnHidden()
+    {
+        Container.gameObject.SetActive(true);
     }
 
     LocationEntity currentLocation;

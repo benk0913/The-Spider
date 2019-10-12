@@ -115,13 +115,20 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
                 ActionPortrait.gameObject.SetActive(false);
             }
 
-            TooltipTarget.Text = "This character is unknown";
-
             QuestionMark.gameObject.SetActive(true);
+
+            if (!character.IsKnown("Name"))
+            {
+                TooltipTarget.Text = "??? - 'Right Click' for more options...";
+            }
+            else
+            {
+                TooltipTarget.Text = CurrentCharacter.name + " - 'Right Click' for more options...";
+            }
 
             return;
         }
-        
+
         Face.color = Color.white;
         Hair.color = Color.white;
         Clothing.color = Color.white;
@@ -131,7 +138,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         {
             character.StateChanged.RemoveListener(RefreshState);
 
-            TooltipTarget.Text = CurrentCharacter.name + " - 'Right Click' for more info...";
+            TooltipTarget.Text = CurrentCharacter.name + " - 'Right Click' for more options...";
         }
         else
         {
