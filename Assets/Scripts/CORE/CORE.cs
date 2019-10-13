@@ -75,6 +75,8 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
+        Database.Initialize();
+
         yield return StartCoroutine(LoadMainScene());
 
         LoadingGameRoutine = null;

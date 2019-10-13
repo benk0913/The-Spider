@@ -1,10 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Game Database", menuName = "DataObjects/Game Database", order = 2)]
 public class GameDB : ScriptableObject
 {
+    #region NewDB
+
+    Dictionary<string, ScriptableObject> Data = new Dictionary<string, ScriptableObject>();
+
+    [SerializeField]
+    public string DBFolder = "Database\\Classic\\";
+
+    public void Initialize()
+    {
+        string rootFolder = Application.dataPath + "/Resources/"+ DBFolder;
+
+        Data.Clear();
+
+        List<ScriptableObject> TempData = new List<ScriptableObject>();
+
+        string[] directories = Directory.GetDirectories(rootFolder, "*", SearchOption.AllDirectories);
+        foreach (var item in directories)
+        {
+            string itemPath = DBFolder+item.Substring(rootFolder.Length);
+
+            Debug.Log(itemPath);
+            TempData.AddRange(Resources.LoadAll<ScriptableObject>(itemPath));
+        }
+
+        foreach(ScriptableObject so in TempData)
+        {
+            Data.Add(so.name, so);
+            Debug.Log("### - " + so.name);
+        }
+    }
+
+    public ScriptableObject GetSO(string key)
+    {
+        if(Data.ContainsKey(key))
+        {
+            return Data[key];
+        }
+
+        return null;
+    }
+
+
+
+    #endregion
+
+
     public GameStats Stats;
 
     //TODO Add tooltips for each serialized field.
