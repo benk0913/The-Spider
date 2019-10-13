@@ -10,4 +10,6 @@ public class PlotType : ScriptableObject
 
     [TextArea(2,3)]
     public string Description;
+
+    public Property BaseProperty;
 }

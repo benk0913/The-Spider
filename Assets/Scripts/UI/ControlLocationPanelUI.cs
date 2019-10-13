@@ -52,6 +52,9 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     LocationPortraitUI LocationPortrait;
 
+    [SerializeField]
+    Transform InventoryContainer;
+
     LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
@@ -117,6 +120,8 @@ public class ControlLocationPanelUI : MonoBehaviour
             && CurrentLocation.CurrentProperty.PropertyLevels.Count > CurrentLocation.Level);
 
         RebrandButton.gameObject.SetActive(CurrentLocation.IsOwnedByPlayer);
+
+        RefreshInventory();
     }
 
     void RefreshActions()
@@ -203,6 +208,23 @@ public class ControlLocationPanelUI : MonoBehaviour
                 tempPortrait.SetCharacter(null, "", true);
             }
             
+        }
+    }
+
+    public void RefreshInventory()
+    {
+        while (InventoryContainer.childCount > 0)
+        {
+            InventoryContainer.GetChild(0).gameObject.SetActive(false);
+            InventoryContainer.GetChild(0).SetParent(transform);
+        }
+
+        foreach (Item item in CurrentLocation.Inventory)
+        {
+            GameObject itemObj = ResourcesLoader.Instance.GetRecycledObject("ItemUI");
+            itemObj.transform.SetParent(InventoryContainer, false);
+            itemObj.transform.localScale = Vector3.one;
+            itemObj.GetComponent<ItemUI>().SetInfo(item);
         }
     }
 

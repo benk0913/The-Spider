@@ -59,6 +59,7 @@ public class Property : ScriptableObject
         public int UpgradeLength;
         public int RecruitmentLength;
         public int InventoryCap;
+        public Item[] PossibleMerchantise;
     }
 
 

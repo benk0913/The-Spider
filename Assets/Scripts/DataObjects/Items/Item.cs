@@ -7,6 +7,7 @@ public class Item : ScriptableObject
 {
     public string Description;
     public Sprite Icon;
+    public int Price = 50;
 
     public Item Clone()
     {

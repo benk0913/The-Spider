@@ -28,12 +28,22 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
     [SerializeField]
     bool PresetPlot;
 
+    [SerializeField]
+    GameObject Content;
+
+
     void Awake()
     {
         if (PresetPlot)
         {
             CORE.Instance.PurchasablePlots.Add(this);
         }
+    }
+
+    void Start()
+    {
+        CORE.Instance.SubscribeToEvent("ShowPurchasablePlots", SetUnHidden);
+        CORE.Instance.SubscribeToEvent("HidePurchasablePlots", SetHidden);
     }
 
     public void SetInfo(float revenueMulti, float riskMulti, PlotType type)
@@ -76,7 +86,7 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
 
         LocationEntity location = CORE.Instance.GenerateNewLocation(transform.position, transform.rotation);
 
-        location.SetInfo(Util.GenerateUniqueID(), CORE.Instance.Database.EmptyProperty, RevenueMultiplier, RiskMultiplier, true);
+        location.SetInfo(Util.GenerateUniqueID(), Type.BaseProperty, RevenueMultiplier, RiskMultiplier, true);
         forCharacter.StartOwningLocation(location);
 
         CORE.Instance.Locations.Add(location);
@@ -136,5 +146,15 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
 
     public void ImplementIDs()
     {
+    }
+
+    public void SetHidden()
+    {
+        Content.SetActive(false);
+    }
+
+    public void SetUnHidden()
+    {
+        Content.SetActive(true);
     }
 }

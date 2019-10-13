@@ -9,6 +9,9 @@ public class ForceAgentActionPlayer : PlayerAction
     [SerializeField]
     AgentAction ActionToForce;
 
+    [SerializeField]
+    public bool SelectAgent = true;
+
     public override void Execute(Character requester, AgentInteractable target)
     {
         string reason;
@@ -18,10 +21,16 @@ public class ForceAgentActionPlayer : PlayerAction
             return;
         }
 
-        SelectAgentWindowUI.Instance.Show(
+        if (SelectAgent)
+        {
+            SelectAgentWindowUI.Instance.Show(
                 (Character character) => { ActionToForce.Execute(requester, character, target); }
                 , (Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC && charInQuestion != CORE.PC; });
-
+        }
+        else
+        {
+            ActionToForce.Execute(requester, CORE.PC, target);
+        }
     }
 
     public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)

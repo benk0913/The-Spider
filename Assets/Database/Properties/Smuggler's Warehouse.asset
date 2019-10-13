@@ -27,21 +27,33 @@ MonoBehaviour:
     UpgradeLength: 10
     RecruitmentLength: 15
     InventoryCap: 2
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
+    - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
   - MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 200
     UpgradeLength: 15
     RecruitmentLength: 8
     InventoryCap: 4
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
+    - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
+    - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
   - MaxEmployees: 4
     MaxActions: 2
     UpgradePrice: 200
     UpgradeLength: 15
     RecruitmentLength: 6
     InventoryCap: 6
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
+    - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
+    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
+    - {fileID: 11400000, guid: ff79f3f8649f4d344991eb1a2c4ce5de, type: 2}
   OwnerWorkAction: {fileID: 0}
   Actions:
-  - Name: Smuggling
+  - Name: Normal Warehouse
     Description: Employees of this establishment will not smuggle contraband items
       to the warehouse.
     Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
