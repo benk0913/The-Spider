@@ -104,6 +104,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
+    public List<Item> Inventory = new List<Item>();
+
     public List<PropertyTrait> TemporaryTraits = new List<PropertyTrait>();
 
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
@@ -122,7 +124,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         actions.InsertRange(0, CurrentProperty.UniquePlayerActions);
 
         return actions;
-    }
+    } 
 
     public void OnRightClick()
     {

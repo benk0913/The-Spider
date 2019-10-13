@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Smuggler's Warehouse
+  m_EditorClassIdentifier: 
+  Description: 'This warehouse is reserved for a smuggling operation which works
+    in the city. It''ll be stacked with illegal goods which would be delivered to
+    black market vendors around the city.
+
+
+    Upgrading the warehouse will allow
+    new and more unique items to be smuggled as well as more space for more goods
+    at a time.'
+  PropertyLevels:
+  - MaxEmployees: 2
+    MaxActions: 2
+    UpgradePrice: 200
+    UpgradeLength: 10
+    RecruitmentLength: 15
+    InventoryCap: 2
+  - MaxEmployees: 3
+    MaxActions: 2
+    UpgradePrice: 200
+    UpgradeLength: 15
+    RecruitmentLength: 8
+    InventoryCap: 4
+  - MaxEmployees: 4
+    MaxActions: 2
+    UpgradePrice: 200
+    UpgradeLength: 15
+    RecruitmentLength: 6
+    InventoryCap: 6
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Smuggling
+    Description: Employees of this establishment will not smuggle contraband items
+      to the warehouse.
+    Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
+    GoldGeneratedMin: 0
+    GoldGeneratedMax: 0
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Smuggling
+    Description: Smugglers will be busy smuggling contraband to the warehouse
+    Icon: {fileID: 21300000, guid: 1a80432ffc1ab124f9eed3bae5096ce3, type: 3}
+    GoldGeneratedMin: 5
+    GoldGeneratedMax: 10
+    WorkAction: {fileID: 11400000, guid: 6a42e17fe856320458f2760966fb9cba, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  Traits: []
+  Icon: {fileID: 21300000, guid: af8ba87edb289c546b13af5b911f8a01, type: 3}
+  FigurePrefab: {fileID: 808478850817181922, guid: 7f4a145faad6a274ca380f8095294398,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: 2ef8a6c6a89ac0c498ab22e296de4f02,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 16
+  MaxAge: 35
+  PlotType: {fileID: 11400000, guid: 61762f3c065e8914c962e5df6f1d5fcd, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 0
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: smuggler

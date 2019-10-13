@@ -20,6 +20,9 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
     [SerializeField]
     List<AgentAction> PossibleActions = new List<AgentAction>();
 
+    [SerializeField]
+    List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
+
     public bool Available = true;
 
     [SerializeField]
@@ -53,6 +56,11 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return PossibleActions;
+    }
+
+    public override List<PlayerAction> GetPossiblePlayerActions()
+    {
+        return PossiblePlayerActions;
     }
 
     public void PurchasePlot(Character funder, Character forCharacter)

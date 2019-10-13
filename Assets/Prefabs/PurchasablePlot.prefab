@@ -47,11 +47,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Price: 5000
-  Type: 0
+  Type: {fileID: 0}
   RevenueMultiplier: 1
   RiskMultiplier: 1
   PossibleActions:
   - {fileID: 11400000, guid: 2b8ca584f9c9fc04c98cc11be75e0aae, type: 2}
+  PossiblePlayerActions:
+  - {fileID: 11400000, guid: c90d163c65f7bed4e9598e52c5977dde, type: 2}
+  Available: 1
+  PresetPlot: 0
 --- !u!1 &2020743392297366874
 GameObject:
   m_ObjectHideFlags: 0
@@ -5305,6 +5309,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4759956257357465919}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
+        type: 3}
+      propertyPath: m_Name
+      value: Coinpurse
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f4d05f86bffdd6d4587d90e53da848c0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5360,16 +5374,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
-        type: 3}
-      propertyPath: m_Name
-      value: Coinpurse
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: f4d05f86bffdd6d4587d90e53da848c0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5390,6 +5394,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6948278219737939786}
     m_Modifications:
+    - target: {fileID: 5983834460237969615, guid: 4930fd1d4ccf7a4429c2a1c3142ed5ea,
+        type: 3}
+      propertyPath: m_Name
+      value: HouseFigure
+      objectReference: {fileID: 0}
     - target: {fileID: 7300757638108629724, guid: 4930fd1d4ccf7a4429c2a1c3142ed5ea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5444,11 +5453,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5983834460237969615, guid: 4930fd1d4ccf7a4429c2a1c3142ed5ea,
-        type: 3}
-      propertyPath: m_Name
-      value: HouseFigure
       objectReference: {fileID: 0}
     - target: {fileID: 6793348932836302658, guid: 4930fd1d4ccf7a4429c2a1c3142ed5ea,
         type: 3}

@@ -47,11 +47,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Price: 5000
-  Type: 2
+  Type: {fileID: 0}
   RevenueMultiplier: 1
   RiskMultiplier: 1
   PossibleActions:
   - {fileID: 11400000, guid: 2b8ca584f9c9fc04c98cc11be75e0aae, type: 2}
+  PossiblePlayerActions:
+  - {fileID: 11400000, guid: c90d163c65f7bed4e9598e52c5977dde, type: 2}
+  Available: 1
+  PresetPlot: 0
 --- !u!1 &1901801066043216600
 GameObject:
   m_ObjectHideFlags: 0
@@ -5375,6 +5379,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9054386387777252347}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
+        type: 3}
+      propertyPath: m_Name
+      value: Coinpurse
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f4d05f86bffdd6d4587d90e53da848c0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5428,16 +5442,6 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: f4d05f86bffdd6d4587d90e53da848c0,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
-        type: 3}
-      propertyPath: m_Name
-      value: Coinpurse
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: f4d05f86bffdd6d4587d90e53da848c0,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: f4d05f86bffdd6d4587d90e53da848c0,

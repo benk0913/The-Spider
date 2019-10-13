@@ -10,6 +10,7 @@ public class Property : ScriptableObject
 
     public List<PropertyLevel> PropertyLevels = new List<PropertyLevel>();
 
+    public AgentAction OwnerWorkAction;
     public List<PropertyAction> Actions = new List<PropertyAction>();
 
     public List<PropertyTrait> Traits = new List<PropertyTrait>();
@@ -57,6 +58,7 @@ public class Property : ScriptableObject
         public int UpgradePrice;
         public int UpgradeLength;
         public int RecruitmentLength;
+        public int InventoryCap;
     }
 
 
