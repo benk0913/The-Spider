@@ -197,6 +197,11 @@ public class MouseLook : MonoBehaviour
 
     void RefreshMouseLookInput()
     {
+        if(CurrentItemInHands != null && CurrentItemInHands.DisableLookaround)
+        {
+            return;
+        }
+
         if (axes == RotationAxes.MouseXAndY)
         {
             float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
@@ -346,6 +351,11 @@ public class MouseLook : MonoBehaviour
         prePickupItemPosition = CurrentItemInHands.transform.position;
         prePickupItemRotation = CurrentItemInHands.transform.rotation;
 
+        if(item.GetComponent<Rigidbody>() != null)
+        {
+            item.GetComponent<Rigidbody>().isKinematic = true;
+        }
+
         PickupItemRoutineInstance = StartCoroutine(PickUpItemRoutine(item));
     }
 
@@ -358,12 +368,22 @@ public class MouseLook : MonoBehaviour
 
         PickupItemRoutineInstance = StartCoroutine(RetreiveItemRoutine(CurrentItemInHands));
 
+        if (CurrentItemInHands.GetComponent<Rigidbody>() != null)
+        {
+            CurrentItemInHands.GetComponent<Rigidbody>().isKinematic = false;
+        }
+
         CurrentItemInHands = null;
         State = ActorState.Idle;
     }
 
     public void ReleaseItem()
     {
+        if (CurrentItemInHands.GetComponent<Rigidbody>() != null)
+        {
+            CurrentItemInHands.GetComponent<Rigidbody>().isKinematic = false;
+        }
+
         PickupItemRoutineInstance = null;
         CurrentItemInHands = null;
         State = ActorState.Idle;

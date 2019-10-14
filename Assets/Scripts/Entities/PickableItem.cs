@@ -21,6 +21,7 @@ public class PickableItem : MonoBehaviour
 
     public bool isPicked = false;
 
+    public bool DisableLookaround = false;
 
     public void PickUp()
     {
