@@ -9,19 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80098d3412a2eb5439a6ddb1a778fdea, type: 3}
-  m_Name: Attempt Shopkeeping
+  m_Script: {fileID: 11500000, guid: 7c8ce8582de7cd640ba4b413c0e75e55, type: 3}
+  m_Name: Purchase Items
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 4f0e8c28c901e284b815caf2de4393df, type: 3}
-  Description: Shopkeep
+  Icon: {fileID: 21300000, guid: 8d352de197b0c054186d12a4ad6838a2, type: 3}
+  Description: The agent will arrive at the vendors location and attempt to buy items
+    from it's inventory.
   RequiredTraits: []
   MinimumAge: 0
   Challenge:
-    Type: {fileID: 11400000, guid: 44aa6025642ecb7409350f2d12312c11, type: 2}
-    ChallengeValue: 1
+    Type: {fileID: 0}
+    ChallengeValue: 0
     RarityValue: 0
     InvertedChance: 0
   FailureResult: {fileID: 0}
-  ShowHover: 0
+  ShowHover: 1
   employerLetterPreset: {fileID: 0}
-  Task: {fileID: 11400000, guid: 2acf74496d31ef24aa14c1c8e052c7c7, type: 2}
+  Scenario: {fileID: 11400000, guid: de27b4426a07561499134b729344f845, type: 2}

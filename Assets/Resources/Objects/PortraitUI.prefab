@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5722476265674069242}
   - component: {fileID: 9116551100601815743}
   - component: {fileID: 4903373864456981679}
+  - component: {fileID: 6365948685747965514}
   m_Layer: 5
   m_Name: PortraitUI
   m_TagString: Untagged
@@ -146,7 +147,6 @@ MonoBehaviour:
   Clothing: {fileID: 3964492436650595445}
   Frame: {fileID: 5880891788697297058}
   QuestionMark: {fileID: 159428228}
-  InfoButton: {fileID: 0}
   CG: {fileID: 5722476265674069242}
   TooltipTarget: {fileID: 4903373864456981679}
   Lerper: {fileID: 0}
@@ -207,6 +207,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Text: This character slot is unoccupied...
+--- !u!95 &6365948685747965514
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478687570250304421}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cf0e1df8d1ab69749837f8997301f9e6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2080355188242432991
 GameObject:
   m_ObjectHideFlags: 0

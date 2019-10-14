@@ -29,7 +29,7 @@ public class WorkComplete : AgentAction
         EarnGold(requester, character, target);
     }
 
-    public virtual void EarnGold(Character requester, Character character, AgentInteractable target)
+    public virtual void EarnGold(Character requester, Character character, AgentInteractable target, int addedGold = 0)
     {
         if(character.WorkLocation == null)
         {
@@ -76,13 +76,13 @@ public class WorkComplete : AgentAction
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
                     OnComplete: () =>
                     {
-                        character.Gold += Mathf.RoundToInt(earnedSum);
+                        character.Gold += Mathf.RoundToInt(earnedSum+ addedGold);
                     },
                     canvasElement: false);
             }
             else
             {
-                character.Gold += Mathf.RoundToInt(earnedSum);
+                character.Gold += Mathf.RoundToInt(earnedSum+ addedGold);
             }
         }
     }

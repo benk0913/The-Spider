@@ -18,7 +18,9 @@ public class SmugglingComplete : WorkComplete
         int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level].InventoryCap;
         Item[] possibleItems = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level].PossibleMerchantise;
 
-        Item newItem = Instantiate(possibleItems[Random.Range(0, possibleItems.Length)]);
+        Item randomItem = possibleItems[Random.Range(0, possibleItems.Length)];
+        Item newItem = Instantiate(randomItem);
+        newItem.name = randomItem.name;
 
         if (character.WorkLocation.Inventory.Count < inventoryCap)
         {

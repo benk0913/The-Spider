@@ -18,10 +18,16 @@ public class InventoryPanelUI : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("InventoryChanged", RefreshInventory);
+    }
+
 
     void OnEnable()
     {
         RefreshInventory();
+
     }
 
     public Item GetItem(string itemName)
@@ -39,6 +45,13 @@ public class InventoryPanelUI : MonoBehaviour
 
     public void ItemWasAdded(int amount = 1)
     {
+        RefreshInventory();
+
+        if(amount == 0)
+        {
+            return;
+        }
+
         if (!this.gameObject.activeInHierarchy)
         {
             Notification.Add(amount);

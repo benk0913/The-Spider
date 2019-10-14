@@ -12,5 +12,6 @@ public class DDASpendItem : DialogDecisionAction
     public override void Activate()
     {
         CORE.PC.Belogings.Remove(CORE.PC.GetItem(ItemToSpend.name));
+        InventoryPanelUI.Instance.ItemWasAdded(0);
     }
 }

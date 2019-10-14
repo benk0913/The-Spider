@@ -93,10 +93,10 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
     {
         yield return new WaitForSeconds(0.1f);
 
-        while(CORE.Instance.ActiveLerpers.Count > 0)
-        {
-            yield return 0;
-        }
+        //while(CORE.Instance.ActiveLerpers.Count > 0)
+        //{
+        //    yield return 0;
+        //}
 
         PassTimeDelayInstance = null;
     }

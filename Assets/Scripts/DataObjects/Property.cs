@@ -50,6 +50,8 @@ public class Property : ScriptableObject
         return null;
     }
 
+    public bool IsVendor = false;
+
     [System.Serializable]
     public class PropertyLevel
     {
