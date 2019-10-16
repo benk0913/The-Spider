@@ -278,6 +278,30 @@ public class MouseLook : MonoBehaviour
         FocusingRoutineInstance = StartCoroutine(FocusOnViewRoutine(view));
     }
 
+    public void FocusOnItemInHands()
+    {
+        if(CurrentItemInHands == null)
+        {
+            return;
+        }
+
+        if (FocusingRoutineInstance != null)
+        {
+            StopCoroutine(FocusingRoutineInstance);
+        }
+
+        FocusingRoutineInstance = StartCoroutine(FocusOnItemInHandsRoutine());
+    }
+
+    public void UnfocusOnItemInHands()
+    {
+        if(FocusingRoutineInstance != null)
+        {
+            StopCoroutine(FocusingRoutineInstance);
+            FocusingRoutineInstance = null;
+        }
+    }
+
     public void UnfocusCurrentView()
     {
         if (FocusingRoutineInstance != null)
@@ -336,6 +360,32 @@ public class MouseLook : MonoBehaviour
         CurrentFocus = null;
     }
 
+    IEnumerator FocusOnItemInHandsRoutine()
+    {
+        float t = 0f;
+        while(t<1f)
+        {
+            if(CurrentItemInHands == null)
+            {
+                FocusingRoutineInstance = null;
+                yield break;
+            }
+            
+            if(Input.GetMouseButton(0))
+            {
+                CurrentItemInHands.transform.GetChild(0).Rotate(
+                (CameraTransform.localEulerAngles.x * Input.GetAxis("Mouse Y") * 30f * Time.deltaTime),
+                (-CameraTransform.localEulerAngles.x * Input.GetAxis("Mouse X") * 30f * Time.deltaTime),
+                0f,Space.Self);
+            }
+
+            yield return 0;
+        }
+
+        FocusingRoutineInstance = null;
+    }
+
+    
     #endregion
 
     #region PickableItems
@@ -383,6 +433,8 @@ public class MouseLook : MonoBehaviour
         {
             CurrentItemInHands.GetComponent<Rigidbody>().isKinematic = false;
         }
+
+        CurrentItemInHands.transform.GetChild(0).rotation = Quaternion.Euler(Vector3.zero);
 
         PickupItemRoutineInstance = null;
         CurrentItemInHands = null;

@@ -23,6 +23,10 @@ public class PickableItem : MonoBehaviour
 
     public bool DisableLookaround = false;
 
+    public bool Retreiveable = true;
+
+    
+
     public void PickUp()
     {
         MouseLook.Instance.PickUpItem(this);
@@ -31,18 +35,28 @@ public class PickableItem : MonoBehaviour
     
     public void Retrieve()
     {
-        MouseLook.Instance.RetreiveItem();
+        if(Retreiveable)
+        {
+            MouseLook.Instance.RetreiveItem();
+
+            CurrentInteractionIndex = 0;
+
+            isPicked = false;
+        }
+        else
+        {
+            ReleaseItem();
+        }
+
         OnRetreive.Invoke();
 
-        CurrentInteractionIndex = 0;
-
-        isPicked = false;
     }
 
     public void ReleaseItem()
     {
-        MouseLook.Instance.ReleaseItem();
+        CurrentInteractionIndex = 0;
         isPicked = false;
+        MouseLook.Instance.ReleaseItem();
 
     }
 

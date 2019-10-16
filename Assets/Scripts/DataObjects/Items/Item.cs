@@ -8,6 +8,8 @@ public class Item : ScriptableObject
     public string Description;
     public Sprite Icon;
     public int Price = 50;
+    public bool Sellable = true;
+    public GameObject RealWorldPrefab;
 
     public Item Clone()
     {
