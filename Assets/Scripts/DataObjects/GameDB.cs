@@ -52,9 +52,9 @@ public class GameDB : ScriptableObject
 
     public Trait[] Traits;
 
-    public Quest[] AllQuests;
+    public Quest TutorialQuest;
 
-    public QuestObjective[] AllQuestObjectives;
+    public Quest[] AllQuests;
 
     public Item[] AllItems;
 
@@ -80,19 +80,6 @@ public class GameDB : ScriptableObject
             if (AllQuests[i].name == questName)
             {
                 return AllQuests[i];
-            }
-        }
-
-        return null;
-    }
-
-    public QuestObjective GetQuestObjective(string questObjectiveName)
-    {
-        for (int i = 0; i < AllQuestObjectives.Length; i++)
-        {
-            if (AllQuestObjectives[i].name == questObjectiveName)
-            {
-                return AllQuestObjectives[i];
             }
         }
 

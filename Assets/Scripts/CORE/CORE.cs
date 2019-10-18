@@ -27,6 +27,8 @@ public class CORE : MonoBehaviour
 
     public static Character PC;
 
+    public bool TutorialOnStart = false; // TODO - Move this to a pref section when there is one (settings / etc...)
+
     public List<SplineLerperWorldUI> ActiveLerpers = new List<SplineLerperWorldUI>();
 
     public bool isLoading
@@ -76,6 +78,12 @@ public class CORE : MonoBehaviour
         }
 
         yield return StartCoroutine(LoadMainScene());
+
+
+        if (TutorialOnStart)
+        {
+            QuestsPanelUI.Instance.AddNewQuest(Database.TutorialQuest);
+        }
 
         LoadingGameRoutine = null;
     }

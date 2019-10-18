@@ -21,6 +21,9 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     Button completeQuestsButton;
 
+    [SerializeField]
+    NotificationUI Notification;
+
     private void Awake()
     {
         Instance = this;
@@ -36,6 +39,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
     {
         Quest newQuest = quest.CreateClone();
         ActiveQuests.Add(newQuest);
+
         AddQuestToContainer(newQuest);
 
         if (newQuest.RelevantCharacter != null)
@@ -47,12 +51,130 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
                 newQuest.RelevantCharacter.Known.Know(infoKey);
             }
         }
+
+        if (newQuest.Tutorial)
+        {
+            WorldMissionPanelUI.Instance.ShowQuest(newQuest);
+        }
+
+        foreach (QuestObjective objective in newQuest.Objectives)
+        {
+            if(objective.ValidateRoutine != null)
+            {
+                CORE.Instance.StopCoroutine(objective.ValidateRoutine);
+            }
+
+            objective.ValidateRoutine = CORE.Instance.StartCoroutine(ValidateObjectiveRoutine(objective));
+        }
     }
 
-    public void Complete(Quest quest)
+    IEnumerator ValidateObjectiveRoutine(QuestObjective objective)
     {
+        yield return 0;
+
+        while(!objective.Validate())
+        {
+            yield return 0;
+        }
+
+        yield return 0;
+
+        objective.Complete();
+        objective.ValidateRoutine = null;
+    }
+
+    public void QuestComplete(Quest quest)
+    {
+        if(quest.Tutorial)
+        {
+            WorldMissionPanelUI.Instance.QuestComplete();
+        }
+
         ActiveQuests.Remove(quest);
-        CompletedQuests.Add(quest);
+        AddCompletedQuest(quest);
+        
+        if(!activeQuestsButton.interactable)
+        {
+            for(int i=0;i<questsContainer.childCount;i++)
+            {
+                QuestHeadlineUI headline = questsContainer.GetChild(i).GetComponent<QuestHeadlineUI>();
+                if (headline != null && headline.CurrentQuest == quest)
+                {
+                    headline.Complete();
+                }
+            }
+        }
+
+        if(quest.NextQuest != null)
+        {
+            AddNewQuest(quest.NextQuest);
+        }
+    }
+
+    public void ObjectiveComplete(QuestObjective objective)
+    {
+        Quest parentQuest = null;
+
+        foreach(Quest quest in ActiveQuests)
+        {
+            if (quest.HasObjective(objective))
+            {
+                parentQuest = quest;
+                break;
+            }
+        }
+
+        if(parentQuest == null)
+        {
+            return;
+        }
+
+        if(parentQuest.Tutorial)
+        {
+            WorldMissionPanelUI.Instance.ObjectiveComplete();
+        }
+
+        if (!activeQuestsButton.interactable)
+        {
+            foreach (Transform questHeadlineTransform in questsContainer)
+            {
+                QuestHeadlineUI headline = questHeadlineTransform.GetComponent<QuestHeadlineUI>();
+
+                if (headline == null)
+                {
+                    continue;
+                }
+
+                if (headline.CurrentQuest != parentQuest)
+                {
+                    continue;
+                }
+
+                headline.Show();
+
+                QuestContentUI content = headline.ShowingObject.GetComponent<QuestContentUI>();
+                content.Refresh();
+                content.Notify();
+
+                GlobalMessagePrompterUI.Instance.Show(objective.name + " is complete!", 1f, Color.green);
+            }
+        }
+        else
+        {
+            Notification.Add(1);
+        }
+
+        foreach (QuestObjective qObjective in parentQuest.Objectives)
+        {
+            if(!qObjective.IsComplete)
+            {
+                return;
+            }
+        }
+
+        GlobalMessagePrompterUI.Instance.Show(parentQuest.name + " is complete!", 1f, Color.green);
+        QuestComplete(parentQuest);
+
     }
 
     public void ShowActive()
@@ -66,6 +188,8 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             AddQuestToContainer(quest);
         }
+
+        Notification.Wipe();
     }
 
     public void ShowArchived()

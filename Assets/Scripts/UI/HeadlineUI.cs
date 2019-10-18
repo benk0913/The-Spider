@@ -14,7 +14,7 @@ public class HeadlineUI : MonoBehaviour
     [SerializeField]
     string content;
 
-    protected GameObject ShowingObject;
+    public GameObject ShowingObject;
 
     public virtual void SetInfo(string headlineTitle)
     {

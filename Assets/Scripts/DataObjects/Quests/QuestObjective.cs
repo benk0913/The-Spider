@@ -9,22 +9,24 @@ public class QuestObjective : ScriptableObject
 
     public bool IsComplete = false;
 
-    public QuestObjective CreateClone()
+    public Coroutine ValidateRoutine;
+
+    public virtual QuestObjective CreateClone()
     {
         QuestObjective objective = Instantiate(this);
         objective.name = this.name;
-        objective.Initialize();
 
         return objective;
     }
 
-    public void Initialize()
+    public virtual bool Validate()
     {
-
+        return true;
     }
 
-    public void Complete()
+    public virtual void Complete()
     {
         IsComplete = true;
+        QuestsPanelUI.Instance.ObjectiveComplete(this);
     }
 }

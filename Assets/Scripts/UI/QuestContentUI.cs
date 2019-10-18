@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class QuestContentUI : HeadlineContentUI
@@ -9,24 +10,25 @@ public class QuestContentUI : HeadlineContentUI
     [SerializeField]
     PortraitUI CharacterPortrait;
 
-    private void OnEnable()
-    {
-        GameClock.Instance.OnTurnPassed.AddListener(Refresh);
-    }
+    [SerializeField]
+    Transform ObjectivesContainer;
 
-    private void OnDisable()
-    {
-        GameClock.Instance.OnTurnPassed.RemoveListener(Refresh);
-    }
+    QuestHeadlineUI CurrentHeadline;
 
-    public void SetInfo(Quest quest)
+    public void SetInfo(QuestHeadlineUI headline)
     {
-        CurrentQuest = quest;
+        CurrentHeadline = headline;
+        CurrentQuest = CurrentHeadline.CurrentQuest;
         Refresh();
     }
 
-    void Refresh()
+    public void Refresh()
     {
+        if(CurrentQuest == null)
+        {
+            return;
+        }
+
         ContentText.text = CurrentQuest.Description;
 
         if (CurrentQuest.Icon != null)
@@ -46,6 +48,40 @@ public class QuestContentUI : HeadlineContentUI
         {
             CharacterPortrait.gameObject.SetActive(true);
             CharacterPortrait.SetCharacter(CurrentQuest.RelevantCharacter);
+        }
+
+        ClearObjectivesContainer();
+
+        foreach(QuestObjective objective in CurrentQuest.Objectives)
+        {
+            TextMeshProUGUI QuestTitle = ResourcesLoader.Instance.GetRecycledObject("ObjectiveTitleUI").GetComponent<TextMeshProUGUI>();
+            QuestTitle.transform.SetParent(ObjectivesContainer);
+            QuestTitle.transform.SetAsLastSibling();
+            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "yellow") + ">" + objective.name + "</color>";
+        }
+    }
+
+    public void Notify()
+    {
+        Anim.SetTrigger("Notify");
+    }
+
+    public void Complete()
+    {
+        Anim.SetTrigger("Complete");
+    }
+
+    public void OnExitAnimationFinished()
+    {
+        CurrentHeadline.SelfArchive();
+    }
+
+    void ClearObjectivesContainer()
+    {
+        while(ObjectivesContainer.childCount > 0)
+        {
+            ObjectivesContainer.GetChild(0).gameObject.SetActive(false);
+            ObjectivesContainer.GetChild(0).SetParent(transform);
         }
     }
 }

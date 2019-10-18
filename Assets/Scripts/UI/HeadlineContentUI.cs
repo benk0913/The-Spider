@@ -15,6 +15,9 @@ public class HeadlineContentUI : MonoBehaviour
     [SerializeField]
     protected Sprite DefaultIcon;
 
+    [SerializeField]
+    protected Animator Anim;
+
     public virtual void SetInfo(string content = "", Sprite icon = null)
     {
         ContentText.text = content;

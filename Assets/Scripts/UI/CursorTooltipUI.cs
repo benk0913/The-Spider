@@ -50,7 +50,7 @@ public class CursorTooltipUI : MonoBehaviour
         StartCoroutine(FadeIn(Length));
 
         TextLabel.text = message;
-        TextLabel.color = Color.red;
+        TextLabel.color = color;
     }
 
     public void Hide()

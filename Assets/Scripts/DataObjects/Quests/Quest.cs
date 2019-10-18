@@ -17,6 +17,10 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public List<string> InfoGivenOnCharacter = new List<string>();
 
+    public Quest NextQuest;
+
+    public bool Tutorial = false;
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);
@@ -37,6 +41,19 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         }
 
         return quest;
+    }
+
+    public bool HasObjective(QuestObjective objective)
+    {
+        foreach(QuestObjective qObjective in Objectives)
+        {
+            if(qObjective == objective)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     QuestObjective GetObjective(string objectiveKey)

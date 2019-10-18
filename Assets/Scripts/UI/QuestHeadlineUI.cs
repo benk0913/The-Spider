@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class QuestHeadlineUI : HeadlineUI
 {
-
-
     public Quest CurrentQuest;
     
     QuestsPanelUI ParentPanel;
@@ -20,14 +18,6 @@ public class QuestHeadlineUI : HeadlineUI
 
     }
 
-    public override void Archive()
-    {
-        Hide();
-        this.gameObject.SetActive(false);
-        this.transform.SetParent(transform.parent.parent);
-        ParentPanel.Complete(CurrentQuest);
-    }
-
     public override void Toggle()
     {
         if (ShowingObject != null)
@@ -36,11 +26,21 @@ public class QuestHeadlineUI : HeadlineUI
             return;
         }
 
+        Show();
+    }
+
+    public virtual void Show()
+    {
+        if(ShowingObject != null)
+        {
+            return;
+        }
+
         Anim.SetBool("Showing", true);
         ShowingObject = ResourcesLoader.Instance.GetRecycledObject("QuestContentUI");
         ShowingObject.transform.SetParent(transform.parent, false);
         ShowingObject.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
-        ShowingObject.GetComponent<QuestContentUI>().SetInfo(CurrentQuest);
+        ShowingObject.GetComponent<QuestContentUI>().SetInfo(this);
     }
 
     public override void Hide()
@@ -54,6 +54,21 @@ public class QuestHeadlineUI : HeadlineUI
         ShowingObject.transform.SetParent(transform.parent.parent);
         ShowingObject = null;
         Anim.SetBool("Showing", false);
+    }
+
+    public void Complete()
+    {
+        Show();
+
+        ShowingObject.GetComponent<QuestContentUI>().Complete();
+    }
+
+    public void SelfArchive()
+    {
+        ShowingObject.gameObject.SetActive(false);
+        ShowingObject = null;
+
+        this.gameObject.SetActive(false);
     }
 
 }
