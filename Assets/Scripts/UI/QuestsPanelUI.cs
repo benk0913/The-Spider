@@ -65,7 +65,22 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             }
 
             objective.ValidateRoutine = CORE.Instance.StartCoroutine(ValidateObjectiveRoutine(objective));
+
+            if (objective.WorldMarker != null)
+            {
+                objective.WorldMarker.gameObject.SetActive(false);
+            }
+
+            if (!string.IsNullOrEmpty(objective.WorldMarkerTarget))
+            {
+                objective.WorldMarker = ResourcesLoader.Instance.GetRecycledObject("MarkerWorld");
+                objective.WorldMarker.transform.SetParent(CORE.Instance.MainCanvas.transform);
+                objective.WorldMarker.transform.SetAsLastSibling();
+                objective.WorldMarker.GetComponent<WorldPositionLerperUI>().SetTransform(GameObject.Find(objective.WorldMarkerTarget).transform);
+            }
         }
+
+        Notification.Add(1);
     }
 
     IEnumerator ValidateObjectiveRoutine(QuestObjective objective)
@@ -105,7 +120,19 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             }
         }
 
-        if(quest.NextQuest != null)
+        if (quest.CompletionLetter != null)
+        {
+            Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+
+            Character sender = CORE.Instance.GetCharacter(quest.CompletionLetter.PresetSender.name);
+
+            letterParameters.Add("Letter_From", sender);
+            letterParameters.Add("Letter_To", CORE.PC);
+
+            LetterDispenserEntity.Instance.DispenseLetter(new Letter(quest.CompletionLetter, letterParameters));
+        }
+
+        if (quest.NextQuest != null)
         {
             AddNewQuest(quest.NextQuest);
         }
@@ -155,13 +182,19 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
                 QuestContentUI content = headline.ShowingObject.GetComponent<QuestContentUI>();
                 content.Refresh();
                 content.Notify();
-
-                GlobalMessagePrompterUI.Instance.Show(objective.name + " is complete!", 1f, Color.green);
             }
         }
         else
         {
             Notification.Add(1);
+        }
+
+        GlobalMessagePrompterUI.Instance.Show(objective.name + " is complete!", 1f, Color.green);
+
+        if (objective.WorldMarker != null)
+        {
+            objective.WorldMarker.gameObject.SetActive(false);
+            objective.WorldMarker = null;
         }
 
         foreach (QuestObjective qObjective in parentQuest.Objectives)
@@ -275,7 +308,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["ActiveQuests"][i]);
 
-            AddNewQuest(quest);
+            ActiveQuests.Add(quest);
         }
 
         for (int i = 0; i < node["CompletedQuests"].Count; i++)
@@ -283,7 +316,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["CompletedQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["CompletedQuests"][i]);
 
-            AddCompletedQuest(quest);
+            CompletedQuests.Add(quest);
         }
 
     }

@@ -57,6 +57,7 @@ public class QuestContentUI : HeadlineContentUI
             TextMeshProUGUI QuestTitle = ResourcesLoader.Instance.GetRecycledObject("ObjectiveTitleUI").GetComponent<TextMeshProUGUI>();
             QuestTitle.transform.SetParent(ObjectivesContainer);
             QuestTitle.transform.SetAsLastSibling();
+            QuestTitle.transform.localScale = Vector3.one;
             QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "yellow") + ">" + objective.name + "</color>";
         }
     }
@@ -73,6 +74,7 @@ public class QuestContentUI : HeadlineContentUI
 
     public void OnExitAnimationFinished()
     {
+        this.gameObject.SetActive(false);
         CurrentHeadline.SelfArchive();
     }
 

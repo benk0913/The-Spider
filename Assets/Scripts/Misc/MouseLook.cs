@@ -71,6 +71,9 @@ public class MouseLook : MonoBehaviour
     Transform CameraTransform;
 
     [SerializeField]
+    public Camera Cam;
+
+    [SerializeField]
     InteractionRay InteractRay;
 
     [SerializeField]
@@ -362,6 +365,8 @@ public class MouseLook : MonoBehaviour
 
     IEnumerator FocusOnItemInHandsRoutine()
     {
+        Vector3 angle = CameraTransform.position - CurrentItemInHands.transform.GetChild(0).position;
+
         float t = 0f;
         while(t<1f)
         {
@@ -370,13 +375,20 @@ public class MouseLook : MonoBehaviour
                 FocusingRoutineInstance = null;
                 yield break;
             }
+
+            if(Input.GetMouseButtonDown(0))
+            {
+                angle = CameraTransform.position - CurrentItemInHands.transform.GetChild(0).position;
+            }
             
             if(Input.GetMouseButton(0))
             {
+                
                 CurrentItemInHands.transform.GetChild(0).Rotate(
-                (CameraTransform.localEulerAngles.x * Input.GetAxis("Mouse Y") * 30f * Time.deltaTime),
-                (-CameraTransform.localEulerAngles.x * Input.GetAxis("Mouse X") * 30f * Time.deltaTime),
-                0f,Space.Self);
+                0f,
+                (angle.y * -Input.GetAxis("Mouse X") * 3000f * Time.deltaTime),
+                (angle.z * Input.GetAxis("Mouse Y") * 3000f * Time.deltaTime), Space.World);
+            
             }
 
             yield return 0;

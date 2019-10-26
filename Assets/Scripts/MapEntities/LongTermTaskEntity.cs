@@ -25,6 +25,8 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     LocationEntity CurrentLocation;
 
+    public bool isKnownTask = false;
+
     public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1)
     {
         if(turnsLeft > 0)
@@ -42,10 +44,18 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         this.CurrentCharacter.StartDoingTask(this);
 
         GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
-        
-        CurrentLocation = ((LocationEntity)targetLocation);
 
-        CurrentLocation.AddLongTermTask(this);
+
+        isKnownTask = 
+            (character.TopEmployer == CORE.PC
+            || (character.isImportant && character.IsKnown("CurrentLocation")));
+
+        if (isKnownTask)
+        {
+            CurrentLocation = ((LocationEntity)targetLocation);
+
+            CurrentLocation.AddLongTermTask(this);
+        }
     }
 
     private void OnDestroy()
@@ -63,17 +73,23 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             return;
         }
 
-        if(CurrentLocation.TaskDurationUI == null)
+        if (isKnownTask)
         {
-            return;
-        }
+            if (CurrentLocation.TaskDurationUI == null)
+            {
+                return;
+            }
 
-        CurrentLocation.TaskDurationUI.Refresh();
+            CurrentLocation.TaskDurationUI.Refresh();//TODO move refresh to a unified location?
+        }
     }
 
     public void Complete()
     {
-        CurrentLocation.RemoveLongTermTask(this);
+        if (isKnownTask)
+        {
+            CurrentLocation.RemoveLongTermTask(this);
+        }
 
         this.CurrentCharacter.StopDoingCurrentTask(true);
 
@@ -105,7 +121,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             return false;
         }
 
-        CurrentLocation.RemoveLongTermTask(this);
+        if (isKnownTask)
+        {
+            CurrentLocation.RemoveLongTermTask(this);
+        }
+
         CurrentCharacter.StopDoingCurrentTask();
 
         Destroy(this.gameObject);

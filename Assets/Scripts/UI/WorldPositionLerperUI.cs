@@ -7,6 +7,7 @@ public class WorldPositionLerperUI : MonoBehaviour
 
     public Vector3 CurrentPos;
     public Transform CurrentTransform;
+    bool transformIsCanvas;
 
     [SerializeField]
     bool StickToEdgeOfScreen = false;
@@ -22,24 +23,39 @@ public class WorldPositionLerperUI : MonoBehaviour
     {
         CurrentTransform = targetTransform;
         CurrentPos = targetTransform.position;
+
+        transformIsCanvas = (CurrentTransform.transform.GetType() == typeof(RectTransform));
     }
 
     void Update()
     {
-        if(CurrentTransform != null)
+        if (CurrentTransform == null)
         {
-            transform.position = MapViewManager.Instance.Cam.WorldToScreenPoint(CurrentTransform.position);
             return;
         }
 
-        Vector3 newPos = MapViewManager.Instance.Cam.WorldToScreenPoint(CurrentPos);
+        this.CurrentPos = CurrentTransform.position;
+
+
+        if (!transformIsCanvas)
+        {
+            if (MapViewManager.Instance.Cam.gameObject.activeInHierarchy)
+            {
+                CurrentPos = MapViewManager.Instance.Cam.WorldToScreenPoint(this.CurrentPos);
+            }
+            else
+            {
+                CurrentPos = MouseLook.Instance.Cam.WorldToScreenPoint(this.CurrentPos);
+            }
+        }
+        
 
         if (StickToEdgeOfScreen)
         {
-            newPos = new Vector3(newPos.x < 0 ? 0f : newPos.x, newPos.y < 0 ? 0f : newPos.y, newPos.z);
-            newPos = new Vector3(newPos.x > Screen.width? Screen.width : newPos.x, newPos.y > Screen.height ? Screen.height : newPos.y, newPos.z);
+            CurrentPos = new Vector3(CurrentPos.x < 0 ? 0f : CurrentPos.x, CurrentPos.y < 0 ? 0f : CurrentPos.y, CurrentPos.z);
+            CurrentPos = new Vector3(CurrentPos.x > Screen.width? Screen.width : CurrentPos.x, CurrentPos.y > Screen.height ? Screen.height : CurrentPos.y, CurrentPos.z);
         }
 
-        transform.position = newPos;
+        transform.position = CurrentPos;
     }
 }

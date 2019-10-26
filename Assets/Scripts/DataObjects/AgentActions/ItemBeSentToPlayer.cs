@@ -18,8 +18,11 @@ public class ItemBeSentToPlayer : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        Instantiate(itemUI.CurrentItem.RealWorldPrefab).transform.position = 
-            LetterDispenserEntity.Instance.transform.position + new Vector3(0f, 0.1f, 0f);
+        GameObject itemObj = Instantiate(itemUI.CurrentItem.RealWorldPrefab);
+
+        itemObj.transform.position = LetterDispenserEntity.Instance.transform.position + new Vector3(0f, 0.1f, 0f);
+
+        RoomsManager.Instance.AddItem(itemObj);
 
         CORE.PC.Belogings.Remove(itemUI.CurrentItem);
         InventoryPanelUI.Instance.ItemWasAdded(0);

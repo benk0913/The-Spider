@@ -59,14 +59,12 @@ public class QuestHeadlineUI : HeadlineUI
     public void Complete()
     {
         Show();
-
         ShowingObject.GetComponent<QuestContentUI>().Complete();
+        ShowingObject = null;
     }
 
     public void SelfArchive()
     {
-        ShowingObject.gameObject.SetActive(false);
-        ShowingObject = null;
 
         this.gameObject.SetActive(false);
     }

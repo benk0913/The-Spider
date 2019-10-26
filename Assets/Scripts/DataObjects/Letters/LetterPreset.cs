@@ -26,5 +26,11 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public Quest QuestAttachment;
 
+    [SerializeField]
+    public Character PresetSender;
+
+    [SerializeField]
+    public Character PresetSubjectCharacter;
+
 
 }

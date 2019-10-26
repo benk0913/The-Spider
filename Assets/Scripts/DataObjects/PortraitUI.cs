@@ -59,7 +59,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
     public virtual void SetCharacter(Character character, Vector3 position)
     {
-        Lerper.SetPosition(position);
+        Lerper.SetTransform(transform);
 
         SetCharacter(character);
     }

@@ -10,12 +10,12 @@ public class QOLookAround : QuestObjective
 
     public override bool Validate()
     {
-        if(Mathf.Abs(Input.GetAxis("Mouse X")) > 1f)
+        if(Mathf.Abs(Input.GetAxis("Mouse X")) > 0.5f)
         {
             LookedLeftRight = true;
         }
 
-        if (Mathf.Abs(Input.GetAxis("Mouse Y")) > 1f)
+        if (Mathf.Abs(Input.GetAxis("Mouse Y")) > 0.5f)
         {
             LookedUpDown = true;
         }

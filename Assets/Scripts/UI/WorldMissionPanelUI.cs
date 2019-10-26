@@ -65,7 +65,7 @@ public class WorldMissionPanelUI : MonoBehaviour
     }
 
     public void Hide()
-    {
+    { 
         if(CurrentQuest != null)
         {
             return;

@@ -54,8 +54,10 @@ public class AgentInteractable : MonoBehaviour
         foreach (AgentAction action in currentActions)
         {
             string reason = "";
-            
-            if(!action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this, out reason) && string.IsNullOrEmpty(reason))
+
+            Character currentChar = ControlCharacterPanelUI.CurrentCharacter;
+
+            if (!action.CanDoAction(CORE.PC, currentChar, this, out reason) && string.IsNullOrEmpty(reason))
             {
                 continue;
             }
@@ -63,10 +65,10 @@ public class AgentInteractable : MonoBehaviour
             KeyActions.Add(
                 new DescribedAction(
                     action.name,
-                    () => action.Execute(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this)
+                    () => action.Execute(CORE.PC, currentChar, this)
                     , action.Description + "\n <color=red>" + reason + "</color>"
                     , action.Icon
-                    , action.CanDoAction(CORE.PC, ControlCharacterPanelUI.CurrentCharacter, this, out reason)));
+                    , action.CanDoAction(CORE.PC, currentChar, this, out reason)));
         }
 
         if (KeyActions.Count == 0)

@@ -11,6 +11,10 @@ public class QuestObjective : ScriptableObject
 
     public Coroutine ValidateRoutine;
 
+    public string WorldMarkerTarget;
+
+    public GameObject WorldMarker;
+
     public virtual QuestObjective CreateClone()
     {
         QuestObjective objective = Instantiate(this);

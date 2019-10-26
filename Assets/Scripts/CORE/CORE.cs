@@ -421,6 +421,7 @@ public class CORE : MonoBehaviour
 
         savefile["Rumors"] = RumorsPanelUI.Instance.ToJSON();
         savefile["Quests"] = QuestsPanelUI.Instance.ToJSON();
+        savefile["Rooms"]  = RoomsManager.Instance.ToJSON();
 
         string ePath = Application.dataPath + "/Saves/" + savefile["Name"] + ".json";
         JSONNode tempNode = (JSONNode)savefile;
@@ -458,6 +459,7 @@ public class CORE : MonoBehaviour
 
         yield return StartCoroutine(LoadMainScene());
 
+        RoomsManager.Instance.AddCurrentRoom();
 
         MapViewManager.Instance.ShowMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
@@ -506,7 +508,7 @@ public class CORE : MonoBehaviour
 
             RumorsPanelUI.Instance.FromJSON(file.Content["Rumors"]);
             QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
-
+            RoomsManager.Instance.FromJSON(file.Content["Rooms"]);
         }
         yield return 0;
 

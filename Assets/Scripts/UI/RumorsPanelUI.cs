@@ -103,11 +103,10 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
                 CORE.Instance.SplineAnimationObject("EarCollectedWorld",
                     location.transform,
                     RumorsPanelUI.Instance.Notification.transform,
-                    () =>
-                    {
-                        GainRumors(location.Level);
-                    },
+                    null,
                     false);
+
+                GainRumors(location.Level);
             }
         }
 

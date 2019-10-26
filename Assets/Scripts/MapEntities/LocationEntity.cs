@@ -527,10 +527,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             TemporaryTraits.Add(trait);
         }
 
-        if (entity.CurrentCharacter.CurrentFaction == CORE.PC.CurrentFaction)
-        {
-            TaskDurationUI.AddEntity(entity);
-        }
+        TaskDurationUI.AddEntity(entity);
     }
 
     public void RemoveLongTermTask(LongTermTaskEntity entity)
@@ -552,13 +549,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         TaskDurationUI.RemoveEntity(entity);
 
-        if (TaskDurationUI.Instances.Count > 0)
+        if(TaskDurationUI.Instances.Keys.Count == 0)
         {
-            return;
+            Destroy(TaskDurationUI.gameObject);
+            TaskDurationUI = null;
         }
-
-        TaskDurationUI.gameObject.SetActive(false);
-        TaskDurationUI = null;
     }
 
     public JSONNode ToJSON()

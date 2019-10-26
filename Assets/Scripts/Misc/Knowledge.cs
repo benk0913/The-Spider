@@ -72,11 +72,10 @@ public class Knowledge
                 "PaperCollectedWorld",
                 CurrentCharacter.CurrentLocation.transform,
                 InformationLogUI.Instance.Notification.transform,
-                () =>
-                {
-                    InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
-                },
+                null,
                 false);
+
+            InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
 
             instance.IsKnown = true;
         }

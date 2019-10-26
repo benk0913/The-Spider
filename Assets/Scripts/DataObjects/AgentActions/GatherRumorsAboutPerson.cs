@@ -104,11 +104,10 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
             CORE.Instance.SplineAnimationObject("EarCollectedWorld",
                 character.CurrentLocation.transform,
                 RumorsPanelUI.Instance.Notification.transform,
-                () =>
-                {
-                    RumorsPanelUI.Instance.GainCustomRumor(gatheredRumor);
-                },
+                null,
                 false);
+
+            RumorsPanelUI.Instance.GainCustomRumor(gatheredRumor);
         }
 
 

@@ -57,11 +57,17 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
 
     public void PassTime()
     {
-        if(PassTimeDelayInstance != null)
+        if (PassTimeRoutineInstance != null)
         {
             return;
         }
 
+        PassTimeRoutineInstance = StartCoroutine(PassTimeRoutine());
+    }
+
+    Coroutine PassTimeRoutineInstance;
+    IEnumerator PassTimeRoutine()
+    {
         int currentWeek = CurrentWeek;
 
         CurrentTimeOfDay++;
@@ -80,25 +86,17 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
         }
 
         CORE.Instance.InvokeEvent(CurrentTimeOfDay.ToString());
-        CORE.Instance.InvokeEvent("PassTimeComplete");
         OnTurnPassed.Invoke();
 
         GlobalMessagePrompterUI.Instance.Show(CurrentTimeOfDay.ToString(), 1f);
 
-        PassTimeDelayInstance = StartCoroutine(PassTimeDelay());
-    }
+        yield return 0;
 
-    Coroutine PassTimeDelayInstance;
-    IEnumerator PassTimeDelay()
-    {
+        CORE.Instance.InvokeEvent("PassTimeComplete");
+
         yield return new WaitForSeconds(0.1f);
 
-        //while(CORE.Instance.ActiveLerpers.Count > 0)
-        //{
-        //    yield return 0;
-        //}
-
-        PassTimeDelayInstance = null;
+        PassTimeRoutineInstance = null;
     }
 
     public JSONNode ToJSON()

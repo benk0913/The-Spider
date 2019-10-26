@@ -21,6 +21,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public bool Tutorial = false;
 
+    public LetterPreset CompletionLetter;
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);

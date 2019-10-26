@@ -74,11 +74,10 @@ public class WorkComplete : AgentAction
                     prefabKey: "CoinCollectedWorld",
                     startPoint: character.WorkLocation.transform,
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
-                    OnComplete: () =>
-                    {
-                        character.Gold += Mathf.RoundToInt(earnedSum+ addedGold);
-                    },
+                    null,
                     canvasElement: false);
+
+                character.Gold += Mathf.RoundToInt(earnedSum + addedGold);
             }
             else
             {

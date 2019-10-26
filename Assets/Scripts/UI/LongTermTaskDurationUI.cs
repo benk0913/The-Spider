@@ -90,7 +90,7 @@ public class LongTermTaskDurationUI : MonoBehaviour
 
         if(Instances.Keys.Count == 0)
         {
-            Destroy(this.gameObject);
+            return;
         }
 
         Refresh();
@@ -152,9 +152,9 @@ public class LongTermTaskDurationUI : MonoBehaviour
 
         ClearTaskList();
 
-        for(int i=0;i<6;i++)
+        for (int i=0;i<6;i++)
         {
-            if(i < Instances.Keys.Count)
+            if (i < Instances.Keys.Count)
             {
                 GameObject tempTaskLine = ResourcesLoader.Instance.GetRecycledObject("ActiveTaskLineUI");
                 tempTaskLine.transform.SetParent(TaskListContainer, false);
