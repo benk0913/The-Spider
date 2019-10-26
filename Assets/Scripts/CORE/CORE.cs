@@ -127,6 +127,9 @@ public class CORE : MonoBehaviour
             MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
         }
 
+
+        RoomsManager.Instance.AddCurrentRoom();
+
     }
 
 
@@ -458,8 +461,6 @@ public class CORE : MonoBehaviour
         }
 
         yield return StartCoroutine(LoadMainScene());
-
-        RoomsManager.Instance.AddCurrentRoom();
 
         MapViewManager.Instance.ShowMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
