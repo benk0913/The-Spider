@@ -70,6 +70,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public LongTermTaskDurationUI TaskDurationUI;
 
+    public List<LongTermTaskEntity> LongTermTasks = new List<LongTermTaskEntity>();
+
     void Awake()
     {
         if (PresetLocation)
@@ -80,7 +82,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     void Start()
     {
-        GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
         GameClock.Instance.OnDayPassed.AddListener(DayPassed);
     }
 
@@ -205,11 +206,41 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
-    void TurnPassed()
+    public IEnumerator TurnPassed()
     {
         ProgressUpgrade();
- 
+
+        List<LongTermTaskEntity> CompleteLate = new List<LongTermTaskEntity>();
+        List<LongTermTaskEntity> CompleteNormal = new List<LongTermTaskEntity>();
+
+        foreach (LongTermTaskEntity task in LongTermTasks)
+        {
+            if (task.CurrentTask.CompleteLate)
+            {
+                CompleteLate.Add(task);
+            }
+            else
+            {
+                CompleteNormal.Add(task);
+            }
+        }
+
+        foreach (LongTermTaskEntity task in CompleteNormal)
+        {
+            task.TurnPassed();
+            yield return 0;
+        }
+
+        foreach (LongTermTaskEntity task in CompleteLate)
+        {
+            task.TurnPassed();
+            yield return 0;
+        }
+
+
         RefreshState();
+
+        yield return 0;
     }
 
     void DayPassed()
@@ -475,7 +506,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         CharactersInLocation.Add(character);
 
-        RefreshCharactersInLocationUI();
+        if (CharactersInLocationUIInstance != null)
+        {
+            CharactersInLocationUIInstance.AddCharacter(character);
+        }
+        else
+        {
+            RefreshCharactersInLocationUI();
+        }
     }
 
     public void CharacterLeftLocation(Character character)
@@ -489,7 +527,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return;
         }
 
-        RefreshCharactersInLocationUI();
+        if(CharactersInLocationUIInstance != null)
+        {
+            CharactersInLocationUIInstance.RemoveCharacter(character);
+        }
     }
     
     public void RefreshCharactersInLocationUI()
@@ -508,6 +549,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void AddLongTermTask(LongTermTaskEntity entity)
     {
+        LongTermTasks.Add(entity);
+
         if(TaskDurationUI == null)
         {
             TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
@@ -527,12 +570,17 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             TemporaryTraits.Add(trait);
         }
 
-        TaskDurationUI.AddEntity(entity);
+        if (entity.isKnownTask)
+        {
+            TaskDurationUI.AddEntity(entity);
+        }
     }
 
     public void RemoveLongTermTask(LongTermTaskEntity entity)
     {
-        if(TaskDurationUI == null)
+        LongTermTasks.Remove(entity);
+
+        if (TaskDurationUI == null)
         {
             return;
         }
@@ -547,12 +595,15 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             TemporaryTraits.Remove(trait);
         }
 
-        TaskDurationUI.RemoveEntity(entity);
-
-        if(TaskDurationUI.Instances.Keys.Count == 0)
+        if (entity.isKnownTask)
         {
-            Destroy(TaskDurationUI.gameObject);
-            TaskDurationUI = null;
+            TaskDurationUI.RemoveEntity(entity);
+
+            if (TaskDurationUI.Instances.Keys.Count == 0)
+            {
+                Destroy(TaskDurationUI.gameObject);
+                TaskDurationUI = null;
+            }
         }
     }
 

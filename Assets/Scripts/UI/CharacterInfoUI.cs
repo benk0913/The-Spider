@@ -78,7 +78,7 @@ public class CharacterInfoUI : MonoBehaviour
     void Start()
     {
         CORE.Instance.SubscribeToEvent("HideMap",Hide);
-        GameClock.Instance.OnTurnPassed.AddListener(RefreshTurnPassed);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", RefreshTurnPassed);
         this.gameObject.SetActive(false);
     }
 

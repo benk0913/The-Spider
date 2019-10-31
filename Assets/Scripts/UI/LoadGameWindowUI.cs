@@ -7,6 +7,14 @@ public class LoadGameWindowUI : MonoBehaviour
     [SerializeField]
     Transform SaveLinesContainer;
 
+    public static LoadGameWindowUI Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+        Hide();
+    }
+
     public void Show()
     {
         this.gameObject.SetActive(true);

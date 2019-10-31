@@ -25,7 +25,7 @@ public class InformationLogUI : MonoBehaviour
 
     private void Start()
     {
-        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete",OnTurnPassed);
     }
 
     void OnEnable()

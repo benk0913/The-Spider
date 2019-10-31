@@ -67,7 +67,6 @@ public class IdleAgentsPanel : MonoBehaviour
                 }
             }
 
-            yield return 0;
         }
 
         if(empty)

@@ -26,6 +26,7 @@ public class CORE : MonoBehaviour
     public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();
 
     public static Character PC;
+    public static Faction PlayerFaction;
 
     public bool TutorialOnStart = false; // TODO - Move this to a pref section when there is one (settings / etc...)
 
@@ -38,8 +39,6 @@ public class CORE : MonoBehaviour
             return LoadingGameRoutine != null;
         }
     }
-
-    public string GameScene = "Game";
 
     public bool FocusViewLocked = false;
 
@@ -56,28 +55,34 @@ public class CORE : MonoBehaviour
 
     void Initialize()
     {
-        NewGame();
+        foreach(Faction faction in Database.Factions)
+        {
+            if(faction.isLockedByDefault)
+            {
+                faction.isLocked = bool.Parse(PlayerPrefs.GetString(faction.name + "LOCK", true.ToString()));
+            }
+        }
     }
 
-    void NewGame()
+    public void NewGame(Faction selectedFaction)
     {
         if(LoadingGameRoutine != null)
         {
             return;
         }
 
-        LoadingGameRoutine = StartCoroutine(NewGameRoutine());
+        LoadingGameRoutine = StartCoroutine(NewGameRoutine(selectedFaction));
     }
 
     Coroutine LoadingGameRoutine;
-    IEnumerator NewGameRoutine()
+    IEnumerator NewGameRoutine(Faction selectedFaction)
     {
         while (ResourcesLoader.Instance.m_bLoading)
         {
             yield return 0;
         }
 
-        yield return StartCoroutine(LoadMainScene());
+        yield return StartCoroutine(LoadMainScene(selectedFaction));
 
 
         if (TutorialOnStart)
@@ -88,10 +93,10 @@ public class CORE : MonoBehaviour
         LoadingGameRoutine = null;
     }
 
-    IEnumerator LoadMainScene()
+    IEnumerator LoadMainScene(Faction selectedFaction)
     {
-        SceneManager.LoadScene(GameScene);
-        while (SceneManager.GetActiveScene().name != GameScene)
+        SceneManager.LoadScene(selectedFaction.RoomScene);
+        while (SceneManager.GetActiveScene().name != selectedFaction.RoomScene)
         {
             yield return 0;
         }
@@ -104,11 +109,24 @@ public class CORE : MonoBehaviour
 
         yield return 0;
 
+        PlayerFaction = selectedFaction;
+
+        Character prewarmedPC = Instantiate(selectedFaction.FactionHead);
+        prewarmedPC.name = selectedFaction.FactionHead.name;
+        PC = prewarmedPC;
+        prewarmedPC.Initialize(true);
+        Characters.Add(prewarmedPC);
+
         foreach (Character character in Database.PresetCharacters)
         {
+            if(character.name == PC.name)
+            {
+                continue;
+            }
+
             Character tempCharacter = Instantiate(character);
-            tempCharacter.Initialize(true);
             tempCharacter.name = character.name;
+            tempCharacter.Initialize(true);
 
             Characters.Add(tempCharacter);
         }
@@ -119,8 +137,6 @@ public class CORE : MonoBehaviour
             CORE.Instance.Locations.Add(presetLocation);
         }
 
-        PC = GetCharacter("'Juliana'");
-
         if (MapViewManager.Instance != null)
         {
             MapViewManager.Instance.HideMap();
@@ -130,8 +146,18 @@ public class CORE : MonoBehaviour
 
         RoomsManager.Instance.AddCurrentRoom();
 
+        AddListeners();
     }
 
+    void AddListeners()
+    {
+        GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+    }
+
+    void RemoveListeners()
+    {
+        GameClock.Instance.OnTurnPassed.RemoveListener(TurnPassed);
+    }
 
     void WipeCurrentGame()
     {
@@ -146,6 +172,7 @@ public class CORE : MonoBehaviour
         PurchasablePlots.Clear();
 
         GameClock.Instance.Wipe();
+        RemoveListeners();
     }
 
     #region Events
@@ -181,6 +208,28 @@ public class CORE : MonoBehaviour
         }
 
         DynamicEvents[eventKey].Invoke();
+    }
+
+    public void TurnPassed()
+    {
+        TurnPassedRoutineInstance = StartCoroutine(TurnPassedRoutine());
+    }
+
+    public Coroutine TurnPassedRoutineInstance;
+    IEnumerator TurnPassedRoutine()
+    {
+        foreach(LocationEntity location in Locations)
+        {
+            yield return StartCoroutine(location.TurnPassed());
+        }
+
+        foreach (Character character in Characters)
+        {
+            character.OnTurnPassedAI();
+            yield return 0;
+        }
+
+        TurnPassedRoutineInstance = null;
     }
 
     #endregion
@@ -331,6 +380,11 @@ public class CORE : MonoBehaviour
 
     public LocationEntity GetClosestLocationWithTrait(PropertyTrait trait, LocationEntity targetLocation)
     {
+        if(targetLocation == null)
+        {
+            return GetRandomLocationWithTrait(trait);
+        }
+
         List<LocationEntity> LocationsWithTrait = new List<LocationEntity>();
         for (int i = 0; i < Locations.Count; i++)
         {
@@ -404,6 +458,8 @@ public class CORE : MonoBehaviour
         JSONClass savefile = new JSONClass();
         savefile["Name"] = "Save" + SaveFiles.Count;
         savefile["Date"] = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        savefile["SelectedFaction"] = PlayerFaction.name;
+        savefile["PlayerCharacter"] = PC.name;
 
         savefile["GameClock"] = GameClock.Instance.ToJSON();
 
@@ -460,7 +516,7 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
-        yield return StartCoroutine(LoadMainScene());
+        yield return StartCoroutine(LoadMainScene(Database.GetFactionByName(file.Content["SelectedFaction"])));
 
         MapViewManager.Instance.ShowMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
@@ -513,7 +569,7 @@ public class CORE : MonoBehaviour
         }
         yield return 0;
 
-        PC = GetCharacter("'Juliana'");
+        PC = GetCharacter(file.Content["PlayerCharacter"]);
 
         foreach (Character character in Characters)
         {

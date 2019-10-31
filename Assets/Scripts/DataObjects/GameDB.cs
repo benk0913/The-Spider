@@ -10,8 +10,6 @@ public class GameDB : ScriptableObject
     //TODO Add tooltips for each serialized field.
     public List<RaceSet> Races = new List<RaceSet>();
 
-    public Character PlayerCharacter;
-
     public Character HumanReference;
 
     public Character GOD;
@@ -26,6 +24,7 @@ public class GameDB : ScriptableObject
     public PropertyTrait RumorsHubTrait;
     public PropertyTrait HouseOfWorshipTrait;
     public PropertyTrait HouseOfPleasureTrait;
+    public PropertyTrait BurialGroundTrait;
 
     public Faction DefaultFaction;
 

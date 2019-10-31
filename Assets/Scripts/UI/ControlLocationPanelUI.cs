@@ -85,13 +85,13 @@ public class ControlLocationPanelUI : MonoBehaviour
     public void Show()
     {
         this.gameObject.SetActive(true);
-        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
     }
 
     public void Hide()
     {
         this.gameObject.SetActive(false);
-        GameClock.Instance.OnTurnPassed.RemoveListener(OnTurnPassed);
+        CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", OnTurnPassed);
         Deselect();
     }
 

@@ -32,7 +32,7 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
     private void Start()
     {
         GameClock.Instance.OnWeekPassed.AddListener(OnWeekPassed);
-        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
     }
 
     void OnEnable()

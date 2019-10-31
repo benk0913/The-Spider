@@ -48,7 +48,7 @@ public class ActionUI : MonoBehaviour
             {
                 TooltipTarget.Text = action.Description;
 
-                if (CurrentAction.WorkAction != null && CurrentAction.WorkAction.Challenge != null)
+                if (CurrentAction.WorkAction != null && CurrentAction.WorkAction.Challenge != null && CurrentAction.WorkAction.Challenge.Type != null)
                 {
                     TooltipTarget.Text += "\n \n Essential Skill:";
 

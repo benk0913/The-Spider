@@ -63,7 +63,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
     public override void Show(Action<Character> onSelect = null, Predicate<Character> filter = null)
     {
         this.gameObject.SetActive(true);
-        GameClock.Instance.OnTurnPassed.AddListener(Refresh);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
 
         Refresh();
     }
@@ -71,7 +71,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
     public void Hide()
     {
         this.gameObject.SetActive(false);
-        GameClock.Instance.OnTurnPassed.RemoveListener(Refresh);
+        CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", Refresh);
     }
 
     [System.Serializable]

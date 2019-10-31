@@ -15,11 +15,28 @@ MonoBehaviour:
   Description: The constabulary is in charge of policing the surrounding distric;
     from patrolling the streets to capturing and imprisoning the local criminals.
   PropertyLevels:
+  - MaxEmployees: 2
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    RecruitmentLength: 12
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - MaxEmployees: 4
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    RecruitmentLength: 12
+    InventoryCap: 0
+    PossibleMerchantise: []
   - MaxEmployees: 6
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
     RecruitmentLength: 12
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
   Actions:
   - Name: Patrolling
     Description: The constables and militia-men will patrol the district's streets
@@ -47,3 +64,4 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: constable
+  IsVendor: 0

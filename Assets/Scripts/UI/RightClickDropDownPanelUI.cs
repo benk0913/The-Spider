@@ -39,7 +39,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
     {
         Hide();
 
-        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
 
         this.gameObject.SetActive(true);
 
@@ -106,7 +106,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
 
     public void Hide()
     {
-        GameClock.Instance.OnTurnPassed.RemoveListener(OnTurnPassed);
+        CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", OnTurnPassed);
         this.gameObject.SetActive(false);
     }
 

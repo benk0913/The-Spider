@@ -55,18 +55,18 @@ public class RebrandWindowUI : MonoBehaviour
     {
         CurrentIndex++;
 
-        if(CurrentIndex >= CORE.Instance.Database.Properties.Count)
+        if(CurrentIndex >= CORE.PlayerFaction.FactionProperties.Length)
         {
             CurrentIndex = 0;
         }
 
-        if(CORE.Instance.Database.Properties[CurrentIndex].PlotType != CurrentLocation.CurrentProperty.PlotType)
+        if(CORE.PlayerFaction.FactionProperties[CurrentIndex].PlotType != CurrentLocation.CurrentProperty.PlotType)
         {
             Next();
             return;
         }
 
-        SetProperty(CORE.Instance.Database.Properties[CurrentIndex]);
+        SetProperty(CORE.PlayerFaction.FactionProperties[CurrentIndex]);
     }
 
     public void Previous()
@@ -75,16 +75,16 @@ public class RebrandWindowUI : MonoBehaviour
 
         if (CurrentIndex <= 0)
         {
-            CurrentIndex = CORE.Instance.Database.Properties.Count - 1;
+            CurrentIndex = CORE.PlayerFaction.FactionProperties.Length - 1;
         }
 
-        if (CORE.Instance.Database.Properties[CurrentIndex].PlotType != CurrentLocation.CurrentProperty.PlotType)
+        if (CORE.PlayerFaction.FactionProperties[CurrentIndex].PlotType != CurrentLocation.CurrentProperty.PlotType)
         {
             Previous();
             return;
         }
 
-        SetProperty(CORE.Instance.Database.Properties[CurrentIndex]);
+        SetProperty(CORE.PlayerFaction.FactionProperties[CurrentIndex]);
     }
 
     public void SetProperty(Property property)
@@ -118,7 +118,7 @@ public class RebrandWindowUI : MonoBehaviour
 
     public void ConfirmProperty()
     {
-        CurrentLocation.Rebrand(CORE.Instance.Database.Properties[CurrentIndex]);
+        CurrentLocation.Rebrand(CORE.PlayerFaction.FactionProperties[CurrentIndex]);
         Hide();
     }
 }

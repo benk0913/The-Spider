@@ -35,7 +35,7 @@ public class StatsViewUI : MonoBehaviour
 
     private void Start()
     {
-        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassed);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
     }
 
     void OnTurnPassed()

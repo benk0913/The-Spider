@@ -52,7 +52,7 @@ public class LocationInfoUI : MonoBehaviour
     }
     public void Hide()
     {
-        GameClock.Instance.OnTurnPassed.RemoveListener(RefreshUI);
+        CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", RefreshUI);
         this.gameObject.SetActive(false);
     }
 
@@ -69,7 +69,7 @@ public class LocationInfoUI : MonoBehaviour
 
         CurrentLocation = location;
 
-        GameClock.Instance.OnTurnPassed.AddListener(RefreshUI);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", RefreshUI);
     }
 
     public void RefreshUI()

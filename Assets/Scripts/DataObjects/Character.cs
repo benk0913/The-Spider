@@ -13,7 +13,18 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool IsDead = false;
 
-    public bool isKnownOnStart = false;
+    public bool isKnownOnStart
+    {
+        get
+        {
+            return _isknownonstart || this == CORE.PC || CORE.PC == this.TopEmployer;
+        }
+        set
+        {
+            _isknownonstart = value;
+        }
+    }
+    private bool _isknownonstart;
 
     public bool isImportant
     {
@@ -572,20 +583,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void Wipe()
     {
-        RemoveListeners();
         Destroy(this);
-    }
-
-    void AddListeners()
-    {
-        RemoveListeners();
-        GameClock.Instance.OnTurnPassed.AddListener(OnTurnPassedAI);
-    }
-
-    void RemoveListeners()
-    {
-        GameClock.Instance.OnTurnPassed.RemoveListener(OnTurnPassedAI);
-        StateChanged.RemoveAllListeners();
     }
 
     public void RefreshVisualTree()
@@ -681,7 +679,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         RefreshVisualTree();
 
-        AddListeners();
 
         Known = new Knowledge(this);
 
@@ -774,7 +771,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     #region AI
 
-    void OnTurnPassedAI()
+    public void OnTurnPassedAI()
     {
         for(int i=0;i<DynamicRelationsModifiers.Count;i++)
         {
@@ -867,6 +864,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void GoToLocation(LocationEntity targetLocation)
     {
+
         if(targetLocation == CurrentLocation)
         {
             return;
@@ -883,7 +881,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         //If new location doesnt have agents and the character is not players agent
-        if(TopEmployer.name != "'Juliana'"
+        if(TopEmployer.name != CORE.PC.name
             && targetLocation.CharactersInLocation.FindAll((Character charInLocation) => { return charInLocation.TopEmployer == CORE.PC; }).Count == 0)
         {
             Known.Forget("CurrentLocation");
@@ -1097,7 +1095,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         SelectedPanelUI.Instance.Deselect();
 
-        GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait));
+        GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.BurialGroundTrait));
 
         if (WorkLocation != null)
         {
@@ -1116,8 +1114,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
 
         StopDoingCurrentTask();
-        
-        RemoveListeners();
 
         CORE.Instance.Characters.Remove(this);
 

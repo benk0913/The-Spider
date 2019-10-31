@@ -40,6 +40,11 @@ public class ActiveTaskLineUI : MonoBehaviour
 
         for (int i = 0; i < tasks.Count; i++)
         {
+            if (!tasks[i].isKnownTask)
+            {
+                continue;
+            }
+
             GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
             tempPortrait.transform.SetParent(PortraitContainer, false);
             tempPortrait.transform.localScale = Vector3.one;

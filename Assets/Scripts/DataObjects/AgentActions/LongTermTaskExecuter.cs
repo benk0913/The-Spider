@@ -7,6 +7,8 @@ using UnityEngine;
 public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
 {
     public LongTermTask Task;
+    public bool RandomLocation;
+    public PropertyTrait LocationTrait;
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
@@ -31,6 +33,25 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
         if(Task == null)
         {
             return;
+        }
+
+        if (LocationTrait != null)
+        {
+            if(RandomLocation || character.CurrentLocation == null)
+            {
+                character.GoToLocation(CORE.Instance.GetRandomLocationWithTrait(LocationTrait));
+            }
+            else
+            {
+                character.GoToLocation(CORE.Instance.GetClosestLocationWithTrait(LocationTrait, character.CurrentLocation));
+            }
+        }
+        else
+        {
+            if (RandomLocation)
+            {
+                character.GoToLocation(CORE.Instance.GetRandomLocation());
+            }
         }
 
         if (target.GetType() == typeof(LocationEntity))

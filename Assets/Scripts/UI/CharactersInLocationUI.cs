@@ -46,26 +46,44 @@ public class CharactersInLocationUI : MonoBehaviour
         Refresh();
     }
 
+    public void AddCharacter(Character character)
+    {
+        if (!character.isImportant)
+        {
+            return;
+        }
+
+        if (!character.IsKnown("CurrentLocation"))
+        {
+            return;
+        }
+
+        PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+        portrait.transform.SetParent(Container, false);
+        portrait.transform.localScale = Vector3.one;
+        portrait.SetCharacter(character);
+    }
+
+    public void RemoveCharacter(Character character)
+    {
+        for(int i=0;i<Container.childCount;i++)
+        {
+            if(Container.GetChild(i).GetComponent<PortraitUI>().CurrentCharacter == character)
+            {
+                Container.GetChild(i).gameObject.SetActive(false);
+                Container.GetChild(i).SetParent(transform);
+                return;
+            }
+        }
+    }
+
     void Refresh()
     {
         ClearContainer();
 
         foreach (Character character in currentLocation.CharactersInLocation)
         {
-            if (!character.isImportant)
-            {
-                continue;
-            }
-
-            if(!character.IsKnown("CurrentLocation"))
-            {
-                continue;
-            }
-
-            PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
-            portrait.transform.SetParent(Container, false);
-            portrait.transform.localScale = Vector3.one;
-            portrait.SetCharacter(character);
+            AddCharacter(character);
         }
     }
 

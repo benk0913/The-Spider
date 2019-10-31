@@ -25,7 +25,9 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     LocationEntity CurrentLocation;
 
-    public bool isKnownTask = false;
+    public bool isKnownTask;
+
+    public bool isComplete;
 
     public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1)
     {
@@ -41,29 +43,18 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         this.CurrentTargetLocation = targetLocation;
         TurnsLeft = task.TurnsToComplete;
 
+        isKnownTask = (CurrentCharacter.TopEmployer == CORE.PC
+            || ((CurrentCharacter.isImportant || CurrentCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction) && CurrentCharacter.IsKnown("CurrentLocation")));
+
         this.CurrentCharacter.StartDoingTask(this);
+            
 
-        GameClock.Instance.OnTurnPassed.AddListener(TurnPassed);
+        CurrentLocation = ((LocationEntity)targetLocation);
 
-
-        isKnownTask = 
-            (character.TopEmployer == CORE.PC
-            || (character.isImportant && character.IsKnown("CurrentLocation")));
-
-        if (isKnownTask)
-        {
-            CurrentLocation = ((LocationEntity)targetLocation);
-
-            CurrentLocation.AddLongTermTask(this);
-        }
+        CurrentLocation.AddLongTermTask(this);
     }
 
-    private void OnDestroy()
-    {
-        GameClock.Instance.OnTurnPassed.RemoveListener(TurnPassed);
-    }
-
-    void TurnPassed()
+    public void TurnPassed()
     {
         TurnsLeft--;
 
@@ -72,24 +63,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             Complete();
             return;
         }
-
-        if (isKnownTask)
-        {
-            if (CurrentLocation.TaskDurationUI == null)
-            {
-                return;
-            }
-
-            CurrentLocation.TaskDurationUI.Refresh();//TODO move refresh to a unified location?
-        }
     }
 
     public void Complete()
     {
-        if (isKnownTask)
-        {
-            CurrentLocation.RemoveLongTermTask(this);
-        }
+        CurrentLocation.RemoveLongTermTask(this);
 
         this.CurrentCharacter.StopDoingCurrentTask(true);
 
@@ -109,9 +87,13 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         {
             resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTargetLocation);
         }
-        
 
-        Destroy(this.gameObject);
+        if (!isComplete)
+        {
+            Destroy(this.gameObject);
+        }
+
+        isComplete = true;
     }
 
     public bool Cancel()
@@ -121,10 +103,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             return false;
         }
 
-        if (isKnownTask)
-        {
-            CurrentLocation.RemoveLongTermTask(this);
-        }
+        CurrentLocation.RemoveLongTermTask(this);
 
         CurrentCharacter.StopDoingCurrentTask();
 

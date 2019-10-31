@@ -23,6 +23,10 @@ public class LongTermTask : ScriptableObject
 
     public Trait[] TraitsToTargetDuringAction;
 
+    public bool Illegal = false;
+
+    public bool CompleteLate;
+
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();

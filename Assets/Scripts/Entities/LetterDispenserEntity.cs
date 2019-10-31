@@ -27,7 +27,7 @@ public class LetterDispenserEntity : MonoBehaviour
     {
         GameClock.Instance.OnWeekPassed.AddListener(OnWeekPassed);
 
-        if(GameClock.Instance.CurrentTurn == 0)
+        if(GameClock.Instance.CurrentTurn == 0 && CORE.Instance.Database.Timeline.Length > 0)
         {
             foreach (LetterPreset letter in CORE.Instance.Database.Timeline[0].Letters)
             {

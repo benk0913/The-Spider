@@ -24,7 +24,7 @@ public class TurnReportUI : MonoBehaviour
 
     private void Start()
     {
-        GameClock.Instance.OnTurnPassed.AddListener(Refresh);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
     }
 
     public List<TurnReportLogItemInstance> Log = new List<TurnReportLogItemInstance>();

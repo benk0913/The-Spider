@@ -94,6 +94,11 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
 
         CORE.Instance.InvokeEvent("PassTimeComplete");
 
+        while (CORE.Instance.TurnPassedRoutineInstance != null)
+        {
+            yield return 0;
+        }
+
         yield return new WaitForSeconds(0.1f);
 
         PassTimeRoutineInstance = null;

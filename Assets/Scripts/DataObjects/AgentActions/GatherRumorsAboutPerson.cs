@@ -28,12 +28,27 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         Rumor gatheredRumor = null;
         if (Random.Range(0, awareValue + targetDiscreetValue) < awareValue)
         {
+
             Rumor rumor = Instantiate(CORE.Instance.Database.CustomRumor);
 
-            rumor.name = targetChar.name + " in " + targetChar.CurrentLocation.CurrentProperty.name;
-            rumor.Title = rumor.name;
-            rumor.Description = targetChar.name + " is rumored to have been seen nearby " + targetChar.CurrentLocation.CurrentProperty.name;
-            rumor.RelevantLocationID = targetChar.CurrentLocation.ID;
+            int randomRumor = Random.Range(0, 100);
+
+            if (randomRumor < 100)
+            {
+                rumor.name = targetChar.name + " in " + targetChar.CurrentLocation.CurrentProperty.name;
+                rumor.Title = rumor.name;
+                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + targetChar.CurrentLocation.CurrentProperty.name;
+                rumor.RelevantLocationID = targetChar.CurrentLocation.ID;
+            }
+            else if (randomRumor < 50)
+            {
+                Trait trait = targetChar.Traits[Random.Range(0, targetChar.Traits.Count)];
+
+                rumor.name = targetChar.name + " is " + trait.name;
+                rumor.Title = rumor.name;
+                rumor.Description = targetChar.name + " is rumored to have the trait: " + trait;
+                rumor.RelevantLocationID = "";
+            }
 
             gatheredRumor = rumor;
         }
@@ -43,7 +58,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
             int randomRumor = Random.Range(0, 100);
 
-            if(randomRumor < 40)
+            if(randomRumor < 100)
             {
                 LocationEntity randomLocation = CORE.Instance.GetRandomLocation();
 
@@ -52,50 +67,21 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
                 rumor.Description = targetChar.name + " is rumored to have been seen nearby " + randomLocation.CurrentProperty.name;
                 rumor.RelevantLocationID = randomLocation.ID;
             }
-            else if(randomRumor < 60)
+            else if(randomRumor < 50)
             {
                 Trait randomTrait = CORE.Instance.Database.GetRandomTrait();
 
                 rumor.name = targetChar.name + " is " + randomTrait.name;
                 rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to be " + randomTrait;
-                rumor.RelevantLocationID = "";
-            }
-            else if(randomRumor < 70)
-            {
-                rumor.name = targetChar.name + " likes cats.";
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + "  is rumored to like cats.";
-                rumor.RelevantLocationID = "";
-            }
-            else if(randomRumor < 80)
-            {
-                rumor.name = targetChar.name + " fancies elephants.";
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + "  is rumored to fancy... elephants!?";
-                rumor.RelevantLocationID = "";
-            }
-            else if (randomRumor < 90)
-            {
-                rumor.name = targetChar.name + " is amazing.";
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + "  is rumored to have an amazing personality.";
-                rumor.RelevantLocationID = "";
-            }
-            else if (randomRumor < 100)
-            {
-                rumor.name = targetChar.name + " is looking good.";
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + "  is rumored to be quite the good looking.";
+                rumor.Description = targetChar.name + " is rumored to have the trait: " + randomTrait;
                 rumor.RelevantLocationID = "";
             }
 
             gatheredRumor = rumor;
         }
 
-        gatheredRumor.Description += "\n <size=15>This rumor may be wrong or useless, it depends on how much "
-                + character.name
-                + " is 'Aware'! <color=yellow>(" + character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value + ")</color></size>";
+        gatheredRumor.Description += "\n <size=15>Chance for this rumor to be valid: <color=yellow>"
+                + Mathf.RoundToInt(100f*(awareValue/(awareValue+targetDiscreetValue)))+" % </color></size>";
         gatheredRumor.RelevantCharacterID = targetChar.ID;
         gatheredRumor.isTemporary = true;
 
