@@ -225,4 +225,17 @@ public class LongTermTaskDurationUI : MonoBehaviour
         ClearTaskList();
         Hide();
     }
+
+    public bool Contains(LongTermTaskEntity entity)
+    {
+        foreach(LongTermTask key in Instances.Keys)
+        {
+            if(Instances[key].Contains(entity))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

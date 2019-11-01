@@ -43,8 +43,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         this.CurrentTargetLocation = targetLocation;
         TurnsLeft = task.TurnsToComplete;
 
-        isKnownTask = (CurrentCharacter.TopEmployer == CORE.PC
-            || ((CurrentCharacter.isImportant || CurrentCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction) && CurrentCharacter.IsKnown("CurrentLocation")));
+        RefreshKnownTaskState();
 
         this.CurrentCharacter.StartDoingTask(this);
             
@@ -52,6 +51,12 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         CurrentLocation = ((LocationEntity)targetLocation);
 
         CurrentLocation.AddLongTermTask(this);
+    }
+
+    public void RefreshKnownTaskState()
+    {
+        isKnownTask = (CurrentCharacter.TopEmployer == CORE.PC
+            || ((CurrentCharacter.isImportant || CurrentCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction) && CurrentCharacter.IsKnown("CurrentLocation")));
     }
 
     public void TurnPassed()

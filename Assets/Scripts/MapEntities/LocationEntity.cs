@@ -546,6 +546,26 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         CharactersInLocationUIInstance.SetInfo(this);
     }
 
+    public void RefreshTasks()
+    {
+        if (TaskDurationUI == null)
+        {
+            TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
+            TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            TaskDurationUI.transform.SetAsFirstSibling();
+        }
+
+        foreach(LongTermTaskEntity task in LongTermTasks)
+        {
+            task.RefreshKnownTaskState();
+            if (task.isKnownTask && !TaskDurationUI.Contains(task))
+            {
+                TaskDurationUI.AddEntity(task);
+            }
+        }
+
+        TaskDurationUI.Refresh();
+    }
 
     public void AddLongTermTask(LongTermTaskEntity entity)
     {

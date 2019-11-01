@@ -57,27 +57,40 @@ public class Knowledge
 
     public void KnowAllBasic()
     {
-        foreach(KnowledgeInstance item in Items)
+        foreach (KnowledgeInstance item in Items)
         {
-            item.IsKnown = true;
+            Know(item.Key, false);
         }
     }
 
-    public void Know(string key)
+    public void Know(string key, bool notify = true)
     {
         KnowledgeInstance instance = GetKnowledgeInstance(key);
+
         if (!instance.IsKnown)
         {
-            CORE.Instance.SplineAnimationObject(
-                "PaperCollectedWorld",
-                CurrentCharacter.CurrentLocation.transform,
-                InformationLogUI.Instance.Notification.transform,
-                null,
-                false);
+            if (notify)
+            {
+                if (CurrentCharacter.CurrentLocation != null)
+                {
+                    CORE.Instance.SplineAnimationObject(
+                        "PaperCollectedWorld",
+                        CurrentCharacter.CurrentLocation.transform,
+                        InformationLogUI.Instance.Notification.transform,
+                        null,
+                        false);
+                }
 
-            InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
+                InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
+            }
 
             instance.IsKnown = true;
+        }
+        
+
+        if(key == "CurrentLocation" && CurrentCharacter.CurrentTaskEntity != null)
+        {
+            CurrentCharacter.CurrentTaskEntity.CurrentTargetLocation.RefreshTasks();
         }
     }
 

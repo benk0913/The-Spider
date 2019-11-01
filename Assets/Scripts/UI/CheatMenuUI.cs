@@ -1,11 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CheatMenuUI : MonoBehaviour
 {
+    public bool ShowAllCharactersOn = false;
+
+    private void Start()
+    {
+        GameClock.Instance.OnTurnPassed.AddListener(ShowAllCharacters);
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", ShowAllCharacters);
+    }
+
     public void ShowAllCharacters()
     {
+        if(!ShowAllCharactersOn)
+        {
+            return;
+        }
+
         foreach(Character character in CORE.Instance.Characters)
         {
             character.Known.KnowAllBasic();
@@ -16,7 +30,9 @@ public class CheatMenuUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            ShowAllCharacters();
+            ShowAllCharactersOn = !ShowAllCharactersOn;
         }
     }
+
+
 }

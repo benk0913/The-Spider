@@ -52,10 +52,22 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             {
                 character.GoToLocation(CORE.Instance.GetRandomLocation());
             }
+            else
+            {
+                if (target.GetType() == typeof(LocationEntity))
+                {
+                    character.GoToLocation((LocationEntity)target);
+                }
+                else if (target.GetType() == typeof(PortraitUI))
+                {
+                    character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
+                }
+            }
         }
 
         if (target.GetType() == typeof(LocationEntity))
         {
+            target = character.CurrentLocation;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
         }
         else if (target.GetType() == typeof(PortraitUI))
