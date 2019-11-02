@@ -18,36 +18,43 @@ MonoBehaviour:
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 100
-    RecruitmentLength: 10
+    InventoryCap: 0
+    PossibleMerchantise: []
   - MaxEmployees: 3
     MaxActions: 2
-    UpgradePrice: 300
+    UpgradePrice: 30
     UpgradeLength: 10
-    RecruitmentLength: 10
+    InventoryCap: 0
+    PossibleMerchantise: []
   - MaxEmployees: 4
     MaxActions: 2
-    UpgradePrice: 600
+    UpgradePrice: 70
     UpgradeLength: 10
-    RecruitmentLength: 10
-  - MaxEmployees: 8
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - MaxEmployees: 6
     MaxActions: 3
-    UpgradePrice: 2000
+    UpgradePrice: 200
     UpgradeLength: 10
-    RecruitmentLength: 10
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
   Actions:
   - Name: Pleasure I
     Description: The pleasure house will provide it's unique services.
     Icon: {fileID: 21300000, guid: 8269f618f576bb84a958288b3737a11a, type: 3}
-    GoldGeneratedMin: 4
-    GoldGeneratedMax: 8
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 1
     WorkAction: {fileID: 11400000, guid: fa4dd3407f087914abea8233483cdd89, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   - Name: Pleasure II
     Description: The pleasure house will provide it's unique services.
     Icon: {fileID: 21300000, guid: 8269f618f576bb84a958288b3737a11a, type: 3}
-    GoldGeneratedMin: 6
-    GoldGeneratedMax: 10
+    GoldGenerated: 2
+    ConnectionsGenerated: 0
+    RumorsGenerated: 1
     WorkAction: {fileID: 11400000, guid: fa4dd3407f087914abea8233483cdd89, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -55,8 +62,9 @@ MonoBehaviour:
     Description: The pleasure house will provide it's unique services at premium
       quality.
     Icon: {fileID: 21300000, guid: 8269f618f576bb84a958288b3737a11a, type: 3}
-    GoldGeneratedMin: 12
-    GoldGeneratedMax: 12
+    GoldGenerated: 3
+    ConnectionsGenerated: 0
+    RumorsGenerated: 1
     WorkAction: {fileID: 11400000, guid: fa4dd3407f087914abea8233483cdd89, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -78,3 +86,4 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: entertainer
+  IsVendor: 0

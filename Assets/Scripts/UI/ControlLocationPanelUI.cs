@@ -174,7 +174,7 @@ public class ControlLocationPanelUI : MonoBehaviour
                 CurrentLocation.OwnerCharacter.PropertiesOwned.Count;
         }
 
-        OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter, string.Format("x{0:F1}", productivity), productivity >= 1f);
+        OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter, CurrentLocation, false);
 
         ClearEmployeeInstances();
 
@@ -196,16 +196,16 @@ public class ControlLocationPanelUI : MonoBehaviour
 
                     productivity = CurrentLocation.EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
 
-                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], string.Format("x{0:F1}", productivity), productivity >= 1f);
+                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], CurrentLocation, false);
                 }
                 else
                 {
-                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], "", true);
+                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], CurrentLocation, false);
                 }
             }
             else
             {
-                tempPortrait.SetCharacter(null, "", true);
+                tempPortrait.SetCharacter(null, CurrentLocation, true);
             }
             
         }

@@ -37,8 +37,6 @@ public class PlotInfoPanelUI : MonoBehaviour
 
         TypeText.text = plot.Type.name;
         PriceText.text = plot.Price.ToString();
-        RevMultiText.text = plot.RevenueMultiplier.ToString()+"x";
-        RiskMultiText.text = plot.RiskMultiplier.ToString() + "x";
         PlotTypeView.SetInfo(plot.Type);
 
         Show();
@@ -54,5 +52,9 @@ public class PlotInfoPanelUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    public void PurchasePlot()
+    {
+        GlobalMessagePrompterUI.Instance.Show("WORK IN PROGRESS");//TODO this...
+    }
 
 }

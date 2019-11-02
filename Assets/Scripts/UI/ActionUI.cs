@@ -46,7 +46,7 @@ public class ActionUI : MonoBehaviour
             
             if (TooltipTarget != null)
             {
-                TooltipTarget.Text = action.Description;
+                TooltipTarget.SetTooltip(action.Description);
 
                 if (CurrentAction.WorkAction != null && CurrentAction.WorkAction.Challenge != null && CurrentAction.WorkAction.Challenge.Type != null)
                 {
@@ -64,7 +64,7 @@ public class ActionUI : MonoBehaviour
 
             if (TooltipTarget != null)
             {
-                TooltipTarget.Text = "Action Is Unavailable";
+                TooltipTarget.SetTooltip("Action Is Unavailable");
             }
         }
 

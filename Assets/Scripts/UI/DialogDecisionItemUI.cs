@@ -27,7 +27,7 @@ public class DialogDecisionItemUI : MonoBehaviour
     void RefreshUI()
     {
         Icon.sprite = CurrentDecision.Icon;
-        TooltipTarget.Text = CurrentDecision.Title;
+        TooltipTarget.SetTooltip(CurrentDecision.Title);
 
         ClickableButton.interactable = true;
 

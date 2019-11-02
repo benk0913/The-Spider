@@ -12,7 +12,10 @@ public class StatsViewUI : MonoBehaviour
     public TextMeshProUGUI GoldText;
     
     [SerializeField]
-    TextMeshProUGUI ReputationText;
+    public TextMeshProUGUI ConnectionsText;
+
+    [SerializeField]
+    public TextMeshProUGUI RumorsText;
 
     [SerializeField]
     TextMeshProUGUI TurnText;
@@ -22,6 +25,12 @@ public class StatsViewUI : MonoBehaviour
 
     [SerializeField]
     UnityEvent OnGoldChanged;
+
+    [SerializeField]
+    UnityEvent OnConnectionsChanged;
+
+    [SerializeField]
+    UnityEvent OnRumorsChanged;
 
     private void OnEnable()
     {
@@ -58,21 +67,36 @@ public class StatsViewUI : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
             RefreshGold();
-            RefreshRep();
+            RefreshConnections();
+            RefreshRumors();
         }
     }
 
+
     void RefreshGold()
     {
-        if(GoldText.text != CORE.PC.Gold.ToString()+"c")
+        if (GoldText.text != CORE.PC.Gold.ToString() + "c")
         {
             GoldText.text = CORE.PC.Gold.ToString() + "c";
             OnGoldChanged?.Invoke();
         }
     }
 
-    void RefreshRep()
+    void RefreshConnections()
     {
-        ReputationText.text = "None";
+        if (ConnectionsText.text != CORE.PC.Connections.ToString())
+        {
+            ConnectionsText.text = CORE.PC.Connections.ToString();
+            OnConnectionsChanged?.Invoke();
+        }
+    }
+
+    void RefreshRumors()
+    {
+        if (RumorsText.text != CORE.PC.Rumors.ToString())
+        {
+            RumorsText.text = CORE.PC.Rumors.ToString();
+            OnRumorsChanged?.Invoke();
+        }
     }
 }

@@ -32,7 +32,7 @@ public class ItemUI : AgentInteractable, IPointerClickHandler
     void RefreshUI()
     {
         Icon.sprite = CurrentItem.Icon;
-        TooltipTarget.Text = CurrentItem.Description;
+        TooltipTarget.SetTooltip(CurrentItem.Description);
     }
 
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)

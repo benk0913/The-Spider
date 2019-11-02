@@ -65,37 +65,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
 
-    public int Gold
-    {
-        set
-        {
-            
-            int earnings = value - _gold;
-            
-            if (Employer != null)
-            {
-                if (earnings < 2)
-                {
-                    Employer.Gold += earnings;
-                    earnings = 0;
-                }
-                else
-                {
-                    Employer.Gold += earnings / 2;
-                    earnings /= 2;
-                }
-            }
+    public int Gold;
 
+    public int Connections;
 
-            _gold += earnings;
-        }
-        get
-        {
-            return _gold;
-        }
-    }
-    [SerializeField]
-    int _gold;
+    public int Rumors;
 
 
     public Faction CurrentFaction
@@ -1143,7 +1117,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["Gender"] = ((int)Gender).ToString();
 
-        node["Gold"] = _gold.ToString();
+        node["Gold"] = Gold.ToString();
+        node["Connections"] = Connections.ToString();
+        node["Rumors"] = Rumors.ToString();
 
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
 
@@ -1212,7 +1188,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         Gender = (GenderType)int.Parse(node["Gender"]);
 
-        _gold = int.Parse(node["Gold"]);
+        Gold = int.Parse(node["Gold"]);
+        Connections = int.Parse(node["Connections"]);
+        Rumors = int.Parse(node["Rumors"]);
 
         _workLocationID = node["WorkLocation"];
 

@@ -59,7 +59,6 @@ public class Property : ScriptableObject
         public int MaxActions;
         public int UpgradePrice;
         public int UpgradeLength;
-        public int RecruitmentLength;
         public int InventoryCap;
         public Item[] PossibleMerchantise;
     }
@@ -75,8 +74,10 @@ public class Property : ScriptableObject
 
         public Sprite Icon;
 
-        public int GoldGeneratedMin = 1;
-        public int GoldGeneratedMax = 2;
+        public int GoldGenerated = 1;
+        public int ConnectionsGenerated = 0;
+        public int RumorsGenerated = 0;
+
 
         public AgentAction WorkAction;
 

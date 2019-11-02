@@ -22,6 +22,6 @@ public class PlotTypeUI : MonoBehaviour
     void RefreshUI()
     {
         IconImage.sprite = CurrentType.Icon;
-        TooltipTarget.Text = CurrentType.Description;
+        TooltipTarget.SetTooltip(CurrentType.Description);
     }
 }

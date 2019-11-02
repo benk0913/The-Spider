@@ -8,14 +8,23 @@ public class TooltipTargetUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     public string Text;
 
+    public List<TooltipBonus> Bonuses;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        PointAndClickTooltipUI.Instance.Show(Text);
+        PointAndClickTooltipUI.Instance.Show(Text, Bonuses);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         PointAndClickTooltipUI.Instance.Hide();
+    }
+
+    public void SetTooltip(string text, List<TooltipBonus> tooltipBonuses = null)
+    {
+        this.Text = text;
+
+        this.Bonuses = tooltipBonuses;
     }
 
     void OnDisable()
@@ -26,5 +35,17 @@ public class TooltipTargetUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
 
         PointAndClickTooltipUI.Instance.Hide();
+    }
+}
+
+public class TooltipBonus
+{
+    public string Text;
+    public Sprite Icon;
+
+    public TooltipBonus(string text ,Sprite icon)
+    {
+        this.Text = text;
+        this.Icon = icon;
     }
 }

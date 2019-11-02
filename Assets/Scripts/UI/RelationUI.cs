@@ -21,18 +21,18 @@ public class RelationUI : MonoBehaviour
 
         if(this.CurrentCharacter == null || this.TargetCharacter == null)
         {
-            TooltipTarget.Text = "Relations Unknown";
+            TooltipTarget.SetTooltip("Relations Unknown");
             imageIcon.sprite = ResourcesLoader.Instance.GetSprite("Indifferent");
             return;
         }
 
         int relationValue = CurrentCharacter.GetRelationsWith(TargetCharacter);
-        TooltipTarget.Text = 
+        TooltipTarget.SetTooltip(
             "<u> Opinion of " 
             + TargetCharacter.name + ": "
             + (relationValue >= 0 ? "<color=green>" : "<color=red>") 
             + relationValue
-            + "</color> </u> \n";
+            + "</color> </u> \n");
 
 
         RelationsModifier[] modifiers = CurrentCharacter.GetRelationModifiers(TargetCharacter);

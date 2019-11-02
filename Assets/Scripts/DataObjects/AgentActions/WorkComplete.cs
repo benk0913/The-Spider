@@ -27,47 +27,96 @@ public class WorkComplete : AgentAction
         }
 
         EarnGold(requester, character, target);
+        EarnConnections(requester, character, target);
+        EarnRumors(requester, character, target);
     }
 
-    public virtual void EarnGold(Character requester, Character character, AgentInteractable target, int addedGold = 0)
+    public virtual void EarnConnections(Character requester, Character character, AgentInteractable target, int addedConnections = 0)
+    {
+        if (character.WorkLocation == null)
+        {
+            return;
+        }
+
+        float earnedConnections =
+            character.WorkLocation.CurrentAction.ConnectionsGenerated
+            * CORE.Instance.Database.Stats.GlobalRevenueMultiplier;
+
+        if (Mathf.RoundToInt(earnedConnections) > 0)
+        {
+            if(character.TopEmployer == null)
+            {
+                character.Connections += Mathf.RoundToInt(earnedConnections + addedConnections);
+                return;
+            }
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
+                    prefabKey: "ConnectionCollectedWorld",
+                    startPoint: character.WorkLocation.transform,
+                    targetPoint: StatsViewUI.Instance.GoldText.transform,
+                    null,
+                    canvasElement: false);
+            }
+
+            character.TopEmployer.Connections += Mathf.RoundToInt(earnedConnections + addedConnections);
+        }
+    }
+
+    public virtual void EarnRumors(Character requester, Character character, AgentInteractable target, int addedRumors = 0)
+    {
+        if (character.WorkLocation == null)
+        {
+            return;
+        }
+
+        float earnedRumors =
+            character.WorkLocation.CurrentAction.RumorsGenerated
+            * CORE.Instance.Database.Stats.GlobalRevenueMultiplier;
+
+        if (Mathf.RoundToInt(earnedRumors) > 0)
+        {
+
+            if(character.TopEmployer == null)
+            {
+                character.Rumors += Mathf.RoundToInt(earnedRumors + addedRumors);
+                return;
+            }
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
+                    prefabKey: "EarCollectedWorld",
+                    startPoint: character.WorkLocation.transform,
+                    targetPoint: StatsViewUI.Instance.GoldText.transform,
+                    null,
+                    canvasElement: false);
+            }
+
+            character.TopEmployer.Rumors += Mathf.RoundToInt(earnedRumors + addedRumors);
+        }
+    }
+
+    public virtual void EarnGold(Character requester, Character character, AgentInteractable target, int addedGold = 0) 
     {
         if(character.WorkLocation == null)
         {
             return;
         }
 
-        BonusChallenge workChallenge = character.WorkLocation.CurrentAction.WorkAction.Challenge;
+        float earnedGold =
+            character.WorkLocation.CurrentAction.GoldGenerated
+            * CORE.Instance.Database.Stats.GlobalRevenueMultiplier;
 
-        float characterBonusValue = character.GetBonus(workChallenge.Type).Value; // character natural skill
-
-        if(target.GetType() == typeof(LocationEntity)) // location effects on skill
+        if (Mathf.RoundToInt(earnedGold) > 0)
         {
-            LocationEntity location = (LocationEntity)target;
-            foreach(PropertyTrait trait in location.Traits)
+            if(character.TopEmployer == null)
             {
-                foreach(Bonus bonus in trait.Bonuses)
-                {
-                    if(bonus.Type == workChallenge.Type)
-                    {
-                        characterBonusValue += bonus.Value;
-                    }
-                }
+                character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+                return;
             }
-        }
 
-        float earnedSum =
-            Random.Range(character.WorkLocation.CurrentAction.GoldGeneratedMin, character.WorkLocation.CurrentAction.GoldGeneratedMax)
-            * CORE.Instance.Database.Stats.GlobalRevenueMultiplier
-            * (workChallenge != null? (characterBonusValue / (float)workChallenge.ChallengeValue) : 1);
-
-        if (character.WorkLocation.OwnerCharacter != null && character.WorkLocation.CurrentProperty.ManagementBonus != null)
-        {
-            float bossMulti = character.WorkLocation.OwnerCharacter.GetBonus(character.WorkLocation.CurrentProperty.ManagementBonus).Value;
-            earnedSum *= bossMulti;
-        }
-
-        if (Mathf.RoundToInt(earnedSum) > 0)
-        {
             if (character.TopEmployer == CORE.PC)
             {
                 CORE.Instance.SplineAnimationObject(
@@ -76,13 +125,9 @@ public class WorkComplete : AgentAction
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
                     null,
                     canvasElement: false);
+            }
 
-                character.Gold += Mathf.RoundToInt(earnedSum + addedGold);
-            }
-            else
-            {
-                character.Gold += Mathf.RoundToInt(earnedSum+ addedGold);
-            }
+            character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
         }
     }
 

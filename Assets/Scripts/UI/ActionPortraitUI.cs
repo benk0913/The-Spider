@@ -23,7 +23,7 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
 
         Icon.sprite = entity.CurrentTask.Icon;
 
-        TooltipTarget.Text = "<size=24><u>" + entity.CurrentTask.name + "</u></size> ";
+        TooltipTarget.SetTooltip("<size=24><u>" + entity.CurrentTask.name + "</u></size> ");
 
         TooltipTarget.Text += "\n <size=18>" + entity.CurrentTask.Description + "</size>";
 

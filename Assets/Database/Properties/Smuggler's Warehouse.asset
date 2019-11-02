@@ -23,18 +23,16 @@ MonoBehaviour:
   PropertyLevels:
   - MaxEmployees: 2
     MaxActions: 2
-    UpgradePrice: 200
+    UpgradePrice: 20
     UpgradeLength: 10
-    RecruitmentLength: 15
     InventoryCap: 2
     PossibleMerchantise:
     - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
     - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
   - MaxEmployees: 3
     MaxActions: 2
-    UpgradePrice: 200
+    UpgradePrice: 50
     UpgradeLength: 15
-    RecruitmentLength: 8
     InventoryCap: 4
     PossibleMerchantise:
     - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
@@ -42,9 +40,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
   - MaxEmployees: 4
     MaxActions: 2
-    UpgradePrice: 200
+    UpgradePrice: 100
     UpgradeLength: 15
-    RecruitmentLength: 6
     InventoryCap: 6
     PossibleMerchantise:
     - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
@@ -57,16 +54,18 @@ MonoBehaviour:
     Description: Employees of this establishment will not smuggle contraband items
       to the warehouse.
     Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
-    GoldGeneratedMin: 0
-    GoldGeneratedMax: 0
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   - Name: Smuggling
     Description: Smugglers will be busy smuggling contraband to the warehouse
     Icon: {fileID: 21300000, guid: 1a80432ffc1ab124f9eed3bae5096ce3, type: 3}
-    GoldGeneratedMin: 5
-    GoldGeneratedMax: 10
+    GoldGenerated: 2
+    ConnectionsGenerated: 1
+    RumorsGenerated: 0
     WorkAction: {fileID: 11400000, guid: 6a42e17fe856320458f2760966fb9cba, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -86,3 +85,4 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: smuggler
+  IsVendor: 0

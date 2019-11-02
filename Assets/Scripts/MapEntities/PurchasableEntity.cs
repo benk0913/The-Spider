@@ -12,12 +12,6 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
     public PlotType Type;
 
     [SerializeField]
-    public float RevenueMultiplier = 1f;
-
-    [SerializeField]
-    public float RiskMultiplier = 1f;
-
-    [SerializeField]
     List<AgentAction> PossibleActions = new List<AgentAction>();
 
     [SerializeField]
@@ -46,10 +40,8 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
         CORE.Instance.SubscribeToEvent("HidePurchasablePlots", SetHidden);
     }
 
-    public void SetInfo(float revenueMulti, float riskMulti, PlotType type)
+    public void SetInfo(PlotType type)
     {
-        this.RevenueMultiplier = revenueMulti;
-        this.RiskMultiplier = riskMulti;
         this.Type = type;
     }
 
@@ -86,7 +78,7 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
 
         LocationEntity location = CORE.Instance.GenerateNewLocation(transform.position, transform.rotation);
 
-        location.SetInfo(Util.GenerateUniqueID(), Type.BaseProperty, RevenueMultiplier, RiskMultiplier, true);
+        location.SetInfo(Util.GenerateUniqueID(), Type.BaseProperty, true);
         forCharacter.StartOwningLocation(location);
 
         CORE.Instance.Locations.Add(location);

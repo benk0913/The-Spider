@@ -44,9 +44,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public int Level = 1;
 
-    public float RevneueMultiplier;
-    public float RiskMultiplier;
-
     public bool IsUpgrading;
 
     public int CurrentUpgradeLength;
@@ -136,7 +133,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         if (CurrentProperty != null)
         {
-            SetInfo(this.name, CurrentProperty, 1f, 1f, false);
+            SetInfo(this.name, CurrentProperty, false);
 
             if (OwnerCharacter != null)
             {
@@ -243,35 +240,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         yield return 0;
     }
 
-    void DayPassed()
+    void DayPassed() //TODO move to mechanical flow
     {
         AttemptRandomEvent();
-
-        GenerateRandomBystanders();
-    }
-
-    void GenerateRandomBystanders()
-    {
-        if (CurrentProperty.Traits.Contains(CORE.Instance.Database.PublicAreaTrait))
-        {
-            if (CharactersInLocation.Count >= 15) //TODO replace magic number...
-            {
-                return;
-            }
-        }
-        else if(CurrentProperty.Traits.Contains(CORE.Instance.Database.RumorsHubTrait))
-        {
-            if (CharactersInLocation.Count >= 8) //TODO replace magic number...
-            {
-                return;
-            }
-        }
-        else
-        {
-            return;
-        }
-
-        CORE.Instance.GenerateCharacter().GoToLocation(this);
     }
 
     void AttemptRandomEvent()
@@ -320,7 +291,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
-    public void SetInfo(string id, Property property, float revenueMultiplier = 1f, float riskMultiplier = 1f, bool Clear = false)
+    public void SetInfo(string id, Property property,bool Clear = false)
     {
         if(Clear)
         {
@@ -329,8 +300,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
         this.ID = id;
-        this.RevneueMultiplier = revenueMultiplier;
-        this.RiskMultiplier = riskMultiplier;
 
         CurrentProperty = property;
         CurrentAction = CurrentProperty.Actions[0];
@@ -497,7 +466,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             EmployeesCharacters[0].StopWorkingForCurrentLocation();
         }
 
-        SetInfo(Util.GenerateUniqueID(), newProperty, this.RevneueMultiplier, this.RiskMultiplier, false);
+        SetInfo(Util.GenerateUniqueID(), newProperty, false);
 
         SelectedPanelUI.Instance.Select(this);
     }
@@ -634,8 +603,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["ID"] = ID;
         node["CurrentProperty"] = CurrentProperty.name;
         node["Level"] = Level.ToString();
-        node["RevneueMultiplier"] = RevneueMultiplier.ToString();
-        node["RiskMultiplier"] = RiskMultiplier.ToString();
         node["IsUpgrading"] = IsUpgrading.ToString();
         node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
 
@@ -659,7 +626,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public void FromJSON(JSONNode node)
     {
         Level = int.Parse(node["Level"]);
-        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), float.Parse(node["RevneueMultiplier"]), float.Parse(node["RiskMultiplier"]), true);
+        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), true);
         IsUpgrading = bool.Parse(node["IsUpgrading"]);
         CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
         CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
@@ -697,7 +664,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         GameObject purchasablePlot = Instantiate(ResourcesLoader.Instance.GetObject("PurchasablePlot"));
         purchasablePlot.transform.position = transform.position;
-        purchasablePlot.GetComponent<PurchasableEntity>().SetInfo(RevneueMultiplier, RiskMultiplier, CurrentProperty.PlotType);
+        purchasablePlot.GetComponent<PurchasableEntity>().SetInfo(CurrentProperty.PlotType);
 
         Destroy(this.gameObject);
     }

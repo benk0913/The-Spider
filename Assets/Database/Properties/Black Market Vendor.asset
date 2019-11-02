@@ -26,22 +26,19 @@ MonoBehaviour:
   - MaxEmployees: 1
     MaxActions: 2
     UpgradePrice: 0
-    UpgradeLength: 500
-    RecruitmentLength: 10
+    UpgradeLength: 20
     InventoryCap: 2
     PossibleMerchantise: []
   - MaxEmployees: 2
     MaxActions: 2
-    UpgradePrice: 500
+    UpgradePrice: 30
     UpgradeLength: 20
-    RecruitmentLength: 8
     InventoryCap: 4
     PossibleMerchantise: []
   - MaxEmployees: 3
     MaxActions: 2
-    UpgradePrice: 500
+    UpgradePrice: 70
     UpgradeLength: 30
-    RecruitmentLength: 6
     InventoryCap: 6
     PossibleMerchantise: []
   OwnerWorkAction: {fileID: 0}
@@ -50,8 +47,9 @@ MonoBehaviour:
     Description: The employees of this property will keep it organised sell it's
       wares.
     Icon: {fileID: 21300000, guid: 83408c12c4204c948a92008abc400683, type: 3}
-    GoldGeneratedMin: 5
-    GoldGeneratedMax: 10
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
     WorkAction: {fileID: 11400000, guid: 9bc6d24c82b882f4882b7ff6c2d4f49a, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -61,8 +59,9 @@ MonoBehaviour:
 
       They may also buy and sell illegal goods.'
     Icon: {fileID: 21300000, guid: ec30c18b9d652c548b18a6c3f5ebcb14, type: 3}
-    GoldGeneratedMin: 5
-    GoldGeneratedMax: 10
+    GoldGenerated: 2
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
     WorkAction: {fileID: 11400000, guid: 7823f42dd8c614b41ba6a761fdaee408, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}

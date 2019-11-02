@@ -19,7 +19,7 @@ public class TraitUI : MonoBehaviour
 
         Icon.sprite = CurrentTrait.icon;
 
-        TooltipTarget.Text = "<size=20>"+CurrentTrait.name+"</size>";
+        TooltipTarget.SetTooltip("<size=20>"+CurrentTrait.name+"</size>");
 
         TooltipTarget.Text += "\n  <size=15>" + CurrentTrait.Description+"</size>";
 

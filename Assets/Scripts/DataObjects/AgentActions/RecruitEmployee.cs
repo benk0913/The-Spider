@@ -36,22 +36,12 @@ public class RecruitEmployee : AgentAction
 
         LocationEntity closestLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, location);
 
-        Character randomNewEmployee =
-            CORE.Instance.Characters.Find(delegate (Character charInQuestion) 
-            {
-                return
-                charInQuestion != CORE.PC
-                && charInQuestion.WorkLocation == null
-                && charInQuestion.PropertiesOwned.Count == 0
-                && charInQuestion.Age > location.CurrentProperty.MinAge
-                && charInQuestion.Age < location.CurrentProperty.MaxAge
-                && !location.FiredEmployeees.Contains(charInQuestion)
-                && (location.CurrentProperty.RecruitingGenderType == - 1? 
-                        true 
-                        :
-                        charInQuestion.Gender == (GenderType)location.CurrentProperty.RecruitingGenderType);
-            });
+        Character randomNewEmployee = CORE.Instance.GenerateCharacter(
+            location.CurrentProperty.RecruitingGenderType,
+            location.CurrentProperty.MinAge,
+            location.CurrentProperty.MaxAge);
 
+        
         if(randomNewEmployee == null)
         {
             return;

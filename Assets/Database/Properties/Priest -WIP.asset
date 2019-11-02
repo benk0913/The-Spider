@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
-  m_Name: Corrupt Priest
+  m_Name: Priest -WIP
   m_EditorClassIdentifier: 
   Description: This is a more amibitious priest which uses his position for personal
     gain.
@@ -19,13 +19,16 @@ MonoBehaviour:
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 10
-    RecruitmentLength: 10
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
   Actions:
   - Name: Donations
     Description: The priest will collect donations from the pious.
     Icon: {fileID: 21300000, guid: 83408c12c4204c948a92008abc400683, type: 3}
-    GoldGeneratedMin: 2
-    GoldGeneratedMax: 3
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
     WorkAction: {fileID: 11400000, guid: d3db001743cd0344581a0a9e6f568ffb, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 11400000, guid: 1679eeab00fb51048958f35b7de2e8ed, type: 2}
@@ -48,3 +51,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97b01f23369d60a4eae1449723ac9a53, type: 2}
   UniqueAgentActions: []
   EmployeeRole: saint
+  IsVendor: 0

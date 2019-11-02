@@ -29,12 +29,6 @@ public class LocationInfoUI : MonoBehaviour
     TextMeshProUGUI RankText;
 
     [SerializeField]
-    TextMeshProUGUI RevenueMultiText;
-
-    [SerializeField]
-    TextMeshProUGUI RiskMultiText;
-
-    [SerializeField]
     Transform TraitsContainer;
 
     LocationEntity CurrentLocation;
@@ -85,8 +79,6 @@ public class LocationInfoUI : MonoBehaviour
 
         PropertyNameText.text = CurrentLocation.CurrentProperty.name;
         RankText.text = "Rank - " + CurrentLocation.Level;
-        RevenueMultiText.text = "Revenue Multiplier - x" + CurrentLocation.RevneueMultiplier;
-        RiskMultiText.text = "Risk Multiplier - x" + CurrentLocation.RiskMultiplier;
 
         ClearContainer(EmployeesContainer);
         foreach (Character character in CurrentLocation.EmployeesCharacters)

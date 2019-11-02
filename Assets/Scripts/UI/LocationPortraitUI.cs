@@ -27,7 +27,7 @@ public class LocationPortraitUI : MonoBehaviour, IPointerClickHandler
         {
             Icon.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
-            TooltipTarget.Text = "Unknown...";
+            TooltipTarget.SetTooltip("Unknown...");
             return;
         }
         else
@@ -45,11 +45,11 @@ public class LocationPortraitUI : MonoBehaviour, IPointerClickHandler
 
             Icon.sprite = CurrentLocation.CurrentProperty.Icon;
 
-            TooltipTarget.Text = CurrentLocation.CurrentProperty.name + " - Which belongs to "
+            TooltipTarget.SetTooltip(CurrentLocation.CurrentProperty.name + " - Which belongs to "
                 + (CurrentLocation.OwnerCharacter == null ?
                 " no one."
                 :
-                CurrentLocation.OwnerCharacter.name);
+                CurrentLocation.OwnerCharacter.name));
         }
     }
 

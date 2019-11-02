@@ -24,7 +24,7 @@ public class RightClickMenuItemUI : MonoBehaviour
         Title.text = title;
         _Button.onClick.RemoveAllListeners();
         _Button.onClick.AddListener(Action);
-        TooltipTarget.Text = title + " \n"+description;
+        TooltipTarget.SetTooltip(title + " \n"+description);
 
         _Button.interactable = interactable;
 
@@ -48,7 +48,7 @@ public class RightClickMenuItemUI : MonoBehaviour
         foreach(UnityAction act in Actions)
             _Button.onClick.AddListener(act);
 
-        TooltipTarget.Text = title + " \n" + description;
+        TooltipTarget.SetTooltip(title + " \n" + description);
 
         _Button.interactable = interactable;
 

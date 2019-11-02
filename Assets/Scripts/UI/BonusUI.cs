@@ -26,7 +26,7 @@ public class BonusUI : MonoBehaviour
             ContentText.text = "???";
             Icon.color = Color.clear;
 
-            TooltipTarget.Text = "Unknown Bonus";
+            TooltipTarget.SetTooltip("Unknown Bonus");
             return;
         }
 
@@ -34,7 +34,7 @@ public class BonusUI : MonoBehaviour
         Icon.sprite = CurrentBonus.Type.icon;
         Icon.color = Color.white;
 
-        TooltipTarget.Text = CurrentBonus.Type.Description;
+        TooltipTarget.SetTooltip(CurrentBonus.Type.Description);
     }
 
 }

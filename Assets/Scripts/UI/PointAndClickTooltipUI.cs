@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PointAndClickTooltipUI : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class PointAndClickTooltipUI : MonoBehaviour
         Hide();
     }
 
-    public void Show(string message)
+    public void Show(string message, List<TooltipBonus> bonuses = null)
     {
         if(string.IsNullOrEmpty(message))
         {
@@ -50,6 +51,27 @@ public class PointAndClickTooltipUI : MonoBehaviour
         ShowRoutineInstance = StartCoroutine(ShowRoutine());
 
         transform.SetAsLastSibling();
+
+        if(bonuses != null)
+        {
+            foreach (TooltipBonus bonus in bonuses)
+            {
+                GameObject bonusObj = ResourcesLoader.Instance.GetRecycledObject("TooltipBonusInstance");
+                bonusObj.transform.SetParent(transform);
+                bonusObj.transform.SetAsLastSibling();
+                bonusObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = bonus.Text;
+                bonusObj.transform.GetChild(1).GetComponent<Image>().sprite = bonus.Icon;
+            }
+        }
+    }
+
+    void ClearBonuses()
+    {
+        while(transform.childCount > 1)
+        {
+            transform.GetChild(transform.childCount - 1).gameObject.SetActive(false);
+            transform.GetChild(transform.childCount - 1).SetParent(transform.parent);
+        }
     }
 
     IEnumerator ShowRoutine()

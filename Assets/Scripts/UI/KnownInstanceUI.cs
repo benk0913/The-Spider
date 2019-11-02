@@ -19,7 +19,7 @@ public class KnownInstanceUI : MonoBehaviour
     {
         Title.text = (isKnown ? "<color=#205B05> " : "<color=#9A0000>") + title + "</color>";
 
-        TooltipTarget.Text = description + (isKnown ? "\n \n  (Known)" : " \n \n (Unknown)");
+        TooltipTarget.SetTooltip(description + (isKnown ? "\n \n  (Known)" : " \n \n (Unknown)"));
 
         EyeIcon.enabled = isKnown;
     }
