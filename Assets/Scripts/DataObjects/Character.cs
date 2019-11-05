@@ -613,6 +613,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
 
             this.Belogings = newBelogings;
+
+            if(CurrentFaction != null && CurrentFaction.FactionHead.name == this.name)
+            {
+                CurrentFaction.FactionHead = this;
+            }
         }
         else
         {
@@ -780,13 +785,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
             || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Noon 
             || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Afternoon)
         {
-            foreach (LocationEntity location in PropertiesOwned)
-            {
-                if (AttemptManagePropertyAI(location))
-                {
-                    return true;
-                }
-            }
+            //foreach (LocationEntity location in PropertiesOwned) //TODO Reimplement later?
+            //{
+            //    if (AttemptManagePropertyAI(location))
+            //    {
+            //        return true;
+            //    }
+            //}
 
             if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
             {

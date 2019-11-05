@@ -7,7 +7,7 @@ public class ShopkeepingComplete : WorkComplete
 {
     public override void EarnGold(Character requester, Character character, AgentInteractable target, int addedGold = 0)
     {
-        int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level].InventoryCap;
+        int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].InventoryCap;
 
         if (character.WorkLocation.Inventory.Count > 0 && Random.Range(0,2) == 0)
         {
@@ -27,7 +27,7 @@ public class ShopkeepingComplete : WorkComplete
 
     public void Restock(Character character)
     {
-        int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level].InventoryCap;
+        int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].InventoryCap;
 
         if (character.WorkLocation.Inventory.Count >= inventoryCap)
         {

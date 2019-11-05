@@ -43,10 +43,28 @@ public class ActionUI : MonoBehaviour
             QuestionMark.gameObject.SetActive(false);
             ActionIcon.sprite = action.Icon;
             ActionTitle.text = action.Name;
-            
+
+            List<TooltipBonus> Bonuses = new List<TooltipBonus>();
+
+
+            if (action.GoldGenerated > 0)
+            {
+                Bonuses.Add(new TooltipBonus("Gold +" + action.GoldGenerated, ResourcesLoader.Instance.GetSprite("icon_coins")));
+            }
+
+            if (action.ConnectionsGenerated > 0)
+            {
+                Bonuses.Add(new TooltipBonus("Connections +" + action.ConnectionsGenerated, ResourcesLoader.Instance.GetSprite("connections")));
+            }
+
+            if (action.RumorsGenerated > 0)
+            {
+                Bonuses.Add(new TooltipBonus("Rumors +" + action.RumorsGenerated, ResourcesLoader.Instance.GetSprite("earIcon")));
+            }
+
             if (TooltipTarget != null)
             {
-                TooltipTarget.SetTooltip(action.Description);
+                TooltipTarget.SetTooltip(action.Description, Bonuses);
 
                 if (CurrentAction.WorkAction != null && CurrentAction.WorkAction.Challenge != null && CurrentAction.WorkAction.Challenge.Type != null)
                 {

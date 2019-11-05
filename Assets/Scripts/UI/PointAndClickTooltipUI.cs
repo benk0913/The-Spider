@@ -52,7 +52,9 @@ public class PointAndClickTooltipUI : MonoBehaviour
 
         transform.SetAsLastSibling();
 
-        if(bonuses != null)
+        ClearBonuses();
+
+        if (bonuses != null)
         {
             foreach (TooltipBonus bonus in bonuses)
             {

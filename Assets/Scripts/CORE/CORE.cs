@@ -229,6 +229,28 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
+        if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
+        {
+            foreach(Faction faction in Database.Factions)
+            {
+                if(faction.FactionHead == null)
+                {
+                    continue;
+                }
+
+                Character factionHead = GetCharacter(faction.FactionHead.name);
+
+                if(factionHead == null)
+                {
+                    continue;
+                }
+
+                factionHead.Gold += faction.GoldGeneratedPerDay;
+                factionHead.Connections += faction.ConnectionsGeneratedPerDay;
+                factionHead.Rumors += faction.RumorsGeneratedPerDay;
+            }
+        }
+
         TurnPassedRoutineInstance = null;
     }
 

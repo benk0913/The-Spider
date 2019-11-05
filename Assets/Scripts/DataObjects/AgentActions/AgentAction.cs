@@ -100,4 +100,9 @@ public class AgentAction : ScriptableObject
 
         return finalResult;
     }
+
+    public virtual List<TooltipBonus> GetBonuses()
+    {
+        return null;
+    }
 }
