@@ -24,7 +24,7 @@ public class ItemBeSentToPlayer : AgentAction
 
         RoomsManager.Instance.AddItem(itemObj);
 
-        CORE.PC.Belogings.Remove(itemUI.CurrentItem);
+        character.TopEmployer.Belogings.Remove(itemUI.CurrentItem);
         InventoryPanelUI.Instance.ItemWasAdded(0);
     }
 

@@ -42,7 +42,7 @@ public class TriggerLocationAction : PlayerAction
             return false;
         }
 
-        if (location.OwnerCharacter.TopEmployer != CORE.PC)
+        if (location.OwnerCharacter.TopEmployer != requester)
         {
             return false;
         }

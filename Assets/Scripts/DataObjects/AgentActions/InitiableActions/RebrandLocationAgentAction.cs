@@ -37,7 +37,7 @@ public class RebrandLocationAgentAction : AgentAction
 
         reason = "";
 
-        if (location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != CORE.PC)
+        if (location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != character.TopEmployer)
         {
             return false;
         }

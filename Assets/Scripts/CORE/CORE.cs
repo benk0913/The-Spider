@@ -19,6 +19,8 @@ public class CORE : MonoBehaviour
 
     public List<Character> Characters = new List<Character>();
 
+    public List<Faction> Factions = new List<Faction>();
+
     public List<LocationEntity> Locations = new List<LocationEntity>();
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();

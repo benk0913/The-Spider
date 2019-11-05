@@ -613,11 +613,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
 
             this.Belogings = newBelogings;
-
-            if(CurrentFaction != null && CurrentFaction.FactionHead.name == this.name)
-            {
-                CurrentFaction.FactionHead = this;
-            }
         }
         else
         {
@@ -861,7 +856,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         //If new location doesnt have agents and the character is not players agent
         if(TopEmployer.name != CORE.PC.name
-            && targetLocation.CharactersInLocation.FindAll((Character charInLocation) => { return charInLocation.TopEmployer == CORE.PC; }).Count == 0)
+            && targetLocation.CharactersInLocation.FindAll((Character charInLocation) => 
+            { return charInLocation.TopEmployer == CORE.PC; }).Count == 0)
         {
             Known.Forget("CurrentLocation");
         }
@@ -1102,7 +1098,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             WarningWindowUI.Instance.Show(this.name + " has died!", () => { });
         }
 
-        if (this == CORE.PC)
+        if (this == CORE.PC)//TODO Change later...
         {
             WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { CORE.Instance.RestartGame(); });
         }

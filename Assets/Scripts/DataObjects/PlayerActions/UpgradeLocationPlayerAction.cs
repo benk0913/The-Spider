@@ -26,7 +26,7 @@ public class UpgradeLocationPlayerAction : PlayerAction
         reason = "";
         LocationEntity location = (LocationEntity)target;
 
-        if(location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != CORE.PC)
+        if(location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != requester)
         {
             return false;
         }

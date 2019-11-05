@@ -44,7 +44,7 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.TopEmployer == CORE.PC)
+        if(targetChar.TopEmployer == character.TopEmployer)
         {
             return false;
         }

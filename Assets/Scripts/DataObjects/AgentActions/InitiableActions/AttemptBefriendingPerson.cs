@@ -62,7 +62,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (targetChar.TopEmployer == CORE.PC)
+        if (targetChar.TopEmployer == character.TopEmployer)
         {
             return false;
         }
@@ -73,7 +73,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (character != CORE.PC)
+        if (character != character.TopEmployer)
         {
             int relations = targetChar.GetRelationsWith(character);
             float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;

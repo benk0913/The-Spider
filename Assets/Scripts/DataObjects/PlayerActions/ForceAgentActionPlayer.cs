@@ -29,7 +29,7 @@ public class ForceAgentActionPlayer : PlayerAction
         }
         else
         {
-            ActionToForce.Execute(requester, CORE.PC, target);
+            ActionToForce.Execute(requester, requester, target);
         }
     }
 
@@ -37,7 +37,7 @@ public class ForceAgentActionPlayer : PlayerAction
     {
         reason = "";
 
-        if (!ActionToForce.CanDoAction(requester, CORE.PC, target, out reason))
+        if (!ActionToForce.CanDoAction(requester, requester, target, out reason))
         {
             return false;
         }

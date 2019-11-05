@@ -18,8 +18,8 @@ public class SellItem : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        CORE.PC.Gold += itemUI.CurrentItem.Price/2;
-        CORE.PC.Belogings.Remove(itemUI.CurrentItem);
+        character.TopEmployer.Gold += itemUI.CurrentItem.Price/2;
+        character.TopEmployer.Belogings.Remove(itemUI.CurrentItem);
         InventoryPanelUI.Instance.ItemWasAdded(0);
     }
 
