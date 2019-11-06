@@ -11,7 +11,7 @@ public class TriggerScenarioBreakIntoHome : TriggerScenario
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -50,9 +50,9 @@ public class TriggerScenarioBreakIntoHome : TriggerScenario
         Scenario.TriggerScenario(character, character.HomeLocation, charPortrait.CurrentCharacter);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         PortraitUI charPortrait = (PortraitUI)target;
 
         if (charPortrait.CurrentCharacter == character)
@@ -62,7 +62,7 @@ public class TriggerScenarioBreakIntoHome : TriggerScenario
 
         if (!charPortrait.CurrentCharacter.IsKnown("HomeLocation"))
         {
-            reason = "You don't know where this person lives.";
+            reason = new FailReason("You don't know where this person lives.");
             return false;
         }
 

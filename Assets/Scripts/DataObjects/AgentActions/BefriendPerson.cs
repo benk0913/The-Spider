@@ -36,7 +36,7 @@ public class BefriendPerson : AgentAction //DO NOT INHERIT FROM
                 targetChar));
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 

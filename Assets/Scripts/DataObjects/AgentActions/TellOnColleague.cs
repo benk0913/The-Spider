@@ -13,7 +13,7 @@ public class TellOnColleague : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -104,7 +104,7 @@ public class TellOnColleague : AgentAction
         return true;
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         LocationEntity location = (LocationEntity)target;
 

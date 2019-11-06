@@ -10,7 +10,7 @@ public class ReplaceOwner : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -68,7 +68,7 @@ public class ReplaceOwner : AgentAction
         character.StartOwningLocation(location);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         LocationEntity location = (LocationEntity)target;
 

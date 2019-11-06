@@ -17,7 +17,7 @@ public class TriggerScenarioBreakIntoHomePlayerAction : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot do that.", 1f, Color.yellow);
@@ -55,9 +55,9 @@ public class TriggerScenarioBreakIntoHomePlayerAction : PlayerAction
                    , (Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC && charInQuestion != CORE.PC; });
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         PortraitUI portrait = ((PortraitUI)target);
 
         if (portrait.CurrentCharacter == null)
@@ -77,7 +77,7 @@ public class TriggerScenarioBreakIntoHomePlayerAction : PlayerAction
         
         if(!portrait.CurrentCharacter.IsKnown("HomeLocation"))
         {
-            reason = "You don't know where this person lives...";
+            reason = new FailReason("You don't know where this person lives...");
             return false;
         }
         

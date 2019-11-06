@@ -12,7 +12,7 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -44,7 +44,7 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
         }
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
         if (!base.CanDoAction(requester, character, target, out reason))
@@ -59,7 +59,7 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
 
         if(targetChar.IsKnown("CurrentLocation"))
         {
-            reason = "You already know where this person is...";
+            reason = new FailReason("You already know where this person is...");
             return false;
         }
 

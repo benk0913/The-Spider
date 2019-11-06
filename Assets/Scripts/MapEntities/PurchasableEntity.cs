@@ -65,16 +65,28 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
         return PossiblePlayerActions;
     }
 
-    public void PurchasePlot(Character funder, Character forCharacter)
+    public FailReason PurchasePlot(Character funder, Character forCharacter)
     {
         if (funder.Gold < Price)
         {
-            GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                "(You need more " + (Price - funder.Gold) + ")", 1f, Color.red);
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
+                    "(You need more " + (Price - funder.Gold) + ")", 1f, Color.red);
+            }
 
-            return;
+            return new FailReason("Not Enough Gold");
         }
 
+        if (!Available)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("LOCATION UNAVAILABLE ", 1f, Color.red);
+            }
+
+            return new FailReason("Location Unavailable");
+        }
 
         LocationEntity location = CORE.Instance.GenerateNewLocation(transform.position, transform.rotation);
 
@@ -101,6 +113,8 @@ public class PurchasableEntity : AgentInteractable, ISaveFileCompatible
         );
 
         SetUnavailable();
+
+        return null;
     }
 
     public void SetAvailable()

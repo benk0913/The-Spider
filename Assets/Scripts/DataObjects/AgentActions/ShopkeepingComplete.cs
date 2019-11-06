@@ -61,7 +61,7 @@ public class ShopkeepingComplete : WorkComplete
         }
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         if (!base.CanDoAction(requester, character, target, out reason))
         {

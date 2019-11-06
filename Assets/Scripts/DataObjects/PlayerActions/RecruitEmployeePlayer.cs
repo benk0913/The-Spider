@@ -7,7 +7,7 @@ public class RecruitEmployeePlayer : PlayerAction
 {
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot recruit for this property.", 1f, Color.yellow);
@@ -38,11 +38,11 @@ public class RecruitEmployeePlayer : PlayerAction
              });
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
         LocationEntity location = (LocationEntity)target;
 
-        reason = "";
+        reason = null;
 
         if (location.OwnerCharacter == null || location.OwnerCharacter != requester)
         {
@@ -51,13 +51,13 @@ public class RecruitEmployeePlayer : PlayerAction
 
         if(location.EmployeesCharacters.Count >= location.CurrentProperty.PropertyLevels[location.Level-1].MaxEmployees)
         {
-            reason = "No empty slot for a new employee.";
+            reason = new FailReason("No empty slot for a new employee.");
             return false;
         }
 
         if(requester.Gold < 100)
         {
-            reason = "Not enough gold! ("+requester.Gold+"/100)";
+            reason = new FailReason("Not enough gold! (" +requester.Gold+"/100)",100);
             return false;
         }
 

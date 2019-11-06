@@ -10,7 +10,7 @@ public class PurchasePlotAction : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;

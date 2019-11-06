@@ -12,7 +12,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -44,7 +44,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
         }
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
         if (!base.CanDoAction(requester, character, target, out reason))
@@ -69,7 +69,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
 
         if (!targetChar.IsKnown("CurrentLocation"))
         {
-            reason = "You don't know where this person is...";
+            reason = new FailReason("You don't know where this person is...");
             return false;
         }
 
@@ -81,9 +81,9 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
             if (relations < targetDiscreetValue)
             {
 
-                reason =
+                reason = new FailReason(
                     targetChar.name + " doesn't like " + character.name + " enough... ("
-                    + relations + " \\ " + targetDiscreetValue + ")";
+                    + relations + " \\ " + targetDiscreetValue + ")");
                 return false;
             }
         }

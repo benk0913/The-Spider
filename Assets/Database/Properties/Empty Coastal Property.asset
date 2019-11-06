@@ -19,14 +19,19 @@ MonoBehaviour:
     MaxActions: 0
     UpgradePrice: 0
     UpgradeLength: 0
-    RecruitmentLength: 0
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
   Actions:
   - Name: 'Closed And Empty '
     Description: Does nothing...
     Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
-    GoldGeneratedMin: 0
-    GoldGeneratedMax: 0
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
     WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
   Traits: []
   Icon: {fileID: 21300000, guid: 9f0a707ebe2033544b91d92252e5703c, type: 3}
   FigurePrefab: {fileID: 808478850817181922, guid: 7f4a145faad6a274ca380f8095294398,
@@ -39,6 +44,8 @@ MonoBehaviour:
   MaxAge: 100
   PlotType: {fileID: 11400000, guid: 61762f3c065e8914c962e5df6f1d5fcd, type: 2}
   ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
-  isPublicArea: 0
+  isHomeOfEmployees: 0
   UniquePlayerActions: []
   UniqueAgentActions: []
+  EmployeeRole: 
+  IsVendor: 0

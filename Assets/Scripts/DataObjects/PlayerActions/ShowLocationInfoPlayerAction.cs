@@ -8,7 +8,7 @@ public class ShowLocationInfoPlayerAction : PlayerAction
 {
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("This location is not yours to select.", 1f, Color.yellow);
@@ -20,9 +20,9 @@ public class ShowLocationInfoPlayerAction : PlayerAction
         LocationInfoUI.Instance.Show(location);
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         return true;
     }
 }

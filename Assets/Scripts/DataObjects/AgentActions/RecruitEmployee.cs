@@ -10,7 +10,7 @@ public class RecruitEmployee : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -50,7 +50,7 @@ public class RecruitEmployee : AgentAction
         randomNewEmployee.StartWorkingFor(location);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         if (!base.CanDoAction(requester, character, target, out reason))
         {

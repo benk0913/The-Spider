@@ -10,7 +10,7 @@ public class SellItem : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -23,7 +23,7 @@ public class SellItem : AgentAction
         InventoryPanelUI.Instance.ItemWasAdded(0);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         ItemUI item = (ItemUI)target;
 
@@ -34,7 +34,7 @@ public class SellItem : AgentAction
 
         if (!item.CurrentItem.Sellable)
         {
-            reason = "This item is not for selling!";
+            reason = new FailReason("This item is not for selling!");
             return false;
         }
 

@@ -10,7 +10,7 @@ public class WorkComplete : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -56,7 +56,7 @@ public class WorkComplete : AgentAction
                     prefabKey: "ConnectionCollectedWorld",
                     startPoint: character.WorkLocation.transform,
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
-                    null,
+                    ()=> { StatsViewUI.Instance.RefreshConnections(); },
                     canvasElement: false);
             }
 
@@ -90,7 +90,7 @@ public class WorkComplete : AgentAction
                     prefabKey: "EarCollectedWorld",
                     startPoint: character.WorkLocation.transform,
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
-                    null,
+                    () => { StatsViewUI.Instance.RefreshRumors(); },
                     canvasElement: false);
             }
 
@@ -123,7 +123,7 @@ public class WorkComplete : AgentAction
                     prefabKey: "CoinCollectedWorld",
                     startPoint: character.WorkLocation.transform,
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
-                    null,
+                    () => { StatsViewUI.Instance.RefreshGold(); },
                     canvasElement: false);
             }
 
@@ -131,7 +131,7 @@ public class WorkComplete : AgentAction
         }
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         if (!base.CanDoAction(requester, character, target, out reason))
         {

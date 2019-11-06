@@ -91,6 +91,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     [SerializeField]
     Faction _currentFaction;
 
+    public FactionAI AI;
+
     public LocationEntity WorkLocation;
 
     public LocationEntity HomeLocation;
@@ -114,6 +116,45 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
     bool _pinned;
+
+    public List<LocationEntity> PropertiesInCommand
+    {
+        get
+        {
+            List<LocationEntity> properties = new List<LocationEntity>();
+
+            properties.AddRange(PropertiesOwned);
+
+            foreach(LocationEntity property in PropertiesOwned)
+            {
+                foreach(Character character in property.EmployeesCharacters)
+                {
+                    properties.AddRange(character.PropertiesInCommand);
+                }
+            }
+
+            return properties;
+        }
+    }
+
+    public List<Character> CharactersInCommand
+    {
+        get
+        {
+            List<Character> characters = new List<Character>();
+
+            foreach (LocationEntity property in PropertiesOwned)
+            {
+                foreach (Character character in property.EmployeesCharacters)
+                {
+                    characters.Add(character);
+                    characters.AddRange(character.CharactersInCommand);
+                }
+            }
+
+            return characters;
+        }
+    }
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
@@ -660,6 +701,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             Known.KnowAllBasic();
         }
+
+        if(CurrentFaction.FactionHead != null && CurrentFaction.FactionHead.name == name)
+        {
+            AI = Instantiate(CurrentFaction.AI);
+        }
     }
 
     public int GetRelationsWith(Character otherCharacter)
@@ -758,12 +804,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
-        if (this == CORE.PC)
+        if (CurrentFaction.FactionHead != null && this.name == CurrentFaction.FactionHead.name)//Faction Head
         {
             return;
         }
 
-        if (CurrentTaskEntity == null)
+        if (CurrentTaskEntity == null)//Random Douch
         {
             bool hasSomethingToDo = TryToDoSomething();
             
@@ -865,16 +911,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CurrentLocation = targetLocation;
 
         CurrentLocation.CharacterEnteredLocation(this);
-    }
-
-    bool AttemptManagePropertyAI(LocationEntity location)
-    {
-        if(location.AttemptRecruiting())
-        {
-            return true;
-        }
-
-        return false;
     }
 
     public void StartWorkingFor(LocationEntity location)

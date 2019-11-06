@@ -102,7 +102,7 @@ public class ActionUI : MonoBehaviour
             return;
         }
 
-        CurrentLocation.SelectAction(this.CurrentAction);
+        CurrentLocation.SelectAction(CORE.PC, this.CurrentAction);
     }
 
     public void SetSelected()

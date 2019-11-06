@@ -14,7 +14,7 @@ public class ForceAgentActionPlayer : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot do that.", 1f, Color.yellow);
@@ -33,9 +33,9 @@ public class ForceAgentActionPlayer : PlayerAction
         }
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
 
         if (!ActionToForce.CanDoAction(requester, requester, target, out reason))
         {

@@ -25,7 +25,7 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
 
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
@@ -51,13 +51,13 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
 
         if(!targetChar.IsKnown("CurrentLocation"))
         {
-            reason = "You don't know where this character is...";
+            reason = new FailReason("You don't know where this character is...");
             return false;
         }
 
         if (!targetChar.IsKnown("Appearance"))
         {
-            reason = "You don't know how this character looks like...";
+            reason = new FailReason("You don't know how this character looks like...");
             return false;
         }
 

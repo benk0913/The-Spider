@@ -118,7 +118,7 @@ public class RebrandWindowUI : MonoBehaviour
 
     public void ConfirmProperty()
     {
-        CurrentLocation.Rebrand(CORE.PlayerFaction.FactionProperties[CurrentIndex]);
+        CurrentLocation.Rebrand(CORE.PC, CORE.PlayerFaction.FactionProperties[CurrentIndex]);
         Hide();
     }
 }

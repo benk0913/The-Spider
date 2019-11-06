@@ -53,11 +53,11 @@ public class AgentInteractable : MonoBehaviour
 
         foreach (AgentAction action in currentActions)
         {
-            string reason = "";
+            FailReason reason = null;
 
             Character currentChar = ControlCharacterPanelUI.CurrentCharacter;
 
-            if (!action.CanDoAction(CORE.PC, currentChar, this, out reason) && string.IsNullOrEmpty(reason))
+            if (!action.CanDoAction(CORE.PC, currentChar, this, out reason) && reason == null)
             {
                 continue;
             }
@@ -66,7 +66,7 @@ public class AgentInteractable : MonoBehaviour
                 new DescribedAction(
                     action.name,
                     () => action.Execute(CORE.PC, currentChar, this)
-                    , action.Description + "\n <color=red>" + reason + "</color>"
+                    , action.Description + (reason == null? "" : "\n <color=red>" + reason.Key.ToString() + "</color>")
                     , action.Icon
                     , action.CanDoAction(CORE.PC, currentChar, this, out reason)));
         }
@@ -96,9 +96,9 @@ public class AgentInteractable : MonoBehaviour
 
         foreach (PlayerAction action in currentActions)
         {
-            string reason = "";
+            FailReason reason = null;
 
-            if (!action.CanDoAction(CORE.PC, this, out reason) && string.IsNullOrEmpty(reason))
+            if (!action.CanDoAction(CORE.PC, this, out reason) && reason == null)
             {
                 continue;
             }
@@ -107,7 +107,7 @@ public class AgentInteractable : MonoBehaviour
                 new DescribedAction(
                     action.name,
                     () => action.Execute(CORE.PC, this)
-                    , action.Description + "\n <color=red>" + reason + "</color>"
+                    , action.Description + (reason == null ? "" : "\n <color=red>" + reason.Key.ToString() + "</color>")
                     , action.Icon
                     , action.CanDoAction(CORE.PC, this, out reason)));
         }

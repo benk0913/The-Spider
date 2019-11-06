@@ -9,7 +9,7 @@ public class CancelTaskPlayerAction : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot interact with that task.", 1f, Color.yellow);
@@ -31,9 +31,9 @@ public class CancelTaskPlayerAction : PlayerAction
         }
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
 
         if (target.GetType() == typeof(ActionPortraitUI))
         {

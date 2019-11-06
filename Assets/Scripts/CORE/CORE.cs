@@ -18,9 +18,7 @@ public class CORE : MonoBehaviour
     public Canvas MainCanvas;
 
     public List<Character> Characters = new List<Character>();
-
-    public List<Faction> Factions = new List<Faction>();
-
+    
     public List<LocationEntity> Locations = new List<LocationEntity>();
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
@@ -220,6 +218,36 @@ public class CORE : MonoBehaviour
     public Coroutine TurnPassedRoutineInstance;
     IEnumerator TurnPassedRoutine()
     {
+        //AI DECISIONS
+        foreach(Faction faction in Database.Factions)
+        {
+            if(faction.FactionHead == null)
+            {
+                continue;
+            }
+
+            Character factionHead = GetCharacter(faction.FactionHead.name);
+
+            if(factionHead == null || factionHead.AI == null)
+            {
+                continue;
+            }
+
+            if(factionHead.name == CORE.PC.name)
+            {
+                continue;
+            }
+
+            if(factionHead.IsDead)
+            {
+                continue;
+            }
+
+            factionHead.AI.MakeDecision(factionHead);
+        }
+
+        yield return 0;
+
         foreach(LocationEntity location in Locations)
         {
             yield return StartCoroutine(location.TurnPassed());

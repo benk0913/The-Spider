@@ -14,7 +14,7 @@ public class TriggerLocationAction : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot change this property.", 1f, Color.yellow);
@@ -32,9 +32,9 @@ public class TriggerLocationAction : PlayerAction
         CORE.Instance.GenerateLongTermTask(this.OwnerTask, requester, locationOwner, location);
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         LocationEntity location = (LocationEntity)target;
 
         if (location.OwnerCharacter == null)

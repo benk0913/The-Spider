@@ -64,7 +64,7 @@ public class StatsViewUI : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(3f);
 
             RefreshGold();
             RefreshConnections();
@@ -73,7 +73,7 @@ public class StatsViewUI : MonoBehaviour
     }
 
 
-    void RefreshGold()
+    public void RefreshGold()
     {
         if (GoldText.text != CORE.PC.Gold.ToString() + "c")
         {
@@ -82,7 +82,7 @@ public class StatsViewUI : MonoBehaviour
         }
     }
 
-    void RefreshConnections()
+    public void RefreshConnections()
     {
         if (ConnectionsText.text != CORE.PC.Connections.ToString())
         {
@@ -91,7 +91,7 @@ public class StatsViewUI : MonoBehaviour
         }
     }
 
-    void RefreshRumors()
+    public void RefreshRumors()
     {
         if (RumorsText.text != CORE.PC.Rumors.ToString())
         {

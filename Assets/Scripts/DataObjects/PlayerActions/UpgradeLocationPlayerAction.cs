@@ -9,7 +9,7 @@ public class UpgradeLocationPlayerAction : PlayerAction
 
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot upgrade this property yet.", 1f, Color.yellow);
@@ -21,9 +21,9 @@ public class UpgradeLocationPlayerAction : PlayerAction
         location.PurchaseUpgrade(requester);
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         LocationEntity location = (LocationEntity)target;
 
         if(location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != requester)
@@ -33,19 +33,19 @@ public class UpgradeLocationPlayerAction : PlayerAction
 
         if(location.IsUpgrading)
         {
-            reason = location.CurrentProperty.name+" is already upgrading.";
+            reason = new FailReason(location.CurrentProperty.name+" is already upgrading.");
             return false;
         }
 
         if (location.CurrentProperty.PropertyLevels.Count == location.Level)
         {
-            reason = location.CurrentProperty.name + " has reached the highest level.";
+            reason = new FailReason(location.CurrentProperty.name + " has reached the highest level.");
             return false;
         }
 
         if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > requester.Gold)
         {
-            reason = "Requires more: " + (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice - requester.Gold) + " gold.";
+            reason = new FailReason("Requires more: " + (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice - requester.Gold) + " gold.");
             return false;
         }
 

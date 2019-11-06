@@ -12,7 +12,7 @@ public class ExecuteActionInWorkLocation : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -33,7 +33,7 @@ public class ExecuteActionInWorkLocation : AgentAction //DO NOT INHERIT FROM
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
 
         if (!base.CanDoAction(requester, character, target, out reason))

@@ -8,7 +8,7 @@ public class FireAgent : PlayerAction
 {
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("This agent is not yours to fire.", 1f, Color.yellow);
@@ -40,9 +40,9 @@ public class FireAgent : PlayerAction
     }
 
 
-    bool CanBeFired(Character character, out string reason)
+    bool CanBeFired(Character character, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         if (character == null)
         {
             return false;
@@ -54,22 +54,22 @@ public class FireAgent : PlayerAction
             {
                 case "Being Hanged":
                     {
-                        reason = "Cannot fire an employee which is soon to be hanged.";
+                        reason = new FailReason("Cannot fire an employee which is soon to be hanged.");
                         return false;
                     }
                 case "Being Interrogated":
                     {
-                        reason = "Cannot fire an employee under interrogation";
+                        reason = new FailReason("Cannot fire an employee under interrogation");
                         return false;
                     }
                 case "Locked In Prison":
                     {
-                        reason = "Cannot fire an employee in prison";
+                        reason = new FailReason("Cannot fire an employee in prison");
                         return false;
                     }
                 case "Obsolescence":
                     {
-                        reason = "Cannot fire an employee who's in hiding.";
+                        reason = new FailReason("Cannot fire an employee who's in hiding.");
                         return false;
                     }
             }
@@ -78,9 +78,9 @@ public class FireAgent : PlayerAction
         return true;
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         PortraitUI portrait = ((PortraitUI)target);
 
         if (portrait.CurrentCharacter == null)

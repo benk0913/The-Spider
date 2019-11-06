@@ -10,7 +10,7 @@ public class RebrandLocationAgentAction : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -31,11 +31,11 @@ public class RebrandLocationAgentAction : AgentAction
         RebrandWindowUI.Instance.Show(location);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         LocationEntity location = (LocationEntity)target;
 
-        reason = "";
+        reason = null;
 
         if (location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != character.TopEmployer)
         {
@@ -44,7 +44,7 @@ public class RebrandLocationAgentAction : AgentAction
 
         if (location.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType)
         {
-            reason = "This location is unique and cannot be changed.";
+            reason = new FailReason("This location is unique and cannot be changed.");
             return false;
         }
 

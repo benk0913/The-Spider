@@ -15,7 +15,7 @@ public class PlayerAction : ScriptableObject
     public virtual void Execute(Character requester, AgentInteractable target)
     {
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("You cannot do this action!", 1f, Color.red);
@@ -24,9 +24,21 @@ public class PlayerAction : ScriptableObject
         }
     }
 
-    public virtual bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public virtual bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         return true;
+    }
+}
+
+public class FailReason
+{
+    public string Key;
+    public int Value;
+
+    public FailReason(string key = "", int value = 0)
+    {
+        this.Key = key;
+        this.Value = value;
     }
 }

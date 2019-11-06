@@ -8,7 +8,7 @@ public class ShowCharacterInfoPlayerAction : PlayerAction
 {
     public override void Execute(Character requester, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
             GlobalMessagePrompterUI.Instance.Show("This agent is not yours to select.", 1f, Color.yellow);
@@ -20,9 +20,9 @@ public class ShowCharacterInfoPlayerAction : PlayerAction
         CharacterInfoUI.Instance.ShowInfo(agent.CurrentCharacter);
     }
 
-    public override bool CanDoAction(Character requester, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        reason = "";
+        reason = null;
         return true;
     }
 }

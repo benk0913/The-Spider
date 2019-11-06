@@ -90,7 +90,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
             CORE.Instance.SplineAnimationObject("EarCollectedWorld",
                 character.CurrentLocation.transform,
                 RumorsPanelUI.Instance.Notification.transform,
-                null,
+                ()=> { StatsViewUI.Instance.RefreshRumors(); },
                 false);
 
             RumorsPanelUI.Instance.GainCustomRumor(gatheredRumor);
@@ -105,7 +105,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.CurrentLocation, targetChar);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
@@ -131,13 +131,13 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
         if (targetChar.IsKnown("CurrentLocation"))
         {
-            reason = "You already know where this person is.";
+            reason = new FailReason("You already know where this person is.");
             return false;
         }
 
         if (!targetChar.IsKnown("Appearance") && !targetChar.IsKnown("Name"))
         {
-            reason = "You don't know either the NAME nor the LOOKS of this perosn.";
+            reason = new FailReason("You don't know either the NAME nor the LOOKS of this perosn.");
             return false;
         }
 

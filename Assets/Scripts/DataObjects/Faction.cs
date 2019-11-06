@@ -11,6 +11,8 @@ public class Faction : ScriptableObject
     public Character FactionHead;
     public GameObject FactionSelectionPrefab;
 
+    public FactionAI AI;
+
     public Property[] FactionProperties;
 
     public LetterPreset[] StartingLetters;

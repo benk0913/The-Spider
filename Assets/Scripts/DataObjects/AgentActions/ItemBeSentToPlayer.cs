@@ -10,7 +10,7 @@ public class ItemBeSentToPlayer : AgentAction
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -28,7 +28,7 @@ public class ItemBeSentToPlayer : AgentAction
         InventoryPanelUI.Instance.ItemWasAdded(0);
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         ItemUI item = (ItemUI)target;
 

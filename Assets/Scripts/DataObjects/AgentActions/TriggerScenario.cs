@@ -10,7 +10,7 @@ public class TriggerScenario : AgentAction
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -33,7 +33,7 @@ public class TriggerScenario : AgentAction
         Scenario.TriggerScenario(character, location, location.OwnerCharacter );
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         LocationEntity location = (LocationEntity)target;
 

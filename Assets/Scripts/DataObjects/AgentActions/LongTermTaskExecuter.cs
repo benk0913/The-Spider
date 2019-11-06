@@ -14,7 +14,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
-        string reason;
+        FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
@@ -77,7 +77,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
         }
     }
 
-    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out string reason)
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         if (!base.CanDoAction(requester, character, target, out reason))
         {

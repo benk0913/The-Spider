@@ -356,17 +356,21 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         PurchaseUpgrade(OwnerCharacter.TopEmployer);
     }
 
-    public void PurchaseUpgrade(Character funder)
+    public FailReason PurchaseUpgrade(Character funder)
     { 
-        if(!IsOwnedByPlayer)
+        if(funder != OwnerCharacter.TopEmployer)
         {
-            GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
-            return;
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+            }
+
+            return new FailReason("Do Not Own Property");
         }
 
         if (Level >= CurrentProperty.PropertyLevels.Count)
         {
-            return;
+            return new FailReason("Level Already Maxed Out");
         }
 
         if (funder.Gold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
@@ -374,7 +378,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
                 "(You need more " + (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold)+")", 1f, Color.red);
 
-            return;
+            return new FailReason("Not Enough Gold", (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold));
         }
 
         funder.Gold -= CurrentProperty.PropertyLevels[Level].UpgradePrice;
@@ -390,6 +394,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         , 10
         , funder)
         );
+
+        return null;
     }
 
     public void ProgressUpgrade()
@@ -422,37 +428,35 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         StateUpdated.Invoke();
     }
 
-    public bool AttemptRecruiting()
+    public FailReason SelectAction(Character requester, Property.PropertyAction action)
     {
-        if (EmployeesCharacters.Count >= CurrentProperty.PropertyLevels[Level - 1].MaxEmployees)
+        if (requester != OwnerCharacter.TopEmployer)
         {
-            return false;
-        }
+            if (requester == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+            }
 
-        CORE.Instance.Database.GetEventAction("Recruit Employees").Execute(OwnerCharacter, OwnerCharacter, this);
-
-        return true;
-    }
-
-    public void SelectAction(Property.PropertyAction action)
-    {
-        if (!IsOwnedByPlayer)
-        {
-            GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
-            return;
+            return new FailReason("Do Not Own Property");
         }
 
         CurrentAction = action;
 
         StateUpdated.Invoke();
+
+        return null;
     }
 
-    public void Rebrand(Property newProperty)
+    public FailReason Rebrand(Character requester, Property newProperty)
     {
-        if (!IsOwnedByPlayer)
+        if (requester != OwnerCharacter.TopEmployer)
         {
-            GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
-            return;
+            if (requester == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+            }
+
+            return new FailReason("Do Not Own Property");
         }
 
         SelectedPanelUI.Instance.Deselect();
@@ -469,6 +473,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         SetInfo(Util.GenerateUniqueID(), newProperty, false);
 
         SelectedPanelUI.Instance.Select(this);
+
+        return null;
     }
 
     public void CharacterEnteredLocation(Character character)
@@ -667,5 +673,44 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         purchasablePlot.GetComponent<PurchasableEntity>().SetInfo(CurrentProperty.PlotType);
 
         Destroy(this.gameObject);
+    }
+
+    public FailReason RecruitEmployee(Character requester)
+    {
+        if(requester != OwnerCharacter.TopEmployer)
+        {
+            if (requester == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("You do not own this proeprty!", 1f, Color.red);
+            }
+
+            return new FailReason("Do Not Own Property");
+        }
+
+        if (requester.Connections < 3) //TODO replace magic number...
+        {
+            if (requester == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("Need more connections (" + requester.Connections + "/" + 3.ToString(), 1f, Color.red);
+            }
+
+            return new FailReason("Not Enough Connections",3);
+        }
+
+        requester.Connections -= 3;
+
+        Character randomNewEmployee = CORE.Instance.GenerateCharacter(
+               CurrentProperty.RecruitingGenderType,
+               CurrentProperty.MinAge,
+               CurrentProperty.MaxAge);
+
+        if (randomNewEmployee.TopEmployer == CORE.PC)
+        {
+            randomNewEmployee.Known.KnowAllBasic();
+        }
+
+        randomNewEmployee.StartWorkingFor(this);
+
+        return null;
     }
 }
