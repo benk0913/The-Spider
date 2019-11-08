@@ -74,6 +74,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public List<LongTermTaskEntity> LongTermTasks = new List<LongTermTaskEntity>();
 
+    public bool IsBuyable
+    {
+        get
+        {
+            return OwnerCharacter == null && CurrentProperty.PlotType != CORE.Instance.Database.UniquePlotType;
+        }
+    }
+
     void Awake()
     {
         if (PresetLocation)

@@ -55,6 +55,15 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     Transform InventoryContainer;
 
+    [SerializeField]
+    GameObject BuyPanel;
+
+    [SerializeField]
+    TextMeshProUGUI BuyPriceText;
+
+    [SerializeField]
+    PlotTypeUI BuyPanelPlotType;
+
     LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
@@ -122,6 +131,8 @@ public class ControlLocationPanelUI : MonoBehaviour
         RebrandButton.gameObject.SetActive(CurrentLocation.IsOwnedByPlayer);
 
         RefreshInventory();
+
+        if(CurrentLocation.IsBuyable)
     }
 
     void RefreshActions()
