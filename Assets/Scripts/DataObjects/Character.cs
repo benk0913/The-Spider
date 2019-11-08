@@ -974,6 +974,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         location.OwnerCharacter = this;
+
+        if(TopEmployer ==  CORE.PC)
+        {
+            location.Known.KnowAllBasic();
+        }
+
         location.RefreshState();
 
         if(!PropertiesOwned.Contains(location))

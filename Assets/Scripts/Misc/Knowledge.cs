@@ -39,7 +39,7 @@ public class Knowledge
         }
     }
 
-    public Knowledge(Character ofCharacter)
+    public Knowledge(Character ofCharacter = null)
     {
         CurrentCharacter = ofCharacter;
 
@@ -55,7 +55,7 @@ public class Knowledge
         //TODO DeepSecrets
     }
 
-    public void KnowAllBasic()
+    public virtual void KnowAllBasic()
     {
         foreach (KnowledgeInstance item in Items)
         {
@@ -63,7 +63,7 @@ public class Knowledge
         }
     }
 
-    public void Know(string key, bool notify = true)
+    public virtual void Know(string key, bool notify = true)
     {
         KnowledgeInstance instance = GetKnowledgeInstance(key);
 
@@ -88,9 +88,17 @@ public class Knowledge
         }
         
 
-        if(key == "CurrentLocation" && CurrentCharacter.CurrentTaskEntity != null)
+        if(key == "CurrentLocation")
         {
-            CurrentCharacter.CurrentTaskEntity.CurrentTargetLocation.RefreshTasks();
+            if (CurrentCharacter.CurrentLocation != null)
+            {
+                CurrentCharacter.CurrentLocation.RefreshCharactersInLocationUI();
+            }
+
+            if (CurrentCharacter.CurrentTaskEntity != null)
+            {
+                CurrentCharacter.CurrentTaskEntity.CurrentTargetLocation.RefreshTasks();
+            }
         }
     }
 
@@ -110,6 +118,34 @@ public class Knowledge
         }
 
         return null;
+    }
+}
+
+public class LocationKnowledge : Knowledge
+{
+    public LocationEntity CurrentLocation;
+
+    public LocationKnowledge(LocationEntity location)
+    {
+        CurrentLocation = location;
+
+        Items.Add(new KnowledgeInstance("Existance", "The Existance Of This Place", false));
+    }
+
+    public override void Know(string key, bool notify = true)
+    {
+        KnowledgeInstance instance = GetKnowledgeInstance(key);
+
+        if (!instance.IsKnown)
+        {
+            instance.IsKnown = true;
+        }
+
+
+        if (key == "Existance")
+        {
+            //CurrentLocation
+        }
     }
 }
 

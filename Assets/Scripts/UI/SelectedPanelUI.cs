@@ -77,6 +77,11 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void Select(LocationEntity location)
     {
+        if (!location.Known.GetKnowledgeInstance("Existance").IsKnown)
+        {
+            return;
+        }
+
         CurrentSelectionType = SelectionType.Location;
 
         LocationPanel.Select(location);

@@ -12,4 +12,6 @@ public class PlotType : ScriptableObject
     public string Description;
 
     public Property BaseProperty;
+
+    public GameObject BasePrefab;
 }

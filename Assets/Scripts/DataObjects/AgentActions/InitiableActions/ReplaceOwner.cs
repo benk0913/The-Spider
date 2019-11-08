@@ -82,12 +82,17 @@ public class ReplaceOwner : AgentAction
             return false;   
         }
 
+        if(location.OwnerCharacter == null)
+        {
+            return false;
+        }
+
         if(location.OwnerCharacter == requester)
         {
             return false;
         }
 
-        if(location.OwnerCharacter != null && location.OwnerCharacter.TopEmployer != requester)
+        if(location.OwnerCharacter.TopEmployer != requester)
         {
             return false;
         }

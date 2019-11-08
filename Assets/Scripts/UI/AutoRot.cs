@@ -4,9 +4,18 @@ using System.Collections;
 public class AutoRot : MonoBehaviour {
 
     public float Speed = 50f;
+    public Vector3 Direction;
+
+    private void OnEnable()
+    {
+        if (Direction == Vector3.zero)
+        {
+            Direction = transform.forward;
+        }
+    }
 
     void Update()
     {
-        transform.Rotate(transform.forward * Speed * Time.deltaTime);
+        transform.Rotate(Direction * Speed * Time.deltaTime);
     }
 }

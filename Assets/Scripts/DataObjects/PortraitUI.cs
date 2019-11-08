@@ -27,6 +27,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     protected Image Frame;
 
     [SerializeField]
+    protected Image FrameBG;
+
+    [SerializeField]
     protected GameObject QuestionMark;
 
     [SerializeField]
@@ -93,8 +96,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             Hair.color = Color.black;
             Clothing.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+            FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
-            if(ActionPortrait != null)
+            if (ActionPortrait != null)
             {
                 ActionPortrait.gameObject.SetActive(false);
             }
@@ -109,6 +113,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             Hair.color = Color.black;
             Clothing.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+            FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
             if (ActionPortrait != null)
             {
@@ -170,7 +175,10 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         Face.sprite = CurrentCharacter.Face.Sprite;
         Hair.sprite = CurrentCharacter.Hair.Sprite;
         Clothing.sprite = CurrentCharacter.Clothing.Sprite;
+
+        //TODO Only if faction is known...
         Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
+        FrameBG.color = CurrentCharacter.CurrentFaction.FactionColor;
     }
 
     public virtual void RefreshState()

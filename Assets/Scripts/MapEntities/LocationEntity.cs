@@ -14,6 +14,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public const int PORTRAITS_MAX_IN_ROW = 5;
 
     [SerializeField]
+    public int LandValue;
+
+    [SerializeField]
     public Property CurrentProperty;
 
     [SerializeField]
@@ -55,15 +58,17 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public List<Character> CharactersInLocation = new List<Character>();
     public List<Character> CharactersLivingInLocation = new List<Character>();
 
+    public LocationKnowledge Known;
+
     GameObject SelectedMarkerObject;
 
     CharactersInLocationUI CharactersInLocationUIInstance;
 
     [SerializeField]
-    List<AgentAction> PossibleAgentActions = new List<AgentAction>();
+    protected List<AgentAction> PossibleAgentActions = new List<AgentAction>();
 
     [SerializeField]
-    List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
+    protected List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
     public LongTermTaskDurationUI TaskDurationUI;
 
@@ -299,6 +304,13 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             OwnerCharacter = null;
         }
 
+        Known = new LocationKnowledge(this);
+
+        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        {
+            Known.KnowAllBasic();
+        }
+
         this.ID = id;
 
         CurrentProperty = property;
@@ -320,33 +332,44 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             Destroy(HoverPoint.transform.GetChild(i).gameObject);
         }
 
-        GameObject tempFigure = Instantiate(CurrentProperty.FigurePrefab);
+        GameObject tempFigure;
+        GameObject hoverModel;
+        if (Known.GetKnowledgeInstance("Existance").IsKnown)
+        {
+            tempFigure = Instantiate(CurrentProperty.FigurePrefab);
+
+            if (CurrentProperty.MaterialOverride != null)
+            {
+                tempFigure.GetComponent<FigureController>().SetMaterial(CurrentProperty.MaterialOverride);
+            }
+            else
+            {
+                if (OwnerCharacter == null)
+                {
+                    tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+                }
+                else
+                {
+                    tempFigure.GetComponent<FigureController>().SetMaterial(OwnerCharacter.CurrentFaction.WaxMaterial);
+                }
+            }
+
+            hoverModel = Instantiate(CurrentProperty.HoverPrefab);
+        }
+        else
+        {
+            tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
+            tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+            hoverModel = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
+        }
+
         tempFigure.transform.SetParent(FigurePoint);
         tempFigure.transform.position = FigurePoint.position;
         tempFigure.transform.rotation = FigurePoint.rotation;
 
-        GameObject hoverModel = Instantiate(CurrentProperty.HoverPrefab);
         hoverModel.transform.SetParent(HoverPoint);
         hoverModel.transform.position = HoverPoint.position;
         hoverModel.transform.rotation = HoverPoint.rotation;
-
-
-        if (CurrentProperty.MaterialOverride != null)
-        {
-            tempFigure.GetComponent<FigureController>().SetMaterial(CurrentProperty.MaterialOverride);
-        }
-        else
-        {
-            if (OwnerCharacter == null)
-            {
-                tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
-            }
-            else
-            {
-                tempFigure.GetComponent<FigureController>().SetMaterial(OwnerCharacter.CurrentFaction.WaxMaterial);
-            }
-        }
-
 
         StateUpdated.Invoke();
     }
@@ -472,7 +495,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         SetInfo(Util.GenerateUniqueID(), newProperty, false);
 
-        SelectedPanelUI.Instance.Select(this);
+        if (requester == CORE.PC)
+        {
+            SelectedPanelUI.Instance.Select(this);
+        }
 
         return null;
     }
@@ -480,6 +506,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public void CharacterEnteredLocation(Character character)
     {
         CharactersInLocation.Add(character);
+
+        if(OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        {
+            character.Known.Know("Appearance");
+            character.Known.Know("CurrentLocation");
+        }
 
         if (CharactersInLocationUIInstance != null)
         {
@@ -523,6 +555,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void RefreshTasks()
     {
+
+
         if (TaskDurationUI == null)
         {
             TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
@@ -668,9 +702,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             TaskDurationUI.Wipe();
         }
 
-        GameObject purchasablePlot = Instantiate(ResourcesLoader.Instance.GetObject("PurchasablePlot"));
-        purchasablePlot.transform.position = transform.position;
-        purchasablePlot.GetComponent<PurchasableEntity>().SetInfo(CurrentProperty.PlotType);
+        if(OwnerCharacter != null)
+        {
+            OwnerCharacter.StopOwningLocation(this);
+        }
 
         Destroy(this.gameObject);
     }
@@ -710,6 +745,59 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
         randomNewEmployee.StartWorkingFor(this);
+
+        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        {
+            SelectedPanelUI.Instance.Select(this);
+        }
+
+        return null;
+    }
+
+    public FailReason PurchasePlot(Character funder, Character forCharacter)
+    {
+
+        if (funder.Gold < LandValue)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
+                    "(You need more " + (LandValue - funder.Gold) + ")", 1f, Color.red);
+            }
+
+            return new FailReason("Not Enough Gold");
+        }
+
+        if (OwnerCharacter != null)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("LOCATION UNAVAILABLE ", 1f, Color.red);
+            }
+
+            return new FailReason("Location Unavailable");
+        }
+        
+        this.SetInfo(Util.GenerateUniqueID(), CurrentProperty, true);
+
+        forCharacter.StartOwningLocation(this);
+
+        funder.Gold -= LandValue;
+
+        if (funder.CurrentFaction == CORE.PC.CurrentFaction)
+        {
+            CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", LandValue.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
+        }
+
+
+
+        forCharacter.DynamicRelationsModifiers.Add
+        (
+        new DynamicRelationsModifier(
+        new RelationsModifier("Purchased a property for me!", 5)
+        , 10
+        , funder)
+        );
 
         return null;
     }

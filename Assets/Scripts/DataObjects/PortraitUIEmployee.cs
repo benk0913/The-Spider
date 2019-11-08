@@ -34,6 +34,7 @@ public class PortraitUIEmployee : PortraitUI
             Hair.color = Color.black;
             Clothing.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+            FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
             if (ActionPortrait != null)
             {

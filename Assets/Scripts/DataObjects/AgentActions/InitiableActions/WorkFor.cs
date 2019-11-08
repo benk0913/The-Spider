@@ -81,6 +81,11 @@ public class WorkFor : AgentAction
             return false;
         }
 
+        if(location.OwnerCharacter == null)
+        {
+            return false;
+        }
+
         Character tempChar = location.OwnerCharacter;
         while(tempChar != null)
         {

@@ -23,6 +23,13 @@ public class ShowLocationInfoPlayerAction : PlayerAction
     public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
         reason = null;
+        
+        if (!((LocationEntity)target).Known.GetKnowledgeInstance("Existance").IsKnown)
+        {
+            //reason = new FailReason("This location is not known to you.");
+            return false;
+        }
+
         return true;
     }
 }

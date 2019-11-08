@@ -64,7 +64,7 @@ public class StatsViewUI : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(0.1f);
 
             RefreshGold();
             RefreshConnections();

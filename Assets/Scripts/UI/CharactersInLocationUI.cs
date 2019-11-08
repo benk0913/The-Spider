@@ -10,13 +10,14 @@ public class CharactersInLocationUI : MonoBehaviour
     [SerializeField]
     WorldPositionLerperUI Lerper;
 
+    public List<Character> Characters = new List<Character>();
+
 
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("ShowMap", Show);
 
         CORE.Instance.SubscribeToEvent("HideMap", Hide);
-        Hide();
     }
 
     private void OnDestroy()
@@ -48,15 +49,21 @@ public class CharactersInLocationUI : MonoBehaviour
 
     public void AddCharacter(Character character)
     {
-        if (!character.isImportant)
-        {
-            return;
-        }
-
         if (!character.IsKnown("CurrentLocation"))
         {
             return;
         }
+
+        //if (!character.isImportant)
+        //{
+        //    return;
+        //}
+
+        if(Characters.Contains(character))
+        {
+            return;
+        }
+        Characters.Add(character);
 
         PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
         portrait.transform.SetParent(Container, false);
@@ -66,6 +73,11 @@ public class CharactersInLocationUI : MonoBehaviour
 
     public void RemoveCharacter(Character character)
     {
+        if(Characters.Contains(character))
+        {
+            Characters.Remove(character);
+        }
+
         for(int i=0;i<Container.childCount;i++)
         {
             if(Container.GetChild(i).GetComponent<PortraitUI>().CurrentCharacter == character)
@@ -80,6 +92,7 @@ public class CharactersInLocationUI : MonoBehaviour
     void Refresh()
     {
         ClearContainer();
+        Characters.Clear();
 
         foreach (Character character in currentLocation.CharactersInLocation)
         {

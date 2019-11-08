@@ -23,8 +23,6 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
-    public List<PurchasableEntity> PurchasablePlots = new List<PurchasableEntity>();
-
     public static Character PC;
     public static Faction PlayerFaction;
 
@@ -169,7 +167,6 @@ public class CORE : MonoBehaviour
         Characters.Clear();
         Locations.Clear();
         PresetLocations.Clear();
-        PurchasablePlots.Clear();
 
         GameClock.Instance.Wipe();
         RemoveListeners();
@@ -525,11 +522,6 @@ public class CORE : MonoBehaviour
             savefile["Locations"][i] = Locations[i].ToJSON();
         }
 
-        for(int i=0;i<PurchasablePlots.Count;i++)
-        {
-            savefile["PurchasablePlots"][i] = PurchasablePlots[i].ToJSON();
-        }
-
         savefile["Rumors"] = RumorsPanelUI.Instance.ToJSON();
         savefile["Quests"] = QuestsPanelUI.Instance.ToJSON();
         savefile["Rooms"]  = RoomsManager.Instance.ToJSON();
@@ -604,13 +596,6 @@ public class CORE : MonoBehaviour
 
                 tempLocation.FromJSON(file.Content["Locations"][i]);
                 Locations.Add(tempLocation);
-
-                yield return 0;
-            }
-
-            for (int i = 0; i < file.Content["PurchasablePlots"].Count; i++)
-            {
-                PurchasablePlots[i].FromJSON(file.Content["PurchasablePlots"][i]);
 
                 yield return 0;
             }

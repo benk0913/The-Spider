@@ -26,8 +26,28 @@ public class PurchasePlotAction : AgentAction
             return;
         }
 
-        PurchasableEntity targetEntity = (PurchasableEntity)target;
+        LocationEntity targetEntity = (LocationEntity)target;
 
         targetEntity.PurchasePlot(requester, character);
+    }
+
+    public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
+    {
+        reason = null;
+        LocationEntity targetEntity = (LocationEntity)target;
+
+        if(!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnown)
+        {
+            //reason = new FailReason("This location is not known to you.");
+
+            return false;
+        }
+
+        if(targetEntity.OwnerCharacter != null)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

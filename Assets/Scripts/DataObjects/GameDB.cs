@@ -26,7 +26,10 @@ public class GameDB : ScriptableObject
     public PropertyTrait HouseOfPleasureTrait;
     public PropertyTrait BurialGroundTrait;
 
+    public GameObject UnknownFigurePrefab;
+
     public Faction DefaultFaction;
+    public Faction NoFaction;
 
     public PlotType UniquePlotType;
 

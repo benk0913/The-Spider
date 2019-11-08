@@ -29,70 +29,75 @@ public class SpyAroundComplete : AgentAction
             return;
         }
 
-        LocationEntity location = (LocationEntity)target;
-
-        List<Character> possibleTargets = new List<Character>();
-        possibleTargets = location.CharactersInLocation.FindAll(
-            (Character charInQuestion) =>
-            {
-                return charInQuestion.isImportant || location.EmployeesCharacters.Contains(charInQuestion);
-            });
-
-        bool foundSomething = false;
-        foreach(Character charInLocation in possibleTargets)
+        if (target.GetType() == typeof(LocationEntity))
         {
-            float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
-            float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
-            
-            if (charInLocation.IsKnown("Name") 
-                && charInLocation.IsKnown("Appearance") 
-                && charInLocation.IsKnown("CurrentLocation") 
-                && charInLocation.IsKnown("Personality")
-                && charInLocation.IsKnown("WorkLocation"))
+            LocationEntity location = (LocationEntity)target;
+
+            location.Known.Know("Existance");
+
+            List<Character> possibleTargets = new List<Character>();
+            possibleTargets = location.CharactersInLocation.FindAll(
+                (Character charInQuestion) =>
+                {
+                    return charInQuestion.isImportant || location.EmployeesCharacters.Contains(charInQuestion);
+                });
+
+            bool foundSomething = false;
+            foreach (Character charInLocation in possibleTargets)
             {
-                continue;
+                float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
+                float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
+
+                if (charInLocation.IsKnown("Name")
+                    && charInLocation.IsKnown("Appearance")
+                    && charInLocation.IsKnown("CurrentLocation")
+                    && charInLocation.IsKnown("Personality")
+                    && charInLocation.IsKnown("WorkLocation"))
+                {
+                    continue;
+                }
+
+                if (Random.Range(0, Mathf.RoundToInt(enemyValue + agentValue)) > agentValue) // if lost in stat duel
+                {
+                    continue;
+                }
+
+                charInLocation.Known.Know("Name");
+                charInLocation.Known.Know("Appearance");
+                charInLocation.Known.Know("CurrentLocation");
+                charInLocation.Known.Know("Personality");
+
+                if (charInLocation.WorkLocation == location)
+                {
+                    charInLocation.Known.Know("WorkLocation");
+                }
+
+                foundSomething = true;
+                break;
             }
 
-            if (Random.Range(0, Mathf.RoundToInt(enemyValue+agentValue)) > agentValue) // if lost in stat duel
+            if (!foundSomething)
             {
-                continue;
+                CORE.Instance.ShowHoverMessage(
+                    "Found nothing of interest...",
+                    ResourcesLoader.Instance.GetSprite("Unsatisfied"),
+                    character.CurrentLocation.transform);
+            }
+            else
+            {
+                CORE.Instance.ShowHoverMessage(
+                     "Found interesting information!",
+                     ResourcesLoader.Instance.GetSprite("Satisfied"),
+                     character.CurrentLocation.transform);
             }
 
-            charInLocation.Known.Know("Name");
-            charInLocation.Known.Know("Appearance");
-            charInLocation.Known.Know("CurrentLocation");
-            charInLocation.Known.Know("Personality");
-
-            if(charInLocation.WorkLocation == location)
+            if (Task == null)
             {
-                charInLocation.Known.Know("WorkLocation");
+                return;
             }
 
-            foundSomething = true;
-            break;
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
         }
-
-        if(!foundSomething)
-        {
-            CORE.Instance.ShowHoverMessage(
-                "Found nothing of interest...", 
-                ResourcesLoader.Instance.GetSprite("Unsatisfied"), 
-                character.CurrentLocation.transform);
-        }
-        else
-        {
-            CORE.Instance.ShowHoverMessage(
-                 "Found interesting information!",
-                 ResourcesLoader.Instance.GetSprite("Satisfied"),
-                 character.CurrentLocation.transform);
-        }
-
-        if (Task == null)
-        {
-            return;
-        }
-
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

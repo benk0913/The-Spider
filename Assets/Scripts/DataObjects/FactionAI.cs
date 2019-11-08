@@ -56,7 +56,11 @@ public class FactionAI : ScriptableObject
         failReason = null;
 
         List<Character> charsInCommand = CurrentCharacter.CharactersInCommand;
-        foreach (PurchasableEntity purchasable in CORE.Instance.PurchasablePlots)
+        List<LocationEntity> purchasables = CORE.Instance.Locations.FindAll((LocationEntity location) =>
+        {
+            return location.OwnerCharacter == null && location.CurrentProperty.PlotType != CORE.Instance.Database.UniquePlotType;
+        });
+        foreach (LocationEntity purchasable in purchasables)
         {
             if (charsInCommand.Count == 0)
             {
@@ -294,7 +298,7 @@ public class FactionAI : ScriptableObject
 
     #region Tier1
 
-    public virtual FailReason BuyProperty(Character character, PurchasableEntity targetPlot)
+    public virtual FailReason BuyProperty(Character character, LocationEntity targetPlot)
     {
         List<PlayerAction> PlayerActions = targetPlot.GetPossiblePlayerActions();
 
