@@ -53,6 +53,7 @@ public class LongTermTaskDurationUI : MonoBehaviour
 
     public void AddEntity(LongTermTaskEntity entity)
     {
+        return;
         if(!Instances.ContainsKey(entity.CurrentTask))
         {
             Instances.Add(entity.CurrentTask, new List<LongTermTaskEntity>());
@@ -68,6 +69,7 @@ public class LongTermTaskDurationUI : MonoBehaviour
 
     public void RemoveEntity(LongTermTaskEntity entity)
     {
+        return;
         if (!Instances.ContainsKey(entity.CurrentTask))
         {
             return;
@@ -111,6 +113,8 @@ public class LongTermTaskDurationUI : MonoBehaviour
 
     public void Refresh()
     {
+        return;
+        
         if(Instances.Count == 0)
         {
             return;

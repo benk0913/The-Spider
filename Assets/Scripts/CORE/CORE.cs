@@ -285,6 +285,15 @@ public class CORE : MonoBehaviour
 
     #region Misc
 
+    public void ShowPortraitEffect(GameObject effect, Character character, LocationEntity targetLocation)
+    {
+        GameObject effectObj = ResourcesLoader.Instance.GetRecycledObject(effect);
+        effectObj.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        effectObj.transform.localScale = Vector3.one;
+        effectObj.GetComponent<PortraitUI>().SetCharacter(character);
+        effectObj.GetComponent<WorldPositionLerperUI>().SetTransform(targetLocation.transform);
+    }
+
     public void SplineAnimationObject(string prefabKey,Transform startPoint,Transform targetPoint,System.Action OnComplete = null, bool canvasElement = true)
     {
         GameObject prefabObj = ResourcesLoader.Instance.GetRecycledObject(prefabKey);

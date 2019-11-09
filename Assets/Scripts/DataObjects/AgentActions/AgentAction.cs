@@ -22,6 +22,8 @@ public class AgentAction : ScriptableObject
 
     public LetterPreset employerLetterPreset;
 
+    public GameObject WorldPortraitEffect;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         FailReason reason;
@@ -50,19 +52,44 @@ public class AgentAction : ScriptableObject
             CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
         }
 
-        if(employerLetterPreset != null)
+        if (character.TopEmployer == CORE.PC)
         {
-            if (character.Employer != null && character.TopEmployer != null && character.Employer != character.TopEmployer)
+            if (employerLetterPreset != null)
             {
-                Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+                if (character.Employer != null && character.TopEmployer != null && character.Employer != character.TopEmployer)
+                {
+                    Dictionary<string, object> letterParameters = new Dictionary<string, object>();
 
-                letterParameters.Add("Target_Name", character.name);
-                letterParameters.Add("Target_Role", character.CurrentRole);
-                letterParameters.Add("Letter_From", character.Employer);
-                letterParameters.Add("Letter_To", character.TopEmployer);
-                letterParameters.Add("Letter_SubjectCharacter", character);
+                    letterParameters.Add("Target_Name", character.name);
+                    letterParameters.Add("Target_Role", character.CurrentRole);
+                    letterParameters.Add("Letter_From", character.Employer);
+                    letterParameters.Add("Letter_To", character.TopEmployer);
+                    letterParameters.Add("Letter_SubjectCharacter", character);
 
-                LetterDispenserEntity.Instance.DispenseLetter(new Letter(employerLetterPreset, letterParameters));
+                    LetterDispenserEntity.Instance.DispenseLetter(new Letter(employerLetterPreset, letterParameters));
+                }
+            }
+
+            if (WorldPortraitEffect != null)
+            {
+                LocationEntity targetLocation;
+
+                if (target.GetType() == typeof(LocationEntity))
+                {
+                    targetLocation = (LocationEntity)target;
+                }
+                else if (target.GetType() == typeof(PortraitUI))
+                {
+                    targetLocation = ((PortraitUI)target).CurrentCharacter.CurrentLocation;
+                }
+                else
+                {
+                    targetLocation = character.CurrentLocation;
+                }
+
+                CORE.Instance.ShowPortraitEffect(WorldPortraitEffect, character, targetLocation);
+
+
             }
         }
     }

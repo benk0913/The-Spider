@@ -20,7 +20,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             return;
         }
         
-        if (!RollSucceed(character))
+        if (FailureResult != null && !RollSucceed(character))
         {
             if (FailureResult != null)
             {

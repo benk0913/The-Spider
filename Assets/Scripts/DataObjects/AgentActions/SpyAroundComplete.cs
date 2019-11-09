@@ -48,10 +48,8 @@ public class SpyAroundComplete : AgentAction
                 float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
                 float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
 
-                if (charInLocation.IsKnown("Name")
-                    && charInLocation.IsKnown("Appearance")
+                if (charInLocation.IsKnown("Appearance")
                     && charInLocation.IsKnown("CurrentLocation")
-                    && charInLocation.IsKnown("Personality")
                     && charInLocation.IsKnown("WorkLocation"))
                 {
                     continue;
@@ -61,11 +59,9 @@ public class SpyAroundComplete : AgentAction
                 {
                     continue;
                 }
-
-                charInLocation.Known.Know("Name");
+                
                 charInLocation.Known.Know("Appearance");
                 charInLocation.Known.Know("CurrentLocation");
-                charInLocation.Known.Know("Personality");
 
                 if (charInLocation.WorkLocation == location)
                 {

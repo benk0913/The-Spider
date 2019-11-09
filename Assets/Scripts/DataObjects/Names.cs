@@ -1147,7 +1147,6 @@ public static class Names
   "Friesen",
   "Fritsch",
   "Funk",
-  "Gaylord",
   "Gerhold",
   "Gerlach",
   "Gibson",

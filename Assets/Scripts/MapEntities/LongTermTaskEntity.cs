@@ -72,13 +72,15 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     public void Complete()
     {
-        CurrentLocation.RemoveLongTermTask(this);
-
         this.CurrentCharacter.StopDoingCurrentTask(true);
+    }
 
+    public void Dispose()
+    {
+        CurrentLocation.RemoveLongTermTask(this);
         AgentAction resultAction = CurrentTask.GetResult(CurrentCharacter);
 
-        if(TargetCharacter != null)
+        if (TargetCharacter != null)
         {
             PortraitUI tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
             tempPortrait.SetCharacter(TargetCharacter);

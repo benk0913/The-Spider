@@ -28,6 +28,11 @@ public class CharactersInLocationUI : MonoBehaviour
 
     public void Show()
     {
+        if(!MapViewManager.Instance.MapElementsContainer.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         this.gameObject.SetActive(true);
         Refresh();
     }

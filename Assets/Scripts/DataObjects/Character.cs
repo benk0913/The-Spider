@@ -1053,6 +1053,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool StartDoingTask(LongTermTaskEntity task)
     {
+
         if(task == CurrentTaskEntity)
         {
             return true;
@@ -1065,7 +1066,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 return false;
             }
         }
-       
+
         CurrentTaskEntity = task;
         GoToLocation(task.CurrentTargetLocation);
 
@@ -1090,12 +1091,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return false;
         }
 
+
+        LongTermTaskEntity entity = CurrentTaskEntity;
+        CurrentTaskEntity = null;
+        entity.Dispose();
+
         if (TopEmployer == CORE.PC)
         {
             CORE.Instance.InvokeEvent("AgentRefreshedAction");
         }
-
-        CurrentTaskEntity = null;
 
         return true;
     }
@@ -1132,12 +1136,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         StopDoingCurrentTask();
 
+        //TODO Causes issues in main turn turner (Removes from iteration container while iterating)
         CORE.Instance.Characters.Remove(this);
 
-        if (notify)
+        if (notify && TopEmployer == CORE.PC)
         {
             TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": <color=red> Has Died </color>", ResourcesLoader.Instance.GetSprite("DeceasedIcon"), this));
-            WarningWindowUI.Instance.Show(this.name + " has died!", () => { });
+            //WarningWindowUI.Instance.Show(this.name + " has died!", () => { });
         }
 
         if (this == CORE.PC)//TODO Change later...

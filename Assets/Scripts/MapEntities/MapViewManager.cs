@@ -14,6 +14,7 @@ public class MapViewManager : MonoBehaviour
 
     [SerializeField]
     public TopdownCameraMovement TopDownCamera;
+    
 
     private void Awake()
     {

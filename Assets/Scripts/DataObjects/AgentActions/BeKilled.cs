@@ -8,6 +8,8 @@ public class BeKilled : AgentAction
 {
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
+        base.Execute(requester, character, target);
+
         character.Death();
     }
 }
