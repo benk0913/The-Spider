@@ -133,6 +133,15 @@ public class ControlLocationPanelUI : MonoBehaviour
         RefreshInventory();
 
         if(CurrentLocation.IsBuyable)
+        {
+            BuyPanel.gameObject.SetActive(true);
+            BuyPriceText.text = CurrentLocation.LandValue + "c";
+            BuyPanelPlotType.SetInfo(CurrentLocation.CurrentProperty.PlotType);
+        }
+        else
+        {
+            BuyPanel.gameObject.SetActive(false);
+        }
     }
 
     void RefreshActions()
@@ -308,5 +317,22 @@ public class ControlLocationPanelUI : MonoBehaviour
     public void ShowRebrandWindow()
     {
         RebrandWindowUI.Instance.Show(CurrentLocation);
+    }
+
+    public void BuyLocation()
+    {
+        SelectAgentWindowUI.Instance.Show(
+               (Character character) => 
+               {
+                   FailReason failure = CurrentLocation.PurchasePlot(CORE.PC, character);
+
+                   if(failure != null)
+                   {
+                       GlobalMessagePrompterUI.Instance.Show(failure.Key, 1f, Color.red);
+                   }
+               }
+               , (Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC && charInQuestion != CORE.PC; });
+
+        
     }
 }
