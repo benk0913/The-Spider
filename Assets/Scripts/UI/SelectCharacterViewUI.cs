@@ -29,7 +29,7 @@ public class SelectCharacterViewUI : MonoBehaviour
     }
 
     protected Coroutine PopulateGridRoutine;
-    protected IEnumerator PopulateGrid(Action<Character> onSelect = null, Predicate<Character> filter = null)
+    protected virtual IEnumerator PopulateGrid(Action<Character> onSelect = null, Predicate<Character> filter = null)
     {
         while(Container.childCount > 0)
         {

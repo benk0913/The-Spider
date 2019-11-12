@@ -7,6 +7,9 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
 {
     public static SelectAgentWindowUI Instance;
 
+    [SerializeField]
+    SelectableCharacterNodeTreeUI Tree;
+
     protected void Awake()
     {
         Instance = this;
@@ -19,8 +22,13 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         base.Show(onSelect, filter);
     }
 
-    public override bool CommonFilter(Character character)
+    protected override IEnumerator PopulateGrid(Action<Character> onSelect = null, Predicate<Character> filter = null)
     {
-        return (character.TopEmployer == CORE.PC);
+
+        yield return 0;
+
+        Tree.SetSelectableCharacters(CORE.PC, onSelect);
+
+        PopulateGridRoutine = null;
     }
 }

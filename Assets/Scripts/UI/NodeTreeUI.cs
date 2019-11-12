@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
 public class NodeTreeUI : MonoBehaviour
 {
     [SerializeField]
     protected Transform RootContainer;
-
-    [SerializeField]
-    protected Transform TreeTopPoint;
 
     [SerializeField]
     protected GameObject NodePrefab;
@@ -19,11 +17,6 @@ public class NodeTreeUI : MonoBehaviour
 
     [SerializeField]
     protected float NodeSpacingY = 1f;
-
-    private void OnEnable()
-    {
-        GenerateRandom();
-    }
 
     void GenerateRandom()
     {
@@ -75,6 +68,12 @@ public class NodeTreeUI : MonoBehaviour
         yield return 0;
 
         yield return StartCoroutine(GenerateNode(origin));
+
+        yield return 0;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)RootContainer);
+
+        yield return 0;
 
         yield return StartCoroutine(GenerateLines(origin));
     }
