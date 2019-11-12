@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68101a18fb5f09d4c9328c455e08282a, type: 3}
+  m_Name: Poisoning
+  m_EditorClassIdentifier: 
+  Description: The agent will attempt to infiltrate and poison the food which is
+    stored in this location. The act may result in the death of some employees.
+  Icon: {fileID: 21300000, guid: 3833ef7cdabc0da49b394c1ad2967989, type: 3}
+  TurnsToComplete: 1
+  PossibleResults:
+  - {fileID: 11400000, guid: 829b44c0c2655f641b03018168530ad2, type: 2}
+  DefaultResults:
+  - {fileID: 11400000, guid: f88a076b680a0e24f9ba413f3f6efb31, type: 2}
+  Cancelable: 1
+  ExecuteAtHome: 0
+  HideFromLog: 1
+  TraitsToTargetDuringAction: []
+  Illegal: 1
+  CompleteLate: 1
+  CompleteEarly: 0

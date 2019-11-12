@@ -796,7 +796,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             return new FailReason("Location Unavailable");
         }
-        
+
         this.SetInfo(Util.GenerateUniqueID(), CurrentProperty, true);
 
         forCharacter.StartOwningLocation(this);
@@ -820,4 +820,54 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         return null;
     }
+
+    public FailReason BuyoutPlot(Character funder, Character forCharacter)
+    {
+
+        if (funder.Gold < LandValue*2)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
+                    "(You need more " + (LandValue - funder.Gold) + ")", 1f, Color.red);
+            }
+
+            return new FailReason("Not Enough Gold");
+        }
+
+        if (CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("LOCATION UNAVAILABLE ", 1f, Color.red);
+            }
+
+            return new FailReason("Location Unavailable");
+        }
+
+        this.SetInfo(Util.GenerateUniqueID(), CurrentProperty, true);
+
+        forCharacter.StartOwningLocation(this);
+
+        funder.Gold -= LandValue*2;
+
+        if (funder.CurrentFaction == CORE.PC.CurrentFaction)
+        {
+            CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", (LandValue*2).ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
+        }
+
+
+
+        forCharacter.DynamicRelationsModifiers.Add
+        (
+        new DynamicRelationsModifier(
+        new RelationsModifier("Purchased a property for me!", 5)
+        , 10
+        , funder)
+        );
+
+        return null;
+    }
+
+
 }

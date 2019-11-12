@@ -96,10 +96,19 @@ public class AgentAction : ScriptableObject
 
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        reason = null;
         if(character.Age < MinimumAge)
         {
             reason = new FailReason("Too young to do so.");
             return false;
+        }
+
+        if(target.GetType() == typeof(PortraitUI))
+        {
+            if(((PortraitUI)target).CurrentCharacter.IsDead)
+            {
+                return false;
+            }
         }
 
         if(character.CurrentTaskEntity != null && !character.CurrentTaskEntity.CurrentTask.Cancelable)

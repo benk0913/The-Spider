@@ -71,7 +71,6 @@ public class NodeTreeUI : MonoBehaviour
 
         yield return 0;
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)RootContainer);
 
         yield return 0;
 

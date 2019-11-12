@@ -51,7 +51,10 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
                 float challengeBonus = result.Challenge.ChallengeValue;
                 float rarity = result.Challenge.RarityValue;
 
-                float precentNormalized = result.Challenge.InvertedChance? playerBonus / (challengeBonus + rarity) : challengeBonus / (playerBonus + rarity);
+                float precentNormalized = result.Challenge.InvertedChance?
+                    challengeBonus / (challengeBonus + rarity) 
+                    :
+                    playerBonus / (playerBonus + rarity);
 
                 TooltipTarget.Text += "\n <color=yellow>" + result.name + "</color> - <color=green>" + result.Challenge.Type.name
                     + "</color> <color=yellow> (" + Mathf.RoundToInt(100f * precentNormalized) + "%) </color>";
@@ -74,9 +77,9 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
                 float rarity = result.Challenge.RarityValue;
 
                 float precentNormalized = result.Challenge.InvertedChance ?
-                    playerBonus    / (playerBonus + challengeBonus + rarity) 
+                    challengeBonus / (playerBonus + challengeBonus + rarity)
                     :
-                    challengeBonus / (playerBonus + challengeBonus + rarity);
+                    playerBonus / (playerBonus + challengeBonus + rarity);
 
                 TooltipTarget.Text += "\n <color=yellow>" + result.name + "</color> - <color=green>" + result.Challenge.Type.name
                     + "</color> <color=yellow> (" + Mathf.RoundToInt(100f * precentNormalized) + "%) </color>";
