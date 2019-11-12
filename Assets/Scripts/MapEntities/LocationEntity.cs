@@ -220,6 +220,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         ProgressUpgrade();
 
+        List<LongTermTaskEntity> CompleteEarly = new List<LongTermTaskEntity>();
         List<LongTermTaskEntity> CompleteLate = new List<LongTermTaskEntity>();
         List<LongTermTaskEntity> CompleteNormal = new List<LongTermTaskEntity>();
 
@@ -229,10 +230,20 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             {
                 CompleteLate.Add(task);
             }
+            else if (task.CurrentTask.CompleteEarly)
+            {
+                CompleteEarly.Add(task);
+            }
             else
             {
                 CompleteNormal.Add(task);
             }
+        }
+
+        foreach (LongTermTaskEntity task in CompleteEarly)
+        {
+            task.TurnPassed();
+            yield return 0;
         }
 
         foreach (LongTermTaskEntity task in CompleteNormal)

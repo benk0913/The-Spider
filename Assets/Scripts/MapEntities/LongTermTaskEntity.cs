@@ -63,7 +63,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     {
         TurnsLeft--;
 
-        if (TurnsLeft <= 0)
+        if (TurnsLeft <= 0 && !isComplete)
         {
             Complete();
             return;
@@ -73,11 +73,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     public void Complete()
     {
         this.CurrentCharacter.StopDoingCurrentTask(true);
-    }
 
-    public void Dispose()
-    {
-        CurrentLocation.RemoveLongTermTask(this);
         AgentAction resultAction = CurrentTask.GetResult(CurrentCharacter);
 
         if (TargetCharacter != null)
@@ -95,6 +91,12 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, CurrentTargetLocation);
         }
 
+    }
+
+    public void Dispose()
+    {
+        CurrentLocation.RemoveLongTermTask(this);
+       
         if (!isComplete)
         {
             Destroy(this.gameObject);

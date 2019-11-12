@@ -1002,7 +1002,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             if (possibleReplacement == null)
             {
-                //TODO KILL LOCATION
+                //TODO KILL LOCATION AND MAKE SURE PROPERTY REMOVED TO PREVENT INFINITE LOOP
                 location.Dispose();
                 return;
             }

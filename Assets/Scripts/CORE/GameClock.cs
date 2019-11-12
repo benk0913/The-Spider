@@ -65,9 +65,11 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
         PassTimeRoutineInstance = StartCoroutine(PassTimeRoutine());
     }
 
-    Coroutine PassTimeRoutineInstance;
+    public Coroutine PassTimeRoutineInstance;
     IEnumerator PassTimeRoutine()
     {
+        CORE.Instance.InvokeEvent("PassTimeStarted");
+
         int currentWeek = CurrentWeek;
 
         CurrentTimeOfDay++;

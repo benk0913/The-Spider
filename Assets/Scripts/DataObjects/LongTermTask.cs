@@ -26,6 +26,7 @@ public class LongTermTask : ScriptableObject
     public bool Illegal = false;
 
     public bool CompleteLate;
+    public bool CompleteEarly;
 
     public AgentAction GetResult(Character character)
     {

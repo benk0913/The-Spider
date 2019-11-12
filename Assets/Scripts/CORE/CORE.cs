@@ -42,6 +42,7 @@ public class CORE : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         DontDestroyOnLoad(this.gameObject);
         Instance = this;
     }
