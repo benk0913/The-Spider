@@ -36,6 +36,8 @@ public class CharacterNodeTreeUI : NodeTreeUI
     {
         yield return StartCoroutine(base.GenerateTreeRoutine(origin));
 
+        yield return 0;
+
         yield return StartCoroutine(SetCharacters((CharacterNodeTreeUIInstance)origin));
 
     }

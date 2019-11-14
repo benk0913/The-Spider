@@ -18,6 +18,15 @@ public class NodeTreeUI : MonoBehaviour
     [SerializeField]
     protected float NodeSpacingY = 1f;
 
+    public bool DEBUG = false;
+    private void OnEnable()
+    {
+        if (DEBUG)
+        {
+            GenerateRandom();
+        }
+    }
+
     void GenerateRandom()
     {
         NodeTreeUIInstance parent = GenerateRandomSubnode(null, 5);
@@ -71,8 +80,7 @@ public class NodeTreeUI : MonoBehaviour
 
         yield return 0;
 
-
-        yield return 0;
+        yield return StartCoroutine(GenerateLines(origin));
 
         yield return StartCoroutine(GenerateLines(origin));
     }
@@ -106,7 +114,7 @@ public class NodeTreeUI : MonoBehaviour
         {
             List<Vector2> linePoints = new List<Vector2>();
 
-            Vector2 localPortrait = node.nodeObject.transform.GetChild(0).localPosition;
+            Vector2 localPortrait = node.nodeObject.transform.InverseTransformPoint(node.nodeObject.transform.GetChild(0).position);
             Vector2 parentPortrait = node.nodeObject.transform.InverseTransformPoint(node.Parent.nodeObject.transform.GetChild(0).position);
             Vector2 midpointA = Vector2.Lerp(localPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
             Vector2 midpointB = Vector2.Lerp(parentPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
@@ -126,6 +134,7 @@ public class NodeTreeUI : MonoBehaviour
             yield return StartCoroutine(GenerateLines(node.Children[i]));
         }
     }
+
 
 }
 

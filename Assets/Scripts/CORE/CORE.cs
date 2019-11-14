@@ -444,14 +444,10 @@ public class CORE : MonoBehaviour
             return GetRandomLocationWithTrait(trait);
         }
 
-        List<LocationEntity> LocationsWithTrait = new List<LocationEntity>();
-        for (int i = 0; i < Locations.Count; i++)
+        List<LocationEntity> LocationsWithTrait = CORE.Instance.Locations.FindAll((LocationEntity location) =>
         {
-            if (Locations[i].CurrentProperty.Traits.Contains(trait))
-            {
-                LocationsWithTrait.Add(Locations[i]);
-            }
-        }
+            return location.Traits.Contains(trait);
+        });
 
         LocationEntity foundLocation = null;
         if (LocationsWithTrait.Count > 0)

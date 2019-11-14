@@ -33,7 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 7967551812957355736}
   m_Father: {fileID: 7967551812803402817}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 7967551812405703582}
   - component: {fileID: 7967551812405703576}
   m_Layer: 5
-  m_Name: CharacterTreeUI
+  m_Name: NodeTreeUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,55 +213,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RootContainer: {fileID: 7967551812957355736}
-  TreeTopPoint: {fileID: 7967551812666669464}
   NodePrefab: {fileID: 6837216482034810310, guid: 1a174d95f90e4f94a98d625ecb04c96b,
     type: 3}
   NodeSpacingX: 25
   NodeSpacingY: -25
---- !u!1 &7967551812666669471
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7967551812666669464}
-  - component: {fileID: 7967551812666669465}
-  m_Layer: 5
-  m_Name: TopPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &7967551812666669464
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7967551812666669471}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7967551812803402817}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -417.69998, y: 298}
-  m_SizeDelta: {x: 20.2, y: 15.5}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &7967551812666669465
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7967551812666669471}
-  m_CullTransparentMesh: 0
+  DEBUG: 0
 --- !u!1 &7967551812803402816
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +247,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7967551812666669464}
   - {fileID: 7967551811521826359}
   m_Father: {fileID: 7967551812405703581}
   m_RootOrder: 0

@@ -37,6 +37,8 @@ public class Property : ScriptableObject
 
     public string EmployeeRole;
 
+    public bool AlwaysKnown;
+
     public PropertyAction GetActionByName(string actionName)
     {
         foreach(PropertyAction action in Actions)

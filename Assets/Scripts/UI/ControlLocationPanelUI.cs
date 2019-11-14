@@ -321,10 +321,12 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void BuyLocation()
     {
+        LocationEntity location = CurrentLocation;
+
         SelectAgentWindowUI.Instance.Show(
                (Character character) => 
                {
-                   FailReason failure = CurrentLocation.PurchasePlot(CORE.PC, character);
+                   FailReason failure = location.PurchasePlot(CORE.PC, character);
 
                    if(failure != null)
                    {

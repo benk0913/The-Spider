@@ -25,6 +25,21 @@ public class PointAndClickTooltipUI : MonoBehaviour
         Hide();
     }
 
+    public void Show()
+    {
+
+        this.gameObject.SetActive(true);
+
+        if (ShowRoutineInstance != null)
+        {
+            StopCoroutine(ShowRoutineInstance);
+        }
+
+        ShowRoutineInstance = StartCoroutine(ShowRoutine());
+
+        transform.SetAsLastSibling();
+    }
+
     public void Show(string message, List<TooltipBonus> bonuses = null)
     {
         if(string.IsNullOrEmpty(message))
@@ -41,16 +56,7 @@ public class PointAndClickTooltipUI : MonoBehaviour
 
         Text.text = message;
 
-        this.gameObject.SetActive(true);
-
-        if (ShowRoutineInstance != null)
-        {
-            StopCoroutine(ShowRoutineInstance);
-        }
-
-        ShowRoutineInstance = StartCoroutine(ShowRoutine());
-
-        transform.SetAsLastSibling();
+        Show();
 
         ClearBonuses();
 

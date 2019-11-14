@@ -60,6 +60,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public LocationKnowledge Known;
 
+    public LocationEntity NearestDistrict;
+
     GameObject SelectedMarkerObject;
 
     CharactersInLocationUI CharactersInLocationUIInstance;
@@ -79,6 +81,24 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         get
         {
             return OwnerCharacter == null && CurrentProperty.PlotType != CORE.Instance.Database.UniquePlotType;
+        }
+    }
+
+    public VisibilityStateEnum VisibilityState
+    {
+        get
+        {
+            if (Known.GetKnowledgeInstance("Existance").IsKnown) //If player has scouted this location.
+            {
+                return VisibilityStateEnum.Visible;
+            }
+            else if (NearestDistrict == null || NearestDistrict.Known.GetKnowledgeInstance("Existance").IsKnown) //If player has scouted the nearest district
+            {
+                return VisibilityStateEnum.QuestionMark;
+            }
+
+            //Player didn't scout nearest district.
+            return VisibilityStateEnum.Hidden;
         }
     }
 
@@ -139,6 +159,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void OnRightClick()
     {
+        if(VisibilityState == VisibilityStateEnum.Hidden)
+        {
+            return;
+        }
+
         ShowActionMenu();
     }
 
@@ -289,7 +314,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void OnClick()
     {
-        SelectedPanelUI.Instance.Select(this);
+        if (VisibilityState == VisibilityStateEnum.Visible)
+        {
+            SelectedPanelUI.Instance.Select(this);
+        }
     }
 
     public void SetSelected()
@@ -334,6 +362,17 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         CurrentProperty = property;
         CurrentAction = CurrentProperty.Actions[0];
+
+        if (CurrentProperty.AlwaysKnown)
+        {
+            NearestDistrict = null;
+            Known.Know("Existance");
+        }
+        else if (!Traits.Contains(CORE.Instance.Database.PublicAreaTrait)) //If not a district
+        {
+            NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, this);
+        }
+
         RefreshState();
     }
 
@@ -353,7 +392,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         GameObject tempFigure;
         GameObject hoverModel;
-        if (Known.GetKnowledgeInstance("Existance").IsKnown)
+        if (VisibilityState == VisibilityStateEnum.Visible) //If player has scouted this location.
         {
             tempFigure = Instantiate(CurrentProperty.FigurePrefab);
 
@@ -375,20 +414,31 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             hoverModel = Instantiate(CurrentProperty.HoverPrefab);
         }
-        else
+        else if (VisibilityState == VisibilityStateEnum.QuestionMark) //If player has scouted the nearest district
         {
             tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
-            tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+            //tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
             hoverModel = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
         }
+        else //Player didn't scout nearest district.
+        {
+            tempFigure = null;
+            hoverModel = null;
+        }
 
-        tempFigure.transform.SetParent(FigurePoint);
-        tempFigure.transform.position = FigurePoint.position;
-        tempFigure.transform.rotation = FigurePoint.rotation;
+        if (tempFigure != null)
+        {
+            tempFigure.transform.SetParent(FigurePoint);
+            tempFigure.transform.position = FigurePoint.position;
+            tempFigure.transform.rotation = FigurePoint.rotation;
+        }
 
-        hoverModel.transform.SetParent(HoverPoint);
-        hoverModel.transform.position = HoverPoint.position;
-        hoverModel.transform.rotation = HoverPoint.rotation;
+        if (hoverModel != null)
+        {
+            hoverModel.transform.SetParent(HoverPoint);
+            hoverModel.transform.position = HoverPoint.position;
+            hoverModel.transform.rotation = HoverPoint.rotation;
+        }
 
         StateUpdated.Invoke();
     }
@@ -679,6 +729,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["RotationY"] = transform.rotation.eulerAngles.y.ToString();
         node["RotationZ"] = transform.rotation.eulerAngles.z.ToString();
 
+        foreach (KnowledgeInstance item in Known.Items)
+        {
+            node["Knowledge"][item.Key] = item.IsKnown.ToString();
+        }
+
         return node;
     }
 
@@ -693,6 +748,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
         transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));
+
+        foreach (KnowledgeInstance item in Known.Items)
+        {
+            item.IsKnown = bool.Parse(node["Knowledge"][item.Key]);
+        }
     }
 
     public void ImplementIDs()
@@ -869,5 +929,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         return null;
     }
 
-
+    public enum VisibilityStateEnum
+    {
+        Hidden,QuestionMark,Visible
+    }
 }
