@@ -143,7 +143,14 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         {
             character.StateChanged.RemoveListener(RefreshState);
 
-            TooltipTarget.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
+            if (!character.IsKnown("Name"))
+            {
+                TooltipTarget.SetTooltip("??? - 'Right Click' for more options...");
+            }
+            else
+            {
+                TooltipTarget.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
+            }
         }
         else
         {
