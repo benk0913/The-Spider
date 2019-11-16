@@ -8,68 +8,108 @@ public class Knowledge
 
     public Character CurrentCharacter;
 
-    public bool IsSomethingKnown
+    public bool GetIsAnythingKnown(Character byCharacter)
     {
-        get
+        foreach(KnowledgeInstance item in Items)
         {
-            foreach(KnowledgeInstance item in Items)
+            if(item.IsKnownByCharacter(byCharacter))
             {
-                if(item.IsKnown)
-                {
-                    return true;
-                }
+                return true;
             }
-
-            return false;
         }
+
+        return false;
+        
     }
 
-    public int KnownCount
+    public int GetKnownCount(Character byCharacter)
     {
-        get
+        int count = 0;
+        foreach(KnowledgeInstance instance in Items)
         {
-            int count = 0;
-            foreach(KnowledgeInstance instance in Items)
-            {
-                if (instance.IsKnown)
-                    count++;
-            }
-
-            return count;
+            if (instance.IsKnownByCharacter(byCharacter))
+                count++;
         }
+
+        return count;
     }
 
     public Knowledge(Character ofCharacter = null)
     {
         CurrentCharacter = ofCharacter;
 
-        Items.Add(new KnowledgeInstance("Name", "The name of the person.", false));
-        Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique.", false));
-        Items.Add(new KnowledgeInstance("WorkLocation", "Where this person works.", false));
-        Items.Add(new KnowledgeInstance("HomeLocation", "Where this person lives.", false));
+        Items.Add(new KnowledgeInstance("Name", "The name of the person."));
+        Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique."));
+        Items.Add(new KnowledgeInstance("WorkLocation", "Where this person works."));
+        Items.Add(new KnowledgeInstance("HomeLocation", "Where this person lives."));
 
-        Items.Add(new KnowledgeInstance("Appearance", "How this person looks", false));
-        Items.Add(new KnowledgeInstance("CurrentLocation", "Where this person currently is.", false));
+        Items.Add(new KnowledgeInstance("Appearance", "How this person looks"));
+        Items.Add(new KnowledgeInstance("CurrentLocation", "Where this person currently is."));
 
-        Items.Add(new KnowledgeInstance("Gold", "How much gold is in this person's possession.", false));
+        Items.Add(new KnowledgeInstance("Gold", "How much gold is in this person's possession."));
         //TODO DeepSecrets
     }
 
-    public virtual void KnowAllBasic()
+    public virtual void KnowEverything(Character byCharacter)
     {
+
         foreach (KnowledgeInstance item in Items)
         {
-            Know(item.Key, false);
+            Know(item.Key, byCharacter,false);
+        }
+        
+    }
+
+    public virtual void KnowEverythingAll()
+    {
+        foreach (Faction faction in CORE.Instance.Database.Factions)
+        {
+            if (faction.FactionHead == null)
+            {
+                continue;
+            }
+
+            Character factionLeader = CORE.Instance.GetCharacter(faction.FactionHead.name);
+
+            if (factionLeader == null)
+            {
+                continue;
+            }
+
+            foreach (KnowledgeInstance item in Items)
+            {
+                Know(item.Key, factionLeader, false);
+            }
         }
     }
 
-    public virtual void Know(string key, bool notify = true)
+    public virtual void KnowAll(string key)
+    {
+        foreach (Faction faction in CORE.Instance.Database.Factions)
+        {
+            if (faction.FactionHead == null)
+            {
+                continue;
+            }
+
+            Character factionLeader = CORE.Instance.GetCharacter(faction.FactionHead.name);
+
+            if (factionLeader == null)
+            {
+                continue;
+            }
+
+            Know(key, factionLeader);
+        }
+    }
+
+    public virtual void Know(string key,Character byCharacter, bool notify = true)
     {
         KnowledgeInstance instance = GetKnowledgeInstance(key);
 
-        if (!instance.IsKnown)
+        if (!instance.KnownByCharacters.Contains(byCharacter))
         {
-            if (notify)
+            if (byCharacter == CORE.PC  && notify)
             {
                 if (CurrentCharacter.CurrentLocation != null)
                 {
@@ -84,7 +124,7 @@ public class Knowledge
                 InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
             }
 
-            instance.IsKnown = true;
+            instance.KnownByCharacters.Add(byCharacter);
         }
         
 
@@ -102,9 +142,14 @@ public class Knowledge
         }
     }
 
-    public void Forget(string key)
+    public void Forget(string key, Character byCharacter)
     {
-        GetKnowledgeInstance(key).IsKnown = false;
+        GetKnowledgeInstance(key).KnownByCharacters.Remove(byCharacter);
+    }
+
+    public void ForgetAll(string key)
+    {
+        GetKnowledgeInstance(key).KnownByCharacters.Clear();
     }
 
     public KnowledgeInstance GetKnowledgeInstance(string key)
@@ -129,16 +174,16 @@ public class LocationKnowledge : Knowledge
     {
         CurrentLocation = location;
 
-        Items.Add(new KnowledgeInstance("Existance", "The Existance Of This Place", false));
+        Items.Add(new KnowledgeInstance("Existance", "The Existance Of This Place"));
     }
 
-    public override void Know(string key, bool notify = true)
+    public override void Know(string key, Character byCharacter, bool notify = true)
     {
         KnowledgeInstance instance = GetKnowledgeInstance(key);
 
-        if (!instance.IsKnown)
+        if (!instance.IsKnownByCharacter(byCharacter))
         {
-            instance.IsKnown = true;
+            instance.KnownByCharacters.Add(byCharacter);
         }
 
 
@@ -151,15 +196,18 @@ public class LocationKnowledge : Knowledge
 
 public class KnowledgeInstance
 {
-    public KnowledgeInstance(string key, string description, bool isKnwon)
+    public KnowledgeInstance(string key, string description)
     {
         this.Key = key;
         this.Description = description;
-        this.IsKnown = isKnwon;
     }
 
     public string Key;
     public string Description;
-    public bool IsKnown;
+    public List<Character> KnownByCharacters = new List<Character>();
     
+    public bool IsKnownByCharacter(Character character)
+    {
+        return KnownByCharacters.Contains(character);
+    }
 }

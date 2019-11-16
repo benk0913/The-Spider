@@ -48,7 +48,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
             foreach (string infoKey in newQuest.InfoGivenOnCharacter)
             {
-                newQuest.RelevantCharacter.Known.Know(infoKey);
+                newQuest.RelevantCharacter.Known.Know(infoKey, CORE.PC);
             }
         }
 

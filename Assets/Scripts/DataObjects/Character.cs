@@ -539,13 +539,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public Knowledge Known;
 
-    public bool IsKnown(string itemKey)
+    public bool IsKnown(string itemKey, Character byCharacter)
     {
         foreach(KnowledgeInstance item in Known.Items)
         {
             if(item.Key == itemKey)
             {
-                return item.IsKnown;
+                return item.IsKnownByCharacter(byCharacter);
             }
         }
 
@@ -699,7 +699,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (isKnownOnStart)
         {
-            Known.KnowAllBasic();
+            Known.KnowEverything(TopEmployer);
         }
 
         if(CurrentFaction.FactionHead != null && CurrentFaction.FactionHead.name == name)
@@ -905,7 +905,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
             && targetLocation.CharactersInLocation.FindAll((Character charInLocation) => 
             { return charInLocation.TopEmployer == CORE.PC; }).Count == 0)
         {
-            Known.Forget("CurrentLocation");
+            Known.ForgetAll("CurrentLocation");
+            Known.Know("CurrentLocation", TopEmployer);
         }
 
         CurrentLocation = targetLocation;
@@ -930,9 +931,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
             ownedLocation.RefreshState();
         }
 
-        if(isKnownOnStart || CORE.PC == location.OwnerCharacter.TopEmployer)
+        if(isKnownOnStart)
         {
-            Known.KnowAllBasic();
+            Known.KnowEverything(TopEmployer);
         }
 
         RefreshVisualTree();
@@ -974,11 +975,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         location.OwnerCharacter = this;
-
-        if(TopEmployer ==  CORE.PC)
-        {
-            location.Known.KnowAllBasic();
-        }
+        
+        location.Known.KnowEverything(TopEmployer);
+        
 
         location.RefreshState();
 
@@ -1183,7 +1182,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         foreach (KnowledgeInstance item in Known.Items)
         {
-            node["Knowledge"][item.Key] = item.IsKnown.ToString();
+            for(int i=0;i<item.KnownByCharacters.Count;i++)
+            {
+                node["Knowledge"][item.Key][i] = item.KnownByCharacters[i].ID;
+            }
         }
 
         for (int i=0;i<PropertiesOwned.Count;i++)
@@ -1252,7 +1254,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         foreach (KnowledgeInstance item in Known.Items)
         {
-            item.IsKnown = bool.Parse(node["Knowledge"][item.Key]);
+            List<string> IDs = new List<string>();
+            for(int i=0;i< node["Knowledge"][item.Key].Count;i++)
+            {
+                IDs.Add(node["Knowledge"][item.Key][i]);
+            }
+
+            knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
 
         CurrentFaction = CORE.Instance.Database.GetFactionByName(node["CurrentFaction"]);
@@ -1314,6 +1322,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     string _currentTaskTargetCharacterID;
     string _currentTaskTargetID;
 
+    Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
+
     public void ImplementIDs()
     {
         if (!string.IsNullOrEmpty(_workLocationID))
@@ -1348,6 +1358,21 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 CORE.Instance.GetLocationByID(_currentTaskTargetID),
                 CORE.Instance.GetCharacterByID(_currentTaskTargetCharacterID),
                 _currentTaskTurnsLeft);
+        }
+
+        foreach (string key in knowledgeCharacterIDs.Keys)
+        {
+            for (int i = 0; i < knowledgeCharacterIDs[key].Count; i++)
+            { 
+                Character character = CORE.Instance.GetCharacterByID(knowledgeCharacterIDs[key][i]);
+
+                if(character == null)
+                {
+                    continue;
+                }
+
+                Known.Know(key, character);
+            }
         }
 
         if(IsDead)

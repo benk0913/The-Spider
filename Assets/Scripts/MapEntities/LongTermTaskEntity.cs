@@ -56,7 +56,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     public void RefreshKnownTaskState()
     {
         isKnownTask = (CurrentCharacter.TopEmployer == CORE.PC
-            || ((CurrentCharacter.isImportant || CurrentCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction) && CurrentCharacter.IsKnown("CurrentLocation")));
+            || ((CurrentCharacter.isImportant || CurrentCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction) && CurrentCharacter.IsKnown("CurrentLocation", CORE.PC)));
     }
 
     public void TurnPassed()

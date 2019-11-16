@@ -77,7 +77,7 @@ public class SelectedPanelUI : MonoBehaviour
 
     public void Select(LocationEntity location)
     {
-        if (!location.Known.GetKnowledgeInstance("Existance").IsKnown)
+        if (!location.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(CORE.PC))
         {
             return;
         }

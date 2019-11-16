@@ -25,7 +25,7 @@ public class RecruitEmployeePlayer : PlayerAction
              , (Character charInQuestion) => 
              {
                  return charInQuestion != requester
-                        && charInQuestion.IsKnown("Name")
+                        && charInQuestion.IsKnown("Name", requester)
                         && charInQuestion.WorkLocation == null
                         && charInQuestion.PropertiesOwned.Count == 0
                         && charInQuestion.Age > location.CurrentProperty.MinAge

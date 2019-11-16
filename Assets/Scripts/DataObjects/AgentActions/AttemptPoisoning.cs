@@ -92,7 +92,7 @@ public class AttemptPoisoning : AgentAction //DO NOT INHERIT FROM
         {
             return false;
         }
-        if (!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnown)
+        if (!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
         {
             //reason = new FailReason("This location is not known to you.");
 

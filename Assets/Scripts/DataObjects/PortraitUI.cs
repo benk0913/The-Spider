@@ -106,7 +106,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             return;
         }
 
-        if(!character.IsKnown("Appearance"))
+        if(!character.IsKnown("Appearance", CORE.PC))
         {
 
             Face.color = Color.black;
@@ -122,7 +122,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
             QuestionMark.gameObject.SetActive(true);
 
-            if (!character.IsKnown("Name"))
+            if (!character.IsKnown("Name", CORE.PC))
             {
                 TooltipTarget.SetTooltip("??? - 'Right Click' for more options...");
             }
@@ -143,7 +143,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         {
             character.StateChanged.RemoveListener(RefreshState);
 
-            if (!character.IsKnown("Name"))
+            if (!character.IsKnown("Name", CORE.PC))
             {
                 TooltipTarget.SetTooltip("??? - 'Right Click' for more options...");
             }

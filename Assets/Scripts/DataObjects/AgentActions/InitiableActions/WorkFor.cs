@@ -53,7 +53,7 @@ public class WorkFor : AgentAction
             return false;
         }
 
-        if (!location.Known.GetKnowledgeInstance("Existance").IsKnown)
+        if (!location.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
         {
             return false;
         }

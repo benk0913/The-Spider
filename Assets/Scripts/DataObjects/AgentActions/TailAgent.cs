@@ -21,7 +21,7 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
         CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
 
-        targetChar.Known.Know("CurrentLocation");
+        targetChar.Known.Know("CurrentLocation", character.TopEmployer);
 
     }
 
@@ -49,13 +49,13 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(!targetChar.IsKnown("CurrentLocation"))
+        if(!targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             reason = new FailReason("You don't know where this character is...");
             return false;
         }
 
-        if (!targetChar.IsKnown("Appearance"))
+        if (!targetChar.IsKnown("Appearance", character.TopEmployer))
         {
             reason = new FailReason("You don't know how this character looks like...");
             return false;

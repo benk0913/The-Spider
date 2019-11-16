@@ -75,7 +75,7 @@ public class TriggerScenarioBreakIntoHomePlayerAction : PlayerAction
             return false;
         }
         
-        if(!portrait.CurrentCharacter.IsKnown("HomeLocation"))
+        if(!portrait.CurrentCharacter.IsKnown("HomeLocation", requester))
         {
             reason = new FailReason("You don't know where this person lives...");
             return false;

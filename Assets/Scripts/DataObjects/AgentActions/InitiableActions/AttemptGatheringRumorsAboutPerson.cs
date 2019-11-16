@@ -57,7 +57,7 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
             return false;
         }
 
-        if(targetChar.IsKnown("CurrentLocation"))
+        if(targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             reason = new FailReason("You already know where this person is...");
             return false;

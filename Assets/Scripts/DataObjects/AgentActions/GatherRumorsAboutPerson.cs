@@ -97,7 +97,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         }
 
 
-        if (targetChar.IsKnown("CurrentLocation"))
+        if (targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             return;
         }
@@ -129,13 +129,13 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (targetChar.IsKnown("CurrentLocation"))
+        if (targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             reason = new FailReason("You already know where this person is.");
             return false;
         }
 
-        if (!targetChar.IsKnown("Appearance") && !targetChar.IsKnown("Name"))
+        if (!targetChar.IsKnown("Appearance", character.TopEmployer) && !targetChar.IsKnown("Name", character.TopEmployer))
         {
             reason = new FailReason("You don't know either the NAME nor the LOOKS of this perosn.");
             return false;

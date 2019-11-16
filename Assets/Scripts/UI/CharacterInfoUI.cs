@@ -96,7 +96,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     void SetName()
     {
-        if (CurrentCharacter.IsKnown("Name"))
+        if (CurrentCharacter.IsKnown("Name", CORE.PC))
         {
             NameText.text = CurrentCharacter.name;
         }
@@ -108,7 +108,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     void SetGold()
     {
-        if (CurrentCharacter.IsKnown("Gold"))
+        if (CurrentCharacter.IsKnown("Gold", CORE.PC))
         {
             GoldText.text = CurrentCharacter.Gold + "c";
         }
@@ -122,7 +122,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         Portrait.SetCharacter(CurrentCharacter);
 
-        if (CurrentCharacter.IsKnown("Appearance"))
+        if (CurrentCharacter.IsKnown("Appearance", CORE.PC))
         {
             AgeText.text = "Age: " + CurrentCharacter.Age.ToString();
             AgeTypeText.text = CurrentCharacter.AgeType.ToString();
@@ -140,7 +140,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearTraits();
 
-        if (CurrentCharacter.IsKnown("Personality"))
+        if (CurrentCharacter.IsKnown("Personality", CORE.PC))
         {
             for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
             {
@@ -167,7 +167,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     void SetCurrentLocation()
     {
-        if (CurrentCharacter.IsKnown("CurrentLocation"))
+        if (CurrentCharacter.IsKnown("CurrentLocation", CORE.PC))
         {
             if (CurrentCharacter.CurrentLocation != null)
             {
@@ -195,7 +195,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearPropertiesOwned();
 
-        if (CurrentCharacter.IsKnown("WorkLocation"))
+        if (CurrentCharacter.IsKnown("WorkLocation", CORE.PC))
         {
             EmployerPortrait.SetCharacter(CurrentCharacter.Employer);
             WorkLocationPortrait.SetLocation(CurrentCharacter.WorkLocation);
@@ -225,7 +225,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     void SetHomeLocation()
     {
-        if (CurrentCharacter.IsKnown("HomeLocation"))
+        if (CurrentCharacter.IsKnown("HomeLocation", CORE.PC))
         {
             HomeLocationPortrait.SetLocation(CurrentCharacter.HomeLocation);
         }
@@ -239,7 +239,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearBonuses();
 
-        if (CurrentCharacter.IsKnown("Personality"))
+        if (CurrentCharacter.IsKnown("Personality", CORE.PC))
         {
             for (int i = 0; i < CurrentCharacter.Bonuses.Count; i++)
             {
@@ -273,7 +273,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     void SetRelation()
     {
-        if (CurrentCharacter.IsKnown("Personality"))
+        if (CurrentCharacter.IsKnown("Personality", CORE.PC))
         {
             RelationIcon.SetInfo(CurrentCharacter, CORE.PC);
         }
@@ -306,7 +306,7 @@ public class CharacterInfoUI : MonoBehaviour
         foreach (KnowledgeInstance kInstance in CurrentCharacter.Known.Items)
         {
             KnownInstanceUI uiInstance = ResourcesLoader.Instance.GetRecycledObject("KnownInstanceUI").GetComponent<KnownInstanceUI>();
-            uiInstance.SetInfo(kInstance.Key, kInstance.Description, kInstance.IsKnown);
+            uiInstance.SetInfo(kInstance.Key, kInstance.Description, kInstance.IsKnownByCharacter(CORE.PC));
             uiInstance.transform.SetParent(KnownInformationContainer, false);
         }
 

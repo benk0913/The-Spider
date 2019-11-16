@@ -28,7 +28,7 @@ public class DDADuelOnEachTargetInPiece : DDAPossibleDialogStatDuel
                 float actorSkill = Actor.GetBonus(ActorSkill).Value;
                 float enemySkill = character.GetBonus(Challenge.Type).Value;
 
-                character.Known.Know("Appearance");
+                character.Known.Know("Appearance", character.TopEmployer);
 
                 if (Random.Range(0f, actorSkill + enemySkill) < actorSkill)
                 {

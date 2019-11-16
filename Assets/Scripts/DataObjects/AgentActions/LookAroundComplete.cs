@@ -40,7 +40,7 @@ public class LookAroundComplete : AgentAction
             float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
             float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value;
 
-            if(charInLocation.IsKnown("Appearance") && charInLocation.IsKnown("CurrentLocation"))
+            if(charInLocation.IsKnown("Appearance", character.TopEmployer) && charInLocation.IsKnown("CurrentLocation", character.TopEmployer))
             {
                 continue;
             }
@@ -51,8 +51,8 @@ public class LookAroundComplete : AgentAction
             }
 
 
-            charInLocation.Known.Know("Appearance");
-            charInLocation.Known.Know("CurrentLocation");
+            charInLocation.Known.Know("Appearance", character.TopEmployer);
+            charInLocation.Known.Know("CurrentLocation", character.TopEmployer);
             
 
             enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value + 5; //BONUS DEFFICULTY

@@ -36,7 +36,7 @@ public class BuyoutPlotAction : AgentAction
         reason = null;
         LocationEntity targetEntity = (LocationEntity)target;
 
-        if(!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnown)
+        if(!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
         {
             //reason = new FailReason("This location is not known to you.");
 

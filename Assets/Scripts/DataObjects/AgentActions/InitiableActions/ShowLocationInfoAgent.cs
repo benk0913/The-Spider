@@ -43,7 +43,7 @@ public class ShowLocationInfoAgent : AgentAction
             return false;
         }
 
-        if(!((LocationEntity)target).Known.GetKnowledgeInstance("Existance").IsKnown)
+        if(!((LocationEntity)target).Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
         {
             //reason = new FailReason("This location is not known to you.");
             return false;

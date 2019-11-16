@@ -60,7 +60,7 @@ public class AttemptSeducePerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (!targetChar.IsKnown("CurrentLocation"))
+        if (!targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             reason = new FailReason("You don't know where this person is...");
             return false;

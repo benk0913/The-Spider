@@ -60,7 +60,7 @@ public class TriggerScenarioBreakIntoHome : TriggerScenario
             return false;
         }
 
-        if (!charPortrait.CurrentCharacter.IsKnown("HomeLocation"))
+        if (!charPortrait.CurrentCharacter.IsKnown("HomeLocation", character.TopEmployer))
         {
             reason = new FailReason("You don't know where this person lives.");
             return false;

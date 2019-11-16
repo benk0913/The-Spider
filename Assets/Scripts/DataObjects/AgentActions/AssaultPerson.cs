@@ -20,7 +20,7 @@ public class AssaultPerson : AgentAction //DO NOT INHERIT FROM
         {
             
             targetChar.StopDoingCurrentTask(false);
-            targetChar.Known.Forget("CurrentLocation");
+            targetChar.Known.Forget("CurrentLocation", character.TopEmployer);
             CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
 
             if (character.TopEmployer == CORE.PC)
@@ -53,7 +53,7 @@ public class AssaultPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(!targetChar.IsKnown("CurrentLocation"))
+        if(!targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             reason = new FailReason("You don't know where this character is!");
         }

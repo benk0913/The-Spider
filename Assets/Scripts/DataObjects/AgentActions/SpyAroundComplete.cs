@@ -33,7 +33,7 @@ public class SpyAroundComplete : AgentAction
         {
             LocationEntity location = (LocationEntity)target;
 
-            location.Known.Know("Existance");
+            location.Known.Know("Existance", character.TopEmployer);
 
             List<Character> possibleTargets = new List<Character>();
             possibleTargets = location.CharactersInLocation.FindAll(
@@ -48,9 +48,9 @@ public class SpyAroundComplete : AgentAction
                 float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
                 float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
 
-                if (charInLocation.IsKnown("Appearance")
-                    && charInLocation.IsKnown("CurrentLocation")
-                    && charInLocation.IsKnown("WorkLocation"))
+                if (charInLocation.IsKnown("Appearance", character.TopEmployer)
+                    && charInLocation.IsKnown("CurrentLocation", character.TopEmployer)
+                    && charInLocation.IsKnown("WorkLocation", character.TopEmployer))
                 {
                     continue;
                 }
@@ -60,12 +60,12 @@ public class SpyAroundComplete : AgentAction
                     continue;
                 }
                 
-                charInLocation.Known.Know("Appearance");
-                charInLocation.Known.Know("CurrentLocation");
+                charInLocation.Known.Know("Appearance", character.TopEmployer);
+                charInLocation.Known.Know("CurrentLocation", character.TopEmployer);
 
                 if (charInLocation.WorkLocation == location)
                 {
-                    charInLocation.Known.Know("WorkLocation");
+                    charInLocation.Known.Know("WorkLocation", character.TopEmployer);
                 }
 
                 foundSomething = true;

@@ -627,6 +627,13 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
+        foreach(LocationEntity location in Locations)
+        {
+            location.ImplementIDs();
+
+            yield return 0;
+        }
+
         MapViewManager.Instance.HideMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
 

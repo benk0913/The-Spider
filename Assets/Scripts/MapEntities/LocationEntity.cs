@@ -88,11 +88,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         get
         {
-            if (Known.GetKnowledgeInstance("Existance").IsKnown) //If player has scouted this location.
+            if (Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(CORE.PC)) //If player has scouted this location.
             {
                 return VisibilityStateEnum.Visible;
             }
-            else if (NearestDistrict == null || NearestDistrict.Known.GetKnowledgeInstance("Existance").IsKnown) //If player has scouted the nearest district
+            else if (NearestDistrict == null || NearestDistrict.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(CORE.PC)) //If player has scouted the nearest district
             {
                 return VisibilityStateEnum.QuestionMark;
             }
@@ -353,9 +353,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         Known = new LocationKnowledge(this);
 
-        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        if (OwnerCharacter != null)
         {
-            Known.KnowAllBasic();
+            Known.KnowEverything(OwnerCharacter.TopEmployer);
         }
 
         this.ID = id;
@@ -366,7 +366,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (CurrentProperty.AlwaysKnown)
         {
             NearestDistrict = null;
-            Known.Know("Existance");
+            Known.KnowAll("Existance");
         }
         else if (!Traits.Contains(CORE.Instance.Database.PublicAreaTrait)) //If not a district
         {
@@ -578,8 +578,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if(OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {
-            character.Known.Know("Appearance");
-            character.Known.Know("CurrentLocation");
+            character.Known.Know("Appearance", character.TopEmployer);
+            character.Known.Know("CurrentLocation", character.TopEmployer);
         }
 
         if (CharactersInLocationUIInstance != null)
@@ -731,7 +731,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         foreach (KnowledgeInstance item in Known.Items)
         {
-            node["Knowledge"][item.Key] = item.IsKnown.ToString();
+            for (int i = 0; i < item.KnownByCharacters.Count; i++)
+            {
+                node["Knowledge"][item.Key][i] = item.KnownByCharacters[i].ID;
+            }
         }
 
         return node;
@@ -748,15 +751,39 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
         transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));
-
+        
         foreach (KnowledgeInstance item in Known.Items)
         {
-            item.IsKnown = bool.Parse(node["Knowledge"][item.Key]);
+            List<string> IDs = new List<string>();
+            for (int i = 0; i < node["Knowledge"][item.Key].Count; i++)
+            {
+                IDs.Add(node["Knowledge"][item.Key][i]);
+            }
+
+            knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
     }
 
+    Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
+
     public void ImplementIDs()
     {
+
+        foreach (string key in knowledgeCharacterIDs.Keys)
+        {
+            for (int i = 0; i < knowledgeCharacterIDs[key].Count; i++)
+            {
+                Character character = CORE.Instance.GetCharacterByID(knowledgeCharacterIDs[key][i]);
+
+                if (character == null)
+                {
+                    continue;
+                }
+
+                Known.Know(key, character);
+            }
+        }
+
     }
 
     public void Dispose()
@@ -818,10 +845,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                CurrentProperty.MinAge,
                CurrentProperty.MaxAge);
 
-        if (randomNewEmployee.TopEmployer == CORE.PC)
-        {
-            randomNewEmployee.Known.KnowAllBasic();
-        }
+        randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
 
         randomNewEmployee.StartWorkingFor(this);
 

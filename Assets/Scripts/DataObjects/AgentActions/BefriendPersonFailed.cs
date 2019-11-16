@@ -22,9 +22,9 @@ public class BefriendPersonFailed : AgentAction //DO NOT INHERIT FROM
             , targetChar
             ));
 
-        targetChar.Known.Know("Personality");
-        targetChar.Known.Know("Name");
-        targetChar.Known.Know("Appearance");
+        targetChar.Known.Know("Personality", character.TopEmployer);
+        targetChar.Known.Know("Name", character.TopEmployer);
+        targetChar.Known.Know("Appearance", character.TopEmployer);
 
         TurnReportUI.Instance.Log.Add(
             new TurnReportLogItemInstance(

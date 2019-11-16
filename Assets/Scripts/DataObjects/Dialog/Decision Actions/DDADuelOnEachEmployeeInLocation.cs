@@ -36,7 +36,7 @@ public class DDADuelOnEachEmployeeInLocation : DDAPossibleDialogStatDuel
             }
             else
             {
-                character.Known.Know("Appearance");
+                character.Known.Know("Appearance", character.TopEmployer);
 
                 enemyWinners.Add(character);
             }

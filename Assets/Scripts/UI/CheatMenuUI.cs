@@ -22,7 +22,7 @@ public class CheatMenuUI : MonoBehaviour
 
         foreach(Character character in CORE.Instance.Characters)
         {
-            character.Known.KnowAllBasic();
+            character.Known.KnowEverything(CORE.PC);
         }
     }
 
