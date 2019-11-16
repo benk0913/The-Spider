@@ -17,6 +17,8 @@ public class CORE : MonoBehaviour
     [SerializeField]
     public Canvas MainCanvas;
 
+    public TechTreeItem TechTree;
+
     public List<Character> Characters = new List<Character>();
     
     public List<LocationEntity> Locations = new List<LocationEntity>();
@@ -107,6 +109,8 @@ public class CORE : MonoBehaviour
         }
 
         yield return 0;
+
+        TechTree = Database.TechTreeRoot.Clone();
 
         PlayerFaction = selectedFaction;
 
@@ -531,6 +535,7 @@ public class CORE : MonoBehaviour
         savefile["Rumors"] = RumorsPanelUI.Instance.ToJSON();
         savefile["Quests"] = QuestsPanelUI.Instance.ToJSON();
         savefile["Rooms"]  = RoomsManager.Instance.ToJSON();
+        savefile["TechTree"] = TechTree.ToJSON();
 
         string ePath = Application.dataPath + "/Saves/" + savefile["Name"] + ".json";
         JSONNode tempNode = (JSONNode)savefile;
@@ -609,6 +614,7 @@ public class CORE : MonoBehaviour
             RumorsPanelUI.Instance.FromJSON(file.Content["Rumors"]);
             QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
             RoomsManager.Instance.FromJSON(file.Content["Rooms"]);
+            TechTree.FromJSON(file.Content["TechTree"]);
         }
         yield return 0;
 

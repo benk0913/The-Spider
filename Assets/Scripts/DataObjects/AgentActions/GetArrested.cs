@@ -40,15 +40,23 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
                     target = targetLocation;
                 }
             }
+
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
         }
-        
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+        else if (target.GetType() == typeof(PortraitUI))
+        {
+            PortraitUI targetCharacter = (PortraitUI)target;
+            
+            LocationEntity targetLocation  = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.LawAreaTrait, targetCharacter.CurrentCharacter.CurrentLocation);
+            
+
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)targetLocation);
+        }
+
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
-        LocationEntity location = (LocationEntity)target;
-
         if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;

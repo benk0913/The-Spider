@@ -17,7 +17,7 @@ public class EmployeeSlain : GameEvent
 
         Character character = location.EmployeesCharacters[Random.Range(0, location.EmployeesCharacters.Count)];
 
-        character.Death();
+        CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
 
         parameters.Add("Target_Name", character.name);
 

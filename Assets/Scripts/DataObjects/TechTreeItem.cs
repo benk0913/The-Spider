@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SpyAroundComplete", menuName = "DataObjects/TechTree/Item", order = 2)]
-public class TechTreeItem : ScriptableObject
+[CreateAssetMenu(fileName = "TechTreeItem", menuName = "DataObjects/TechTree/Item", order = 2)]
+public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 {
     [TextArea(4,6)]
     public string Description;
@@ -23,7 +24,7 @@ public class TechTreeItem : ScriptableObject
     {
         get
         {
-            if(!Parent.IsResearched)
+            if(Parent != null && !Parent.IsResearched)
             {
                 return false;
             }
@@ -47,11 +48,39 @@ public class TechTreeItem : ScriptableObject
     {
         TechTreeItem cloneInst = Instantiate(this);
         cloneInst.name = this.name;
-        for(int i=0;i<Children.Count;i++)
+        for(int i=0;i< cloneInst.Children.Count;i++)
         {
-            Children[i] = Children[i].Clone();
+            cloneInst.Children[i] = cloneInst.Children[i].Clone();
         }
 
         return cloneInst;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        IsResearched = bool.Parse(node["IsResearched"]);
+        for (int i = 0; i < Children.Count; i++)
+        {
+            Children[i].FromJSON(node["Children"][i]);
+        }
+
+    }
+
+    public void ImplementIDs()
+    {
+        
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["IsResearched"] = this.IsResearched.ToString();
+        for(int i=0;i<Children.Count;i++)
+        {
+            node["Children"][i] = Children[i].ToJSON();
+        }
+
+        return node;
     }
 }

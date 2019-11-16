@@ -28,8 +28,13 @@ public class GameDB : ScriptableObject
 
     public GameObject UnknownFigurePrefab;
 
+    public GameObject FailWorldEffectPrefab;
+    public GameObject SuccessWorldEffectPrefab;
+
     public Faction DefaultFaction;
     public Faction NoFaction;
+
+    public TechTreeItem TechTreeRoot;
 
     public PlotType UniquePlotType;
 
@@ -61,6 +66,7 @@ public class GameDB : ScriptableObject
     public Item[] AllItems;
 
     public TimelineInstance[] Timeline;
+
 
     public Item GetItem(string itemKey)
     {

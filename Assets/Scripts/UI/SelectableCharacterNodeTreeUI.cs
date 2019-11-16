@@ -12,6 +12,11 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
 
     public UnityEvent OnSelected;
 
+    public void Show()
+    {
+        ShowCharactersHirarchy(CORE.PC);
+    }
+
     public void SetSelectableCharacters(Character topCharacter, Action<Character> onSelect = null)
     {
         LocalOnSelect = onSelect;
