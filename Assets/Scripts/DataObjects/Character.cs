@@ -757,7 +757,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
-        if(otherCharacter.Employer == this)
+        if(this.Employer == otherCharacter)
         {
             modifiers.Add(new RelationsModifier("My Employer", 1));
         }

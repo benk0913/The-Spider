@@ -12,19 +12,10 @@ public class CharacterInfoUI : MonoBehaviour
     TextMeshProUGUI NameText;
 
     [SerializeField]
-    TextMeshProUGUI GoldText;
-
-    [SerializeField]
     TextMeshProUGUI AgeText;
 
     [SerializeField]
-    TextMeshProUGUI AgeTypeText;
-
-    [SerializeField]
     TextMeshProUGUI GenderText;
-
-    [SerializeField]
-    TextMeshProUGUI CurrentLocationText;
 
     [SerializeField]
     Button ControlButton;
@@ -34,6 +25,9 @@ public class CharacterInfoUI : MonoBehaviour
 
     [SerializeField]
     PortraitUI Portrait;
+
+    [SerializeField]
+    LocationPortraitUI CurrentLocationUI;
 
     [SerializeField]
     PortraitUI EmployerPortrait;
@@ -88,8 +82,6 @@ public class CharacterInfoUI : MonoBehaviour
         {
             return;
         }
-
-        SetGold();
         SetCurrentLocation();
     }
 
@@ -106,18 +98,6 @@ public class CharacterInfoUI : MonoBehaviour
         }
     }
 
-    void SetGold()
-    {
-        if (CurrentCharacter.IsKnown("Gold", CORE.PC))
-        {
-            GoldText.text = CurrentCharacter.Gold + "c";
-        }
-        else
-        {
-            GoldText.text = "???";
-        }
-    }
-
     void SetAppearance()
     {
         Portrait.SetCharacter(CurrentCharacter);
@@ -125,13 +105,11 @@ public class CharacterInfoUI : MonoBehaviour
         if (CurrentCharacter.IsKnown("Appearance", CORE.PC))
         {
             AgeText.text = "Age: " + CurrentCharacter.Age.ToString();
-            AgeTypeText.text = CurrentCharacter.AgeType.ToString();
             GenderText.text = CurrentCharacter.Gender.ToString();
         }
         else
         {
             AgeText.text = "Age: ???";
-            AgeTypeText.text = "???";
             GenderText.text = "???";
         }
     }
@@ -171,7 +149,7 @@ public class CharacterInfoUI : MonoBehaviour
         {
             if (CurrentCharacter.CurrentLocation != null)
             {
-                CurrentLocationText.text = "Location: " + CurrentCharacter.CurrentLocation.CurrentProperty.name;
+                CurrentLocationUI.SetLocation(CurrentCharacter.CurrentLocation);
             }
 
             if (CurrentCharacter.CurrentTaskEntity != null)
@@ -186,7 +164,7 @@ public class CharacterInfoUI : MonoBehaviour
         }
         else
         {
-            CurrentLocationText.text = "Location: ???";
+            CurrentLocationUI.SetLocation(null);
             ActionPortrait.gameObject.SetActive(false);
         }
     }
@@ -313,7 +291,6 @@ public class CharacterInfoUI : MonoBehaviour
         DeceasedPanel.gameObject.SetActive(character.IsDead);
 
         SetName();
-        SetGold();
         SetAppearance();
         SetPersonality();
         SetCurrentLocation();

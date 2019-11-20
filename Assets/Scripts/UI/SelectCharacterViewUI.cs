@@ -1,20 +1,33 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectCharacterViewUI : MonoBehaviour
 {
+    public static SelectCharacterViewUI Instance;
+
     [SerializeField]
     protected Transform Container;
 
     [SerializeField]
     public string PortraitPrefab = "SelectablePortraitUI";
 
-
-    public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null)
+    [SerializeField]
+    public TextMeshProUGUI TitleText;
+    
+    protected virtual void Awake()
     {
+        Instance = this;
+        this.gameObject.SetActive(false);
+    }
+
+    public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Select Agent:")
+    {
+        this.gameObject.SetActive(true);
+
         if(!this.gameObject.activeInHierarchy)
         {
             return;
@@ -26,6 +39,7 @@ public class SelectCharacterViewUI : MonoBehaviour
         }
 
         PopulateGridRoutine = StartCoroutine(PopulateGrid(onSelect, filter));
+        TitleText.text = title;
     }
 
     protected Coroutine PopulateGridRoutine;

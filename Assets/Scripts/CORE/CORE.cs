@@ -325,13 +325,13 @@ public class CORE : MonoBehaviour
         hoverPanel.Show(targetTransform, content, icon);
     }
 
-    public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1)
+    public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
     {
         LongTermTaskEntity longTermTask = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskEntity")).GetComponent<LongTermTaskEntity>();
 
         longTermTask.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
         longTermTask.transform.position = target.transform.position;
-        longTermTask.SetInfo(task, requester, character, target, targetCharacter, turnsLeft);
+        longTermTask.SetInfo(task, requester, character, target, targetCharacter, turnsLeft, actionPerTurn);
     }
     #endregion
 

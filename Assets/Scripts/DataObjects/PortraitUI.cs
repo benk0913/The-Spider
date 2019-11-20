@@ -124,11 +124,11 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
             if (!character.IsKnown("Name", CORE.PC))
             {
-                TooltipTarget.SetTooltip("??? - 'Right Click' for more options...");
+                TooltipTarget?.SetTooltip("??? - 'Right Click' for more options...");
             }
             else
             {
-                TooltipTarget.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
+                TooltipTarget?.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
             }
 
             return;
@@ -142,19 +142,19 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         if(CurrentCharacter != null)
         {
             character.StateChanged.RemoveListener(RefreshState);
-
+            
             if (!character.IsKnown("Name", CORE.PC))
             {
-                TooltipTarget.SetTooltip("??? - 'Right Click' for more options...");
+                TooltipTarget?.SetTooltip("??? - 'Right Click' for more options...");
             }
             else
             {
-                TooltipTarget.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
+                TooltipTarget?.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
             }
         }
         else
         {
-            TooltipTarget.SetTooltip("This character slot is unoccupied...");
+            TooltipTarget?.SetTooltip("This character slot is unoccupied...");
         }
 
         CurrentCharacter = character;

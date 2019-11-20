@@ -28,6 +28,8 @@ public class LongTermTask : ScriptableObject
     public bool CompleteLate;
     public bool CompleteEarly;
 
+    public bool HaltWhenActionPerTurnExecuted;
+
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();

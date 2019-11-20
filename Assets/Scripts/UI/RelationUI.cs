@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class RelationUI : MonoBehaviour
 
     [SerializeField]
     TooltipTargetUI TooltipTarget;
+
+    [SerializeField]
+    TextMeshProUGUI RelationCountText;
 
     Character CurrentCharacter;
     Character TargetCharacter;
@@ -23,16 +27,19 @@ public class RelationUI : MonoBehaviour
         {
             TooltipTarget.SetTooltip("Relations Unknown");
             imageIcon.sprite = ResourcesLoader.Instance.GetSprite("Indifferent");
+            RelationCountText.text = "?";
+            RelationCountText.color = Color.black;
             return;
         }
 
         int relationValue = CurrentCharacter.GetRelationsWith(TargetCharacter);
         TooltipTarget.SetTooltip(
-            "<u> Opinion of " 
+            "<u> Opinion on " 
             + TargetCharacter.name + ": "
             + (relationValue >= 0 ? "<color=green>" : "<color=red>") 
             + relationValue
             + "</color> </u> \n");
+
 
 
         RelationsModifier[] modifiers = CurrentCharacter.GetRelationModifiers(TargetCharacter);
@@ -49,7 +56,7 @@ public class RelationUI : MonoBehaviour
                 +"</color>";
         }
 
-        TooltipTarget.Text += "</size>";
+        TooltipTarget.Text += "</size> \n Click to see this characters relations with others...";
 
         if (relationValue > 5)
         {
@@ -63,5 +70,18 @@ public class RelationUI : MonoBehaviour
         {
             imageIcon.sprite = ResourcesLoader.Instance.GetSprite("Indifferent");
         }
+
+        RelationCountText.text = relationValue.ToString();
+        RelationCountText.color = relationValue >= 0 ? Color.green : Color.red;
+    }
+
+    public void OnClick()
+    {
+        if (this.CurrentCharacter == null || this.TargetCharacter == null)
+        {
+            return;
+        }
+
+        CharacterRelationsViewUI.Instance.Show(TargetCharacter, null, null, TargetCharacter.name + "'s Relations With Characters");
     }
 }

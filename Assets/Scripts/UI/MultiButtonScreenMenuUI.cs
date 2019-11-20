@@ -45,6 +45,7 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 
     void Select(MultiButtonScreenInstance instance)
     {
+        int prevIndex = lastIndex;
         lastIndex = ButtonScreens.IndexOf(instance);
 
         foreach(MultiButtonScreenInstance inst in ButtonScreens)
@@ -68,7 +69,10 @@ public class MultiButtonScreenMenuUI : MonoBehaviour
 
         instance.SelectionButton.interactable = false;
 
-        instance.OnSwitchEvent?.Invoke();
+        if (prevIndex != lastIndex)
+        {
+            instance.OnSwitchEvent?.Invoke();
+        }
     }
 }
 

@@ -8,7 +8,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
     public static AllCharactersWindowUI Instance;
     public GridType CurrentType;
 
-    private void Awake()
+    protected override void Awake()
     {
         Instance = this;
         this.gameObject.SetActive(false);
@@ -60,7 +60,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
         Show(null, null);
     }
 
-    public override void Show(Action<Character> onSelect = null, Predicate<Character> filter = null)
+    public override void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Characters View")
     {
         this.gameObject.SetActive(true);
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);

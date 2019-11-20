@@ -27,6 +27,7 @@ public class GameDB : ScriptableObject
     public PropertyTrait BurialGroundTrait;
 
     public GameObject UnknownFigurePrefab;
+    public GameObject UnknownFigureHover;
 
     public GameObject FailWorldEffectPrefab;
     public GameObject SuccessWorldEffectPrefab;

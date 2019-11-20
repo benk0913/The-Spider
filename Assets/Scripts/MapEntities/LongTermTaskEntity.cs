@@ -29,7 +29,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     public bool isComplete;
 
-    public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1)
+    AgentAction ActionPerTurn;
+
+    public bool HaltWhenActionPerTurnExecuted;
+
+    public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
     {
         if(turnsLeft > 0)
         {
@@ -51,6 +55,9 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         CurrentLocation = ((LocationEntity)targetLocation);
 
         CurrentLocation.AddLongTermTask(this);
+
+        this.ActionPerTurn = actionPerTurn;
+        HaltWhenActionPerTurnExecuted = CurrentTask.HaltWhenActionPerTurnExecuted;
     }
 
     public void RefreshKnownTaskState()
@@ -62,6 +69,23 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     public void TurnPassed()
     {
         TurnsLeft--;
+
+        if(ActionPerTurn != null)
+        {
+            PortraitUI characterContainer = new PortraitUI();
+            characterContainer.CurrentCharacter = TargetCharacter;
+
+            FailReason reason = null;
+            if (ActionPerTurn.CanDoAction(CurrentRequester, CurrentCharacter, characterContainer, out reason))
+            {
+                ActionPerTurn.Execute(CurrentRequester, CurrentCharacter, characterContainer);
+
+                if (HaltWhenActionPerTurnExecuted)
+                {
+                    Dispose();
+                }
+            }
+        }
 
         if (TurnsLeft <= 0 && !isComplete)
         {

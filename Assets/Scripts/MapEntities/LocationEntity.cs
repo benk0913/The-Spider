@@ -418,7 +418,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
             //tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
-            hoverModel = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
+            hoverModel = Instantiate(CORE.Instance.Database.UnknownFigureHover);
         }
         else //Player didn't scout nearest district.
         {
