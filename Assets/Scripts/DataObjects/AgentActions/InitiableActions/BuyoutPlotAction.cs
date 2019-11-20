@@ -53,7 +53,7 @@ public class BuyoutPlotAction : AgentAction
             return false;
         }
 
-        if (targetEntity.OwnerCharacter.TopEmployer != character.TopEmployer)
+        if (targetEntity.OwnerCharacter.TopEmployer == character.TopEmployer)
         {
             return false;
         }

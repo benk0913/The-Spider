@@ -576,11 +576,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         CharactersInLocation.Add(character);
 
-        if(OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        if(OwnerCharacter != null)
         {
-            character.Known.Know("Appearance", character.TopEmployer);
-            character.Known.Know("CurrentLocation", character.TopEmployer);
+            character.Known.Know("Appearance", OwnerCharacter.TopEmployer);
+            character.Known.Know("CurrentLocation", OwnerCharacter.TopEmployer);
         }
+
 
         if (CharactersInLocationUIInstance != null)
         {
