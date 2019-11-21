@@ -88,7 +88,25 @@ public class CORE : MonoBehaviour
 
         if (TutorialOnStart)
         {
-            QuestsPanelUI.Instance.AddNewQuest(Database.TutorialQuest);
+            Quest questClone = Database.TutorialQuest.CreateClone();
+            questClone.ForCharacter = CORE.PC;
+            QuestsPanelUI.Instance.AddNewQuest(questClone);
+        }
+
+        foreach(Faction faction in Database.Factions)
+        {
+            if(faction.FactionHead != null)
+            {
+                Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+
+                foreach(Quest quest in faction.Goals)
+                {
+                    Quest questClone = quest.CreateClone();
+                    questClone.ForCharacter = factionHead;
+
+                    QuestsPanelUI.Instance.AddNewQuest(questClone);
+                }
+            }
         }
 
         LoadingGameRoutine = null;

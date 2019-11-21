@@ -11,7 +11,7 @@ public class QOOwnProperty : QuestObjective
 
     public override bool Validate()
     {
-        return CharacterHasProperty(CORE.PC, TargetProperty);
+        return CharacterHasProperty(ParentQuest.ForCharacter, TargetProperty);
     }
 
     public bool CharacterHasProperty(Character character, Property targetProperty)

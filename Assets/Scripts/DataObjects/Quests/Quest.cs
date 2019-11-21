@@ -13,6 +13,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public QuestObjective[] Objectives;
 
+    public QuestReward[] Rewards;
+
     public Character RelevantCharacter;
 
     public List<string> InfoGivenOnCharacter = new List<string>();
@@ -23,6 +25,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public LetterPreset CompletionLetter;
 
+    public Character ForCharacter;
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);
@@ -32,14 +36,32 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         List<QuestObjective> objectives = new List<QuestObjective>();
         foreach(QuestObjective objective in this.Objectives)
         {
-            objectives.Add(objective.CreateClone());
+            QuestObjective objectiveClone = objective.CreateClone();
+            objectiveClone.ParentQuest = quest;
+            objectives.Add(objectiveClone);
         }
 
         quest.Objectives = objectives.ToArray();
 
+
+        List<QuestReward> rewards = new List<QuestReward>();
+        foreach (QuestReward reward in this.Rewards)
+        {
+            QuestReward rewardClone = reward.CreateClone();
+            rewards.Add(rewardClone);
+        }
+
+        quest.Rewards = rewards.ToArray();
+
+
         if (RelevantCharacter != null)
         {
             quest.RelevantCharacter = CORE.Instance.GetCharacter(RelevantCharacter.name);
+        }
+
+        if (ForCharacter != null)
+        {
+            ForCharacter = CORE.Instance.GetCharacter(ForCharacter.name);
         }
 
         return quest;

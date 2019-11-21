@@ -15,6 +15,8 @@ public class QuestObjective : ScriptableObject
 
     public GameObject WorldMarker;
 
+    public Quest ParentQuest;
+
     public virtual QuestObjective CreateClone()
     {
         QuestObjective objective = Instantiate(this);

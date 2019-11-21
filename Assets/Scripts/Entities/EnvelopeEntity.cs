@@ -129,7 +129,7 @@ public class EnvelopeEntity : MonoBehaviour
             ToPortrait.gameObject.SetActive(false);
         }
 
-        if(CurrentLetter.Preset.QuestAttachment != null && !QuestsPanelUI.Instance.HasQuest(CurrentLetter.Preset.QuestAttachment))
+        if(CurrentLetter.Preset.QuestAttachment != null && !QuestsPanelUI.Instance.HasQuest(CurrentLetter.Preset.QuestAttachment, CORE.PC))
         {
             QuestPanel.gameObject.SetActive(true);
             QuestName.text = CurrentLetter.Preset.QuestAttachment.name;
@@ -178,13 +178,15 @@ public class EnvelopeEntity : MonoBehaviour
             return;
         }
         
-        if(QuestsPanelUI.Instance.HasQuest(CurrentLetter.Preset.QuestAttachment))
+        if(QuestsPanelUI.Instance.HasQuest(CurrentLetter.Preset.QuestAttachment, CORE.PC))
         {
             return;
         }
 
 
-        QuestsPanelUI.Instance.AddNewQuest(CurrentLetter.Preset.QuestAttachment);
+        Quest questClone = CurrentLetter.Preset.QuestAttachment.CreateClone();
+        questClone.ForCharacter = CORE.PC;
+        QuestsPanelUI.Instance.AddNewQuest(questClone);
         QuestPanel.gameObject.SetActive(false);
     }
 }

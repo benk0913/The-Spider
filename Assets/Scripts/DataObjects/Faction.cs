@@ -33,5 +33,5 @@ public class Faction : ScriptableObject
     public int ConnectionsGeneratedPerDay;
     public int RumorsGeneratedPerDay;
 
-    
+    public List<Quest> Goals = new List<Quest>();
 }

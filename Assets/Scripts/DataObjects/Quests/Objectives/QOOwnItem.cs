@@ -9,7 +9,7 @@ public class QOOwnItem : QuestObjective
 
     public override bool Validate()
     {
-        return CORE.PC.GetItem(TargetItem.name) != null;
+        return ParentQuest.ForCharacter.GetItem(TargetItem.name) != null;
     }
     
 }

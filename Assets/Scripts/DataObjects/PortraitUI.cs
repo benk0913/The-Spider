@@ -106,7 +106,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             return;
         }
 
-        if(!character.IsKnown("Appearance", CORE.PC))
+        if(character.Known != null && !character.IsKnown("Appearance", CORE.PC))
         {
 
             Face.color = Color.black;
@@ -143,7 +143,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         {
             character.StateChanged.RemoveListener(RefreshState);
             
-            if (!character.IsKnown("Name", CORE.PC))
+            if (character.Known != null && !character.IsKnown("Name", CORE.PC))
             {
                 TooltipTarget?.SetTooltip("??? - 'Right Click' for more options...");
             }

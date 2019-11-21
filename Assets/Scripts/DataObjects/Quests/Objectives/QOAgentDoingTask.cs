@@ -32,7 +32,10 @@ public class QOAgentDoingTask : QuestObjective
 
     void OnAgentAction()
     {
-        List<Character> agents = CORE.Instance.Characters.FindAll((Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC; });
+        List<Character> agents = CORE.Instance.Characters.FindAll((Character charInQuestion) => 
+        {
+            return charInQuestion.TopEmployer == ParentQuest.ForCharacter;
+        });
 
         foreach(Character agent in agents)
         {

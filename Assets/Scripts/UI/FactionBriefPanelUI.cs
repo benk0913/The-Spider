@@ -34,10 +34,18 @@ public class FactionBriefPanelUI : MonoBehaviour
         ClearContainer(GoalsContainer);
         ClearContainer(RulesContainer);
 
-        GameObject avatarObj = ResourcesLoader.Instance.GetRecycledObject(faction.FactionSelectionPrefab);
-        avatarObj.transform.SetParent(AvatarContainer, false);
-        avatarObj.transform.localScale = Vector3.one;
-        avatarObj.transform.position = AvatarContainer.position;
+        GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject(faction.FactionSelectionPrefab);
+        tempObj.transform.SetParent(AvatarContainer, false);
+        tempObj.transform.localScale = Vector3.one;
+        tempObj.transform.position = AvatarContainer.position;
+
+        foreach(Quest quest in faction.Goals)
+        {
+            tempObj = ResourcesLoader.Instance.GetRecycledObject("QuestContentUI");
+            tempObj.transform.SetParent(GoalsContainer, false);
+            tempObj.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+            tempObj.GetComponent<QuestContentUI>().SetInfo(quest);
+        }
 
     }
 

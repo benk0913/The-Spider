@@ -48,7 +48,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
             foreach (string infoKey in newQuest.InfoGivenOnCharacter)
             {
-                newQuest.RelevantCharacter.Known.Know(infoKey, CORE.PC);
+                newQuest.RelevantCharacter.Known.Know(infoKey, quest.ForCharacter);
             }
         }
 
@@ -66,6 +66,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
             objective.ValidateRoutine = CORE.Instance.StartCoroutine(ValidateObjectiveRoutine(objective));
 
+            if(newQuest.ForCharacter != CORE.PC)
+            {
+                continue;
+            }
+
             if (objective.WorldMarker != null)
             {
                 objective.WorldMarker.gameObject.SetActive(false);
@@ -80,7 +85,10 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             }
         }
 
-        Notification.Add(1);
+        if (quest.ForCharacter == CORE.PC)
+        {
+            Notification.Add(1);
+        }
     }
 
     IEnumerator ValidateObjectiveRoutine(QuestObjective objective)
@@ -107,105 +115,121 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         ActiveQuests.Remove(quest);
         AddCompletedQuest(quest);
-        
-        if(!activeQuestsButton.interactable)
+
+        if (quest.ForCharacter == CORE.PC)
         {
-            for(int i=0;i<questsContainer.childCount;i++)
+            if (!activeQuestsButton.interactable)
             {
-                QuestHeadlineUI headline = questsContainer.GetChild(i).GetComponent<QuestHeadlineUI>();
-                if (headline != null && headline.CurrentQuest == quest)
+                for (int i = 0; i < questsContainer.childCount; i++)
                 {
-                    headline.Complete();
+                    QuestHeadlineUI headline = questsContainer.GetChild(i).GetComponent<QuestHeadlineUI>();
+                    if (headline != null && headline.CurrentQuest == quest)
+                    {
+                        headline.Complete();
+                    }
                 }
+            }
+
+            if (quest.CompletionLetter != null)
+            {
+                Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+
+                Character sender = CORE.Instance.GetCharacter(quest.CompletionLetter.PresetSender.name);
+
+                letterParameters.Add("Letter_From", sender);
+                letterParameters.Add("Letter_To", CORE.PC);
+
+                LetterDispenserEntity.Instance.DispenseLetter(new Letter(quest.CompletionLetter, letterParameters));
             }
         }
 
-        if (quest.CompletionLetter != null)
+        foreach(QuestReward reward in quest.Rewards)
         {
-            Dictionary<string, object> letterParameters = new Dictionary<string, object>();
-
-            Character sender = CORE.Instance.GetCharacter(quest.CompletionLetter.PresetSender.name);
-
-            letterParameters.Add("Letter_From", sender);
-            letterParameters.Add("Letter_To", CORE.PC);
-
-            LetterDispenserEntity.Instance.DispenseLetter(new Letter(quest.CompletionLetter, letterParameters));
+            reward.Claim(quest.ForCharacter);
         }
 
         if (quest.NextQuest != null)
         {
+            Quest questClone = quest.NextQuest.CreateClone();
+            questClone.ForCharacter = quest.ForCharacter;
+            QuestsPanelUI.Instance.AddNewQuest(questClone);
+    
             AddNewQuest(quest.NextQuest);
         }
     }
 
     public void ObjectiveComplete(QuestObjective objective)
     {
-        Quest parentQuest = null;
-
-        foreach(Quest quest in ActiveQuests)
-        {
-            if (quest.HasObjective(objective))
-            {
-                parentQuest = quest;
-                break;
-            }
-        }
+        Quest parentQuest = objective.ParentQuest;
 
         if(parentQuest == null)
         {
             return;
         }
 
-        if(parentQuest.Tutorial)
+        if (parentQuest.ForCharacter == CORE.PC)
         {
-            WorldMissionPanelUI.Instance.ObjectiveComplete();
-        }
-
-        if (!activeQuestsButton.interactable)
-        {
-            foreach (Transform questHeadlineTransform in questsContainer)
+            if (parentQuest.Tutorial)
             {
-                QuestHeadlineUI headline = questHeadlineTransform.GetComponent<QuestHeadlineUI>();
-
-                if (headline == null)
-                {
-                    continue;
-                }
-
-                if (headline.CurrentQuest != parentQuest)
-                {
-                    continue;
-                }
-
-                headline.Show();
-
-                QuestContentUI content = headline.ShowingObject.GetComponent<QuestContentUI>();
-                content.Refresh();
-                content.Notify();
+                WorldMissionPanelUI.Instance.ObjectiveComplete();
             }
-        }
-        else
-        {
-            Notification.Add(1);
-        }
 
-        GlobalMessagePrompterUI.Instance.Show(objective.name + " is complete!", 1f, Color.green);
+            if (!activeQuestsButton.interactable)
+            {
+                foreach (Transform questHeadlineTransform in questsContainer)
+                {
+                    QuestHeadlineUI headline = questHeadlineTransform.GetComponent<QuestHeadlineUI>();
 
-        if (objective.WorldMarker != null)
-        {
-            objective.WorldMarker.gameObject.SetActive(false);
-            objective.WorldMarker = null;
+                    if (headline == null)
+                    {
+                        continue;
+                    }
+
+                    if (headline.CurrentQuest != parentQuest)
+                    {
+                        continue;
+                    }
+
+                    headline.Show();
+
+                    QuestContentUI content = headline.ShowingObject.GetComponent<QuestContentUI>();
+                    content.Refresh();
+                    content.Notify();
+                }
+            }
+            else
+            {
+                Notification.Add(1);
+            }
+
+            GlobalMessagePrompterUI.Instance.Show(objective.name + " is complete!", 1f, Color.green);
+
+            if (objective.WorldMarker != null)
+            {
+                objective.WorldMarker.gameObject.SetActive(false);
+                objective.WorldMarker = null;
+            }
+
         }
 
         foreach (QuestObjective qObjective in parentQuest.Objectives)
         {
-            if(!qObjective.IsComplete)
+            if(objective == qObjective)
+            {
+                continue;
+            }
+
+            if (!qObjective.IsComplete)
             {
                 return;
             }
         }
 
-        GlobalMessagePrompterUI.Instance.Show(parentQuest.name + " is complete!", 1f, Color.green);
+        if(parentQuest.ForCharacter == CORE.PC)
+        {
+            GlobalMessagePrompterUI.Instance.Show(parentQuest.name + " is complete!", 1f, Color.green);
+        }
+
         QuestComplete(parentQuest);
 
     }
@@ -240,6 +264,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
     void AddQuestToContainer(Quest quest)
     {
+        if(quest.ForCharacter != CORE.PC)
+        {
+            return;
+        }
+
         GameObject rumorPanel = ResourcesLoader.Instance.GetRecycledObject("QuestHeadlineUI");
         rumorPanel.transform.SetParent(questsContainer, false);
         rumorPanel.GetComponent<QuestHeadlineUI>().SetInfo(quest, this);
@@ -255,11 +284,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
     }
 
 
-    public bool HasQuest(Quest questAttachment)
+    public bool HasQuest(Quest questAttachment, Character forCharacter)
     {
         foreach(Quest quest in ActiveQuests)
         {
-            if(quest.name == questAttachment.name)
+            if(quest.ForCharacter == forCharacter && quest.name == questAttachment.name)
             {
                 return true;
             }
@@ -267,7 +296,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         foreach (Quest quest in CompletedQuests)
         {
-            if (quest.name == questAttachment.name)
+            if (quest.ForCharacter == forCharacter && quest.name == questAttachment.name)
             {
                 return true;
             }

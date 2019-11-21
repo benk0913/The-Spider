@@ -44,7 +44,7 @@ public class QOInformationGathered : QuestObjective
 
     void OnEventInvoked()
     {
-        if (Target.IsKnown(InformationKey, CORE.PC))
+        if (Target.IsKnown(InformationKey, ParentQuest.ForCharacter))
         {
             valid = true;
         }

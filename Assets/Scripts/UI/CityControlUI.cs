@@ -81,4 +81,10 @@ public class CityControlUI : MonoBehaviour
     {
         TextLabel.gameObject.SetActive(false);
     }
+
+    public float GetControlPrecentage(Faction faction)
+    {
+        Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+        return ((float)factionHead.PropertiesInCommand.Count) / ((float)CORE.Instance.Locations.Count);
+    }
 }

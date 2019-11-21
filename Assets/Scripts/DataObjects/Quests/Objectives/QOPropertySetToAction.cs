@@ -12,7 +12,7 @@ public class QOPropertySetToAction : QuestObjective
 
     public override bool Validate()
     {
-        return CharacterHasPropertyInAction(CORE.PC, TargetProperty);
+        return CharacterHasPropertyInAction(ParentQuest.ForCharacter, TargetProperty);
     }
 
     public bool CharacterHasPropertyInAction(Character character, Property targetProperty)

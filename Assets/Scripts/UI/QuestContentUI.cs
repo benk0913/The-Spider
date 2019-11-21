@@ -13,12 +13,21 @@ public class QuestContentUI : HeadlineContentUI
     [SerializeField]
     Transform ObjectivesContainer;
 
+    [SerializeField]
+    Transform RewardsContainer;
+
     QuestHeadlineUI CurrentHeadline;
 
     public void SetInfo(QuestHeadlineUI headline)
     {
         CurrentHeadline = headline;
         CurrentQuest = CurrentHeadline.CurrentQuest;
+        Refresh();
+    }
+
+    public void SetInfo(Quest quest)
+    {
+        CurrentQuest = quest;
         Refresh();
     }
 
@@ -50,7 +59,7 @@ public class QuestContentUI : HeadlineContentUI
             CharacterPortrait.SetCharacter(CurrentQuest.RelevantCharacter);
         }
 
-        ClearObjectivesContainer();
+        ClearContainers();
 
         foreach(QuestObjective objective in CurrentQuest.Objectives)
         {
@@ -59,6 +68,15 @@ public class QuestContentUI : HeadlineContentUI
             QuestTitle.transform.SetAsLastSibling();
             QuestTitle.transform.localScale = Vector3.one;
             QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "yellow") + ">" + objective.name + "</color>";
+        }
+
+        foreach (QuestReward reward in CurrentQuest.Rewards)
+        {
+            TextMeshProUGUI QuestTitle = ResourcesLoader.Instance.GetRecycledObject("ObjectiveTitleUI").GetComponent<TextMeshProUGUI>();
+            QuestTitle.transform.SetParent(RewardsContainer);
+            QuestTitle.transform.SetAsLastSibling();
+            QuestTitle.transform.localScale = Vector3.one;
+            QuestTitle.text = "<color=yellow>"+reward.name+"</color>";
         }
     }
 
@@ -75,15 +93,23 @@ public class QuestContentUI : HeadlineContentUI
     public void OnExitAnimationFinished()
     {
         this.gameObject.SetActive(false);
-        CurrentHeadline.SelfArchive();
+
+        if(CurrentHeadline != null)
+            CurrentHeadline.SelfArchive();
     }
 
-    void ClearObjectivesContainer()
+    void ClearContainers()
     {
         while(ObjectivesContainer.childCount > 0)
         {
             ObjectivesContainer.GetChild(0).gameObject.SetActive(false);
             ObjectivesContainer.GetChild(0).SetParent(transform);
+        }
+
+        while (RewardsContainer.childCount > 0)
+        {
+            RewardsContainer.GetChild(0).gameObject.SetActive(false);
+            RewardsContainer.GetChild(0).SetParent(transform);
         }
     }
 }
