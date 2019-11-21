@@ -11,6 +11,9 @@ public class FactionSelectionWindowUI : MonoBehaviour
     [SerializeField]
     GameObject LockedFactionPrefab;
 
+    [SerializeField]
+    FactionBriefPanelUI FactionPanel;
+
     private void OnEnable()
     {
         ClearContainer();
@@ -32,7 +35,7 @@ public class FactionSelectionWindowUI : MonoBehaviour
 
             factionObj = ResourcesLoader.Instance.GetRecycledObject(faction.FactionSelectionPrefab);
             factionObj.transform.SetParent(FactionContainer, false);
-            factionObj.GetComponent<Button>().onClick.AddListener(() => { CORE.Instance.NewGame(faction); });
+            factionObj.GetComponent<Button>().onClick.AddListener(() => { FactionPanel.Show(faction); });
         }
     }
 

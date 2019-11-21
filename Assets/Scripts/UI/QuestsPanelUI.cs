@@ -90,12 +90,6 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         while(!objective.Validate())
         {
             yield return 0;
-
-            //TODO CHEAT MC CHEATSON 
-            if (Input.GetKey(KeyCode.K))
-            {
-                break;
-            }
         }
 
         yield return 0;

@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Faction", menuName = "DataObjects/Faction", order = 2)]
 public class Faction : ScriptableObject
 {
+    [TextArea(4, 6)]
+    public string Description;
+
     public Material WaxMaterial;
     public Color FactionColor;
     public string RoomScene;
@@ -29,4 +32,6 @@ public class Faction : ScriptableObject
     public int GoldGeneratedPerDay;
     public int ConnectionsGeneratedPerDay;
     public int RumorsGeneratedPerDay;
+
+    
 }
