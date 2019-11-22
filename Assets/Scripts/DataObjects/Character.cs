@@ -30,7 +30,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         get
         {
-            return (Pinned || Employer == CORE.PC) ; 
+            return (Pinned || Employer == CORE.PC);
         }
     }
 
@@ -43,7 +43,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 return null;
             }
 
-            if(WorkLocation.OwnerCharacter == this)
+            if (WorkLocation.OwnerCharacter == this)
             {
                 return null;
             }
@@ -64,6 +64,30 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return Employer.TopEmployer;
         }
     }
+
+    public int Reputation
+    {
+        get
+        {
+            return _reputation;
+        }
+        set
+        {
+            if(value < CORE.Instance.Database.ReputationMin)
+            {
+                _reputation = CORE.Instance.Database.ReputationMin;
+                return;
+            }
+            else if (value > CORE.Instance.Database.ReputationMax)
+            {
+                _reputation = CORE.Instance.Database.ReputationMax;
+                return;
+            }
+
+            _reputation = value;
+        }
+    }
+    int _reputation;
 
     public int Gold;
 
@@ -726,7 +750,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         List<RelationsModifier> modifiers = new List<RelationsModifier>();
 
-        foreach(Trait trait in otherCharacter.Traits)
+        ReputationInstance otherCharacterReputation = CORE.Instance.Database.GetReputationType(otherCharacter.Reputation);
+        modifiers.Add(new RelationsModifier(otherCharacterReputation.name,otherCharacterReputation.AgentRelationModifier));
+
+        foreach (Trait trait in otherCharacter.Traits)
         {
             foreach(RelationsModifier traitModifier in trait.RelationModifiers)
             {
@@ -1167,6 +1194,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Gold"] = Gold.ToString();
         node["Connections"] = Connections.ToString();
         node["Rumors"] = Rumors.ToString();
+        node["Reputation"] = Reputation.ToString();
 
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
 
@@ -1241,6 +1269,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Gold = int.Parse(node["Gold"]);
         Connections = int.Parse(node["Connections"]);
         Rumors = int.Parse(node["Rumors"]);
+        Reputation = int.Parse(node["Reputation"]);
 
         _workLocationID = node["WorkLocation"];
 

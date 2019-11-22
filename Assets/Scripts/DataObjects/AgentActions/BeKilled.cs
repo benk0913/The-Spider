@@ -10,6 +10,7 @@ public class BeKilled : AgentAction
     {
         base.Execute(requester, character, target);
 
+        character.TopEmployer.Reputation -= 1;
         character.Death();
     }
 }

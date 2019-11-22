@@ -12,6 +12,9 @@ public class PortraitUIEmployee : PortraitUI
     [SerializeField]
     GameObject RecruitButton;
 
+    [SerializeField]
+    TextMeshProUGUI RecruitPrice;
+
     LocationEntity CurrentLocation;
 
     void Start()
@@ -23,7 +26,18 @@ public class PortraitUIEmployee : PortraitUI
     {
         CurrentLocation = RelevantLocation;
 
-        RecruitButton.gameObject.SetActive(emptySlot && CurrentLocation.OwnerCharacter != null && CurrentLocation.OwnerCharacter.TopEmployer == CORE.PC);
+        if (emptySlot && CurrentLocation.OwnerCharacter != null && CurrentLocation.OwnerCharacter.TopEmployer == CORE.PC)
+        {
+            RecruitButton.gameObject.SetActive(true);
+
+            int recruitmentCost = CORE.Instance.Database.BaseRecruitmentCost;
+            recruitmentCost += CORE.Instance.Database.GetReputationType(CurrentLocation.OwnerCharacter.TopEmployer.Reputation).RecruitExtraCost;
+            RecruitPrice.text = recruitmentCost.ToString();
+        }
+        else
+        {
+            RecruitButton.gameObject.SetActive(false);
+        }
 
         base.SetCharacter(character);
 

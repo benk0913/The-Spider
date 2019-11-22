@@ -298,8 +298,10 @@ public class CORE : MonoBehaviour
                 factionHead.Gold += faction.GoldGeneratedPerDay;
                 factionHead.Connections += faction.ConnectionsGeneratedPerDay;
                 factionHead.Rumors += faction.RumorsGeneratedPerDay;
+                factionHead.Reputation += faction.ReputationGeneratedPerDay;
             }
         }
+
 
         TurnPassedRoutineInstance = null;
     }

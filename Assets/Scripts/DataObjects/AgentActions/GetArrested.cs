@@ -28,6 +28,9 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
 
         base.Execute(requester, character, target);
 
+        character.Reputation -= 1;
+        character.TopEmployer.Reputation -= 1;
+
         if (target.GetType() == typeof(LocationEntity))
         {
             LocationEntity targetLocation = (LocationEntity)target;

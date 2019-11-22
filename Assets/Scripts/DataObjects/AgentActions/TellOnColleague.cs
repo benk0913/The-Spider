@@ -54,6 +54,7 @@ public class TellOnColleague : AgentAction
 
         if (snitchTarget != null)
         {
+            character.Reputation -= 2;
             CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
         }
 

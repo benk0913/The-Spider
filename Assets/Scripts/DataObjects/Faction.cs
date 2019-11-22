@@ -32,6 +32,7 @@ public class Faction : ScriptableObject
     public int GoldGeneratedPerDay;
     public int ConnectionsGeneratedPerDay;
     public int RumorsGeneratedPerDay;
+    public int ReputationGeneratedPerDay;
 
     public List<Quest> Goals = new List<Quest>();
 }

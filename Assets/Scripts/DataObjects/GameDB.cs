@@ -56,6 +56,11 @@ public class GameDB : ScriptableObject
 
     public BonusType[] BonusTypes;
 
+    public ReputationInstance[] ReputationTypes;
+    public int ReputationMin = -10;
+    public int ReputationMax = 10;
+    public int BaseRecruitmentCost = 3;
+
     public Trait UnknownTrait;
 
     public Trait[] Traits;
@@ -68,6 +73,12 @@ public class GameDB : ScriptableObject
 
     public TimelineInstance[] Timeline;
 
+
+    public ReputationInstance GetReputationType(int value)
+    {
+        int stageValue = (Mathf.Abs(ReputationMin)+Mathf.Abs(ReputationMax)) / ReputationTypes.Length;
+        return ReputationTypes[(value + Mathf.Abs(ReputationMin)) / stageValue];
+    }
 
     public Item GetItem(string itemKey)
     {

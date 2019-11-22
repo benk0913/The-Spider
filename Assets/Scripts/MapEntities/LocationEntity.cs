@@ -819,7 +819,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public FailReason RecruitEmployee(Character requester)
     {
-        if(requester != OwnerCharacter.TopEmployer)
+        int recruitmentCost = CORE.Instance.Database.BaseRecruitmentCost;
+        recruitmentCost += CORE.Instance.Database.GetReputationType(OwnerCharacter.TopEmployer.Reputation).RecruitExtraCost;
+
+        if (requester != OwnerCharacter.TopEmployer)
         {
             if (requester == CORE.PC)
             {
@@ -829,17 +832,17 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return new FailReason("Do Not Own Property");
         }
 
-        if (requester.Connections < 3) //TODO replace magic number...
+        if (requester.Connections < recruitmentCost) //TODO replace magic number...
         {
             if (requester == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("Need more connections (" + requester.Connections + "/" + 3.ToString(), 1f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("Need more connections (" + requester.Connections + "/" + recruitmentCost.ToString(), 1f, Color.red);
             }
 
             return new FailReason("Not Enough Connections",3);
         }
 
-        requester.Connections -= 3;
+        requester.Connections -= recruitmentCost;
 
         Character randomNewEmployee = CORE.Instance.GenerateCharacter(
                CurrentProperty.RecruitingGenderType,

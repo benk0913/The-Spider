@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class StatsViewUI : MonoBehaviour
 {
@@ -18,6 +19,15 @@ public class StatsViewUI : MonoBehaviour
     public TextMeshProUGUI RumorsText;
 
     [SerializeField]
+    public TextMeshProUGUI ReputationText;
+
+    [SerializeField]
+    public Image ReputationIcon;
+
+    [SerializeField]
+    TooltipTargetUI ReputationTooltip;
+
+    [SerializeField]
     TextMeshProUGUI TurnText;
 
     [SerializeField]
@@ -31,6 +41,9 @@ public class StatsViewUI : MonoBehaviour
 
     [SerializeField]
     UnityEvent OnRumorsChanged;
+
+    [SerializeField]
+    UnityEvent OnReputationChanged;
 
     private void OnEnable()
     {
@@ -69,6 +82,7 @@ public class StatsViewUI : MonoBehaviour
             RefreshGold();
             RefreshConnections();
             RefreshRumors();
+            RefreshReputation();
         }
     }
 
@@ -98,5 +112,43 @@ public class StatsViewUI : MonoBehaviour
             RumorsText.text = CORE.PC.Rumors.ToString();
             OnRumorsChanged?.Invoke();
         }
+    }
+
+    public void RefreshReputation()
+    {
+        ReputationInstance instance = CORE.Instance.Database.GetReputationType(CORE.PC.Reputation);
+
+        if (instance.name != ReputationText.text)
+        {
+            List<TooltipBonus> bonuses = new List<TooltipBonus>();
+
+            foreach(ReputationInstance repInst in CORE.Instance.Database.ReputationTypes)
+            {
+                Sprite icon = ResourcesLoader.Instance.GetSprite(repInst == instance ? "pointing" : "circle");
+                bonuses.Add(new TooltipBonus(repInst.name, icon));
+            }
+
+            string tooltipText = "Your Reputation: " + CORE.PC.Reputation;
+
+            if (instance.AgentRelationModifier != 0)
+            {
+                tooltipText += "\n Relation Modifier: " + instance.AgentRelationModifier;
+            }
+
+            if (instance.RecruitExtraCost != 0)
+            {
+                tooltipText += "\n Recruitment Cost Penalty: " + instance.RecruitExtraCost;
+            }
+
+            ReputationTooltip.SetTooltip(tooltipText, bonuses);
+
+            ReputationText.text = instance.name;
+            ReputationText.color = instance.color;
+            ReputationIcon.color = instance.color;
+
+            OnReputationChanged?.Invoke();
+        }
+
+
     }
 }
