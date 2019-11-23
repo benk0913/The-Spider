@@ -35,9 +35,9 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
             if (randomRumor < 100)
             {
-                rumor.name = targetChar.name + " in " + targetChar.CurrentLocation.CurrentProperty.name;
+                rumor.name = targetChar.name + " in " + targetChar.CurrentLocation.Name;
                 rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + targetChar.CurrentLocation.CurrentProperty.name;
+                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + targetChar.CurrentLocation.Name;
                 rumor.RelevantLocationID = targetChar.CurrentLocation.ID;
             }
             else if (randomRumor < 50)
@@ -62,9 +62,9 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
             {
                 LocationEntity randomLocation = CORE.Instance.GetRandomLocation();
 
-                rumor.name = targetChar.name + " in " + randomLocation.CurrentProperty.name;
+                rumor.name = targetChar.name + " in " + randomLocation.Name;
                 rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + randomLocation.CurrentProperty.name;
+                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + randomLocation.Name;
                 rumor.RelevantLocationID = randomLocation.ID;
             }
             else if(randomRumor < 50)

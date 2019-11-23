@@ -47,9 +47,9 @@ public class PoisonLocationAction : AgentAction
         {
             Rumor gatheredRumor = Instantiate(CORE.Instance.Database.CustomRumor);
 
-            gatheredRumor.name = "Poisoning in " + targetEntity.CurrentProperty.name + " ?";
+            gatheredRumor.name = "Poisoning in " + targetEntity.Name + " ?";
             gatheredRumor.Title = gatheredRumor.name;
-            gatheredRumor.Description = "It is rumored that the owner and employees of " + targetEntity.CurrentProperty.name + " were victims of a malicious poisoning, who would do such a vile and dishonorable thing? Only a coward, they say.";
+            gatheredRumor.Description = "It is rumored that the owner and employees of " + targetEntity.Name + " were victims of a malicious poisoning, who would do such a vile and dishonorable thing? Only a coward, they say.";
             gatheredRumor.RelevantLocationID = targetEntity.ID;
             gatheredRumor.isTemporary = true;
 

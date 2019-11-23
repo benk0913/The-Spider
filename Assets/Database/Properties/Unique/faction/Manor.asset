@@ -14,19 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: This manor belongs to someone with substantial wealth.
   PropertyLevels:
-  - MaxEmployees: 2
+  - LevelName: Small Manor
+    MaxEmployees: 2
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 10
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 3
+  - LevelName: Manor
+    MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 250
     UpgradeLength: 20
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 4
+  - LevelName: Big Manor
+    MaxEmployees: 4
     MaxActions: 3
     UpgradePrice: 750
     UpgradeLength: 30
@@ -59,4 +62,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: agent
+  AlwaysKnown: 0
   IsVendor: 0

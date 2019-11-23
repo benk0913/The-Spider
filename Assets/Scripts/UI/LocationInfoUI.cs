@@ -77,7 +77,7 @@ public class LocationInfoUI : MonoBehaviour
 
         OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter);
 
-        PropertyNameText.text = CurrentLocation.CurrentProperty.name;
+        PropertyNameText.text = CurrentLocation.Name;
         RankText.text = "Rank - " + CurrentLocation.Level;
 
         ClearContainer(EmployeesContainer);

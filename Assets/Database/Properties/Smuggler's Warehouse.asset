@@ -21,7 +21,8 @@ MonoBehaviour:
     new and more unique items to be smuggled as well as more space for more goods
     at a time.'
   PropertyLevels:
-  - MaxEmployees: 2
+  - LevelName: Smugglers Shack
+    MaxEmployees: 2
     MaxActions: 2
     UpgradePrice: 20
     UpgradeLength: 5
@@ -29,7 +30,8 @@ MonoBehaviour:
     PossibleMerchantise:
     - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
     - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
-  - MaxEmployees: 3
+  - LevelName: Smugglers Warehouse
+    MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 50
     UpgradeLength: 10
@@ -38,7 +40,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
     - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
     - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
-  - MaxEmployees: 4
+  - LevelName: Smugglers Den
+    MaxEmployees: 4
     MaxActions: 2
     UpgradePrice: 100
     UpgradeLength: 15
@@ -85,4 +88,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: smuggler
+  AlwaysKnown: 0
   IsVendor: 0

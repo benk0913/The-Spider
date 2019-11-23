@@ -14,7 +14,7 @@ public class SimpleScenario : ScriptableObject
         parameters.Add("Actor", actor);
         parameters.Add("ActorName", actor.name);
         parameters.Add("Location", location);
-        parameters.Add("LocationName", location.CurrentProperty.name);
+        parameters.Add("LocationName", location.Name);
         parameters.Add("Target", target);
         parameters.Add("TargetName", target.name);
 

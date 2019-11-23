@@ -23,19 +23,22 @@ MonoBehaviour:
     size of the establishment will dictate it''s maximal amount of items restocked
     each week.'
   PropertyLevels:
-  - MaxEmployees: 1
+  - LevelName: Small Shop
+    MaxEmployees: 1
     MaxActions: 2
     UpgradePrice: 0
     UpgradeLength: 5
     InventoryCap: 2
     PossibleMerchantise: []
-  - MaxEmployees: 2
+  - LevelName: Big Shop
+    MaxEmployees: 2
     MaxActions: 2
     UpgradePrice: 30
     UpgradeLength: 10
     InventoryCap: 4
     PossibleMerchantise: []
-  - MaxEmployees: 3
+  - LevelName: Black Market Alley
+    MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 70
     UpgradeLength: 15
@@ -81,4 +84,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: shopkeeper
+  AlwaysKnown: 0
   IsVendor: 1

@@ -16,19 +16,22 @@ MonoBehaviour:
     off of extortion and muggary. They may come in hand if you need someone interrogated,
     terrorized or simply beaten.
   PropertyLevels:
-  - MaxEmployees: 3
+  - LevelName: Gang Of Lowlifes
+    MaxEmployees: 3
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 5
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 4
+  - LevelName: Gang Of Thugs
+    MaxEmployees: 4
     MaxActions: 2
     UpgradePrice: 30
     UpgradeLength: 10
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 5
+  - LevelName: Criminal Gang
+    MaxEmployees: 5
     MaxActions: 2
     UpgradePrice: 50
     UpgradeLength: 15
@@ -72,4 +75,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: thug
+  AlwaysKnown: 0
   IsVendor: 0

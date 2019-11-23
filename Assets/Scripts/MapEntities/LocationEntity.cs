@@ -10,6 +10,20 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 {
     public string ID;
 
+    public string Name
+    {
+        get
+        {
+            name = CurrentProperty.PropertyLevels[Level - 1].LevelName;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = CurrentProperty.name;
+            }
+
+            return name;
+        }
+    }
+
     public const float PORTRAITS_SPACING = 5f;
     public const int PORTRAITS_MAX_IN_ROW = 5;
 

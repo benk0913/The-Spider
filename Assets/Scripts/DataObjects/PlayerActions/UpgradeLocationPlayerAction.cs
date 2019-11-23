@@ -33,13 +33,13 @@ public class UpgradeLocationPlayerAction : PlayerAction
 
         if(location.IsUpgrading)
         {
-            reason = new FailReason(location.CurrentProperty.name+" is already upgrading.");
+            reason = new FailReason(location.Name + " is already upgrading.");
             return false;
         }
 
         if (location.CurrentProperty.PropertyLevels.Count == location.Level)
         {
-            reason = new FailReason(location.CurrentProperty.name + " has reached the highest level.");
+            reason = new FailReason(location.Name + " has reached the highest level.");
             return false;
         }
 

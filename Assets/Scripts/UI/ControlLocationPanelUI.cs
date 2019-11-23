@@ -112,7 +112,7 @@ public class ControlLocationPanelUI : MonoBehaviour
     public void RefreshUI()
     {
         RebrandBlockedSymbol.gameObject.SetActive(CurrentLocation.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType);
-        LocationTitle.text = CurrentLocation.CurrentProperty.name;
+        LocationTitle.text = CurrentLocation.Name;
         LocationPortrait.SetLocation(CurrentLocation);
 
         RefreshPortraits();

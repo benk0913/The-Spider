@@ -57,6 +57,7 @@ public class Property : ScriptableObject
     [System.Serializable]
     public class PropertyLevel
     {
+        public string LevelName;
         public int MaxEmployees;
         public int MaxActions;
         public int UpgradePrice;

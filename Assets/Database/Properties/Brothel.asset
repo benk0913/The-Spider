@@ -10,29 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
-  m_Name: Pleasure House
+  m_Name: Brothel
   m_EditorClassIdentifier: 
   Description: The house of pleasure provides unique entertainment  for a price.
   PropertyLevels:
-  - MaxEmployees: 2
+  - LevelName: Small Brothel
+    MaxEmployees: 2
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 5
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 3
+  - LevelName: Brothel
+    MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 30
     UpgradeLength: 10
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 4
+  - LevelName: Extravagant Brothel
+    MaxEmployees: 4
     MaxActions: 2
     UpgradePrice: 70
     UpgradeLength: 15
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 6
+  - LevelName: House Of Pleasures
+    MaxEmployees: 6
     MaxActions: 3
     UpgradePrice: 200
     UpgradeLength: 20

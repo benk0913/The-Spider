@@ -30,7 +30,7 @@ public class RecruitEmployee : AgentAction
 
         if(location.EmployeesCharacters.Count >= location.CurrentProperty.PropertyLevels[location.Level - 1].MaxEmployees)
         {
-            GlobalMessagePrompterUI.Instance.Show(location.CurrentProperty.name + " has no more space for another recruit!", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show(location.Name + " has no more space for another recruit!", 1f, Color.red);
             return;
         }
 

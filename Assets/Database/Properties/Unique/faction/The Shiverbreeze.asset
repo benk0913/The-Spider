@@ -14,19 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: This seems like a well maintained ship, it is called "The Shiverbreeze".
   PropertyLevels:
-  - MaxEmployees: 2
+  - LevelName: Small Ship
+    MaxEmployees: 2
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 10
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 3
+  - LevelName: Medium Ship
+    MaxEmployees: 3
     MaxActions: 2
     UpgradePrice: 100
     UpgradeLength: 20
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 4
+  - LevelName: Large Ship
+    MaxEmployees: 4
     MaxActions: 3
     UpgradePrice: 200
     UpgradeLength: 20
@@ -59,4 +62,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: agent
+  AlwaysKnown: 0
   IsVendor: 0

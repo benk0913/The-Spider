@@ -37,11 +37,11 @@ public class LocationManagementNotificationUI : CharacterManagementNotificationU
         {
             if (CurrentIndex == i)
             {
-                Bonuses.Add(new TooltipBonus("<color=green>"+Locations[i].CurrentProperty.name+"</color>", ResourcesLoader.Instance.GetSprite("pointing")));
+                Bonuses.Add(new TooltipBonus("<color=green>"+Locations[i].Name + "</color>", ResourcesLoader.Instance.GetSprite("pointing")));
             }
             else
             {
-                Bonuses.Add(new TooltipBonus(Locations[i].CurrentProperty.name, ResourcesLoader.Instance.GetSprite("three-friends")));
+                Bonuses.Add(new TooltipBonus(Locations[i].Name, ResourcesLoader.Instance.GetSprite("three-friends")));
             }
         }
 

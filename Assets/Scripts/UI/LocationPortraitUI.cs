@@ -45,7 +45,7 @@ public class LocationPortraitUI : MonoBehaviour, IPointerClickHandler
 
             Icon.sprite = CurrentLocation.CurrentProperty.Icon;
 
-            TooltipTarget.SetTooltip(CurrentLocation.CurrentProperty.name + " - Which belongs to "
+            TooltipTarget.SetTooltip(CurrentLocation.Name + " - Which belongs to "
                 + (CurrentLocation.OwnerCharacter == null ?
                 " no one."
                 :

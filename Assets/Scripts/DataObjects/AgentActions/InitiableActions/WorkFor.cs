@@ -65,7 +65,7 @@ public class WorkFor : AgentAction
 
         if(location.EmployeesCharacters.Count > 0 && location.EmployeesCharacters.Count >= location.CurrentProperty.PropertyLevels[location.Level-1].MaxEmployees) // (Has free slots?)
         {
-            reason = new FailReason(location.CurrentProperty.name + " is already full of employees.");
+            reason = new FailReason(location.Name + " is already full of employees.");
             return false;
         }
 
