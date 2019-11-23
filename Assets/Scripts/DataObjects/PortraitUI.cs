@@ -183,9 +183,16 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         Hair.sprite = CurrentCharacter.Hair.Sprite;
         Clothing.sprite = CurrentCharacter.Clothing.Sprite;
 
-        //TODO Only if faction is known...
-        Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
-        FrameBG.color = CurrentCharacter.CurrentFaction.FactionColor;
+        if (CurrentCharacter.Known != null && CurrentCharacter.IsKnown("Faction", CORE.PC))
+        {
+            Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
+            FrameBG.color = CurrentCharacter.CurrentFaction.FactionColor;
+        }
+        else
+        {
+            Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+            FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+        }
     }
 
     public virtual void RefreshState()

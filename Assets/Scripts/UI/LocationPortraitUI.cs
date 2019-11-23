@@ -36,7 +36,14 @@ public class LocationPortraitUI : MonoBehaviour, IPointerClickHandler
 
             if (CurrentLocation.OwnerCharacter != null)
             {
-                Frame.color = CurrentLocation.OwnerCharacter.CurrentFaction.FactionColor;
+                if (CurrentLocation.OwnerCharacter.IsKnown("Faction", CORE.PC))
+                {
+                    Frame.color = CurrentLocation.OwnerCharacter.CurrentFaction.FactionColor;
+                }
+                else
+                {
+                    Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+                }
             }
             else
             {

@@ -45,6 +45,8 @@ public class Knowledge
 
         Items.Add(new KnowledgeInstance("Appearance", "How this person looks"));
         Items.Add(new KnowledgeInstance("CurrentLocation", "Where this person currently is."));
+
+        Items.Add(new KnowledgeInstance("Faction", "Who is this person working for?"));
     }
 
     public virtual void KnowEverything(Character byCharacter)

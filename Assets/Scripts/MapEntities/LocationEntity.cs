@@ -422,7 +422,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 }
                 else
                 {
-                    tempFigure.GetComponent<FigureController>().SetMaterial(OwnerCharacter.CurrentFaction.WaxMaterial);
+                    if (OwnerCharacter.IsKnown("Faction", CORE.PC))
+                    {
+                        tempFigure.GetComponent<FigureController>().SetMaterial(OwnerCharacter.CurrentFaction.WaxMaterial);
+                    }
+                    else
+                    {
+                        tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+                    }
                 }
             }
 
