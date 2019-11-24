@@ -92,7 +92,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             tempItem = ResourcesLoader.Instance.GetRecycledObject("RightClickMenuItem");
 
             UnityAction[] actions = new UnityAction[] { CurrentMenuItems[i].Action, Hide };
-            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(CurrentMenuItems[i].Key, actions, CurrentMenuItems[i].Description, CurrentMenuItems[i].Icon, CurrentMenuItems[i].Interactable);
+            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(CurrentMenuItems[i].Key, actions, CurrentMenuItems[i].Description, CurrentMenuItems[i].Icon, CurrentMenuItems[i].Interactable, CurrentMenuItems[i].TooltipBonuses);
 
             tempItem.transform.SetParent(MenuItemsContainer, false);
 

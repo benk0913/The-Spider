@@ -244,7 +244,7 @@ public class ControlLocationPanelUI : MonoBehaviour
             GameObject itemObj = ResourcesLoader.Instance.GetRecycledObject("ItemUI");
             itemObj.transform.SetParent(InventoryContainer, false);
             itemObj.transform.localScale = Vector3.one;
-            itemObj.GetComponent<ItemUI>().SetInfo(item);
+            itemObj.GetComponent<ItemUI>().SetInfo(item, CurrentLocation);
         }
     }
 

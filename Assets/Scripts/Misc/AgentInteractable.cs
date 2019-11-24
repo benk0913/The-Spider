@@ -68,7 +68,8 @@ public class AgentInteractable : MonoBehaviour
                     () => action.Execute(CORE.PC, currentChar, this)
                     , action.Description + (reason == null? "" : "\n <color=red>" + reason.Key.ToString() + "</color>")
                     , action.Icon
-                    , action.CanDoAction(CORE.PC, currentChar, this, out reason)));
+                    , action.CanDoAction(CORE.PC, currentChar, this, out reason)
+                    , action.GetBonuses()));
         }
 
         if (KeyActions.Count == 0)

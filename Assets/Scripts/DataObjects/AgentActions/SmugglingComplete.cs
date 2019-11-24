@@ -15,8 +15,8 @@ public class SmugglingComplete : WorkComplete
 
     public void GenerateNewItemToProperty(Character character)
     {
-        int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level].InventoryCap;
-        Item[] possibleItems = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level].PossibleMerchantise;
+        int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].InventoryCap;
+        Item[] possibleItems = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].PossibleMerchantise;
 
         Item randomItem = possibleItems[Random.Range(0, possibleItems.Length)];
         Item newItem = Instantiate(randomItem);

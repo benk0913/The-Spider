@@ -418,7 +418,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             {
                 if (OwnerCharacter == null)
                 {
-                    tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+                    tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.NoFaction.WaxMaterial);
                 }
                 else
                 {

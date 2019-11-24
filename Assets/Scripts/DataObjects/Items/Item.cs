@@ -10,6 +10,7 @@ public class Item : ScriptableObject
     public int Price = 50;
     public bool Sellable = true;
     public GameObject RealWorldPrefab;
+    public List<AgentAction> ConsumeActions = new List<AgentAction>();
 
     public Item Clone()
     {

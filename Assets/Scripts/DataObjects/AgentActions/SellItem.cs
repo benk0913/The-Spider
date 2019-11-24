@@ -32,6 +32,11 @@ public class SellItem : AgentAction
             return false;
         }
 
+        if(!requester.Belogings.Contains(item.CurrentItem))
+        {
+            return false;
+        }
+
         if (!item.CurrentItem.Sellable)
         {
             reason = new FailReason("This item is not for selling!");
@@ -39,5 +44,15 @@ public class SellItem : AgentAction
         }
 
         return true;
+    }
+
+    public override List<TooltipBonus> GetBonuses()
+    {
+        List<TooltipBonus> bonuses = base.GetBonuses();
+
+        ItemUI target = (ItemUI)RecentTaret;
+
+        bonuses.Add(new TooltipBonus("Value: " + (target.CurrentItem.Price/2), ResourcesLoader.Instance.GetSprite("receive_money")));
+        return bonuses;
     }
 }

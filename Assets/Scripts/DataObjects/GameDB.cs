@@ -77,7 +77,19 @@ public class GameDB : ScriptableObject
     public ReputationInstance GetReputationType(int value)
     {
         int stageValue = (Mathf.Abs(ReputationMin)+Mathf.Abs(ReputationMax)) / ReputationTypes.Length;
-        return ReputationTypes[(value + Mathf.Abs(ReputationMin)) / stageValue];
+
+        int index = (value + Mathf.Abs(ReputationMin)) / stageValue;
+
+        if(index > ReputationTypes.Length)
+        {
+            index = ReputationTypes.Length - 1;
+        }
+        else if(index < 0)
+        {
+            index = 0;
+        }
+
+        return ReputationTypes[index];
     }
 
     public Item GetItem(string itemKey)

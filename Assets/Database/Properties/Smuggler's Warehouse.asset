@@ -28,8 +28,7 @@ MonoBehaviour:
     UpgradeLength: 5
     InventoryCap: 2
     PossibleMerchantise:
-    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
-    - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
+    - {fileID: 11400000, guid: e92f60b413429a149b76bea0eac52cf0, type: 2}
   - LevelName: Smugglers Warehouse
     MaxEmployees: 3
     MaxActions: 2
@@ -37,9 +36,7 @@ MonoBehaviour:
     UpgradeLength: 10
     InventoryCap: 4
     PossibleMerchantise:
-    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
-    - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
-    - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
+    - {fileID: 11400000, guid: 208a7abe55a16c844bf6ab5b7092e1dd, type: 2}
   - LevelName: Smugglers Den
     MaxEmployees: 4
     MaxActions: 2
@@ -47,10 +44,7 @@ MonoBehaviour:
     UpgradeLength: 15
     InventoryCap: 6
     PossibleMerchantise:
-    - {fileID: 11400000, guid: ffefc203720d4ee4c92b8ff53329c005, type: 2}
-    - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
-    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
-    - {fileID: 11400000, guid: ff79f3f8649f4d344991eb1a2c4ce5de, type: 2}
+    - {fileID: 11400000, guid: 773c4b9366f1e9b49a24e5007e1be154, type: 2}
   OwnerWorkAction: {fileID: 0}
   Actions:
   - Name: Normal Warehouse
@@ -64,7 +58,10 @@ MonoBehaviour:
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   - Name: Smuggling
-    Description: Smugglers will be busy smuggling contraband to the warehouse
+    Description: 'Employees will deal in smuggling contraband to the warehouse.
+
+
+      <color=red>Illegal</color>'
     Icon: {fileID: 21300000, guid: 1a80432ffc1ab124f9eed3bae5096ce3, type: 3}
     GoldGenerated: 2
     ConnectionsGenerated: 1
@@ -89,4 +86,4 @@ MonoBehaviour:
   UniqueAgentActions: []
   EmployeeRole: smuggler
   AlwaysKnown: 0
-  IsVendor: 0
+  IsVendor: 1

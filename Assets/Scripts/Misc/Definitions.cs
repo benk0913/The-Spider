@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -58,13 +59,15 @@ public class DescribedAction
     public UnityAction Action;
     public bool Interactable;
     public Sprite Icon;
+    public List<TooltipBonus> TooltipBonuses = new List<TooltipBonus>();
 
-    public DescribedAction(string key, UnityAction action, string description = "Possible Action", Sprite icon = null,bool interactable = false)
+    public DescribedAction(string key, UnityAction action, string description = "Possible Action", Sprite icon = null,bool interactable = false, List<TooltipBonus> tooltipBonuses = null)
     {
         this.Key = key;
         this.Action = action;
         this.Description = description;
         this.Interactable = interactable;
         this.Icon = icon;
+        this.TooltipBonuses = tooltipBonuses;
     }
 }

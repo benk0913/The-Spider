@@ -943,6 +943,18 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void StartWorkingFor(LocationEntity location)
     {
+        if (CurrentFaction.isAlwaysKnown)
+        {
+            Known.KnowAll("Faction");
+        }
+        else
+        {
+            if (location.OwnerCharacter.CurrentFaction != CurrentFaction)
+            {
+                Known.ForgetAll("Faction");
+            }
+        }
+
         location.EmployeesCharacters.Add(this);
 
         WorkLocation = location;
@@ -990,6 +1002,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             ownedLocation.RefreshState();
         }
+
 
         RefreshVisualTree();
     }

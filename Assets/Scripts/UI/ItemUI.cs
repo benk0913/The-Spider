@@ -14,6 +14,10 @@ public class ItemUI : AgentInteractable, IPointerClickHandler
     public List<AgentAction> AgentActions = new List<AgentAction>();
     public List<PlayerAction> PlayerActions = new List<PlayerAction>();
 
+    public LocationEntity LocationParent;
+
+
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Right)
@@ -22,8 +26,10 @@ public class ItemUI : AgentInteractable, IPointerClickHandler
         }
     }
 
-    public void SetInfo(Item item)
+    public void SetInfo(Item item, LocationEntity locationParent = null)
     {
+        this.LocationParent = locationParent;
+
         CurrentItem = item;
 
         RefreshUI();

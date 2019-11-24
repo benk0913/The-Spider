@@ -17,15 +17,15 @@ public class ShopkeepingComplete : WorkComplete
 
             base.EarnGold(requester, character, target, itemSold.Price);
 
-            Restock(character);
+            Restock(requester, character);
             return;
         }
 
         base.EarnGold(requester, character, target);
-        Restock(character);
+        Restock(requester, character);
     }
 
-    public void Restock(Character character)
+    public void Restock(Character requester, Character character)
     {
         int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].InventoryCap;
 
@@ -48,16 +48,31 @@ public class ShopkeepingComplete : WorkComplete
 
         LocationEntity randomLocation = SmuggleSources[Random.Range(0, SmuggleSources.Count)];
         Item randomItem = randomLocation.Inventory[Random.Range(0, randomLocation.Inventory.Count)];
-        Item newItem = Instantiate(randomItem);
+        Item newItem = randomItem.Clone();
         newItem.name = randomItem.name;
+        randomLocation.Inventory.Remove(randomItem);
 
-        if (character.WorkLocation.Inventory.Count < inventoryCap)
+        if (newItem.ConsumeActions.Count > 0)
         {
-            character.WorkLocation.Inventory.Add(newItem);
+            foreach (AgentAction action in newItem.ConsumeActions)
+            {
+                if(action.GetType() == typeof(GenerateItemsAgentAction))
+                {
+                    GenerateItemsAgentAction geneACTION = (GenerateItemsAgentAction) action;
+                    character.WorkLocation.Inventory.Add(geneACTION.Items[Random.Range(0,geneACTION.Items.Count)]);
+                }
+            }
         }
         else
         {
-            character.WorkLocation.Inventory[Random.Range(0, character.WorkLocation.Inventory.Count)] = newItem;
+            if (character.WorkLocation.Inventory.Count < inventoryCap)
+            {
+                character.WorkLocation.Inventory.Add(newItem);
+            }
+            else
+            {
+                character.WorkLocation.Inventory[Random.Range(0, character.WorkLocation.Inventory.Count)] = newItem;
+            }
         }
     }
 

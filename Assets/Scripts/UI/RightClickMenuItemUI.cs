@@ -40,7 +40,7 @@ public class RightClickMenuItemUI : MonoBehaviour
         this.Icon.sprite = icon;
     }
 
-    public void SetInfo(string title, UnityAction[] Actions, string description = "", Sprite icon = null, bool interactable = false)
+    public void SetInfo(string title, UnityAction[] Actions, string description = "", Sprite icon = null, bool interactable = false, List<TooltipBonus> tooltipBonuses = null)
     {
         Title.text = title;
         _Button.onClick.RemoveAllListeners();
@@ -48,7 +48,7 @@ public class RightClickMenuItemUI : MonoBehaviour
         foreach(UnityAction act in Actions)
             _Button.onClick.AddListener(act);
 
-        TooltipTarget.SetTooltip(title + " \n" + description);
+        TooltipTarget.SetTooltip(title + " \n" + description, tooltipBonuses);
 
         _Button.interactable = interactable;
 

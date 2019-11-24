@@ -353,6 +353,19 @@ public class CORE : MonoBehaviour
         longTermTask.transform.position = target.transform.position;
         longTermTask.SetInfo(task, requester, character, target, targetCharacter, turnsLeft, actionPerTurn);
     }
+
+    public void DelayedInvokation(float time, System.Action action)
+    {
+        StartCoroutine(DelayedInvokationRoutine(time, action));
+    }
+
+    IEnumerator DelayedInvokationRoutine(float time, System.Action action)
+    {
+        yield return new WaitForSeconds(time);
+
+        action.Invoke();
+    }
+
     #endregion
 
     #region Characters

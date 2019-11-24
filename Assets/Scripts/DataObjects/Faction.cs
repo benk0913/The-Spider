@@ -28,6 +28,7 @@ public class Faction : ScriptableObject
     public bool isLockedByDefault = true;
     public bool isLocked =  false;
     public bool isPlayable = true;
+    public bool isAlwaysKnown = false;
 
     public int GoldGeneratedPerDay;
     public int ConnectionsGeneratedPerDay;

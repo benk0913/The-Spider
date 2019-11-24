@@ -14,6 +14,10 @@ public class AgentAction : ScriptableObject
 
     public int MinimumAge = 0;
 
+    public int GoldCost;
+    public int ConnectionsCost;
+    public int RumorsCost;
+
     public BonusChallenge Challenge;
 
     public AgentAction FailureResult;
@@ -24,8 +28,14 @@ public class AgentAction : ScriptableObject
 
     public GameObject WorldPortraitEffect;
 
+    public List<TooltipBonus> TooltipBonuses = new List<TooltipBonus>();
+
+    public AgentInteractable RecentTaret;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
+        RecentTaret = target;
+
         FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
@@ -34,7 +44,7 @@ public class AgentAction : ScriptableObject
             return;
         }
 
-        if(!RollSucceed(character))
+        if (!RollSucceed(character))
         {
             if (FailureResult != null)
             {
@@ -47,7 +57,7 @@ public class AgentAction : ScriptableObject
             character.CurrentTaskEntity.Cancel();
         }
 
-        if (ShowHover && character.CurrentFaction == CORE.PC.CurrentFaction)
+        if (ShowHover && character.CurrentFaction == CORE.PC.CurrentFaction && target != null)
         {
             CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
         }
@@ -92,6 +102,13 @@ public class AgentAction : ScriptableObject
 
             }
         }
+
+        CORE.Instance.DelayedInvokation(0.1f, () =>
+        {
+            requester.Gold -= GoldCost;
+            requester.Connections -= ConnectionsCost;
+            requester.Rumors -= RumorsCost;
+        });
     }
 
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
@@ -117,6 +134,24 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
+        if(requester.Gold < GoldCost)
+        {
+            reason = new FailReason("Not Enough Gold");
+            return false;
+        }
+
+        if (requester.Connections < ConnectionsCost)
+        {
+            reason = new FailReason("Not Enough Connections");
+            return false;
+        }
+
+        if (requester.Rumors < RumorsCost)
+        {
+            reason = new FailReason("Not Enough Rumors");
+            return false;
+        }
+
         reason = null;
         return true;
     }
@@ -139,6 +174,23 @@ public class AgentAction : ScriptableObject
 
     public virtual List<TooltipBonus> GetBonuses()
     {
-        return null;
+        List<TooltipBonus> bonuses = new List<TooltipBonus>();
+
+        if(GoldCost > 0)
+        {
+            bonuses.Add(new TooltipBonus("Requires " + GoldCost + " Gold", ResourcesLoader.Instance.GetSprite("icon_coins")));
+        }
+
+        if (ConnectionsCost > 0)
+        {
+            bonuses.Add(new TooltipBonus("Requires " + ConnectionsCost + " Connections", ResourcesLoader.Instance.GetSprite("connections")));
+        }
+
+        if (RumorsCost > 0)
+        {
+            bonuses.Add(new TooltipBonus("Requires " + RumorsCost + " Rumors", ResourcesLoader.Instance.GetSprite("earIcon")));
+        }
+
+        return bonuses;
     }
 }
