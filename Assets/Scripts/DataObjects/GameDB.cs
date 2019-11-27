@@ -80,7 +80,7 @@ public class GameDB : ScriptableObject
 
         int index = (value + Mathf.Abs(ReputationMin)) / stageValue;
 
-        if(index > ReputationTypes.Length)
+        if(index >= ReputationTypes.Length)
         {
             index = ReputationTypes.Length - 1;
         }
