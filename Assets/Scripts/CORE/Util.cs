@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class Util
 {
@@ -57,12 +58,9 @@ public class Util
 
             if (genderType == GenderType.Female)
             {
-                content.Replace(" him ", " her ");
-                content.Replace(" his ", " hers ");
-                content.Replace(" he ", " she ");
-                content.Replace(" Him ", " Her ");
-                content.Replace(" His ", " Hers ");
-                content.Replace(" He ", " She ");
+                content = Regex.Replace(content, @"\bhim\b", "her");
+                content = Regex.Replace(content, @"\bhis\b", "her");
+                content = Regex.Replace(content, @"\bhe\b", "she");
             }
         }
 

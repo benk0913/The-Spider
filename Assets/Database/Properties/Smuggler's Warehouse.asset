@@ -23,6 +23,8 @@ MonoBehaviour:
   PropertyLevels:
   - LevelName: Smugglers Shack
     MaxEmployees: 2
+    MaxGuards: 0
+    MaxPrisoners: 0
     MaxActions: 2
     UpgradePrice: 20
     UpgradeLength: 5
@@ -31,6 +33,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e92f60b413429a149b76bea0eac52cf0, type: 2}
   - LevelName: Smugglers Warehouse
     MaxEmployees: 3
+    MaxGuards: 1
+    MaxPrisoners: 1
     MaxActions: 2
     UpgradePrice: 50
     UpgradeLength: 10
@@ -38,7 +42,9 @@ MonoBehaviour:
     PossibleMerchantise:
     - {fileID: 11400000, guid: 208a7abe55a16c844bf6ab5b7092e1dd, type: 2}
   - LevelName: Smugglers Den
-    MaxEmployees: 4
+    MaxEmployees: 5
+    MaxGuards: 3
+    MaxPrisoners: 2
     MaxActions: 2
     UpgradePrice: 100
     UpgradeLength: 15

@@ -35,6 +35,8 @@ public class SpyAroundComplete : AgentAction
 
             location.Known.Know("Existance", character.TopEmployer);
 
+            CORE.Instance.Locations.FindAll(x => x.NearestDistrict == location).ForEach(x => { x.RefreshState(); });
+
             List<Character> possibleTargets = new List<Character>();
             possibleTargets = location.CharactersInLocation.FindAll(
                 (Character charInQuestion) =>

@@ -8,9 +8,6 @@ public class InTroubleManagementNotificationUI1 : CharacterManagementNotificatio
     {
         return character.TopEmployer == CORE.PC
             && character.CurrentTaskEntity != null
-            &&
-            (character.CurrentTaskEntity.CurrentTask.name   == "Being Hanged"
-            || character.CurrentTaskEntity.CurrentTask.name == "Being Interrogated"
-            || character.CurrentTaskEntity.CurrentTask.name == "Locked In Prison");
+            && character.IsInTrouble;
     }
 }

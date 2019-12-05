@@ -59,6 +59,8 @@ public class Property : ScriptableObject
     {
         public string LevelName;
         public int MaxEmployees;
+        public int MaxGuards;
+        public int MaxPrisoners;
         public int MaxActions;
         public int UpgradePrice;
         public int UpgradeLength;

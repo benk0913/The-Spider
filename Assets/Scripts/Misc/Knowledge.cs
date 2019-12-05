@@ -188,7 +188,7 @@ public class LocationKnowledge : Knowledge
 
         if (key == "Existance")
         {
-            //CurrentLocation
+            CurrentLocation.RefreshState();
         }
     }
 }

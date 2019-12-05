@@ -15,25 +15,31 @@ MonoBehaviour:
   Description: The constabulary is in charge of policing the surrounding distric;
     from patrolling the streets to capturing and imprisoning the local criminals.
   PropertyLevels:
-  - MaxEmployees: 12
+  - LevelName: 
+    MaxEmployees: 6
+    MaxGuards: 6
+    MaxPrisoners: 6
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
-    RecruitmentLength: 12
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 4
+  - LevelName: 
+    MaxEmployees: 6
+    MaxGuards: 6
+    MaxPrisoners: 6
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
-    RecruitmentLength: 12
     InventoryCap: 0
     PossibleMerchantise: []
-  - MaxEmployees: 6
+  - LevelName: 
+    MaxEmployees: 6
+    MaxGuards: 6
+    MaxPrisoners: 6
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
-    RecruitmentLength: 12
     InventoryCap: 0
     PossibleMerchantise: []
   OwnerWorkAction: {fileID: 0}
@@ -42,8 +48,9 @@ MonoBehaviour:
     Description: The constables and militia-men will patrol the district's streets
       and ensure it's safety.
     Icon: {fileID: 21300000, guid: 3f6136d6aca528b4e882604e3f138d72, type: 3}
-    GoldGeneratedMin: 0
-    GoldGeneratedMax: 0
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
     WorkAction: {fileID: 11400000, guid: 824490893afe28a44992b02c39e4f457, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 11400000, guid: ae31828b27fc3b64c84cf85d4453489a, type: 2}
@@ -64,4 +71,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: constable
+  AlwaysKnown: 0
   IsVendor: 0

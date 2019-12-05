@@ -18,6 +18,7 @@ public class GameDB : ScriptableObject
 
     public Property DefaultLocationProperty;
 
+    public PropertyTrait CentralAreaTrait;
     public PropertyTrait PublicAreaTrait;
     public PropertyTrait LawAreaTrait;
     public PropertyTrait WildernessAreaTrait;
@@ -27,6 +28,7 @@ public class GameDB : ScriptableObject
     public PropertyTrait BurialGroundTrait;
 
     public GameObject UnknownFigurePrefab;
+    public GameObject UnknownFigurePrefabBIG;
     public GameObject UnknownFigureHover;
 
     public GameObject FailWorldEffectPrefab;
@@ -71,8 +73,23 @@ public class GameDB : ScriptableObject
 
     public Item[] AllItems;
 
+    public PopupDataPreset[] AllPopupPresets;
+
     public TimelineInstance[] Timeline;
 
+
+    public PopupDataPreset GetPopupPreset(string popupName)
+    {
+        foreach(PopupDataPreset popup in AllPopupPresets)
+        {
+            if(popup.name == popupName)
+            {
+                return popup;
+            }
+        }
+
+        return null;
+    }
 
     public ReputationInstance GetReputationType(int value)
     {

@@ -44,6 +44,12 @@ public class ControlLocationPanelUI : MonoBehaviour
     Transform ActionGrid;
 
     [SerializeField]
+    Transform GuardsGrid;
+
+    [SerializeField]
+    Transform PrisonersGrid;
+
+    [SerializeField]
     Image RecruitingPanel;
 
     [SerializeField]
@@ -146,7 +152,7 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     void RefreshActions()
     {
-        ClearActionInstances();
+        ClearActionsContainer();
 
         ActionUI tempActionUI;
         for (int i = 0; i < CurrentLocation.CurrentProperty.Actions.Count; i++)
@@ -196,7 +202,8 @@ public class ControlLocationPanelUI : MonoBehaviour
 
         OwnerPortrait.SetCharacter(CurrentLocation.OwnerCharacter, CurrentLocation, false);
 
-        ClearEmployeeInstances();
+
+        ClearEmployeeContainer();
 
         PortraitUIEmployee tempPortrait;
         for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxEmployees; i++)
@@ -204,30 +211,53 @@ public class ControlLocationPanelUI : MonoBehaviour
             tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUIEmployee").GetComponent<PortraitUIEmployee>();
             tempPortrait.transform.SetParent(EmployeeGrid,false);
             tempPortrait.transform.localScale = Vector3.one;
-
-
+            
             if (CurrentLocation.EmployeesCharacters.Count > i)
             {
-                productivity = 1f;
-
-                if (CurrentLocation.CurrentAction.WorkAction != null && CurrentLocation.CurrentAction.WorkAction.Challenge != null)
-                {
-                    BonusChallenge bonusChallenge = CurrentLocation.CurrentAction.WorkAction.Challenge;
-
-                    productivity = CurrentLocation.EmployeesCharacters[i].GetBonus(bonusChallenge.Type).Value / bonusChallenge.ChallengeValue;
-
-                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], CurrentLocation, false);
-                }
-                else
-                {
-                    tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], CurrentLocation, false);
-                }
+                tempPortrait.SetCharacter(CurrentLocation.EmployeesCharacters[i], CurrentLocation, false);
             }
             else
             {
                 tempPortrait.SetCharacter(null, CurrentLocation, true);
             }
+        }
+
+
+        ClearGuardsContainer();
+
+        for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxGuards; i++)
+        {
+            tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUIEmployee").GetComponent<PortraitUIEmployee>();
+            tempPortrait.transform.SetParent(GuardsGrid, false);
+            tempPortrait.transform.localScale = Vector3.one;
             
+            if (CurrentLocation.GuardsCharacters.Count > i)
+            {
+                tempPortrait.SetCharacter(CurrentLocation.GuardsCharacters[i], CurrentLocation, false);
+            }
+            else
+            {
+                tempPortrait.SetCharacter(null, CurrentLocation, true);
+            }
+        }
+
+
+        ClearPrisonersContainer();
+        PortraitUI tempRegularPortrait; 
+        for (int i = 0; i < CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level - 1].MaxPrisoners; i++)
+        {
+            tempRegularPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+            tempRegularPortrait.transform.SetParent(PrisonersGrid, false);
+            tempRegularPortrait.transform.localScale = Vector3.one;
+
+            if (CurrentLocation.PrisonersCharacters.Count > i)
+            {
+                tempRegularPortrait.SetCharacter(CurrentLocation.PrisonersCharacters[i], CurrentLocation);
+            }
+            else
+            {
+                tempRegularPortrait.SetCharacter(null);
+            }
         }
     }
 
@@ -248,7 +278,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         }
     }
 
-    void ClearEmployeeInstances()
+    void ClearEmployeeContainer()
     {
         while (EmployeeGrid.childCount > 0)
         {
@@ -257,7 +287,25 @@ public class ControlLocationPanelUI : MonoBehaviour
         }
     }
 
-    void ClearActionInstances()
+    void ClearGuardsContainer()
+    {
+        while (GuardsGrid.childCount > 0)
+        {
+            GuardsGrid.GetChild(0).gameObject.SetActive(false);
+            GuardsGrid.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void ClearPrisonersContainer()
+    {
+        while (PrisonersGrid.childCount > 0)
+        {
+            PrisonersGrid.GetChild(0).gameObject.SetActive(false);
+            PrisonersGrid.GetChild(0).SetParent(transform);
+        }
+    }
+
+    void ClearActionsContainer()
     {
         while (ActionGrid.childCount > 0)
         {

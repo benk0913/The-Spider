@@ -28,6 +28,21 @@ public class FireAgent : PlayerAction
             );
         }
 
+        if (character.CurrentTaskEntity != null)
+        {
+            string taskName = character.CurrentTaskEntity.CurrentTask.name;
+
+            if (character.IsInTrouble)
+            {
+                CORE.Instance.ShowHoverMessage(
+                    "Abandoned Employee, <color=red>REP -1</color>"
+                    ,ResourcesLoader.Instance.GetSprite("DeceasedIcon")
+                    , character.WorkLocation.transform);
+
+                character.TopEmployer.Reputation -= 2;
+            }
+        }
+
         if (character.Employer == requester)
         {
             character.StopWorkingForCurrentLocation();
@@ -46,33 +61,6 @@ public class FireAgent : PlayerAction
         if (character == null)
         {
             return false;
-        }
-
-        if (character.CurrentTaskEntity != null)
-        {
-            switch (character.CurrentTaskEntity.CurrentTask.name)
-            {
-                case "Being Hanged":
-                    {
-                        reason = new FailReason("Cannot fire an employee which is soon to be hanged.");
-                        return false;
-                    }
-                case "Being Interrogated":
-                    {
-                        reason = new FailReason("Cannot fire an employee under interrogation");
-                        return false;
-                    }
-                case "Locked In Prison":
-                    {
-                        reason = new FailReason("Cannot fire an employee in prison");
-                        return false;
-                    }
-                case "Obsolescence":
-                    {
-                        reason = new FailReason("Cannot fire an employee who's in hiding.");
-                        return false;
-                    }
-            }
         }
 
         return true;

@@ -39,7 +39,8 @@ public class RecruitEmployee : AgentAction
         Character randomNewEmployee = CORE.Instance.GenerateCharacter(
             location.CurrentProperty.RecruitingGenderType,
             location.CurrentProperty.MinAge,
-            location.CurrentProperty.MaxAge);
+            location.CurrentProperty.MaxAge,
+            location);
 
         
         if(randomNewEmployee == null)

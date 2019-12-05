@@ -13,6 +13,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool IsDead = false;
 
+    public bool IsInTrouble
+    {
+        get
+        {
+            return PrisonLocation != null;
+        }
+    }
+
     public bool isKnownOnStart
     {
         get
@@ -118,6 +126,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     public FactionAI AI;
 
     public LocationEntity WorkLocation;
+
+    public LocationEntity PrisonLocation;
 
     public LocationEntity HomeLocation;
 
@@ -875,22 +885,24 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return true;
         }
 
+        LocationEntity hangoutLocation = null;
+
         if(Traits.Contains(CORE.Instance.Database.GetTrait("Drunkard")) )
         {
-            GoToLocation(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.RumorsHubTrait, HomeLocation));
-
-            return true;
+            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.RumorsHubTrait, HomeLocation);   
         }
         else if (Traits.Contains(CORE.Instance.Database.GetTrait("Religious")))
         {
-            GoToLocation(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfWorshipTrait, HomeLocation));
-
-            return true;
+            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfWorshipTrait, HomeLocation);
         }
         else if (Traits.Contains(CORE.Instance.Database.GetTrait("Lustful")))
         {
-            GoToLocation(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfPleasureTrait, HomeLocation));
+            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfPleasureTrait, HomeLocation);
+        }
 
+        if(hangoutLocation != null)
+        {
+            CORE.Instance.Database.GetEventAction("Hang Out").Execute(TopEmployer, this, hangoutLocation);
             return true;
         }
 
@@ -975,6 +987,23 @@ public class Character : ScriptableObject, ISaveFileCompatible
             Known.KnowEverything(TopEmployer);
         }
 
+        RefreshVisualTree();
+    }
+
+    public void EnterPrison(LocationEntity location)
+    {
+        location.PrisonersCharacters.Add(this);
+        PrisonLocation = location;
+        location.RefreshState();
+        RefreshVisualTree();
+    }
+
+    public void ExitPrison()
+    {
+        StopDoingCurrentTask(true);
+        PrisonLocation.PrisonersCharacters.Remove(this);
+        PrisonLocation.RefreshState();
+        PrisonLocation = null;
         RefreshVisualTree();
     }
 
@@ -1157,6 +1186,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.BurialGroundTrait));
 
+        if(PrisonLocation != null)
+        {
+            ExitPrison();
+        }
+
         if (WorkLocation != null)
         {
             StopWorkingForCurrentLocation();
@@ -1208,6 +1242,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Connections"] = Connections.ToString();
         node["Rumors"] = Rumors.ToString();
         node["Reputation"] = Reputation.ToString();
+
+        node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
 
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
 
@@ -1284,6 +1320,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Rumors = int.Parse(node["Rumors"]);
         Reputation = int.Parse(node["Reputation"]);
 
+        _prisonLocationID = node["PrisonLocation"];
+
         _workLocationID = node["WorkLocation"];
 
         _homeLocationID = node["HomeLocation"];
@@ -1352,6 +1390,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
 
 
+    string _prisonLocationID;
     string _workLocationID;
     string _homeLocationID;
     string[] _propertiesOwnedIDs;
@@ -1368,6 +1407,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void ImplementIDs()
     {
+        if (!string.IsNullOrEmpty(_prisonLocationID))
+        {
+            EnterPrison(CORE.Instance.GetLocationByID(_prisonLocationID));
+        }
+
         if (!string.IsNullOrEmpty(_workLocationID))
         {
             StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));

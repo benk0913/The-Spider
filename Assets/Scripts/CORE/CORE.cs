@@ -11,6 +11,8 @@ public class CORE : MonoBehaviour
 {
     public static CORE Instance;
 
+    public bool DEBUG;
+
     [SerializeField]
     public GameDB Database;
 
@@ -222,6 +224,11 @@ public class CORE : MonoBehaviour
 
     public void InvokeEvent(string eventKey)
     {
+        if(DEBUG)
+        {
+            Debug.Log("CORE - Event Invoked " + eventKey);
+        }
+
         if (!DynamicEvents.ContainsKey(eventKey))
         {
             DynamicEvents.Add(eventKey, new UnityEvent());
@@ -379,7 +386,7 @@ public class CORE : MonoBehaviour
         return character;
     }
 
-    public Character GenerateCharacter(int isFemale = -1, int minAge = 0, int maxAge = 150)
+    public Character GenerateCharacter(int isFemale = -1, int minAge = 0, int maxAge = 150, LocationEntity startLocation = null)
     {
         Character character = GenerateSimpleCharacter();
 
@@ -392,7 +399,15 @@ public class CORE : MonoBehaviour
 
         character.Age = Random.Range(minAge, maxAge);
 
-        character.GoToLocation(GetRandomLocationWithTrait(Database.PublicAreaTrait));
+        if (startLocation != null)
+        {
+            character.GoToLocation(startLocation);
+        }
+        else
+        {
+            character.GoToLocation(GetRandomLocationWithTrait(Database.PublicAreaTrait));            
+        }
+
         character.StartLivingIn(character.CurrentLocation);
 
         Characters.Add(character);

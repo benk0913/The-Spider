@@ -57,10 +57,30 @@ public class AgentAction : ScriptableObject
             character.CurrentTaskEntity.Cancel();
         }
 
-        if (ShowHover && character.CurrentFaction == CORE.PC.CurrentFaction && target != null)
+        //if (ShowHover && character.CurrentFaction == CORE.PC.CurrentFaction && target != null)
+        //{
+        //    CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
+        //}
+
+        if (character.CurrentFaction == CORE.PC.CurrentFaction && target != null)
         {
-            CORE.Instance.ShowHoverMessage(this.name, null, target.transform);
+            if (RumorsCost > 0)
+            {
+                CORE.Instance.ShowHoverMessage("<color=purple> Rumors -" + RumorsCost + "</color>", ResourcesLoader.Instance.GetSprite("earIcon"), target.transform);
+            }
+
+            if (GoldCost > 0)
+            {
+                CORE.Instance.ShowHoverMessage("<color=gold> Gold -" + GoldCost + "</color>", ResourcesLoader.Instance.GetSprite("icon_coins"), target.transform);
+            }
+
+            if (ConnectionsCost > 0)
+            {
+                CORE.Instance.ShowHoverMessage("<color=green> Connections -"+ConnectionsCost+"</color>",ResourcesLoader.Instance.GetSprite("connections"), target.transform);
+            }
         }
+
+
 
         if (character.TopEmployer == CORE.PC)
         {

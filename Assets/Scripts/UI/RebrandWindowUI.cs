@@ -18,7 +18,7 @@ public class RebrandWindowUI : MonoBehaviour
     Image IconImage;
 
     [SerializeField]
-    Transform PossibleActionsContainer;
+    Transform PossibleTierGrid;
 
     [SerializeField]
     PlotTypeUI PlotType;
@@ -97,12 +97,12 @@ public class RebrandWindowUI : MonoBehaviour
         IconImage.sprite = property.Icon;
 
         ClearPossibleActionsContainer();
-        for(int i=0;i<property.Actions.Count;i++)
+        for(int i=0;i<property.PropertyLevels.Count;i++)
         {
-            GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("ActionUI");
-            tempObj.transform.SetParent(PossibleActionsContainer, false);
+            GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("PropertyLevelTierUI");
+            tempObj.transform.SetParent(PossibleTierGrid, false);
             tempObj.transform.localScale = Vector3.one;
-            tempObj.GetComponent<ActionUI>().SetInfo(null, property.Actions[i]);
+            tempObj.GetComponent<PropertyLevelTierUI>().SetInfo(property, property.PropertyLevels[i]);
         }
 
         PlotType.SetInfo(property.PlotType);
@@ -110,10 +110,10 @@ public class RebrandWindowUI : MonoBehaviour
 
     void ClearPossibleActionsContainer()
     {
-        while(PossibleActionsContainer.childCount > 0)
+        while(PossibleTierGrid.childCount > 0)
         {
-            PossibleActionsContainer.GetChild(0).gameObject.SetActive(false);
-            PossibleActionsContainer.GetChild(0).transform.SetParent(transform);
+            PossibleTierGrid.GetChild(0).gameObject.SetActive(false);
+            PossibleTierGrid.GetChild(0).transform.SetParent(transform);
         }
     }
 

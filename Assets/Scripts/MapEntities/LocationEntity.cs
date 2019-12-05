@@ -40,6 +40,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public List<Character> EmployeesCharacters = new List<Character>();
 
     [SerializeField]
+    public List<Character> GuardsCharacters = new List<Character>();
+
+    [SerializeField]
+    public List<Character> PrisonersCharacters = new List<Character>();
+
+    [SerializeField]
     Transform FigurePoint;
 
     [SerializeField]
@@ -56,6 +62,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     [SerializeField]
     public bool PresetLocation = false;
+
+    [SerializeField]
+    GameObject WhenHiddenObject;
 
     public List<Character> FiredEmployeees = new List<Character>();
 
@@ -382,9 +391,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             NearestDistrict = null;
             Known.KnowAll("Existance");
         }
-        else if (!Traits.Contains(CORE.Instance.Database.PublicAreaTrait)) //If not a district
+        else if (!Traits.Contains(CORE.Instance.Database.CentralAreaTrait)) //If not a district
         {
-            NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, this);
+            NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.CentralAreaTrait, this);
         }
 
         RefreshState();
@@ -434,15 +443,39 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
 
             hoverModel = Instantiate(CurrentProperty.HoverPrefab);
+
+            if (WhenHiddenObject != null)
+            {
+                WhenHiddenObject?.gameObject.SetActive(false);
+            }
         }
         else if (VisibilityState == VisibilityStateEnum.QuestionMark) //If player has scouted the nearest district
         {
-            tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
-            //tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+            if (NearestDistrict == null)
+            {
+                tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefabBIG);
+                //tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+            }
+            else
+            {
+                tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefab);
+                //tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.DefaultFaction.WaxMaterial);
+            }
+
             hoverModel = Instantiate(CORE.Instance.Database.UnknownFigureHover);
+
+            if (WhenHiddenObject != null)
+            {
+                WhenHiddenObject?.gameObject.SetActive(true);
+            }
         }
         else //Player didn't scout nearest district.
         {
+            if (WhenHiddenObject != null)
+            {
+                WhenHiddenObject.gameObject.SetActive(true);
+            }
+
             tempFigure = null;
             hoverModel = null;
         }
@@ -868,7 +901,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         Character randomNewEmployee = CORE.Instance.GenerateCharacter(
                CurrentProperty.RecruitingGenderType,
                CurrentProperty.MinAge,
-               CurrentProperty.MaxAge);
+               CurrentProperty.MaxAge,
+               this);
 
         randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
 
@@ -915,6 +949,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (funder.CurrentFaction == CORE.PC.CurrentFaction)
         {
             CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", LandValue.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
+
+            RebrandWindowUI.Instance.Show(this);
         }
 
 

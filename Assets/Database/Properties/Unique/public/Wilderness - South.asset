@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: This is a public area, which belongs to no one but the local governor.
   PropertyLevels:
-  - MaxEmployees: 0
+  - LevelName: 
+    MaxEmployees: 0
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
     EmployeeUniform: {fileID: 0}
   Traits:
   - {fileID: 11400000, guid: 956921ea1372c514ea36e9e22950435f, type: 2}
+  - {fileID: 11400000, guid: 99f525b5dce2b4d48971dc34373b00e2, type: 2}
   Icon: {fileID: 21300000, guid: b936d124f77b5eb42873f9f360153818, type: 3}
   FigurePrefab: {fileID: 3751449078466721607, guid: e1dc32c249ad72045bec70b877363378,
     type: 3}
@@ -48,5 +50,5 @@ MonoBehaviour:
   UniquePlayerActions: []
   UniqueAgentActions: []
   EmployeeRole: 
-  AlwaysKnown: 1
+  AlwaysKnown: 0
   IsVendor: 0
