@@ -859,6 +859,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     bool TryToDoSomething()
     {
+        if (WorkLocation != null && WorkLocation.GuardsCharacters.Contains(this) && Random.Range(0,2) == 0) // Guards keep working
+        {
+            CORE.Instance.Database.GetEventAction("Guard Location").Execute(TopEmployer, this, WorkLocation);
+            return true;
+        }
+
         if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning 
             || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Noon 
             || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Afternoon)
@@ -873,15 +879,19 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
             {
-                WorkLocation.CurrentAction.WorkAction.Execute(TopEmployer, this, WorkLocation);
-                
+                if (WorkLocation.EmployeesCharacters.Contains(this))
+                {
+                    WorkLocation.CurrentAction.WorkAction.Execute(TopEmployer, this, WorkLocation);
+                }
+
                 return true;
             }
         }
         else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
         {
-            CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
 
+            CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
+            
             return true;
         }
 
@@ -953,7 +963,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CurrentLocation.CharacterEnteredLocation(this);
     }
 
-    public void StartWorkingFor(LocationEntity location)
+    public void StartWorkingFor(LocationEntity location, bool isGuard = false)
     {
         if (CurrentFaction.isAlwaysKnown)
         {
@@ -967,7 +977,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
-        location.EmployeesCharacters.Add(this);
+        if (isGuard)
+        {
+            location.GuardsCharacters.Add(this);
+        }
+        else
+        {
+            location.EmployeesCharacters.Add(this);
+        }
 
         WorkLocation = location;
         WorkLocation.RefreshState();
@@ -1021,14 +1038,20 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         LocationEntity location = WorkLocation;
 
-        if (!location.EmployeesCharacters.Contains(this))
+        if (location.EmployeesCharacters.Contains(this))
+        {
+            location.EmployeesCharacters.Remove(this);
+        }
+        else if (location.GuardsCharacters.Contains(this))
+        {
+            location.GuardsCharacters.Remove(this);
+        }
+        else
         {
             return;
         }
 
-        location.EmployeesCharacters.Remove(this);
-
-        if(location.CharactersLivingInLocation.Contains(this))
+        if (location.CharactersLivingInLocation.Contains(this))
         {
             StartLivingIn(CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PublicAreaTrait, CurrentLocation));
         }
@@ -1037,11 +1060,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
         WorkLocation = null;
         tempLocation.RefreshState();
 
-        foreach(LocationEntity ownedLocation in PropertiesOwned)
+        foreach (LocationEntity ownedLocation in PropertiesOwned)
         {
             ownedLocation.RefreshState();
         }
-
 
         RefreshVisualTree();
     }

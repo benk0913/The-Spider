@@ -68,13 +68,7 @@ public class PortraitUIEmployee : PortraitUI
 
     public void RecruitEmployee()
     {
-        if (IsGuard)
-        {
-        }
-        else
-        {
-            CurrentLocation.RecruitEmployee(CORE.PC);
-        }
+        CurrentLocation.RecruitEmployee(CORE.PC, IsGuard);
     }
 
 

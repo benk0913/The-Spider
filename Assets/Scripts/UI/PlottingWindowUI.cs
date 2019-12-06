@@ -112,15 +112,19 @@ public class PlottingWindowUI : MonoBehaviour
 
         if(CurrentTarget.GetType() == typeof(PortraitUI))
         {
-            TargetParticipants.Add(((PortraitUI)CurrentTarget).CurrentCharacter);
+            Character targetCharacter = ((PortraitUI)CurrentTarget).CurrentCharacter;
+            TargetParticipants.Add(targetCharacter);
         }
         else if (CurrentTarget.GetType() == typeof(LocationEntity))
         {
             LocationEntity location = ((LocationEntity)CurrentTarget);
 
-            foreach (Character employee in location.EmployeesCharacters)
+            foreach (Character guard in location.GuardsCharacters)
             {
-                TargetParticipants.Add(employee);
+                if (guard.CurrentTaskEntity != null && guard.CurrentTaskEntity.CurrentTask.name == "Guarding Location")
+                {
+                    TargetParticipants.Add(guard);
+                }
             }
         }
 

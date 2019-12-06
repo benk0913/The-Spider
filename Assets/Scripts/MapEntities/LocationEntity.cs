@@ -871,7 +871,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         Destroy(this.gameObject);
     }
 
-    public FailReason RecruitEmployee(Character requester)
+    public FailReason RecruitEmployee(Character requester, bool isGuard = false)
     {
         int recruitmentCost = CORE.Instance.Database.BaseRecruitmentCost;
         recruitmentCost += CORE.Instance.Database.GetReputationType(OwnerCharacter.TopEmployer.Reputation).RecruitExtraCost;
@@ -906,7 +906,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
 
-        randomNewEmployee.StartWorkingFor(this);
+        randomNewEmployee.StartWorkingFor(this, isGuard);
 
         if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {

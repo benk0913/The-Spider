@@ -233,11 +233,11 @@ public class ControlLocationPanelUI : MonoBehaviour
             
             if (CurrentLocation.GuardsCharacters.Count > i)
             {
-                tempPortrait.SetCharacter(CurrentLocation.GuardsCharacters[i], CurrentLocation, false);
+                tempPortrait.SetCharacter(CurrentLocation.GuardsCharacters[i], CurrentLocation, false, true);
             }
             else
             {
-                tempPortrait.SetCharacter(null, CurrentLocation, true);
+                tempPortrait.SetCharacter(null, CurrentLocation, true, true);
             }
         }
 
