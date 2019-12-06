@@ -83,6 +83,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public LocationKnowledge Known;
 
+
     public LocationEntity NearestDistrict;
 
     GameObject SelectedMarkerObject;

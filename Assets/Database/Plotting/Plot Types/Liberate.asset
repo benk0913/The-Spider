@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a480c7c7d2c554d854046062478317, type: 3}
+  m_Name: Liberate
+  m_EditorClassIdentifier: 
+  Description: A plan to free this location's prisoners.
+  Icon: {fileID: 21300000, guid: 36ea9a6b5c5bfd24c9343d117c985dcb, type: 3}
+  BruteMethod: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+  PossibleEntries:
+  - {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+  PossibleMethods:
+  - {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+  - {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+  - {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+  EntryScenarios:
+  - EntryMatch: {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: 46db7349f63e5f649aed482987b410f5, type: 2}
+  - EntryMatch: {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+    MethodMatch: {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+    PopupData: {fileID: 11400000, guid: 6810cc9216f86b34890995825808abd8, type: 2}
+  - EntryMatch: {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+    MethodMatch: {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+    PopupData: {fileID: 11400000, guid: 621eb368bb53c414bbe43bd4ad408129, type: 2}
+  ExitScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: 9b95b057223c4a34ea8bb2037fe09694, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+    PopupData: {fileID: 11400000, guid: fd117ae875c058b4d90b9e1e9e496201, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+    PopupData: {fileID: 11400000, guid: ea7ac1d75f790d04bb662336898278e8, type: 2}
+  AgentMethodFailureScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: 383055a4df0e7234c84f4d66b8d20c61, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+    PopupData: {fileID: 11400000, guid: 7aadc069bd602f548ab53408737b3f91, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+    PopupData: {fileID: 11400000, guid: 8dbdaf89db3389f4ea88b59e17345972, type: 2}
+  AgentMethodSuccessScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: ef7fb88fcd661fb4a82ad36b2c07c18c, type: 2}
+  DuelResultArrestScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 8978abb53c872e34f9f2369a72d237b9, type: 2}
+  DuelResultWoundScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 61cdf52ba36e34e4baf54b3a7cdf7994, type: 2}
+  DuelResultDeathScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 4f2771c0c6d968a4795e1745b85334e8, type: 2}

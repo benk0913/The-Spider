@@ -19,6 +19,11 @@ public class PlotMethod : ScriptableObject
 
     public FailReason AreRequirementsMet(Character[] Participants)
     {
+        if(Participants.Length == 0)
+        {
+            return new FailReason("No Participants!");
+        }
+
         if (Participants.Length < MinimumParticipants)
         {
             return new FailReason("Not Enough Participants",MinimumParticipants);
@@ -29,6 +34,9 @@ public class PlotMethod : ScriptableObject
             return new FailReason("Too Much Participants",MaximumParticipants);
         }
 
+        List<Item> items = new List<Item>();
+        items.AddRange(Participants[0].TopEmployer.Belogings);
+
         foreach(Character character in Participants)
         {
             if (character.GetBonus(OffenseSkill).Value < MinimumSkillRequired)
@@ -38,10 +46,13 @@ public class PlotMethod : ScriptableObject
 
             foreach (Item item in ItemsRequired)
             {
-                if (character.TopEmployer.GetItem(item.name) == null)
+                Item inventoryItemInstance = items.Find(x => x.name == item.name);
+                if (inventoryItemInstance == null)
                 {
                     return new FailReason(" Requires: " + item.name+" for each participant");
                 }
+
+                items.Remove(inventoryItemInstance);
             }
         }
 

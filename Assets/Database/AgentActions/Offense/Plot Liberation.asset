@@ -9,18 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30104e3f2f44c7448ac22773145091ef, type: 3}
-  m_Name: Gather Rumors About Person
+  m_Script: {fileID: 11500000, guid: 3aca0abaf0dfb5949ab12a6315f95c18, type: 3}
+  m_Name: Plot Liberation
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
-  Description: 'The agnet will research and gather rumors about the target''s recent
-    activity.
-
-
-
-    <color=green>Aware</color> VS <color=red>Discreet</color>'
+  Icon: {fileID: 21300000, guid: 36ea9a6b5c5bfd24c9343d117c985dcb, type: 3}
+  Description: Form a plan which result in the liberation of this location's prisoners.
   RequiredTraits: []
-  MinimumAge: 15
+  MinimumAge: 0
+  GoldCost: 0
+  ConnectionsCost: 0
+  RumorsCost: 0
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
@@ -29,4 +27,6 @@ MonoBehaviour:
   FailureResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
-  Task: {fileID: 11400000, guid: 6cbe1d9dea80fcd4886d3bf214ba1d72, type: 2}
+  WorldPortraitEffect: {fileID: 0}
+  RecentTaret: {fileID: 0}
+  Scheme: {fileID: 11400000, guid: c2820a0452c166745b0c2faff16cf400, type: 2}

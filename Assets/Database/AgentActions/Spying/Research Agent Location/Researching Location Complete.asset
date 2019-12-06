@@ -10,17 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8dacf9cfaa5aaf43aebecc3b96c6462, type: 3}
-  m_Name: Gathering Rumors Complete
+  m_Name: Researching Location Complete
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
   Description: 'The agnet will research and gather rumors about the target''s recent
-    activity.
+    location activity.
 
 
 
     <color=green>Aware</color> VS <color=red>Discreet</color>'
   RequiredTraits: []
   MinimumAge: 0
+  GoldCost: 0
+  ConnectionsCost: 0
+  RumorsCost: 0
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
@@ -29,4 +32,6 @@ MonoBehaviour:
   FailureResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  WorldPortraitEffect: {fileID: 0}
+  RecentTaret: {fileID: 0}
   Task: {fileID: 11400000, guid: 6cbe1d9dea80fcd4886d3bf214ba1d72, type: 2}

@@ -163,6 +163,11 @@ public class Knowledge
 
         return null;
     }
+
+    public bool IsKnown(string key, Character forCharacter)
+    {
+        return GetKnowledgeInstance(key).KnownByCharacters.Contains(forCharacter);
+    }
 }
 
 public class LocationKnowledge : Knowledge

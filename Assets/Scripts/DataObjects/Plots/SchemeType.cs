@@ -61,9 +61,12 @@ public class SchemeType : ScriptableObject
         PlotMethod method,
         PlotEntry entry)
     {
-        foreach (Item item in method.ItemsRequired)
+        foreach (Character participant in participants)
         {
-            requester.Belogings.Remove(requester.GetItem(item.name));
+            foreach (Item item in method.ItemsRequired)
+            {
+                requester.Belogings.Remove(requester.GetItem(item.name));
+            }
         }
 
         foreach (Item item in entry.ItemsRequired)

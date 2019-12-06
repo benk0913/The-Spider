@@ -25,78 +25,12 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
         character.GoToLocation(character.WorkLocation);
 
-        Rumor gatheredRumor = null;
         if (Random.Range(0, awareValue + targetDiscreetValue) < awareValue)
         {
-
-            Rumor rumor = Instantiate(CORE.Instance.Database.CustomRumor);
-
-            int randomRumor = Random.Range(0, 100);
-
-            if (randomRumor < 100)
-            {
-                rumor.name = targetChar.name + " in " + targetChar.CurrentLocation.Name;
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + targetChar.CurrentLocation.Name;
-                rumor.RelevantLocationID = targetChar.CurrentLocation.ID;
-            }
-            else if (randomRumor < 50)
-            {
-                Trait trait = targetChar.Traits[Random.Range(0, targetChar.Traits.Count)];
-
-                rumor.name = targetChar.name + " is " + trait.name;
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to have the trait: " + trait;
-                rumor.RelevantLocationID = "";
-            }
-
-            gatheredRumor = rumor;
-        }
-        else // USELESS RUMORS ->
-        {
-            Rumor rumor = Instantiate(CORE.Instance.Database.CustomRumor);
-
-            int randomRumor = Random.Range(0, 100);
-
-            if(randomRumor < 100)
-            {
-                LocationEntity randomLocation = CORE.Instance.GetRandomLocation();
-
-                rumor.name = targetChar.name + " in " + randomLocation.Name;
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to have been seen nearby " + randomLocation.Name;
-                rumor.RelevantLocationID = randomLocation.ID;
-            }
-            else if(randomRumor < 50)
-            {
-                Trait randomTrait = CORE.Instance.Database.GetRandomTrait();
-
-                rumor.name = targetChar.name + " is " + randomTrait.name;
-                rumor.Title = rumor.name;
-                rumor.Description = targetChar.name + " is rumored to have the trait: " + randomTrait;
-                rumor.RelevantLocationID = "";
-            }
-
-            gatheredRumor = rumor;
+            targetChar.Known.Know("CurrentLocation", character.TopEmployer);
         }
 
-        gatheredRumor.Description += "\n <size=15>Chance for this rumor to be valid: <color=yellow>"
-                + Mathf.RoundToInt(100f*(awareValue/(awareValue+targetDiscreetValue)))+" % </color></size>";
-        gatheredRumor.RelevantCharacterID = targetChar.ID;
-        gatheredRumor.isTemporary = true;
-
-        if (gatheredRumor != null)
-        {
-            CORE.Instance.SplineAnimationObject("EarCollectedWorld",
-                character.CurrentLocation.transform,
-                RumorsPanelUI.Instance.Notification.transform,
-                ()=> { StatsViewUI.Instance.RefreshRumors(); },
-                false);
-
-            RumorsPanelUI.Instance.GainCustomRumor(gatheredRumor);
-        }
-
-
+   
         if (targetChar.IsKnown("CurrentLocation", character.TopEmployer))
         {
             return;

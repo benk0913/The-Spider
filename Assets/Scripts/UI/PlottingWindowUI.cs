@@ -103,6 +103,7 @@ public class PlottingWindowUI : MonoBehaviour
 
     public void Show(AgentInteractable target, SchemeType type,  Character plotter = null)
     {
+
         TargetParticipants.Clear();
         Participants.Clear();
 
@@ -110,10 +111,25 @@ public class PlottingWindowUI : MonoBehaviour
         CurrentSchemeType = type;
         CurrentPlotter = plotter;
 
-        if(CurrentTarget.GetType() == typeof(PortraitUI))
+
+        if (target == null)
+        {
+            GlobalMessagePrompterUI.Instance.Show("No Target", 1f, Color.red);
+            Hide();
+            return;
+        }
+
+        if (CurrentTarget.GetType() == typeof(PortraitUI))
         {
             Character targetCharacter = ((PortraitUI)CurrentTarget).CurrentCharacter;
             TargetParticipants.Add(targetCharacter);
+
+            if(targetCharacter == plotter)
+            {
+                Hide();
+                GlobalMessagePrompterUI.Instance.Show(plotter.name + " is not stupid.",1f,Color.red);
+                return;
+            }
         }
         else if (CurrentTarget.GetType() == typeof(LocationEntity))
         {
@@ -121,9 +137,17 @@ public class PlottingWindowUI : MonoBehaviour
 
             foreach (Character guard in location.GuardsCharacters)
             {
-                if (guard.CurrentTaskEntity != null && guard.CurrentTaskEntity.CurrentTask.name == "Guarding Location")
+                if (guard.CurrentLocation == location )
                 {
                     TargetParticipants.Add(guard);
+                }
+            }
+
+            foreach (Character employee in location.EmployeesCharacters)
+            {
+                if (employee.CurrentLocation == location && employee.Age > 15)
+                {
+                    TargetParticipants.Add(employee);
                 }
             }
         }
@@ -314,7 +338,10 @@ public class PlottingWindowUI : MonoBehaviour
             x => { Participants.Add(x); RefreshUI(); },
             x => 
             x.TopEmployer == CORE.PC 
-            && x.TopEmployer != x && !Participants.Contains(x) 
+            && x.TopEmployer != x 
+            && !Participants.Contains(x)
+            && !TargetParticipants.Contains(x)
+            && x != CurrentTarget
             && !x.IsDead 
             && (x.CurrentTaskEntity == null || x.CurrentTaskEntity.CurrentTask.Cancelable),
             "Add Participant:");

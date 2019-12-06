@@ -37,6 +37,7 @@ public class FactionAI : ScriptableObject
     {
         FailReason failReason = null;
 
+        //Recruit employees
         List<LocationEntity> ownedProperties = CurrentCharacter.PropertiesInCommand;
         foreach (LocationEntity location in ownedProperties)
         {
@@ -52,9 +53,28 @@ public class FactionAI : ScriptableObject
             }
         }
 
+        failReason = null;
+
+        //Recruit Guards
+        ownedProperties = CurrentCharacter.PropertiesInCommand;
+        foreach (LocationEntity location in ownedProperties)
+        {
+            if (location.GuardsCharacters.Count < location.CurrentProperty.PropertyLevels[location.Level - 1].MaxGuards)
+            {
+                failReason = location.RecruitEmployee(CurrentCharacter, true);
+
+                if (failReason != null)
+                {
+                    AddFailure(failReason);
+                    break;
+                }
+            }
+        }
+
 
         failReason = null;
 
+        //Buy Locations
         List<Character> charsInCommand = CurrentCharacter.CharactersInCommand;
         List<LocationEntity> purchasables = CORE.Instance.Locations.FindAll((LocationEntity location) =>
         {

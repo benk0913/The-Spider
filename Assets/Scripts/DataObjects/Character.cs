@@ -965,7 +965,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void StartWorkingFor(LocationEntity location, bool isGuard = false)
     {
-        if (CurrentFaction.isAlwaysKnown)
+        if (location.OwnerCharacter.CurrentFaction.isAlwaysKnown)
         {
             Known.KnowAll("Faction");
         }

@@ -101,12 +101,26 @@ public class CORE : MonoBehaviour
             {
                 Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
 
-                foreach(Quest quest in faction.Goals)
+                foreach (Quest quest in faction.Goals)
                 {
                     Quest questClone = quest.CreateClone();
                     questClone.ForCharacter = factionHead;
 
                     QuestsPanelUI.Instance.AddNewQuest(questClone);
+                }
+            }
+        }
+
+        foreach (Faction faction in Database.Factions)
+        {
+            if (faction.FactionHead != null)
+            {
+                Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+
+                if (faction.isAlwaysKnown)
+                {
+                    factionHead.Known.KnowAll("Name");
+                    factionHead.Known.KnowAll("Faction");
                 }
             }
         }

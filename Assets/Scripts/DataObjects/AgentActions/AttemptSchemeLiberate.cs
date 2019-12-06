@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "AttemptScheme", menuName = "DataObjects/AgentActions/AttemptScheme", order = 2)]
-public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
+[CreateAssetMenu(fileName = "AttemptSchemeLiberate", menuName = "DataObjects/AgentActions/AttemptSchemeLiberate", order = 2)]
+public class AttemptSchemeLiberate : AgentAction //DO NOT INHERIT FROM
 {
     public SchemeType Scheme;
 
@@ -42,12 +42,7 @@ public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
         {
             Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
 
-            if (targetCharacter == character)
-            {
-                return false;
-            }
-
-            if(targetCharacter == requester)
+            if (target == character)
             {
                 return false;
             }
@@ -64,6 +59,22 @@ public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
 
             if(!targetLocation.Known.IsKnown("Existance", requester))
             {
+                return false;
+            }
+
+            if (targetLocation.OwnerCharacter == null)
+            {
+                return false;
+            }
+
+            if (targetLocation.CurrentProperty.PropertyLevels[targetLocation.Level - 1].MaxPrisoners == 0)
+            {
+                return false;
+            }
+
+            if (targetLocation.PrisonersCharacters.Count == 0)
+            {
+                reason = new FailReason("No one is imprisoned here...");
                 return false;
             }
         }
