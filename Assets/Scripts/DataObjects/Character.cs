@@ -992,6 +992,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void EnterPrison(LocationEntity location)
     {
+        if(PrisonLocation == location)
+        {
+            return;
+        }
+
         location.PrisonersCharacters.Add(this);
         PrisonLocation = location;
         location.RefreshState();
@@ -1000,6 +1005,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void ExitPrison()
     {
+        if(PrisonLocation == null)
+        {
+            return;
+        }
+
         StopDoingCurrentTask(true);
         PrisonLocation.PrisonersCharacters.Remove(this);
         PrisonLocation.RefreshState();

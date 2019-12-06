@@ -17,14 +17,17 @@ public class PortraitUIEmployee : PortraitUI
 
     LocationEntity CurrentLocation;
 
+    public bool IsGuard = false;
     void Start()
     {
         base.Start();
     }
 
-    public void SetCharacter(Character character, LocationEntity RelevantLocation = null, bool emptySlot = false)
+    public void SetCharacter(Character character, LocationEntity RelevantLocation = null, bool emptySlot = false, bool isGuard = false)
     {
         CurrentLocation = RelevantLocation;
+
+        this.IsGuard = isGuard;
 
         if (emptySlot && CurrentLocation.OwnerCharacter != null && CurrentLocation.OwnerCharacter.TopEmployer == CORE.PC)
         {
@@ -65,7 +68,13 @@ public class PortraitUIEmployee : PortraitUI
 
     public void RecruitEmployee()
     {
-        CurrentLocation.RecruitEmployee(CORE.PC);
+        if (IsGuard)
+        {
+        }
+        else
+        {
+            CurrentLocation.RecruitEmployee(CORE.PC);
+        }
     }
 
 

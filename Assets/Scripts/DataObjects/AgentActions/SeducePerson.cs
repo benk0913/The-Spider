@@ -29,6 +29,11 @@ public class SeducePerson : AgentAction //DO NOT INHERIT FROM
         targetChar.Known.Know("Name", character.TopEmployer);
         targetChar.Known.Know("Appearance", character.TopEmployer);
 
+        if(targetChar.Traits.Contains(CORE.Instance.Database.GetTrait("Lustful")))
+        {
+            targetChar.Known.Know("Factions", character.TopEmployer);
+        }
+
         TurnReportUI.Instance.Log.Add(
             new TurnReportLogItemInstance(
                 character.name + " has seduced " + targetChar.name, 

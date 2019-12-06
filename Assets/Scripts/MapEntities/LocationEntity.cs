@@ -915,7 +915,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         return null;
     }
-
+    
     public FailReason PurchasePlot(Character funder, Character forCharacter)
     {
 

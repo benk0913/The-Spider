@@ -1106,7 +1106,6 @@ public static class Names
   "Crooks",
   "Cruickshank",
   "Cummerata",
-  "Cummings",
   "Dach",
   "D'Amore",
   "Daniel",
