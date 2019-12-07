@@ -108,6 +108,15 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
+    public bool HasFreePrisonCell
+    {
+        get
+        {
+
+            return PrisonersCharacters.Count < CurrentProperty.PropertyLevels[Level - 1].MaxEmployees;
+        }
+    }
+
     public VisibilityStateEnum VisibilityState
     {
         get

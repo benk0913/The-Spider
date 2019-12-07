@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9473aa6d4c9c3664e9f80a4a16d61c18, type: 3}
+  m_Name: Abduct
+  m_EditorClassIdentifier: 
+  Description: This plan will determine how this person will be abducted.
+  Icon: {fileID: 21300000, guid: 36ea9a6b5c5bfd24c9343d117c985dcb, type: 3}
+  BruteMethod: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+  PossibleEntries:
+  - {fileID: 11400000, guid: 653b68e2a7132a74fb10805d8b7d7cf1, type: 2}
+  PossibleMethods:
+  - {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+  - {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+  - {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+  EntryScenarios:
+  - EntryMatch: {fileID: 11400000, guid: 653b68e2a7132a74fb10805d8b7d7cf1, type: 2}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: 4dbe38ed224bde84eb4481a410f8cd55, type: 2}
+  - EntryMatch: {fileID: 11400000, guid: 653b68e2a7132a74fb10805d8b7d7cf1, type: 2}
+    MethodMatch: {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+    PopupData: {fileID: 11400000, guid: 5e77c77993f7889469b7f4a4a6c64dcf, type: 2}
+  - EntryMatch: {fileID: 11400000, guid: 653b68e2a7132a74fb10805d8b7d7cf1, type: 2}
+    MethodMatch: {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+    PopupData: {fileID: 11400000, guid: 6064e8f995828f741b1f046888b22f36, type: 2}
+  ExitScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: fcbc54f1650998a48bec48b8dcb8fe7f, type: 2}
+  AgentMethodFailureScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: 383055a4df0e7234c84f4d66b8d20c61, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}
+    PopupData: {fileID: 11400000, guid: 7aadc069bd602f548ab53408737b3f91, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+    PopupData: {fileID: 11400000, guid: 8dbdaf89db3389f4ea88b59e17345972, type: 2}
+  AgentMethodSuccessScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+    PopupData: {fileID: 11400000, guid: ef7fb88fcd661fb4a82ad36b2c07c18c, type: 2}
+  DuelResultArrestScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 8978abb53c872e34f9f2369a72d237b9, type: 2}
+  DuelResultWoundScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 61cdf52ba36e34e4baf54b3a7cdf7994, type: 2}
+  DuelResultDeathScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 4f2771c0c6d968a4795e1745b85334e8, type: 2}

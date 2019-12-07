@@ -1014,6 +1014,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
+        if(location.OwnerCharacter == null)
+        {
+            return;
+        }
+
+        Known.Know("CurrentLocation", location.OwnerCharacter.TopEmployer);
+
         location.PrisonersCharacters.Add(this);
         PrisonLocation = location;
         location.RefreshState();

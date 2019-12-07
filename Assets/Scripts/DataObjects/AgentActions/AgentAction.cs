@@ -142,7 +142,9 @@ public class AgentAction : ScriptableObject
 
         if(target.GetType() == typeof(PortraitUI))
         {
-            if(((PortraitUI)target).CurrentCharacter.IsDead)
+            Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+
+            if (targetCharacter.IsDead)
             {
                 return false;
             }
