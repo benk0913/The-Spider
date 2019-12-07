@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "AttemptSchemeLiberate", menuName = "DataObjects/AgentActions/AttemptSchemeLiberate", order = 2)]
+[CreateAssetMenu(fileName = "AttemptSchemeLiberate", menuName = "DataObjects/AgentActions/Scheme/AttemptSchemeLiberate", order = 2)]
 public class AttemptSchemeLiberate : AgentAction //DO NOT INHERIT FROM
 {
     public SchemeType Scheme;

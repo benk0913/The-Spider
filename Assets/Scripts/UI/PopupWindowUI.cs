@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 using TMPro;
@@ -72,7 +73,14 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
             }
             else
             {
-                parameters.Add("TargetName", "???");
+                if (!string.IsNullOrEmpty(data.CharactersRight[0].CurrentRole))
+                {
+                    parameters.Add("TargetName", "the " + data.CharactersRight[0].CurrentRole);
+                }
+                else
+                {
+                    parameters.Add("TargetName", "the stranger");
+                }
             }
         }
 
@@ -108,6 +116,11 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
 
     public void ShowNextPopup()
     {
+        if(CurrentPopup != null)
+        {
+            CurrentPopup.OnPopupDisplayed?.Invoke();
+        }
+
         if(PopupQue.Count == 0)
         {
             HideCurrentPopup();
@@ -174,12 +187,14 @@ public class PopupData : ISaveFileCompatible
     public PopupDataPreset Preset;
     public List<Character> CharactersLeft;
     public List<Character> CharactersRight;
+    public Action OnPopupDisplayed;
 
-    public PopupData(PopupDataPreset preset = null, List<Character> charactersLeft = null, List<Character> charactersRight = null)
+    public PopupData(PopupDataPreset preset = null, List<Character> charactersLeft = null, List<Character> charactersRight = null, Action onPopupDisplay = null)
     {
         this.Preset = preset;
         this.CharactersLeft = charactersLeft;
         this.CharactersRight = charactersRight;
+        this.OnPopupDisplayed = onPopupDisplay;
     }
 
     public void FromJSON(JSONNode node)

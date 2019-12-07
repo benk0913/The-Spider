@@ -339,6 +339,7 @@ public class PlottingWindowUI : MonoBehaviour
             x => 
             x.TopEmployer == CORE.PC 
             && x.TopEmployer != x 
+            && x.Age > 15
             && !Participants.Contains(x)
             && !TargetParticipants.Contains(x)
             && x != CurrentTarget

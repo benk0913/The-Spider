@@ -143,11 +143,13 @@ public class SchemeType : ScriptableObject
         PlotMethod method,
         PlotEntry entry)
     {
-        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants));
     }
 
     public virtual void AggressiveDuelResult(Character winner, Character loser)
     {
+        winner.Known.Know("Appearance", loser.TopEmployer);
+        loser.Known.Know("Appearance", winner.TopEmployer);
+
         float randomResult = Random.Range(0f, 1f);
 
         if (randomResult > 0.5f)
@@ -155,19 +157,22 @@ public class SchemeType : ScriptableObject
             if (!(winner.Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) ||
                 winner.Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))) // Not a Good guy?
             {
-                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultArrestScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }));
-                CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation);
+                PopupWindowUI.Instance.AddPopup(
+                    new PopupData(DuelResultArrestScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
+                    ,() => { CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+
             }
             else
             {
-                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }));
-                CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation);
+                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
+                , () => { CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+                
             }
         }
         else
         {
-            PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }));
-            CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation);
+            PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
+            , () => { CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
         }
     }
 }

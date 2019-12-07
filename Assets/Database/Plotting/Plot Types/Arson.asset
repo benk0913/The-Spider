@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5670da539951a646b8d5d88f7806d1d, type: 3}
+  m_Name: Arson
+  m_EditorClassIdentifier: 
+  Description: A plan to burn this place to the ground.
+  Icon: {fileID: 21300000, guid: e73b206373f5bbc489747112c295aaf6, type: 3}
+  BruteMethod: {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+  PossibleEntries:
+  - {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+  PossibleMethods:
+  - {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+  - {fileID: 11400000, guid: db6fe15c0ff4eb2499618ae3cb1838d4, type: 2}
+  - {fileID: 11400000, guid: 8aac169c80776e64ca9b676b09947e4c, type: 2}
+  EntryScenarios:
+  - EntryMatch: {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+    MethodMatch: {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+    PopupData: {fileID: 11400000, guid: ef5782ef99807504885f5b4bf9ccc726, type: 2}
+  - EntryMatch: {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+    MethodMatch: {fileID: 11400000, guid: db6fe15c0ff4eb2499618ae3cb1838d4, type: 2}
+    PopupData: {fileID: 11400000, guid: 8305ee4bfddacd74792d6a21d2c28dba, type: 2}
+  - EntryMatch: {fileID: 11400000, guid: 47483039440ffa945a7c05c9a3f64566, type: 2}
+    MethodMatch: {fileID: 11400000, guid: 8aac169c80776e64ca9b676b09947e4c, type: 2}
+    PopupData: {fileID: 11400000, guid: da67a86b75600294e83eae909bdcdb3e, type: 2}
+  ExitScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 4810fca9d17aa554698bd981348ef7c2, type: 2}
+  AgentMethodFailureScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+    PopupData: {fileID: 11400000, guid: 383055a4df0e7234c84f4d66b8d20c61, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: db6fe15c0ff4eb2499618ae3cb1838d4, type: 2}
+    PopupData: {fileID: 11400000, guid: 7aadc069bd602f548ab53408737b3f91, type: 2}
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: 8aac169c80776e64ca9b676b09947e4c, type: 2}
+    PopupData: {fileID: 11400000, guid: 8dbdaf89db3389f4ea88b59e17345972, type: 2}
+  AgentMethodSuccessScenarios:
+  - EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+    PopupData: {fileID: 11400000, guid: ef7fb88fcd661fb4a82ad36b2c07c18c, type: 2}
+  DuelResultArrestScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 8978abb53c872e34f9f2369a72d237b9, type: 2}
+  DuelResultWoundScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 61cdf52ba36e34e4baf54b3a7cdf7994, type: 2}
+  DuelResultDeathScenario:
+    EntryMatch: {fileID: 0}
+    MethodMatch: {fileID: 0}
+    PopupData: {fileID: 11400000, guid: 4f2771c0c6d968a4795e1745b85334e8, type: 2}
+  CharacterBurnt: {fileID: 11400000, guid: 8c186ca6e5cd0294b9418f4507743495, type: 2}

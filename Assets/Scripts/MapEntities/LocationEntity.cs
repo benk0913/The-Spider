@@ -868,8 +868,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             OwnerCharacter.StopOwningLocation(this);
         }
-
-        Destroy(this.gameObject);
     }
 
     public FailReason RecruitEmployee(Character requester, bool isGuard = false)

@@ -47,10 +47,15 @@ public class LiberateScheme : SchemeType
 
         LocationEntity targetLocation = (LocationEntity)target;
 
-        foreach (Character prisoner in targetLocation.PrisonersCharacters)
-        {
-            prisoner.StopDoingCurrentTask(true);
-            CORE.Instance.Database.GetEventAction("Escape From Prison").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
-        }
+        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants,
+            () => 
+            {
+                foreach (Character prisoner in targetLocation.PrisonersCharacters)
+                {
+                    prisoner.StopDoingCurrentTask(true);
+                    CORE.Instance.Database.GetEventAction("Escape From Prison").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
+                }
+            }));
+
     }
 }
