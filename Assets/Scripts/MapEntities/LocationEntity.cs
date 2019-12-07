@@ -316,6 +316,20 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             yield return 0;
         }
 
+        if(CurrentProperty.AutoRestock)
+        {
+            if(Inventory.Count > 0)
+            {
+                Inventory.RemoveAt(0);
+            }
+
+            while(Inventory.Count < CurrentProperty.PropertyLevels[Level - 1].InventoryCap)
+            {
+               int rnd = Random.Range(0, CurrentProperty.PropertyLevels[Level - 1].PossibleMerchantise.Length);
+               Inventory.Add(CurrentProperty.PropertyLevels[Level - 1].PossibleMerchantise[rnd].Clone());
+            }
+        }
+
 
         RefreshState();
 

@@ -48,6 +48,11 @@ public class PurchasePlotAction : AgentAction
             return false;
         }
 
+        if(targetEntity.Traits.Contains(CORE.Instance.Database.PublicAreaTrait))
+        {
+            return false;
+        }
+
         return true;
     }
 }

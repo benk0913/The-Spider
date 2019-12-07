@@ -54,6 +54,8 @@ public class Property : ScriptableObject
 
     public bool IsVendor = false;
 
+    public bool AutoRestock = false;
+
     [System.Serializable]
     public class PropertyLevel
     {
