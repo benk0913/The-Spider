@@ -12,6 +12,8 @@ public class PlayerAction : ScriptableObject
     [SerializeField]
     public Sprite Icon;
 
+    public ActionCategory Category = null;
+
     public virtual void Execute(Character requester, AgentInteractable target)
     {
 

@@ -37,18 +37,19 @@ public class RightClickDropDownPanelUI : MonoBehaviour
 
     public void Show(List<DescribedAction> MenuItems, Transform targetTransform, Character byCharacter = null, AgentInteractable source = null)
     {
-        Hide();
+        CORE.Instance.DelayedInvokation(0.01f, () => {
+            CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", OnTurnPassed);
+            CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
 
-        CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
+            this.gameObject.SetActive(true);
 
-        this.gameObject.SetActive(true);
+            CurrentSource = source;
+            CurrentMenuItems = MenuItems;
+            CurrentTargetTransform = targetTransform;
+            CurrentByCharacter = byCharacter;
 
-        CurrentSource = source;
-        CurrentMenuItems = MenuItems;
-        CurrentTargetTransform = targetTransform;
-        CurrentByCharacter = byCharacter;
-
-        RefreshUI();
+            RefreshUI();
+        });
     }
 
     void RefreshUI()

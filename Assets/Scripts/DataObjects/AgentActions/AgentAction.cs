@@ -10,6 +10,8 @@ public class AgentAction : ScriptableObject
     [TextArea(6, 10)]
     public string Description;
 
+    public ActionCategory Category = null;
+
     public List<Trait> RequiredTraits = new List<Trait>();
 
     public int MinimumAge = 0;

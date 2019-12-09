@@ -5,7 +5,6 @@ using UnityEngine;
 public class AgentInteractable : MonoBehaviour
 {
 
-
     public virtual List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return null;
@@ -16,37 +15,82 @@ public class AgentInteractable : MonoBehaviour
         return null;
     }
 
-    public void ShowActionMenu()
+    public void ShowActionMenu(ActionCategory category = null)
     {
         if (ControlCharacterPanelUI.CurrentCharacter == null)
         {
-            ShowPlayerActionMenu();
+            ShowPlayerActionMenu(null, category);
         }
         else
         {
-            ShowAgentActionMenu();
+            ShowAgentActionMenu(null, category);
         }
     }
 
-    public void ShowActionMenu(Transform uniqueTransform)
+    public void ShowActionMenu(Transform uniqueTransform, ActionCategory category = null)
     {
         if (ControlCharacterPanelUI.CurrentCharacter == null)
         {
-            ShowPlayerActionMenu(uniqueTransform);
+            ShowPlayerActionMenu(uniqueTransform, category);
         }
         else
         {
-            ShowAgentActionMenu(uniqueTransform);
+            ShowAgentActionMenu(uniqueTransform, category);
         }
     }
 
-    public void ShowAgentActionMenu(Transform uniqueTransform = null)
+    public void ShowAgentActionMenu(Transform uniqueTransform = null, ActionCategory category = null)
     {
-
-        List<AgentAction> currentActions = GetPossibleAgentActions(ControlCharacterPanelUI.CurrentCharacter);
+        List<AgentAction> currentActions = new List<AgentAction>();
+        currentActions.AddRange(GetPossibleAgentActions(ControlCharacterPanelUI.CurrentCharacter));
         List<DescribedAction> KeyActions = new List<DescribedAction>();
 
-        if(currentActions == null || currentActions.Count == 0)
+        if (category == null)
+        { 
+            List<ActionCategory> categories = new List<ActionCategory>();
+            foreach (AgentAction action in currentActions)
+            {
+                if (action.Category == null)
+                {
+                    continue;
+                }
+
+                if (categories.Contains(action.Category))
+                {
+                    continue;
+                }
+
+
+                Character currentChar = ControlCharacterPanelUI.CurrentCharacter;
+                FailReason reason = null;
+                //TODO Replace requester
+                if (!action.CanDoAction(CORE.PC, currentChar, this, out reason))
+                {
+                    if (reason == null)
+                    {
+                        continue;
+                    }
+                }
+
+                categories.Add(action.Category);
+            }
+
+            foreach (ActionCategory relevantCategory in categories)
+            {
+                KeyActions.Add(
+                    new DescribedAction(
+                        relevantCategory.name,
+                        () => ShowAgentActionMenu(uniqueTransform, relevantCategory)
+                        , relevantCategory.Description
+                        , relevantCategory.Icon
+                        , true));
+            }
+        }
+
+        currentActions.RemoveAll(x => x.Category != category);
+
+
+        if (currentActions.Count == 0 && KeyActions.Count == 0)
         {
             return;
         }
@@ -57,6 +101,7 @@ public class AgentInteractable : MonoBehaviour
 
             Character currentChar = ControlCharacterPanelUI.CurrentCharacter;
 
+            //TODO REPLACE REQUESTER
             if (!action.CanDoAction(CORE.PC, currentChar, this, out reason) && reason == null)
             {
                 continue;
@@ -84,13 +129,58 @@ public class AgentInteractable : MonoBehaviour
             this);
     }
 
-    public void ShowPlayerActionMenu(Transform uniqueTransform = null)
+    public void ShowPlayerActionMenu(Transform uniqueTransform = null, ActionCategory category = null)
     {
 
-        List<PlayerAction> currentActions = GetPossiblePlayerActions();
+        List<PlayerAction> currentActions = new List<PlayerAction>();
+        currentActions.AddRange(GetPossiblePlayerActions());
+
         List<DescribedAction> KeyActions = new List<DescribedAction>();
 
-        if(currentActions == null || currentActions.Count == 0)
+        if (category == null)
+        {
+            List<ActionCategory> categories = new List<ActionCategory>();
+            foreach(PlayerAction action in currentActions)
+            {
+                if(action.Category == null)
+                {
+                    continue;
+                }
+
+                if(categories.Contains(action.Category))
+                {
+                    continue;
+                }
+                
+                Character currentChar = ControlCharacterPanelUI.CurrentCharacter;
+                FailReason reason = null;
+                //TODO Replace requester
+                if (!action.CanDoAction(CORE.PC, this, out reason))
+                {
+                    if (reason == null)
+                    {
+                        continue;
+                    }
+                }
+                
+                categories.Add(action.Category);
+            }
+
+            foreach(ActionCategory relevantCategory in categories)
+            {
+                KeyActions.Add(
+                    new DescribedAction(
+                        relevantCategory.name,
+                        () => ShowPlayerActionMenu(uniqueTransform, relevantCategory)
+                        , relevantCategory.Description
+                        , relevantCategory.Icon
+                        , true));
+            }
+        }
+
+        currentActions.RemoveAll(x => x.Category != category);
+
+        if (currentActions.Count == 0 && KeyActions.Count == 0)
         {
             return;
         }
@@ -99,6 +189,7 @@ public class AgentInteractable : MonoBehaviour
         {
             FailReason reason = null;
 
+            //TODO Replace requester
             if (!action.CanDoAction(CORE.PC, this, out reason) && reason == null)
             {
                 continue;
