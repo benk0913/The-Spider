@@ -12,21 +12,18 @@ public class PlotEntry : ScriptableObject
     public Trait[] TraitsRequired;
     public BonusType Skill;
     public int BonusToSkill;
+    public List<PlotType> PlotTypeRequired;
 
     public FailReason AreRequirementsMet(Character requester, AgentInteractable target)
     {
-        foreach(Item item in ItemsRequired)
-        {
-            if(requester.GetItem(item.name) == null)
-            {
-                return new FailReason("Requires The Item: " + item.name);
-            }
-        }
-
-
         if(target.GetType() == typeof(LocationEntity))
         {
             LocationEntity locationTarget = (LocationEntity)target;
+
+            if(!PlotTypeRequired.Contains(locationTarget.CurrentProperty.PlotType))
+            {
+                return new FailReason("Unavailable for " + locationTarget.CurrentProperty.PlotType + " plot type");
+            }
 
             foreach (Trait trait in TraitsRequired)
             {
@@ -46,6 +43,14 @@ public class PlotEntry : ScriptableObject
                 {
                     return new FailReason("Target Requires The Trait: " + trait.name);
                 }
+            }
+        }
+
+        foreach (Item item in ItemsRequired)
+        {
+            if (requester.GetItem(item.name) == null)
+            {
+                return new FailReason("Requires The Item: " + item.name);
             }
         }
 

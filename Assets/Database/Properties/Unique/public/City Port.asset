@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: City Port
+  m_EditorClassIdentifier: 
+  Description: This square serves merchants, local and foreign, as a centralized
+    area for bartering. This market compared to other districts, is relatively rich.
+    The items sold here are aimed for rich citizens.
+  PropertyLevels:
+  - LevelName: 
+    MaxEmployees: 0
+    MaxGuards: 0
+    MaxPrisoners: 0
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    InventoryCap: 6
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 773c4b9366f1e9b49a24e5007e1be154, type: 2}
+    - {fileID: 11400000, guid: 208a7abe55a16c844bf6ab5b7092e1dd, type: 2}
+    - {fileID: 11400000, guid: e92f60b413429a149b76bea0eac52cf0, type: 2}
+    - {fileID: 11400000, guid: 9ed93e65eaa42954db3f60036b103532, type: 2}
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Open Port
+    Description: Large ships come and go, to drop their cargo and load anew.
+    Icon: {fileID: 21300000, guid: 1b544b1f6b29442438da250266dc28a7, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  Traits:
+  - {fileID: 11400000, guid: baa39733d7041b44aaeae6ef55e41647, type: 2}
+  Icon: {fileID: 21300000, guid: 2087c93ff0e95ef4da7e1be5e67ebd56, type: 3}
+  FigurePrefab: {fileID: 808478850817181922, guid: 39fc94a2161333a49a2e3e39a0b2fabf,
+    type: 3}
+  HoverPrefab: {fileID: 4886344939454610758, guid: 60227934d3b0b59479d094cafad7491e,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 5
+  MaxAge: 120
+  PlotType: {fileID: 11400000, guid: a1ab827bf97116440b46b833ba1e68e6, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 0
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: 
+  AlwaysKnown: 0
+  IsVendor: 1
+  AutoRestock: 1
