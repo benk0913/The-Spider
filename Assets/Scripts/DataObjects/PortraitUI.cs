@@ -47,6 +47,9 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     [SerializeField]
     protected Image Unique;
 
+    [SerializeField]
+    protected GameObject PrisonBars;
+
 
     protected void Start()
     {
@@ -104,6 +107,11 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             }
 
             return;
+        }
+
+        if (PrisonBars != null)
+        {
+            PrisonBars.SetActive(character.PrisonLocation != null);
         }
 
         if(character.Known != null && !character.IsKnown("Appearance", CORE.PC))

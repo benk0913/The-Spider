@@ -53,7 +53,7 @@ public class LiberateScheme : SchemeType
                 foreach (Character prisoner in targetLocation.PrisonersCharacters)
                 {
                     prisoner.StopDoingCurrentTask(true);
-                    CORE.Instance.Database.GetEventAction("Escape From Prison").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
+                    CORE.Instance.Database.GetEventAction("Get Liberated").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
                 }
             }));
 

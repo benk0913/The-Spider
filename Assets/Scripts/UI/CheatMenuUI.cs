@@ -32,6 +32,12 @@ public class CheatMenuUI : MonoBehaviour
         {
             ShowAllCharactersOn = !ShowAllCharactersOn;
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            CORE.PC.Gold += 100;
+            CORE.PC.Connections += 100;
+            CORE.PC.Rumors += 100;
+        }
     }
 
 

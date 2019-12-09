@@ -7,6 +7,7 @@ public class Faction : ScriptableObject
 {
     [TextArea(4, 6)]
     public string Description;
+    public Sprite Icon;
 
     public Material WaxMaterial;
     public Color FactionColor;

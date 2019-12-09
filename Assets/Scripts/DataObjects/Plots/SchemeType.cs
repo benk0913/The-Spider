@@ -87,6 +87,13 @@ public class SchemeType : ScriptableObject
         PlotMethod method,
         PlotEntry entry)
     {
+        Character targetCharacter = null;
+
+        if(target.GetType() == typeof(PortraitUI))
+        {
+            targetCharacter = ((PortraitUI)target).CurrentCharacter;
+        }
+
         while (entryTargets.Count > 0 && entryParticipants.Count > 0)
         {
             Character randomParticipant = entryParticipants[Random.Range(0, entryParticipants.Count)];
@@ -103,9 +110,9 @@ public class SchemeType : ScriptableObject
             {
                 PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, AgentMethodSuccessScenarios), participants, targetParticipants));
 
-                if (method == BruteMethod)
+                if (method == BruteMethod && !(targetCharacter != null && targetParticipants[0] == targetCharacter))
                 {
-                    AggressiveDuelResult(randomParticipant, targetParticipants[0]);
+                    AggressiveDuelResult(randomParticipant, targetParticipants[0], false);
                 }
 
                 entryTargets.RemoveAt(0);
@@ -119,7 +126,7 @@ public class SchemeType : ScriptableObject
                     method = BruteMethod;
                 }
 
-                AggressiveDuelResult(targetParticipants[0], randomParticipant);
+                AggressiveDuelResult(targetParticipants[0], randomParticipant, true);
 
                 entryParticipants.Remove(randomParticipant);
             }
@@ -145,7 +152,7 @@ public class SchemeType : ScriptableObject
     {
     }
 
-    public virtual void AggressiveDuelResult(Character winner, Character loser)
+    public virtual void AggressiveDuelResult(Character winner, Character loser, bool allowEscape = false)
     {
         winner.Known.Know("Appearance", loser.TopEmployer);
         loser.Known.Know("Appearance", winner.TopEmployer);
@@ -154,7 +161,7 @@ public class SchemeType : ScriptableObject
 
         if (randomResult > 0.5f)
         {
-            if (!(winner.Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) ||
+            if (allowEscape && !(winner.Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) ||
                 winner.Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))) // Not a Good guy?
             {
                 PopupWindowUI.Instance.AddPopup(
@@ -171,8 +178,11 @@ public class SchemeType : ScriptableObject
         }
         else
         {
-            PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
-            , () => { CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+            if (allowEscape)
+            {
+                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
+                , () => { CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+            }
         }
     }
 }

@@ -846,7 +846,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
-        if (CurrentTaskEntity == null)//Random Douch
+        if (PrisonLocation != null) // Imprisoned
+        {
+            return;
+        }
+
+        if (CurrentTaskEntity == null)
         {
             bool hasSomethingToDo = TryToDoSomething();
             
@@ -859,6 +864,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     bool TryToDoSomething()
     {
+
         if (WorkLocation != null && WorkLocation.GuardsCharacters.Contains(this) && Random.Range(0,2) == 0) // Guards keep working
         {
             CORE.Instance.Database.GetEventAction("Guard Location").Execute(TopEmployer, this, WorkLocation);
@@ -1018,6 +1024,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             return;
         }
+
+        StopDoingCurrentTask(true);
+        GoToLocation(location);
 
         Known.Know("CurrentLocation", location.OwnerCharacter.TopEmployer);
 
