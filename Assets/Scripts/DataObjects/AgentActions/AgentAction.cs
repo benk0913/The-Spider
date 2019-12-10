@@ -142,6 +142,12 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
+        if(target == null)
+        {
+            Debug.LogError("Target NULL?!!?!?!?");
+            return false;
+        }
+
         if(target.GetType() == typeof(PortraitUI))
         {
             Character targetCharacter = ((PortraitUI)target).CurrentCharacter;

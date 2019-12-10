@@ -73,6 +73,28 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
 
+    public int Rank
+    {
+        get
+        {
+            if(Employer == null)
+            {
+                return 0;
+            }
+
+            int rankCount = 0;
+
+            Character CurrentEmployer = Employer;
+            while (CurrentEmployer != Employer.TopEmployer)
+            {   
+                rankCount++;
+                CurrentEmployer = CurrentEmployer.Employer;
+            }
+
+            return rankCount;
+        }
+    }
+
     public int Reputation
     {
         get

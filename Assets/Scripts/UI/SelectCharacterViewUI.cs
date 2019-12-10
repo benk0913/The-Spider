@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,15 @@ public class SelectCharacterViewUI : MonoBehaviour
 
     [SerializeField]
     public TextMeshProUGUI TitleText;
+
+    Action<Character> CurrentonSelect;
+
+    Predicate<Character> CurrentFilter;
+
+
+    string CurrentTitle;
+
+    public string CurrentSortKey;
     
     protected virtual void Awake()
     {
@@ -28,18 +38,27 @@ public class SelectCharacterViewUI : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
-        if(!this.gameObject.activeInHierarchy)
+        CurrentTitle = title;
+        CurrentonSelect = onSelect;
+        CurrentFilter = filter;
+
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        if (!this.gameObject.activeInHierarchy)
         {
             return;
         }
 
-        if(PopulateGridRoutine != null)
+        if (PopulateGridRoutine != null)
         {
             return;
         }
 
-        PopulateGridRoutine = StartCoroutine(PopulateGrid(onSelect, filter));
-        TitleText.text = title;
+        PopulateGridRoutine = StartCoroutine(PopulateGrid(CurrentonSelect, CurrentFilter));
+        TitleText.text = CurrentTitle;
     }
 
     protected Coroutine PopulateGridRoutine;
@@ -54,6 +73,8 @@ public class SelectCharacterViewUI : MonoBehaviour
         yield return 0;
 
         List<Character> characters = CORE.Instance.Characters.FindAll(filter != null? filter : CommonFilter);
+
+        characters = SortCharacters(CurrentSortKey, characters);
 
         yield return 0;
 
@@ -85,5 +106,58 @@ public class SelectCharacterViewUI : MonoBehaviour
     public virtual bool CommonFilter(Character character)
     {
         return true;
+    }
+
+    public void SetSortingKey(string sortingKey)
+    {
+        CurrentSortKey = sortingKey;
+        Refresh();
+    }
+
+    public List<Character> SortCharacters(string byKey, List<Character> characters)
+    {
+
+        switch(byKey)
+        {
+            case "Skill_Strong":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value).ToList();
+                }
+            case "Skill_Charming":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value).ToList();
+                }
+            case "Skill_Intelligent":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Intelligent")).Value).ToList();
+                }
+            case "Skill_Aware":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value).ToList();
+                }
+            case "Skill_Discreet":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value).ToList();
+                }
+            case "Skill_Menacing":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value).ToList();
+                }
+            case "Skill_Stealthy":
+                {
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value).ToList();
+                }
+            case "Age":
+                {
+                    return characters.OrderByDescending(x => x.Age).ToList();
+                }
+            case "Rank":
+                {
+                    return characters.OrderBy(x => x.Rank).ToList();
+                }
+        }
+
+        //Default Abc...
+        return characters.OrderBy(x => x.name).ToList();
     }
 }
