@@ -344,6 +344,7 @@ public class PlottingWindowUI : MonoBehaviour
             && !TargetParticipants.Contains(x)
             && x != CurrentTarget
             && !x.IsDead 
+            && x.IsAgent
             && (x.CurrentTaskEntity == null || x.CurrentTaskEntity.CurrentTask.Cancelable),
             "Add Participant:");
     }

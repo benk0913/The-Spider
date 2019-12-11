@@ -57,7 +57,7 @@ public class CharactersInLocationUI : MonoBehaviour
         if (!character.IsKnown("CurrentLocation", CORE.PC) 
             || character.IsDead 
             || !character.IsAgent)
-        {
+        { 
             return;
         }
 

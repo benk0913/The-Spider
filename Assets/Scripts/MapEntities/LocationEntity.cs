@@ -367,6 +367,19 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
+    public void OnHover()
+    {
+        if (VisibilityState == VisibilityStateEnum.Visible || VisibilityState == VisibilityStateEnum.QuestionMark)
+        {
+            LocationHoverUI.Instance.Show(this, VisibilityState == VisibilityStateEnum.QuestionMark);
+        }
+    }
+
+    public void OnUnhover()
+    {
+        LocationHoverUI.Instance.Hide();
+    }
+
     public void SetSelected()
     {
         SelectedMarkerObject = ResourcesLoader.Instance.GetRecycledObject("LocationMarker");

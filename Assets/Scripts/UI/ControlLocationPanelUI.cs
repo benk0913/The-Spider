@@ -80,7 +80,7 @@ public class ControlLocationPanelUI : MonoBehaviour
         CurrentLocation.SetSelected();
         CurrentLocation.StateUpdated.AddListener(RefreshUI);
 
-        MapViewManager.Instance.FocusOnEntity(CurrentLocation.transform);
+        //MapViewManager.Instance.FocusOnEntity(CurrentLocation.transform);
 
         RefreshUI();
     }

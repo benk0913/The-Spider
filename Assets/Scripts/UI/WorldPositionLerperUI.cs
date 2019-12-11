@@ -22,7 +22,13 @@ public class WorldPositionLerperUI : MonoBehaviour
     public void SetTransform(Transform targetTransform)
     {
         CurrentTransform = targetTransform;
-        CurrentPos = targetTransform.position;
+
+        if (CurrentTransform == null)
+        {
+            return;
+        }
+
+        CurrentPos = CurrentTransform.position;
 
         transformIsCanvas = (CurrentTransform.transform.GetType() == typeof(RectTransform));
     }
