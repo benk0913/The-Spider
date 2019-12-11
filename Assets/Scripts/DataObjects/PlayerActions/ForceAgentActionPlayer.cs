@@ -25,7 +25,7 @@ public class ForceAgentActionPlayer : PlayerAction
         {
             SelectAgentWindowUI.Instance.Show(
                 (Character character) => { ActionToForce.Execute(requester, character, target); }
-                , x => { return x.TopEmployer == CORE.PC && x.TopEmployer != x; });
+                , x => { return x.TopEmployer == CORE.PC && x.TopEmployer != x && x.IsAgent; });
         }
         else
         {

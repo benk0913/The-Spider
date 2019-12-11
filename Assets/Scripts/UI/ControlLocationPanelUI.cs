@@ -381,7 +381,10 @@ public class ControlLocationPanelUI : MonoBehaviour
                        GlobalMessagePrompterUI.Instance.Show(failure.Key, 1f, Color.red);
                    }
                }
-               , (Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC && charInQuestion != CORE.PC; });
+               , (Character charInQuestion) => { return charInQuestion.TopEmployer == CORE.PC 
+                   && charInQuestion != CORE.PC 
+                   && charInQuestion.Age > 15 
+                   && charInQuestion.IsAgent; });
 
         
     }

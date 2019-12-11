@@ -33,7 +33,15 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
             tempButton.onClick.RemoveAllListeners();
             tempButton.onClick.AddListener(() =>
             {
-                if (node.CurrentCharacter != CORE.PC)
+                if (node.CurrentCharacter == CORE.PC)
+                {
+                    GlobalMessagePrompterUI.Instance.Show(CORE.PC.name+" doesn't take part in tasks such as this.", 1f, Color.red);
+                }
+                else if(!node.CurrentCharacter.IsAgent)
+                {
+                    GlobalMessagePrompterUI.Instance.Show("This character is not an agent.", 1f, Color.red);
+                }
+                else
                 {
                     LocalOnSelect.Invoke(node.CurrentCharacter);
                     OnSelected.Invoke();

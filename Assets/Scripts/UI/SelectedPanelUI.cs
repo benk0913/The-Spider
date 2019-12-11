@@ -70,6 +70,11 @@ public class SelectedPanelUI : MonoBehaviour
             return;
         }
 
+        if(!character.IsAgent)
+        {
+            return;
+        }
+
         CurrentSelectionType = SelectionType.Agent;
 
         CharacterPanel.Select(character);

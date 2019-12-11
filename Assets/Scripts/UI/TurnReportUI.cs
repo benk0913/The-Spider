@@ -14,12 +14,15 @@ public class TurnReportUI : MonoBehaviour
     [SerializeField]
     Animator Anim;
 
-    [SerializeField]
-    Toggle Toggler;
-
     private void Awake()
     {
         Instance = this;
+        Hide();
+    }
+
+    private void OnEnable()
+    {
+        Show();
     }
 
     private void Start()
@@ -55,18 +58,6 @@ public class TurnReportUI : MonoBehaviour
         }
 
         Log.Clear();
-    }
-
-    public void Toggle()
-    {
-        if(Toggler.isOn)
-        {
-            Hide();
-        }
-        else
-        {
-            Show();
-        }
     }
 
     public void Show()

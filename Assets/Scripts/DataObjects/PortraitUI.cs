@@ -50,6 +50,8 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     [SerializeField]
     protected GameObject PrisonBars;
 
+    [SerializeField]
+    protected Image AgentRing;
 
     protected void Start()
     {
@@ -123,6 +125,12 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
             FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
+            if (AgentRing != null)
+            {
+                AgentRing.gameObject.SetActive(false);
+            }
+
+
             if (ActionPortrait != null)
             {
                 ActionPortrait.gameObject.SetActive(false);
@@ -195,11 +203,22 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         {
             Frame.color = CurrentCharacter.CurrentFaction.FactionColor;
             FrameBG.color = CurrentCharacter.CurrentFaction.FactionColor;
+
+            if (AgentRing != null)
+            {
+                AgentRing.gameObject.SetActive(CurrentCharacter.IsAgent);
+                AgentRing.color = CurrentCharacter.CurrentFaction.FactionColor;
+            }
         }
         else
         {
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
             FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+
+            if (AgentRing != null)
+            {
+                AgentRing.gameObject.SetActive(false);
+            }
         }
     }
 

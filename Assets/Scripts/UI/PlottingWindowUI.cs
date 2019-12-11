@@ -358,7 +358,7 @@ public class PlottingWindowUI : MonoBehaviour
     {
         SelectAgentWindowUI.Instance.Show(
             x => { CurrentPlotter = x; RefreshUI();  },
-            x => x.TopEmployer == CORE.PC && !x.IsDead && x.CurrentTaskEntity == null,
+            x => x.TopEmployer == CORE.PC && !x.IsDead && x.CurrentTaskEntity == null && x.IsAgent && x.Age > 15,
             "Select Plotter:");
     }
 

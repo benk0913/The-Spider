@@ -13,6 +13,22 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool IsDead = false;
 
+    public bool IsAgent
+    {
+        get
+        {
+            return WorkLocation != null && WorkLocation.CurrentProperty.EmployeesAreAgents && !IsGuard;
+        }
+    }
+
+    public bool IsGuard
+    {
+        get
+        {
+            return WorkLocation != null && WorkLocation.GuardsCharacters.Contains(this);
+        }
+    }
+
     public bool IsInTrouble
     {
         get
@@ -887,7 +903,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     bool TryToDoSomething()
     {
 
-        if (WorkLocation != null && WorkLocation.GuardsCharacters.Contains(this) && Random.Range(0,2) == 0) // Guards keep working
+        if (IsGuard && Random.Range(0,2) == 0) // Guards keep working
         {
             CORE.Instance.Database.GetEventAction("Guard Location").Execute(TopEmployer, this, WorkLocation);
             return true;

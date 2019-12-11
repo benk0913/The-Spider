@@ -54,15 +54,12 @@ public class CharactersInLocationUI : MonoBehaviour
 
     public void AddCharacter(Character character)
     {
-        if (!character.IsKnown("CurrentLocation", CORE.PC) || character.IsDead)
+        if (!character.IsKnown("CurrentLocation", CORE.PC) 
+            || character.IsDead 
+            || !character.IsAgent)
         {
             return;
         }
-
-        //if (!character.isImportant)
-        //{
-        //    return;
-        //}
 
         if(Characters.Contains(character))
         {
