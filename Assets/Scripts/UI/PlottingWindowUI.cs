@@ -47,6 +47,9 @@ public class PlottingWindowUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI EntryName;
 
+    [SerializeField]
+    TextMeshProUGUI PlotChanceSuccess;
+
 
 
     [SerializeField]
@@ -295,6 +298,21 @@ public class PlottingWindowUI : MonoBehaviour
         }
 
         ExecuteTooltipTarget.SetTooltip("Execute The Plan!", bonuses);
+
+
+        float participantsValue = 0;
+        foreach(Character character in Participants)
+        {
+            participantsValue += character.GetBonus(CurrentMethod.OffenseSkill).Value;
+        }
+
+        float targetsValue = 0;
+        foreach (Character character in TargetParticipants)
+        {
+            targetsValue += character.GetBonus(CurrentMethod.DefenceSkill).Value;
+        }
+
+        PlotChanceSuccess.text = Mathf.RoundToInt((participantsValue / (participantsValue+targetsValue)) * 100f) + "%";
     }
 
     void ClearContainers()
@@ -326,7 +344,7 @@ public class PlottingWindowUI : MonoBehaviour
         CurrentSchemeType.Execute(CORE.PC, CurrentPlotter, Participants, TargetParticipants, CurrentTarget, CurrentMethod, CurrentEntry);
         Hide();
     }
-
+     
     public void AddParticipant()
     {
         if(Participants.Count >= 9)
