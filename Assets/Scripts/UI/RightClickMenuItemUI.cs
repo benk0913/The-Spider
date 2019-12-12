@@ -48,7 +48,7 @@ public class RightClickMenuItemUI : MonoBehaviour
         foreach(UnityAction act in Actions)
             _Button.onClick.AddListener(act);
 
-        TooltipTarget.SetTooltip(title + " \n" + description, tooltipBonuses);
+        TooltipTarget.SetTooltip("<color=yellow>"+title+"</color>" + " \n" + description, tooltipBonuses);
 
         _Button.interactable = interactable;
 

@@ -9,9 +9,39 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
     public LongTermTask Task;
     public bool RandomLocation;
     public PropertyTrait LocationTrait;
+    public bool ActionDoneByTarget = false;
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
+        if(ActionDoneByTarget)
+        {
+            if(target.GetType() == typeof(PortraitUI))
+            {
+                Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+
+                if(targetCharacter == null || targetCharacter.CurrentTaskEntity != null)
+                {
+                    GlobalMessagePrompterUI.Instance.Show("The target is currently unavailable for this task.", 1f, Color.red);
+                    return;
+                }
+
+                character = targetCharacter;
+            }
+            else if (target.GetType() == typeof(LocationEntity))
+            {
+                Character targetCharacter = ((LocationEntity)target).EmployeesCharacters.Find(x => x.CurrentTaskEntity == null);
+
+                if(targetCharacter == null)
+                {
+                    GlobalMessagePrompterUI.Instance.Show("Couldn't find an available employee for the job.", 1f, Color.red);
+                    return;
+                }
+
+                character = targetCharacter;
+
+            }
+        }
+
         base.Execute(requester, character, target);
 
         FailReason reason;

@@ -138,14 +138,36 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
             QuestionMark.gameObject.SetActive(true);
 
-            if (!character.IsKnown("Name", CORE.PC))
+            string tooltipString = "";
+
+            if(character.IsKnown("Name",CORE.PC))
             {
-                TooltipTarget?.SetTooltip("??? - 'Right Click' for more options...");
+                tooltipString += CurrentCharacter.name + " - ";
             }
             else
             {
-                TooltipTarget?.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
+                tooltipString += "??? - ";
             }
+
+            if (character.IsKnown("WorkLocation", CORE.PC))
+            {
+                tooltipString += "\n <color=yellow>"+CurrentCharacter.CurrentRole + "</color>";
+
+                if(character.IsAgent)
+                {
+                    tooltipString += "\n <color=green>Agent</color>";
+                }
+            }
+            else
+            {
+                tooltipString += "\n <color=yellow>role unknown</color>";
+            }
+
+
+            tooltipString += "\n 'Right Click' for more options...";
+
+            TooltipTarget?.SetTooltip(tooltipString);
+            
 
             return;
         }
@@ -158,15 +180,47 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         if(CurrentCharacter != null)
         {
             character.StateChanged.RemoveListener(RefreshState);
-            
-            if (character.Known != null && !character.IsKnown("Name", CORE.PC))
+
+            string tooltipString = "";
+
+            if (character.IsKnown("Name", CORE.PC))
             {
-                TooltipTarget?.SetTooltip("??? - 'Right Click' for more options...");
+                tooltipString += CurrentCharacter.name + " - ";
             }
             else
             {
-                TooltipTarget?.SetTooltip(CurrentCharacter.name + " - 'Right Click' for more options...");
+                tooltipString += "??? - ";
             }
+
+            if (character.IsKnown("WorkLocation", CORE.PC))
+            {
+                tooltipString += "\n <color=yellow>Role: " + CurrentCharacter.CurrentRole + "</color>";
+                
+                if (character.IsAgent && character.IsKnown("Faction", CORE.PC))
+                {
+                    tooltipString += "\n <color=#"+ ColorUtility.ToHtmlStringRGB(character.CurrentFaction.FactionColor)+">"+character.CurrentFaction.name+"</color>";
+
+                    if (character.TopEmployer == CORE.PC)
+                    {
+                        tooltipString += "\n <color=green>Your Agent</color>";
+                    }
+                    else
+                    {
+                        tooltipString += "\n <color=green>An Agent</color>";
+                    }
+                }
+                
+            }
+            else
+            {
+                tooltipString += "\n <color=yellow>Role: unknown</color>";
+            }
+
+
+            tooltipString += "\n 'Right Click' for more options...";
+
+            TooltipTarget?.SetTooltip(tooltipString);
+
         }
         else
         {

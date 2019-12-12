@@ -21,6 +21,9 @@ public class RebrandWindowUI : MonoBehaviour
     Transform PossibleTierGrid;
 
     [SerializeField]
+    Transform ActionsGrid;
+
+    [SerializeField]
     PlotTypeUI PlotType;
 
     [SerializeField]
@@ -96,7 +99,9 @@ public class RebrandWindowUI : MonoBehaviour
         Description.text = property.Description;
         IconImage.sprite = property.Icon;
 
-        ClearPossibleActionsContainer();
+        PlotType.SetInfo(property.PlotType);
+
+        ClearContainers();
         for(int i=0;i<property.PropertyLevels.Count;i++)
         {
             GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("PropertyLevelTierUI");
@@ -105,15 +110,27 @@ public class RebrandWindowUI : MonoBehaviour
             tempObj.GetComponent<PropertyLevelTierUI>().SetInfo(property, property.PropertyLevels[i]);
         }
 
-        PlotType.SetInfo(property.PlotType);
+        foreach(PlayerAction action in property.UniquePlayerActions)
+        {
+            GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("RightClickMenuItem");
+            tempObj.transform.SetParent(ActionsGrid, false);
+            tempObj.transform.localScale = Vector3.one;
+            tempObj.GetComponent<RightClickMenuItemUI>().SetInfo(action.name, () => { }, action.Description, action.Icon, true);
+        }
     }
 
-    void ClearPossibleActionsContainer()
+    void ClearContainers()
     {
         while(PossibleTierGrid.childCount > 0)
         {
             PossibleTierGrid.GetChild(0).gameObject.SetActive(false);
             PossibleTierGrid.GetChild(0).transform.SetParent(transform);
+        }
+
+        while (ActionsGrid.childCount > 0)
+        {
+            ActionsGrid.GetChild(0).gameObject.SetActive(false);
+            ActionsGrid.GetChild(0).transform.SetParent(transform);
         }
     }
 

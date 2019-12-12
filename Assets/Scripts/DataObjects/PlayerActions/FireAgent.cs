@@ -45,11 +45,13 @@ public class FireAgent : PlayerAction
 
         if (character.Employer == requester)
         {
+            character.StopDoingCurrentTask();
             character.StopWorkingForCurrentLocation();
         }
         else
         {
             character.WorkLocation.FiredEmployeees.Add(character);
+            character.StopDoingCurrentTask();
             character.StopWorkingForCurrentLocation();
         }
     }
