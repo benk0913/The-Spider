@@ -20,12 +20,12 @@ public class InformationLogUI : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        this.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("PassTimeComplete",OnTurnPassed);
+        this.gameObject.SetActive(false);
     }
 
     void OnEnable()

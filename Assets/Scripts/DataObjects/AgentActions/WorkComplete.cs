@@ -29,6 +29,40 @@ public class WorkComplete : AgentAction
         EarnGold(requester, character, target);
         EarnConnections(requester, character, target);
         EarnRumors(requester, character, target);
+        EarnProgress(requester, character, target);
+    }
+
+    public virtual void EarnProgress(Character requester, Character character, AgentInteractable target, int addedProgress = 0)
+    {
+        if (character.WorkLocation == null)
+        {
+            return;
+        }
+
+        float earnedProgress =
+            character.WorkLocation.CurrentAction.ProgressGenerated
+            * CORE.Instance.Database.Stats.GlobalRevenueMultiplier;
+
+        if (Mathf.RoundToInt(earnedProgress) > 0)
+        {
+            if (character.TopEmployer == null)
+            {
+                character.Progress += Mathf.RoundToInt(earnedProgress + addedProgress);
+                return;
+            }
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
+                "PaperCollectedWorld",
+                character.WorkLocation.transform,
+                StatsViewUI.Instance.ProgressText.transform,
+                () => { StatsViewUI.Instance.RefreshProgress(); },
+                false);
+            }
+
+            character.TopEmployer.Progress += Mathf.RoundToInt(earnedProgress + addedProgress);
+        }
     }
 
     public virtual void EarnConnections(Character requester, Character character, AgentInteractable target, int addedConnections = 0)

@@ -86,6 +86,7 @@ public class Property : ScriptableObject
         public int GoldGenerated = 1;
         public int ConnectionsGenerated = 0;
         public int RumorsGenerated = 0;
+        public int ProgressGenerated = 0;
 
 
         public AgentAction WorkAction;

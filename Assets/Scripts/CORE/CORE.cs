@@ -6,6 +6,7 @@ using System.Linq;
 using SimpleJSON;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class CORE : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class CORE : MonoBehaviour
 
     [SerializeField]
     public Canvas MainCanvas;
+
+    [SerializeField]
+    public EventSystem UIEventSystem;
 
     public TechTreeItem TechTree;
 
@@ -319,6 +323,7 @@ public class CORE : MonoBehaviour
                 factionHead.Gold += faction.GoldGeneratedPerDay;
                 factionHead.Connections += faction.ConnectionsGeneratedPerDay;
                 factionHead.Rumors += faction.RumorsGeneratedPerDay;
+                factionHead.Progress += faction.ProgressGeneratedPerDay;
                 factionHead.Reputation += faction.ReputationGeneratedPerDay;
             }
         }

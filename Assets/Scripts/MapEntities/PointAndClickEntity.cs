@@ -29,6 +29,11 @@ public class PointAndClickEntity : MonoBehaviour
 
     public void Hover()
     {
+        if(CORE.Instance.UIEventSystem.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         OnHover.Invoke();
         InternalHover();
     }

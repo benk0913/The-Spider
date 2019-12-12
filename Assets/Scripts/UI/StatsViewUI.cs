@@ -22,6 +22,9 @@ public class StatsViewUI : MonoBehaviour
     public TextMeshProUGUI ReputationText;
 
     [SerializeField]
+    public TextMeshProUGUI ProgressText;
+
+    [SerializeField]
     public Image ReputationIcon;
 
     [SerializeField]
@@ -41,6 +44,9 @@ public class StatsViewUI : MonoBehaviour
 
     [SerializeField]
     UnityEvent OnRumorsChanged;
+
+    [SerializeField]
+    UnityEvent OnProgressChanged;
 
     [SerializeField]
     UnityEvent OnReputationChanged;
@@ -82,6 +88,7 @@ public class StatsViewUI : MonoBehaviour
             RefreshGold();
             RefreshConnections();
             RefreshRumors();
+            RefreshProgress();
             RefreshReputation();
         }
     }
@@ -111,6 +118,15 @@ public class StatsViewUI : MonoBehaviour
         {
             RumorsText.text = CORE.PC.Rumors.ToString();
             OnRumorsChanged?.Invoke();
+        }
+    }
+
+    public void RefreshProgress()
+    {
+        if (ProgressText.text != CORE.PC.Progress.ToString())
+        {
+            ProgressText.text = CORE.PC.Progress.ToString();
+            OnProgressChanged?.Invoke();
         }
     }
 

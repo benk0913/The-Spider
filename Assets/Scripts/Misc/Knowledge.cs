@@ -110,16 +110,6 @@ public class Knowledge
         {
             if (byCharacter == CORE.PC  && notify)
             {
-                if (CurrentCharacter.CurrentLocation != null)
-                {
-                    CORE.Instance.SplineAnimationObject(
-                        "PaperCollectedWorld",
-                        CurrentCharacter.CurrentLocation.transform,
-                        InformationLogUI.Instance.Notification.transform,
-                        null,
-                        false);
-                }
-
                 InformationLogUI.Instance.AddInformationGathered(instance.Key, CurrentCharacter);
             }
 

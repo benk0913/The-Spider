@@ -141,6 +141,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public int Rumors;
 
+    public int Progress;
+
 
     public Faction CurrentFaction
     {
@@ -1327,6 +1329,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Gold"] = Gold.ToString();
         node["Connections"] = Connections.ToString();
         node["Rumors"] = Rumors.ToString();
+        node["Progress"] = Progress.ToString();
         node["Reputation"] = Reputation.ToString();
 
         node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
@@ -1404,6 +1407,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Gold = int.Parse(node["Gold"]);
         Connections = int.Parse(node["Connections"]);
         Rumors = int.Parse(node["Rumors"]);
+        Progress = int.Parse(node["Progress"]);
         Reputation = int.Parse(node["Reputation"]);
 
         _prisonLocationID = node["PrisonLocation"];
