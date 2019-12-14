@@ -43,13 +43,13 @@ public class RaidScheme : SchemeType
         PlotMethod method,
         PlotEntry entry)
     {
-        base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
-
         LocationEntity targetLocation = (LocationEntity)target;
 
         PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants,
             () => 
             {
+                base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
+
                 foreach (Character character in participants)
                 {
                     if(targetLocation.Inventory.Count > 0)

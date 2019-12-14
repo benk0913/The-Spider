@@ -43,11 +43,11 @@ public class AbductScheme : SchemeType
         PlotMethod method,
         PlotEntry entry)
     {
-        base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
-
         PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants,
     () =>
     {
+        base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
+
         List<LocationEntity> locations = plotter.TopEmployer.PropertiesOwned;
         LocationEntity location = locations.Find(x => x.HasFreePrisonCell);
         {

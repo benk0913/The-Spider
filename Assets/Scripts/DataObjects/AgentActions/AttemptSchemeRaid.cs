@@ -66,12 +66,6 @@ public class AttemptSchemeRaid : AgentAction //DO NOT INHERIT FROM
             {
                 return false;
             }
-
-            if (targetLocation.Inventory.Count == 0)
-            {
-                reason = new FailReason("Nothing to steal here...");
-                return false;
-            }
         }
 
 

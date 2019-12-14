@@ -43,11 +43,11 @@ public class AssassinateScheme : SchemeType
         PlotMethod method,
         PlotEntry entry)
     {
-        base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
-
         PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants,
     () =>
     {
+        base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
+
         CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, ((PortraitUI)target).CurrentCharacter, ((PortraitUI)target).CurrentCharacter.CurrentLocation);
     }));
     }
