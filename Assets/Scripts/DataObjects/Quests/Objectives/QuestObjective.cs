@@ -21,7 +21,13 @@ public class QuestObjective : ScriptableObject
     public Quest ParentQuest;
 
     public bool RandomTarget;
-    
+
+    [System.NonSerialized]
+    public LocationEntity TargetLocation;
+
+    [System.NonSerialized]
+    public Character TargetCharacter;
+
 
     public virtual QuestObjective CreateClone()
     {

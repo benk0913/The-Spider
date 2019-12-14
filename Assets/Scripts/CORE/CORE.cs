@@ -703,6 +703,8 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
+        QuestsPanelUI.Instance.ImplementIDs();
+
         MapViewManager.Instance.HideMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
 

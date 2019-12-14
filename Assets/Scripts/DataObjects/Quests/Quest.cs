@@ -17,6 +17,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public Character RelevantCharacter;
 
+    public LocationEntity RelevantLocation;
+
     public List<string> InfoGivenOnCharacter = new List<string>();
 
     public Quest NextQuest;
@@ -57,6 +59,35 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         if (RelevantCharacter != null)
         {
             quest.RelevantCharacter = CORE.Instance.GetCharacter(RelevantCharacter.name);
+        }
+        else
+        {
+            if (Objectives.Length > 0)
+            {
+                QuestObjective objectiveWithCharacter = objectives.Find(x => x.TargetCharacter != null);
+
+                if (objectiveWithCharacter != null)
+                {
+                    RelevantCharacter = objectiveWithCharacter.TargetCharacter;
+                }
+            }
+        }
+
+        if (RelevantLocation != null)
+        {
+            quest.RelevantLocation = CORE.Instance.Locations.Find(x => x.name == quest.RelevantLocation.name);
+        }
+        else
+        {
+            if(Objectives.Length > 0)
+            {
+                QuestObjective objectiveWithLocation = objectives.Find(x => x.TargetLocation != null);
+
+                if(objectiveWithLocation != null)
+                {
+                    RelevantLocation = objectiveWithLocation.TargetLocation;
+                }
+            }
         }
 
         if (ForCharacter != null)
@@ -101,11 +132,25 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         {
             GetObjective(node["Objectives"][i]["Key"]).IsComplete = bool.Parse(node["Objectives"][i]["IsComplete"]);
         }
+
+        relevantCharacterID = node["RelevantCharacterID"];
+        relevantLocationID  = node["RelevantLocationID"];
     }
+
+    string relevantCharacterID;
+    string relevantLocationID;
 
     public void ImplementIDs()
     {
-        
+        if (!string.IsNullOrEmpty(relevantCharacterID))
+        {
+            RelevantCharacter = CORE.Instance.Characters.Find(x => x.ID == relevantCharacterID);
+        }
+
+        if (!string.IsNullOrEmpty(relevantLocationID))
+        {
+            RelevantLocation = CORE.Instance.Locations.Find(x => x.ID == relevantLocationID);
+        }
     }
 
     public JSONNode ToJSON()
@@ -116,6 +161,16 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         {
             node["Objectives"][i]["Key"] = Objectives[i].name;
             node["Objectives"][i]["IsComplete"] = Objectives[i].IsComplete.ToString();
+        }
+
+        if (RelevantCharacter != null)
+        {
+            node["RelevantCharacterID"] = RelevantCharacter.ID;
+        }
+
+        if (RelevantLocation != null)
+        {
+            node["RelevantLocationID"] = RelevantLocation.ID;
         }
 
         return node;

@@ -11,6 +11,9 @@ public class QuestContentUI : HeadlineContentUI
     PortraitUI CharacterPortrait;
 
     [SerializeField]
+    LocationPortraitUI LocationPortrait;
+
+    [SerializeField]
     Transform ObjectivesContainer;
 
     [SerializeField]
@@ -57,6 +60,16 @@ public class QuestContentUI : HeadlineContentUI
         {
             CharacterPortrait.gameObject.SetActive(true);
             CharacterPortrait.SetCharacter(CurrentQuest.RelevantCharacter);
+        }
+
+        if (CurrentQuest.RelevantLocation == null)
+        {
+            LocationPortrait.gameObject.SetActive(false);
+        }
+        else
+        {
+            LocationPortrait.gameObject.SetActive(true);
+            LocationPortrait.SetLocation(CurrentQuest.RelevantLocation);
         }
 
         ClearContainers();

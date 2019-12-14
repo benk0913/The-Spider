@@ -6,15 +6,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CreateQuestAgentAction", menuName = "DataObjects/AgentActions/Spying/CreateQuestAgentAction", order = 2)]
 public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
 {
-    public List<LetterPreset> PossibleQuestLetters = new List<LetterPreset>();
+    public List<PossibleOpportunity> PossibleQuestLetters = new List<PossibleOpportunity>();
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(requester, character, target);
-
         if (character.TopEmployer == CORE.PC)
         {
-            LetterPreset QuestLetterPreset = PossibleQuestLetters[Random.Range(0, PossibleQuestLetters.Count)].CreateClone();
+            PossibleQuestLetters.RemoveAll(x => !ValidateCondition(x.Coniditon));
+
+            if(PossibleQuestLetters.Count == 0)
+            {
+                return;
+            }
+
+            base.Execute(requester, character, target);
+
+            LetterPreset QuestLetterPreset = PossibleQuestLetters[Random.Range(0, PossibleQuestLetters.Count)].Letter.CreateClone();
 
             Dictionary<string, object> letterParameters = new Dictionary<string, object>();
 
@@ -26,6 +33,24 @@ public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
         //AI / BOT - Alternative for letter.... (maybe quest / gain bonus / whatever)
     }
 
+    bool ValidateCondition(PossibleOpportunity.OpportunityCondition condition)
+    {
+        switch(condition)
+        {
+            case PossibleOpportunity.OpportunityCondition.HasEnemySmugglers:
+                {
+                    if (CORE.Instance.Locations.Find(x => x.CurrentProperty.name == "Smuggler's Warehouse" && x.OwnerCharacter.TopEmployer != CORE.PC) == null)
+                    {
+                        return false;
+                    }
+
+                    break;
+                }
+        }
+
+        return true;
+    }
+
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
 
@@ -35,5 +60,20 @@ public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
         }
 
         return true;
+    }
+
+    [System.Serializable]
+    public class PossibleOpportunity
+    {
+        public LetterPreset Letter;
+        public OpportunityCondition Coniditon;
+
+        [System.Serializable]
+        public enum OpportunityCondition
+        {
+            None,
+            HasEnemySmugglers
+            
+        }
     }
 }

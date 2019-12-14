@@ -7,12 +7,6 @@ public class QOSchemeWin : QuestObjective
 {
     public SchemeType Scheme;
 
-    [System.NonSerialized]
-    public LocationEntity TargetLocation;
-
-    [System.NonSerialized]
-    public Character TargetCharacter;
-
     public Property RandomTargetProperty;
     public Trait[] RandomTargetTraits;
     public int RandomCharacterMinAge;

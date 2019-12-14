@@ -352,5 +352,14 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
     public void ImplementIDs()
     {
+        foreach(Quest quest in ActiveQuests)
+        {
+            quest.ImplementIDs();
+        }
+
+        foreach (Quest quest in CompletedQuests)
+        {
+            quest.ImplementIDs();
+        }
     }
 }
