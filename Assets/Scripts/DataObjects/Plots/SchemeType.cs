@@ -25,6 +25,8 @@ public class SchemeType : ScriptableObject
     public ScenarioPopup DuelResultWoundScenario;
     public ScenarioPopup DuelResultDeathScenario;
 
+    public bool TargetIsLocation;
+
     public virtual PopupDataPreset GetScenarioPopup(PlotEntry entry, PlotMethod method, List<ScenarioPopup> scenarioList)
     {
         ScenarioPopup scenario = scenarioList.Find(x =>
@@ -150,6 +152,16 @@ public class SchemeType : ScriptableObject
         PlotMethod method,
         PlotEntry entry)
     {
+        if(target.GetType() == typeof(LocationEntity))
+        {
+            LocationEntity targetLocation = (LocationEntity) target;
+            CORE.Instance.OnSchemeWin.Invoke(this, targetLocation, null);
+        }
+        else if (target.GetType() == typeof(PortraitUI))
+        {
+            Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+            CORE.Instance.OnSchemeWin.Invoke(this, null, targetCharacter);
+        }
     }
 
     public virtual void AggressiveDuelResult(Character winner, Character loser, bool allowEscape = false)

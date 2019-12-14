@@ -615,6 +615,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool IsKnown(string itemKey, Character byCharacter)
     {
+        if(Known == null)
+        {
+            return true;
+        }
+
         foreach(KnowledgeInstance item in Known.Items)
         {
             if(item.Key == itemKey)

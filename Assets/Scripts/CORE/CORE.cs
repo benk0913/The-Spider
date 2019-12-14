@@ -217,6 +217,8 @@ public class CORE : MonoBehaviour
 
     #region Events
 
+    public ScehemWon OnSchemeWin = new ScehemWon();
+
     public Dictionary<string, UnityEvent> DynamicEvents = new Dictionary<string, UnityEvent>();
 
     public void SubscribeToEvent(string eventKey, UnityAction action)
@@ -741,6 +743,11 @@ public class CORE : MonoBehaviour
     #region Character Utils
     
     #endregion
+}
+
+public class ScehemWon : UnityEvent<SchemeType, LocationEntity, Character>
+{
+
 }
 
 public class SaveFile

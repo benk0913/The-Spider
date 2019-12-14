@@ -9,13 +9,19 @@ public class QuestObjective : ScriptableObject
 
     public bool IsComplete = false;
 
+    [System.NonSerialized]
     public Coroutine ValidateRoutine;
 
     public string WorldMarkerTarget;
 
+    [System.NonSerialized]
     public GameObject WorldMarker;
 
+    [System.NonSerialized]
     public Quest ParentQuest;
+
+    public bool RandomTarget;
+    
 
     public virtual QuestObjective CreateClone()
     {

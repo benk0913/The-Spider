@@ -32,5 +32,13 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public Character PresetSubjectCharacter;
 
+    public LetterPreset CreateClone()
+    {
+        LetterPreset clone = Instantiate(this);
+        clone.QuestAttachment.CreateClone();
+
+        return clone;
+    }
+
 
 }
