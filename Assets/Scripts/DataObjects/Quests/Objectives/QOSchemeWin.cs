@@ -17,46 +17,53 @@ public class QOSchemeWin : QuestObjective
     public override QuestObjective CreateClone()
     {
         QOSchemeWin clone = (QOSchemeWin) base.CreateClone();
-        
-        if(clone.RandomTarget)
+
+        if (clone.RandomTarget)
         {
             if (Scheme.TargetIsLocation)
             {
-                List<LocationEntity> relevantLocations = CORE.Instance.Locations.FindAll(x => x.CurrentProperty == RandomTargetProperty);
-
-                foreach (Trait trait in RandomTargetTraits)
+                if (clone.TargetLocation == null)
                 {
-                    relevantLocations.RemoveAll(x => !x.Traits.Contains(trait));
-                }
-
-                clone.TargetLocation = relevantLocations[Random.Range(0, relevantLocations.Count)];
-            }
-            else
-            {
-                if (RandomCharacterGenerateNew)
-                {
-                    clone.TargetCharacter = CORE.Instance.GenerateCharacter(
-                        RandomCharacterGender, 
-                        RandomCharacterMinAge, 
-                        RandomCharacterMaxAge, 
-                        CORE.Instance.GetRandomLocation());
-                }
-                else
-                {
-                    List<Character> relevantCharacters = CORE.Instance.Characters.FindAll(x =>
-                    x.Age > RandomCharacterMinAge
-                    && x.Age < RandomCharacterMaxAge
-                    && (RandomCharacterGender != -1 && (int)x.Gender == RandomCharacterGender));
+                    List<LocationEntity> relevantLocations = CORE.Instance.Locations.FindAll(x => x.CurrentProperty == RandomTargetProperty);
 
                     foreach (Trait trait in RandomTargetTraits)
                     {
-                        relevantCharacters.RemoveAll(x => !x.Traits.Contains(trait));
+                        relevantLocations.RemoveAll(x => !x.Traits.Contains(trait));
                     }
 
-                    clone.TargetCharacter = relevantCharacters[Random.Range(0, relevantCharacters.Count)];
+                    clone.TargetLocation = relevantLocations[Random.Range(0, relevantLocations.Count)];
+                }
+            }
+            else
+            {
+                if (clone.TargetCharacter == null)
+                {
+                    if (RandomCharacterGenerateNew)
+                    {
+                        clone.TargetCharacter = CORE.Instance.GenerateCharacter(
+                            RandomCharacterGender,
+                            RandomCharacterMinAge,
+                            RandomCharacterMaxAge,
+                            CORE.Instance.GetRandomLocation());
+                    }
+                    else
+                    {
+                        List<Character> relevantCharacters = CORE.Instance.Characters.FindAll(x =>
+                        x.Age > RandomCharacterMinAge
+                        && x.Age < RandomCharacterMaxAge
+                        && (RandomCharacterGender != -1 && (int)x.Gender == RandomCharacterGender));
+
+                        foreach (Trait trait in RandomTargetTraits)
+                        {
+                            relevantCharacters.RemoveAll(x => !x.Traits.Contains(trait));
+                        }
+
+                        clone.TargetCharacter = relevantCharacters[Random.Range(0, relevantCharacters.Count)];
+                    }
                 }
             }
         }
+        
 
         return clone;
     }
@@ -68,12 +75,14 @@ public class QOSchemeWin : QuestObjective
     {
         if (!subscribed)
         {
+            subscribed = true;
             CORE.Instance.OnSchemeWin.AddListener(OnSchemeWin);
         }
 
         if (valid)
         {
             subscribed = false;
+            valid = false;
             CORE.Instance.OnSchemeWin.RemoveListener(OnSchemeWin);
             return true;
         }

@@ -12,7 +12,7 @@ public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
     {
         if (character.TopEmployer == CORE.PC)
         {
-            PossibleQuestLetters.RemoveAll(x => !ValidateCondition(x.Coniditon));
+            PossibleQuestLetters.RemoveAll(x => !ValidateCondition(x));
 
             if(PossibleQuestLetters.Count == 0)
             {
@@ -33,19 +33,18 @@ public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
         //AI / BOT - Alternative for letter.... (maybe quest / gain bonus / whatever)
     }
 
-    bool ValidateCondition(PossibleOpportunity.OpportunityCondition condition)
+    bool ValidateCondition(PossibleOpportunity opportunity)
     {
-        switch(condition)
+        if(opportunity.HostilePropertyCondition != null)
         {
-            case PossibleOpportunity.OpportunityCondition.HasEnemySmugglers:
-                {
-                    if (CORE.Instance.Locations.Find(x => x.CurrentProperty.name == "Smuggler's Warehouse" && x.OwnerCharacter.TopEmployer != CORE.PC) == null)
-                    {
-                        return false;
-                    }
-
-                    break;
-                }
+            if (CORE.Instance.Locations.Find(
+                x => x.CurrentProperty == opportunity.HostilePropertyCondition 
+            && ((x.OwnerCharacter != null && x.OwnerCharacter.TopEmployer != CORE.PC) || x.OwnerCharacter == null)) 
+            
+            == null)
+            {
+                return false;
+            }
         }
 
         return true;
@@ -66,14 +65,6 @@ public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
     public class PossibleOpportunity
     {
         public LetterPreset Letter;
-        public OpportunityCondition Coniditon;
-
-        [System.Serializable]
-        public enum OpportunityCondition
-        {
-            None,
-            HasEnemySmugglers
-            
-        }
+        public Property HostilePropertyCondition;
     }
 }

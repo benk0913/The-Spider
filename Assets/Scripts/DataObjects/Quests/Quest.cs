@@ -29,6 +29,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public Character ForCharacter;
 
+    public PopupDataPreset CompletePopup;
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);
@@ -75,7 +77,12 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
         if (RelevantLocation != null)
         {
-            quest.RelevantLocation = CORE.Instance.Locations.Find(x => x.name == quest.RelevantLocation.name);
+            quest.RelevantLocation = CORE.Instance.Locations.Find(x => x == quest.RelevantLocation);
+
+            if(quest.RelevantLocation == null)
+            {
+                quest.RelevantLocation = CORE.Instance.Locations.Find(x => x.name == quest.RelevantLocation.name);
+            }
         }
         else
         {

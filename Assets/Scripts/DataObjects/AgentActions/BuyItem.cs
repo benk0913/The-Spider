@@ -52,6 +52,12 @@ public class BuyItem : AgentAction
             return false;
         }
 
+        if(requester.Gold < item.CurrentItem.Price)
+        {
+            reason = new FailReason("Not enough gold!");
+            return false;
+        }
+
         return true;
     }
 

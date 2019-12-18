@@ -156,6 +156,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
     
             AddNewQuest(quest.NextQuest);
         }
+
+        if(quest.CompletePopup != null)
+        {
+            PopupWindowUI.Instance.AddPopup(new PopupData(quest.CompletePopup,null,null,null));
+        }
     }
 
     public void ObjectiveComplete(QuestObjective objective)

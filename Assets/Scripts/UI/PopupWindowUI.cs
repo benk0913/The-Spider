@@ -47,7 +47,7 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
         ShowPopup(popup);
     }
 
-    public void ShowPopup(PopupData data)
+    void ShowPopup(PopupData data)
     {
         if(data == null || data.Preset == null)
         {
@@ -59,13 +59,13 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
         Dictionary<string, object> parameters = new Dictionary<string, object>();
 
         GenderType GenderActor = GenderType.Male;
-        if (data.CharactersLeft.Count > 0)
+        if (data.CharactersLeft != null && data.CharactersLeft.Count > 0)
         {
             parameters.Add("ActorName", data.CharactersLeft[0].name);
             GenderActor = data.CharactersLeft[0].Gender;
         }
 
-        if(data.CharactersRight.Count > 0)
+        if(data.CharactersRight != null && data.CharactersRight.Count > 0)
         {
             if (data.CharactersRight[0].IsKnown("Name", CORE.PC))
             {
@@ -91,20 +91,26 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
 
         ClearContainers();
 
-        foreach(Character character in data.CharactersLeft)
+        if (data.CharactersLeft != null)
         {
-            GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
-            portraitObj.transform.SetParent(LeftPortraitsContainer, false);
-            portraitObj.transform.localScale = Vector3.one;
-            portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
+            foreach (Character character in data.CharactersLeft)
+            {
+                GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+                portraitObj.transform.SetParent(LeftPortraitsContainer, false);
+                portraitObj.transform.localScale = Vector3.one;
+                portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
+            }
         }
 
-        foreach (Character character in data.CharactersRight)
+        if (data.CharactersRight != null)
         {
-            GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
-            portraitObj.transform.SetParent(RightPortraitsContainer, false);
-            portraitObj.transform.localScale = Vector3.one;
-            portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
+            foreach (Character character in data.CharactersRight)
+            {
+                GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+                portraitObj.transform.SetParent(RightPortraitsContainer, false);
+                portraitObj.transform.localScale = Vector3.one;
+                portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
+            }
         }
     }
 

@@ -27,8 +27,18 @@ public class InventoryPanelUI : MonoBehaviour
     void OnEnable()
     {
         RefreshInventory();
-
+        StartCoroutine(RefreshInterval());
     }
+
+    IEnumerator RefreshInterval()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            RefreshInventory();
+        }
+    }
+
 
     public Item GetItem(string itemName)
     {

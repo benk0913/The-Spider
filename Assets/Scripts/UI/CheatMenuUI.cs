@@ -24,6 +24,11 @@ public class CheatMenuUI : MonoBehaviour
         {
             character.Known.KnowEverything(CORE.PC);
         }
+
+        foreach (LocationEntity location in CORE.Instance.Locations)
+        {
+            location.Known.KnowEverything(CORE.PC);
+        }
     }
 
     private void Update()
