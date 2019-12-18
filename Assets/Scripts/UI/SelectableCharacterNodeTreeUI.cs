@@ -25,28 +25,44 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
 
     protected override IEnumerator SetCharacters(CharacterNodeTreeUIInstance node)
     {
-        node.nodeObject.transform.GetChild(0).GetChild(0).GetComponent<PortraitUI>().SetCharacter(node.CurrentCharacter);
+        Transform nodeRoot = node.nodeObject.transform.GetChild(0).GetChild(0);
+        nodeRoot.GetComponent<PortraitUI>().SetCharacter(node.CurrentCharacter);
 
         if (LocalOnSelect != null)
         {
-            Button tempButton = node.nodeObject.transform.GetChild(0).GetChild(0).GetComponent<Button>();
+            Button tempButton = nodeRoot.GetComponent<Button>();
             tempButton.onClick.RemoveAllListeners();
-            tempButton.onClick.AddListener(() =>
+
+
+            if (node.CurrentCharacter == CORE.PC)
             {
-                if (node.CurrentCharacter == CORE.PC)
+                nodeRoot.GetComponent<CanvasGroup>().alpha = 0.5f;
+
+                tempButton.onClick.AddListener(() =>
                 {
-                    GlobalMessagePrompterUI.Instance.Show(CORE.PC.name+" doesn't take part in tasks such as this.", 1f, Color.red);
-                }
-                else if(!node.CurrentCharacter.IsAgent)
+                    GlobalMessagePrompterUI.Instance.Show(CORE.PC.name + " doesn't take part in tasks such as this.", 1f, Color.red);
+                });
+            }
+            else if (!node.CurrentCharacter.IsAgent)
+            {
+                nodeRoot.GetComponent<CanvasGroup>().alpha = 0.5f;
+
+                tempButton.onClick.AddListener(() =>
                 {
                     GlobalMessagePrompterUI.Instance.Show("This character is not an agent.", 1f, Color.red);
-                }
-                else
+                });
+            }
+            else
+            {
+                nodeRoot.GetComponent<CanvasGroup>().alpha = 1f;
+                tempButton.onClick.AddListener(() =>
                 {
                     LocalOnSelect.Invoke(node.CurrentCharacter);
                     OnSelected.Invoke();
-                }
-            });
+                });
+            }
+
+            
         }
 
         yield return 0;

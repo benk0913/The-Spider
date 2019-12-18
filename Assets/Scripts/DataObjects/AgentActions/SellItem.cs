@@ -50,9 +50,9 @@ public class SellItem : AgentAction
     {
         List<TooltipBonus> bonuses = base.GetBonuses();
 
-        ItemUI target = (ItemUI)RecentTaret;
+        //ItemUI target = (ItemUI)RecentTaret;
 
-        bonuses.Add(new TooltipBonus("Value: " + (target.CurrentItem.Price/2), ResourcesLoader.Instance.GetSprite("receive_money")));
+        //bonuses.Add(new TooltipBonus("Value: " + (target.CurrentItem.Price/2), ResourcesLoader.Instance.GetSprite("receive_money")));
         return bonuses;
     }
 }

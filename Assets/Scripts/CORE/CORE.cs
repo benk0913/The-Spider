@@ -601,7 +601,6 @@ public class CORE : MonoBehaviour
             savefile["Locations"][i] = Locations[i].ToJSON();
         }
 
-        savefile["Rumors"] = RumorsPanelUI.Instance.ToJSON();
         savefile["Quests"] = QuestsPanelUI.Instance.ToJSON();
         savefile["Rooms"]  = RoomsManager.Instance.ToJSON();
         savefile["TechTree"] = TechTree.ToJSON();
@@ -680,7 +679,6 @@ public class CORE : MonoBehaviour
                 yield return 0;
             }
 
-            RumorsPanelUI.Instance.FromJSON(file.Content["Rumors"]);
             QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
             RoomsManager.Instance.FromJSON(file.Content["Rooms"]);
             TechTree.FromJSON(file.Content["TechTree"]);
