@@ -6,6 +6,15 @@ using UnityEngine.UI.Extensions;
 
 public class TechNodeTreeUI : NodeTreeUI
 {
+    public static TechNodeTreeUI Instance;
+
+    public TechNodeTreeUIInstance CurrentRoot;
+
+    private void Awake()
+    {
+        Instance = this;
+        this.gameObject.SetActive(false);
+    }
 
     public void Show()
     {
@@ -15,9 +24,9 @@ public class TechNodeTreeUI : NodeTreeUI
 
     public virtual void ShowTechHirarchy(TechTreeItem rootItem)
     {
-        TechNodeTreeUIInstance rootNode = GenerateTechNode(null, rootItem);
+        CurrentRoot = GenerateTechNode(null, rootItem);
 
-        GenerateTree(rootNode);
+        GenerateTree(CurrentRoot);
     }
 
     protected virtual TechNodeTreeUIInstance GenerateTechNode(TechNodeTreeUIInstance parent, TechTreeItem item)
@@ -35,6 +44,15 @@ public class TechNodeTreeUI : NodeTreeUI
         return node;
     }
 
+    public void RefreshNodes()
+    {
+        TechTreeItemUI[] items = GetComponentsInChildren<TechTreeItemUI>();
+
+        foreach(TechTreeItemUI item in items)
+        {
+            item.RefreshUI();
+        }
+    }
 
 
     protected override IEnumerator GenerateTreeRoutine(NodeTreeUIInstance origin)

@@ -55,6 +55,7 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
             else
             {
                 nodeRoot.GetComponent<CanvasGroup>().alpha = 1f;
+
                 tempButton.onClick.AddListener(() =>
                 {
                     LocalOnSelect.Invoke(node.CurrentCharacter);

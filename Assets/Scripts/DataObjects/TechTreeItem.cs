@@ -51,6 +51,7 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
         for(int i=0;i< cloneInst.Children.Count;i++)
         {
             cloneInst.Children[i] = cloneInst.Children[i].Clone();
+            cloneInst.Children[i].Parent = cloneInst;
         }
 
         return cloneInst;
