@@ -20,6 +20,8 @@ public class AgentAction : ScriptableObject
     public int ConnectionsCost;
     public int RumorsCost;
 
+    public TechTreeItem TechRequired;
+
     public BonusChallenge Challenge;
 
     public AgentAction FailureResult;
@@ -136,10 +138,15 @@ public class AgentAction : ScriptableObject
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         reason = null;
-        if(character.Age < MinimumAge)
+
+        if (TechRequired != null)
         {
-            reason = new FailReason("Too young to do so.");
-            return false;
+            TechTreeItem techInstance = CORE.Instance.TechTree.Find(x => x.name == TechRequired.name);
+
+            if(techInstance != null && !techInstance.IsResearched)
+            {
+                return false;
+            }
         }
 
         if(target == null)
@@ -164,7 +171,13 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
-        if(requester.Gold < GoldCost)
+        if (character.Age < MinimumAge)
+        {
+            reason = new FailReason("Too young to do so.");
+            return false;
+        }
+
+        if (requester.Gold < GoldCost)
         {
             reason = new FailReason("Not Enough Gold");
             return false;
@@ -181,6 +194,7 @@ public class AgentAction : ScriptableObject
             reason = new FailReason("Not Enough Rumors");
             return false;
         }
+
 
         reason = null;
         return true;

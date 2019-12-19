@@ -64,10 +64,23 @@ public class RebrandWindowUI : MonoBehaviour
             CurrentIndex = 0;
         }
 
-        if(CORE.PlayerFaction.FactionProperties[CurrentIndex].PlotType != CurrentLocation.CurrentProperty.PlotType)
+        Property property = CORE.PlayerFaction.FactionProperties[CurrentIndex];
+
+        if (property.PlotType != CurrentLocation.CurrentProperty.PlotType)
         {
             Next();
             return;
+        }
+
+        if (property.TechRequired != null)
+        {
+            TechTreeItem item = CORE.Instance.TechTree.Find(x => x.name == property.TechRequired.name);
+
+            if(item != null && !item.IsResearched)
+            {
+                Next();
+                return;
+            }
         }
 
         SetProperty(CORE.PlayerFaction.FactionProperties[CurrentIndex]);

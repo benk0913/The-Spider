@@ -39,6 +39,8 @@ public class Property : ScriptableObject
 
     public bool AlwaysKnown;
 
+    public TechTreeItem TechRequired;
+
     public PropertyAction GetActionByName(string actionName)
     {
         foreach(PropertyAction action in Actions)

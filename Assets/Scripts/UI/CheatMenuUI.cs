@@ -42,6 +42,7 @@ public class CheatMenuUI : MonoBehaviour
             CORE.PC.Gold += 100;
             CORE.PC.Connections += 100;
             CORE.PC.Rumors += 100;
+            CORE.PC.Progress += 100;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
@@ -57,6 +58,23 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
         return cloneInst;
     }
 
+    public TechTreeItem Find(Predicate<TechTreeItem> predicate)
+    {
+        if(predicate(this))
+        {
+            return this;
+        }
+
+        foreach(TechTreeItem item in Children)
+        {
+            if(item.Find(predicate))
+            {
+                return item.Find(predicate);
+            }
+        }
+
+        return null;
+    }
     public void FromJSON(JSONNode node)
     {
         IsResearched = bool.Parse(node["IsResearched"]);
