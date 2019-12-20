@@ -22,9 +22,14 @@ public class RebrandLocationPlayerAction : PlayerAction
 
     public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
-        LocationEntity location = (LocationEntity)target;
-
         reason = null;
+
+        if (!base.CanDoAction(requester,target,out reason))
+        {
+            return false;
+        }
+
+        LocationEntity location = (LocationEntity)target;
 
         if (location.OwnerCharacter == null || location.OwnerCharacter.TopEmployer != requester)
         {
@@ -33,7 +38,6 @@ public class RebrandLocationPlayerAction : PlayerAction
 
         if (location.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType)
         {
-            reason = new FailReason("This location is unique and cannot be changed.");
             return false;
         }
 

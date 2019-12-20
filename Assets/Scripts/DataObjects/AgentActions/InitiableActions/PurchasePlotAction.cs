@@ -36,9 +36,14 @@ public class PurchasePlotAction : AgentAction
         reason = null;
         LocationEntity targetEntity = (LocationEntity)target;
 
+        if(!base.CanDoAction(requester,character,target,out reason))
+        {
+            return false;
+        }
+
         if(!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
         {
-            //reason = new FailReason("This location is not known to you.");
+            //ason = new FailReason("This location is not known to you.");
 
             return false;
         }

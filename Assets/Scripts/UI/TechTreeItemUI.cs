@@ -50,17 +50,6 @@ public class TechTreeItemUI : MonoBehaviour
     {
         TechTitle.text = CurrentItem.name;
 
-        if (CurrentItem.FactionsLocked.Contains(CORE.PC.CurrentFaction))
-        {
-            Cost.color = Color.white;
-            Cost.text = "LOCKED";
-        }
-        else
-        {
-            Cost.color = CORE.PC.Progress >= CurrentItem.Price ? Color.white : Color.red;
-            Cost.text = CurrentItem.Price.ToString();
-        }
-
         TechIcon.sprite = CurrentItem.Icon;
 
         if (CurrentItem.Parent == null || CurrentItem.IsResearchable)
@@ -72,18 +61,27 @@ public class TechTreeItemUI : MonoBehaviour
                 NotResearchedPanel.SetActive(false);
 
                 Liner.color = ResearchedColor;
+
+                Cost.color = Color.green;
+                Cost.text = "DONE";
             }
             else
             {
                 NotResearchedPanel.SetActive(true);
 
                 Liner.color = UnresearchedColor;
+
+                Cost.color = CORE.PC.Progress >= CurrentItem.Price ? Color.white : Color.red;
+                Cost.text = CurrentItem.Price.ToString();
             }
         }
         else
         {
             NotDiscoveredPanel.SetActive(true);
-            Liner.color = Color.black;
+            Liner.color = Color.grey;
+
+            Cost.color = Color.white;
+            Cost.text = "LOCKED";
         }
 
         List<TooltipBonus> tooltipBonuses = new List<TooltipBonus>();
@@ -108,5 +106,6 @@ public class TechTreeItemUI : MonoBehaviour
         CORE.PC.Progress -= CurrentItem.Price;
         CurrentItem.IsResearched = true;
         TechNodeTreeUI.Instance.RefreshNodes();
+        CORE.Instance.InvokeEvent("ResearchComplete");
     }
 }

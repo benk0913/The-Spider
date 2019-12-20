@@ -188,6 +188,12 @@ public class CORE : MonoBehaviour
         RoomsManager.Instance.AddCurrentRoom();
 
         AddListeners();
+
+
+        foreach(LetterPreset letter in CORE.PC.CurrentFaction.StartingLetters)
+        {
+            LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter));
+        }
     }
 
     void AddListeners()

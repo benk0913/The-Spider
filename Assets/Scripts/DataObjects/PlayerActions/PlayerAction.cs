@@ -14,6 +14,8 @@ public class PlayerAction : ScriptableObject
 
     public ActionCategory Category = null;
 
+    public TechTreeItem TechRequired;
+
     public virtual void Execute(Character requester, AgentInteractable target)
     {
 
@@ -29,6 +31,17 @@ public class PlayerAction : ScriptableObject
     public virtual bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)
     {
         reason = null;
+
+        if (TechRequired != null)
+        {
+            TechTreeItem techInstance = CORE.Instance.TechTree.Find(x => x.name == TechRequired.name);
+
+            if (techInstance != null && !techInstance.IsResearched)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 }
