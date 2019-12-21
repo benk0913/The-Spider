@@ -2496,10 +2496,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  - m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 815732376585852606}
         m_MethodName: SetActive
         m_Mode: 6
@@ -2578,6 +2574,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   CurrentInteractionIndex: 0
   isPicked: 0
+  DisableLookaround: 0
+  Retreiveable: 1
 --- !u!1001 &857441564793521730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2862,11 +2860,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.2134457
       objectReference: {fileID: 0}
-    - target: {fileID: 3953243815980288562, guid: fe9fbc50662ee0344ae86693cdebb22b,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 1478687570250304421, guid: fe9fbc50662ee0344ae86693cdebb22b,
         type: 3}
       propertyPath: m_Name
@@ -2876,6 +2869,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Alpha
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3953243815980288562, guid: fe9fbc50662ee0344ae86693cdebb22b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe9fbc50662ee0344ae86693cdebb22b, type: 3}

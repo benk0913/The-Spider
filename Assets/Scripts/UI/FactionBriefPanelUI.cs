@@ -41,6 +41,11 @@ public class FactionBriefPanelUI : MonoBehaviour
 
         foreach(Quest quest in faction.Goals)
         {
+            if(quest.Tutorial)
+            {
+                continue;
+            }
+
             tempObj = ResourcesLoader.Instance.GetRecycledObject("QuestContentUI");
             tempObj.transform.SetParent(GoalsContainer, false);
             tempObj.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);

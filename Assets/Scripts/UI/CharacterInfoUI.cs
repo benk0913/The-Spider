@@ -367,4 +367,40 @@ public class CharacterInfoUI : MonoBehaviour
         CurrentCharacter.Pinned = !CurrentCharacter.Pinned;
         PinImage.color = CurrentCharacter.Pinned ? Color.yellow : Color.black;
     }
+
+    public void AddTraitAttempt()
+    {
+        if(CORE.PC.Progress < 3)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Not Enough Progression Points", 1f, Color.red);
+            return;
+        }
+
+        CORE.PC.Progress -= 3;
+
+        ChangePerkWindowUI.Instance.Show(CurrentCharacter, false);
+
+        Hide();
+    }
+
+    public void RemoveTraitAttempt()
+    {
+        if (CORE.PC.Progress < 3)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Not Enough Progression Points", 1f, Color.red);
+            return;
+        }
+
+        if (CurrentCharacter.Traits.Count == 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("No Trait To Remove", 1f, Color.red);
+            return;
+        }
+
+        CORE.PC.Progress -= 3;
+
+        ChangePerkWindowUI.Instance.Show(CurrentCharacter, true);
+
+        Hide();
+    }
 }

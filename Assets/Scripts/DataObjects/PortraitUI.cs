@@ -217,6 +217,8 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             }
 
 
+
+
             tooltipString += "\n 'Right Click' for more options...";
 
             TooltipTarget?.SetTooltip(tooltipString);

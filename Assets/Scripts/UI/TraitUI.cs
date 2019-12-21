@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class TraitUI : MonoBehaviour
 {
-    Trait CurrentTrait;
+    protected Trait CurrentTrait;
 
     [SerializeField]
-    Image Icon;
+    protected Image Icon;
 
     [SerializeField]
-    TooltipTargetUI TooltipTarget;
+    protected TooltipTargetUI TooltipTarget;
 
     public void SetInfo(Trait trait)
     {

@@ -75,6 +75,28 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
         return null;
     }
+
+    public List<TechTreeItem> FindAll(Predicate<TechTreeItem> predicate = null)
+    {
+        List<TechTreeItem> Elements = new List<TechTreeItem>();
+
+        if(predicate == null)
+        {
+            Elements.Add(this);
+        }
+        else if (predicate(this))
+        {
+            Elements.Add(this);
+        }
+
+        foreach (TechTreeItem item in Children)
+        {
+            Elements.AddRange(item.FindAll(predicate));
+        }
+
+        return Elements;
+    }
+
     public void FromJSON(JSONNode node)
     {
         IsResearched = bool.Parse(node["IsResearched"]);

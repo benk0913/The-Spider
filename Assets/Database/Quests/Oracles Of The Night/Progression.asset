@@ -13,17 +13,21 @@ MonoBehaviour:
   m_Name: Progression
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
-  Description: One of the ways to obtain progression points is to use the "Planning"
+  Description: 'One of the ways to obtain progression points is to use the "Planning"
     ability, first select the "Manor" (Your HQ) and then set the property to focus
     on "Planning" by pressing on the "Discuss Options" button.
+
+    That will tell
+    your agent''s to collect progression points each turn, except for the night turn.'
   Objectives:
   - {fileID: 11400000, guid: 99849e0fca5767a4ea7fa4f97bd35eca, type: 2}
+  - {fileID: 11400000, guid: 6796ddb82c5111946a02aac29c506f16, type: 2}
   Rewards:
   - {fileID: 11400000, guid: cc2a26fc1c0cec3488d435b820319ce5, type: 2}
   RelevantCharacter: {fileID: 0}
   RelevantLocation: {fileID: 0}
   InfoGivenOnCharacter: []
-  NextQuest: {fileID: 0}
+  NextQuest: {fileID: 11400000, guid: ce2e0abec5010cd4883ce28aaf1e04e2, type: 2}
   Tutorial: 1
   CompletionLetter: {fileID: 11400000, guid: bed264106c9c442458f69a2303758122, type: 2}
   ForCharacter: {fileID: 0}

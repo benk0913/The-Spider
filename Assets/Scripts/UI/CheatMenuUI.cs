@@ -44,6 +44,10 @@ public class CheatMenuUI : MonoBehaviour
             CORE.PC.Rumors += 100;
             CORE.PC.Progress += 100;
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            CORE.Instance.TechTree.FindAll().ForEach(x => x.IsResearched = true);
+        }
     }
 
 
