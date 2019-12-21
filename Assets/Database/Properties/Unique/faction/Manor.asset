@@ -22,7 +22,7 @@ MonoBehaviour:
     MaxEmployees: 2
     MaxGuards: 1
     MaxPrisoners: 1
-    MaxActions: 1
+    MaxActions: 4
     UpgradePrice: 0
     UpgradeLength: 10
     InventoryCap: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     MaxEmployees: 3
     MaxGuards: 2
     MaxPrisoners: 2
-    MaxActions: 2
+    MaxActions: 5
     UpgradePrice: 250
     UpgradeLength: 20
     InventoryCap: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
     MaxEmployees: 4
     MaxGuards: 4
     MaxPrisoners: 4
-    MaxActions: 3
+    MaxActions: 5
     UpgradePrice: 750
     UpgradeLength: 30
     InventoryCap: 0
@@ -53,7 +53,54 @@ MonoBehaviour:
     GoldGenerated: 0
     ConnectionsGenerated: 0
     RumorsGenerated: 0
+    ProgressGenerated: 0
     WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Planning
+    Description: The employees / agents in this location will focus on planning,
+      plotting and scheming in order to advance their factions performance and techniques.
+    Icon: {fileID: 21300000, guid: ee7e3c4329f4ea043b03c0fbe27b65d8, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 1
+    WorkAction: {fileID: 11400000, guid: fbd937746b7f78f4e8ffc8537dc4a352, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Gathering Rumors
+    Description: The employees / agents in this location will attempt to gather rumors
+      from places and people around the city.
+    Icon: {fileID: 21300000, guid: e0588d88cb659b84da9c87de3b59bc1e, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 1
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: a7e5aa9fd06ce1149807ed6a3fa4ecf1, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Acquiring Connections
+    Description: The employees / agents in this location will attempt to search for
+      and mingle with the right people, in order to get more connections around the
+      city.
+    Icon: {fileID: 21300000, guid: 960a59b36c90938489fda8df85986435, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 1
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 6652d22d4ee5cbc44abb542007c318f9, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Exploring
+    Description: The employees / agents in this location will attempt to explore
+      the city automatically, they will look for points locations and businesses
+      which may have potential use in the future.
+    Icon: {fileID: 21300000, guid: 0430a6b0138cebf4b95f3d498d95a113, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 1
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 4ff22edaa64726b4ba06dad90e9017f2, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   Traits: []
@@ -73,6 +120,7 @@ MonoBehaviour:
   UniqueAgentActions: []
   EmployeeRole: agent
   AlwaysKnown: 0
+  TechRequired: {fileID: 0}
   IsVendor: 0
   AutoRestock: 0
   EmployeesAreAgents: 1

@@ -946,6 +946,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {
             SelectedPanelUI.Instance.Select(this);
+            CORE.Instance.InvokeEvent("AgentRecruited");
         }
 
         return null;

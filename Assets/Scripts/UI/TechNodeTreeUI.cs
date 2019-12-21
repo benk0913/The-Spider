@@ -46,6 +46,11 @@ public class TechNodeTreeUI : NodeTreeUI
 
     public void RefreshNodes()
     {
+        if(!this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         TechTreeItemUI[] items = GetComponentsInChildren<TechTreeItemUI>();
 
         foreach(TechTreeItemUI item in items)
