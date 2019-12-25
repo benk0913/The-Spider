@@ -361,6 +361,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
         }
 
+        DistrictBonuses();
 
         RefreshState();
 
@@ -387,6 +388,75 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                     OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC);
                 return;
             }
+        }
+    }
+
+    public void DistrictBonuses()
+    {
+        Faction faction = FactionInControl;
+        if(!Traits.Contains(CORE.Instance.Database.CentralAreaTrait))
+        {
+            return;
+        }
+
+        if(faction == CORE.Instance.Database.NoFaction)
+        {
+            return;
+        }
+
+        Character factionHead = CORE.Instance.Characters.Find(x => faction.FactionHead.name == x.name);
+
+        if(factionHead == null)
+        {
+            return;
+        }
+
+        if (CurrentProperty.DistrictBonus.ProgressionPerTurn != 0)
+        {
+            factionHead.Progress += CurrentProperty.DistrictBonus.ProgressionPerTurn;
+
+            CORE.Instance.SplineAnimationObject(
+             "PaperCollectedWorld",
+             transform,
+             StatsViewUI.Instance.ProgressText.transform,
+             () => { StatsViewUI.Instance.RefreshProgress(); },
+             false);
+        }
+
+        if (CurrentProperty.DistrictBonus.GoldPerTurn != 0)
+        {
+            factionHead.Gold += CurrentProperty.DistrictBonus.GoldPerTurn;
+
+            CORE.Instance.SplineAnimationObject(
+             "CoinCollectedWorld",
+             transform,
+             StatsViewUI.Instance.RumorsText.transform,
+             () => { StatsViewUI.Instance.RefreshGold(); },
+             false);
+        }
+
+        if (CurrentProperty.DistrictBonus.RumorsPerTurn != 0)
+        {
+            factionHead.Rumors += CurrentProperty.DistrictBonus.RumorsPerTurn;
+
+            CORE.Instance.SplineAnimationObject(
+             "EarCollectedWorld",
+             transform,
+             StatsViewUI.Instance.RumorsText.transform,
+             () => { StatsViewUI.Instance.RefreshRumors(); },
+             false);
+        }
+
+        if (CurrentProperty.DistrictBonus.ConnectionsPerTurn != 0)
+        {
+            factionHead.Connections += CurrentProperty.DistrictBonus.ConnectionsPerTurn;
+
+            CORE.Instance.SplineAnimationObject(
+             "ConnectionCollectedWorld",
+             transform,
+             StatsViewUI.Instance.ConnectionsText.transform,
+             () => { StatsViewUI.Instance.RefreshConnections(); },
+             false);
         }
     }
 

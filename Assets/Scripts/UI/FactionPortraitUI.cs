@@ -21,7 +21,8 @@ public class FactionPortraitUI : MonoBehaviour
     {
         this.CurrentFaction = faction;
 
-        if (CurrentFaction.name == CORE.Instance.Database.DefaultFaction.name || (CurrentFaction.Known != null && CurrentFaction.Known.IsKnown("Existance", CORE.PC)))
+        if (    CurrentFaction.name  == CORE.Instance.Database.DefaultFaction.name 
+            || (CurrentFaction.Known != null && CurrentFaction.Known.IsKnown("Existance", CORE.PC)))
         {
             QuestionMark.gameObject.SetActive(false);
 

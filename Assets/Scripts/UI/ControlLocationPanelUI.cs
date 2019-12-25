@@ -70,6 +70,15 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     PlotTypeUI BuyPanelPlotType;
 
+    [SerializeField]
+    GameObject DistrictInControlPanel;
+
+    [SerializeField]
+    FactionPortraitUI DistrictInControlFactionPortrait;
+
+    [SerializeField]
+    TextMeshProUGUI DistrictInControlDescription;
+
     LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
@@ -147,6 +156,19 @@ public class ControlLocationPanelUI : MonoBehaviour
         else
         {
             BuyPanel.gameObject.SetActive(false);
+        }
+
+        if(CurrentLocation.Traits.Contains(CORE.Instance.Database.CentralAreaTrait))
+        {
+            Faction faction = CurrentLocation.FactionInControl;
+
+            DistrictInControlPanel.gameObject.SetActive(true);
+            DistrictInControlFactionPortrait.SetInfo(faction);
+            DistrictInControlDescription.SetText("Bonuses: \n"+CurrentLocation.CurrentProperty.DistrictBonus.Description);
+        }
+        else
+        {
+            DistrictInControlPanel.gameObject.SetActive(false);
         }
     }
 

@@ -60,6 +60,20 @@ public class Property : ScriptableObject
 
     public bool EmployeesAreAgents;
 
+    public DistrictBonuses DistrictBonus;
+
+    [System.Serializable]
+    public class DistrictBonuses
+    {
+        [TextArea(3,6)]
+        public string Description;
+
+        public int GoldPerTurn;
+        public int ConnectionsPerTurn;
+        public int RumorsPerTurn;
+        public int ProgressionPerTurn;
+    }
+
     [System.Serializable]
     public class PropertyLevel
     {
