@@ -62,6 +62,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     GameObject DeceasedPanel;
 
+    [SerializeField]
+    FactionPortraitUI FactionPortrait;
+
     Character CurrentCharacter;
 
     void Awake()
@@ -199,6 +202,8 @@ public class CharacterInfoUI : MonoBehaviour
                 tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(null);
             }
         }
+
+        FactionPortrait.SetInfo(CurrentCharacter.CurrentFaction);
     }
 
     void SetHomeLocation()

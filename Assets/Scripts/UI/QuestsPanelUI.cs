@@ -334,6 +334,14 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
+        ActiveQuests.ForEach((x) =>
+        {
+            foreach (QuestObjective objective in x.Objectives)
+            {
+                StopCoroutine(objective.ValidateRoutine);
+            }
+        });
+
         ActiveQuests.Clear();
         CompletedQuests.Clear();
 
@@ -342,7 +350,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["ActiveQuests"][i]);
 
-            ActiveQuests.Add(quest);
+            AddNewQuest(quest);
         }
 
         for (int i = 0; i < node["CompletedQuests"].Count; i++)
@@ -350,7 +358,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["CompletedQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["CompletedQuests"][i]);
 
-            CompletedQuests.Add(quest);
+            AddCompletedQuest(quest);
         }
 
     }

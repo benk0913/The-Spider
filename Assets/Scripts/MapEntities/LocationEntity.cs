@@ -100,6 +100,37 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public List<LongTermTaskEntity> LongTermTasks = new List<LongTermTaskEntity>();
 
+    public Faction FactionInControl
+    {
+        get
+        {
+            if (Traits.Contains(CORE.Instance.Database.CentralAreaTrait))
+            {
+                List<LocationEntity> locationsInDistrict = CORE.Instance.Locations.FindAll(x => 
+                x.NearestDistrict == this 
+                && !x.Traits.Contains(CORE.Instance.Database.PublicAreaTrait));
+
+                if(locationsInDistrict.Count > 0)
+                {
+                    Faction Potential = locationsInDistrict[0].FactionInControl;
+                    if(locationsInDistrict.Find(x=>x.FactionInControl != Potential))
+                    {
+                        return CORE.Instance.Database.NoFaction;
+                    }
+
+                    return Potential;
+                }
+            }
+
+            if(OwnerCharacter != null)
+            {
+                return OwnerCharacter.CurrentFaction;
+            }
+
+            return CORE.Instance.Database.NoFaction;
+        }
+    }
+
     public bool IsBuyable
     {
         get
@@ -113,7 +144,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         get
         {
 
-            return PrisonersCharacters.Count < CurrentProperty.PropertyLevels[Level - 1].MaxEmployees;
+            return PrisonersCharacters.Count < CurrentProperty.PropertyLevels[Level - 1].MaxPrisoners;
         }
     }
 
@@ -421,6 +452,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         this.ID = id;
 
         CurrentProperty = property;
+
         CurrentAction = CurrentProperty.Actions[0];
 
         if (CurrentProperty.AlwaysKnown)
@@ -464,13 +496,13 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             {
                 if (OwnerCharacter == null)
                 {
-                    tempFigure.GetComponent<FigureController>().SetMaterial(CORE.Instance.Database.NoFaction.WaxMaterial);
+                    tempFigure.GetComponent<FigureController>().SetMaterial(FactionInControl.WaxMaterial);
                 }
                 else
                 {
-                    if (OwnerCharacter.IsKnown("Faction", CORE.PC))
+                    if (FactionInControl.Known != null && FactionInControl.Known.IsKnown("Existance", CORE.PC))
                     {
-                        tempFigure.GetComponent<FigureController>().SetMaterial(OwnerCharacter.CurrentFaction.WaxMaterial);
+                        tempFigure.GetComponent<FigureController>().SetMaterial(FactionInControl.WaxMaterial);
                     }
                     else
                     {
@@ -846,6 +878,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         
         foreach (KnowledgeInstance item in Known.Items)
         {
+            if(string.IsNullOrEmpty(node["Knowledge"][item.Key]))
+            {
+                continue;
+            }
+
             List<string> IDs = new List<string>();
             for (int i = 0; i < node["Knowledge"][item.Key].Count; i++)
             {
@@ -939,9 +976,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                CurrentProperty.MaxAge,
                this);
 
-        randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
-
         randomNewEmployee.StartWorkingFor(this, isGuard);
+
+        randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
 
         if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {

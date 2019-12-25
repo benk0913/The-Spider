@@ -61,7 +61,7 @@ public class Knowledge
 
     public virtual void KnowEverythingAll()
     {
-        foreach (Faction faction in CORE.Instance.Database.Factions)
+        foreach (Faction faction in CORE.Instance.Factions)
         {
             if (faction.FactionHead == null)
             {
@@ -84,7 +84,7 @@ public class Knowledge
 
     public virtual void KnowAll(string key)
     {
-        foreach (Faction faction in CORE.Instance.Database.Factions)
+        foreach (Faction faction in CORE.Instance.Factions)
         {
             if (faction.FactionHead == null)
             {
@@ -115,9 +115,9 @@ public class Knowledge
 
             instance.KnownByCharacters.Add(byCharacter);
         }
-        
 
-        if(key == "CurrentLocation")
+
+        if (key == "CurrentLocation")
         {
             if (CurrentCharacter.CurrentLocation != null)
             {
@@ -127,6 +127,14 @@ public class Knowledge
             if (CurrentCharacter.CurrentTaskEntity != null)
             {
                 CurrentCharacter.CurrentTaskEntity.CurrentTargetLocation.RefreshTasks();
+            }
+        }
+
+        if(key == "Faction")
+        {
+            if (CurrentCharacter.CurrentFaction != null)
+            {
+                CORE.Instance.Factions.Find(x => x.name == CurrentCharacter.CurrentFaction.name).Known.Know("Existance", byCharacter, false);
             }
         }
     }
@@ -184,6 +192,28 @@ public class LocationKnowledge : Knowledge
         if (key == "Existance")
         {
             CurrentLocation.RefreshState();
+        }
+    }
+}
+
+public class FactionKnowledge : Knowledge
+{
+    public Faction CurrentFaction;
+
+    public FactionKnowledge(Faction faction)
+    {
+        CurrentFaction = faction;
+
+        Items.Add(new KnowledgeInstance("Existance", "The Existance Of This Faction"));
+    }
+
+    public override void Know(string key, Character byCharacter, bool notify = true)
+    {
+        KnowledgeInstance instance = GetKnowledgeInstance(key);
+
+        if (!instance.IsKnownByCharacter(byCharacter))
+        {
+            instance.KnownByCharacters.Add(byCharacter);
         }
     }
 }

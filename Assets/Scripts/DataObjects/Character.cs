@@ -1429,6 +1429,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         foreach (KnowledgeInstance item in Known.Items)
         {
+            if(string.IsNullOrEmpty(node["Knowledge"][item.Key]))
+            {
+                continue;
+            }
+
             List<string> IDs = new List<string>();
             for(int i=0;i< node["Knowledge"][item.Key].Count;i++)
             {
@@ -1438,7 +1443,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
 
-        CurrentFaction = CORE.Instance.Database.GetFactionByName(node["CurrentFaction"]);
+        CurrentFaction = CORE.Instance.Factions.Find(x => x.name == node["CurrentFaction"]);
 
         _propertiesOwnedIDs = new string[node["PropertiesOwned"].Count];
         for (int i = 0; i < node["PropertiesOwned"].Count; i++)

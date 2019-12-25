@@ -37,6 +37,10 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
         quest.name = this.name;
 
+        quest.relevantCharacterID = this.relevantCharacterID;
+        quest.relevantLocationID = this.relevantLocationID;
+        quest.forCharacterID = this.forCharacterID;
+
         List<QuestObjective> objectives = new List<QuestObjective>();
         foreach(QuestObjective objective in this.Objectives)
         {
@@ -142,11 +146,13 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
         relevantCharacterID = node["RelevantCharacterID"];
         relevantLocationID  = node["RelevantLocationID"];
+        forCharacterID = node["ForCharacter"];
     }
 
-    string relevantCharacterID;
-    string relevantLocationID;
-
+    public string relevantCharacterID;
+    public string relevantLocationID;
+    public string forCharacterID;
+    
     public void ImplementIDs()
     {
         if (!string.IsNullOrEmpty(relevantCharacterID))
@@ -158,13 +164,20 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         {
             RelevantLocation = CORE.Instance.Locations.Find(x => x.ID == relevantLocationID);
         }
+        
+        if (!string.IsNullOrEmpty(forCharacterID))
+        {
+            ForCharacter = CORE.Instance.Characters.Find(x => x.ID == forCharacterID);
+        }
     }
 
     public JSONNode ToJSON()
     {
         JSONClass node = new JSONClass();
 
-        for(int i=0;i<Objectives.Length;i++)
+        node["Key"] = this.name;
+
+        for (int i=0;i<Objectives.Length;i++)
         {
             node["Objectives"][i]["Key"] = Objectives[i].name;
             node["Objectives"][i]["IsComplete"] = Objectives[i].IsComplete.ToString();
@@ -178,6 +191,11 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         if (RelevantLocation != null)
         {
             node["RelevantLocationID"] = RelevantLocation.ID;
+        }
+
+        if (ForCharacter != null)
+        {
+            node["ForCharacter"] = this.ForCharacter.ID;
         }
 
         return node;

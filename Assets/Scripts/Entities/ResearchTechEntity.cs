@@ -20,10 +20,17 @@ public class ResearchTechEntity : MonoBehaviour
         }
 
         CORE.Instance.SubscribeToEvent("ResearchComplete", OnResearchComplete);
+        CORE.Instance.SubscribeToEvent("GameLoadComplete", OnResearchComplete);
+        OnResearchComplete();
     }
 
     private void OnResearchComplete()
     {
+        if(CORE.Instance.TechTree == null)
+        {
+            return;
+        }
+
         if(CORE.Instance.TechTree.Find(x => x.name == RequiredTech.name).IsResearched)
         {
             OnResearch.Invoke();

@@ -9,6 +9,11 @@ public class QOControlPrecentageOfCity : QuestObjective
 
     public override bool Validate()
     {
+        if(ParentQuest.ForCharacter == null)
+        {
+            return false;
+        }
+
         return CityControlUI.Instance.GetControlPrecentage(ParentQuest.ForCharacter.CurrentFaction) > precentage;
     }
     

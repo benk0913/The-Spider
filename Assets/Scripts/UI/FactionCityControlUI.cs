@@ -19,8 +19,8 @@ public class FactionCityControlUI : MonoBehaviour
         CurrentFaction = faction;
         CurrentPrecent = precent;
 
-
         PanelImage.color = CurrentFaction.FactionColor;
+
         Element.sizeDelta = new Vector2(totalSize * precent, Element.sizeDelta.y);
     }
 

@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Game Database", menuName = "DataObjects/Game Database", order = 2)]
 public class GameDB : ScriptableObject
 {
+    public string DataPath;
+
     public GameStats Stats;
 
     //TODO Add tooltips for each serialized field.
@@ -65,15 +67,15 @@ public class GameDB : ScriptableObject
 
     public Trait UnknownTrait;
 
-    public Trait[] Traits;
+    public List<Trait> Traits;
 
     public Quest TutorialQuest;
 
-    public Quest[] AllQuests;
+    public List<Quest> AllQuests;
 
-    public Item[] AllItems;
+    public List<Item> AllItems;
 
-    public PopupDataPreset[] AllPopupPresets;
+    public List<PopupDataPreset> AllPopupPresets;
 
     public TimelineInstance[] Timeline;
 
@@ -111,7 +113,7 @@ public class GameDB : ScriptableObject
 
     public Item GetItem(string itemKey)
     {
-        for (int i = 0; i < AllItems.Length; i++)
+        for (int i = 0; i < AllItems.Count; i++)
         {
             if (AllItems[i].name == itemKey)
             {
@@ -124,7 +126,7 @@ public class GameDB : ScriptableObject
 
     public Quest GetQuest(string questName)
     {
-        for (int i = 0; i < AllQuests.Length; i++)
+        for (int i = 0; i < AllQuests.Count; i++)
         {
             if (AllQuests[i].name == questName)
             {
@@ -211,7 +213,7 @@ public class GameDB : ScriptableObject
 
     public Trait GetTrait(string traitName)
     {
-        for(int i=0;i<Traits.Length;i++)
+        for(int i=0;i<Traits.Count; i++)
         {
             if(Traits[i].name == traitName)
             {
@@ -224,14 +226,14 @@ public class GameDB : ScriptableObject
 
     public Trait GetRandomTrait()
     {
-        return Traits[Random.Range(0, Traits.Length)];
+        return Traits[Random.Range(0, Traits.Count)];
     }
 
     public Trait[] GetRandomTraits()
     {
         List<Trait> GeneratedTraits = new List<Trait>();
 
-        for(int i=0;i<Traits.Length;i++)
+        for(int i=0;i<Traits.Count; i++)
         {
             if (Random.Range(0f, 1f) <= Traits[i].DropChance)
             {

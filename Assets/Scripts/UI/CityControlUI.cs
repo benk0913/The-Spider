@@ -36,7 +36,7 @@ public class CityControlUI : MonoBehaviour
 
         float accumPrecent = 0f;
         //faction.FactionHead.PropertiesInCommand.Count 
-        foreach (Faction faction in CORE.Instance.Database.Factions)
+        foreach (Faction faction in CORE.Instance.Factions)
         {
             if(faction.FactionHead == null)
             {
@@ -73,8 +73,22 @@ public class CityControlUI : MonoBehaviour
 
     public void ShowFactionLabel(Faction faction, float precent)
     {
-        TextLabel.text = faction.name + " - " +Mathf.RoundToInt(precent*100f)+"%";
         TextLabel.gameObject.SetActive(true);
+
+        if (faction.name == CORE.Instance.Database.DefaultFaction.name)
+        {
+            TextLabel.text = "Unowned Territory - " + Mathf.RoundToInt(precent * 100f) + "%";
+            return;
+        }
+
+        if (faction.Known.IsKnown("Existance", CORE.PC))
+        {
+            TextLabel.text = faction.name + " - " + Mathf.RoundToInt(precent * 100f) + "%";
+        }
+        else
+        {
+            TextLabel.text = "Unknown Faction - " + Mathf.RoundToInt(precent * 100f) + "%";
+        }
     }
 
     public void HideFactionLabel()
@@ -84,7 +98,14 @@ public class CityControlUI : MonoBehaviour
 
     public float GetControlPrecentage(Faction faction)
     {
+
+        if (faction.FactionHead == null)
+        {
+            return 0f;
+        }
+
         Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+
         return ((float)factionHead.PropertiesInCommand.Count) / ((float)CORE.Instance.Locations.Count);
     }
 }

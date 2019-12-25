@@ -25,6 +25,8 @@ public class CORE : MonoBehaviour
 
     public TechTreeItem TechTree;
 
+    public List<Faction> Factions = new List<Faction>();
+
     public List<Character> Characters = new List<Character>();
     
     public List<LocationEntity> Locations = new List<LocationEntity>();
@@ -90,8 +92,7 @@ public class CORE : MonoBehaviour
         }
 
         yield return StartCoroutine(LoadMainScene(selectedFaction));
-
-
+        
         if (TutorialOnStart)
         {
             Quest questClone = Database.TutorialQuest.CreateClone();
@@ -99,40 +100,10 @@ public class CORE : MonoBehaviour
             QuestsPanelUI.Instance.AddNewQuest(questClone);
         }
 
-        foreach(Faction faction in Database.Factions)
-        {
-            if(faction.FactionHead != null)
-            {
-                Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
-
-                foreach (Quest quest in faction.Goals)
-                {
-                    Quest questClone = quest.CreateClone();
-                    questClone.ForCharacter = factionHead;
-
-                    QuestsPanelUI.Instance.AddNewQuest(questClone);
-                }
-            }
-        }
-
-        foreach (Faction faction in Database.Factions)
-        {
-            if (faction.FactionHead != null)
-            {
-                Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
-
-                if (faction.isAlwaysKnown)
-                {
-                    factionHead.Known.KnowAll("Name");
-                    factionHead.Known.KnowAll("Faction");
-                }
-            }
-        }
-
         LoadingGameRoutine = null;
     }
 
-    IEnumerator LoadMainScene(Faction selectedFaction)
+    IEnumerator LoadMainScene(Faction selectedFaction, bool isLoadedFromSave = false)
     {
         SceneManager.LoadScene(selectedFaction.RoomScene);
         while (SceneManager.GetActiveScene().name != selectedFaction.RoomScene)
@@ -147,6 +118,12 @@ public class CORE : MonoBehaviour
         }
 
         yield return 0;
+
+        Factions.Clear();
+        foreach (Faction faction in Database.Factions)
+        {
+            Factions.Add(faction.Clone());
+        }
 
         TechTree = Database.TechTreeRoot.Clone();
 
@@ -172,6 +149,28 @@ public class CORE : MonoBehaviour
             Characters.Add(tempCharacter);
         }
 
+        foreach (Faction faction in Factions)
+        {
+            if (faction.FactionHead != null)
+            {
+                Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+                
+                if(factionHead != null)
+                {
+                    CORE.Instance.Characters.Find(x => x.name == factionHead.name).CurrentFaction = faction;
+                }
+
+                if (faction.isAlwaysKnown)
+                {
+                    faction.Known.KnowAll("Existance");
+                    factionHead.Known.KnowAll("Name");
+                    factionHead.Known.KnowAll("Faction");
+                }
+            }
+        }
+
+        selectedFaction = Factions.Find(x => x.name == selectedFaction.name);
+
         foreach (LocationEntity presetLocation in PresetLocations)
         {
             presetLocation.InitializePreset();
@@ -189,10 +188,22 @@ public class CORE : MonoBehaviour
 
         AddListeners();
 
-
-        foreach(LetterPreset letter in CORE.PC.CurrentFaction.StartingLetters)
+        if (!isLoadedFromSave)
         {
-            LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter));
+            foreach (LetterPreset letter in CORE.PC.CurrentFaction.StartingLetters)
+            {
+                LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter));
+            }
+
+            Factions.ForEach((faction) => {
+                faction.Goals.ForEach((quest) =>
+                {
+                    Quest questClone = quest.CreateClone();
+                    questClone.ForCharacter = Characters.Find(x => x.name == faction.FactionHead.name);
+
+                    QuestsPanelUI.Instance.AddNewQuest(questClone);
+                });
+            });
         }
     }
 
@@ -272,7 +283,7 @@ public class CORE : MonoBehaviour
     IEnumerator TurnPassedRoutine()
     {
         //AI DECISIONS
-        foreach(Faction faction in Database.Factions)
+        foreach(Faction faction in CORE.Instance.Factions)
         {
             if(faction.FactionHead == null)
             {
@@ -314,7 +325,7 @@ public class CORE : MonoBehaviour
 
         if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
         {
-            foreach(Faction faction in Database.Factions)
+            foreach(Faction faction in CORE.Instance.Factions)
             {
                 if(faction.FactionHead == null)
                 {
@@ -597,6 +608,11 @@ public class CORE : MonoBehaviour
 
         savefile["GameClock"] = GameClock.Instance.ToJSON();
 
+        for (int i = 0; i < Factions.Count; i++)
+        {
+            savefile["Factions"][i] = Factions[i].ToJSON();
+        }
+
         for (int i=0;i<Characters.Count;i++)
         {
             savefile["Characters"][i] = Characters[i].ToJSON();
@@ -645,7 +661,7 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
-        yield return StartCoroutine(LoadMainScene(Database.GetFactionByName(file.Content["SelectedFaction"])));
+        yield return StartCoroutine(LoadMainScene(Database.GetFactionByName(file.Content["SelectedFaction"]),true));
 
         MapViewManager.Instance.ShowMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(true);
@@ -654,6 +670,15 @@ public class CORE : MonoBehaviour
         {
 
             GameClock.Instance.FromJSON(file.Content["GameClock"]);
+
+            Factions.Clear();
+            for (int i = 0; i < file.Content["Factions"].Count; i++)
+            {
+                Faction faction = Database.Factions.Find(x => x.name == file.Content["Factions"][i]["Key"].Value).Clone();
+                faction.FromJSON(file.Content["Factions"][i]);
+
+                Factions.Add(faction);
+            }
 
             for (int i = 0; i < file.Content["Characters"].Count; i++)
             {
@@ -700,7 +725,14 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
-        foreach(LocationEntity location in Locations)
+        foreach (Faction faction in Factions)
+        {
+            faction.ImplementIDs();
+
+            yield return 0;
+        }
+
+        foreach (LocationEntity location in Locations)
         {
             location.ImplementIDs();
 
@@ -713,6 +745,7 @@ public class CORE : MonoBehaviour
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
 
         LoadingGameRoutine = null;
+        InvokeEvent("GameLoadComplete");
     }
 
     public void ReadAllSaveFiles()
