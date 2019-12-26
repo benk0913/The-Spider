@@ -16,6 +16,8 @@ MonoBehaviour:
   PropertyLevels:
   - LevelName: 
     MaxEmployees: 0
+    MaxGuards: 0
+    MaxPrisoners: 0
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
@@ -29,6 +31,7 @@ MonoBehaviour:
     GoldGenerated: 1
     ConnectionsGenerated: 0
     RumorsGenerated: 0
+    ProgressGenerated: 0
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -51,4 +54,13 @@ MonoBehaviour:
   UniqueAgentActions: []
   EmployeeRole: 
   AlwaysKnown: 0
+  TechRequired: {fileID: 0}
   IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: +2 Progress Points Per Turn
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 2

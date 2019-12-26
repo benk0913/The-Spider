@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SellItem", menuName = "DataObjects/AgentActions/Item/SellItem", order = 2)]
 public class SellItem : AgentAction
 {
+    public float ValueMultiplier = 0.5f;
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
@@ -18,7 +19,7 @@ public class SellItem : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        character.TopEmployer.Gold += itemUI.CurrentItem.Price/2;
+        character.TopEmployer.Gold += Mathf.CeilToInt(itemUI.CurrentItem.Price * ValueMultiplier);
         character.TopEmployer.Belogings.Remove(itemUI.CurrentItem);
         InventoryPanelUI.Instance.ItemWasAdded(0);
     }

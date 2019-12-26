@@ -48,6 +48,11 @@ public class CheatMenuUI : MonoBehaviour
         {
             CORE.Instance.TechTree.FindAll().ForEach(x => x.IsResearched = true);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            Quest quest = QuestsPanelUI.Instance.ActiveQuests.Find(x => x.Tutorial);
+            QuestsPanelUI.Instance.QuestComplete(quest);
+        }
     }
 
 

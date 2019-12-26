@@ -22,7 +22,7 @@ MonoBehaviour:
     MaxEmployees: 2
     MaxGuards: 1
     MaxPrisoners: 1
-    MaxActions: 4
+    MaxActions: 5
     UpgradePrice: 0
     UpgradeLength: 10
     InventoryCap: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     MaxEmployees: 3
     MaxGuards: 2
     MaxPrisoners: 2
-    MaxActions: 5
+    MaxActions: 6
     UpgradePrice: 250
     UpgradeLength: 20
     InventoryCap: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
     MaxEmployees: 4
     MaxGuards: 4
     MaxPrisoners: 4
-    MaxActions: 5
+    MaxActions: 6
     UpgradePrice: 750
     UpgradeLength: 30
     InventoryCap: 0
@@ -91,13 +91,26 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 6652d22d4ee5cbc44abb542007c318f9, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+  - Name: Mugging
+    Description: 'The agents in this location will attempt to mug those unlucky folk
+      who had the misfortune of crossing the wrong alley at the wrong time.
+
+'
+    Icon: {fileID: 21300000, guid: 06b34bbaa9a645544af5db05c500e74f, type: 3}
+    GoldGenerated: 2
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: bda81eadce3a4614ca8a283d54f5dd81, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
   - Name: Exploring
     Description: The employees / agents in this location will attempt to explore
       the city automatically, they will look for points locations and businesses
       which may have potential use in the future.
     Icon: {fileID: 21300000, guid: 0430a6b0138cebf4b95f3d498d95a113, type: 3}
     GoldGenerated: 0
-    ConnectionsGenerated: 1
+    ConnectionsGenerated: 0
     RumorsGenerated: 0
     ProgressGenerated: 0
     WorkAction: {fileID: 11400000, guid: 4ff22edaa64726b4ba06dad90e9017f2, type: 2}
@@ -124,3 +137,9 @@ MonoBehaviour:
   IsVendor: 0
   AutoRestock: 0
   EmployeesAreAgents: 1
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0

@@ -32,10 +32,15 @@ public class InventoryPanelUI : MonoBehaviour
 
     IEnumerator RefreshInterval()
     {
+        int previousCount = 0;
         while(true)
         {
-            yield return new WaitForSeconds(0.5f);
-            RefreshInventory();
+            yield return 0;
+            if (previousCount != CORE.PC.Belogings.Count)
+            {
+                RefreshInventory();
+                previousCount = CORE.PC.Belogings.Count;
+            }
         }
     }
 
