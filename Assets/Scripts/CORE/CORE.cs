@@ -680,6 +680,7 @@ public class CORE : MonoBehaviour
                 Factions.Add(faction);
             }
 
+            Characters.Clear();
             for (int i = 0; i < file.Content["Characters"].Count; i++)
             {
                 Character tempCharacter = GetCharacterByID(file.Content["Characters"][i]["ID"]);
@@ -695,14 +696,17 @@ public class CORE : MonoBehaviour
                 yield return 0;
             }
 
+            foreach(LocationEntity location in Locations)
+            {
+                Destroy(location.gameObject);
+            }
+
+            Locations.Clear();
+            PresetLocations.Clear();
+            
             for (int i = 0; i < file.Content["Locations"].Count; i++)
             {
-                LocationEntity tempLocation = GetPresetLocationByID(file.Content["Locations"][i]["ID"]);
-
-                if (tempLocation == null)
-                {
-                    tempLocation = GenerateNewLocation(new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
-                }
+                LocationEntity tempLocation = GenerateNewLocation(Vector3.zero, new Quaternion(0,0,0,0));
 
                 tempLocation.FromJSON(file.Content["Locations"][i]);
                 Locations.Add(tempLocation);
@@ -717,7 +721,7 @@ public class CORE : MonoBehaviour
         yield return 0;
 
         PC = GetCharacter(file.Content["PlayerCharacter"]);
-
+        
         foreach (Character character in Characters)
         {
             character.ImplementIDs();
@@ -743,6 +747,8 @@ public class CORE : MonoBehaviour
 
         MapViewManager.Instance.HideMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
+
+        PC.Known.KnowEverything(PC);
 
         LoadingGameRoutine = null;
         InvokeEvent("GameLoadComplete");
