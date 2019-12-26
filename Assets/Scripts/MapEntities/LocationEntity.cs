@@ -72,6 +72,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public bool IsUpgrading;
 
+    public bool IsRuined;
+
     public int CurrentUpgradeLength;
 
     public UnityEvent StateUpdated;
@@ -556,7 +558,17 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         GameObject hoverModel;
         if (VisibilityState == VisibilityStateEnum.Visible) //If player has scouted this location.
         {
-            tempFigure = Instantiate(CurrentProperty.FigurePrefab);
+            if (IsRuined)
+            {
+                tempFigure = Instantiate(CORE.Instance.Database.RuinsFigurePrefab);
+                hoverModel = Instantiate(CORE.Instance.Database.RuinsHoverPrefab);
+
+            }
+            else
+            {
+                tempFigure = Instantiate(CurrentProperty.FigurePrefab);
+                hoverModel = Instantiate(CurrentProperty.HoverPrefab);
+            }
 
             if (CurrentProperty.MaterialOverride != null)
             {
@@ -580,8 +592,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                     }
                 }
             }
-
-            hoverModel = Instantiate(CurrentProperty.HoverPrefab);
 
             if (WhenHiddenObject != null)
             {
@@ -651,6 +661,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
 
             return new FailReason("Do Not Own Property");
+        }
+
+        if (IsRuined)
+        {
+            return new FailReason("Location Is Ruined");
         }
 
         if (Level >= CurrentProperty.PropertyLevels.Count)
@@ -907,7 +922,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["CurrentProperty"] = CurrentProperty.name;
         node["Level"] = Level.ToString();
         node["IsUpgrading"] = IsUpgrading.ToString();
+        node["IsRuined"] = IsRuined.ToString();
         node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
+        node["NearestDistrict"] = NearestDistrict == null? "" : NearestDistrict.ID;
 
         if (CurrentAction != null)
         {
@@ -931,6 +948,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
         }
 
+        for (int i = 0; i < Traits.Count; i++)
+        {
+            node["Traits"][i] = Traits[i].name;
+        }
+
         return node;
     }
 
@@ -939,6 +961,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         Level = int.Parse(node["Level"]);
         SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), true);
         IsUpgrading = bool.Parse(node["IsUpgrading"]);
+        IsRuined = bool.Parse(node["IsRuined"]);
         CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
         CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
         
@@ -961,9 +984,16 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
+
+        Traits.Clear();
+        for (int i = 0; i < node["Traits"].Count; i++)
+        {
+            Traits.Add(CORE.Instance.Database.GetTrait(node["Traits"][i]));
+        }
     }
 
     Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
+    string _nearestDistrictID;
 
     public void ImplementIDs()
     {
@@ -981,6 +1011,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
                 Known.Know(key, character);
             }
+        }
+
+        if(!string.IsNullOrEmpty(_nearestDistrictID))
+        {
+            NearestDistrict = CORE.Instance.Locations.Find(x => x.ID == _nearestDistrictID);
         }
 
     }
@@ -1011,6 +1046,43 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             OwnerCharacter.StopOwningLocation(this);
         }
+    }
+
+    public void BecomeRuins()
+    {
+        Dispose();
+        IsRuined = true;
+        RefreshState();
+    }
+
+    public FailReason RepairRuins(Character funder)
+    {
+        if(OwnerCharacter != null && OwnerCharacter.TopEmployer != funder)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("This location is owned by someone else! ", 1f, Color.red);
+            }
+
+            return new FailReason("Location Unavailable");
+        }
+
+        if (funder.Gold < 40)
+        {
+            if (funder == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("Need More Gold: (" + CORE.PC.Gold + "/" + 40 + ")", 1f, Color.red);
+            }
+
+            return new FailReason("Not Enough Gold");
+        }
+
+        funder.Gold -= 40;
+
+        IsRuined = false;
+        RefreshState();
+
+        return null;
     }
 
     public FailReason RecruitEmployee(Character requester, bool isGuard = false)

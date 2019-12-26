@@ -80,7 +80,7 @@ public class ArsonScheme : SchemeType
                     }
                 }
 
-                targetLocation.Dispose();
+                targetLocation.BecomeRuins();
 
             }));
 

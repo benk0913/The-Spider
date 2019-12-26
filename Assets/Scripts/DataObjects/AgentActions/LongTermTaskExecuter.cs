@@ -21,8 +21,11 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
 
                 if(targetCharacter == null || targetCharacter.CurrentTaskEntity != null)
                 {
-                    GlobalMessagePrompterUI.Instance.Show("The target is currently unavailable for this task.", 1f, Color.red);
-                    return;
+                    if (targetCharacter.CurrentTaskEntity.CurrentTask == Task || !targetCharacter.CurrentTaskEntity.CurrentTask.Cancelable)
+                    {
+                        GlobalMessagePrompterUI.Instance.Show("The target is currently unavailable for this task.", 1f, Color.red);
+                        return;
+                    }
                 }
 
                 character = targetCharacter;

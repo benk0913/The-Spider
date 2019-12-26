@@ -103,6 +103,13 @@ public class WorkFor : AgentAction
             tempChar = tempChar.Employer;
         }
 
+        if (location.IsRuined)
+        {
+            reason = new FailReason(location.Name + " is ruined.");
+            return false;
+        }
+
+
         return true;
     }
 }

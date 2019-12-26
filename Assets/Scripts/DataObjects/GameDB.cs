@@ -32,6 +32,8 @@ public class GameDB : ScriptableObject
     public GameObject UnknownFigurePrefab;
     public GameObject UnknownFigurePrefabBIG;
     public GameObject UnknownFigureHover;
+    public GameObject RuinsFigurePrefab;
+    public GameObject RuinsHoverPrefab;
 
     public GameObject FailWorldEffectPrefab;
     public GameObject SuccessWorldEffectPrefab;

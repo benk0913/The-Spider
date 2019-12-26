@@ -43,6 +43,12 @@ public class UpgradeLocationPlayerAction : PlayerAction
             return false;
         }
 
+        if (location.IsRuined)
+        {
+            reason = new FailReason("This location is ruined and must be repaired first.");
+            return false;
+        }
+
         if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > requester.Gold)
         {
             reason = new FailReason("Requires more: " + (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice - requester.Gold) + " gold.");

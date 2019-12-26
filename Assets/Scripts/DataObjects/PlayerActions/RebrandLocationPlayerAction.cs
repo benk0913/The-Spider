@@ -41,6 +41,12 @@ public class RebrandLocationPlayerAction : PlayerAction
             return false;
         }
 
+        if (location.IsRuined)
+        {
+            reason = new FailReason("This location is ruined and must be repaired first.");
+            return false;
+        }
+
         return true;
     }
 }

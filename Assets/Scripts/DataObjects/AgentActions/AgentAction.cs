@@ -22,6 +22,8 @@ public class AgentAction : ScriptableObject
 
     public TechTreeItem TechRequired;
 
+    public Item ItemRequired;
+
     public BonusChallenge Challenge;
 
     public AgentAction FailureResult;
@@ -145,6 +147,15 @@ public class AgentAction : ScriptableObject
 
             if(techInstance != null && !techInstance.IsResearched)
             {
+                return false;
+            }
+        }
+
+        if(ItemRequired != null)
+        {
+            if(requester.Belogings.Find(x=>x.name == ItemRequired.name) == null)
+            {
+                reason = new FailReason("Requires The Item: "+ItemRequired.name);
                 return false;
             }
         }

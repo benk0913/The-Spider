@@ -1385,8 +1385,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["face"] = Face.name;
         node["hair"] = Hair.name;
         node["clothing"] = Clothing.name;
+        node["UniquePortrait"] = UniquePortrait == null? "" : UniquePortrait.name;
 
-        if(CurrentTaskEntity != null)
+        if (CurrentTaskEntity != null)
         {
             node["CurrentTaskEntityCurrentTask"] = CurrentTaskEntity.CurrentTask.name;
             node["CurrentTaskEntityCurrentRequester"] = CurrentTaskEntity.CurrentRequester.ID;
@@ -1443,7 +1444,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
 
-        CurrentFaction = CORE.Instance.Factions.Find(x => x.name == node["CurrentFaction"]);
+        _currentFactionName = node["CurrentFaction"];
 
         _propertiesOwnedIDs = new string[node["PropertiesOwned"].Count];
         for (int i = 0; i < node["PropertiesOwned"].Count; i++)
@@ -1477,6 +1478,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Hair = HairColor.GetVCByName(node["hair"]);
         clothing = VisualSet.GetVCByName(node["clothing"]);
 
+        if (!string.IsNullOrEmpty(node["UniquePortrait"]))
+        {
+            UniquePortrait = ResourcesLoader.Instance.GetSprite(node["UniquePortrait"]);
+        }
+
         if (!string.IsNullOrEmpty(node["CurrentTaskEntityCurrentTask"]))
         {
             _currentTaskTurnsLeft = int.Parse(node["CurrentTaskEntityTurnsLeft"]);
@@ -1503,13 +1509,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
     string _currentTaskTargetCharacterID;
     string _currentTaskTargetID;
 
+    string _currentFactionName;
+
     Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
 
     public void ImplementIDs()
     {
-        if (!string.IsNullOrEmpty(_prisonLocationID))
+
+        if (!string.IsNullOrEmpty(_homeLocationID))
         {
-            EnterPrison(CORE.Instance.GetLocationByID(_prisonLocationID));
+            StartLivingIn(CORE.Instance.GetLocationByID(_homeLocationID));
         }
 
         if (!string.IsNullOrEmpty(_workLocationID))
@@ -1517,14 +1526,19 @@ public class Character : ScriptableObject, ISaveFileCompatible
             StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));
         }
 
-        if (!string.IsNullOrEmpty(_homeLocationID))
+        if (!string.IsNullOrEmpty(_prisonLocationID))
         {
-            StartLivingIn(CORE.Instance.GetLocationByID(_homeLocationID));
+            EnterPrison(CORE.Instance.GetLocationByID(_prisonLocationID));
         }
 
         if (!string.IsNullOrEmpty(_currentLocationID))
         {
             GoToLocation(CORE.Instance.GetLocationByID(_currentLocationID));
+        }
+
+        if(!string.IsNullOrEmpty(_currentFactionName))
+        {
+            CurrentFaction = CORE.Instance.Factions.Find(x => x.name == _currentFactionName);
         }
 
         if (_propertiesOwnedIDs != null)

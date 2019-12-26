@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ControlLocationPanelUI : MonoBehaviour
@@ -44,6 +45,9 @@ public class ControlLocationPanelUI : MonoBehaviour
     Transform ActionGrid;
 
     [SerializeField]
+    Transform AgentActionsGrid;
+
+    [SerializeField]
     Transform GuardsGrid;
 
     [SerializeField]
@@ -78,6 +82,9 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI DistrictInControlDescription;
+
+    [SerializeField]
+    GameObject LocationRuinedPanel;
 
     LocationEntity CurrentLocation;
 
@@ -138,6 +145,8 @@ public class ControlLocationPanelUI : MonoBehaviour
 
         RefreshActions();
 
+        RefreshAgentActions();
+
         UpgradeButton.gameObject.SetActive(
             CurrentLocation.IsOwnedByPlayer 
             && !CurrentLocation.IsUpgrading
@@ -146,6 +155,15 @@ public class ControlLocationPanelUI : MonoBehaviour
         RebrandButton.gameObject.SetActive(CurrentLocation.IsOwnedByPlayer);
 
         RefreshInventory();
+
+        if(CurrentLocation.IsRuined)
+        {
+            LocationRuinedPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            LocationRuinedPanel.gameObject.SetActive(false);
+        }
 
         if(CurrentLocation.IsBuyable)
         {
@@ -201,6 +219,39 @@ public class ControlLocationPanelUI : MonoBehaviour
                 tempActionUI.SetDeselected();
             }
         }
+    }
+
+    void RefreshAgentActions()
+    {
+        ClearAgentActionsContainer();
+
+        foreach(PlayerAction action in CurrentLocation.CurrentProperty.UniquePlayerActions)
+        {
+            FailReason reason = null;
+
+            //TODO Replace requester
+            if (!action.CanDoAction(CORE.PC, CurrentLocation, out reason) && reason == null)
+            {
+                continue;
+            }
+
+            GameObject tempItem = ResourcesLoader.Instance.GetRecycledObject("RightClickMenuItem");
+
+            DescribedAction describedAction = new DescribedAction(
+                    action.name,
+                    () => action.Execute(CORE.PC, CurrentLocation)
+                    , action.Description + (reason == null ? "" : "\n <color=red>" + reason.Key.ToString() + "</color>")
+                    , action.Icon
+                    , action.CanDoAction(CORE.PC, CurrentLocation, out reason));
+
+            UnityAction[] actions = new UnityAction[] { describedAction.Action, Hide };
+            tempItem.GetComponent<RightClickMenuItemUI>().SetInfo(describedAction.Key, actions, describedAction.Description, describedAction.Icon, describedAction.Interactable, describedAction.TooltipBonuses);
+
+            tempItem.transform.SetParent(AgentActionsGrid, false);
+
+            tempItem.transform.localScale = Vector3.one;
+        }
+        
     }
 
     void RefreshRanks()
@@ -336,6 +387,15 @@ public class ControlLocationPanelUI : MonoBehaviour
         }
     }
 
+    void ClearAgentActionsContainer()
+    {
+        while (AgentActionsGrid.childCount > 0)
+        {
+            AgentActionsGrid.GetChild(0).gameObject.SetActive(false);
+            AgentActionsGrid.GetChild(0).SetParent(transform);
+        }
+    }
+
     void RefreshUpgradeState()
     {
         if (CurrentLocation.IsUpgrading)
@@ -409,5 +469,10 @@ public class ControlLocationPanelUI : MonoBehaviour
                    && charInQuestion.IsAgent; });
 
         
+    }
+
+    public void RepairLocation()
+    {
+        CurrentLocation.RepairRuins(CORE.PC);
     }
 }
