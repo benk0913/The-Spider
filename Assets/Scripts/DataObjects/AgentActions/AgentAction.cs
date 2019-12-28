@@ -38,6 +38,10 @@ public class AgentAction : ScriptableObject
 
     public AgentInteractable RecentTaret;
 
+    public PopupDataPreset OnExecutePopup;
+
+    public bool ActionDoneByTarget = false;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         RecentTaret = target;
@@ -134,7 +138,46 @@ public class AgentAction : ScriptableObject
             requester.Gold -= GoldCost;
             requester.Connections -= ConnectionsCost;
             requester.Rumors -= RumorsCost;
+
+            if (ItemRequired != null)
+            {
+                requester.Belogings.Remove(requester.Belogings.Find(x => x.name == ItemRequired.name));
+            }
         });
+
+        if (OnExecutePopup != null)
+        {
+            if (target.GetType() == typeof(PortraitUI))
+            {
+                Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+                PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup,
+                    new List<Character> { character },
+                    new List<Character> { targetCharacter },
+                    () =>
+                    {
+                        OnExecutePopupShown(requester, character, target);
+                    }));
+            }
+            else
+            {
+                PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup, new List<Character> { character },null, 
+                    ()=> 
+                    {
+                        OnExecutePopupShown(requester, character, target);
+                    }));
+            }
+        }
+        else
+        {
+            OnExecutePopupShown(requester, character, target);
+        }
+
+        
+    }
+
+    public virtual void OnExecutePopupShown(Character requester, Character character, AgentInteractable target)
+    {
+
     }
 
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
@@ -148,6 +191,26 @@ public class AgentAction : ScriptableObject
             if(techInstance != null && !techInstance.IsResearched)
             {
                 return false;
+            }
+        }
+
+        if (ActionDoneByTarget)
+        {
+            if (target.GetType() == typeof(LocationEntity))
+            {
+                if (((LocationEntity)target).OwnerCharacter.TopEmployer != requester)
+                {
+                    return false;
+                }
+            }
+            else if (target.GetType() == typeof(PortraitUI))
+            {
+                Character targetChar = ((PortraitUI)target).CurrentCharacter;
+
+                if (targetChar.TopEmployer != requester)
+                {
+                    return false;
+                }
             }
         }
 

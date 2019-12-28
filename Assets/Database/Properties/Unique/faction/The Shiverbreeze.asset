@@ -20,7 +20,7 @@ MonoBehaviour:
     MaxPrisoners: 2
     MaxActions: 1
     UpgradePrice: 0
-    UpgradeLength: 10
+    UpgradeLength: 2
     InventoryCap: 0
     PossibleMerchantise: []
   - LevelName: Medium Ship
@@ -29,7 +29,7 @@ MonoBehaviour:
     MaxPrisoners: 4
     MaxActions: 2
     UpgradePrice: 100
-    UpgradeLength: 20
+    UpgradeLength: 4
     InventoryCap: 0
     PossibleMerchantise: []
   - LevelName: Large Ship
@@ -38,7 +38,7 @@ MonoBehaviour:
     MaxPrisoners: 6
     MaxActions: 3
     UpgradePrice: 200
-    UpgradeLength: 20
+    UpgradeLength: 6
     InventoryCap: 0
     PossibleMerchantise: []
   OwnerWorkAction: {fileID: 0}
@@ -49,6 +49,7 @@ MonoBehaviour:
     GoldGenerated: 0
     ConnectionsGenerated: 0
     RumorsGenerated: 0
+    ProgressGenerated: 0
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -69,6 +70,13 @@ MonoBehaviour:
   UniqueAgentActions: []
   EmployeeRole: agent
   AlwaysKnown: 0
+  TechRequired: {fileID: 0}
   IsVendor: 0
   AutoRestock: 0
   EmployeesAreAgents: 1
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0

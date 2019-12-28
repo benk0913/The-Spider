@@ -93,11 +93,21 @@ MonoBehaviour:
   PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
   ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
   isHomeOfEmployees: 1
-  UniquePlayerActions: []
-  UniqueAgentActions: []
+  UniquePlayerActions:
+  - {fileID: 11400000, guid: f3ac5e4605f7ec842a25f3a6ba7128be, type: 2}
+  - {fileID: 11400000, guid: 0d961587cd63c494bae2d83269da8b4c, type: 2}
+  UniqueAgentActions:
+  - {fileID: 11400000, guid: 9fcd158cadfb1e940ba767e71dde863a, type: 2}
+  - {fileID: 11400000, guid: f18c49787188c264391e2784a85febd2, type: 2}
   EmployeeRole: shopkeeper
   AlwaysKnown: 0
   TechRequired: {fileID: 11400000, guid: e12c3d31bb71a5e42a45aa317fb5aa54, type: 2}
   IsVendor: 1
   AutoRestock: 0
   EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68101a18fb5f09d4c9328c455e08282a, type: 3}
+  m_Name: Selling Silver Tears On The Street
+  m_EditorClassIdentifier: 
+  Description: The shopkeeper is acting as a drug dealer who sells Silver Tears.
+    The drug is to be sold in small portions to drug addicts and small clients for
+    twice of what it's worth.
+  Icon: {fileID: 21300000, guid: 26edf93b0bf656b44b16daafc4b623eb, type: 3}
+  TurnsToComplete: 3
+  PossibleResults:
+  - {fileID: 11400000, guid: 498d344f341c0df458e716e4eba1e3cd, type: 2}
+  DefaultResults:
+  - {fileID: 11400000, guid: a764420e6d4cdf845a267fe903e8e94f, type: 2}
+  Cancelable: 1
+  ExecuteAtHome: 0
+  HideFromLog: 1
+  TraitsToTargetDuringAction: []
+  Illegal: 0
+  CompleteLate: 0
+  CompleteEarly: 0
+  HaltWhenActionPerTurnExecuted: 0

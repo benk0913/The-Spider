@@ -32,12 +32,72 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
         }
 
         base.Execute(requester, character, target);
+    }
 
-        requester.Gold        += this.Gold;
-        requester.Connections += this.Connections;
-        requester.Rumors      += this.Rumors;
-        requester.Progress    += this.Progression;
-        requester.Reputation  += this.Reputation;
+    public override void OnExecutePopupShown(Character requester, Character character, AgentInteractable target)
+    {
+        base.OnExecutePopupShown(requester, character, target);
+
+        Transform resourceSource;
+
+        if (target.GetType() == typeof(LocationEntity))
+        {
+            resourceSource = ((LocationEntity)target).transform;
+        }
+        else
+        {
+            resourceSource = ((PortraitUI)target).CurrentCharacter.CurrentLocation.transform;
+        }
+
+        if (Progression != 0)
+        {
+            character.TopEmployer.Progress += Progression;
+
+            CORE.Instance.SplineAnimationObject(
+             "PaperCollectedWorld",
+             resourceSource,
+             StatsViewUI.Instance.ProgressText.transform,
+             () => { StatsViewUI.Instance.RefreshProgress(); },
+             false);
+        }
+
+        if (Gold != 0)
+        {
+            character.TopEmployer.Gold += Gold;
+
+            CORE.Instance.SplineAnimationObject(
+             "CoinCollectedWorld",
+             resourceSource,
+             StatsViewUI.Instance.RumorsText.transform,
+             () => { StatsViewUI.Instance.RefreshGold(); },
+             false);
+        }
+
+        if (Rumors != 0)
+        {
+            character.TopEmployer.Rumors += Rumors;
+
+            CORE.Instance.SplineAnimationObject(
+             "EarCollectedWorld",
+             resourceSource,
+             StatsViewUI.Instance.RumorsText.transform,
+             () => { StatsViewUI.Instance.RefreshRumors(); },
+             false);
+        }
+
+        if (Connections != 0)
+        {
+            character.TopEmployer.Connections += Connections;
+
+            CORE.Instance.SplineAnimationObject(
+             "ConnectionCollectedWorld",
+             resourceSource,
+             StatsViewUI.Instance.ConnectionsText.transform,
+             () => { StatsViewUI.Instance.RefreshConnections(); },
+             false);
+        }
+
+        requester.Reputation += this.Reputation;
         Items.ForEach((x) => requester.Belogings.Add(x.Clone()));
     }
 
