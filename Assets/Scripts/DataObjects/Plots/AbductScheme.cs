@@ -5,53 +5,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AbductScheme", menuName = "DataObjects/Plots/AbductScheme", order = 2)]
 public class AbductScheme : SchemeType
 {
-    public override FailReason Execute(
-        Character requester, 
-        Character plotter, 
-        List<Character> participants, 
-        List<Character> targetParticipants,
-        AgentInteractable target, 
-        PlotMethod method, 
-        PlotEntry entry)
+    public override void Execute(PlotData data)
     {
-
-        List<Character> entryTargets = new List<Character>();
-        entryTargets.AddRange(targetParticipants);
-
-        List<Character> entryParticipants = new List<Character>();
-        entryParticipants.AddRange(participants);
-        
-        base.Init(requester, plotter, participants, targetParticipants, target, method, entry);
-
-        //Dueling
-        FailReason failureReason = base.Dueling(plotter,participants,entryParticipants,entryTargets,targetParticipants,target,method,entry);
-
-        if (failureReason != null)
-        {
-            return failureReason;
-        }
-
-        return base.Execute(requester,plotter,participants,targetParticipants,target,method,entry);
+        base.Execute(data);
     }
 
-    public override void WinResult(
-        Character requester,
-        Character plotter,
-        List<Character> participants,
-        List<Character> targetParticipants,
-        AgentInteractable target,
-        PlotMethod method,
-        PlotEntry entry)
+    public override void WinResult(DuelResultData data)
     {
-        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants,
+        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(data.Plot.Entry, data.Plot.Method, ExitScenarios), data.Plot.Participants, data.Plot.TargetParticipants,
     () =>
     {
-        base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
+        base.WinResult(data);
 
-        List<LocationEntity> locations = plotter.TopEmployer.PropertiesOwned;
+        List<LocationEntity> locations = data.Plot.Plotter.TopEmployer.PropertiesOwned;
         LocationEntity location = locations.Find(x => x.HasFreePrisonCell);
         {
-            CORE.Instance.Database.GetEventAction("Get Abducted").Execute(CORE.Instance.Database.GOD, ((PortraitUI)target).CurrentCharacter, location);
+            CORE.Instance.Database.GetEventAction("Get Abducted").Execute(CORE.Instance.Database.GOD, ((PortraitUI)data.Plot.Target).CurrentCharacter, location);
         }
     }));
     }

@@ -8,58 +8,27 @@ public class ArsonScheme : SchemeType
     [SerializeField]
     PopupDataPreset CharacterBurnt;
 
-    public override FailReason Execute(
-     Character requester,
-     Character plotter,
-     List<Character> participants,
-     List<Character> targetParticipants,
-     AgentInteractable target,
-     PlotMethod method,
-     PlotEntry entry)
+    public override void Execute(PlotData data)
     {
-
-        List<Character> entryTargets = new List<Character>();
-        entryTargets.AddRange(targetParticipants);
-
-        List<Character> entryParticipants = new List<Character>();
-        entryParticipants.AddRange(participants);
-
-        base.Init(requester, plotter, participants, targetParticipants, target, method, entry);
-
-        //Dueling
-        FailReason failureReason = base.Dueling(plotter, participants, entryParticipants, entryTargets, targetParticipants, target, method, entry);
-
-        if (failureReason != null)
-        {
-            return failureReason;
-        }
-
-        return base.Execute(requester, plotter, participants, targetParticipants, target, method, entry);
+        base.Execute(data);
     }
 
-    public override void WinResult(
-        Character requester,
-        Character plotter,
-        List<Character> participants,
-        List<Character> targetParticipants,
-        AgentInteractable target,
-        PlotMethod method,
-        PlotEntry entry)
+    public override void WinResult(DuelResultData data)
     {
-        LocationEntity targetLocation = (LocationEntity)target;
+        LocationEntity targetLocation = (LocationEntity)data.Plot.Target;
 
-        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, ExitScenarios), participants, targetParticipants,
-            () => 
-            {
-                base.WinResult(requester, plotter, participants, targetParticipants, target, method, entry);
+        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(data.Plot.Entry, data.Plot.Method, ExitScenarios), data.Plot.Participants, data.Plot.TargetParticipants,
+        () =>
+        {
+                base.WinResult(data);
 
                 foreach (Character character in targetLocation.CharactersInLocation)
                 {
-                    if(character.TopEmployer != plotter)
+                    if(character.TopEmployer != data.Plot.Plotter)
                     {
                         if(Random.Range(0f,1f) < 0.5f) // more chance for location employees to burn.
                         {
-                            PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>(){ plotter } ,
+                            PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>(){ data.Plot.Plotter } ,
                             () =>
                             {
                                 CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
@@ -70,7 +39,7 @@ public class ArsonScheme : SchemeType
                     {
                         if (Random.Range(0f, 1f) < 0.1f)
                         {
-                            PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>() { plotter },
+                            PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>() { data.Plot.Plotter },
                             () =>
                             {
 

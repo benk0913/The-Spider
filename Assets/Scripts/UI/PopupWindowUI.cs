@@ -194,6 +194,7 @@ public class PopupData : ISaveFileCompatible
     public List<Character> CharactersLeft;
     public List<Character> CharactersRight;
     public Action OnPopupDisplayed;
+    public Action OnPopupClosed;
 
     public PopupData(PopupDataPreset preset = null, List<Character> charactersLeft = null, List<Character> charactersRight = null, Action onPopupDisplay = null)
     {

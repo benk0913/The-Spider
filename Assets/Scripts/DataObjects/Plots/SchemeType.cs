@@ -9,8 +9,7 @@ public class SchemeType : ScriptableObject
     public string Description;
     public Sprite Icon;
 
-
-    public PlotMethod BruteMethod;
+    public PlotMethod BaseMethod;
 
     public List<PlotEntry> PossibleEntries;
     public List<PlotMethod> PossibleMethods;
@@ -41,160 +40,152 @@ public class SchemeType : ScriptableObject
         return scenario.PopupData;
     }
 
-    public virtual FailReason Execute(
-        Character requester, 
-        Character plotter, 
-        List<Character> participants,
-        List<Character> targetParticipants,
-        AgentInteractable target, 
-        PlotMethod method, 
-        PlotEntry entry)
+    public virtual void Execute(PlotData data)
     {
+        Init(data, ()=> 
+        {
+            List<Character> entryTargets = new List<Character>();
+            entryTargets.AddRange(data.TargetParticipants);
 
-        WinResult(requester,plotter,participants,targetParticipants,target,method,entry);
-        return null;
+            List<Character> entryParticipants = new List<Character>();
+            entryParticipants.AddRange(data.Participants);
+
+            //Dueling
+            Dueling(data,
+                (result) =>
+                {
+                    if (result.FailReason == null)
+                    {
+                        WinResult(result);
+                    }
+                    else
+                    {
+                        LoseResult(result);
+                    }
+                });
+        });
     }
 
-    public virtual void Init(Character requester,
-        Character plotter,
-        List<Character> participants,
-        List<Character> targetParticipants,
-        AgentInteractable target,
-        PlotMethod method,
-        PlotEntry entry)
+    public virtual void Init(PlotData data, System.Action OnInitComplete = null)
     {
-        foreach (Character participant in participants)
+        foreach (Character participant in data.Participants)
         {
-            foreach (Item item in method.ItemsRequired)
+            foreach (Item item in data.Method.ItemsRequired)
             {
-                requester.Belogings.Remove(requester.GetItem(item.name));
+                data.Requester.Belogings.Remove(data.Requester.GetItem(item.name));
             }
         }
 
-        foreach (Item item in entry.ItemsRequired)
+        foreach (Item item in data.Entry.ItemsRequired)
         {
-            requester.Belogings.Remove(requester.GetItem(item.name));
+            data.Requester.Belogings.Remove(data.Requester.GetItem(item.name));
         }
 
 
-        PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, EntryScenarios), participants, targetParticipants));
+        PopupWindowUI.Instance.AddPopup(
+            new PopupData(GetScenarioPopup(data.Entry, data.Method, EntryScenarios), data.Participants, data.TargetParticipants, OnInitComplete));
     }
 
-    public virtual FailReason Dueling(Character plotter,
-        List<Character> participants,
-        List<Character> entryParticipants,
-        List<Character> entryTargets,
-        List<Character> targetParticipants,
-        AgentInteractable target,
-        PlotMethod method,
-        PlotEntry entry)
+    public virtual void Dueling(PlotData data,
+        System.Action<DuelResultData> onComplete)
     {
         Character targetCharacter = null;
-
-        if(target.GetType() == typeof(PortraitUI))
+        LocationEntity InLocation = null;
+        if (data.Target.GetType() == typeof(PortraitUI))
         {
-            targetCharacter = ((PortraitUI)target).CurrentCharacter;
+            targetCharacter = ((PortraitUI)data.Target).CurrentCharacter;
+            InLocation = targetCharacter.CurrentLocation;
+        }
+        else if (data.GetType() == typeof(LocationEntity))
+        {
+            InLocation = (LocationEntity)data.Target;
         }
 
-        while (entryTargets.Count > 0 && entryParticipants.Count > 0)
-        {
-            Character randomParticipant = entryParticipants[Random.Range(0, entryParticipants.Count)];
+        PlottingDuelUI.Instance.Show(data, InLocation, onComplete);
 
-            float offenseSkill = randomParticipant.GetBonus(method.OffenseSkill).Value;
-            if (entry.Skill == method.OffenseSkill)
-            {
-                offenseSkill += entry.BonusToSkill;
-            }
-
-            float defenceSkill = entryTargets[0].GetBonus(method.DefenceSkill).Value;
-
-            if (Random.Range(0, offenseSkill + defenceSkill) < offenseSkill) //Win
-            {
-                PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, AgentMethodSuccessScenarios), participants, targetParticipants));
-
-                if (method == BruteMethod && !(targetCharacter != null && targetParticipants[0] == targetCharacter))
-                {
-                    AggressiveDuelResult(randomParticipant, targetParticipants[0], false);
-                }
-
-                entryTargets.RemoveAt(0);
-            }
-            else // Lose
-            {
-                PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(entry, method, AgentMethodFailureScenarios), participants, targetParticipants));
-
-                if (method != BruteMethod)
-                {
-                    method = BruteMethod;
-                }
-
-                AggressiveDuelResult(targetParticipants[0], randomParticipant, true);
-
-                entryParticipants.Remove(randomParticipant);
-            }
-        }
-
-
-        if (entryParticipants.Count <= 0)
-        {
-            return new FailReason("Plan Failed");
-        }
-
-        return null;
+        //if (method == BruteMethod && !(targetCharacter != null && targetParticipants[0] == targetCharacter))
+        //{
+        //    AggressiveDuelResult(randomParticipant, targetParticipants[0], false);
+        //}
+        
     }
 
-    public virtual void WinResult(
-        Character requester,
-        Character plotter,
-        List<Character> participants,
-        List<Character> targetParticipants,
-        AgentInteractable target,
-        PlotMethod method,
-        PlotEntry entry)
+    public virtual void WinResult(DuelResultData result)
     {
-        if(target.GetType() == typeof(LocationEntity))
+        foreach (Character participant in result.Plot.Participants)
         {
-            LocationEntity targetLocation = (LocationEntity) target;
+            if (!result.LeftParticipants.Contains(participant))
+            {
+                AggressiveDuelResult(participant, false);
+            }
+        }
+
+        foreach (Character target in result.Plot.TargetParticipants)
+        {
+            if (!result.LeftTargets.Contains(target))
+            {
+                AggressiveDuelResult(target, false);
+            }
+        }
+
+
+        if (result.Plot.Target.GetType() == typeof(LocationEntity))
+        {
+            LocationEntity targetLocation = (LocationEntity)result.Plot.Target;
             CORE.Instance.OnSchemeWin.Invoke(this, targetLocation, null);
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (result.Plot.Target.GetType() == typeof(PortraitUI))
         {
-            Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+            Character targetCharacter = ((PortraitUI)result.Plot.Target).CurrentCharacter;
             CORE.Instance.OnSchemeWin.Invoke(this, null, targetCharacter);
         }
     }
 
-    public virtual void AggressiveDuelResult(Character winner, Character loser, bool allowEscape = false)
+    public virtual void LoseResult(DuelResultData result)
     {
-        winner.Known.Know("Appearance", loser.TopEmployer);
-        loser.Known.Know("Appearance", winner.TopEmployer);
+        foreach(Character participant in result.Plot.Participants)
+        {
+            if(!result.LeftParticipants.Contains(participant))
+            {
+                AggressiveDuelResult(participant, true);
+            }
+        }
 
+        foreach (Character target in result.Plot.TargetParticipants)
+        {
+            if (!result.LeftTargets.Contains(target))
+            {
+                AggressiveDuelResult(target, false);
+            }
+        }
+
+
+    }
+
+    public virtual void AggressiveDuelResult(Character loser, bool allowArrest = false)
+    {
         float randomResult = Random.Range(0f, 1f);
 
         if (randomResult > 0.5f)
         {
-            if (allowEscape && !(winner.Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) ||
-                winner.Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))) // Not a Good guy?
+            if (allowArrest) // Not a Good guy?
             {
                 PopupWindowUI.Instance.AddPopup(
-                    new PopupData(DuelResultArrestScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
-                    ,() => { CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+                    new PopupData(DuelResultArrestScenario.PopupData, new List<Character> { loser }, new List<Character>()
+                    , () => { CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
 
             }
             else
             {
-                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
-                , () => { CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character>()
+                , () => { CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
                 
             }
         }
         else
         {
-            if (allowEscape)
-            {
-                PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character> { winner }
-                , () => { CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
-            }
+            PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character>()
+                 , () => { CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
         }
     }
 }
@@ -205,4 +196,45 @@ public class ScenarioPopup
     public PlotEntry EntryMatch;
     public PlotMethod MethodMatch;
     public PopupDataPreset PopupData;
+}
+
+public class PlotData
+{
+    public Character Requester;
+    public Character Plotter;
+    public List<Character> Participants;
+    public List<Character> TargetParticipants;
+    public AgentInteractable Target;
+    public PlotMethod Method;
+    public PlotEntry Entry;
+    public PlotMethod BaseMethod;
+
+    public PlotData(Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry)
+    {
+        this.Requester = requester;
+        this.Plotter = plotter;
+        this.Participants = participants;
+        this.TargetParticipants = targetParticipants;
+        this.Target = target;
+        this.Method = method;
+        this.Entry = entry;
+    }
+}
+
+public class DuelResultData
+{
+    public PlotData Plot;
+
+    public List<Character> LeftParticipants;
+    public List<Character> LeftTargets;
+
+    public FailReason FailReason;
+
+    public DuelResultData(PlotData plotData, List<Character> leftParticipants, List<Character> leftTargets, FailReason reason = null)
+    {
+        this.Plot = plotData;
+        this.LeftParticipants = leftParticipants;
+        this.LeftTargets = leftTargets;
+        this.FailReason = reason;
+    }
 }
