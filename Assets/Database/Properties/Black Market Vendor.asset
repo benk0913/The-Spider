@@ -29,27 +29,30 @@ MonoBehaviour:
     MaxPrisoners: 0
     MaxActions: 2
     UpgradePrice: 0
-    UpgradeLength: 5
+    UpgradeLength: 2
     InventoryCap: 2
-    PossibleMerchantise: []
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
   - LevelName: Big Shop
     MaxEmployees: 2
     MaxGuards: 1
     MaxPrisoners: 0
     MaxActions: 2
     UpgradePrice: 30
-    UpgradeLength: 10
+    UpgradeLength: 4
     InventoryCap: 4
-    PossibleMerchantise: []
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
   - LevelName: Black Market Alley
     MaxEmployees: 3
     MaxGuards: 2
     MaxPrisoners: 0
     MaxActions: 2
     UpgradePrice: 70
-    UpgradeLength: 15
+    UpgradeLength: 6
     InventoryCap: 6
-    PossibleMerchantise: []
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 66a84689d0a241a4f9305d63b815fbfe, type: 2}
   OwnerWorkAction: {fileID: 0}
   Actions:
   - Name: Shopkeeping
@@ -61,23 +64,6 @@ MonoBehaviour:
     RumorsGenerated: 0
     ProgressGenerated: 0
     WorkAction: {fileID: 11400000, guid: 9bc6d24c82b882f4882b7ff6c2d4f49a, type: 2}
-    PossibleEvents: []
-    EmployeeUniform: {fileID: 0}
-  - Name: Black Market
-    Description: 'The employees of this property will keep it organised sell it''s
-      wares.
-
-      They may also unpack crates of illegal goods, store and sell
-      them. Those crates are bought from random smuggler warehouses around the city.
-
-
-      <color=red>Illegal</color>'
-    Icon: {fileID: 21300000, guid: ec30c18b9d652c548b18a6c3f5ebcb14, type: 3}
-    GoldGenerated: 2
-    ConnectionsGenerated: 0
-    RumorsGenerated: 0
-    ProgressGenerated: 0
-    WorkAction: {fileID: 11400000, guid: 7823f42dd8c614b41ba6a761fdaee408, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   Traits: []
@@ -103,7 +89,7 @@ MonoBehaviour:
   AlwaysKnown: 0
   TechRequired: {fileID: 11400000, guid: e12c3d31bb71a5e42a45aa317fb5aa54, type: 2}
   IsVendor: 1
-  AutoRestock: 0
+  AutoRestock: 1
   EmployeesAreAgents: 0
   DistrictBonus:
     Description: 

@@ -86,6 +86,12 @@ public class PlottingDuelUI : MonoBehaviour
 
         ParticipantsPortraits = ParticipantsPortraits.OrderBy(a => System.Guid.NewGuid()).ToList();
         TargetsPortraits      = TargetsPortraits.OrderBy(a => System.Guid.NewGuid()).ToList();
+        
+        if(CurrentMethod == CurrentPlot.BaseMethod)
+        {
+            plot.Participants.ForEach((x) => x.Known.Know("Appearance", plot.TargetParticipants[0].TopEmployer));
+            plot.TargetParticipants.ForEach((x) => x.Known.Know("Appearance", CurrentPlot.Requester.TopEmployer));
+        }
 
         RefreshPositionTransforms();
 

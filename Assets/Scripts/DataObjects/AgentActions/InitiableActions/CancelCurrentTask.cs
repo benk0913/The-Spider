@@ -31,6 +31,11 @@ public class CancelCurrentTask : AgentAction
             return false;
         }
 
+        if(targetChar.TopEmployer != requester)
+        {
+            return false;
+        }
+
         if(targetChar.CurrentTaskEntity == null)
         {
             return false;

@@ -101,6 +101,12 @@ public class SchemeType : ScriptableObject
             InLocation = (LocationEntity)data.Target;
         }
 
+        if(data.TargetParticipants.Count == 0)
+        {
+            WinResult(new DuelResultData(data, data.Participants, new List<Character>(), null));
+            return;
+        }
+
         PlottingDuelUI.Instance.Show(data, InLocation, onComplete);
 
         //if (method == BruteMethod && !(targetCharacter != null && targetParticipants[0] == targetCharacter))

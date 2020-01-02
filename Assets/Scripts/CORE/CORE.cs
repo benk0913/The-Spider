@@ -674,7 +674,17 @@ public class CORE : MonoBehaviour
             Factions.Clear();
             for (int i = 0; i < file.Content["Factions"].Count; i++)
             {
-                Faction faction = Database.Factions.Find(x => x.name == file.Content["Factions"][i]["Key"].Value).Clone();
+                Faction faction = Database.Factions.Find(x => x.name == file.Content["Factions"][i]["Key"].Value);
+
+                if (faction != null)
+                {
+                    faction = faction.Clone();
+                }
+                else
+                {
+                    faction = CORE.Instance.Database.DefaultFaction.Clone();
+                }
+
                 faction.FromJSON(file.Content["Factions"][i]);
 
                 Factions.Add(faction);

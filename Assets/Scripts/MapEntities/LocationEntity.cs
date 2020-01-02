@@ -765,9 +765,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         //TODO - Stop recruitments...
         Level = 1;
 
-        while(EmployeesCharacters.Count > 0)
+        while (EmployeesCharacters.Count > CurrentProperty.PropertyLevels[Level-1].MaxEmployees)
         {
-            EmployeesCharacters[0].StopWorkingForCurrentLocation();
+            EmployeesCharacters[EmployeesCharacters.Count-1].StopWorkingForCurrentLocation();
         }
 
         SetInfo(Util.GenerateUniqueID(), newProperty, false);
@@ -775,6 +775,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (requester == CORE.PC)
         {
             SelectedPanelUI.Instance.Select(this);
+        }
+
+        if (EmployeesCharacters.Count == 0)
+        {
+            RecruitEmployeeForce();
         }
 
         return null;
@@ -1130,7 +1135,29 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         return null;
     }
-    
+
+
+    public void RecruitEmployeeForce(bool isGuard = false)
+    {
+        
+        Character randomNewEmployee = CORE.Instance.GenerateCharacter(
+               CurrentProperty.RecruitingGenderType,
+               CurrentProperty.MinAge,
+               CurrentProperty.MaxAge,
+               this);
+
+        randomNewEmployee.StartWorkingFor(this, isGuard);
+
+        randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
+
+        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+        {
+            SelectedPanelUI.Instance.Select(this);
+            CORE.Instance.InvokeEvent("AgentRecruited");
+        }
+        
+    }
+
     public FailReason PurchasePlot(Character funder, Character forCharacter)
     {
 
@@ -1177,6 +1204,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         , 10
         , funder)
         );
+
 
         return null;
     }

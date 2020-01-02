@@ -7,6 +7,7 @@ public class AssassinateScheme : SchemeType
 {
     public override void Execute(PlotData data)
     {
+        data.TargetParticipants.Add(((PortraitUI)data.Target).CurrentCharacter);
         base.Execute(data);
     }
 

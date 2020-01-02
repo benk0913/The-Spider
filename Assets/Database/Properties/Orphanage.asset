@@ -22,23 +22,29 @@ MonoBehaviour:
   PropertyLevels:
   - LevelName: Poor Orphanage
     MaxEmployees: 3
+    MaxGuards: 0
+    MaxPrisoners: 0
     MaxActions: 1
     UpgradePrice: 0
-    UpgradeLength: 5
+    UpgradeLength: 2
     InventoryCap: 0
     PossibleMerchantise: []
   - LevelName: Orphanage
     MaxEmployees: 5
+    MaxGuards: 0
+    MaxPrisoners: 0
     MaxActions: 2
     UpgradePrice: 20
-    UpgradeLength: 10
+    UpgradeLength: 4
     InventoryCap: 0
     PossibleMerchantise: []
   - LevelName: Large Orphanage
     MaxEmployees: 7
+    MaxGuards: 0
+    MaxPrisoners: 0
     MaxActions: 3
     UpgradePrice: 50
-    UpgradeLength: 15
+    UpgradeLength: 6
     InventoryCap: 0
     PossibleMerchantise: []
   OwnerWorkAction: {fileID: 0}
@@ -50,6 +56,7 @@ MonoBehaviour:
     GoldGenerated: 0
     ConnectionsGenerated: 0
     RumorsGenerated: 1
+    ProgressGenerated: 0
     WorkAction: {fileID: 11400000, guid: 76c0d19c7b3ba4b49b788563bd004c7a, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -61,6 +68,7 @@ MonoBehaviour:
     GoldGenerated: 1
     ConnectionsGenerated: 0
     RumorsGenerated: 0
+    ProgressGenerated: 0
     WorkAction: {fileID: 11400000, guid: 0a42d37774c319e46a1814d5d69b0490, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -72,6 +80,7 @@ MonoBehaviour:
     GoldGenerated: 2
     ConnectionsGenerated: 0
     RumorsGenerated: 0
+    ProgressGenerated: 0
     WorkAction: {fileID: 11400000, guid: 822a2d3eebef4574aaf58c688ee6a777, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
@@ -92,4 +101,13 @@ MonoBehaviour:
   UniqueAgentActions: []
   EmployeeRole: orphan
   AlwaysKnown: 0
+  TechRequired: {fileID: 0}
   IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
