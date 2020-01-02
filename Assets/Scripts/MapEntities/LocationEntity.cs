@@ -712,6 +712,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             IsUpgrading = false;
             Level++;
 
+            if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.InvokeEvent("Upgrade Complete");
+            }
+
             CORE.Instance.ShowHoverMessage("Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"), transform);
         }
     }

@@ -905,6 +905,76 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 GoToLocation(HomeLocation);
             }
         }
+
+        AttemptPersonalMotives();
+    }
+
+    void AttemptPersonalMotives()
+    {
+        AttemptBetrayEmployer();
+    }
+
+    void AttemptBetrayEmployer()
+    {
+        if (TopEmployer == this)
+        {
+            return;
+        }
+
+        if(TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
+        if(Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")))
+        {
+            return;
+        }
+
+        if(Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))
+        {
+            return;
+        }
+
+        if(Random.Range(0, 2) == 0)
+        {
+            return;
+        }
+
+        if(PropertiesInCommand.Count < 3)
+        {
+            return;
+        }
+
+        if(PropertiesInCommand.Count < (TopEmployer.PropertiesInCommand.Count / 2))
+        {
+            return;
+        }
+        
+        int minRelationToBetray = 5;
+        if (Traits.Contains(CORE.Instance.Database.GetTrait("Bad Moral Standards")))
+        {
+            minRelationToBetray = 10;
+        }
+        else if (Traits.Contains(CORE.Instance.Database.GetTrait("Evil")))
+        {
+            minRelationToBetray = 9999;
+        }
+        
+        if(GetRelationsWith(TopEmployer) >= minRelationToBetray)
+        {
+            return;
+        }
+
+        LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();
+        Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+
+        letterParameters.Add("Letter_From", this);
+        letterParameters.Add("Letter_To", TopEmployer);
+
+        LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter, letterParameters));
+
+        StopWorkingForCurrentLocation();
     }
 
     bool TryToDoSomething()

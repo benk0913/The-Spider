@@ -126,6 +126,11 @@ public class SchemeType : ScriptableObject
             }
         }
 
+        if ((result.Plot.Target.GetType() == typeof(PortraitUI)) && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
+        {
+            result.Plot.TargetParticipants.Remove(((PortraitUI)result.Plot.Target).CurrentCharacter);
+        }
+
         foreach (Character target in result.Plot.TargetParticipants)
         {
             if (!result.LeftTargets.Contains(target))
@@ -155,6 +160,11 @@ public class SchemeType : ScriptableObject
             {
                 AggressiveDuelResult(participant, true);
             }
+        }
+
+        if ((result.Plot.Target.GetType() == typeof(PortraitUI)) && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
+        {
+            result.Plot.TargetParticipants.Remove(((PortraitUI)result.Plot.Target).CurrentCharacter);
         }
 
         foreach (Character target in result.Plot.TargetParticipants)

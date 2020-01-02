@@ -29,6 +29,8 @@ public class GameDB : ScriptableObject
     public PropertyTrait HouseOfPleasureTrait;
     public PropertyTrait BurialGroundTrait;
 
+    public LetterPreset BetrayalLetter;
+
     public GameObject UnknownFigurePrefab;
     public GameObject UnknownFigurePrefabBIG;
     public GameObject UnknownFigureHover;
