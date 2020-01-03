@@ -34,9 +34,9 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
         base.Execute(requester, character, target);
     }
 
-    public override void OnExecutePopupShown(Character requester, Character character, AgentInteractable target)
+    public override void ExecuteResult(Character requester, Character character, AgentInteractable target)
     {
-        base.OnExecutePopupShown(requester, character, target);
+        base.ExecuteResult(requester, character, target);
 
         Transform resourceSource;
 

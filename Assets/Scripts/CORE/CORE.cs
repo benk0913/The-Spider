@@ -146,6 +146,11 @@ public class CORE : MonoBehaviour
             tempCharacter.name = character.name;
             tempCharacter.Initialize(true);
 
+            if (tempCharacter.IsAlwaysKnown)
+            {
+                tempCharacter.Known.KnowEverything(PC);
+            }
+
             Characters.Add(tempCharacter);
         }
 
@@ -175,6 +180,19 @@ public class CORE : MonoBehaviour
         {
             presetLocation.InitializePreset();
             CORE.Instance.Locations.Add(presetLocation);
+        }
+
+        foreach(Character character in Characters)
+        {
+            if (character.CurrentLocation == null)
+            {
+                character.GoToLocation(GetRandomLocationWithTrait(Database.PublicAreaTrait));
+            }
+
+            if (character.HomeLocation == null)
+            {
+                character.StartLivingIn(character.CurrentLocation);
+            }
         }
 
         if (MapViewManager.Instance != null)

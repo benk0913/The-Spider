@@ -89,9 +89,39 @@ public class AgentAction : ScriptableObject
                 CORE.Instance.ShowHoverMessage("<color=green> Connections -"+ConnectionsCost+"</color>",ResourcesLoader.Instance.GetSprite("connections"), target.transform);
             }
         }
+       
+        if (OnExecutePopup != null)
+        {
+            if (target.GetType() == typeof(PortraitUI))
+            {
+                Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+                PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup,
+                    new List<Character> { character },
+                    new List<Character> { targetCharacter },
+                    () =>
+                    {
+                        ExecuteResult(requester, character, target);
+                    }));
+            }
+            else
+            {
+                PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup, new List<Character> { character },null, 
+                    ()=> 
+                    {
+                        ExecuteResult(requester, character, target);
+                    }));
+            }
+        }
+        else
+        {
+            ExecuteResult(requester, character, target);
+        }
 
+        
+    }
 
-
+    public virtual void ExecuteResult(Character requester, Character character, AgentInteractable target)
+    {
         if (character.TopEmployer == CORE.PC)
         {
             if (employerLetterPreset != null)
@@ -144,39 +174,6 @@ public class AgentAction : ScriptableObject
                 requester.Belogings.Remove(requester.Belogings.Find(x => x.name == ItemRequired.name));
             }
         });
-
-        if (OnExecutePopup != null)
-        {
-            if (target.GetType() == typeof(PortraitUI))
-            {
-                Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
-                PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup,
-                    new List<Character> { character },
-                    new List<Character> { targetCharacter },
-                    () =>
-                    {
-                        OnExecutePopupShown(requester, character, target);
-                    }));
-            }
-            else
-            {
-                PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup, new List<Character> { character },null, 
-                    ()=> 
-                    {
-                        OnExecutePopupShown(requester, character, target);
-                    }));
-            }
-        }
-        else
-        {
-            OnExecutePopupShown(requester, character, target);
-        }
-
-        
-    }
-
-    public virtual void OnExecutePopupShown(Character requester, Character character, AgentInteractable target)
-    {
 
     }
 

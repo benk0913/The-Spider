@@ -16,6 +16,11 @@ public class QOOwnProperty : QuestObjective
 
     public bool CharacterHasProperty(Character character, Property targetProperty)
     {
+        if(character == null)
+        {
+            return false;
+        }
+
         foreach (LocationEntity location in character.PropertiesOwned)
         {
             if (location.CurrentProperty == TargetProperty)

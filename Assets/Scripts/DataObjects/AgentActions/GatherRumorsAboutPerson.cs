@@ -23,20 +23,17 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         float awareValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value;
         float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
 
-        character.GoToLocation(character.WorkLocation);
-
+        
         if (Random.Range(0, awareValue + targetDiscreetValue) < awareValue)
         {
             targetChar.Known.Know("CurrentLocation", character.TopEmployer);
-        }
+            character.GoToLocation(targetChar.CurrentLocation);
 
-   
-        if (targetChar.IsKnown("CurrentLocation", character.TopEmployer))
+        }
+        else
         {
-            return;
+            CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, character.CurrentLocation);
         }
-
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.CurrentLocation, targetChar);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

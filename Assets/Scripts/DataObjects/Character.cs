@@ -11,6 +11,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public string ID;
 
+    public bool IsAlwaysKnown = false;
+
     public bool IsDead = false;
 
     public bool IsAgent
@@ -1010,10 +1012,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
         else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
         {
+            if (HomeLocation != null)
+            {
+                CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
 
-            CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
-            
-            return true;
+                return true;
+            }
         }
 
         LocationEntity hangoutLocation = null;

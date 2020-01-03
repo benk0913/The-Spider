@@ -24,6 +24,10 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     NotificationUI Notification;
 
+    public List<Character> RelevantCharacters = new List<Character>();
+    
+
+
     private void Awake()
     {
         Instance = this;
@@ -88,6 +92,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         if (quest.ForCharacter == CORE.PC)
         {
             Notification.Add(1);
+        }
+
+        if(quest.RelevantCharacter != null)
+        {
+            RelevantCharacters.Add(quest.RelevantCharacter);
         }
     }
 
@@ -160,6 +169,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         if(quest.CompletePopup != null)
         {
             PopupWindowUI.Instance.AddPopup(new PopupData(quest.CompletePopup,null,null,null));
+        }
+
+        if (quest.RelevantCharacter != null)
+        {
+            RelevantCharacters.Remove(quest.RelevantCharacter);
         }
     }
 

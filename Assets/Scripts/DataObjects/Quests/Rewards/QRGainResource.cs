@@ -14,9 +14,9 @@ public class QRGainResource : QuestReward
     {
         base.Claim(byCharacter);
 
-        byCharacter.TopEmployer.Progress += Gold;
-        byCharacter.TopEmployer.Progress += Rumors;
-        byCharacter.TopEmployer.Progress += Connections;
+        byCharacter.TopEmployer.Gold += Gold;
+        byCharacter.TopEmployer.Rumors += Rumors;
+        byCharacter.TopEmployer.Connections += Connections;
         byCharacter.TopEmployer.Progress += Progression;
     }
 }

@@ -18,8 +18,8 @@ public class ConsumeItem : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        PortraitUI portrait = new PortraitUI();
-        portrait.CurrentCharacter = character;
+        PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+        portrait.SetCharacter(character);
 
         foreach (AgentAction action in itemUI.CurrentItem.ConsumeActions)
         {

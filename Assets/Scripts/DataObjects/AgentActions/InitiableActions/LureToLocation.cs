@@ -35,9 +35,12 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                        targetCharacter.StopDoingCurrentTask();
                    }
 
-                   character.GoToLocation((LocationEntity)target);
-                   targetCharacter.GoToLocation((LocationEntity)target);
+                   LocationEntity targetLocation = (LocationEntity)target;
+                   character.GoToLocation(targetLocation);
+                   targetCharacter.GoToLocation(targetLocation);
                    targetCharacter.Known.Know("CurrentLocation", requester);
+                   CORE.Instance.Database.GetEventAction("Hang Out").Execute(targetCharacter.TopEmployer, targetCharacter, targetLocation);
+                   CORE.Instance.Database.GetEventAction("Hang Out").Execute(character.TopEmployer, character, targetLocation);
                }
                , (Character charInQuestion) =>
                {
@@ -50,6 +53,7 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                     || (charInQuestion.CurrentTaskEntity != null && charInQuestion.CurrentTaskEntity.CurrentTask.Cancelable);
                }
                , "Select Who To Invite (Relations above 6)");
+
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

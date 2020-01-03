@@ -72,8 +72,8 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
         if(ActionPerTurn != null)
         {
-            PortraitUI characterContainer = new PortraitUI();
-            characterContainer.CurrentCharacter = TargetCharacter;
+            PortraitUI characterContainer = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+            characterContainer.SetCharacter(TargetCharacter);
 
             FailReason reason = null;
             if (ActionPerTurn.CanDoAction(CurrentRequester, CurrentCharacter, characterContainer, out reason))
