@@ -15,13 +15,14 @@ public class QOAgentDoingTask : QuestObjective
     {
         if (!subscribed)
         {
-            CORE.Instance.SubscribeToEvent("AgentRefreshedAction", OnAgentAction);
+            CORE.Instance.SubscribeToEvent("PassTimeComplete", OnAgentAction);
+            subscribed = true;
         }
 
         if(valid)
         {
             subscribed = false;
-            CORE.Instance.UnsubscribeFromEvent("AgentRefreshedAction", OnAgentAction);
+            CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", OnAgentAction);
             return true;
         }
         else
@@ -32,18 +33,26 @@ public class QOAgentDoingTask : QuestObjective
 
     void OnAgentAction()
     {
-        List<Character> agents = CORE.Instance.Characters.FindAll((Character charInQuestion) => 
+        if(valid)
         {
-            return charInQuestion.TopEmployer == ParentQuest.ForCharacter;
-        });
+            return;
+        }
 
-        foreach(Character agent in agents)
+        if(ParentQuest.ForCharacter == null)
+        {
+            return;
+        }
+
+        List<Character> agents = ParentQuest.ForCharacter.CharactersInCommand;
+
+        foreach (Character agent in agents)
         {
             if(agent.CurrentTaskEntity != null)
             {
                 if(agent.CurrentTaskEntity.CurrentTask == Task)
                 {
                     valid = true;
+                    break;
                 }
             }
         }

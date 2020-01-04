@@ -815,12 +815,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         CharactersInLocation.Remove(character);
 
-        if (CharactersInLocation.Count == 0 && CharactersInLocationUIInstance != null)
-        {
-            CharactersInLocationUIInstance.gameObject.SetActive(false);
-            CharactersInLocationUIInstance = null;
-            return;
-        }
+        //if (CharactersInLocation.Count == 0 && CharactersInLocationUIInstance != null)
+        //{
+        //    CharactersInLocationUIInstance.gameObject.SetActive(false);
+        //    CharactersInLocationUIInstance = null;
+        //    return;
+        //}
 
         if(CharactersInLocationUIInstance != null)
         {
