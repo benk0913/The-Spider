@@ -25,7 +25,10 @@ public class DebugAction : AgentAction
             return;
         }
 
-        Debug.Log(this.name + " EXECUTED!");
+        if (CORE.Instance.DEBUG)
+        {
+            Debug.Log(this.name + " EXECUTED!");
+        }
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

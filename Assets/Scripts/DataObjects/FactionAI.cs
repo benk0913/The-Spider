@@ -27,9 +27,12 @@ public class FactionAI : ScriptableObject
 
         ResolveFailures();
 
-        foreach(string reason in FailReasons.Keys)
+        if (CORE.Instance.DEBUG)
         {
-            Debug.Log("FAIL REASONS -" + reason + " = " + FailReasons[reason]);
+            foreach (string reason in FailReasons.Keys)
+            {
+                Debug.Log("FAIL REASONS -" + reason + " = " + FailReasons[reason]);
+            }
         }
     }
 

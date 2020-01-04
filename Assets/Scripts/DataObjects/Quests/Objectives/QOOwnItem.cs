@@ -9,6 +9,11 @@ public class QOOwnItem : QuestObjective
 
     public override bool Validate()
     {
+        if(ParentQuest.ForCharacter == null)
+        {
+            return false;
+        }
+
         return ParentQuest.ForCharacter.GetItem(TargetItem.name) != null;
     }
     

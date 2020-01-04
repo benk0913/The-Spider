@@ -735,7 +735,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public FailReason SelectAction(Character requester, Property.PropertyAction action)
     {
-        if (requester != OwnerCharacter.TopEmployer)
+        if (OwnerCharacter == null || requester != OwnerCharacter.TopEmployer)
         {
             if (requester == CORE.PC)
             {
