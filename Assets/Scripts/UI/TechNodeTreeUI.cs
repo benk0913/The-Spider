@@ -18,6 +18,8 @@ public class TechNodeTreeUI : NodeTreeUI
 
     private void OnDisable()
     {
+        if (MouseLook.Instance == null) return;
+
         MouseLook.Instance.CurrentWindow = null;
     }
 

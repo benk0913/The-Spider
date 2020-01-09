@@ -6,8 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GatherRumorsAboutPerson", menuName = "DataObjects/AgentActions/Spying/GatherRumorsAboutPerson", order = 2)]
 public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 {
-    [SerializeField]
-    LongTermTask Task;
 
     [SerializeField]
     GameObject WinEffectPrefab;
@@ -16,11 +14,6 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
-
-        if (Task == null)
-        {
-            return;
-        }
 
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
@@ -31,6 +24,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         if (Random.Range(0, awareValue + targetDiscreetValue) < awareValue)
         {
             targetChar.Known.Know("CurrentLocation", character.TopEmployer);
+            targetChar.Known.Know("Appearance", character.TopEmployer);
             character.GoToLocation(targetChar.CurrentLocation);
             CORE.Instance.ShowPortraitEffect(WinEffectPrefab, character, character.CurrentLocation);
         }

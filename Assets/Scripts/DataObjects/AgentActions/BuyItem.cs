@@ -65,9 +65,13 @@ public class BuyItem : AgentAction
     {
         List<TooltipBonus> bonuses = base.GetBonuses();
 
-        ItemUI target = (ItemUI)RecentTaret;
+        if (RecentTaret != null)
+        {
+            ItemUI target = (ItemUI)RecentTaret;
 
-        bonuses.Add(new TooltipBonus("Price: "+target.CurrentItem.Price,ResourcesLoader.Instance.GetSprite("pay_money")));
+            bonuses.Add(new TooltipBonus("Price: " + target.CurrentItem.Price, ResourcesLoader.Instance.GetSprite("pay_money")));
+        }
+
         return bonuses;
     }
 }

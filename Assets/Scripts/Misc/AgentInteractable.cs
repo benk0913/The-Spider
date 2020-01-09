@@ -201,7 +201,9 @@ public class AgentInteractable : MonoBehaviour
                     () => action.Execute(CORE.PC, this)
                     , action.Description + (reason == null ? "" : "\n <color=red>" + reason.Key.ToString() + "</color>")
                     , action.Icon
-                    , action.CanDoAction(CORE.PC, this, out reason)));
+                    , action.CanDoAction(CORE.PC, this, out reason)
+                    , action.GetType() == typeof(ForceAgentActionPlayer) ?
+                        ((ForceAgentActionPlayer)action).ActionToForce.GetBonuses() : null));
         }
 
         if (KeyActions.Count == 0)

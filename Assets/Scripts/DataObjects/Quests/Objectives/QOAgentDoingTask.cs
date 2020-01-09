@@ -15,14 +15,14 @@ public class QOAgentDoingTask : QuestObjective
     {
         if (!subscribed)
         {
-            CORE.Instance.SubscribeToEvent("PassTimeComplete", OnAgentAction);
+            CORE.Instance.SubscribeToEvent("AgentRefreshedAction", OnAgentAction);
             subscribed = true;
         }
 
         if(valid)
         {
             subscribed = false;
-            CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", OnAgentAction);
+            CORE.Instance.UnsubscribeFromEvent("AgentRefreshedAction", OnAgentAction);
             return true;
         }
         else

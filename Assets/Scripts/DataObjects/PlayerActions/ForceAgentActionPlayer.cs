@@ -7,7 +7,7 @@ using UnityEngine;
 public class ForceAgentActionPlayer : PlayerAction
 {
     [SerializeField]
-    AgentAction ActionToForce;
+    public AgentAction ActionToForce;
 
     [SerializeField]
     public bool SelectAgent = true;

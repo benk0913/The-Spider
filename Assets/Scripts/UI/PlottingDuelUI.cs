@@ -63,6 +63,8 @@ public class PlottingDuelUI : MonoBehaviour
 
     private void OnDisable()
     {
+        if (MouseLook.Instance == null) return;
+
         MouseLook.Instance.CurrentWindow = null;
     }
 
@@ -218,27 +220,32 @@ public class PlottingDuelUI : MonoBehaviour
             Anim.SetTrigger("WinTarget");
             yield return new WaitForSeconds(3f);
 
-            if(CurrentMethod != CurrentPlot.BaseMethod)
+            if (CurrentMethod != CurrentPlot.BaseMethod) // BRUTE SWITCH
             {
                 CurrentMethod = CurrentPlot.BaseMethod;
                 MethodImage.sprite = CurrentMethod.Icon;
                 MethodTitle.text = CurrentMethod.name;
-            }
 
-            t = 0f;
-            while (t < 1f)
+                ParticipantsPortraits.Add(Participant);
+                TargetsPortraits.Add(Target);
+            }
+            else //Normal State
             {
-                t += 1f * Time.deltaTime;
+                t = 0f;
+                while (t < 1f)
+                {
+                    t += 1f * Time.deltaTime;
 
-                Participant.transform.localScale = Vector3.Lerp(Participant.transform.localScale, Vector3.zero, t);
+                    Participant.transform.localScale = Vector3.Lerp(Participant.transform.localScale, Vector3.zero, t);
 
-                yield return 0;
+                    yield return 0;
+                }
+
+                TargetsPortraits.Add(Target);
+
+                Participant.transform.localScale = Vector3.one;
+                Participant.gameObject.SetActive(false);
             }
-
-            TargetsPortraits.Add(Target);
-
-            Participant.transform.localScale = Vector3.one;
-            Participant.gameObject.SetActive(false);
         }
 
         yield return new WaitForSeconds(2f);

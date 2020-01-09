@@ -31,7 +31,7 @@ public class SeducePerson : AgentAction //DO NOT INHERIT FROM
 
         if(targetChar.Traits.Contains(CORE.Instance.Database.GetTrait("Lustful")))
         {
-            targetChar.Known.Know("Factions", character.TopEmployer);
+            targetChar.Known.Know("Faction", character.TopEmployer);
         }
 
         TurnReportUI.Instance.Log.Add(
