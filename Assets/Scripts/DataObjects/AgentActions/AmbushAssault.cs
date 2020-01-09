@@ -6,6 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AmbushAssault", menuName = "DataObjects/AgentActions/Agression/AmbushAssault", order = 2)]
 public class AmbushAssault : AgentAction //DO NOT INHERIT FROM
 {
+    [SerializeField]
+    PopupDataPreset WinPopup;
+
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
@@ -18,11 +21,6 @@ public class AmbushAssault : AgentAction //DO NOT INHERIT FROM
 
         if(Random.Range(0f, (charSTR+targetSTR)) < charSTR)
         {
-            
-            targetChar.StopDoingCurrentTask(false);
-            targetChar.Known.Forget("CurrentLocation", character.TopEmployer);
-            CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
-
             if (character.TopEmployer == CORE.PC)
             {
                 TurnReportUI.Instance.Log.Add(
@@ -30,6 +28,20 @@ public class AmbushAssault : AgentAction //DO NOT INHERIT FROM
                     character.name + " has assaulted " + targetChar.name,
                     ResourcesLoader.Instance.GetSprite("Satisfied"),
                     targetChar));
+
+                PopupWindowUI.Instance.AddPopup(new PopupData(WinPopup, new List<Character> { character }, new List<Character> { targetChar }, () => 
+                {
+                    targetChar.StopDoingCurrentTask(false);
+                    targetChar.Known.Forget("CurrentLocation", character.TopEmployer);
+                    CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
+
+                }));
+            }
+            else
+            {
+                targetChar.StopDoingCurrentTask(false);
+                targetChar.Known.Forget("CurrentLocation", character.TopEmployer);
+                CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
             }
         }
         else

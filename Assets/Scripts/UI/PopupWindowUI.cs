@@ -36,6 +36,14 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
         this.gameObject.SetActive(false);
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowNextPopup();
+        }
+    }
+
     public void AddPopup(PopupData popup)
     {
         if(CurrentPopup != null)
@@ -53,6 +61,8 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
         {
             return;
         }
+
+        MouseLook.Instance.CurrentWindow = this.gameObject;
 
         this.gameObject.SetActive(true);
 
@@ -116,6 +126,7 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
 
     public void HideCurrentPopup()
     {
+        MouseLook.Instance.CurrentWindow = null;
         CurrentPopup = null;
         this.gameObject.SetActive(false);
     }

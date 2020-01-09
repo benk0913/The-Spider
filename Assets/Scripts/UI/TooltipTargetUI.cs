@@ -10,9 +10,19 @@ public class TooltipTargetUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public List<TooltipBonus> Bonuses;
 
+    public void OnPointerEnterSimple()
+    {
+        OnPointerEnter(null);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         PointAndClickTooltipUI.Instance.Show(Text, Bonuses);
+    }
+
+    public void OnPointerExitSimple()
+    {
+        OnPointerExit(null);
     }
 
     public void OnPointerExit(PointerEventData eventData)

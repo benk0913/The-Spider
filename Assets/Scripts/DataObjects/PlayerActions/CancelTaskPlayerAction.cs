@@ -49,7 +49,7 @@ public class CancelTaskPlayerAction : PlayerAction
                 return false;
             }
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             PortraitUI portrait = (PortraitUI)target;
 

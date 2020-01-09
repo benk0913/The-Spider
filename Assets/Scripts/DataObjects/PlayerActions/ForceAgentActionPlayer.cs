@@ -17,14 +17,14 @@ public class ForceAgentActionPlayer : PlayerAction
         FailReason reason;
         if (!CanDoAction(requester, target, out reason))
         {
-            GlobalMessagePrompterUI.Instance.Show("You cannot do that.", 1f, Color.yellow);
+            GlobalMessagePrompterUI.Instance.Show("You cannot do that."+reason?.Key, 2f, Color.yellow);
             return;
         }
 
         if (SelectAgent)
         {
             SelectAgentWindowUI.Instance.Show(
-                (Character character) => { ActionToForce.Execute(requester, character, target); }
+                (Character character) => { ActionToForce.Execute(requester, character, target); SelectedPanelUI.Instance.Deselect(); }
                 , x => { return x.TopEmployer == CORE.PC && x.TopEmployer != x && x.IsAgent; });
         }
         else

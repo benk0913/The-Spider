@@ -770,10 +770,19 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         //TODO - Stop recruitments...
         Level = 1;
 
-        while (EmployeesCharacters.Count > CurrentProperty.PropertyLevels[Level-1].MaxEmployees)
+        while (EmployeesCharacters.Count > newProperty.PropertyLevels[Level-1].MaxEmployees)
         {
             EmployeesCharacters[EmployeesCharacters.Count-1].StopWorkingForCurrentLocation();
         }
+
+        EmployeesCharacters.FindAll(x =>
+            (newProperty.RecruitingGenderType != -1 && (int)x.Gender != newProperty.RecruitingGenderType)
+            || newProperty.MinAge > x.Age
+            || newProperty.MaxAge < x.Age
+        ).ForEach((x) =>
+        {
+            x.StopWorkingForCurrentLocation();
+        });
 
         SetInfo(Util.GenerateUniqueID(), newProperty, false);
 

@@ -24,6 +24,14 @@ public class WarningWindowUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     public void Show(string message, Action acceptCallback)
     {
         this.gameObject.SetActive(true);

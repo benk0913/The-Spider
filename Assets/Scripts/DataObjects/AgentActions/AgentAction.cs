@@ -34,6 +34,8 @@ public class AgentAction : ScriptableObject
 
     public GameObject WorldPortraitEffect;
 
+    public GameObject WorldPortraitEffectOnTarget;
+
     public List<TooltipBonus> TooltipBonuses = new List<TooltipBonus>();
 
     public AgentInteractable RecentTaret;
@@ -49,7 +51,7 @@ public class AgentAction : ScriptableObject
         FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
-            GlobalMessagePrompterUI.Instance.Show("This character can not do this action! ", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show("This character can not do this action! "+reason?.Key, 2f, Color.red);
 
             return;
         }
@@ -92,7 +94,7 @@ public class AgentAction : ScriptableObject
        
         if (OnExecutePopup != null)
         {
-            if (target.GetType() == typeof(PortraitUI))
+            if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
             {
                 Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
                 PopupWindowUI.Instance.AddPopup(new PopupData(OnExecutePopup,
@@ -148,7 +150,7 @@ public class AgentAction : ScriptableObject
                 {
                     targetLocation = (LocationEntity)target;
                 }
-                else if (target.GetType() == typeof(PortraitUI))
+                else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
                 {
                     targetLocation = ((PortraitUI)target).CurrentCharacter.CurrentLocation;
                 }
@@ -158,6 +160,32 @@ public class AgentAction : ScriptableObject
                 }
 
                 CORE.Instance.ShowPortraitEffect(WorldPortraitEffect, character, targetLocation);
+
+
+            }
+
+            if (WorldPortraitEffectOnTarget != null)
+            {
+                LocationEntity targetLocation;
+                Character targetCharacter;
+
+                targetCharacter = character;
+
+                if (target.GetType() == typeof(LocationEntity))
+                {
+                    targetLocation = (LocationEntity)target;
+                }
+                else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+                {
+                    targetLocation = ((PortraitUI)target).CurrentCharacter.CurrentLocation;
+                    targetCharacter = ((PortraitUI)target).CurrentCharacter;
+                }
+                else
+                {
+                    targetLocation = character.CurrentLocation;
+                }
+
+                CORE.Instance.ShowPortraitEffect(WorldPortraitEffectOnTarget, targetCharacter, targetLocation);
 
 
             }
@@ -195,12 +223,13 @@ public class AgentAction : ScriptableObject
         {
             if (target.GetType() == typeof(LocationEntity))
             {
-                if (((LocationEntity)target).OwnerCharacter.TopEmployer != requester)
+                LocationEntity location = ((LocationEntity)target);
+                if (location.OwnerCharacter != null && location.OwnerCharacter.TopEmployer != requester)
                 {
                     return false;
                 }
             }
-            else if (target.GetType() == typeof(PortraitUI))
+            else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
             {
                 Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
@@ -226,7 +255,7 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
-        if(target.GetType() == typeof(PortraitUI))
+        if(target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
 

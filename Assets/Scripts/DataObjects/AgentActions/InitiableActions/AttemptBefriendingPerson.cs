@@ -37,7 +37,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
         {
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
@@ -71,21 +71,6 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
         {
             reason = new FailReason("You don't know where this person is...");
             return false;
-        }
-
-        if (character != character.TopEmployer)
-        {
-            int relations = targetChar.GetRelationsWith(character);
-            float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
-
-            if (relations < targetDiscreetValue)
-            {
-
-                reason = new FailReason(
-                    targetChar.name + " doesn't like " + character.name + " enough... ("
-                    + relations + " \\ " + targetDiscreetValue + ")");
-                return false;
-            }
         }
 
 

@@ -38,7 +38,7 @@ public class AttemptSchemeArson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (target.GetType() == typeof(PortraitUI))
+        if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
 

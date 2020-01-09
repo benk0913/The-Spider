@@ -31,6 +31,7 @@ public class QuestObjective : ScriptableObject
 
     public virtual QuestObjective CreateClone()
     {
+
         QuestObjective objective = Instantiate(this);
         objective.name = this.name;
 

@@ -39,7 +39,7 @@ public class GetLiberated : AgentAction //DO NOT INHERIT FROM
 
             character.ExitPrison();
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             PortraitUI targetCharacter = (PortraitUI)target;
             

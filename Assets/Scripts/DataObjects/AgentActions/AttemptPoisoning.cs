@@ -58,7 +58,7 @@ public class AttemptPoisoning : AgentAction //DO NOT INHERIT FROM
                 {
                     character.GoToLocation((LocationEntity)target);
                 }
-                else if (target.GetType() == typeof(PortraitUI))
+                else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
                 {
                     character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
                 }
@@ -70,7 +70,7 @@ public class AttemptPoisoning : AgentAction //DO NOT INHERIT FROM
             target = character.CurrentLocation;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);

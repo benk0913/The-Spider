@@ -213,7 +213,7 @@ public class LettersPanelUI : MonoBehaviour
 
         Quest questClone = SelectedLetter.CurrentLetter.Preset.QuestAttachment.CreateClone();
         questClone.ForCharacter = CORE.PC;
-        QuestsPanelUI.Instance.AddNewQuest(questClone);
+        QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
 
         QuestPanel.SetActive(false);
     }

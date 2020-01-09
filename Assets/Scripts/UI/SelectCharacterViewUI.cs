@@ -34,8 +34,25 @@ public class SelectCharacterViewUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        if (MouseLook.Instance == null) return;
+
+        MouseLook.Instance.CurrentWindow = null;
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
     public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Select Agent:")
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
+
         this.gameObject.SetActive(true);
 
         CurrentTitle = title;

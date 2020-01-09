@@ -14,7 +14,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
     {
         if(ActionDoneByTarget)
         {
-            if(target.GetType() == typeof(PortraitUI))
+            if(target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
             {
                 Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
 
@@ -99,7 +99,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
                 {
                     character.GoToLocation((LocationEntity)target);
                 }
-                else if (target.GetType() == typeof(PortraitUI))
+                else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
                 {
                     character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
                 }
@@ -111,7 +111,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             target = character.CurrentLocation;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);

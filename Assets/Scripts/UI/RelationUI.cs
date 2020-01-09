@@ -82,6 +82,6 @@ public class RelationUI : MonoBehaviour
             return;
         }
 
-        CharacterRelationsViewUI.Instance.Show(TargetCharacter, null, null, TargetCharacter.name + "'s Relations With Characters");
+        CharacterRelationsViewUI.Instance.Show(CurrentCharacter, null, null, CurrentCharacter.name + "'s Relations With Characters");
     }
 }

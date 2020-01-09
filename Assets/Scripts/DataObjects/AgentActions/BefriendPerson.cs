@@ -45,6 +45,18 @@ public class BefriendPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
+        int relations = targetChar.GetRelationsWith(character);
+        float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
+
+        if (relations < targetDiscreetValue)
+        {
+
+            reason = new FailReason(
+                targetChar.name + " doesn't like " + character.name + " enough... ("
+                + relations + " \\ " + targetDiscreetValue + ")");
+            return false;
+        }
+
         return true;
     }
 }

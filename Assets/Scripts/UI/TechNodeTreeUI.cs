@@ -16,8 +16,22 @@ public class TechNodeTreeUI : NodeTreeUI
         this.gameObject.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        MouseLook.Instance.CurrentWindow = null;
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
     public void Show()
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
         this.gameObject.SetActive(true);
         ShowTechHirarchy(CORE.Instance.TechTree);
     }

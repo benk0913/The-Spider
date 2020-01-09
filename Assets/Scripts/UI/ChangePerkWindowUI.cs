@@ -32,10 +32,19 @@ public class ChangePerkWindowUI : MonoBehaviour
         Instance = this;
         this.gameObject.SetActive(false);
     }
-    
+
+    private void OnDisable()
+    {
+        if (MouseLook.Instance == null) return;
+
+        MouseLook.Instance.CurrentWindow = null;
+    }
+
 
     public void Show(Character character, bool isRemove = false)
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
+
         this.gameObject.SetActive(true);
         CurrentCharacter = character;
         this.IsRemove = isRemove;

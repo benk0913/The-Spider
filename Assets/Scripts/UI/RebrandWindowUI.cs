@@ -40,8 +40,25 @@ public class RebrandWindowUI : MonoBehaviour
         Hide();
     }
 
+    private void OnDisable()
+    {
+        if (MouseLook.Instance == null) return;
+
+        MouseLook.Instance.CurrentWindow = null;
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     public void Show(LocationEntity currentLocation)
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
+
         CurrentIndex = 0;
         CurrentLocation = currentLocation;
 

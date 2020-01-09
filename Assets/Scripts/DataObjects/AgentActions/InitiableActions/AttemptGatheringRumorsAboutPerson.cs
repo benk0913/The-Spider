@@ -15,6 +15,7 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
         FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
+            GlobalMessagePrompterUI.Instance.Show(reason.Key, 1f, Color.red);
             return;
         }
         
@@ -37,7 +38,7 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
         {
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.WorkLocation);
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, character.WorkLocation, targetChar);
@@ -67,6 +68,11 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
             return false;
         }
 
+        if (!targetChar.IsKnown("Appearance", character.TopEmployer) && !targetChar.IsKnown("Name", character.TopEmployer) && !targetChar.IsKnown("WorkLocation", character.TopEmployer))
+        {
+            reason = new FailReason("You don't know either the NAME, WORK LOCATION nor the LOOKS of this perosn.");
+            return false;
+        }
 
         return true;
     }

@@ -98,7 +98,12 @@ public class TechTreeItemUI : MonoBehaviour
             return;
         }
 
-        if(CurrentItem.Price > CORE.PC.Progress)
+        if (CurrentItem.IsResearched)
+        {
+            return;
+        }
+
+        if (CurrentItem.Price > CORE.PC.Progress)
         {
             return;
         }

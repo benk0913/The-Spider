@@ -106,6 +106,7 @@ public class PlottingWindowUI : MonoBehaviour
 
     public void Show(AgentInteractable target, SchemeType type,  Character plotter = null)
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
 
         TargetParticipants.Clear();
         Participants.Clear();
@@ -122,7 +123,7 @@ public class PlottingWindowUI : MonoBehaviour
             return;
         }
 
-        if (CurrentTarget.GetType() == typeof(PortraitUI))
+        if (CurrentTarget.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetCharacter = ((PortraitUI)CurrentTarget).CurrentCharacter;
             TargetParticipants.Add(targetCharacter);
@@ -164,8 +165,17 @@ public class PlottingWindowUI : MonoBehaviour
         this.gameObject.SetActive(true);
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     public void Hide()
     {
+        MouseLook.Instance.CurrentWindow = null;
         this.gameObject.SetActive(false);
     }
 
@@ -183,7 +193,7 @@ public class PlottingWindowUI : MonoBehaviour
 
             TargetPortraitLocation.SetLocation((LocationEntity)CurrentTarget);
         }
-        else if (CurrentTarget.GetType() == typeof(PortraitUI))
+        else if (CurrentTarget.GetType() == typeof(PortraitUI) || CurrentTarget.GetType() == typeof(PortraitUIEmployee))
         {
             TargetPortraitLocation.gameObject.SetActive(false);
             TargetPortraitCharacter.gameObject.SetActive(true);

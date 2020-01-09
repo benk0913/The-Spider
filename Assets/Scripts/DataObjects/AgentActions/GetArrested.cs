@@ -47,7 +47,7 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
             character.EnterPrison(targetLocation);
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             PortraitUI targetCharacter = (PortraitUI)target;
             

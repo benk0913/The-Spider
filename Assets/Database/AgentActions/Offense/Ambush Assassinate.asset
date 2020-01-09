@@ -9,16 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8dacf9cfaa5aaf43aebecc3b96c6462, type: 3}
-  m_Name: Researching Location Complete
+  m_Script: {fileID: 11500000, guid: afb7f6a8bff985343b308e73b5f671ac, type: 3}
+  m_Name: Ambush Assassinate
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
-  Description: 'The agnet will research and gather rumors about the target''s recent
-    location activity.
-
-
-
-    <color=green>Aware</color> VS <color=red>Discreet</color>'
+  Icon: {fileID: 0}
+  Description: 
   Category: {fileID: 0}
   RequiredTraits: []
   MinimumAge: 0
@@ -33,11 +28,12 @@ MonoBehaviour:
     RarityValue: 0
     InvertedChance: 0
   FailureResult: {fileID: 0}
-  ShowHover: 1
+  ShowHover: 0
   employerLetterPreset: {fileID: 0}
-  WorldPortraitEffect: {fileID: 1478687570250304421, guid: fc0619ab9288b1b4c92b867a7e0b1529,
+  WorldPortraitEffect: {fileID: 0}
+  WorldPortraitEffectOnTarget: {fileID: 1478687570250304421, guid: 71a069c66c7af5545918ac75c351e7ad,
     type: 3}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
-  Task: {fileID: 11400000, guid: 6cbe1d9dea80fcd4886d3bf214ba1d72, type: 2}
+  WinPopup: {fileID: 11400000, guid: f2c0c5b71b6b602478c00cc97c86fdf0, type: 2}

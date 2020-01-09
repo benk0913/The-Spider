@@ -97,7 +97,7 @@ public class CORE : MonoBehaviour
         {
             Quest questClone = Database.TutorialQuest.CreateClone();
             questClone.ForCharacter = CORE.PC;
-            QuestsPanelUI.Instance.AddNewQuest(questClone);
+            QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
         }
 
         LoadingGameRoutine = null;
@@ -219,7 +219,7 @@ public class CORE : MonoBehaviour
                     Quest questClone = quest.CreateClone();
                     questClone.ForCharacter = Characters.Find(x => x.name == faction.FactionHead.name);
 
-                    QuestsPanelUI.Instance.AddNewQuest(questClone);
+                    QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
                 });
             });
         }

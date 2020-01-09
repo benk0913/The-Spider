@@ -95,6 +95,8 @@ public class MouseLook : MonoBehaviour
     Vector3 prePickupItemPosition;
     Quaternion prePickupItemRotation;
 
+    public GameObject CurrentWindow;
+
     public bool isAbleToMove
     {
         get
@@ -166,6 +168,11 @@ public class MouseLook : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if(CurrentWindow != null)
+            {
+                return;
+            }
+
             if (State == ActorState.Focusing)
             {
                 CurrentFocus.Deactivate();

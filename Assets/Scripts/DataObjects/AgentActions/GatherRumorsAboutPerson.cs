@@ -9,6 +9,10 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
     [SerializeField]
     LongTermTask Task;
 
+    [SerializeField]
+    GameObject WinEffectPrefab;
+
+
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
@@ -28,7 +32,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         {
             targetChar.Known.Know("CurrentLocation", character.TopEmployer);
             character.GoToLocation(targetChar.CurrentLocation);
-
+            CORE.Instance.ShowPortraitEffect(WinEffectPrefab, character, character.CurrentLocation);
         }
         else
         {
@@ -66,9 +70,9 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (!targetChar.IsKnown("Appearance", character.TopEmployer) && !targetChar.IsKnown("Name", character.TopEmployer))
+        if (!targetChar.IsKnown("Appearance", character.TopEmployer) && !targetChar.IsKnown("Name", character.TopEmployer) && !targetChar.IsKnown("WorkLocation", character.TopEmployer))
         {
-            reason = new FailReason("You don't know either the NAME nor the LOOKS of this perosn.");
+            reason = new FailReason("You don't know either the NAME, WORK LOCATION nor the LOOKS of this perosn.");
             return false;
         }
 

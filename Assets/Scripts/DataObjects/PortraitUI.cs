@@ -87,37 +87,56 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
     public virtual void SetCharacter(Character character)
     {
-        CurrentCharacter = character;
+        if (CurrentCharacter == character)
+        {
+            RefreshState();
+        }
 
+        string tooltipString = "";
         CG.alpha = 1f;
         Unique.gameObject.SetActive(false);
         Face.gameObject.SetActive(true);
 
-        QuestionMark.gameObject.SetActive(false);
+        QuestionMark.gameObject.SetActive(false);        
 
         if (character == null)
         {
+            if(CurrentCharacter != null)
+            {
+                CurrentCharacter.StateChanged.RemoveListener(RefreshState);
+            }
+
             Face.color = Color.black;
             Hair.color = Color.black;
             Clothing.color = Color.black;
             Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
             FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
+            if (AgentRing != null)
+            {
+                AgentRing.gameObject.SetActive(false);
+            }
+
             if (ActionPortrait != null)
             {
                 ActionPortrait.gameObject.SetActive(false);
             }
 
-            return;
-        }
+            TooltipTarget?.SetTooltip("Empty Slot");
 
-        if (PrisonBars != null)
-        {
-            PrisonBars.SetActive(character.PrisonLocation != null);
+            PrisonBars?.SetActive(false);
+
+            CurrentCharacter = character;
+
+            return;
         }
 
         if(character.Known != null && !character.IsKnown("Appearance", CORE.PC))
         {
+            if (CurrentCharacter != null)
+            {
+                CurrentCharacter.StateChanged.RemoveListener(RefreshState);
+            }
 
             Face.color = Color.black;
             Hair.color = Color.black;
@@ -138,11 +157,11 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
             QuestionMark.gameObject.SetActive(true);
 
-            string tooltipString = "";
+            tooltipString = "";
 
             if(character.IsKnown("Name",CORE.PC))
             {
-                tooltipString += CurrentCharacter.name + " - ";
+                tooltipString += character.name + " - ";
             }
             else
             {
@@ -151,7 +170,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
             if (character.IsKnown("WorkLocation", CORE.PC))
             {
-                tooltipString += "\n <color=yellow>"+CurrentCharacter.CurrentRole + "</color>";
+                tooltipString += "\n <color=yellow>"+character.CurrentRole + "</color>";
 
                 if(character.IsAgent)
                 {
@@ -167,80 +186,87 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             tooltipString += "\n 'Right Click' for more options...";
 
             TooltipTarget?.SetTooltip(tooltipString);
-            
+
+            if (PrisonBars != null)
+            {
+                PrisonBars.SetActive(character.PrisonLocation != null);
+            }
+
+            CurrentCharacter = character;
 
             return;
+        }
+
+        if (PrisonBars != null)
+        {
+            PrisonBars.SetActive(character.PrisonLocation != null);
         }
 
         Face.color = Color.white;
         Hair.color = Color.white;
         Clothing.color = Color.white;
-        
 
-        if(CurrentCharacter != null)
+
+        if (CurrentCharacter != null)
         {
-            character.StateChanged.RemoveListener(RefreshState);
+            CurrentCharacter.StateChanged.RemoveListener(RefreshState);
+        }
 
-            string tooltipString = "";
+        tooltipString = "";
 
-            if (character.IsKnown("Name", CORE.PC))
-            {
-                tooltipString += CurrentCharacter.name + " - ";
-            }
-            else
-            {
-                tooltipString += "??? - ";
-            }
-
-            if (character.IsKnown("WorkLocation", CORE.PC))
-            {
-                tooltipString += "\n <color=yellow>Role: " + CurrentCharacter.CurrentRole + "</color>";
-                
-                if (character.IsAgent && character.IsKnown("Faction", CORE.PC))
-                {
-                    tooltipString += "\n <color=#"+ ColorUtility.ToHtmlStringRGB(character.CurrentFaction.FactionColor)+">"+character.CurrentFaction.name+"</color>";
-
-                    if (character.TopEmployer == CORE.PC)
-                    {
-                        tooltipString += "\n <color=green>Your Agent</color>";
-                    }
-                    else
-                    {
-                        tooltipString += "\n <color=green>An Agent</color>";
-                    }
-                }
-                
-            }
-            else
-            {
-                tooltipString += "\n <color=yellow>Role: unknown</color>";
-            }
-
-
-
-
-            tooltipString += "\n 'Right Click' for more options...";
-
-            TooltipTarget?.SetTooltip(tooltipString);
-
+        if (character.IsKnown("Name", CORE.PC))
+        {
+            tooltipString += character.name + " - ";
         }
         else
         {
-            TooltipTarget?.SetTooltip("This character slot is unoccupied...");
+            tooltipString += "??? - ";
+        }
+
+        if (character.IsKnown("WorkLocation", CORE.PC))
+        {
+            tooltipString += "\n <color=yellow>Role: " + character.CurrentRole + "</color>";
+                
+            if (character.IsAgent && character.IsKnown("Faction", CORE.PC))
+            {
+                tooltipString += "\n <color=#"+ ColorUtility.ToHtmlStringRGB(character.CurrentFaction.FactionColor)+">"+character.CurrentFaction.name+"</color>";
+
+                if (character.TopEmployer == CORE.PC)
+                {
+                    tooltipString += "\n <color=green>Your Agent</color>";
+                }
+                else
+                {
+                    tooltipString += "\n <color=green>An Agent</color>";
+                }
+            }
+                
+        }
+        else
+        {
+            tooltipString += "\n <color=yellow>Role: unknown</color>";
+        }
+
+
+
+
+        tooltipString += "\n 'Right Click' for more options...";
+
+        TooltipTarget?.SetTooltip(tooltipString);
+
+        if (character.UniquePortrait != null)
+        {
+            Unique.gameObject.SetActive(true);
+            Face.gameObject.SetActive(false);
+            Unique.sprite = character.UniquePortrait;
         }
 
         CurrentCharacter = character;
 
         RefreshState();
 
-        character.StateChanged.AddListener(RefreshState);
+        CurrentCharacter.StateChanged.AddListener(RefreshState);
 
-        if(CurrentCharacter.UniquePortrait != null)
-        {
-            Unique.gameObject.SetActive(true);
-            Face.gameObject.SetActive(false);
-            Unique.sprite = CurrentCharacter.UniquePortrait;
-        }
         
     }
 
@@ -275,6 +301,11 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             {
                 AgentRing.gameObject.SetActive(false);
             }
+        }
+
+        if (PrisonBars != null)
+        {
+            PrisonBars.SetActive(CurrentCharacter.PrisonLocation != null);
         }
     }
 

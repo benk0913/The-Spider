@@ -33,7 +33,7 @@ public class PlotEntry : ScriptableObject
                 }
             }
         }
-        else if (target.GetType() == typeof(PortraitUI))
+        else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character characterTarget = ((PortraitUI)target).CurrentCharacter;
 

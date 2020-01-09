@@ -49,8 +49,6 @@ public class Quest : ScriptableObject, ISaveFileCompatible
             objectives.Add(objectiveClone);
         }
 
-        quest.Objectives = objectives.ToArray();
-
 
         List<QuestReward> rewards = new List<QuestReward>();
         foreach (QuestReward reward in this.Rewards)
@@ -68,13 +66,13 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         }
         else
         {
-            if (Objectives.Length > 0)
+            if (objectives.Count > 0)
             {
                 QuestObjective objectiveWithCharacter = objectives.Find(x => x.TargetCharacter != null);
 
                 if (objectiveWithCharacter != null)
                 {
-                    RelevantCharacter = objectiveWithCharacter.TargetCharacter;
+                    quest.RelevantCharacter = objectiveWithCharacter.TargetCharacter;
                 }
             }
         }
@@ -90,21 +88,23 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         }
         else
         {
-            if(Objectives.Length > 0)
+            if(objectives.Count > 0)
             {
                 QuestObjective objectiveWithLocation = objectives.Find(x => x.TargetLocation != null);
 
                 if(objectiveWithLocation != null)
                 {
-                    RelevantLocation = objectiveWithLocation.TargetLocation;
+                    quest.RelevantLocation = objectiveWithLocation.TargetLocation;
                 }
             }
         }
 
         if (ForCharacter != null)
         {
-            ForCharacter = CORE.Instance.GetCharacter(ForCharacter.name);
+            quest.ForCharacter = CORE.Instance.GetCharacter(ForCharacter.name);
         }
+
+        quest.Objectives = objectives.ToArray();
 
         return quest;
     }

@@ -66,23 +66,7 @@ public class AttemptSeducePerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        int relations = targetChar.GetRelationsWith(character);
-        float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
-
-        if (relations < targetDiscreetValue)
-        {
-
-            reason = new FailReason(
-                targetChar.name + " doesn't like " + character.name + " enough... ("
-                + relations + " \\ " + targetDiscreetValue + ")");
-            return false;
-        }
-
-        if(character.Gender == targetChar.Gender)
-        {
-            reason = new FailReason(targetChar.name + " is not attracted to " + character.name + "'s gender...");
-            return false;
-        }
+ 
 
         return true;
     }

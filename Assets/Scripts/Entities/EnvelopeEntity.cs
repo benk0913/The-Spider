@@ -186,7 +186,7 @@ public class EnvelopeEntity : MonoBehaviour
 
         Quest questClone = CurrentLetter.Preset.QuestAttachment.CreateClone();
         questClone.ForCharacter = CORE.PC;
-        QuestsPanelUI.Instance.AddNewQuest(questClone);
+        QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
         QuestPanel.gameObject.SetActive(false);
     }
 }

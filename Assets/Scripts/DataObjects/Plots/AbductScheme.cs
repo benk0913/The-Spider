@@ -19,9 +19,8 @@ public class AbductScheme : SchemeType
 
         List<LocationEntity> locations = data.Plot.Plotter.TopEmployer.PropertiesOwned;
         LocationEntity location = locations.Find(x => x.HasFreePrisonCell);
-        {
-            CORE.Instance.Database.GetEventAction("Get Abducted").Execute(CORE.Instance.Database.GOD, ((PortraitUI)data.Plot.Target).CurrentCharacter, location);
-        }
+        CORE.Instance.Database.GetEventAction("Get Abducted").Execute(CORE.Instance.Database.GOD, ((PortraitUI)data.Plot.Target).CurrentCharacter, location);
+        
     }));
     }
 }

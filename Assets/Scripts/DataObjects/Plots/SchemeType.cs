@@ -91,7 +91,7 @@ public class SchemeType : ScriptableObject
     {
         Character targetCharacter = null;
         LocationEntity InLocation = null;
-        if (data.Target.GetType() == typeof(PortraitUI))
+        if (data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
         {
             targetCharacter = ((PortraitUI)data.Target).CurrentCharacter;
             InLocation = targetCharacter.CurrentLocation;
@@ -126,7 +126,8 @@ public class SchemeType : ScriptableObject
             }
         }
 
-        if ((result.Plot.Target.GetType() == typeof(PortraitUI)) && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
+        if (((result.Plot.Target.GetType() == typeof(PortraitUI)) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee)) 
+            && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
         {
             result.Plot.TargetParticipants.Remove(((PortraitUI)result.Plot.Target).CurrentCharacter);
         }
@@ -145,7 +146,7 @@ public class SchemeType : ScriptableObject
             LocationEntity targetLocation = (LocationEntity)result.Plot.Target;
             CORE.Instance.OnSchemeWin.Invoke(this, targetLocation, null);
         }
-        else if (result.Plot.Target.GetType() == typeof(PortraitUI))
+        else if (result.Plot.Target.GetType() == typeof(PortraitUI) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetCharacter = ((PortraitUI)result.Plot.Target).CurrentCharacter;
             CORE.Instance.OnSchemeWin.Invoke(this, null, targetCharacter);
@@ -162,7 +163,8 @@ public class SchemeType : ScriptableObject
             }
         }
 
-        if ((result.Plot.Target.GetType() == typeof(PortraitUI)) && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
+        if (((result.Plot.Target.GetType() == typeof(PortraitUI)) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
+            && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
         {
             result.Plot.TargetParticipants.Remove(((PortraitUI)result.Plot.Target).CurrentCharacter);
         }

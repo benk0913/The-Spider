@@ -42,35 +42,40 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
     public void AddNewQuest(Quest quest)
     {
         Quest newQuest = quest.CreateClone();
-        ActiveQuests.Add(newQuest);
+        AddNewExistingQuest(newQuest);
+    }
 
-        AddQuestToContainer(newQuest);
+    public void AddNewExistingQuest(Quest quest)
+    {
+        ActiveQuests.Add(quest);
 
-        if (newQuest.RelevantCharacter != null)
+        AddQuestToContainer(quest);
+
+        if (quest.RelevantCharacter != null)
         {
-            newQuest.RelevantCharacter.Pinned = true;
+            quest.RelevantCharacter.Pinned = true;
 
-            foreach (string infoKey in newQuest.InfoGivenOnCharacter)
+            foreach (string infoKey in quest.InfoGivenOnCharacter)
             {
-                newQuest.RelevantCharacter.Known.Know(infoKey, quest.ForCharacter);
+                quest.RelevantCharacter.Known.Know(infoKey, quest.ForCharacter);
             }
         }
 
-        if (newQuest.Tutorial)
+        if (quest.Tutorial)
         {
-            WorldMissionPanelUI.Instance.ShowQuest(newQuest);
+            WorldMissionPanelUI.Instance.ShowQuest(quest);
         }
 
-        foreach (QuestObjective objective in newQuest.Objectives)
+        foreach (QuestObjective objective in quest.Objectives)
         {
-            if(objective.ValidateRoutine != null)
+            if (objective.ValidateRoutine != null)
             {
                 CORE.Instance.StopCoroutine(objective.ValidateRoutine);
             }
 
             objective.ValidateRoutine = CORE.Instance.StartCoroutine(ValidateObjectiveRoutine(objective));
 
-            if(newQuest.ForCharacter != CORE.PC)
+            if (quest.ForCharacter != CORE.PC)
             {
                 continue;
             }
@@ -94,7 +99,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Notification.Add(1);
         }
 
-        if(quest.RelevantCharacter != null)
+        if (quest.RelevantCharacter != null)
         {
             RelevantCharacters.Add(quest.RelevantCharacter);
         }
@@ -161,9 +166,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             Quest questClone = quest.NextQuest.CreateClone();
             questClone.ForCharacter = quest.ForCharacter;
-            QuestsPanelUI.Instance.AddNewQuest(questClone);
-    
-            AddNewQuest(quest.NextQuest);
+            AddNewExistingQuest(questClone);
         }
 
         if(quest.CompletePopup != null)
@@ -364,7 +367,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["ActiveQuests"][i]);
 
-            AddNewQuest(quest);
+            AddNewExistingQuest(quest);
         }
 
         for (int i = 0; i < node["CompletedQuests"].Count; i++)

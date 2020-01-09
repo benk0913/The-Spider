@@ -61,11 +61,18 @@ public class PlottingDuelUI : MonoBehaviour
         RefreshPortraitPositions();
     }
 
+    private void OnDisable()
+    {
+        MouseLook.Instance.CurrentWindow = null;
+    }
+
     public void Show(
         PlotData plot,
         LocationEntity location,
         System.Action<DuelResultData> onComplete)
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
+
         this.gameObject.SetActive(true);
 
         CurrentPlot = plot;
