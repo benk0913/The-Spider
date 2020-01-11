@@ -60,7 +60,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
         Show(null, null);
     }
 
-    public override void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Characters View")
+    public override void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Characters View", Character topCharacter = null)
     {
         this.gameObject.SetActive(true);
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);

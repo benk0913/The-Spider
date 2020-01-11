@@ -37,7 +37,11 @@ public class Knowledge
     public Knowledge(Character ofCharacter = null)
     {
         CurrentCharacter = ofCharacter;
+        BaseParams();
+    }
 
+    public virtual void BaseParams()
+    {
         Items.Add(new KnowledgeInstance("Name", "The name of the person."));
         Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique."));
         Items.Add(new KnowledgeInstance("WorkLocation", "Where this person works."));
@@ -175,7 +179,10 @@ public class LocationKnowledge : Knowledge
     public LocationKnowledge(LocationEntity location)
     {
         CurrentLocation = location;
+    }
 
+    public override void BaseParams()
+    {
         Items.Add(new KnowledgeInstance("Existance", "The Existance Of This Place"));
     }
 
@@ -203,9 +210,13 @@ public class FactionKnowledge : Knowledge
     public FactionKnowledge(Faction faction)
     {
         CurrentFaction = faction;
-
+    }
+    
+    public override void BaseParams()
+    {
         Items.Add(new KnowledgeInstance("Existance", "The Existance Of This Faction"));
     }
+
 
     public override void Know(string key, Character byCharacter, bool notify = true)
     {

@@ -49,7 +49,7 @@ public class SelectCharacterViewUI : MonoBehaviour
         }
     }
 
-    public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Select Agent:")
+    public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Select Agent:", Character topCharacter = null)
     {
         MouseLook.Instance.CurrentWindow = this.gameObject;
 

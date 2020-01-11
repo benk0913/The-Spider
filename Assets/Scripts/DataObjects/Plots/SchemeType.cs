@@ -50,6 +50,9 @@ public class SchemeType : ScriptableObject
             List<Character> entryParticipants = new List<Character>();
             entryParticipants.AddRange(data.Participants);
 
+            entryTargets[0].CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
+            entryParticipants[0].CurrentFaction.Relations.GetRelations(entryTargets[0].CurrentFaction).TotalValue += 1; //GOT MY VANDETTA
+
             //Dueling
             Dueling(data,
                 (result) =>
@@ -118,6 +121,9 @@ public class SchemeType : ScriptableObject
 
     public virtual void WinResult(DuelResultData result)
     {
+        result.Plot.TargetParticipants[0].CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 1; //VANDETTA
+        result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(result.Plot.TargetParticipants[0].CurrentFaction).TotalValue += 1; //GOT MY VANDETTA
+
         foreach (Character participant in result.Plot.Participants)
         {
             if (!result.LeftParticipants.Contains(participant))

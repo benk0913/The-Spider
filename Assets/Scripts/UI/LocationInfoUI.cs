@@ -53,6 +53,7 @@ public class LocationInfoUI : MonoBehaviour
     public void Show(LocationEntity location)
     {
         CharacterInfoUI.Instance.Hide();
+        FactionInfoUI.Instance.Hide();
 
         if (location == null)
         {

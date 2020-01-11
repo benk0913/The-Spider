@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class FactionCityControlUI : MonoBehaviour
+public class FactionCityControlUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     Image PanelImage;
@@ -32,5 +33,10 @@ public class FactionCityControlUI : MonoBehaviour
     public void OnUnhover()
     {
         CityControlUI.Instance.HideFactionLabel();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        FactionInfoUI.Instance.Show(CurrentFaction);
     }
 }

@@ -42,12 +42,15 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public FactionKnowledge Known;
 
+    public FactionRelations Relations;
+
     public Faction Clone()
     {
         Faction newClone = Instantiate(this);
 
         newClone.name = this.name;
         newClone.Known = new FactionKnowledge(newClone);
+        newClone.Relations = new FactionRelations(this);
 
         return newClone;
     }
@@ -69,6 +72,13 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
             knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
+        
+        if(Relations == null)
+        {
+            Relations = new FactionRelations(this);
+        }
+
+        Relations.FromJSON(node["Relations"]);
     }
 
     public Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
@@ -89,6 +99,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
                 Known.Know(key, character);
             }
         }
+
+        Relations.ImplementIDs();
     }
 
     public JSONNode ToJSON()
@@ -104,6 +116,213 @@ public class Faction : ScriptableObject, ISaveFileCompatible
             }
         }
 
+        node["Relations"] = Relations.ToJSON();
+
         return node;
+    }
+}
+
+public class FactionRelations : ISaveFileCompatible
+{
+    public Faction OfFaction;
+
+    public List<FactionRelationInstance> Relations = new List<FactionRelationInstance>();
+
+    public FactionRelations(Faction ofFaction)
+    {
+        this.OfFaction = ofFaction;
+    }
+
+    public FactionRelationInstance GetRelations(Faction withFaction)
+    {
+        FactionRelationInstance relationInstance = Relations.Find(x => x.WithFaction == withFaction);
+
+        if (relationInstance == null)
+        {
+            relationInstance = new FactionRelationInstance(this.OfFaction, withFaction);
+            Relations.Add(relationInstance);
+        }
+
+        return relationInstance;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        ofFactionName = node["OfFaction"];
+
+        Relations.Clear();
+        for(int i=0;i<node["Relations"].Count;i++)
+        {
+            FactionRelationInstance relationInstance = new FactionRelationInstance();
+            relationInstance.ofFactionName = ofFactionName;
+            relationInstance.FromJSON(node["Relations"][i]);
+            Relations.Add(relationInstance);
+        }
+    }
+
+    public string ofFactionName;
+
+    public void ImplementIDs()
+    {
+        if (!string.IsNullOrEmpty(ofFactionName))
+        {
+            this.OfFaction = CORE.Instance.Factions.Find(x => x.name == ofFactionName);
+        }
+
+        foreach (FactionRelationInstance relation in Relations)
+        {
+            relation.ImplementIDs();
+        }
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["OfFaction"] = OfFaction.name;
+
+        for (int i=0;i<Relations.Count;i++)
+        {
+            node["Relations"][i] = Relations[i].ToJSON();
+        }
+
+        return node;
+    }
+}
+
+public class FactionRelationInstance : ISaveFileCompatible
+{
+    public const int MAX_RELATION = 10;
+    public const int MIN_RELATION = -10;
+
+    public Faction OfFaction;
+    public Faction WithFaction;
+
+    //USE THIS
+    public int TotalValue
+    {
+        get
+        {
+            return Value + PassiveValue;
+        }
+        set
+        {
+            this.Value = value;
+        }
+    }
+
+    public int Value
+    {
+        get
+        {
+            return _value;
+        }
+        set
+        {
+            _value = value;
+
+            if (TotalValue > MAX_RELATION)
+            {
+                _value = MAX_RELATION - PassiveValue;
+            }
+            else if (TotalValue < MIN_RELATION)
+            {
+                _value = MIN_RELATION + PassiveValue;
+            }
+        }
+    }
+    int _value;
+
+    public int PassiveValue
+    {
+        get
+        {
+            int value = 0;
+
+            foreach(string key in RelationModifiers.Keys)
+            {
+                value += RelationModifiers[key];
+            }
+
+            return value;
+        }
+    }
+
+    public Dictionary<string, int> RelationModifiers
+    {
+        get
+        {
+            Dictionary<string, int> modifiers = new Dictionary<string, int>();
+
+            if (OfFaction.FactionHead == null || WithFaction.FactionHead == null)
+            {
+                return modifiers;
+            }
+
+            Character ofFactionHead = CORE.Instance.Characters.Find(x => x.name == OfFaction.FactionHead.name);
+            Character withFactionHead = CORE.Instance.Characters.Find(x => x.name == WithFaction.FactionHead.name);
+
+
+            if (ofFactionHead.PropertiesInCommand.Count > withFactionHead.PropertiesInCommand.Count)
+            {
+                modifiers.Add("Small Threat", 1);
+            }
+            else
+            {
+                modifiers.Add("Big Threat", -1);
+            }
+
+            if(withFactionHead.Reputation > 0)
+            {
+                modifiers.Add("Good Reputation", 2);
+            }
+            else if (withFactionHead.Reputation < 0)
+            {
+                modifiers.Add("Bad Reputation", -2);
+            }
+            
+
+            return modifiers;
+        }
+    }
+
+    public FactionRelationInstance(Faction ofFaction = null, Faction withFaction = null)
+    {
+        this.OfFaction = ofFaction;
+        this.WithFaction = withFaction;
+        this.Value = 0;
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+        node["OfFaction"] = OfFaction.name;
+        node["WithFaction"] = WithFaction.name;
+        node["Value"] = Value.ToString();
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        this.ofFactionName = node["OfFaction"];
+        this.withFactionName = node["WithFaction"];
+        this.Value = int.Parse(node["Value"]);
+    }
+
+    public string withFactionName;
+    public string ofFactionName;
+
+    public void ImplementIDs()
+    {
+        if(!string.IsNullOrEmpty(withFactionName))
+        {
+            this.WithFaction = CORE.Instance.Factions.Find(x => x.name == withFactionName);
+        }
+
+        if (!string.IsNullOrEmpty(ofFactionName))
+        {
+            this.OfFaction = CORE.Instance.Factions.Find(x => x.name == ofFactionName);
+        }
     }
 }

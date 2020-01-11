@@ -269,6 +269,7 @@ public class CharacterInfoUI : MonoBehaviour
     public void ShowInfo(Character character)
     {
         LocationInfoUI.Instance.Hide();
+        FactionInfoUI.Instance.Hide();
 
         if (character == null)
         {

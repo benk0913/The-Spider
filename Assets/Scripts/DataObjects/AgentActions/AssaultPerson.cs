@@ -13,6 +13,8 @@ public class AssaultPerson : AgentAction //DO NOT INHERIT FROM
 
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
+        targetChar.CurrentFaction.Relations.GetRelations(character.CurrentFaction).TotalValue -= 1;
+
         float charSTR = character.GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value;
         float targetSTR = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value;
 

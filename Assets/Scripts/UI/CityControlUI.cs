@@ -35,7 +35,7 @@ public class CityControlUI : MonoBehaviour
         ClearContainer();
 
         float accumPrecent = 0f;
-        //faction.FactionHead.PropertiesInCommand.Count 
+        
         foreach (Faction faction in CORE.Instance.Factions)
         {
             if(faction.FactionHead == null)
@@ -59,7 +59,7 @@ public class CityControlUI : MonoBehaviour
 
         float defaultPrecent = 1f-accumPrecent;
 
-        defaultPanel.GetComponent<FactionCityControlUI>().SetInfo(CORE.Instance.Database.DefaultFaction, defaultPrecent, ContainerRect.sizeDelta.x);
+        defaultPanel.GetComponent<FactionCityControlUI>().SetInfo(CORE.Instance.Factions.Find(x=>x.name == CORE.Instance.Database.DefaultFaction.name), defaultPrecent, ContainerRect.sizeDelta.x);
     }
 
     void ClearContainer()

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class FactionPortraitUI : MonoBehaviour
+public class FactionPortraitUI : MonoBehaviour, IPointerClickHandler
 {
 
     public Faction CurrentFaction;
@@ -16,6 +17,16 @@ public class FactionPortraitUI : MonoBehaviour
 
     [SerializeField]
     protected GameObject QuestionMark;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(CurrentFaction == null)
+        {
+            return;
+        }
+
+        FactionInfoUI.Instance.Show(CurrentFaction);
+    }
 
     public void SetInfo(Faction faction)
     {

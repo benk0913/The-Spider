@@ -10,6 +10,8 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
 
     [SerializeField]
     SelectableCharacterNodeTreeUI Tree;
+
+    Character TopCharacter;
     
     protected override void Awake()
     {
@@ -17,8 +19,10 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         this.gameObject.SetActive(false);
     }
     
-    public override void Show(Action<Character> onSelect, Predicate<Character> filter, string title = "Select Agent:")
+    public override void Show(Action<Character> onSelect, Predicate<Character> filter, string title = "Select Agent:", Character topCharacter = null)
     {
+        TopCharacter = topCharacter;
+
         this.gameObject.SetActive(true);
         base.Show(onSelect, filter);
         TitleText.text = title;
@@ -29,7 +33,12 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
 
         yield return 0;
 
-        Tree.SetSelectableCharacters(CORE.PC, onSelect);
+        if(TopCharacter == null)
+        {
+            TopCharacter = CORE.PC;
+        }
+
+        Tree.SetSelectableCharacters(TopCharacter, onSelect);
 
         PopulateGridRoutine = null;
     }
