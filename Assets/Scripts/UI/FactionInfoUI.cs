@@ -157,7 +157,7 @@ public class FactionInfoUI : MonoBehaviour
 
     public void ShowFactionRelations()
     {
-
+        FactionRelationsWindowUI.Instance.Show(CurrentFaction);
     }
 
 

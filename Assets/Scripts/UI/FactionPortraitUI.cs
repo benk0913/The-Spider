@@ -37,6 +37,7 @@ public class FactionPortraitUI : MonoBehaviour, IPointerClickHandler
         {
             QuestionMark.gameObject.SetActive(false);
 
+            FactionIcon.gameObject.SetActive(true);
             FactionIcon.sprite = CurrentFaction.Icon;
 
             TooltipTarget.SetTooltip(CurrentFaction.name);
@@ -45,7 +46,7 @@ public class FactionPortraitUI : MonoBehaviour, IPointerClickHandler
         {
             QuestionMark.gameObject.SetActive(true);
 
-            FactionIcon.sprite = CurrentFaction.Icon;
+            FactionIcon.gameObject.SetActive(false);
 
             TooltipTarget.SetTooltip("Faction Unknown...");
         }
