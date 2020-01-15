@@ -57,7 +57,9 @@ public class CharactersInLocationUI : MonoBehaviour
         if (!character.IsKnown("CurrentLocation", CORE.PC) 
             || character.IsDead 
             || character == CORE.PC
-            || (!QuestsPanelUI.Instance.RelevantCharacters.Contains(character) && !character.IsAgent))
+            || 
+                (!QuestsPanelUI.Instance.RelevantCharacters.Contains(character) && !character.IsAgent)
+                && (character.CurrentTaskEntity == null || !character.CurrentTaskEntity.CurrentTask.ShowCharacterInWorld))
         { 
             return;
         }

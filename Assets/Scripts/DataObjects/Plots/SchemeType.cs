@@ -50,8 +50,26 @@ public class SchemeType : ScriptableObject
             List<Character> entryParticipants = new List<Character>();
             entryParticipants.AddRange(data.Participants);
 
-            entryTargets[0].CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
-            entryParticipants[0].CurrentFaction.Relations.GetRelations(entryTargets[0].CurrentFaction).TotalValue += 1; //GOT MY VANDETTA
+            if (data.Target.GetType() == typeof(LocationEntity))
+            {
+                LocationEntity location = (LocationEntity)data.Target;
+
+                if (location.OwnerCharacter != null)
+                {
+                    location.OwnerCharacter.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                    entryParticipants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                }
+            }
+            else if(data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
+            {
+                Character targetChar = ((PortraitUI)data.Target).CurrentCharacter;
+
+                if (targetChar != null)
+                {
+                    targetChar.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                    entryParticipants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                }
+            }
 
             //Dueling
             Dueling(data,
@@ -121,8 +139,27 @@ public class SchemeType : ScriptableObject
 
     public virtual void WinResult(DuelResultData result)
     {
-        result.Plot.TargetParticipants[0].CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 1; //VANDETTA
-        result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(result.Plot.TargetParticipants[0].CurrentFaction).TotalValue += 1; //GOT MY VANDETTA
+
+        if (result.Plot.Target.GetType() == typeof(LocationEntity))
+        {
+            LocationEntity location = (LocationEntity)result.Plot.Target;
+
+            if (location.OwnerCharacter != null)
+            {
+                location.OwnerCharacter.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+            }
+        }
+        else if (result.Plot.Target.GetType() == typeof(PortraitUI) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
+        {
+            Character targetChar = ((PortraitUI)result.Plot.Target).CurrentCharacter;
+
+            if (targetChar != null)
+            {
+                targetChar.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
+                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+            }
+        }
 
         foreach (Character participant in result.Plot.Participants)
         {

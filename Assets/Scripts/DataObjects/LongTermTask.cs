@@ -30,6 +30,9 @@ public class LongTermTask : ScriptableObject
 
     public bool HaltWhenActionPerTurnExecuted;
 
+    [SerializeField]
+    public bool ShowCharacterInWorld = false;
+
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();

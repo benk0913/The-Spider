@@ -119,6 +119,10 @@ public class Knowledge
 
             instance.KnownByCharacters.Add(byCharacter);
         }
+        else
+        {
+            return;
+        }
 
 
         if (key == "CurrentLocation")
@@ -139,6 +143,14 @@ public class Knowledge
             if (CurrentCharacter.CurrentFaction != null)
             {
                 CORE.Instance.Factions.Find(x => x.name == CurrentCharacter.CurrentFaction.name).Known.Know("Existance", byCharacter, false);
+            }
+
+            foreach(LocationEntity location in CurrentCharacter.PropertiesOwned)
+            {
+                foreach(Character employee in location.EmployeesCharacters)
+                {
+                    employee.Known.Know("Faction", byCharacter, false);
+                }
             }
         }
     }

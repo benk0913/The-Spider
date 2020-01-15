@@ -203,7 +203,7 @@ public class FactionRelationInstance : ISaveFileCompatible
     {
         get
         {
-            return Value + PassiveValue;
+            return System.Math.Max(System.Math.Min(Value + PassiveValue, MAX_RELATION), MIN_RELATION);
         }
         set
         {
@@ -219,16 +219,16 @@ public class FactionRelationInstance : ISaveFileCompatible
         }
         set
         {
-            _value = value;
+            if (value > _value && TotalValue >= MAX_RELATION)
+            {
+                return;
+            }
+            else if (value < _value && TotalValue <= MIN_RELATION)
+            {
+                return;
+            }
 
-            if (TotalValue > MAX_RELATION)
-            {
-                _value = MAX_RELATION - PassiveValue;
-            }
-            else if (TotalValue < MIN_RELATION)
-            {
-                _value = MIN_RELATION + PassiveValue;
-            }
+            _value = value;
         }
     }
     int _value;

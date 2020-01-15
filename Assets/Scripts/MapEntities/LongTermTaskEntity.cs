@@ -21,6 +21,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     [SerializeField]
     public LocationEntity CurrentTargetLocation;
 
+
     public int TurnsLeft;
 
     LocationEntity CurrentLocation;
@@ -58,12 +59,20 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
         this.ActionPerTurn = actionPerTurn;
         HaltWhenActionPerTurnExecuted = CurrentTask.HaltWhenActionPerTurnExecuted;
+
+        if(CurrentTask.ShowCharacterInWorld)
+        {
+            LocationEntity currLocation = character.CurrentLocation;
+            character.GoToLocation(CORE.Instance.Locations[0]);
+            character.GoToLocation(currLocation);
+        }
     }
 
     public void RefreshKnownTaskState()
     {
-        isKnownTask = (CurrentCharacter.TopEmployer == CORE.PC
-            || ((CurrentCharacter.isImportant || CurrentCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction) && CurrentCharacter.IsKnown("CurrentLocation", CORE.PC)));
+        isKnownTask = CurrentCharacter.TopEmployer == CORE.PC
+            || CurrentCharacter.isImportant
+            || (CurrentCharacter.CurrentFaction != CORE.Instance.Factions.Find(x=>x.name == CORE.Instance.Database.DefaultFaction.name) && CurrentCharacter.IsKnown("CurrentLocation", CORE.PC));
     }
 
     public void TurnPassed()

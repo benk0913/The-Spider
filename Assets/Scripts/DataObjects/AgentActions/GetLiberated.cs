@@ -35,7 +35,10 @@ public class GetLiberated : AgentAction //DO NOT INHERIT FROM
         {
             LocationEntity targetLocation = (LocationEntity)target;
 
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+            if (this.Task != null)
+            {
+                CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+            }
 
             character.ExitPrison();
         }
@@ -45,7 +48,11 @@ public class GetLiberated : AgentAction //DO NOT INHERIT FROM
             
             LocationEntity targetLocation  = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.LawAreaTrait, targetCharacter.CurrentCharacter.CurrentLocation);
 
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+            if (this.Task != null)
+            {
+                CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+            }
+
             character.ExitPrison();
         }
 

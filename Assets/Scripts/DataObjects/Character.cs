@@ -152,7 +152,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             if (Employer == null)
             {
-                return _currentFaction != null? _currentFaction : CORE.Instance.Database.DefaultFaction;
+                return _currentFaction != null? _currentFaction : CORE.Instance.Factions.Find(x=>x.name == CORE.Instance.Database.DefaultFaction.name);
             }
 
             return Employer.CurrentFaction;

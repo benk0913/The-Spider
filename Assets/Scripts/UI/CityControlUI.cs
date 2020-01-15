@@ -43,11 +43,17 @@ public class CityControlUI : MonoBehaviour
                 continue;
             }
 
+            Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+
+            if(factionHead == null)
+            {
+                continue;
+            }
+
             GameObject tempPanel = ResourcesLoader.Instance.GetRecycledObject("FactionControlElement");
             tempPanel.transform.SetParent(ContainerRect, false);
             tempPanel.transform.localScale = Vector3.one;
-
-            Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
+            
             float precent = (1f*factionHead.PropertiesInCommand.Count) / (1f*CORE.Instance.Locations.Count);
             accumPrecent += precent;
             tempPanel.GetComponent<FactionCityControlUI>().SetInfo(faction, precent, ContainerRect.rect.width);

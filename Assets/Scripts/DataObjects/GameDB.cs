@@ -62,6 +62,8 @@ public class GameDB : ScriptableObject
 
     public List<LongTermTask> LongTermTasks = new List<LongTermTask>();
 
+    public List<SchemeType> Schemes = new List<SchemeType>();
+
     public BonusType[] BonusTypes;
 
     public ReputationInstance[] ReputationTypes;

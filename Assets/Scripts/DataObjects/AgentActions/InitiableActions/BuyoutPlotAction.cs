@@ -58,7 +58,7 @@ public class BuyoutPlotAction : AgentAction
             return false;
         }
 
-        if (targetEntity.OwnerCharacter.CurrentFaction != CORE.Instance.Database.DefaultFaction)
+        if (targetEntity.OwnerCharacter.CurrentFaction != CORE.Instance.Factions.Find(x=>x.name == CORE.Instance.Database.DefaultFaction.name))
         {
             reason = new FailReason("Owner refuses every offer");
             return false;

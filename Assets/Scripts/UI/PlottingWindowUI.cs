@@ -139,20 +139,14 @@ public class PlottingWindowUI : MonoBehaviour
         {
             LocationEntity location = ((LocationEntity)CurrentTarget);
 
-            foreach (Character guard in location.GuardsCharacters)
+            if (location.OwnerCharacter != null)
             {
-                if (guard.CurrentLocation == location )
-                {
-                    TargetParticipants.Add(guard);
-                }
-            }
-
-            foreach (Character employee in location.EmployeesCharacters)
-            {
-                if (employee.CurrentLocation == location && employee.Age > 15)
-                {
-                    TargetParticipants.Add(employee);
-                }
+                TargetParticipants.AddRange(CORE.Instance.Characters.FindAll(x =>
+                       !TargetParticipants.Contains(x)
+                    && x.PrisonLocation == null
+                    && x.CurrentLocation == location
+                    && x.Age >= 15
+                    && (x.TopEmployer == location.OwnerCharacter.TopEmployer || x.CurrentFaction.name == "Constabulary")));
             }
         }
 
@@ -160,7 +154,7 @@ public class PlottingWindowUI : MonoBehaviour
         CurrentMethod = CurrentSchemeType.PossibleMethods[0];
         CurrentEntry  = CurrentSchemeType.PossibleEntries[0];
 
-        RefreshUI();
+        CORE.Instance.DelayedInvokation(0.1f, RefreshUI);
 
         this.gameObject.SetActive(true);
     }
@@ -216,7 +210,15 @@ public class PlottingWindowUI : MonoBehaviour
             }
         }
 
-        foreach(Character character in Participants)
+        foreach (Item item in CurrentEntry.ItemsRequired)
+        {
+            GameObject itemObj = ResourcesLoader.Instance.GetRecycledObject("ItemUI");
+            itemObj.transform.SetParent(ItemsRequiredContainer, false);
+            itemObj.transform.localScale = Vector3.one;
+            itemObj.GetComponent<ItemUI>().SetInfo(item);
+        }
+
+        foreach (Character character in Participants)
         {
             GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
             portraitObj.transform.SetParent(ParticipantsContainer, false);
@@ -238,11 +240,13 @@ public class PlottingWindowUI : MonoBehaviour
         EntryName.text = (entryRequirements == null ? "<color=yellow>" : "<color=red>") + CurrentEntry.name + "</color>";
 
         List<TooltipBonus> entryTTBonuses = new List<TooltipBonus>();
+        entryTTBonuses.Add(new TooltipBonus("<color=green>" + "+" + CurrentEntry.BonusToSkill + " " + CurrentEntry.Skill.name + "</color>", CurrentEntry.Skill.icon));
         if (entryRequirements != null)
         {
             entryTTBonuses.Add(new TooltipBonus("<color=yellow>" + CurrentEntry.Skill.name + " +"+CurrentEntry.BonusToSkill+"</color>", ResourcesLoader.Instance.GetSprite("Unsatisfied")));
             entryTTBonuses.Add(new TooltipBonus("<color=red>" + entryRequirements.Key + "</color>", ResourcesLoader.Instance.GetSprite("Unsatisfied")));
         }
+
         EntryTooltipTarget.SetTooltip(CurrentEntry.name + " \n " + CurrentEntry.Description, entryTTBonuses);
 
 
@@ -322,7 +326,18 @@ public class PlottingWindowUI : MonoBehaviour
             targetsValue += character.GetBonus(CurrentMethod.DefenceSkill).Value;
         }
 
-        PlotChanceSuccess.text = Mathf.RoundToInt((participantsValue / (participantsValue+targetsValue)) * 100f) + "%";
+        if (Participants.Count == 0)
+        {
+            PlotChanceSuccess.text = "N/A";
+        }
+        else if (TargetParticipants.Count == 0)
+        {
+            PlotChanceSuccess.text = "100%";
+        }
+        else
+        {
+            PlotChanceSuccess.text = Mathf.RoundToInt((participantsValue / (participantsValue + targetsValue)) * 100f) + "%";
+        }
     }
 
     void ClearContainers()

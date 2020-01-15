@@ -119,21 +119,29 @@ public class FactionInfoUI : MonoBehaviour
 
         if(CurrentFaction.Relations != null)
         {
-            int relation = CurrentFaction.Relations.GetRelations(CORE.PC.CurrentFaction).TotalValue;
-
-            RelationsWithPlayerText.text = relation.ToString();
-
-            if(relation > 3)
+            if (CurrentFaction == CORE.PC.CurrentFaction)
             {
-                RelationsWithPlayerText.color = Color.green;
-            }
-            else if (relation < -3)
-            {
-                RelationsWithPlayerText.color = Color.red;
+                RelationsWithPlayerText.text = "--";
+                RelationsWithPlayerText.color = Color.yellow;
             }
             else
             {
-                RelationsWithPlayerText.color = Color.yellow;
+                int relation = CurrentFaction.Relations.GetRelations(CORE.PC.CurrentFaction).TotalValue;
+
+                RelationsWithPlayerText.text = relation.ToString();
+
+                if (relation > 3)
+                {
+                    RelationsWithPlayerText.color = Color.green;
+                }
+                else if (relation < -3)
+                {
+                    RelationsWithPlayerText.color = Color.red;
+                }
+                else
+                {
+                    RelationsWithPlayerText.color = Color.yellow;
+                }
             }
         }
     }

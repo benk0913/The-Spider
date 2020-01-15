@@ -77,6 +77,13 @@ public class GameDBEditor : Editor
             db.LongTermTasks.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LongTermTask)) as LongTermTask);
         }
 
+        guids = AssetDatabase.FindAssets("t:SchemeType", new[] { "Assets/" + db.DataPath });
+        db.Schemes.Clear();
+        foreach (string guid in guids)
+        {
+            db.Schemes.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(SchemeType)) as SchemeType);
+        }
+
 
         EditorUtility.SetDirty(db);
     }

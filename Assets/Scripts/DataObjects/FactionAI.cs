@@ -7,14 +7,26 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FactionAI", menuName = "DataObjects/FactionAI", order = 2)]
 public class FactionAI : ScriptableObject
 {
+    public const int GOLD_SCARCE_VALUE = 150;
+
+
     Character CurrentCharacter;
 
     Dictionary<string, int> FailReasons = new Dictionary<string, int>();
 
+    [SerializeField]
+    public AIAgression AgressionType = AIAgression.Normal;
+
+
     public virtual void MakeDecision(Character character)
     {
         this.CurrentCharacter = character;
+
         FailReasons.Clear();
+
+        BotCheats();
+        
+        Agression();
 
         Expand();
 
@@ -36,67 +48,55 @@ public class FactionAI : ScriptableObject
         }
     }
 
+    void BotCheats()
+    {
+        this.CurrentCharacter.Gold += 5;
+        this.CurrentCharacter.Rumors += 3;
+        this.CurrentCharacter.Connections += 3;
+    }
+
     public virtual void Expand()
     {
         FailReason failReason = null;
 
         //Recruit employees
-        List<LocationEntity> ownedProperties = CurrentCharacter.PropertiesInCommand;
-        foreach (LocationEntity location in ownedProperties)
-        {
-            if(location.EmployeesCharacters.Count < location.CurrentProperty.PropertyLevels[location.Level-1].MaxEmployees)
-            {
-                failReason = location.RecruitEmployee(CurrentCharacter);
-
-                if(failReason != null)
-                {
-                    AddFailure(failReason);
-                    break;
-                }
-            }
-        }
-
-        failReason = null;
-
+        AttemptMaximizeEmployees();
+        
         //Recruit Guards
-        ownedProperties = CurrentCharacter.PropertiesInCommand;
-        foreach (LocationEntity location in ownedProperties)
-        {
-            if (location.GuardsCharacters.Count < location.CurrentProperty.PropertyLevels[location.Level - 1].MaxGuards)
-            {
-                failReason = location.RecruitEmployee(CurrentCharacter, true);
-
-                if (failReason != null)
-                {
-                    AddFailure(failReason);
-                    break;
-                }
-            }
-        }
-
-
-        failReason = null;
+        AttemptMaximizeGuards();
 
         //Buy Locations
-        List<Character> charsInCommand = CurrentCharacter.CharactersInCommand;
-        List<LocationEntity> purchasables = CORE.Instance.Locations.FindAll((LocationEntity location) =>
-        {
-            return location.IsBuyable;
-        });
-        foreach (LocationEntity purchasable in purchasables)
-        {
-            if (charsInCommand.Count == 0)
-            {
-                break;
-            }
+        AttemptMaximizeProperties();
 
-            failReason = purchasable.PurchasePlot(CurrentCharacter, charsInCommand[UnityEngine.Random.Range(0, charsInCommand.Count)]);
+        AttemptMaintainance();
+    }
+
+    public virtual void Agression()
+    {
+        if(AgressionType == AIAgression.Passive)
+        {
+            return;
         }
 
-        if(failReason != null)
+        Faction factionToAttack = FindPotentialAgressionTarget();
+        
+        if(factionToAttack == null)
         {
-            AddFailure(failReason);
+            return;
         }
+
+        //Assassinate / Abduction / Arson / Raid / Assault
+        List<SchemeType> PotentialSchemes = new List<SchemeType>();
+
+        PotentialSchemes.AddRange(CORE.Instance.Database.Schemes);
+        PotentialSchemes.RemoveAll(x => x.name == "Liberate");
+
+        if(PotentialSchemes.Count == 0)
+        {
+            return;
+        }
+
+        AttemptPlot(PotentialSchemes[UnityEngine.Random.Range(0, PotentialSchemes.Count)], factionToAttack);
     }
 
     #region Problem Solving
@@ -138,6 +138,31 @@ public class FactionAI : ScriptableObject
                     AttemptMaximizeRumors();
                     break;
                 }
+            case "Not Enough Agents":
+                {
+                    AttemptRecruitAgents();
+                    break;
+                }
+            case "Location Is Full Of Employees":
+                {
+                    break;
+                }
+            case "Location Is Full Of Agents":
+                {
+                    AttemptMaximizeAgentsSlots();
+                    break;
+                }
+            case "Not Enough Agent Properties":
+                {
+                    AttemptMaximizeAgentProperties();
+                    break;
+                }
+            case "Location Is Ruined":
+                {
+                    AttemptRepairLocations();
+                    break;
+                }
+
         }
     }
 
@@ -171,6 +196,7 @@ public class FactionAI : ScriptableObject
 
             if (!foundAction)
             {
+                return; //TODO PROPER REBRAND
                 foreach (Property possibleProperty in CurrentCharacter.CurrentFaction.FactionProperties) // Find rebrand option
                 {
                     if (possibleProperty.PlotType != location.CurrentProperty.PlotType)
@@ -186,7 +212,9 @@ public class FactionAI : ScriptableObject
                             break;
                         }
 
-                        if (possibleProperty.Actions[i].RumorsGenerated > location.CurrentAction.RumorsGenerated)
+                        if ((possibleProperty.Actions[i].RumorsGenerated * possibleProperty.PropertyLevels[0].MaxEmployees)
+                           >
+                           (location.CurrentAction.RumorsGenerated * location.CurrentProperty.PropertyLevels[0].MaxEmployees))
                         {
                             location.Rebrand(CurrentCharacter, possibleProperty);
                             location.SelectAction(CurrentCharacter, possibleProperty.Actions[i]);
@@ -230,7 +258,8 @@ public class FactionAI : ScriptableObject
 
             if(!foundAction)
             {
-                foreach(Property possibleProperty in CurrentCharacter.CurrentFaction.FactionProperties) // Find rebrand option
+                return; //TODO PROPER REBRAND
+                foreach (Property possibleProperty in CurrentCharacter.CurrentFaction.FactionProperties) // Find rebrand option
                 {
                     if (possibleProperty.PlotType != location.CurrentProperty.PlotType)
                     {
@@ -245,7 +274,9 @@ public class FactionAI : ScriptableObject
                             break;
                         }
 
-                        if(possibleProperty.Actions[i].ConnectionsGenerated > location.CurrentAction.ConnectionsGenerated)
+                        if ((possibleProperty.Actions[i].ConnectionsGenerated * possibleProperty.PropertyLevels[0].MaxEmployees)
+                            >
+                            (location.CurrentAction.ConnectionsGenerated * location.CurrentProperty.PropertyLevels[0].MaxEmployees))
                         {
                             location.Rebrand(CurrentCharacter, possibleProperty);
                             location.SelectAction(CurrentCharacter, possibleProperty.Actions[i]);
@@ -289,6 +320,7 @@ public class FactionAI : ScriptableObject
 
             if (!foundAction)
             {
+                return; //TODO PROPER REBRAND
                 foreach (Property possibleProperty in CurrentCharacter.CurrentFaction.FactionProperties) // Find rebrand option
                 {
                     if (possibleProperty.PlotType != location.CurrentProperty.PlotType)
@@ -304,7 +336,9 @@ public class FactionAI : ScriptableObject
                             break;
                         }
 
-                        if (possibleProperty.Actions[i].GoldGenerated > location.CurrentAction.GoldGenerated)
+                        if ((possibleProperty.Actions[i].GoldGenerated * possibleProperty.PropertyLevels[0].MaxEmployees) 
+                            >
+                            (location.CurrentAction.GoldGenerated * location.CurrentProperty.PropertyLevels[0].MaxEmployees))
                         {
                             location.Rebrand(CurrentCharacter, possibleProperty);
                             location.SelectAction(CurrentCharacter, possibleProperty.Actions[i]);
@@ -316,7 +350,194 @@ public class FactionAI : ScriptableObject
         }
     }
 
+    private void AttemptMaximizeEmployees()
+    {
+        FailReason failReason;
 
+        List<LocationEntity> ownedProperties = CurrentCharacter.PropertiesInCommand;
+        foreach (LocationEntity location in ownedProperties)
+        {
+            if (location.EmployeesCharacters.Count < location.CurrentProperty.PropertyLevels[location.Level - 1].MaxEmployees)
+            {
+                failReason = location.RecruitEmployee(CurrentCharacter);
+
+                if (failReason != null)
+                {
+                    AddFailure(failReason);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void AttemptMaximizeGuards()
+    {
+        FailReason failReason;
+
+        List<LocationEntity> ownedProperties = CurrentCharacter.PropertiesInCommand;
+        foreach (LocationEntity location in ownedProperties)
+        {
+            if (location.GuardsCharacters.Count < location.CurrentProperty.PropertyLevels[location.Level - 1].MaxGuards)
+            {
+                failReason = location.RecruitEmployee(CurrentCharacter, true);
+
+                if (failReason != null)
+                {
+                    AddFailure(failReason);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void AttemptMaximizeProperties()
+    {
+        FailReason failReason = null;
+
+        List<Character> charsInCommand = CurrentCharacter.CharactersInCommand;
+        List<LocationEntity> purchasables = CORE.Instance.Locations.FindAll((LocationEntity location) =>
+        {
+            return location.IsBuyable;
+        });
+        foreach (LocationEntity purchasable in purchasables)
+        {
+            if (charsInCommand.Count == 0)
+            {
+                break;
+            }
+
+            failReason = purchasable.PurchasePlot(CurrentCharacter, charsInCommand[UnityEngine.Random.Range(0, charsInCommand.Count)]);
+        }
+
+        if (failReason != null)
+        {
+            AddFailure(failReason);
+        }
+    }
+
+    private void AttemptRecruitAgents()
+    {
+        //Attempt Recruit current properties.
+        List<LocationEntity> properties = CurrentCharacter.PropertiesInCommand;
+
+        LocationEntity potentialProperty = properties.Find(x => x.CurrentProperty.EmployeesAreAgents && x.CurrentProperty.PropertyLevels[x.Level - 1].MaxEmployees > x.EmployeesCharacters.Count);
+
+        if(potentialProperty != null)
+        {
+            FailReason failReason = potentialProperty.RecruitEmployee(CurrentCharacter);
+
+            if (failReason != null)
+            {
+                AddFailure(failReason);
+                return;
+            }
+        }
+
+    }
+
+    private void AttemptMaximizeAgentsSlots()
+    {
+        List<LocationEntity> properties = CurrentCharacter.PropertiesInCommand;
+        properties.RemoveAll(x => !x.CurrentProperty.EmployeesAreAgents);//Not agent properties
+        properties.RemoveAll(x => x.CurrentProperty.PropertyLevels.Count == x.Level); // Max Level Properties
+        properties.RemoveAll(x => x.CurrentProperty.PropertyLevels[x.Level - 1 + 1].UpgradePrice > 99); //Upgrade to expensive properties
+
+        FailReason failReason;
+        if (properties.Count == 0)
+        {
+            failReason = new FailReason("Not Enough Agent Properties");
+            AddFailure(failReason);
+            return;
+        }
+
+        failReason = UpgradeProperty(properties[0]);
+
+        if(failReason != null)
+        {
+            AddFailure(failReason);
+            return;
+        }
+        
+    }
+
+    private void AttemptMaximizeAgentProperties()
+    {
+        return; //TODO PROPER REBRAND
+
+        if (CurrentCharacter.Gold <= GOLD_SCARCE_VALUE) //In scarcity we shall not bother the system.
+        {
+            return;
+        }
+
+        List<LocationEntity> potentialProperties = CurrentCharacter.PropertiesInCommand;
+        potentialProperties.RemoveAll(x => x.CurrentProperty.EmployeesAreAgents);
+
+        if (potentialProperties.Count == 0)
+        {
+            return;
+        }
+
+        LocationEntity chosenEntity = potentialProperties[UnityEngine.Random.Range(0, potentialProperties.Count)];
+        Property potentialRebrandTarget = CORE.Instance.Database.Properties.Find(x =>
+                x.PlotType != CORE.Instance.Database.UniquePlotType
+                && x.PlotType == chosenEntity.CurrentProperty.PlotType
+                && x.EmployeesAreAgents);
+
+        if(potentialRebrandTarget == null)
+        {
+            return;
+        }
+
+        FailReason failReason = chosenEntity.Rebrand(CurrentCharacter, potentialRebrandTarget);
+
+        if(failReason != null)
+        {
+            AddFailure(failReason);
+            return;
+        }
+
+    }
+
+    private void AttemptRepairLocations()
+    {
+        List<LocationEntity> properties = CurrentCharacter.PropertiesInCommand;
+        properties.RemoveAll(x => !x.IsRuined);//Not ruined
+
+        FailReason failReason = null;
+        foreach(LocationEntity property in properties)
+        {
+            failReason = property.RepairRuins(CurrentCharacter);
+
+            if(failReason != null)
+            {
+                AddFailure(failReason);
+                return;
+            }
+        }
+    }
+
+    private void AttemptMaintainance()
+    {
+
+        List<LocationEntity> locations = CurrentCharacter.PropertiesInCommand;
+
+        foreach (LocationEntity location in locations)
+        {
+            if (location.CurrentProperty == location.CurrentProperty.PlotType.BaseProperty)
+            {
+                List<Property> availableProperties = new List<Property>();
+                availableProperties.AddRange(CurrentCharacter.CurrentFaction.FactionProperties);
+                availableProperties.RemoveAll(x => x.PlotType != location.CurrentProperty.PlotType);
+
+                if(availableProperties.Count == 0)
+                {
+                    continue;
+                }
+
+                location.Rebrand(CurrentCharacter, availableProperties[UnityEngine.Random.Range(0, availableProperties.Count)]);
+            }
+        }
+    }
     #endregion
 
     #region Tier1
@@ -336,5 +557,175 @@ public class FactionAI : ScriptableObject
         return reason;
     }
 
+    public virtual FailReason UpgradeProperty(LocationEntity property)
+    {
+        return property.PurchaseUpgrade(CurrentCharacter);
+    }
+
+    public virtual Faction FindPotentialAgressionTarget()
+    {
+        Faction cFaction = CurrentCharacter.CurrentFaction;
+
+        List<FactionRelationInstance> badRelations;
+
+        if (AgressionType == AIAgression.Normal)
+        {
+            badRelations = cFaction.Relations.Relations.FindAll(x => x.WithFaction != x.OfFaction && x.TotalValue < -3);
+        }
+        else if (AgressionType == AIAgression.Agressive)
+        {
+            badRelations = cFaction.Relations.Relations.FindAll(x => x.WithFaction != x.OfFaction);
+        }
+        else
+        {
+            badRelations = new List<FactionRelationInstance>();
+        }
+
+        if (badRelations.Count == 0)
+        {
+            return null;
+        }
+
+        return badRelations[UnityEngine.Random.Range(0, badRelations.Count)].WithFaction;
+    }
+
+    public virtual FailReason AttemptPlot(SchemeType currentSchemeType, Faction againstFaction)
+    {
+        //Find Target
+        if (againstFaction.FactionHead == null)
+        {
+            return null;
+        }
+
+        AgentInteractable plotTarget = null;
+
+        Character factionHead = CORE.Instance.Characters.Find(x => x.name == againstFaction.FactionHead.name);
+        
+        if(factionHead == null)
+        {
+            return null;
+        }
+
+        if(currentSchemeType.TargetIsLocation)
+        {
+            List<LocationEntity> possibleLocationTargets = factionHead.PropertiesInCommand.FindAll(x => !x.IsRuined);
+            if(possibleLocationTargets.Count == 0)
+            {
+                return null;
+            }
+
+            possibleLocationTargets = possibleLocationTargets.OrderBy(x => x.GuardsCharacters.Count).ToList();
+            plotTarget = possibleLocationTargets[0];
+        }
+        else
+        {
+            List<Character> possibleCharacters = factionHead.CharactersInCommand.FindAll(x=>!x.IsDead && !x.IsInTrouble && x.PrisonLocation == null);
+            if (possibleCharacters.Count == 0)
+            {
+                return null;
+            }
+
+            possibleCharacters = possibleCharacters.OrderBy(x => x.Rank).ToList();
+
+            PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+            portrait.SetCharacter(possibleCharacters[0]);
+            plotTarget = portrait;
+        }
+
+
+
+
+        //Find Plotter
+        List<Character> potentialPlotters = CurrentCharacter.CharactersInCommand;
+        potentialPlotters.RemoveAll(x => !x.IsAgent || x.PrisonLocation != null || x.IsDead);
+        
+        if(potentialPlotters.Count == 0)
+        {
+            return new FailReason("Not Enough Agents");
+        }
+
+        Character plotter = potentialPlotters[UnityEngine.Random.Range(0, potentialPlotters.Count)];
+
+        //Find Entry
+        PlotEntry randomEntry = currentSchemeType.PossibleEntries[UnityEngine.Random.Range(0, currentSchemeType.PossibleEntries.Count)];
+
+        //Find Method
+        PlotMethod randomMethod = currentSchemeType.PossibleMethods[UnityEngine.Random.Range(0, currentSchemeType.PossibleMethods.Count)];
+
+        //Gather Participants
+        List<Character> participants = new List<Character>();
+        List<Character> potentialParticipants = CurrentCharacter.CharactersInCommand.FindAll(x => x.IsAgent && !participants.Contains(x) && x.PrisonLocation == null && !x.IsDead);
+        potentialParticipants.OrderByDescending(x => x.GetBonus(randomMethod.OffenseSkill).Value);
+
+        for (int i=0;i<randomMethod.MinimumParticipants;i++)
+        {
+            if(potentialParticipants.Count == 0)
+            {
+                return new FailReason("Not Enough Agents");
+            }
+
+            participants.Add(potentialParticipants[0]);
+            potentialParticipants.RemoveAt(0);
+        }
+
+        for (int i = randomMethod.MinimumParticipants; i < randomMethod.MaximumParticipants; i++)
+        {
+            if (potentialParticipants.Count == 0)
+            {
+                break;
+            }
+
+            participants.Add(potentialParticipants[0]);
+            potentialParticipants.RemoveAt(0);
+        }
+
+
+        //Gather target participants
+        List<Character> targetParticipants = new List<Character>();
+        if (plotTarget.GetType() == typeof(PortraitUI) || plotTarget.GetType() == typeof(PortraitUIEmployee))
+        {
+            Character targetCharacter = ((PortraitUI)plotTarget).CurrentCharacter;
+            targetParticipants.Add(targetCharacter);
+        }
+        else if (plotTarget.GetType() == typeof(LocationEntity))
+        {
+            LocationEntity location = ((LocationEntity)plotTarget);
+
+            if (location.OwnerCharacter != null)
+            {
+                targetParticipants.AddRange(CORE.Instance.Characters.FindAll(x =>
+                    !targetParticipants.Contains(x)
+                    && x.PrisonLocation == null
+                    && x.CurrentLocation == location
+                    && x.Age >= 15
+                    && (x.TopEmployer == location.OwnerCharacter.TopEmployer || x.CurrentFaction.name == "Constabulary")));
+            }
+        }
+
+
+
+        PlotData Plot = new PlotData(CurrentCharacter, plotter, participants, targetParticipants, plotTarget, randomMethod, randomEntry);
+
+        Plot.BaseMethod = currentSchemeType.BaseMethod;
+
+        //if ((CurrentCharacter.Gold - 30) < GOLD_SCARCE_VALUE/2)
+        //{
+        //    return new FailReason("Not Enough Gold");
+        //}
+
+        //CurrentCharacter.Gold -= 30;
+
+        currentSchemeType.Execute(Plot);
+
+        return null;
+    }
+
     #endregion
+}
+
+public enum AIAgression
+{
+    Passive,
+    Normal,
+    Agressive
 }

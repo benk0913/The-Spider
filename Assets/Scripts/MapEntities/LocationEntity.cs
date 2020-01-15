@@ -195,7 +195,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             List<Trait> traits = new List<Trait>();
             traits.InsertRange(0, TemporaryTraits);
-            traits.InsertRange(0, CurrentProperty.Traits);
+            traits.InsertRange(0, CurrentProperty.Traits); 
 
             return traits;
         }
@@ -1128,6 +1128,39 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             return new FailReason("Not Enough Connections",3);
         }
+
+        if (isGuard)
+        {
+            if (GuardsCharacters.Count >= CurrentProperty.PropertyLevels[Level - 1].MaxGuards) //TODO replace magic number...
+            {
+                if (requester == CORE.PC)
+                {
+                    GlobalMessagePrompterUI.Instance.Show("Location Is Full Of Guards", 1f, Color.red);
+                }
+
+                return new FailReason("Location Is Full Of Guards", 3);
+            }
+        }
+        else
+        {
+            if (EmployeesCharacters.Count >= CurrentProperty.PropertyLevels[Level - 1].MaxEmployees) //TODO replace magic number...
+            {
+                if (requester == CORE.PC)
+                {
+                    GlobalMessagePrompterUI.Instance.Show("Location Is Full Of Employees", 1f, Color.red);
+                }
+
+                if (CurrentProperty.EmployeesAreAgents)
+                {
+                    return new FailReason("Location Is Full Of Agents", 3);
+                }
+                else
+                {
+                    return new FailReason("Location Is Full Of Employees", 3);
+                }
+            }
+        }
+
 
         requester.Connections -= recruitmentCost;
 

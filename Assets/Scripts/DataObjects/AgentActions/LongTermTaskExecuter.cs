@@ -8,6 +8,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
 {
     public LongTermTask Task;
     public bool RandomLocation;
+    public bool FriendlyLocation;
     public PropertyTrait LocationTrait;
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
@@ -39,7 +40,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             {
                 Character targetCharacter = ((LocationEntity)target).EmployeesCharacters.Find(x => 
                 x.CurrentTaskEntity == null 
-                || (x.CurrentTaskEntity != null && (x.CurrentTaskEntity.CurrentTask != Task || x.CurrentTaskEntity.CurrentTask.Cancelable)));
+                || (x.CurrentTaskEntity != null && x.CurrentTaskEntity.CurrentTask != Task && x.CurrentTaskEntity.CurrentTask.Cancelable));
 
                 if (targetCharacter == null)
                 {
@@ -76,22 +77,35 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             return;
         }
 
-        if (LocationTrait != null)
+        if(LocationTrait == null && !RandomLocation && !FriendlyLocation) // Common state (performance shortcut)
         {
-            if(RandomLocation || character.CurrentLocation == null)
+            if (target.GetType() == typeof(LocationEntity))
             {
-                character.GoToLocation(CORE.Instance.GetRandomLocationWithTrait(LocationTrait));
+                character.GoToLocation((LocationEntity)target);
             }
-            else
+            else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
             {
-                character.GoToLocation(CORE.Instance.GetClosestLocationWithTrait(LocationTrait, character.CurrentLocation));
+                character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
             }
         }
         else
         {
-            if (RandomLocation)
+            List<LocationEntity> potentialLocations = new List<LocationEntity>();
+            potentialLocations.AddRange(CORE.Instance.Locations);
+
+            if(LocationTrait != null)
             {
-                character.GoToLocation(CORE.Instance.GetRandomLocation());
+                potentialLocations.RemoveAll(x => !x.Traits.Contains(LocationTrait));
+            }
+
+            if(FriendlyLocation)
+            {
+                potentialLocations.RemoveAll(x => x.OwnerCharacter == null || x.OwnerCharacter.TopEmployer != character.TopEmployer);
+            }
+
+            if(RandomLocation)
+            {
+                character.GoToLocation(potentialLocations[Random.Range(0,potentialLocations.Count)]);
             }
             else
             {

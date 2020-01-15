@@ -21,6 +21,12 @@ public class InterrogatePerson : AgentAction //DO NOT INHERIT FROM
         if(Random.Range(0f, (charMenacing+targetDiscreet)) < charMenacing)
         {
             targetChar.Known.KnowEverything(character.TopEmployer);
+
+            if (targetChar.Employer != null)
+            {
+                targetChar.Employer.Known.Know("Name", character.TopEmployer);
+            }
+
             CORE.Instance.ShowHoverMessage("Interrogation Succeed", ResourcesLoader.Instance.GetSprite("Satisfied"), character.CurrentLocation.transform);
         }
         else
