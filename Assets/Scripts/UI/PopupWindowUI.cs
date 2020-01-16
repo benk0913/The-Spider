@@ -103,24 +103,31 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
 
         if (data.CharactersLeft != null)
         {
-            foreach (Character character in data.CharactersLeft)
+            CORE.Instance.DelayedInvokation(0.2f, () =>
             {
-                GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
-                portraitObj.transform.SetParent(LeftPortraitsContainer, false);
-                portraitObj.transform.localScale = Vector3.one;
-                portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
-            }
+                foreach (Character character in data.CharactersLeft)
+                {
+                
+                    GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+                    portraitObj.transform.SetParent(LeftPortraitsContainer, false);
+                    portraitObj.transform.localScale = Vector3.one;
+                    portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
+                }
+            });
         }
 
         if (data.CharactersRight != null)
         {
-            foreach (Character character in data.CharactersRight)
+            CORE.Instance.DelayedInvokation(0.2f, () =>
             {
-                GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
-                portraitObj.transform.SetParent(RightPortraitsContainer, false);
-                portraitObj.transform.localScale = Vector3.one;
-                portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
-            }
+                foreach (Character character in data.CharactersRight)
+                {
+                    GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+                    portraitObj.transform.SetParent(RightPortraitsContainer, false);
+                    portraitObj.transform.localScale = Vector3.one;
+                    portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
+                }
+            });
         }
     }
 

@@ -11,6 +11,15 @@ public class GatherSecrets : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
+
+        FailReason reason;
+        if (!CanDoAction(requester, character, target, out reason))
+        {
+            GlobalMessagePrompterUI.Instance.Show(character.name+" has failed to extract secrets." + reason?.Key, 2f, Color.red);
+
+            return;
+        }
+
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
         targetChar.DynamicRelationsModifiers.Add(new DynamicRelationsModifier(
             new RelationsModifier("Shared Secrets!", 5)

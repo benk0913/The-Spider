@@ -29,7 +29,7 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
 
         List<LocationEntity> possibleProperties = CORE.PC.PropertiesInCommand;
         possibleProperties.RemoveAll(
-            x => !x.CurrentProperty.EmployeesAreAgents && x.EmployeesCharacters.Count >= x.CurrentProperty.PropertyLevels[x.Level - 1].MaxEmployees);
+            x => !x.CurrentProperty.EmployeesAreAgents || x.EmployeesCharacters.Count >= x.CurrentProperty.PropertyLevels[x.Level - 1].MaxEmployees);
 
         SelectLocationViewUI.Instance.Show((x) =>
         {

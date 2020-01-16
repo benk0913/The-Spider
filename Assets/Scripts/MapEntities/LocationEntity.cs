@@ -417,48 +417,60 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             factionHead.Progress += CurrentProperty.DistrictBonus.ProgressionPerTurn;
 
-            CORE.Instance.SplineAnimationObject(
-             "PaperCollectedWorld",
-             transform,
-             StatsViewUI.Instance.ProgressText.transform,
-             () => { StatsViewUI.Instance.RefreshProgress(); },
-             false);
+            if (factionHead == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
+                 "PaperCollectedWorld",
+                 transform,
+                 StatsViewUI.Instance.ProgressText.transform,
+                 () => { StatsViewUI.Instance.RefreshProgress(); },
+                 false);
+            }
         }
 
         if (CurrentProperty.DistrictBonus.GoldPerTurn != 0)
         {
             factionHead.Gold += CurrentProperty.DistrictBonus.GoldPerTurn;
 
-            CORE.Instance.SplineAnimationObject(
+            if (factionHead == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
              "CoinCollectedWorld",
              transform,
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshGold(); },
              false);
+            }
         }
 
         if (CurrentProperty.DistrictBonus.RumorsPerTurn != 0)
         {
             factionHead.Rumors += CurrentProperty.DistrictBonus.RumorsPerTurn;
 
-            CORE.Instance.SplineAnimationObject(
+            if (factionHead == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
              "EarCollectedWorld",
              transform,
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshRumors(); },
              false);
+            }
         }
 
         if (CurrentProperty.DistrictBonus.ConnectionsPerTurn != 0)
         {
             factionHead.Connections += CurrentProperty.DistrictBonus.ConnectionsPerTurn;
 
-            CORE.Instance.SplineAnimationObject(
+            if (factionHead == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject(
              "ConnectionCollectedWorld",
              transform,
              StatsViewUI.Instance.ConnectionsText.transform,
              () => { StatsViewUI.Instance.RefreshConnections(); },
              false);
+            }
         }
     }
 

@@ -44,7 +44,7 @@ public class PortraitUIEmployee : PortraitUI
 
         base.SetCharacter(character);
 
-        if (character != null && character.WorkLocation != null && !character.IsKnown("WorkLocation", character.TopEmployer))
+        if (character != null && character.WorkLocation != null && !character.IsKnown("WorkLocation", CORE.PC))
         {
 
             Face.color = Color.black;
