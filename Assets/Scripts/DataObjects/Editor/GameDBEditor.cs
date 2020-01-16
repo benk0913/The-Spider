@@ -84,6 +84,13 @@ public class GameDBEditor : Editor
             db.Schemes.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(SchemeType)) as SchemeType);
         }
 
+        guids = AssetDatabase.FindAssets("t:FavorDecision", new[] { "Assets/" + db.DataPath });
+        db.FavorDecisions.Clear();
+        foreach (string guid in guids)
+        {
+            db.FavorDecisions.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(FavorDecision)) as FavorDecision);
+        }
+
 
         EditorUtility.SetDirty(db);
     }

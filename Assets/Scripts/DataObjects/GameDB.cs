@@ -64,6 +64,8 @@ public class GameDB : ScriptableObject
 
     public List<SchemeType> Schemes = new List<SchemeType>();
 
+    public List<FavorDecision> FavorDecisions = new List<FavorDecision>();
+
     public BonusType[] BonusTypes;
 
     public ReputationInstance[] ReputationTypes;

@@ -37,6 +37,8 @@ public class FactionRelationsWindowUI : MonoBehaviour
 
     public void Show(Faction ofFaction)
     {
+        MouseLook.Instance.CurrentWindow = this.gameObject;
+
         CurrentFaction = ofFaction;
         this.gameObject.SetActive(true);
 

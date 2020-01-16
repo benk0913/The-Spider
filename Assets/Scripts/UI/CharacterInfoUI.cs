@@ -64,6 +64,10 @@ public class CharacterInfoUI : MonoBehaviour
 
     [SerializeField]
     FactionPortraitUI FactionPortrait;
+    
+    [SerializeField]
+    TextMeshProUGUI FavorWithPlayerText;
+
 
     Character CurrentCharacter;
 
@@ -266,6 +270,18 @@ public class CharacterInfoUI : MonoBehaviour
         }
     }
 
+    void SetFavors()
+    {
+        if (CurrentCharacter.TopEmployer != CORE.PC && CurrentCharacter.IsKnown("Name", CORE.PC) && CurrentCharacter.IsKnown("HomeLocation", CORE.PC))
+        {
+            FavorWithPlayerText.text = CurrentCharacter.GetFavorPoints(CORE.PC).ToString();
+        }
+        else
+        {
+            FavorWithPlayerText.text = "N/A";
+        }
+    }
+
     public void ShowInfo(Character character)
     {
         LocationInfoUI.Instance.Hide();
@@ -304,6 +320,7 @@ public class CharacterInfoUI : MonoBehaviour
         SetHomeLocation();
         SetSkills();
         SetRelation();
+        SetFavors();
     }
 
     void ClearPropertiesOwned()
@@ -408,5 +425,28 @@ public class CharacterInfoUI : MonoBehaviour
         ChangePerkWindowUI.Instance.Show(CurrentCharacter, true);
 
         Hide();
+    }
+
+    public void ShowBribeWindow()
+    {
+        if(CurrentCharacter.TopEmployer == CORE.PC)
+        {
+            GlobalMessagePrompterUI.Instance.Show("No reason to bribe your own minions!");
+            return;
+        }
+
+        if (!CurrentCharacter.IsKnown("Name", CORE.PC))
+        {
+            GlobalMessagePrompterUI.Instance.Show("Must know this characters NAME");
+            return;
+        }
+        
+        if(!CurrentCharacter.IsKnown("HomeLocation", CORE.PC))
+        {
+            GlobalMessagePrompterUI.Instance.Show("Must know this characters 'Home Location'");
+            return;
+        }
+
+        BribeFavorWindowUI.Instance.Show(CurrentCharacter);
     }
 }

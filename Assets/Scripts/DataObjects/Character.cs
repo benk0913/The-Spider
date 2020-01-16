@@ -610,6 +610,61 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     #endregion
 
+    #region Favor 
+
+    public List<FavorPointsPair> FavorPoints = new List<FavorPointsPair> ();
+
+    public int GetFavorPoints(Character character)
+    {
+        FavorPointsPair Pair = null;
+
+        Pair = FavorPoints.Find(x => x.Key == character);
+
+        if(Pair == null)
+        {
+            Pair = new FavorPointsPair(character);
+            FavorPoints.Add(Pair);
+        }
+
+        return Pair.Value;
+    }
+
+    public void AddFavorPoints(Character character, int value)
+    {
+        FavorPointsPair Pair = null;
+
+        Pair = FavorPoints.Find(x => x.Key == character);
+
+        if (Pair.Key == null)
+        {
+            Pair = new FavorPointsPair(character, 0);
+            FavorPoints.Add(Pair);
+        }
+
+        Pair.Value += value;
+    }
+
+    public int FavorPointGoldPrice(Character withCharacter)
+    {
+        return Mathf.RoundToInt(Mathf.Max(
+            10
+            ,
+            (100) - (GetRelationsWith(withCharacter) * 5f)));
+    }
+
+    public int FavorPointRumorsPrice(Character withCharacter)
+    {
+        return 100;
+    }
+
+    public int FavorPointConnectionsPrice(Character withCharacter)
+    {
+        return 100;
+    }
+
+
+    #endregion
+
     #region Known / Information
 
 
@@ -1433,6 +1488,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
+        for(int i=0;i<FavorPoints.Count;i++)
+        {
+            node["Favors"][i]["CharacterID"] = FavorPoints[i].Key.ID.ToString();
+            node["Favors"][i]["Favor"] = FavorPoints[i].Value.ToString();
+        }
+
         for (int i=0;i<PropertiesOwned.Count;i++)
         {
             node["PropertiesOwned"][i] = PropertiesOwned[i].ID;
@@ -1518,6 +1579,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
             knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
         }
 
+        favorPointsIDs.Clear();
+
+        for (int i=0; i < node["Favors"].Count;i++)
+        {
+            favorPointsIDs.Add(new FavorPointsPair(null, int.Parse(node["Favors"][i]["Favor"]), node["Favors"][i]["CharacterID"]));
+        }
+
         _currentFactionName = node["CurrentFaction"];
 
         _propertiesOwnedIDs = new string[node["PropertiesOwned"].Count];
@@ -1585,6 +1653,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     string _currentFactionName;
 
+    List<FavorPointsPair> favorPointsIDs = new List<FavorPointsPair>();
+
     Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
 
     public void ImplementIDs()
@@ -1647,6 +1717,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
                 Known.Know(key, character);
             }
+        }
+
+        FavorPoints.Clear();
+        foreach (FavorPointsPair favorInstance in favorPointsIDs)
+        {
+            FavorPoints.Add(new FavorPointsPair(CORE.Instance.Characters.Find(x => x.ID == favorInstance.CharacterID), favorInstance.Value));
         }
 
         if(IsDead)
@@ -1742,5 +1818,19 @@ public class RelationsModifier : ISaveFileCompatible
         node["Value"] = Value.ToString();
 
         return node;
+    }
+}
+
+public class FavorPointsPair
+{
+    public Character Key;
+    public string CharacterID;
+    public int Value;
+
+    public FavorPointsPair(Character character, int value = 0, string charID = "")
+    {
+        this.Key = character;
+        this.Value = value;
+        this.CharacterID = charID;
     }
 }
