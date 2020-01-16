@@ -448,5 +448,6 @@ public class CharacterInfoUI : MonoBehaviour
         }
 
         BribeFavorWindowUI.Instance.Show(CurrentCharacter);
+        Hide();
     }
 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "LongTermTaskExecuter", menuName = "DataObjects/AgentActions/LongTermTaskExecuter", order = 2)]
-public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
+[CreateAssetMenu(fileName = "AllMinionsLongTermTaskExecuter", menuName = "DataObjects/AgentActions/AllMinionsLongTermTaskExecuter", order = 2)]
+public class AllMinionsLongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
 {
     public LongTermTask Task;
     public bool RandomLocation;
@@ -57,12 +57,26 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
 
         base.Execute(requester, character, target);
 
+        List<Character> allCharactersInCommand = character.CharactersInCommand;
+
         FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
             return;
         }
-        
+
+        List<Character> unavailableCharacters = new List<Character>();
+        foreach (Character x in allCharactersInCommand)
+        {
+            reason = null;
+            if (!CanDoAction(requester, x, target, out reason))
+            {
+                unavailableCharacters.Add(x);
+            }
+        }
+
+        allCharactersInCommand.RemoveAll(x => unavailableCharacters.Contains(x));
+
         if (FailureResult != null && !RollSucceed(character))
         {
             if (FailureResult != null)
@@ -83,10 +97,12 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             if (target.GetType() == typeof(LocationEntity))
             {
                 character.GoToLocation((LocationEntity)target);
+                allCharactersInCommand.ForEach((x)=>x.GoToLocation((LocationEntity)target));
             }
             else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
             {
                 character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
+                allCharactersInCommand.ForEach((x) => x.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation));
             }
         }
         else
@@ -107,16 +123,19 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             if(RandomLocation)
             {
                 character.GoToLocation(potentialLocations[Random.Range(0,potentialLocations.Count)]);
+                allCharactersInCommand.ForEach((x) => x.GoToLocation(potentialLocations[Random.Range(0, potentialLocations.Count)]));
             }
             else
             {
                 if (target.GetType() == typeof(LocationEntity))
                 {
                     character.GoToLocation((LocationEntity)target);
+                    allCharactersInCommand.ForEach((x) => x.GoToLocation((LocationEntity)target));
                 }
                 else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
                 {
                     character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
+                    allCharactersInCommand.ForEach((x) => x.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation));
                 }
             }
         }
@@ -125,11 +144,14 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
         {
             target = character.CurrentLocation;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+            allCharactersInCommand.ForEach((x) => CORE.Instance.GenerateLongTermTask(this.Task, requester, x, (LocationEntity)target));
+
         }
         else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
             CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+            allCharactersInCommand.ForEach((x) => CORE.Instance.GenerateLongTermTask(this.Task, requester, x, targetChar.CurrentLocation, targetChar));
         }
     }
 

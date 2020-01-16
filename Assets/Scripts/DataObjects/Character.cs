@@ -1023,6 +1023,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
+        BetrayEmployer();
+    }
+
+    public void BetrayEmployer()
+    {
         LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();
         Dictionary<string, object> letterParameters = new Dictionary<string, object>();
 

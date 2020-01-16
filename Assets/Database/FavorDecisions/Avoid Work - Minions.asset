@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4299f90ce5b731943a43b70ac0150adc, type: 3}
-  m_Name: Disable Property
+  m_Name: Avoid Work - Minions
   m_EditorClassIdentifier: 
-  Description: 'Ask this character to fabricate a reason for an owned property to
-    not function for two days (10 turns).
+  Description: 'Ask this character and all of it''s employees to fabricate a reason
+    for an owned property to not function for two days (10 turns).
 
-    <color=yellow>The selected property
-    and its employees will not work, nor cooperate with any schemes.</color>'
+    <color=yellow>The
+    selected property and its employees will not work, nor cooperate with any schemes.</color>'
   Icon: {fileID: 21300000, guid: c5a340f6ec6cdcc4188a541cba61a1ae, type: 3}
   FavorCost: 2
   FavorDuration: 10
-  ActionToExecute: {fileID: 0}
+  ActionToExecute: {fileID: 11400000, guid: 096e294131a4c3742848fe3454c605e1, type: 2}

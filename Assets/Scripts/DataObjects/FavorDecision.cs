@@ -11,4 +11,5 @@ public class FavorDecision : ScriptableObject
     public int FavorCost;
     public int FavorDuration;
     public AgentAction ActionToExecute;
+    public TechTreeItem RequiresTech;
 }

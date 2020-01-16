@@ -27,7 +27,20 @@ public class FavorDecisionUI : MonoBehaviour
     {
         int favorPoints = CurrentCharacter.GetFavorPoints(CORE.PC);
 
-        if(favorPoints < CurrentDecision.FavorCost)
+
+        if (CurrentDecision.RequiresTech != null)
+        {
+            TechTreeItem techInstance = CORE.Instance.TechTree.Find(x => x.name == CurrentDecision.RequiresTech.name);
+
+            if (techInstance != null && !techInstance.IsResearched)
+            {
+                GlobalMessagePrompterUI.Instance.Show("Requires Tech: "+CurrentDecision.RequiresTech.name, 1f, Color.red);
+                return;
+            }
+
+        }
+
+        if (favorPoints < CurrentDecision.FavorCost)
         {
             GlobalMessagePrompterUI.Instance.Show("Not Enough Favor Points! (" + favorPoints + "/" + CurrentDecision.FavorCost + ")", 1f, Color.red);
             return;
