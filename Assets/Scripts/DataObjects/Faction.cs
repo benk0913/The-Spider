@@ -207,7 +207,10 @@ public class FactionRelationInstance : ISaveFileCompatible
         }
         set
         {
+            int previousValue = TotalValue;
             this.Value = value;
+
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(OfFaction.name + " - " + WithFaction.name + " Relation Changed: " + previousValue + " to " + TotalValue, ResourcesLoader.Instance.GetSprite("Indifferent")));
         }
     }
 

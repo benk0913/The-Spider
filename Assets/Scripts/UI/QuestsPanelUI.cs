@@ -45,7 +45,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         AddNewExistingQuest(newQuest);
     }
 
-    public void AddNewExistingQuest(Quest quest)
+    public void AddNewExistingQuest(Quest quest, bool loadedFromSave = false)
     {
         ActiveQuests.Add(quest);
 
@@ -102,6 +102,14 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         if (quest.RelevantCharacter != null)
         {
             RelevantCharacters.Add(quest.RelevantCharacter);
+        }
+
+        if(!loadedFromSave)
+        {
+            if(quest.OnStartQuestAction != null)
+            {
+                quest.OnStartQuestAction.Activate();
+            }
         }
     }
 
@@ -367,7 +375,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]).CreateClone();
             quest.FromJSON(node["ActiveQuests"][i]);
 
-            AddNewExistingQuest(quest);
+            AddNewExistingQuest(quest, true);
         }
 
         for (int i = 0; i < node["CompletedQuests"].Count; i++)

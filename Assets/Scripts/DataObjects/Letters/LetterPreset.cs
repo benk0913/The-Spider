@@ -32,6 +32,9 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public Character PresetSubjectCharacter;
 
+    [SerializeField]
+    public Cipher Encryption;
+
     public LetterPreset CreateClone()
     {
         LetterPreset clone = Instantiate(this);

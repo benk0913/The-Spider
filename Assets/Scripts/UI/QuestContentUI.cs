@@ -22,6 +22,11 @@ public class QuestContentUI : HeadlineContentUI
 
     QuestHeadlineUI CurrentHeadline;
 
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
+    }
+
     public void SetInfo(QuestHeadlineUI headline)
     {
         CurrentHeadline = headline;

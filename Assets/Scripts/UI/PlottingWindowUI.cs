@@ -126,14 +126,19 @@ public class PlottingWindowUI : MonoBehaviour
         if (CurrentTarget.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetCharacter = ((PortraitUI)CurrentTarget).CurrentCharacter;
-            TargetParticipants.Add(targetCharacter);
 
-            if(targetCharacter == plotter)
+            if (targetCharacter == plotter)
             {
                 Hide();
-                GlobalMessagePrompterUI.Instance.Show(plotter.name + " is not stupid.",1f,Color.red);
+                GlobalMessagePrompterUI.Instance.Show(plotter.name + " is not stupid.", 1f, Color.red);
                 return;
             }
+
+            TargetParticipants.Add(targetCharacter);
+
+            TargetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x=>
+            x.PrisonLocation == null 
+            && !x.IsInTrouble));
         }
         else if (CurrentTarget.GetType() == typeof(LocationEntity))
         {

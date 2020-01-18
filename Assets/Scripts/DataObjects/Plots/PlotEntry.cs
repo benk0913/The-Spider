@@ -37,9 +37,11 @@ public class PlotEntry : ScriptableObject
         {
             Character characterTarget = ((PortraitUI)target).CurrentCharacter;
 
+            LocationEntity location = characterTarget.CurrentLocation;
+
             foreach (Trait trait in TraitsRequired)
             {
-                if (characterTarget.Traits.Find(x => x.name == trait.name) == null)
+                if (location.Traits.Find(x => x.name == trait.name) == null)
                 {
                     return new FailReason("Target Requires The Trait: " + trait.name);
                 }

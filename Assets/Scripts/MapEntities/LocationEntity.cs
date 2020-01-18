@@ -401,10 +401,16 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return;
         }
 
+        if(faction == null)
+        {
+            return;
+        }
+
         if(faction == CORE.Instance.Database.NoFaction)
         {
             return;
         }
+
 
         Character factionHead = CORE.Instance.Characters.Find(x => faction.FactionHead.name == x.name);
 
@@ -1189,7 +1195,15 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {
             SelectedPanelUI.Instance.Select(this);
-            CORE.Instance.InvokeEvent("AgentRecruited");
+
+            if (isGuard)
+            {
+                CORE.Instance.InvokeEvent("GuardRecruited");
+            }
+            else
+            {
+                CORE.Instance.InvokeEvent("AgentRecruited");
+            }
         }
 
         return null;
@@ -1212,7 +1226,15 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {
             SelectedPanelUI.Instance.Select(this);
-            CORE.Instance.InvokeEvent("AgentRecruited");
+
+            if (isGuard)
+            {
+                CORE.Instance.InvokeEvent("GuardRecruited");
+            }
+            else
+            {
+                CORE.Instance.InvokeEvent("AgentRecruited");
+            }
         }
         
     }

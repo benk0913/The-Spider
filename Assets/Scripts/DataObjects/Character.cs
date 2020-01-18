@@ -226,9 +226,24 @@ public class Character : ScriptableObject, ISaveFileCompatible
                     characters.Add(character);
                     characters.AddRange(character.CharactersInCommand);
                 }
+
+                foreach (Character character in property.GuardsCharacters)
+                {
+                    characters.Add(character);
+                    characters.AddRange(character.CharactersInCommand);
+                }
+
             }
 
             return characters;
+        }
+    }
+
+    public List<Character> GuardsInCommand
+    {
+        get
+        {
+            return CharactersInCommand.FindAll(x => x.IsGuard);
         }
     }
 
@@ -1028,6 +1043,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void BetrayEmployer()
     {
+        if (this.TopEmployer == CORE.PC && PropertiesOwned.Count > 0)
+        {
+            string deathString = this.name + " has left! Lost ownership on:";
+
+            PropertiesOwned.ForEach((x) => { deathString += x.Name + " - "; });
+
+            WarningWindowUI.Instance.Show(deathString, () => { });
+        }
+
         LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();
         Dictionary<string, object> letterParameters = new Dictionary<string, object>();
 
@@ -1407,6 +1431,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void Death(bool notify = true)
     {
+        if (this.TopEmployer == CORE.PC && PropertiesOwned.Count > 0)
+        {
+            string deathString = this.name + " has died! Lost ownership on:";
+
+            PropertiesOwned.ForEach((x) => { deathString += x.Name + " - "; });
+
+            WarningWindowUI.Instance.Show(deathString, ()=> { });
+        }
+
         IsDead = true;
 
         SelectedPanelUI.Instance.Deselect();
@@ -1445,9 +1478,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
             //WarningWindowUI.Instance.Show(this.name + " has died!", () => { });
         }
 
-        if (this == CORE.PC)//TODO Change later...
+        if (this == CORE.PC)
         {
-            WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { CORE.Instance.RestartGame(); });
+            WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { LoseWindowUI.Instance.Show(); });
+            //WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { CORE.Instance.RestartGame(); });
         }
     }
 

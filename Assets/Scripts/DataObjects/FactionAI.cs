@@ -50,9 +50,9 @@ public class FactionAI : ScriptableObject
 
     void BotCheats()
     {
-        this.CurrentCharacter.Gold += 5;
-        this.CurrentCharacter.Rumors += 3;
-        this.CurrentCharacter.Connections += 3;
+        this.CurrentCharacter.Gold += 1;
+        this.CurrentCharacter.Rumors += 1;
+        this.CurrentCharacter.Connections += 1;
     }
 
     public virtual void Expand()
@@ -597,6 +597,11 @@ public class FactionAI : ScriptableObject
             return null;
         }
 
+        if(againstFaction.name == CurrentCharacter.CurrentFaction.name)
+        {
+            return null;
+        }
+
         AgentInteractable plotTarget = null;
 
         Character factionHead = CORE.Instance.Characters.Find(x => x.name == againstFaction.FactionHead.name);
@@ -628,6 +633,7 @@ public class FactionAI : ScriptableObject
             possibleCharacters = possibleCharacters.OrderBy(x => x.Rank).ToList();
 
             PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
+            portrait.transform.position = new Vector3(9999, 9999, 9999);
             portrait.SetCharacter(possibleCharacters[0]);
             plotTarget = portrait;
         }
@@ -686,6 +692,10 @@ public class FactionAI : ScriptableObject
         {
             Character targetCharacter = ((PortraitUI)plotTarget).CurrentCharacter;
             targetParticipants.Add(targetCharacter);
+
+            targetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x =>
+           x.PrisonLocation == null
+           && !x.IsInTrouble));
         }
         else if (plotTarget.GetType() == typeof(LocationEntity))
         {

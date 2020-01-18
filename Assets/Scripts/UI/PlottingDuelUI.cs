@@ -141,7 +141,7 @@ public class PlottingDuelUI : MonoBehaviour
         if (CurrentMethod == CurrentPlot.BaseMethod)//Ended Up Brutally
         {
             ParticipantsPortraits.ForEach((x) => { participants.Add(x.CurrentCharacter); });
-            TargetsPortraits.ForEach((x) => { participants.Add(x.CurrentCharacter); });
+            TargetsPortraits.ForEach((x) => { targets.Add(x.CurrentCharacter); });
         }
         else
         {

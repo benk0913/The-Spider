@@ -16,6 +16,8 @@ MonoBehaviour:
   PropertyLevels:
   - LevelName: 
     MaxEmployees: 0
+    MaxGuards: 0
+    MaxPrisoners: 0
     MaxActions: 1
     UpgradePrice: 0
     UpgradeLength: 0
@@ -29,12 +31,14 @@ MonoBehaviour:
     GoldGenerated: 1
     ConnectionsGenerated: 0
     RumorsGenerated: 0
+    ProgressGenerated: 0
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
   Traits:
   - {fileID: 11400000, guid: 956921ea1372c514ea36e9e22950435f, type: 2}
   - {fileID: 11400000, guid: 99f525b5dce2b4d48971dc34373b00e2, type: 2}
+  - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
   Icon: {fileID: 21300000, guid: c6063de7b8b15f346a4cda975e797359, type: 3}
   FigurePrefab: {fileID: 3751449078466721607, guid: e1dc32c249ad72045bec70b877363378,
     type: 3}
@@ -51,4 +55,13 @@ MonoBehaviour:
   UniqueAgentActions: []
   EmployeeRole: 
   AlwaysKnown: 0
+  TechRequired: {fileID: 0}
   IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0

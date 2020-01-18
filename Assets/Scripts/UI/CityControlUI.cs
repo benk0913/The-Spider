@@ -29,13 +29,24 @@ public class CityControlUI : MonoBehaviour
         CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", Refresh);
     }
 
+    public List<LocationEntity> OwnableLocations
+    {
+        get
+        {
+            List<LocationEntity> ownables = CORE.Instance.Locations.FindAll(x =>
+            !x.Traits.Contains(CORE.Instance.Database.PublicAreaTrait) && !x.Traits.Contains(CORE.Instance.Database.CentralAreaTrait));
+
+            return ownables;
+        }
+    }
 
     public void Refresh()
     {
         ClearContainer();
 
         float accumPrecent = 0f;
-        
+        float ownablesCount = 1f * OwnableLocations.Count;
+
         foreach (Faction faction in CORE.Instance.Factions)
         {
             if(faction.FactionHead == null)
@@ -54,7 +65,7 @@ public class CityControlUI : MonoBehaviour
             tempPanel.transform.SetParent(ContainerRect, false);
             tempPanel.transform.localScale = Vector3.one;
             
-            float precent = (1f*factionHead.PropertiesInCommand.Count) / (1f*CORE.Instance.Locations.Count);
+            float precent = (1f*factionHead.PropertiesInCommand.Count) / ownablesCount;
             accumPrecent += precent;
             tempPanel.GetComponent<FactionCityControlUI>().SetInfo(faction, precent, ContainerRect.rect.width);
         }
@@ -112,6 +123,6 @@ public class CityControlUI : MonoBehaviour
 
         Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
 
-        return ((float)factionHead.PropertiesInCommand.Count) / ((float)CORE.Instance.Locations.Count);
+        return ((float)factionHead.PropertiesInCommand.Count) / ((float)OwnableLocations.Count);
     }
 }

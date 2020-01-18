@@ -31,6 +31,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public PopupDataPreset CompletePopup;
 
+    public DialogDecisionAction OnStartQuestAction;
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);

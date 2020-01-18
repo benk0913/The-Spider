@@ -113,7 +113,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         {
             PortraitUI tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
             tempPortrait.SetCharacter(TargetCharacter);
-            tempPortrait.transform.position = Vector3.zero;
+            tempPortrait.transform.position = new Vector3(9999, 9999, 9999);
 
             resultAction.Execute(CORE.Instance.Database.GOD, CurrentCharacter, tempPortrait);
 

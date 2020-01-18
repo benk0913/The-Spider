@@ -64,7 +64,7 @@ public class SchemeType : ScriptableObject
             {
                 Character targetChar = ((PortraitUI)data.Target).CurrentCharacter;
 
-                if (targetChar != null)
+                if (targetChar != null && targetChar.CurrentFaction != null && targetChar.CurrentFaction.Relations != null)
                 {
                     targetChar.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
                     entryParticipants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
@@ -117,7 +117,7 @@ public class SchemeType : ScriptableObject
             targetCharacter = ((PortraitUI)data.Target).CurrentCharacter;
             InLocation = targetCharacter.CurrentLocation;
         }
-        else if (data.GetType() == typeof(LocationEntity))
+        else if (data.Target.GetType() == typeof(LocationEntity))
         {
             InLocation = (LocationEntity)data.Target;
         }
@@ -127,6 +127,9 @@ public class SchemeType : ScriptableObject
             WinResult(new DuelResultData(data, data.Participants, new List<Character>(), null));
             return;
         }
+
+        data.Participants.ForEach((x) => x.Known.Know("Appearance", data.TargetParticipants[0].TopEmployer));
+        data.TargetParticipants.ForEach((x) => x.Known.Know("Appearance", data.Participants[0].TopEmployer));
 
         PlottingDuelUI.Instance.Show(data, InLocation, onComplete);
 
@@ -144,7 +147,7 @@ public class SchemeType : ScriptableObject
         {
             LocationEntity location = (LocationEntity)result.Plot.Target;
 
-            if (location.OwnerCharacter != null)
+            if (location.OwnerCharacter != null && location.OwnerCharacter.CurrentFaction.Relations != null)
             {
                 location.OwnerCharacter.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
                 result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
@@ -154,7 +157,7 @@ public class SchemeType : ScriptableObject
         {
             Character targetChar = ((PortraitUI)result.Plot.Target).CurrentCharacter;
 
-            if (targetChar != null)
+            if (targetChar != null && targetChar.CurrentFaction.Relations != null)
             {
                 targetChar.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
                 result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
