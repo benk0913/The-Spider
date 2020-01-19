@@ -6,6 +6,7 @@ public class Letter
 {
     public LetterPreset Preset;
     public Dictionary<string, object> Parameters;
+    public bool IsDeciphered = false;
 
     public string Title
     {
@@ -49,6 +50,11 @@ public class Letter
                 }
             }
             
+            if(Preset.Encryption != null && !IsDeciphered)
+            {
+                return Preset.Encryption.Convert(description);    
+            }
+
             return description;
         }
     }

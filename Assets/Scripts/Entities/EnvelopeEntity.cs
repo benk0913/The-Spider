@@ -49,6 +49,9 @@ public class EnvelopeEntity : MonoBehaviour
     GameObject QuestPanel;
 
     [SerializeField]
+    GameObject EncryptionPanel;
+
+    [SerializeField]
     TextMeshProUGUI QuestName;
 
     [SerializeField]
@@ -61,6 +64,8 @@ public class EnvelopeEntity : MonoBehaviour
     TextMeshProUGUI QuestAcceptText2;
 
     UnityAction<EnvelopeEntity> DisposeAction;
+
+    public bool IsDecrypted = false;
 
 
     private void Start()
@@ -101,6 +106,18 @@ public class EnvelopeEntity : MonoBehaviour
         TitleText.text = CurrentLetter.Title;
         DescriptionText.text = CurrentLetter.Content;
         SideNotesText.text = CurrentLetter.Preset.SideNotes;
+
+        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        {
+            EncryptionPanel.gameObject.SetActive(true);
+            QuestPanel.gameObject.SetActive(false);
+
+            ArchiveActionText.text = "Cannot Archive Encrypted Letters...";
+            DeleteActionText.text = "Cannot Delete Encrypted Letters...";
+            RetreiveActionText.text = "Press 'Escape' to return...";
+
+            return;
+        }
 
         if (CurrentLetter.Parameters != null)
         {
@@ -158,6 +175,11 @@ public class EnvelopeEntity : MonoBehaviour
 
     public void Archive()
     {
+        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        {
+            return;
+        }
+
         LettersPanelUI.Instance.AddLetterToLog(this.CurrentLetter);
 
         DisposeAction?.Invoke(this);
@@ -167,12 +189,23 @@ public class EnvelopeEntity : MonoBehaviour
 
     public void Delete()
     {
+        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        {
+            return;
+        }
+
         DisposeAction(this);
         Destroy(this.gameObject);
     }
 
     public void AcceptQuest()
     {
+        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        {
+            //TODO Start deciphering...
+            return;
+        }
+
         if(CurrentLetter.Preset.QuestAttachment == null)
         {
             return;
