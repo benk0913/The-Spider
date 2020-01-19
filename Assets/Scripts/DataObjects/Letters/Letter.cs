@@ -49,11 +49,6 @@ public class Letter
                 }
             }
             
-            if(Preset.Encryption != null)
-            {
-                return Preset.Encryption.Convert(description);
-            }
-
             return description;
         }
     }
