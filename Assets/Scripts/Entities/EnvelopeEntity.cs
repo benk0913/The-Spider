@@ -65,8 +65,6 @@ public class EnvelopeEntity : MonoBehaviour
 
     UnityAction<EnvelopeEntity> DisposeAction;
 
-    public bool IsDecrypted = false;
-
 
     private void Start()
     {
@@ -107,7 +105,7 @@ public class EnvelopeEntity : MonoBehaviour
         DescriptionText.text = CurrentLetter.Content;
         SideNotesText.text = CurrentLetter.Preset.SideNotes;
 
-        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
             EncryptionPanel.gameObject.SetActive(true);
             QuestPanel.gameObject.SetActive(false);
@@ -118,6 +116,8 @@ public class EnvelopeEntity : MonoBehaviour
 
             return;
         }
+
+        EncryptionPanel.gameObject.SetActive(false);
 
         if (CurrentLetter.Parameters != null)
         {
@@ -175,7 +175,7 @@ public class EnvelopeEntity : MonoBehaviour
 
     public void Archive()
     {
-        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
             return;
         }
@@ -189,7 +189,7 @@ public class EnvelopeEntity : MonoBehaviour
 
     public void Delete()
     {
-        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
             return;
         }
@@ -200,9 +200,9 @@ public class EnvelopeEntity : MonoBehaviour
 
     public void AcceptQuest()
     {
-        if(CurrentLetter.Preset.Encryption != null && !IsDecrypted)
+        if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
-            //TODO Start deciphering...
+            DecipherWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.Preset.Encryption, ()=> { this.CurrentLetter.IsDeciphered = true; RefreshUI(); SealRenderer.gameObject.SetActive(false); });
             return;
         }
 

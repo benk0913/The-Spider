@@ -64,10 +64,20 @@ public class Cipher : ScriptableObject
 
     public char[] GetAllExistingLetters(string message)
     {
+        if(!SupportUpperCase)
+        {
+            message.ToLower();
+        }
+
         List<char> letters = new List<char>();
         for(int i=0;i<message.Length;i++)
         {
             if(letters.Contains(message[i]))
+            {
+                continue;
+            }
+
+            if(Replacements.Find(x=>x.letter == message[i] || x.toLetter == message[i]) == null)
             {
                 continue;
             }
