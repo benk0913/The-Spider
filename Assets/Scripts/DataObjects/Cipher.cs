@@ -11,10 +11,25 @@ public class Cipher : ScriptableObject
     {
         foreach(CipherLetter replacement in Replacements)
         {
-            message.Replace(replacement.letter, replacement.toLetter);
+            message = message.Replace(replacement.letter, replacement.toLetter);
         }
 
         return message;
+    }
+
+    public string Decipher(string encryptedMessage)
+    {
+        foreach (CipherLetter replacement in Replacements)
+        {
+            encryptedMessage = encryptedMessage.Replace(replacement.letter, replacement.toLetter);
+        }
+
+        return encryptedMessage;
+    }
+
+    public bool Validate(string cipheredOriginalMessage, string decipherAttempt)
+    {
+        return (Decipher(cipheredOriginalMessage) == decipherAttempt);
     }
 }
 
