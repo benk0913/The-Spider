@@ -284,6 +284,8 @@ public class DecipherWindowUI : MonoBehaviour
     {
         OnResolveAction?.Invoke();
         this.gameObject.SetActive(false);
+
+        CORE.Instance.InvokeEvent("Letter Deciphered");
     }
 
     public string GetHighlightedCharacterString(char letter, string inString)
