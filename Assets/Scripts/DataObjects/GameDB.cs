@@ -83,6 +83,8 @@ public class GameDB : ScriptableObject
 
     public List<Item> AllItems;
 
+    public List<DialogPiece> AllDialogPieces;
+
     public List<PopupDataPreset> AllPopupPresets;
 
     public TimelineInstance[] Timeline;

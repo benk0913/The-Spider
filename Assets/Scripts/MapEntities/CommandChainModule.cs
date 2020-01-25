@@ -120,7 +120,7 @@ public class CommandChainModule : MonoBehaviour
     public void SpawnPortraitObject(Character character, Vector3 position)
     {
         GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUIWorld");
-        tempPortrait.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        tempPortrait.transform.SetParent(CORE.Instance.DisposableContainer);
         tempPortrait.transform.SetAsFirstSibling();
         tempPortrait.transform.GetComponent<PortraitUI>().SetCharacter(character, position);
         PortraitObjects.Add(tempPortrait);

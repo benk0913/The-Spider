@@ -123,6 +123,11 @@ public class CityControlUI : MonoBehaviour
 
         Character factionHead = CORE.Instance.GetCharacter(faction.FactionHead.name);
 
+        if(factionHead == null)
+        {
+            return 0f;
+        }
+
         return ((float)factionHead.PropertiesInCommand.Count) / ((float)OwnableLocations.Count);
     }
 }

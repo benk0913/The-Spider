@@ -88,7 +88,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             if (!string.IsNullOrEmpty(objective.WorldMarkerTarget))
             {
                 objective.WorldMarker = ResourcesLoader.Instance.GetRecycledObject("MarkerWorld");
-                objective.WorldMarker.transform.SetParent(CORE.Instance.MainCanvas.transform);
+                objective.WorldMarker.transform.SetParent(CORE.Instance.DisposableContainer);
                 objective.WorldMarker.transform.SetAsLastSibling();
                 objective.WorldMarker.GetComponent<WorldPositionLerperUI>().SetTransform(GameObject.Find(objective.WorldMarkerTarget).transform);
             }

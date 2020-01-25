@@ -41,6 +41,6 @@ public class LoseWindowUI : MonoBehaviour
     public void Confirm()
     {
         this.gameObject.SetActive(false);
-        WarningWindowUI.Instance.Show("Go, nobody will miss you...", ()=> { SceneManager.LoadScene(0); });
+        WarningWindowUI.Instance.Show("Go, nobody will miss you...", ()=> { CORE.Instance.DisposeCurrentGame(); SceneManager.LoadScene(0); });
     }
 }

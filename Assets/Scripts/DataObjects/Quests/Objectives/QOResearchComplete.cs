@@ -16,6 +16,7 @@ public class QOResearchComplete : QuestObjective
         {
             subscribed = true;
             CORE.Instance.SubscribeToEvent("ResearchComplete", OnEventInvoked);
+            OnEventInvoked();
         }
 
         if(valid)

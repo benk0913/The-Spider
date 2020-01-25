@@ -412,6 +412,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
 
+        if(faction.FactionHead == null)
+        {
+            return;
+        }
+
         Character factionHead = CORE.Instance.Characters.Find(x => faction.FactionHead.name == x.name);
 
         if(factionHead == null)
@@ -860,7 +865,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (CharactersInLocationUIInstance == null)
         {
             CharactersInLocationUIInstance = ResourcesLoader.Instance.GetRecycledObject("CharactersInLocationUI").GetComponent<CharactersInLocationUI>();
-            CharactersInLocationUIInstance.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            CharactersInLocationUIInstance.transform.SetParent(CORE.Instance.DisposableContainer);
             CharactersInLocationUIInstance.transform.localScale = Vector3.one;
             CharactersInLocationUIInstance.transform.SetAsFirstSibling();
         }
@@ -875,7 +880,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (TaskDurationUI == null)
         {
             TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
-            TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            TaskDurationUI.transform.SetParent(CORE.Instance.DisposableContainer);
             TaskDurationUI.transform.SetAsFirstSibling();
         }
 
@@ -898,7 +903,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if(TaskDurationUI == null)
         {
             TaskDurationUI = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskWorld")).GetComponent<LongTermTaskDurationUI>();
-            TaskDurationUI.transform.SetParent(CORE.Instance.MainCanvas.transform);
+            TaskDurationUI.transform.SetParent(CORE.Instance.DisposableContainer);
             TaskDurationUI.transform.SetAsFirstSibling();
         }
         else
@@ -1001,7 +1006,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         IsRuined = bool.Parse(node["IsRuined"]);
         CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
         CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
-        
+        _nearestDistrictID = node["NearestDistrict"];
+
+
 
         transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
         transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));

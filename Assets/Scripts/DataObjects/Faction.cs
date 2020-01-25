@@ -265,23 +265,25 @@ public class FactionRelationInstance : ISaveFileCompatible
             Character ofFactionHead = CORE.Instance.Characters.Find(x => x.name == OfFaction.FactionHead.name);
             Character withFactionHead = CORE.Instance.Characters.Find(x => x.name == WithFaction.FactionHead.name);
 
+            if (ofFactionHead != null && withFactionHead != null)
+            {
+                if (ofFactionHead.PropertiesInCommand.Count > withFactionHead.PropertiesInCommand.Count)
+                {
+                    modifiers.Add("Small Threat", 1);
+                }
+                else
+                {
+                    modifiers.Add("Big Threat", -1);
+                }
 
-            if (ofFactionHead.PropertiesInCommand.Count > withFactionHead.PropertiesInCommand.Count)
-            {
-                modifiers.Add("Small Threat", 1);
-            }
-            else
-            {
-                modifiers.Add("Big Threat", -1);
-            }
-
-            if(withFactionHead.Reputation > 0)
-            {
-                modifiers.Add("Good Reputation", 2);
-            }
-            else if (withFactionHead.Reputation < 0)
-            {
-                modifiers.Add("Bad Reputation", -2);
+                if (withFactionHead.Reputation > 0)
+                {
+                    modifiers.Add("Good Reputation", 2);
+                }
+                else if (withFactionHead.Reputation < 0)
+                {
+                    modifiers.Add("Bad Reputation", -2);
+                }
             }
             
 
@@ -301,7 +303,7 @@ public class FactionRelationInstance : ISaveFileCompatible
         JSONClass node = new JSONClass();
         node["OfFaction"] = OfFaction.name;
         node["WithFaction"] = WithFaction.name;
-        node["Value"] = Value.ToString();
+        node["Value"] = _value.ToString();
 
         return node;
     }
@@ -310,7 +312,7 @@ public class FactionRelationInstance : ISaveFileCompatible
     {
         this.ofFactionName = node["OfFaction"];
         this.withFactionName = node["WithFaction"];
-        this.Value = int.Parse(node["Value"]);
+        this._value = int.Parse(node["Value"]);
     }
 
     public string withFactionName;

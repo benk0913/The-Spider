@@ -265,6 +265,12 @@ public class AgentAction : ScriptableObject
             }
         }
 
+        if(character.PrisonLocation != null)
+        {
+            reason = new FailReason("Character is in prison.");
+            return false;
+        }
+
         if(character.CurrentTaskEntity != null && !character.CurrentTaskEntity.CurrentTask.Cancelable)
         {
             reason = null;

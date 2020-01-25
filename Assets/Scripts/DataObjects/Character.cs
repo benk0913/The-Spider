@@ -1314,7 +1314,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             Character possibleReplacement = location.EmployeesCharacters.Find((Character employee) => { return employee.age > 15; });
 
-            if(possibleReplacement == null)
+            if(possibleReplacement == null && TopEmployer != this)
             {
                 possibleReplacement = this.TopEmployer;
             }
@@ -1508,7 +1508,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
 
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
-
+        node["WorkLocationGuard"] = WorkLocation == null ? "" : WorkLocation.GuardsCharacters.Contains(this).ToString();
         node["HomeLocation"] = HomeLocation == null ? "" : HomeLocation.ID;
 
         node["CurrentLocation"] = CurrentLocation == null ? "" : CurrentLocation.ID;
@@ -1593,6 +1593,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
         _prisonLocationID = node["PrisonLocation"];
 
         _workLocationID = node["WorkLocation"];
+
+        if (!string.IsNullOrEmpty(node["WorkLocationGuard"]))
+        {
+            _isGuard = bool.Parse(node["WorkLocationGuard"]);
+        }
+        else
+        {
+            _isGuard = false;
+        }
 
         _homeLocationID = node["HomeLocation"];
 
@@ -1679,6 +1688,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     string _prisonLocationID;
     string _workLocationID;
+    public bool _isGuard;
     string _homeLocationID;
     string[] _propertiesOwnedIDs;
     string _currentLocationID;
@@ -1706,7 +1716,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (!string.IsNullOrEmpty(_workLocationID))
         {
-            StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID));
+            StartWorkingFor(CORE.Instance.GetLocationByID(_workLocationID),_isGuard);
         }
 
         if (!string.IsNullOrEmpty(_prisonLocationID))

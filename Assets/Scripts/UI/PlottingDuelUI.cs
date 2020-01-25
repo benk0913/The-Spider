@@ -34,6 +34,7 @@ public class PlottingDuelUI : MonoBehaviour
     public Image TargetSkillIcon;
     public TextMeshProUGUI TargetSkillNumber;
 
+    public TextMeshProUGUI PlotName;
 
 
     List<PortraitUI> ParticipantsPortraits = new List<PortraitUI>();
@@ -48,6 +49,8 @@ public class PlottingDuelUI : MonoBehaviour
     System.Action<DuelResultData> OnComplete;
 
     PlotData CurrentPlot;
+
+    public bool SpeedMode = false;
 
 
     private void Awake()
@@ -73,6 +76,8 @@ public class PlottingDuelUI : MonoBehaviour
         LocationEntity location,
         System.Action<DuelResultData> onComplete)
     {
+        SpeedMode = false;
+
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         this.gameObject.SetActive(true);
@@ -93,10 +98,10 @@ public class PlottingDuelUI : MonoBehaviour
         plot.Participants.ForEach((x) => { GenerateParticipant(x); });
         plot.TargetParticipants.ForEach     ((x) => { GenerateTarget(x); });
 
-        ParticipantsPortraits = ParticipantsPortraits.OrderBy(a => System.Guid.NewGuid()).ToList();
-        TargetsPortraits      = TargetsPortraits.OrderBy(a => System.Guid.NewGuid()).ToList();
-        
-        if(CurrentMethod == CurrentPlot.BaseMethod)
+        ParticipantsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
+        TargetsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
+
+        if (CurrentMethod == CurrentPlot.BaseMethod)
         {
             plot.Participants.ForEach((x) => x.Known.Know("Appearance", plot.TargetParticipants[0].TopEmployer));
             plot.TargetParticipants.ForEach((x) => x.Known.Know("Appearance", CurrentPlot.Requester.TopEmployer));
@@ -112,7 +117,10 @@ public class PlottingDuelUI : MonoBehaviour
     IEnumerator DuelsRoutine()
     {
 
-        yield return new WaitForSeconds(1f);
+        if (!SpeedMode)
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
         while (ParticipantsPortraits.Count > 0 && TargetsPortraits.Count > 0)
         {
@@ -166,7 +174,15 @@ public class PlottingDuelUI : MonoBehaviour
         float t = 0f;
         while(t<1f)
         {
-            t += 1f * Time.deltaTime;
+            if (!SpeedMode)
+            {
+                t += 1f * Time.deltaTime;
+            }
+            else
+            {
+                t += 2f * Time.deltaTime;
+            }
+
             Participant.transform.position = Util.SplineLerpX(initParticipantPos, ParticipantDuelTransform.position, randomHeight, t);
             Target.transform.position = Util.SplineLerpX(initTargetPos, TargetDuelTransform.position, randomHeight, t);
 
@@ -175,8 +191,10 @@ public class PlottingDuelUI : MonoBehaviour
             yield return 0;
         }
 
-        yield return new WaitForSeconds(1f);
-
+        if (!SpeedMode)
+        {
+            yield return new WaitForSeconds(1f);
+        }
         //Show Duel;
 
         float offenseSkill = Participant.CurrentCharacter.GetBonus(CurrentMethod.OffenseSkill).Value;
@@ -196,12 +214,23 @@ public class PlottingDuelUI : MonoBehaviour
         if (Random.Range(0, offenseSkill + defenceSkill) < offenseSkill) //Win
         {
             Anim.SetTrigger("WinParticipant");
-            yield return new WaitForSeconds(3f);
+
+            if (!SpeedMode)
+            {
+                yield return new WaitForSeconds(3f);
+            }
 
             t = 0f;
             while (t < 1f)
             {
-                t += 1f * Time.deltaTime;
+                if (!SpeedMode)
+                {
+                    t += 1f * Time.deltaTime;
+                }
+                else
+                {
+                    t += 2f * Time.deltaTime;
+                }
 
                 Target.transform.localScale = Vector3.Lerp(Target.transform.localScale, Vector3.zero, t);
 
@@ -218,7 +247,11 @@ public class PlottingDuelUI : MonoBehaviour
         else // Lose
         {
             Anim.SetTrigger("WinTarget");
-            yield return new WaitForSeconds(3f);
+
+            if (!SpeedMode)
+            {
+                yield return new WaitForSeconds(3f);
+            }
 
             if (CurrentMethod != CurrentPlot.BaseMethod) // BRUTE SWITCH
             {
@@ -234,7 +267,14 @@ public class PlottingDuelUI : MonoBehaviour
                 t = 0f;
                 while (t < 1f)
                 {
-                    t += 1f * Time.deltaTime;
+                    if (!SpeedMode)
+                    {
+                        t += 1f * Time.deltaTime;
+                    }
+                    else
+                    {
+                        t += 2f * Time.deltaTime;
+                    }
 
                     Participant.transform.localScale = Vector3.Lerp(Participant.transform.localScale, Vector3.zero, t);
 
@@ -248,7 +288,10 @@ public class PlottingDuelUI : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(2f);
+        if (!SpeedMode)
+        {
+            yield return new WaitForSeconds(2f);
+        }
 
         yield return 0;
     }
@@ -318,14 +361,14 @@ public class PlottingDuelUI : MonoBehaviour
     {
         while(ParticipantsPortraits.Count > 0)
         {
-            ParticipantsPortraits[0].transform.SetParent(CORE.Instance.MainCanvas.transform, false);
+            ParticipantsPortraits[0].transform.SetParent(CORE.Instance.DisposableContainer, false);
             ParticipantsPortraits[0].gameObject.SetActive(false);
             ParticipantsPortraits.RemoveAt(0);
         }
 
         while (TargetsPortraits.Count > 0)
         {
-            TargetsPortraits[0].transform.SetParent(CORE.Instance.MainCanvas.transform, false);
+            TargetsPortraits[0].transform.SetParent(CORE.Instance.DisposableContainer, false);
             TargetsPortraits[0].gameObject.SetActive(false);
             TargetsPortraits.RemoveAt(0);
         }
@@ -337,16 +380,26 @@ public class PlottingDuelUI : MonoBehaviour
     {
         while (ParticipantsPositionTransforms.Count > 0)
         {
-            ParticipantsPositionTransforms[0].transform.SetParent(CORE.Instance.MainCanvas.transform, false);
+            ParticipantsPositionTransforms[0].transform.SetParent(CORE.Instance.DisposableContainer, false);
             ParticipantsPositionTransforms[0].gameObject.SetActive(false);
             ParticipantsPositionTransforms.RemoveAt(0);
         }
 
         while (TargetsPositionTransforms.Count > 0)
         {
-            TargetsPositionTransforms[0].transform.SetParent(CORE.Instance.MainCanvas.transform, false);
+            TargetsPositionTransforms[0].transform.SetParent(CORE.Instance.DisposableContainer, false);
             TargetsPositionTransforms[0].gameObject.SetActive(false);
             TargetsPositionTransforms.RemoveAt(0);
         }
+    }
+
+    public void StartSpeedMode()
+    {
+        if(SpeedMode)
+        {
+            return;
+        }
+
+        SpeedMode = true;
     }
 }

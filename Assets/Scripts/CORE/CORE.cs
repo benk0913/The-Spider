@@ -21,6 +21,9 @@ public class CORE : MonoBehaviour
     public Canvas MainCanvas;
 
     [SerializeField]
+    public Transform DisposableContainer;
+
+    [SerializeField]
     public EventSystem UIEventSystem;
 
     public TechTreeItem TechTree;
@@ -376,7 +379,7 @@ public class CORE : MonoBehaviour
     public void ShowPortraitEffect(GameObject effect, Character character, LocationEntity targetLocation)
     {
         GameObject effectObj = ResourcesLoader.Instance.GetRecycledObject(effect);
-        effectObj.transform.SetParent(CORE.Instance.MainCanvas.transform);
+        effectObj.transform.SetParent(CORE.Instance.DisposableContainer.transform);
         effectObj.transform.localScale = Vector3.one;
         effectObj.GetComponent<PortraitUI>().SetCharacter(character);
         effectObj.GetComponent<WorldPositionLerperUI>().SetTransform(targetLocation.transform);
@@ -645,6 +648,9 @@ public class CORE : MonoBehaviour
         savefile["Rooms"]  = RoomsManager.Instance.ToJSON();
         savefile["TechTree"] = TechTree.ToJSON();
 
+        savefile["DialogEntity"] = DialogEntity.Instance.ToJSON();
+
+
         string ePath = Application.dataPath + "/Saves/" + savefile["Name"] + ".json";
         JSONNode tempNode = (JSONNode)savefile;
         File.WriteAllText(ePath, tempNode.ToString());
@@ -749,7 +755,9 @@ public class CORE : MonoBehaviour
         yield return 0;
 
         PC = GetCharacter(file.Content["PlayerCharacter"]);
-        
+
+        DialogEntity.Instance.FromJSON(file.Content["DialogEntity"]);
+
         foreach (Character character in Characters)
         {
             character.ImplementIDs();
@@ -811,10 +819,18 @@ public class CORE : MonoBehaviour
         ReadAllSaveFiles();
     }
 
+
+    public void DisposeCurrentGame()
+    {
+        for (int i = 0; i < DisposableContainer.childCount; i++)
+        {
+            Destroy(DisposableContainer.GetChild(i).gameObject, 0.05f);
+        }
+    }
     #endregion
 
     #region Character Utils
-    
+
     #endregion
 }
 

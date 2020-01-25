@@ -130,7 +130,7 @@ public class SchemeType : ScriptableObject
 
         data.Participants.ForEach((x) => x.Known.Know("Appearance", data.TargetParticipants[0].TopEmployer));
         data.TargetParticipants.ForEach((x) => x.Known.Know("Appearance", data.Participants[0].TopEmployer));
-
+        
         PlottingDuelUI.Instance.Show(data, InLocation, onComplete);
 
         //if (method == BruteMethod && !(targetCharacter != null && targetParticipants[0] == targetCharacter))

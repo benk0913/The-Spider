@@ -91,6 +91,13 @@ public class GameDBEditor : Editor
             db.FavorDecisions.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(FavorDecision)) as FavorDecision);
         }
 
+        guids = AssetDatabase.FindAssets("t:DialogPiece", new[] { "Assets/" + db.DataPath });
+        db.AllDialogPieces.Clear();
+        foreach (string guid in guids)
+        {
+            db.AllDialogPieces.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(DialogPiece)) as DialogPiece);
+        }
+
 
         EditorUtility.SetDirty(db);
     }

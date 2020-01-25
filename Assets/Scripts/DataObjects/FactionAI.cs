@@ -658,9 +658,17 @@ public class FactionAI : ScriptableObject
         //Find Method
         PlotMethod randomMethod = currentSchemeType.PossibleMethods[UnityEngine.Random.Range(0, currentSchemeType.PossibleMethods.Count)];
 
+
         //Gather Participants
         List<Character> participants = new List<Character>();
-        List<Character> potentialParticipants = CurrentCharacter.CharactersInCommand.FindAll(x => x.IsAgent && !participants.Contains(x) && x.PrisonLocation == null && !x.IsDead);
+        List<Character> potentialParticipants = CurrentCharacter.CharactersInCommand.FindAll(
+            x => x.IsAgent 
+            && x.Age > 15 
+            &&  !participants.Contains(x) 
+            && x.PrisonLocation == null 
+            && !x.IsDead 
+            && (x.CurrentTaskEntity == null || x.CurrentTaskEntity.CurrentTask.Cancelable));
+
         potentialParticipants.OrderByDescending(x => x.GetBonus(randomMethod.OffenseSkill).Value);
 
         for (int i=0;i<randomMethod.MinimumParticipants;i++)
@@ -684,6 +692,7 @@ public class FactionAI : ScriptableObject
             participants.Add(potentialParticipants[0]);
             potentialParticipants.RemoveAt(0);
         }
+
 
 
         //Gather target participants
