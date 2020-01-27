@@ -26,6 +26,16 @@ public class GetAbducted : AgentAction //DO NOT INHERIT FROM
 
         base.Execute(requester, character, target);
 
+        
+        if (character.TopEmployer == CORE.PC)
+        {
+            CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+              character.CurrentLocation.transform,
+              StatsViewUI.Instance.transform,
+              null,
+              false);
+        }
+
         character.Reputation -= 1;
         character.TopEmployer.Reputation -= 1;
 

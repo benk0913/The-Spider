@@ -142,6 +142,8 @@ public class SchemeType : ScriptableObject
 
     public virtual void WinResult(DuelResultData result)
     {
+        result.Plot.Plotter.Reputation += 1;
+        result.Plot.Plotter.TopEmployer.Reputation += 1;
 
         if (result.Plot.Target.GetType() == typeof(LocationEntity))
         {
@@ -152,6 +154,30 @@ public class SchemeType : ScriptableObject
                 location.OwnerCharacter.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
                 result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
             }
+
+            if (result.Plot.Plotter.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject("GoodReputationCollectedWorld",
+                  location.transform,
+                  StatsViewUI.Instance.transform,
+                  null,
+                  false);
+            }
+
+            if (location.OwnerCharacter != null)
+            {
+                location.OwnerCharacter.Reputation -= 1;
+                location.OwnerCharacter.TopEmployer.Reputation -= 1;
+
+                if (location.OwnerCharacter.TopEmployer == CORE.PC)
+                {
+                    CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+                      location.transform,
+                      StatsViewUI.Instance.transform,
+                      null,
+                      false);
+                }
+            }
         }
         else if (result.Plot.Target.GetType() == typeof(PortraitUI) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
         {
@@ -161,6 +187,30 @@ public class SchemeType : ScriptableObject
             {
                 targetChar.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
                 result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+            }
+
+            if (result.Plot.Plotter.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.SplineAnimationObject("GoodReputationCollectedWorld",
+                  targetChar.CurrentLocation.transform,
+                  StatsViewUI.Instance.transform,
+                  null,
+                  false);
+            }
+
+            if (targetChar != null)
+            {
+                targetChar.Reputation -= 1;
+                targetChar.TopEmployer.Reputation -= 1;
+
+                if (targetChar.TopEmployer == CORE.PC)
+                {
+                    CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+                      targetChar.CurrentLocation.transform,
+                      StatsViewUI.Instance.transform,
+                      null,
+                      false);
+                }
             }
         }
 

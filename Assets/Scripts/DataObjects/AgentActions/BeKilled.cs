@@ -10,6 +10,15 @@ public class BeKilled : AgentAction
     {
         base.Execute(requester, character, target);
 
+        if (character.TopEmployer == CORE.PC)
+        {
+            CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+              character.CurrentLocation.transform,
+              StatsViewUI.Instance.transform,
+              null,
+              false);
+        }
+
         character.TopEmployer.Reputation -= 1;
         character.Death();
     }

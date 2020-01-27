@@ -39,6 +39,15 @@ public class FireAgent : PlayerAction
                     ,ResourcesLoader.Instance.GetSprite("DeceasedIcon")
                     , character.WorkLocation.transform);
 
+                if (character.TopEmployer == CORE.PC)
+                {
+                    CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+                      character.CurrentLocation.transform,
+                      StatsViewUI.Instance.transform,
+                      null,
+                      false);
+                }
+
                 character.TopEmployer.Reputation -= 2;
             }
         }

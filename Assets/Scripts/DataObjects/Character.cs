@@ -121,7 +121,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
         set
         {
-            if(value < CORE.Instance.Database.ReputationMin)
+            if (value < CORE.Instance.Database.ReputationMin)
             {
                 _reputation = CORE.Instance.Database.ReputationMin;
                 return;

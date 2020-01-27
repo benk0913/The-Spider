@@ -97,6 +97,26 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
              false);
         }
 
+        if (requester == CORE.PC)
+        {
+            if (this.Reputation > 0)
+            {
+                CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+                  character.CurrentLocation.transform,
+                  StatsViewUI.Instance.transform,
+                  null,
+                  false);
+            }
+            else if (this.Reputation < 0)
+            {
+                CORE.Instance.SplineAnimationObject("GoodReputationCollectedWorld",
+                  character.CurrentLocation.transform,
+                  StatsViewUI.Instance.transform,
+                  null,
+                  false);
+            }
+        }
+
         requester.Reputation += this.Reputation;
         Items.ForEach((x) => requester.Belogings.Add(x.Clone()));
     }
