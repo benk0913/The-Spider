@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Fisherman's Wharf
+  m_EditorClassIdentifier: 
+  Description: "\nThis dock is used by fishermen to host an independent market and
+    docking zone, protected and influenced by you. \nThis establishment acts as a
+    legal way for safe and low income."
+  PropertyLevels:
+  - LevelName: Fishermen Dock
+    MaxEmployees: 2
+    MaxGuards: 0
+    MaxPrisoners: 0
+    MaxActions: 1
+    UpgradePrice: 20
+    UpgradeLength: 2
+    InventoryCap: 2
+    PossibleMerchantise: []
+  - LevelName: Fishermen Shacks
+    MaxEmployees: 4
+    MaxGuards: 1
+    MaxPrisoners: 0
+    MaxActions: 2
+    UpgradePrice: 50
+    UpgradeLength: 4
+    InventoryCap: 4
+    PossibleMerchantise: []
+  - LevelName: Fishmarket
+    MaxEmployees: 6
+    MaxGuards: 3
+    MaxPrisoners: 0
+    MaxActions: 2
+    UpgradePrice: 100
+    UpgradeLength: 6
+    InventoryCap: 6
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Fisherman's Docking Zone
+    Description: Fishermen will use this property simply as a docking station.
+    Icon: {fileID: 21300000, guid: b155965b04498a14f8154108c0a521c3, type: 3}
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 14d3c60e2970437489f795fce205a527, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Fishmarket
+    Description: Fishermen will use this property as a docking station and sell their
+      goods in its independent market.
+    Icon: {fileID: 21300000, guid: d550cea38b1f7fb43874b13c7303b257, type: 3}
+    GoldGenerated: 2
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 14d3c60e2970437489f795fce205a527, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  Traits:
+  - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
+  - {fileID: 11400000, guid: e7ac1d93bf83d334ca30c1b5e5b2f5d1, type: 2}
+  Icon: {fileID: 21300000, guid: f060c47057fb5584d820337d1a8702cb, type: 3}
+  FigurePrefab: {fileID: 808478850817181922, guid: a4160913e7796a141874465e855ebc8f,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: db0730b7a0b9aec409565e0396abc757,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 16
+  MaxAge: 35
+  PlotType: {fileID: 11400000, guid: 61762f3c065e8914c962e5df6f1d5fcd, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 0
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: fisherman
+  AlwaysKnown: 0
+  TechRequired: {fileID: 0}
+  IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0

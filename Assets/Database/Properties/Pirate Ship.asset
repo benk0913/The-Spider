@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Pirate Ship
+  m_EditorClassIdentifier: 
+  Description: 'This ship serves mostly criminals and renegade scum while they roam
+    the unprotected sea routes and rob merchant ships.
+
+    This operation is illegal
+    but fruitful.'
+  PropertyLevels:
+  - LevelName: Pirate Ship
+    MaxEmployees: 1
+    MaxGuards: 6
+    MaxPrisoners: 2
+    MaxActions: 2
+    UpgradePrice: 0
+    UpgradeLength: 0
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: In Disguise
+    Description: The pirate ship will disguise itself into a normal and legal vessel.
+      Safe from any law enforcers.
+    Icon: {fileID: 21300000, guid: ec30c18b9d652c548b18a6c3f5ebcb14, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Raid
+    Description: 'This ship will serve its pirates in robbing merchant ships and
+      raiding unprotected vessels.
+
+      <color=red>-This action is illegal, make
+      sure the captain is skilled in "Discretion"</color>
+
+      <color=green>Gold
+      Generated is multiplied by the amount of coastal or naval properties which
+      are not owned by you</color>'
+    Icon: {fileID: 21300000, guid: f9a44eb3c084e3c4bb87cc12c0506db7, type: 3}
+    GoldGenerated: 5
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 1a93033ac2a0b064eadcccaf32b42edb, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 11400000, guid: 038bde99b5ac0954b8d56eefc4d1a576, type: 2}
+  Traits:
+  - {fileID: 11400000, guid: e7ac1d93bf83d334ca30c1b5e5b2f5d1, type: 2}
+  Icon: {fileID: 21300000, guid: cdf5abd703f3983438c72a0ba05e1eae, type: 3}
+  FigurePrefab: {fileID: 4410676136326942142, guid: 77ab17d81da6ac74b9a6881ee5b028a3,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: 8a5a46af12da888419e45aa08ae7f181,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 16
+  MaxAge: 100
+  PlotType: {fileID: 11400000, guid: 59646825e2cab094e91fd44bb8c97e8d, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 1
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: captain
+  AlwaysKnown: 0
+  TechRequired: {fileID: 0}
+  IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0

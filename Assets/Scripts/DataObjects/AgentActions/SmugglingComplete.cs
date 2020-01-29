@@ -13,6 +13,7 @@ public class SmugglingComplete : WorkComplete
         GenerateNewItemToProperty(character);
     }
 
+
     public void GenerateNewItemToProperty(Character character)
     {
         int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].InventoryCap;
@@ -29,6 +30,53 @@ public class SmugglingComplete : WorkComplete
         else
         {
             character.WorkLocation.Inventory[Random.Range(0, character.WorkLocation.Inventory.Count)] = newItem;
+        }
+    }
+
+    public override void EarnGold(Character requester, Character character, AgentInteractable target, int addedGold = 0)
+    {
+        base.EarnGold(requester, character, target, addedGold);
+
+        if (character.WorkLocation == null)
+        {
+            return;
+        }
+
+        int propertiesNotYours = CORE.Instance.Locations.FindAll(x =>
+               (x.CurrentProperty.PlotType.name == "Naval")
+            && (x.OwnerCharacter != null && x.OwnerCharacter.TopEmployer == character.TopEmployer)
+            ).Count;
+
+        if (propertiesNotYours <= 0)
+        {
+            return;
+        }
+
+        float earnedGold =
+            character.WorkLocation.CurrentAction.GoldGenerated * propertiesNotYours
+            * CORE.Instance.Database.Stats.GlobalRevenueMultiplier;
+
+        if (Mathf.RoundToInt(earnedGold) > 0)
+        {
+            if (character.TopEmployer == null)
+            {
+                character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+                return;
+            }
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.ShowHoverMessage("Bonus: " + (character.WorkLocation.CurrentAction.GoldGenerated * CORE.Instance.Database.Stats.GlobalRevenueMultiplier) + " X " + propertiesNotYours, Icon, character.CurrentLocation.transform);
+
+                CORE.Instance.SplineAnimationObject(
+                    prefabKey: "CoinCollectedWorld",
+                    startPoint: character.WorkLocation.transform,
+                    targetPoint: StatsViewUI.Instance.GoldText.transform,
+                    () => { StatsViewUI.Instance.RefreshGold(); },
+                    canvasElement: false);
+            }
+
+            character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
         }
     }
 
