@@ -83,7 +83,7 @@ public class AgentAction : ScriptableObject
 
             if (GoldCost > 0)
             {
-                CORE.Instance.ShowHoverMessage("<color=gold> Gold -" + GoldCost + "</color>", ResourcesLoader.Instance.GetSprite("icon_coins"), target.transform);
+                CORE.Instance.ShowHoverMessage("<color=yellow> Gold -" + GoldCost + "</color>", ResourcesLoader.Instance.GetSprite("icon_coins"), target.transform);
             }
 
             if (ConnectionsCost > 0)

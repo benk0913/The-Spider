@@ -71,4 +71,5 @@ public class AttemptSchemeArson : AgentAction //DO NOT INHERIT FROM
 
         return true;
     }
+
 }

@@ -124,15 +124,20 @@ public class Character : ScriptableObject, ISaveFileCompatible
             if (value < CORE.Instance.Database.ReputationMin)
             {
                 _reputation = CORE.Instance.Database.ReputationMin;
-                return;
             }
             else if (value > CORE.Instance.Database.ReputationMax)
             {
                 _reputation = CORE.Instance.Database.ReputationMax;
-                return;
+            }
+            else
+            {
+                _reputation = value;
             }
 
-            _reputation = value;
+            if(this == CORE.PC)
+            {
+                StatsViewUI.Instance.RefreshReputation();
+            }
         }
     }
     int _reputation;

@@ -20,38 +20,57 @@ public class ArsonScheme : SchemeType
         PopupWindowUI.Instance.AddPopup(new PopupData(GetScenarioPopup(data.Plot.Entry, data.Plot.Method, ExitScenarios), data.Plot.Participants, data.Plot.TargetParticipants,
         () =>
         {
-                base.WinResult(data);
+            base.WinResult(data);
 
-                foreach (Character character in targetLocation.CharactersInLocation)
+            if(targetLocation.CurrentProperty.name == "Orphanage")
+            {
+                data.Plot.Plotter.Reputation -= 5;
+                data.Plot.Plotter.TopEmployer.Reputation -= 5;
+
+                if (data.Plot.Plotter.TopEmployer == CORE.PC)
                 {
-                    if(character.TopEmployer != data.Plot.Plotter)
+                    WarningWindowUI.Instance.Show("Burning an orphanage, such a violent and ruthless act has decreased your reputation in 5! ", () =>
                     {
-                        if(Random.Range(0f,1f) < 0.5f) // more chance for location employees to burn.
-                        {
-                            PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>(){ data.Plot.Plotter } ,
-                            () =>
-                            {
-                                CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
-                            }));
-                        }
-                    }
-                    else
-                    {
-                        if (Random.Range(0f, 1f) < 0.1f)
-                        {
-                            PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>() { data.Plot.Plotter },
-                            () =>
-                            {
+                        CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+                            targetLocation.transform,
+                            StatsViewUI.Instance.transform,
+                            null,
+                            false);
 
-                                CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
-                            }));
-                        }
+                    });
+                }
+            }
+
+            foreach (Character character in targetLocation.CharactersInLocation)
+            {
+                if(character.TopEmployer != data.Plot.Plotter)
+                {
+                    if(Random.Range(0f,1f) < 0.5f) // more chance for location employees to burn.
+                    {
+                        PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>(){ data.Plot.Plotter } ,
+                        () =>
+                        {
+                            CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
+                        }));
                     }
                 }
+                else
+                {
+                    if (Random.Range(0f, 1f) < 0.1f)
+                    {
+                        PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>() { data.Plot.Plotter },
+                        () =>
+                        {
 
-                targetLocation.BecomeRuins();
+                            CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
+                        }));
+                    }
+                }
+            }
 
-            }));
+            targetLocation.BecomeRuins();
+
+        }));
 
     }
 }
