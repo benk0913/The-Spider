@@ -52,6 +52,12 @@ public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
                 return false;
             }
 
+            if(targetCharacter.IsInHiding)
+            {
+                reason = new FailReason("The Target Is Temporarily In Hiding...");
+                return false;
+            }
+
             if(!targetCharacter.IsKnown("CurrentLocation",requester))
             {
                 reason = new FailReason("Don't know the targets current location");

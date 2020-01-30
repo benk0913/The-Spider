@@ -39,6 +39,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
 
+    public bool IsInHiding
+    {
+        get
+        {
+            return CurrentTaskEntity != null && CurrentTaskEntity.CurrentTask.name == "In Hiding";
+        }
+    }
+
     public bool isKnownOnStart
     {
         get

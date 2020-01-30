@@ -624,7 +624,7 @@ public class FactionAI : ScriptableObject
         }
         else
         {
-            List<Character> possibleCharacters = factionHead.CharactersInCommand.FindAll(x=>!x.IsDead && !x.IsInTrouble && x.PrisonLocation == null);
+            List<Character> possibleCharacters = factionHead.CharactersInCommand.FindAll(x=>!x.IsDead && !x.IsInTrouble && x.PrisonLocation == null && !x.IsInHiding);
             if (possibleCharacters.Count == 0)
             {
                 return null;
