@@ -304,9 +304,9 @@ public class CORE : MonoBehaviour
     IEnumerator TurnPassedRoutine()
     {
         //AI DECISIONS
-        foreach(Faction faction in CORE.Instance.Factions)
+        foreach (Faction faction in CORE.Instance.Factions)
         {
-            if(faction.FactionHead == null)
+            if (faction.FactionHead == null)
             {
                 continue;
             }
@@ -333,14 +333,24 @@ public class CORE : MonoBehaviour
 
         yield return 0;
 
-        foreach(LocationEntity location in Locations)
+
+        TurnLoadingWindowUI.Instance.SetLoadingTitle("Locations... (" + Locations.Count + ")");
+
+        for (int i=0;i<Locations.Count;i++)
         {
-            yield return StartCoroutine(location.TurnPassed());
+            TurnLoadingWindowUI.Instance.SetProgress(i * 1f / (Locations.Count + Characters.Count) * 1f);
+
+            yield return StartCoroutine(Locations[i].TurnPassed());
         }
 
-        foreach (Character character in Characters)
+        TurnLoadingWindowUI.Instance.SetLoadingTitle("Characters... ("+Characters.Count + ")");
+
+        for (int i=0;i<Characters.Count;i++)
         {
-            character.OnTurnPassedAI();
+
+            TurnLoadingWindowUI.Instance.SetProgress((Locations.Count + i) * 1f / (Locations.Count + Characters.Count) * 1f);
+
+            Characters[i].OnTurnPassedAI();
             yield return 0;
         }
 
