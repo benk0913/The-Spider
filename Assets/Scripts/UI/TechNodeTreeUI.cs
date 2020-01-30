@@ -10,6 +10,9 @@ public class TechNodeTreeUI : NodeTreeUI
 
     public TechNodeTreeUIInstance CurrentRoot;
 
+    [SerializeField]
+    ScrollRect CurrentScrollRect;
+
     private void Awake()
     {
         Instance = this;
@@ -84,11 +87,17 @@ public class TechNodeTreeUI : NodeTreeUI
 
         yield return StartCoroutine(SetItemsUI((TechNodeTreeUIInstance)origin));
 
+        yield return 0;
+
+        CurrentScrollRect.horizontalNormalizedPosition = 0f;
+        CurrentScrollRect.verticalNormalizedPosition   = 1f;
+
     }
 
     protected virtual IEnumerator SetItemsUI(TechNodeTreeUIInstance node)
     {
         node.nodeObject.transform.GetChild(0).GetChild(0).GetComponent<TechTreeItemUI>().SetItem(node.Item);
+        node.nodeObject.transform.GetChild(1).GetComponent<Image>().color = node.Item.BoxColor;
 
         yield return 0;
 

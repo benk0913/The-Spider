@@ -20,6 +20,8 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
     public List<Faction> FactionsLocked = new List<Faction>();
 
+    public Color BoxColor;
+
     public bool IsResearched;
     public bool IsResearchable
     {
