@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Gambling Hall
+  m_EditorClassIdentifier: 
+  Description: This gambling hall serves the rich and the able with betting games
+    of all kind beside expensive beverages and decent entertainment, whether you
+    have too much and can afford to spend or simply feel lucky today and need to
+    celebrate it, this place will serve you right.
+  PropertyLevels:
+  - LevelName: Gambling Den
+    MaxEmployees: 2
+    MaxGuards: 1
+    MaxPrisoners: 0
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 2
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: Gambling Hall
+    MaxEmployees: 3
+    MaxGuards: 2
+    MaxPrisoners: 0
+    MaxActions: 2
+    UpgradePrice: 60
+    UpgradeLength: 4
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: Luxurious Gambling Hall
+    MaxEmployees: 4
+    MaxGuards: 4
+    MaxPrisoners: 0
+    MaxActions: 2
+    UpgradePrice: 150
+    UpgradeLength: 6
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: Extravagant Casino
+    MaxEmployees: 6
+    MaxGuards: 6
+    MaxPrisoners: 0
+    MaxActions: 3
+    UpgradePrice: 400
+    UpgradeLength: 20
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Betting Games
+    Description: The gambling hall will provide betting games of all kinds.
+    Icon: {fileID: 21300000, guid: cb5b419c0586dc9438f6a2cf3b55ca2f, type: 3}
+    GoldGenerated: 4
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 738c11bc295e1864ebbde6e5fab075dc, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: Celebrate The Gambler
+    Description: The gambling hall will provide liquor and entertainment along with
+      thrilling betting games of all sorts.
+    Icon: {fileID: 21300000, guid: c161ebe62634c1e428c58b14250933ec, type: 3}
+    GoldGenerated: 6
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 738c11bc295e1864ebbde6e5fab075dc, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  - Name: The House Wins
+    Description: Maximize revenue, alcohol consumption and gambling addiction.
+    Icon: {fileID: 21300000, guid: c541193ec118f0347b9db7d975121ae6, type: 3}
+    GoldGenerated: 10
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 738c11bc295e1864ebbde6e5fab075dc, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+  Traits:
+  - {fileID: 11400000, guid: bcd5b27af7b10404ca00b9f68e5197bd, type: 2}
+  - {fileID: 11400000, guid: bd5e0efaf42285c488deabddcccf21fb, type: 2}
+  - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
+  Icon: {fileID: 21300000, guid: a7412c7cdaf67c6468d9240514f1e3b5, type: 3}
+  FigurePrefab: {fileID: 3751449078466721607, guid: 76631c7f9bf826c47ae095d6160a372a,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: c836ef7290328e14c9c2e3a3cf441197,
+    type: 3}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: 1
+  MinAge: 18
+  MaxAge: 45
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 1
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: entertainer
+  AlwaysKnown: 0
+  TechRequired: {fileID: 11400000, guid: 25449affd1c7e7249816db7332f5ca9a, type: 2}
+  IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
