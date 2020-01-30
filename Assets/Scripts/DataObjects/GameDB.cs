@@ -66,6 +66,8 @@ public class GameDB : ScriptableObject
 
     public List<FavorDecision> FavorDecisions = new List<FavorDecision>();
 
+    public List<LetterPreset> PresetLetters = new List<LetterPreset>();
+
     public BonusType[] BonusTypes;
 
     public ReputationInstance[] ReputationTypes;

@@ -98,6 +98,12 @@ public class GameDBEditor : Editor
             db.AllDialogPieces.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(DialogPiece)) as DialogPiece);
         }
 
+        guids = AssetDatabase.FindAssets("t:LetterPreset", new[] { "Assets/" + db.DataPath });
+        db.PresetLetters.Clear();
+        foreach (string guid in guids)
+        {
+            db.PresetLetters.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LetterPreset)) as LetterPreset);
+        }
 
         EditorUtility.SetDirty(db);
     }

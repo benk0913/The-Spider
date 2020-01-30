@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnvelopeEntity : MonoBehaviour
+public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 {
     [SerializeField]
     LetterPreset PresetLetter;
@@ -82,6 +83,7 @@ public class EnvelopeEntity : MonoBehaviour
     public void SetInfo(Letter letter, UnityAction<EnvelopeEntity> disposeAction)
     {
         CurrentLetter = letter;
+        PresetLetter = letter.Preset;
         DisposeAction = disposeAction;
 
         RefreshUI();
@@ -91,6 +93,16 @@ public class EnvelopeEntity : MonoBehaviour
 
     void RefreshUI()
     {
+        if(CurrentLetter == null)
+        {
+            return; 
+        }
+
+        if(CurrentLetter.Preset == null)
+        {
+            return;
+        }
+
         if(CurrentLetter.Preset.Seal != null)
         {
             SealRenderer.gameObject.SetActive(true);
@@ -221,5 +233,33 @@ public class EnvelopeEntity : MonoBehaviour
         questClone.ForCharacter = CORE.PC;
         QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
         QuestPanel.gameObject.SetActive(false);
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        node["PresetLetter"] = PresetLetter.name;
+        node["Letter"] = CurrentLetter.ToJSON();
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        PresetLetter = CORE.Instance.Database.PresetLetters.Find(x => x.name == node["PresetLetter"]);
+
+        if (CurrentLetter == null)
+        {
+            CurrentLetter = new Letter(PresetLetter, null);
+        }
+
+        CurrentLetter.FromJSON(node["Letter"]);
+    }
+
+    public void ImplementIDs()
+    {
+        CurrentLetter.ImplementIDs();
+        RefreshUI();
     }
 }

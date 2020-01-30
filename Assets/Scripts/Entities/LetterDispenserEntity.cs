@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LetterDispenserEntity : MonoBehaviour
+public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
 {
     public static LetterDispenserEntity Instance;
 
@@ -118,4 +119,36 @@ public class LetterDispenserEntity : MonoBehaviour
         RefreshEnvelopesHeight();
     }
 
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        for(int i=0;i<Envelopes.Count;i++)
+        {
+            node["Envelopes"][i] = Envelopes[i].ToJSON();
+        }
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        Envelopes.Clear();
+
+        for (int i=0;i<node["Envelopes"].Count;i++)
+        {
+            Letter tempLetter = new Letter(CORE.Instance.Database.PresetLetters.Find(x => x.name == node["Envelopes"][i]["Preset"]));
+            EnvelopeEntity tempEnvelope = GenerateLetter(tempLetter).GetComponent<EnvelopeEntity>();
+            tempEnvelope.FromJSON(node["Envelopes"][i]);
+            StartCoroutine(DispenseLetterRoutine(tempEnvelope.transform));
+        }
+    }
+
+    public void ImplementIDs()
+    {
+        foreach(EnvelopeEntity envelope in Envelopes)
+        {
+            envelope.ImplementIDs();
+        }
+    }
 }

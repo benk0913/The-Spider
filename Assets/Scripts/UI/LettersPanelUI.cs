@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
 
-public class LettersPanelUI : MonoBehaviour
+public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
 {
     [SerializeField]
     GameObject LogLetterPrefab;
@@ -216,6 +217,60 @@ public class LettersPanelUI : MonoBehaviour
         QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
 
         QuestPanel.SetActive(false);
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        for(int i=0;i<ArchivedLetters.Count;i++)
+        {
+            node["Letters"][i] = ArchivedLetters[i].CurrentLetter.ToJSON();
+        }
+
+        return node;
+    }
+
+    public void FromJSON(JSONNode node)
+    {
+        this.gameObject.SetActive(true);
+        StartCoroutine(FromJsonRoutine(node));
+    }
+
+    IEnumerator FromJsonRoutine(JSONNode node)
+    {
+        ArchivedLetters.Clear();
+        while (LogContainer.childCount > 0)
+        {
+            LogContainer.GetChild(0).gameObject.SetActive(false);
+            LogContainer.GetChild(0).SetParent(transform);
+        }
+
+        yield return 0;
+
+        for (int i = 0; i < node["Letters"].Count; i++)
+        {
+            Letter letter = new Letter(CORE.Instance.Database.PresetLetters[0]);
+            letter.FromJSON(node["Letters"][i]);
+            AddLetterToLog(letter);
+        }
+
+        yield return 0;
+
+        if (ArchivedLetters.Count > 0)
+        {
+            LetterSelected(ArchivedLetters[0]);
+        }
+
+        this.gameObject.SetActive(false);
+    }
+
+    public void ImplementIDs()
+    {
+        foreach(LogLetterUI letterLog in ArchivedLetters)
+        {
+            letterLog.CurrentLetter.ImplementIDs();
+        }
     }
 }
 

@@ -646,6 +646,8 @@ public class CORE : MonoBehaviour
 
         savefile["Quests"] = QuestsPanelUI.Instance.ToJSON();
         savefile["Rooms"]  = RoomsManager.Instance.ToJSON();
+        savefile["LetterDispenser"] = LetterDispenserEntity.Instance.ToJSON();
+        savefile["LettersPanel"] = LettersPanelUI.Instance.ToJSON();
         savefile["TechTree"] = TechTree.ToJSON();
 
         savefile["DialogEntity"] = DialogEntity.Instance.ToJSON();
@@ -748,6 +750,8 @@ public class CORE : MonoBehaviour
                 yield return 0;
             }
 
+            LetterDispenserEntity.Instance.FromJSON(file.Content["LetterDispenser"]);
+            LettersPanelUI.Instance.FromJSON(file.Content["LettersPanel"]);
             QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
             RoomsManager.Instance.FromJSON(file.Content["Rooms"]);
             TechTree.FromJSON(file.Content["TechTree"]);
@@ -780,6 +784,9 @@ public class CORE : MonoBehaviour
         }
 
         QuestsPanelUI.Instance.ImplementIDs();
+
+        LetterDispenserEntity.Instance.ImplementIDs();
+        LettersPanelUI.Instance.ImplementIDs();
 
         MapViewManager.Instance.HideMap();
         MapViewManager.Instance.MapElementsContainer.gameObject.SetActive(false);
