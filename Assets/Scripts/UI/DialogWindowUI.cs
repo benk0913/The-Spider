@@ -133,6 +133,18 @@ public class DialogWindowUI : MonoBehaviour
             tempDecision.SetInfo(decision);
 
         }
+
+        if(!string.IsNullOrEmpty(CurrentPiece.SimpleDecision.Title))
+        {
+            DialogDecisionItemUI tempDecision = ResourcesLoader.Instance.GetRecycledObject("DecisionItemUI").GetComponent<DialogDecisionItemUI>();
+            tempDecision.transform.SetParent(DecisionContainer, false);
+
+            DialogDecision tempdc = CORE.Instance.Database.SampleDecision.Clone();
+            tempdc.name = CurrentPiece.SimpleDecision.Title;
+            tempdc.Icon = CurrentPiece.SimpleDecision.Icon;
+            tempdc.NextPiece = CurrentPiece.SimpleDecision.NextPiece;
+            tempDecision.SetInfo(tempdc);
+        }
     }
 
 

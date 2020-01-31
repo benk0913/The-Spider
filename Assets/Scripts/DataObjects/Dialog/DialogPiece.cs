@@ -15,6 +15,9 @@ public class DialogPiece : ScriptableObject
 
     public List<DialogDecision> Decisions = new List<DialogDecision>();
 
+    public SimpleDecision SimpleDecision;
+
+
     [TextArea(6, 12)]
     public string[] RandomDescriptions;
 
@@ -28,4 +31,13 @@ public class DialogPiece : ScriptableObject
         return newPiece;
     }
 
+}
+
+[System.Serializable]
+public class SimpleDecision
+{
+    [TextArea(3,6)]
+    public string Title;
+    public Sprite Icon;
+    public DialogPiece NextPiece;
 }

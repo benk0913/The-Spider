@@ -40,6 +40,8 @@ public class GameDB : ScriptableObject
     public GameObject FailWorldEffectPrefab;
     public GameObject SuccessWorldEffectPrefab;
 
+    public DialogDecision SampleDecision;
+
     public Faction DefaultFaction;
     public Faction NoFaction;
 
