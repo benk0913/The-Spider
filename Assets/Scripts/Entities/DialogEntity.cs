@@ -13,9 +13,24 @@ public class DialogEntity : MonoBehaviour, ISaveFileCompatible
 
     public UnityEvent OnInteract;
 
+    public UnityEvent OnDialogFinished;
+
+    public bool wasInteracted = true;
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    void Start()
+    {
+        CORE.Instance.SubscribeToEvent("DialogClosed", () => 
+        {
+            if (wasInteracted)
+            {
+                OnDialogFinished?.Invoke(); wasInteracted = false;
+            }
+        });
     }
 
     public void SetDialog(DialogPiece dialog)
@@ -30,6 +45,8 @@ public class DialogEntity : MonoBehaviour, ISaveFileCompatible
             GlobalMessagePrompterUI.Instance.Show("You have no reason to go anywhere...", 1f, Color.yellow);
             return;
         }
+
+        wasInteracted = true;
 
         OnInteract.Invoke();
 

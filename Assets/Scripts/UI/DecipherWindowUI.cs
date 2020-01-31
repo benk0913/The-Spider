@@ -49,6 +49,9 @@ public class DecipherWindowUI : MonoBehaviour
     [SerializeField]
     Button ResolveButton;
 
+    [SerializeField]
+    Button CloseButton;
+
     public System.Action OnResolveAction;
 
     public string ResolvedMessage
@@ -122,7 +125,7 @@ public class DecipherWindowUI : MonoBehaviour
             {
                 foreach (char letter in lettersInText)
                 {
-                    if (letter == Input.inputString[0])
+                    if (char.ToLower(letter) == Input.inputString[0])
                     {
                         SetCharacter(letter);
                         break;
@@ -176,6 +179,11 @@ public class DecipherWindowUI : MonoBehaviour
 
         UnsetCharacter(character);
 
+        if (CurrentReplacements.ContainsKey(SelectedLetter))
+        {
+            UnsetCharacter(CurrentReplacements[SelectedLetter]);
+        }
+
         CurrentReplacements.Add(SelectedLetter, character);
 
         RefreshUI();
@@ -185,7 +193,7 @@ public class DecipherWindowUI : MonoBehaviour
     {
         for (int i = 0; i < CurrentReplacements.Keys.Count; i++)
         {
-            if(CurrentReplacements.ElementAt(i).Value == character)
+            if(CurrentReplacements[CurrentReplacements.Keys.ElementAt(i)] == character)
             {
                 CurrentReplacements.Remove(CurrentReplacements.ElementAt(i).Key);
                 RefreshUI();
@@ -273,10 +281,12 @@ public class DecipherWindowUI : MonoBehaviour
         if (IsEncryptionSolved)
         {
             ResolveButton.gameObject.SetActive(true);
+            CloseButton.gameObject.SetActive(false);
         }
         else
         {
             ResolveButton.gameObject.SetActive(false);
+            CloseButton.gameObject.SetActive(true);
         }
     }
 

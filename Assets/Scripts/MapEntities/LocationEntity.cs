@@ -560,6 +560,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.CentralAreaTrait, this);
         }
 
+        if(CurrentProperty.HiddenObject != null)
+        {
+            this.WhenHiddenObject = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.HiddenObject);
+            this.WhenHiddenObject.transform.SetParent(transform);
+            this.WhenHiddenObject.transform.localPosition = CurrentProperty.HiddenObject.transform.position;
+            this.WhenHiddenObject.transform.localRotation = CurrentProperty.HiddenObject.transform.rotation;
+        }
+
         RefreshState();
     }
 
@@ -618,7 +626,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             if (WhenHiddenObject != null)
             {
-                WhenHiddenObject?.gameObject.SetActive(false);
+                WhenHiddenObject.gameObject.SetActive(false);
             }
         }
         else if (VisibilityState == VisibilityStateEnum.QuestionMark) //If player has scouted the nearest district
@@ -638,7 +646,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             if (WhenHiddenObject != null)
             {
-                WhenHiddenObject?.gameObject.SetActive(true);
+                WhenHiddenObject.gameObject.SetActive(true);
             }
         }
         else //Player didn't scout nearest district.
@@ -967,6 +975,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["IsRuined"] = IsRuined.ToString();
         node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
         node["NearestDistrict"] = NearestDistrict == null? "" : NearestDistrict.ID;
+        node["LandValue"] = LandValue.ToString();
 
         if (CurrentAction != null)
         {
@@ -1007,15 +1016,16 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
         CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
         _nearestDistrictID = node["NearestDistrict"];
-
+        LandValue = int.Parse(node["LandValue"]);
 
 
         transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
         transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));
-        
+
+        knowledgeCharacterIDs.Clear();
         foreach (KnowledgeInstance item in Known.Items)
         {
-            if(string.IsNullOrEmpty(node["Knowledge"][item.Key]))
+            if(node["Knowledge"][item.Key].Count == 0)
             {
                 continue;
             }
@@ -1026,7 +1036,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 IDs.Add(node["Knowledge"][item.Key][i]);
             }
 
-            knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
+            knowledgeCharacterIDs.Add(item.Key, IDs);
         }
 
         Traits.Clear();
@@ -1046,6 +1056,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             for (int i = 0; i < knowledgeCharacterIDs[key].Count; i++)
             {
+                if(string.IsNullOrEmpty(key))
+                {
+                    Debug.LogError("Location - " + this.Name + " owned by " + OwnerCharacter + " has a null key ");
+                    continue;
+                }
+
                 Character character = CORE.Instance.GetCharacterByID(knowledgeCharacterIDs[key][i]);
 
                 if (character == null)
@@ -1062,6 +1078,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             NearestDistrict = CORE.Instance.Locations.Find(x => x.ID == _nearestDistrictID);
         }
 
+        RefreshState();
     }
 
     public void Dispose()
@@ -1088,6 +1105,18 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if(OwnerCharacter != null)
         {
+            if (OwnerCharacter.PropertiesOwned.Count == 1 && OwnerCharacter.TopEmployer == OwnerCharacter) //If head of faction and this is the last property.
+            {
+                if (OwnerCharacter == CORE.PC)
+                {
+                    WarningWindowUI.Instance.Show(this.name + " has lost the manor! GAME OVER.", () => { LoseWindowUI.Instance.Show(); });
+                }
+                else
+                {
+                    //FACTION DED
+                }
+            }
+
             OwnerCharacter.StopOwningLocation(this);
         }
     }

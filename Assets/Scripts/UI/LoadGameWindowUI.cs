@@ -58,5 +58,6 @@ public class LoadGameWindowUI : MonoBehaviour
     {
         CORE.Instance.LoadGame(file);
         CORE.Instance.InvokeEvent("HideEscapeMenu");
+        Hide();
     }
 }

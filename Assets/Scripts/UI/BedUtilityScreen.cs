@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BedUtilityScreen : MonoBehaviour
 {
@@ -36,11 +37,11 @@ public class BedUtilityScreen : MonoBehaviour
 
     public void QuitGame()
     {
-        WarningWindowUI.Instance.Show("Go, nobody will miss you...", Application.Quit);
+        WarningWindowUI.Instance.Show("Go, nobody will miss you...", () => { CORE.Instance.DisposeCurrentGame(); SceneManager.LoadScene(0); Hide(); });
     }
 
     public void SaveGame()
     {
-        CORE.Instance.SaveGame();
+        WarningWindowUI.Instance.Show("Game Has Been Saved.", () => { CORE.Instance.SaveGame(); Resume(); });
     }
 }

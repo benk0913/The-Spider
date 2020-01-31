@@ -239,6 +239,11 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
     {
         JSONClass node = new JSONClass();
 
+        if(PresetLetter == null)
+        {
+            PresetLetter = CurrentLetter.Preset;
+        }
+
         node["PresetLetter"] = PresetLetter.name;
         node["Letter"] = CurrentLetter.ToJSON();
 

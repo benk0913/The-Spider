@@ -17,6 +17,9 @@ public class PickableItem : MonoBehaviour
     [SerializeField]
     UnityEvent OnRetreive;
 
+    [SerializeField]
+    LayerMask CollLayerMask;
+
     public int CurrentInteractionIndex;
 
     public bool isPicked = false;
@@ -58,6 +61,12 @@ public class PickableItem : MonoBehaviour
         isPicked = false;
         MouseLook.Instance.ReleaseItem();
 
+        RaycastHit rhit;
+        if(Physics.Raycast(transform.position, -Vector3.up, out rhit, CollLayerMask))
+        {
+            transform.position = rhit.point;
+            transform.rotation = Quaternion.Euler(rhit.normal+ new Vector3(90f, 0f, 0f));
+        }
     }
 
     public void Interact()

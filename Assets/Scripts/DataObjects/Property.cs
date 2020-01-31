@@ -19,6 +19,7 @@ public class Property : ScriptableObject
 
     public GameObject FigurePrefab;
     public GameObject HoverPrefab;
+    public GameObject HiddenObject;
 
     public Material MaterialOverride;
 

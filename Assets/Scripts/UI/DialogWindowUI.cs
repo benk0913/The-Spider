@@ -192,6 +192,8 @@ public class DialogWindowUI : MonoBehaviour
         CurrentPiece = null;
         IsShowingDialog = false;
         this.gameObject.SetActive(false);
+
+        CORE.Instance.InvokeEvent("DialogClosed");
     }
 
     public void ShowDialogPiece(DialogPiece piece)

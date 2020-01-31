@@ -1695,6 +1695,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             _currentTaskTargetID = node["CurrentTaskEntityCurrentTarget"];
             _currentTaskTargetCharacterID = node["CurrentTaskEntityCurrentTargetCharacter"];
         }
+
     }
 
 
@@ -1787,7 +1788,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             FavorPoints.Add(new FavorPointsPair(CORE.Instance.Characters.Find(x => x.ID == favorInstance.CharacterID), favorInstance.Value));
         }
 
-        if(IsDead)
+        if (CurrentFaction.FactionHead != null && CurrentFaction.FactionHead.name == name)
+        {
+            AI = Instantiate(CurrentFaction.AI);
+        }
+
+        if (IsDead)
         {
             Death(false);
         }

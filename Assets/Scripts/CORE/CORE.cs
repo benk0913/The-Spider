@@ -311,9 +311,14 @@ public class CORE : MonoBehaviour
                 continue;
             }
 
-            Character factionHead = GetCharacter(faction.FactionHead.name);
+            Character factionHead = CORE.Instance.Characters.Find(x => x.name == faction.FactionHead.name);
 
-            if(factionHead == null || factionHead.AI == null)
+            if(factionHead == null)
+            {
+                continue;
+            }
+
+            if(factionHead.AI == null)
             {
                 continue;
             }
@@ -839,10 +844,14 @@ public class CORE : MonoBehaviour
 
     public void DisposeCurrentGame()
     {
-        for (int i = 0; i < DisposableContainer.childCount; i++)
-        {
-            Destroy(DisposableContainer.GetChild(i).gameObject, 0.05f);
-        }
+        //for (int i = 0; i < DisposableContainer.childCount; i++)
+        //{
+        //    Destroy(DisposableContainer.GetChild(i).gameObject, 0.05f);
+        //}
+
+        //WorldMissionPanelUI.Instance.gameObject.SetActive(false);
+        //InvokeEvent("HideMap");
+        Destroy(this.gameObject);
     }
     #endregion
 
