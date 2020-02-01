@@ -143,6 +143,10 @@ public class DialogWindowUI : MonoBehaviour
             tempdc.name = CurrentPiece.SimpleDecision.Title;
             tempdc.Icon = CurrentPiece.SimpleDecision.Icon;
             tempdc.NextPiece = CurrentPiece.SimpleDecision.NextPiece;
+            if (CurrentPiece.SimpleDecision.Action != null)
+            {
+                tempdc.Actions.Add(CurrentPiece.SimpleDecision.Action);
+            }
             tempDecision.SetInfo(tempdc);
         }
     }

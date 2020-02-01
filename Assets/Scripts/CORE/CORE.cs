@@ -39,6 +39,8 @@ public class CORE : MonoBehaviour
     public static Character PC;
     public static Faction PlayerFaction;
 
+    public SessionRulesManager SessionRules;
+
     public bool TutorialOnStart = false; // TODO - Move this to a pref section when there is one (settings / etc...)
 
     public List<SplineLerperWorldUI> ActiveLerpers = new List<SplineLerperWorldUI>();
@@ -206,6 +208,8 @@ public class CORE : MonoBehaviour
 
 
         RoomsManager.Instance.AddCurrentRoom();
+
+        SessionRules = new SessionRulesManager();
 
         AddListeners();
 
@@ -383,6 +387,10 @@ public class CORE : MonoBehaviour
             }
         }
 
+        foreach (SessionRule rule in SessionRules.Rules)
+        {
+            rule.PassTurn();
+        }
 
         TurnPassedRoutineInstance = null;
     }
@@ -664,6 +672,7 @@ public class CORE : MonoBehaviour
         savefile["LetterDispenser"] = LetterDispenserEntity.Instance.ToJSON();
         savefile["LettersPanel"] = LettersPanelUI.Instance.ToJSON();
         savefile["TechTree"] = TechTree.ToJSON();
+        savefile["SessionRules"] = SessionRules.ToJSON();
 
         savefile["DialogEntity"] = DialogEntity.Instance.ToJSON();
 
@@ -770,6 +779,7 @@ public class CORE : MonoBehaviour
             QuestsPanelUI.Instance.FromJSON(file.Content["Quests"]);
             RoomsManager.Instance.FromJSON(file.Content["Rooms"]);
             TechTree.FromJSON(file.Content["TechTree"]);
+            SessionRules.FromJSON(file.Content["SessionRules"]);
         }
         yield return 0;
 
@@ -881,4 +891,37 @@ public class SaveFile
     public string Date;
     public string Path;
     public JSONNode Content;
+}
+
+public class SessionRulesManager
+{
+    public List<SessionRule> Rules = new List<SessionRule>();
+
+    public void FromJSON(JSONNode node)
+    {
+        Rules.Clear();
+
+        for (int i = 0; i < node["Rules"].Count; i++)
+        {
+            SessionRule rule = CORE.Instance.Database.SessionRules.Find(x => x.name == node["Rules"][i]["Name"]).Clone();
+            Rules.Add(rule);
+        }
+    }
+
+    public void ImplementIDs()
+    {
+        
+    }
+
+    public JSONNode ToJSON()
+    {
+        JSONClass node = new JSONClass();
+
+        for(int i=0;i<Rules.Count;i++)
+        {
+            node["Rules"][i] = Rules[i].ToJSON();
+        }
+
+        return node;
+    }
 }

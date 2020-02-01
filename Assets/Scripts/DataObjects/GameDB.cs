@@ -91,8 +91,9 @@ public class GameDB : ScriptableObject
 
     public List<PopupDataPreset> AllPopupPresets;
 
-    public TimelineInstance[] Timeline;
+    public List<SessionRule> SessionRules;
 
+    public TimelineInstance[] Timeline;
 
     public PopupDataPreset GetPopupPreset(string popupName)
     {

@@ -105,6 +105,13 @@ public class GameDBEditor : Editor
             db.PresetLetters.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LetterPreset)) as LetterPreset);
         }
 
+        guids = AssetDatabase.FindAssets("t:SessionRule", new[] { "Assets/" + db.DataPath });
+        db.SessionRules.Clear();
+        foreach (string guid in guids)
+        {
+            db.SessionRules.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(SessionRule)) as SessionRule);
+        }
+
         EditorUtility.SetDirty(db);
     }
 }

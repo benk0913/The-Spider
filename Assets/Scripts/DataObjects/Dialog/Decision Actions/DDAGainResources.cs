@@ -2,27 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "QRGainResource", menuName = "DataObjects/Quests/Rewards/QRGainResource", order = 2)]
-public class QRGainResource : QuestReward
+
+[CreateAssetMenu(fileName = "DDAGainResources", menuName = "DataObjects/Dialog/Actions/DDAGainResources", order = 2)]
+public class DDAGainResources : DialogDecisionAction
 {
     public int Gold;
     public int Rumors;
     public int Connections;
     public int Progression;
     public int Reputation;
+    public bool inPrecent = false;
 
-    public override void Claim(Character byCharacter)
+    public override void Activate()
     {
-        base.Claim(byCharacter);
+        int tempGold = Gold;
+        int tempRumors = Rumors;
+        int tempConnections = Connections;
+        int tempProgression = Progression;
+        int tempReputation = Reputation;
 
-        byCharacter.TopEmployer.Gold += Gold;
-        byCharacter.TopEmployer.Rumors += Rumors;
-        byCharacter.TopEmployer.Connections += Connections;
-        byCharacter.TopEmployer.Progress += Progression;
-        byCharacter.TopEmployer.Reputation += Reputation;
+        if (inPrecent)
+        {
+            tempGold = Mathf.RoundToInt(CORE.PC.Gold * (Gold / 100f));
+            tempRumors = Mathf.RoundToInt(CORE.PC.Rumors * (Rumors / 100f));
+            tempConnections = Mathf.RoundToInt(CORE.PC.Connections * (Connections / 100f));
+            tempProgression = Mathf.RoundToInt(CORE.PC.Progress * (Progression / 100f));
+            tempReputation = Mathf.RoundToInt(CORE.PC.Reputation * (Reputation / 100f));
+        }
 
-        Transform resourceSource = byCharacter.TopEmployer.CurrentLocation.transform;
-        if (Progression > 0)
+
+        CORE.PC.TopEmployer.Gold += tempGold;
+        CORE.PC.TopEmployer.Rumors += tempRumors;
+        CORE.PC.TopEmployer.Connections += tempConnections;
+        CORE.PC.TopEmployer.Progress += tempProgression;
+        CORE.PC.TopEmployer.Reputation += tempReputation;
+
+        Transform resourceSource = CORE.PC.TopEmployer.CurrentLocation.transform;
+        if (tempProgression > 0)
         {
             CORE.Instance.SplineAnimationObject(
              "PaperCollectedWorld",
@@ -32,7 +48,7 @@ public class QRGainResource : QuestReward
              false);
         }
 
-        if (Gold > 0)
+        if (tempGold > 0)
         {
 
             CORE.Instance.SplineAnimationObject(
@@ -43,7 +59,7 @@ public class QRGainResource : QuestReward
              false);
         }
 
-        if (Rumors > 0)
+        if (tempRumors > 0)
         {
             CORE.Instance.SplineAnimationObject(
              "EarCollectedWorld",
@@ -53,7 +69,7 @@ public class QRGainResource : QuestReward
              false);
         }
 
-        if (Connections > 0)
+        if (tempConnections > 0)
         {
             CORE.Instance.SplineAnimationObject(
              "ConnectionCollectedWorld",
@@ -63,20 +79,20 @@ public class QRGainResource : QuestReward
              false);
         }
 
-        if (byCharacter.TopEmployer == CORE.PC)
+        if (CORE.PC.TopEmployer == CORE.PC)
         {
-            if (this.Reputation > 0)
+            if (tempReputation > 0)
             {
                 CORE.Instance.SplineAnimationObject("GoodReputationCollectedWorld",
-                  byCharacter.CurrentLocation.transform,
+                  CORE.PC.CurrentLocation.transform,
                   StatsViewUI.Instance.transform,
                   null,
                   false);
             }
-            else if (this.Reputation < 0)
+            else if (tempReputation < 0)
             {
                 CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
-                  byCharacter.CurrentLocation.transform,
+                  CORE.PC.CurrentLocation.transform,
                   StatsViewUI.Instance.transform,
                   null,
                   false);

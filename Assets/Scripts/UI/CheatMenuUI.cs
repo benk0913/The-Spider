@@ -54,6 +54,10 @@ public class CheatMenuUI : MonoBehaviour
             Quest quest = QuestsPanelUI.Instance.ActiveQuests.Find(x => x.Tutorial);
             QuestsPanelUI.Instance.QuestComplete(quest);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            CORE.Instance.SessionRules.Rules.Add(CORE.Instance.Database.SessionRules[0]);
+        }
     }
 
 

@@ -40,4 +40,5 @@ public class SimpleDecision
     public string Title;
     public Sprite Icon;
     public DialogPiece NextPiece;
+    public DialogDecisionAction Action;
 }
