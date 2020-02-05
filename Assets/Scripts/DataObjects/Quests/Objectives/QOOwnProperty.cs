@@ -7,37 +7,48 @@ public class QOOwnProperty : QuestObjective
 {
     public Property TargetProperty;
 
-    LocationEntity PropertyFound;
-
     public override bool Validate()
     {
-        return CharacterHasProperty(ParentQuest.ForCharacter, TargetProperty);
-    }
-
-    public bool CharacterHasProperty(Character character, Property targetProperty)
-    {
-        if(character == null)
+        if (ParentQuest == null)
         {
+            Debug.Log("NO PARENT QUEST ");
             return false;
         }
 
-        foreach (LocationEntity location in character.PropertiesOwned)
+        if (ParentQuest.ForCharacter == null)
         {
-            if (location.CurrentProperty == TargetProperty)
+            Debug.Log("NO FOR CHARACTER ");
+            return false;
+        }
+
+
+        for (int i=0;i<CORE.Instance.Locations.Count;i++)
+        {
+            if(CORE.Instance.Locations[i].CurrentProperty != TargetProperty)
             {
-                return true;
+                Debug.Log("1 " + CORE.Instance.Locations[i].CurrentProperty.name);
+                continue;
             }
 
-            foreach(Character employee in location.EmployeesCharacters)
+            if (CORE.Instance.Locations[i].FactionInControl != ParentQuest.ForCharacter.CurrentFaction)
             {
-                if(CharacterHasProperty(employee, targetProperty))
-                {
-                    return true;
-                }
+                Debug.Log("2 " + CORE.Instance.Locations[i].CurrentProperty.name);
+                continue;
             }
+
+            Debug.Log("3 " + CORE.Instance.Locations[i].CurrentProperty.name);
+        }
+
+        if (CORE.Instance.Locations.Find(x => 
+        x.CurrentProperty == TargetProperty 
+        && x.FactionInControl != null 
+        && x.FactionInControl == ParentQuest.ForCharacter.CurrentFaction) != null)
+        {
+            return true;
         }
 
         return false;
     }
+
     
 }

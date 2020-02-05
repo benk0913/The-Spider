@@ -148,7 +148,7 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
         relevantCharacterID = node["RelevantCharacterID"];
         relevantLocationID  = node["RelevantLocationID"];
-        forCharacterID = node["ForCharacter"];
+        forCharacterID = node["ForCharacter"].Value;
     }
 
     public string relevantCharacterID;
@@ -170,6 +170,11 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         if (!string.IsNullOrEmpty(forCharacterID))
         {
             ForCharacter = CORE.Instance.Characters.Find(x => x.ID == forCharacterID);
+
+            if(ForCharacter == null && !string.IsNullOrEmpty(forCharacterID))
+            {
+                Debug.LogError("COULDN'T LOAD CHARACTER ID " + forCharacterID);
+            }
         }
     }
 
@@ -183,6 +188,7 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         {
             node["Objectives"][i]["Key"] = Objectives[i].name;
             node["Objectives"][i]["IsComplete"] = Objectives[i].IsComplete.ToString();
+            node["Objectives"][i]["ParentQuest"] = this.name;
         }
 
         if (RelevantCharacter != null)

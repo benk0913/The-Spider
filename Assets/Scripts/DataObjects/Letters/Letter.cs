@@ -125,6 +125,19 @@ public class Letter : ISaveFileCompatible
         tempParameters = new Dictionary<string, string>();
         for(int i=0;i<node["Parameters"].Count;i++)
         {
+            if(node["Parameters"][i]["Value"] == null)
+            {
+                Debug.LogError("LETTER VALUE IS NULL " + node["Parameters"][i]["Key"]);
+                tempParameters.Add(node["Parameters"][i]["Key"], "");
+                continue;
+            }
+
+            if (node["Parameters"][i]["Key"] == null)
+            {
+                Debug.LogError("LETTER KEY IS NULL " + node["Parameters"][i]["Value"]);
+                continue;
+            }
+
             tempParameters.Add(node["Parameters"][i]["Key"], node["Parameters"][i]["Value"]);
         }
     }

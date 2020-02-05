@@ -8,6 +8,7 @@ public class SessionRule : ScriptableObject, ISaveFileCompatible
 {
     public PopupDataPreset PopupPreset;
     public int TurnInterval;
+    public bool isRepeating = true;
     public int CurrentTurn;
     public DialogDecisionAction Action;
 
@@ -25,6 +26,11 @@ public class SessionRule : ScriptableObject, ISaveFileCompatible
         {
             CurrentTurn = 0;
             Execute();
+
+            if(!isRepeating)
+            {
+                CORE.Instance.Database.SessionRules.Remove(this);
+            }
         }
     }
 

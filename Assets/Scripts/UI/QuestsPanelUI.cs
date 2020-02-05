@@ -72,7 +72,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             {
                 CORE.Instance.StopCoroutine(objective.ValidateRoutine);
             }
-
+            Debug.Log("sTARTING ROUTINE " + objective.name);
             objective.ValidateRoutine = CORE.Instance.StartCoroutine(ValidateObjectiveRoutine(objective));
 
             if (quest.ForCharacter != CORE.PC)

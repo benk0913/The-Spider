@@ -903,7 +903,15 @@ public class SessionRulesManager
 
         for (int i = 0; i < node["Rules"].Count; i++)
         {
-            SessionRule rule = CORE.Instance.Database.SessionRules.Find(x => x.name == node["Rules"][i]["Name"]).Clone();
+            SessionRule rule = CORE.Instance.Database.SessionRules.Find(x => x.name == node["Rules"][i]["Name"].Value);
+                
+            if(rule == null)
+            {
+                Debug.LogError("Rule " + node["Rules"][i]["Name"].Value + " DOES NOT EXIST IN DB");
+                return;
+            }
+
+            rule.Clone();
             Rules.Add(rule);
         }
     }
