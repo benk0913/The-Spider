@@ -1004,6 +1004,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             node["Traits"][i] = Traits[i].name;
         }
 
+        for(int i=0;i<Inventory.Count;i++)
+        {
+            node["Inventory"][i] = Inventory[i].name;
+        }
+
         return node;
     }
 
@@ -1043,6 +1048,20 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         for (int i = 0; i < node["Traits"].Count; i++)
         {
             Traits.Add(CORE.Instance.Database.GetTrait(node["Traits"][i]));
+        }
+
+        Inventory.Clear();
+        for (int i = 0; i < node["Inventory"].Count; i++)
+        {
+            Item itemPreset = CORE.Instance.Database.AllItems.Find(x => x.name == node["Inventory"][i].Value);
+            
+            if(itemPreset == null)
+            {
+                Debug.LogError("COULDN'T LOAD " + node["Inventory"]);
+                continue;
+            }
+
+            Inventory.Add(itemPreset.Clone());
         }
     }
 

@@ -793,9 +793,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         HairColor = VisualSet.HairColor.GetVCByName(HairColor.name);
 
-        if (WorkLocation != null && WorkLocation.CurrentAction.EmployeeUniform != null)
+        if (WorkLocation != null && (WorkLocation.EmployeesCharacters.Contains(this) && WorkLocation.CurrentAction.EmployeeUniform != null))
         {
             Clothing = Gender == GenderType.Male ? WorkLocation.CurrentAction.EmployeeUniform.MaleClothing : WorkLocation.CurrentAction.EmployeeUniform.FemaleClothing;
+        }
+        else if (WorkLocation != null && (WorkLocation.GuardsCharacters.Contains(this) && WorkLocation.CurrentAction.GuardUniform != null))
+        {
+            Clothing = Gender == GenderType.Male ? WorkLocation.CurrentAction.GuardUniform.MaleClothing : WorkLocation.CurrentAction.GuardUniform.FemaleClothing;
         }
         else
         {
@@ -1056,9 +1060,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void BetrayEmployer()
     {
+        Faction previousFaction = this.TopEmployer.CurrentFaction;
+
         if (this.TopEmployer == CORE.PC && PropertiesOwned.Count > 0)
         {
-            string deathString = this.name + " has left! Lost ownership on:";
+            string deathString = this.name + " has grown too strong and decided to betray you! Lost ownership on:";
 
             PropertiesOwned.ForEach((x) => { deathString += x.Name + " - "; });
 
@@ -1074,6 +1080,17 @@ public class Character : ScriptableObject, ISaveFileCompatible
         LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter, letterParameters));
 
         StopWorkingForCurrentLocation();
+
+        //Branch to a new faction
+        this.CurrentFaction = previousFaction.Clone();
+        this.CurrentFaction.FactionHead = this;
+        this.CurrentFaction.name = this.name + "'s - Gang";
+        this.CurrentFaction.Icon = CORE.Instance.Database.NoFaction.Icon;
+        this.AI = this.CurrentFaction.AI;
+        this.CurrentFaction.FactionColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+        this.CurrentFaction.WaxMaterial = new Material(this.CurrentFaction.WaxMaterial);
+        this.CurrentFaction.WaxMaterial.color = this.CurrentFaction.FactionColor;
+        CORE.Instance.Factions.Add(this.CurrentFaction);
     }
 
     bool TryToDoSomething()
@@ -1292,10 +1309,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         WorkLocation = null;
         tempLocation.RefreshState();
 
-        foreach (LocationEntity ownedLocation in PropertiesOwned)
-        {
-            ownedLocation.RefreshState();
-        }
+        PropertiesInCommand.ForEach(x => x.RefreshState());
 
         RefreshVisualTree();
     }
@@ -1526,7 +1540,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["CurrentLocation"] = CurrentLocation == null ? "" : CurrentLocation.ID;
 
-        node["CurrentFaction"] = CurrentFaction.name;
+        node["CurrentFaction"] = _currentFaction == null  ? "" : _currentFaction.name;
 
         node["Pinned"] = Pinned.ToString();
 

@@ -111,5 +111,6 @@ public class Property : ScriptableObject
         public List<GameEvent> PossibleEvents = new List<GameEvent>();
         
         public Uniform EmployeeUniform;
+        public Uniform GuardUniform;
     }
 }

@@ -171,7 +171,7 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         {
             ForCharacter = CORE.Instance.Characters.Find(x => x.ID == forCharacterID);
 
-            if(ForCharacter == null && !string.IsNullOrEmpty(forCharacterID))
+            if (ForCharacter == null && !string.IsNullOrEmpty(forCharacterID))
             {
                 Debug.LogError("COULDN'T LOAD CHARACTER ID " + forCharacterID);
             }

@@ -50,7 +50,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
         newClone.name = this.name;
         newClone.Known = new FactionKnowledge(newClone);
-        newClone.Relations = new FactionRelations(this);
+        newClone.Relations = new FactionRelations(newClone);
 
         return newClone;
     }
