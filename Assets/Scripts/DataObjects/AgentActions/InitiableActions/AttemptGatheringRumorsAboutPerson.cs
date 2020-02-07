@@ -63,17 +63,6 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
             return false;
         }
 
-        if(targetChar.IsKnown("CurrentLocation", character.TopEmployer))
-        {
-            return false;
-        }
-
-        if (!targetChar.IsKnown("Appearance", character.TopEmployer) && !targetChar.IsKnown("Name", character.TopEmployer) && !targetChar.IsKnown("WorkLocation", character.TopEmployer))
-        {
-            reason = new FailReason("You don't know either the NAME, WORK LOCATION nor the LOOKS of this perosn.");
-            return false;
-        }
-
         return true;
     }
 }

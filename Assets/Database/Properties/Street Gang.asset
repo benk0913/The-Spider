@@ -59,6 +59,7 @@ MonoBehaviour:
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Mug & Extort
     Description: 'The thugs will mug victims in alleyways, and extort gold for those
       who lended and did not get their money back.
@@ -73,6 +74,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: bda81eadce3a4614ca8a283d54f5dd81, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Patrol
     Description: The agents in this location will patrol friendly locations and join
       the defence if necessary.
@@ -84,6 +86,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 795090dc922d986479bdff6d66286421, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Planning
     Description: The employees / agents in this location will focus on planning,
       plotting and scheming in order to advance their factions performance and techniques.
@@ -95,6 +98,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: fbd937746b7f78f4e8ffc8537dc4a352, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   Traits:
   - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
   Icon: {fileID: 21300000, guid: c19d2c7fd1b2d234692044ed0e6053dc, type: 3}
@@ -102,6 +106,7 @@ MonoBehaviour:
     type: 3}
   HoverPrefab: {fileID: 1418353000759972474, guid: 0aafe2cebb1773b4bb69656bfc9d861e,
     type: 3}
+  HiddenObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 16
@@ -123,3 +128,8 @@ MonoBehaviour:
     ConnectionsPerTurn: 0
     RumorsPerTurn: 0
     ProgressionPerTurn: 0
+  VisitRumors:
+  - Was seen hanging by this den of thugs...
+  WorkRumors:
+  - '"A thug, walks around with a gang of thugs."'
+  - '"Seems to me like a gang member."'

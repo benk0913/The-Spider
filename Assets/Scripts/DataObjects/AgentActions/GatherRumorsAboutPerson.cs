@@ -23,9 +23,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         
         if (Random.Range(0, awareValue + targetDiscreetValue) < awareValue)
         {
-            targetChar.Known.Know("CurrentLocation", character.TopEmployer);
-            targetChar.Known.Know("Appearance", character.TopEmployer);
-            character.GoToLocation(targetChar.CurrentLocation);
+            targetChar.KnowledgeRumors.Add(targetChar.Known.GetRandomKnowledgeRumor());
             CORE.Instance.ShowPortraitEffect(WinEffectPrefab, character, character.CurrentLocation);
         }
         else

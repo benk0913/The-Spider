@@ -60,6 +60,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 76c0d19c7b3ba4b49b788563bd004c7a, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Pick-Pocket
     Description: The orphans will use distractions to snatch a purse or pick a coin
       from a loose pocket. They may even create the distraction themselves, if a
@@ -72,6 +73,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 0a42d37774c319e46a1814d5d69b0490, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Burglary
     Description: The orphans will climb in to open windows, navigate while jumping
       from roof to roof, and use the cover of night to enter and steal valuable objects
@@ -84,6 +86,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 822a2d3eebef4574aaf58c688ee6a777, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   Traits:
   - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
   Icon: {fileID: 21300000, guid: 60a53fd7f2a59444a88d40ed043f0214, type: 3}
@@ -91,6 +94,7 @@ MonoBehaviour:
     type: 3}
   HoverPrefab: {fileID: 7561717222914168371, guid: 3c9bce4ed9b8aa845b47891e5a01cee1,
     type: 3}
+  HiddenObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 6
@@ -116,3 +120,10 @@ MonoBehaviour:
     ConnectionsPerTurn: 0
     RumorsPerTurn: 0
     ProgressionPerTurn: 0
+  VisitRumors:
+  - Seen walking past an old orphanage by a few accounts...
+  - Seen visitng the orphanage quite a lot...
+  WorkRumors:
+  - Poor child, one of the orphans I'm sure.
+  - '"This little brat once tried to steal my pocket watch!"'
+  - '"Saw these poor orphans begging by the market square! A sad sight."'

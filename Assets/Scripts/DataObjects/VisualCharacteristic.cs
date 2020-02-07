@@ -15,6 +15,8 @@ public class VisualCharacteristic : ScriptableObject
     [SerializeField]
     public Sprite Sprite;
 
+    public List<string> PossibleRumors = new List<string>();
+
 
     public VisualCharacteristic GetNext(VisualCharacteristic set)
     {

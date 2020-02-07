@@ -698,6 +698,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public Knowledge Known;
 
+    public List<KnowledgeRumor> KnowledgeRumors = new List<KnowledgeRumor>();
+
     public bool IsKnown(string itemKey, Character byCharacter)
     {
         if(Known == null)
@@ -1551,7 +1553,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
             for(int i=0;i<item.KnownByCharacters.Count;i++)
             {
                 node["Knowledge"][item.Key][i] = item.KnownByCharacters[i].ID;
+                node["Knowledge"]["Score"][item.Key] = item.Score.ToString();
             }
+        }
+
+        for(int i=0;i<KnowledgeRumors.Count;i++)
+        {
+            node["KnowledgeRumors"][i] = KnowledgeRumors[i].ToJSON();
         }
 
         for(int i=0;i<FavorPoints.Count;i++)
@@ -1652,6 +1660,21 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
 
             knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
+
+            int score = 0;
+            if (!string.IsNullOrEmpty(node["Knowledge"]["Score"][item.Key]))
+            {
+                score = int.Parse(node["Knowledge"]["Score"][item.Key]);
+            }
+
+            knowledgeScore.Add(item.Key, score);
+
+        }
+
+        KnowledgeRumors.Clear();
+        for (int i = 0; i < node["KnowledgeRumors"].Count; i++)
+        {
+            KnowledgeRumors[i].FromJSON(node["KnowledgeRumors"][i]);
         }
 
         favorPointsIDs.Clear();
@@ -1733,6 +1756,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     List<FavorPointsPair> favorPointsIDs = new List<FavorPointsPair>();
 
     Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
+    Dictionary<string, int> knowledgeScore = new Dictionary<string, int>();
 
     public void ImplementIDs()
     {
@@ -1794,6 +1818,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
                 Known.Know(key, character);
             }
+        }
+
+        foreach (string key in knowledgeScore.Keys)
+        {
+            Known.GetKnowledgeInstance(key).Score = knowledgeScore[key];
         }
 
         FavorPoints.Clear();

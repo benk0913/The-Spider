@@ -450,4 +450,10 @@ public class CharacterInfoUI : MonoBehaviour
         BribeFavorWindowUI.Instance.Show(CurrentCharacter);
         Hide();
     }
+
+    public void ResearchPerson()
+    {
+        ResearchCharacterWindowUI.Instance.Show(CurrentCharacter);
+        Hide();
+    }
 }

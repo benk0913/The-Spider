@@ -8,6 +8,87 @@ public class Knowledge
 
     public Character CurrentCharacter;
 
+    public KnowledgeRumor GetRandomKnowledgeRumor()
+    {
+        string key = Items[Random.Range(0, Items.Count)].Key;
+
+        KnowledgeRumor rumor = new KnowledgeRumor();
+        rumor.RelevantKey = key;
+
+        List<string> possibilities = new List<string>();
+
+        switch (key)
+        {
+            case "Name":
+                {
+                    possibilities.Add("\"Who? " +CurrentCharacter.name+ "?\"");
+                    possibilities.Add("\"Once heard of " + CurrentCharacter.name + "...\"");
+                    possibilities.Add("\"The name is " + CurrentCharacter.name + "...\"");
+                    possibilities.Add("\"Yeah! I know " + CurrentCharacter.name + "...\"");
+                    
+                    break;
+                }
+            case "Appearance":
+                {
+                    possibilities.AddRange(CurrentCharacter.SkinColor.PossibleRumors);
+                    possibilities.AddRange(CurrentCharacter.HairColor.PossibleRumors);
+
+                    break;
+                }
+            case "Personality":
+                {
+                    if(CurrentCharacter.Traits.Count <= 2)
+                    {
+                        possibilities.Add("\"This person is as bland as a rock\"");
+                        possibilities.Add("\"Most boring person I've ever met...\"");
+                        break;
+                    }
+                    
+                    possibilities.Add(CurrentCharacter.Traits[Random.Range(0, CurrentCharacter.Traits.Count)].KnowledgeRumor);
+                    
+
+                    break;
+                }
+            case "CurrentLocation":
+                {
+                    possibilities.AddRange(CurrentCharacter.CurrentLocation.CurrentProperty.VisitRumors);
+                    break;
+                }
+            case "HomeLocation":
+                {
+                    possibilities.Add("Known to reside in - \""+CurrentCharacter.HomeLocation.Name+"\"");
+                    break;
+                }
+            case "WorkLocation":
+                {
+                    if(CurrentCharacter.WorkLocation == null)
+                    {
+                        possibilities.Add("\"Seems unemployed to me...\"");
+                        break;
+                    }
+
+                    possibilities.AddRange(CurrentCharacter.WorkLocation.CurrentProperty.WorkRumors);
+                    break;
+                }
+            case "Faction":
+                {
+                    possibilities.AddRange(CurrentCharacter.CurrentFaction.FactionRumors);
+                    break;
+                }
+        }
+
+        if (possibilities.Count > 0)
+        {
+            rumor.Description = possibilities[Random.Range(0, possibilities.Count)];
+        }
+        else
+        {
+            rumor.Description = key;
+        }
+
+        return rumor;
+    }
+
     public bool GetIsAnythingKnown(Character byCharacter)
     {
         foreach(KnowledgeInstance item in Items)
@@ -42,15 +123,15 @@ public class Knowledge
 
     public virtual void BaseParams()
     {
-        Items.Add(new KnowledgeInstance("Name", "The name of the person."));
-        Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique."));
-        Items.Add(new KnowledgeInstance("WorkLocation", "Where this person works."));
-        Items.Add(new KnowledgeInstance("HomeLocation", "Where this person lives."));
+        Items.Add(new KnowledgeInstance("Name", "The name of the person.",1, ResourcesLoader.Instance.GetSprite("idea_letter")));
+        Items.Add(new KnowledgeInstance("Personality", "The traits which make this person unique.",3, ResourcesLoader.Instance.GetSprite("seduce")));
+        Items.Add(new KnowledgeInstance("WorkLocation", "Where this person works.",3, ResourcesLoader.Instance.GetSprite("Dockworker")));
+        Items.Add(new KnowledgeInstance("HomeLocation", "Where this person lives.",3, ResourcesLoader.Instance.GetSprite("district3")));
 
-        Items.Add(new KnowledgeInstance("Appearance", "How this person looks"));
-        Items.Add(new KnowledgeInstance("CurrentLocation", "Where this person currently is."));
+        Items.Add(new KnowledgeInstance("Appearance", "How this person looks",2, ResourcesLoader.Instance.GetSprite("clothingTexture")));
+        Items.Add(new KnowledgeInstance("CurrentLocation", "Where this person currently is.",2, ResourcesLoader.Instance.GetSprite("DiscoverMap")));
 
-        Items.Add(new KnowledgeInstance("Faction", "Who is this person working for?"));
+        Items.Add(new KnowledgeInstance("Faction", "Who is this person working for?",5, ResourcesLoader.Instance.GetSprite("standoff")));
     }
 
     public virtual void KnowEverything(Character byCharacter)
@@ -243,16 +324,42 @@ public class FactionKnowledge : Knowledge
 
 public class KnowledgeInstance
 {
-    public KnowledgeInstance(string key, string description)
+    public KnowledgeInstance(string key, string description, int scoreMax = 1, Sprite icon = null)
     {
+        this.Icon = icon;
         this.Key = key;
         this.Description = description;
+        this.ScoreMax = scoreMax;
     }
 
+    public Sprite Icon;
     public string Key;
     public string Description;
     public List<Character> KnownByCharacters = new List<Character>();
-    
+    public int Score
+    {
+        get
+        {
+            return _score;
+        }
+        set
+        {
+            _score = value;
+
+            if(_score >= ScoreMax)
+            {
+                _score = 0;
+                if(!KnownByCharacters.Contains(CORE.PC))
+                {
+                    KnownByCharacters.Add(CORE.PC);
+                }
+            }
+        }
+    }
+    public int _score;
+    public int ScoreMax;
+
+
     public bool IsKnownByCharacter(Character character)
     {
         return KnownByCharacters.Contains(character);

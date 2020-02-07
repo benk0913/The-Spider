@@ -44,6 +44,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public FactionRelations Relations;
 
+    public List<string> FactionRumors = new List<string>();
     public Faction Clone()
     {
         Faction newClone = Instantiate(this);

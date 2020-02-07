@@ -56,7 +56,8 @@ public class CheatMenuUI : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            CORE.Instance.SessionRules.Rules.Add(CORE.Instance.Database.SessionRules[0]);
+            ResearchCharacterWindowUI.Instance.CurrentCharacter.KnowledgeRumors.Add(ResearchCharacterWindowUI.Instance.CurrentCharacter.Known.GetRandomKnowledgeRumor());
+            ResearchCharacterWindowUI.Instance.Show(ResearchCharacterWindowUI.Instance.CurrentCharacter);
         }
     }
 

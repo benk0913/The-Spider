@@ -21,6 +21,8 @@ public class Trait : ScriptableObject
     public RelationsModifier[] RelationModifiers;
 
     public float DropChance = 0f;
+
+    public string KnowledgeRumor = "\"What an interesting person!\"";
 }
 
 [System.Serializable]

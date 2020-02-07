@@ -57,6 +57,7 @@ MonoBehaviour:
     WorkAction: {fileID: 0}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Planning
     Description: The employees / agents in this location will focus on planning,
       plotting and scheming in order to advance their factions performance and techniques.
@@ -68,6 +69,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: fbd937746b7f78f4e8ffc8537dc4a352, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Gathering Rumors
     Description: The employees / agents in this location will attempt to gather rumors
       from places and people around the city.
@@ -79,6 +81,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: a7e5aa9fd06ce1149807ed6a3fa4ecf1, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Acquiring Connections
     Description: The employees / agents in this location will attempt to search for
       and mingle with the right people, in order to get more connections around the
@@ -91,6 +94,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 6652d22d4ee5cbc44abb542007c318f9, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Mugging
     Description: 'The agents in this location will attempt to mug those unlucky folk
       who had the misfortune of crossing the wrong alley at the wrong time.
@@ -104,6 +108,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: bda81eadce3a4614ca8a283d54f5dd81, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   - Name: Exploring
     Description: The employees / agents in this location will attempt to explore
       the city automatically, they will look for points locations and businesses
@@ -116,6 +121,7 @@ MonoBehaviour:
     WorkAction: {fileID: 11400000, guid: 4ff22edaa64726b4ba06dad90e9017f2, type: 2}
     PossibleEvents: []
     EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
   Traits:
   - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
   - {fileID: 11400000, guid: e7ac1d93bf83d334ca30c1b5e5b2f5d1, type: 2}
@@ -124,6 +130,7 @@ MonoBehaviour:
     type: 3}
   HoverPrefab: {fileID: 4561263665114320258, guid: 5c14239076908524ab4c7153fe33bfd7,
     type: 3}
+  HiddenObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 20
@@ -145,3 +152,9 @@ MonoBehaviour:
     ConnectionsPerTurn: 0
     RumorsPerTurn: 0
     ProgressionPerTurn: 0
+  VisitRumors:
+  - '"I once saw this one on it''s way to the abandoned manor house up-hill."'
+  - '"Once saw this person in the garden of my neighbors manor."'
+  WorkRumors:
+  - '"Definately works for the rich fella in the manor."'
+  - '"Saw this person a lot by that big house, almost every day."'

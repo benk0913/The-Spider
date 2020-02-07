@@ -9,23 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8dacf9cfaa5aaf43aebecc3b96c6462, type: 3}
-  m_Name: Researching Target Location Complete
+  m_Script: {fileID: 11500000, guid: 30104e3f2f44c7448ac22773145091ef, type: 3}
+  m_Name: Gather Information
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
-  Description: 'The agent will research and gather rumors about the target''s recent
-    location activity.
+  Description: 'The agent will research and gather rumors about the target. The information
+    gathered could be used when researching about this character.
 
 
 
-    <color=green>Aware</color> VS <color=red>Discreet</color>'
-  Category: {fileID: 0}
+    <color=green>Aware</color>
+    VS <color=red>Discreet</color>'
+  Category: {fileID: 11400000, guid: b1d19a2222cc4a049ae93ef19da86f30, type: 2}
   RequiredTraits: []
-  MinimumAge: 0
+  MinimumAge: 15
   GoldCost: 0
   ConnectionsCost: 0
-  RumorsCost: 0
-  TechRequired: {fileID: 0}
+  RumorsCost: 6
+  TechRequired: {fileID: 11400000, guid: 375ae64ff1204964ca9253cebfcfa6f9, type: 2}
   ItemRequired: {fileID: 0}
   Challenge:
     Type: {fileID: 0}
@@ -40,6 +41,4 @@ MonoBehaviour:
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
-  Task: {fileID: 0}
-  WinEffectPrefab: {fileID: 1478687570250304421, guid: fc0619ab9288b1b4c92b867a7e0b1529,
-    type: 3}
+  Task: {fileID: 11400000, guid: 6cbe1d9dea80fcd4886d3bf214ba1d72, type: 2}

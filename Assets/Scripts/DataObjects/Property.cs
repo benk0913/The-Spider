@@ -63,6 +63,9 @@ public class Property : ScriptableObject
 
     public DistrictBonuses DistrictBonus;
 
+    public List<string> VisitRumors = new List<string>();
+    public List<string> WorkRumors = new List<string>();
+
     [System.Serializable]
     public class DistrictBonuses
     {
@@ -113,4 +116,5 @@ public class Property : ScriptableObject
         public Uniform EmployeeUniform;
         public Uniform GuardUniform;
     }
+
 }
