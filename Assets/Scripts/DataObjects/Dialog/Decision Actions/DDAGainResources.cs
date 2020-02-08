@@ -41,7 +41,7 @@ public class DDAGainResources : DialogDecisionAction
         if (tempProgression > 0)
         {
             CORE.Instance.SplineAnimationObject(
-             "PaperCollectedWorld",
+             "ScrollCollectedWorld",
              resourceSource,
              StatsViewUI.Instance.ProgressText.transform,
              () => { StatsViewUI.Instance.RefreshProgress(); },

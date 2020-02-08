@@ -23,15 +23,15 @@ public class SeducePerson : AgentAction //DO NOT INHERIT FROM
             , targetChar
             ));
 
-        targetChar.Known.Know("HomeLocation", character.TopEmployer);
-        targetChar.Known.Know("WorkLocation", character.TopEmployer);
-        targetChar.Known.Know("Personality", character.TopEmployer);
-        targetChar.Known.Know("Name", character.TopEmployer);
-        targetChar.Known.Know("Appearance", character.TopEmployer);
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
 
-        if(targetChar.Traits.Contains(CORE.Instance.Database.GetTrait("Lustful")))
+        if (targetChar.Traits.Contains(CORE.Instance.Database.GetTrait("Lustful")))
         {
-            targetChar.Known.Know("Faction", character.TopEmployer);
+            CORE.Instance.ShowHoverMessage("Bonus X1 Information - Lustful Character",ResourcesLoader.Instance.GetSprite("scroll-unfurled"),character.CurrentLocation.transform);
+            CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
         }
 
         TurnReportUI.Instance.Log.Add(

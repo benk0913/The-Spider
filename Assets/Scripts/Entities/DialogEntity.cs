@@ -52,6 +52,7 @@ public class DialogEntity : MonoBehaviour, ISaveFileCompatible
 
         Dictionary<string, object> parameters = new Dictionary<string, object>();
         parameters.Add("Actor", CORE.PC);
+        parameters.Add("NoGender", true);
         parameters.Add("ActorName", CORE.PC.name);
         parameters.Add("Location", CORE.PC.CurrentLocation);
         parameters.Add("LocationName", CORE.PC.CurrentLocation.Name);

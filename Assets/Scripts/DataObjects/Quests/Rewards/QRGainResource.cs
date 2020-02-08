@@ -25,7 +25,7 @@ public class QRGainResource : QuestReward
         if (Progression > 0)
         {
             CORE.Instance.SplineAnimationObject(
-             "PaperCollectedWorld",
+             "ScrollCollectedWorld",
              resourceSource,
              StatsViewUI.Instance.ProgressText.transform,
              () => { StatsViewUI.Instance.RefreshProgress(); },

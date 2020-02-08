@@ -10,7 +10,19 @@ public class Knowledge
 
     public KnowledgeRumor GetRandomKnowledgeRumor()
     {
-        string key = Items[Random.Range(0, Items.Count)].Key;
+        List<KnowledgeInstance> PossibleKeys = new List<KnowledgeInstance>();
+        PossibleKeys.AddRange(Items);
+        PossibleKeys.RemoveAll(x => x.KnownByCharacters.Contains(CORE.PC));
+
+        if(PossibleKeys.Count == 0)
+        {
+            KnowledgeRumor deadrumor = new KnowledgeRumor();
+            deadrumor.RelevantKey = "nothing";
+            deadrumor.Description = "Nothing important that you don't already know of...";
+            return deadrumor;
+        }
+
+        string key = PossibleKeys[Random.Range(0, PossibleKeys.Count)].Key;
 
         KnowledgeRumor rumor = new KnowledgeRumor();
         rumor.RelevantKey = key;

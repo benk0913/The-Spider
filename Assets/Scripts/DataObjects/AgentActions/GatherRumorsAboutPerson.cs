@@ -20,15 +20,15 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
         float awareValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value;
         float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
 
-        
-        if (Random.Range(0, awareValue + targetDiscreetValue) < awareValue)
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
+
+        CORE.Instance.ShowPortraitEffect(WinEffectPrefab, character, character.CurrentLocation);
+
+        if (Random.Range(0, awareValue + targetDiscreetValue) <= awareValue)
         {
-            targetChar.KnowledgeRumors.Add(targetChar.Known.GetRandomKnowledgeRumor());
-            CORE.Instance.ShowPortraitEffect(WinEffectPrefab, character, character.CurrentLocation);
-        }
-        else
-        {
-            CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, character.CurrentLocation);
+            CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
+
+            CORE.Instance.ShowHoverMessage("Bonus X1 Information - Aware VS Discreet", ResourcesLoader.Instance.GetSprite("scroll-unfurled"), character.CurrentLocation.transform);
         }
     }
 
@@ -53,18 +53,6 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
         if (targetChar.TopEmployer == character.TopEmployer)
         {
-            return false;
-        }
-
-        if (targetChar.IsKnown("CurrentLocation", character.TopEmployer))
-        {
-            reason = new FailReason("You already know where this person is.");
-            return false;
-        }
-
-        if (!targetChar.IsKnown("Appearance", character.TopEmployer) && !targetChar.IsKnown("Name", character.TopEmployer) && !targetChar.IsKnown("WorkLocation", character.TopEmployer))
-        {
-            reason = new FailReason("You don't know either the NAME, WORK LOCATION nor the LOOKS of this perosn.");
             return false;
         }
 

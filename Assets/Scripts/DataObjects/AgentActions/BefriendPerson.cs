@@ -23,17 +23,14 @@ public class BefriendPerson : AgentAction //DO NOT INHERIT FROM
             , targetChar
             ));
 
-        targetChar.Known.Know("HomeLocation", character.TopEmployer);
-        targetChar.Known.Know("WorkLocation", character.TopEmployer);
-        targetChar.Known.Know("Personality", character.TopEmployer);
-        targetChar.Known.Know("Name", character.TopEmployer);
-        targetChar.Known.Know("Appearance", character.TopEmployer);
-
         TurnReportUI.Instance.Log.Add(
             new TurnReportLogItemInstance(
                 character.name + " has befriended " + targetChar.name, 
                 ResourcesLoader.Instance.GetSprite("three-friends"), 
                 targetChar));
+
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
+        CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

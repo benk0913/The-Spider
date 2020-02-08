@@ -51,9 +51,12 @@ public class Util
                 content = content.Replace("{" + key + "}", (string)parameters[key]);
             }
 
-            if (parameters.ContainsKey("Actor"))
+            if (!parameters.ContainsKey("NoGender"))
             {
-                genderType = ((Character)parameters["Actor"]).Gender;
+                if (parameters.ContainsKey("Actor") && (Character)parameters["Actor"] != null)
+                {
+                    genderType = ((Character)parameters["Actor"]).Gender;
+                }
             }
 
             if (genderType == GenderType.Female)

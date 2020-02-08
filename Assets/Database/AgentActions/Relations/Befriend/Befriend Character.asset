@@ -14,20 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 7d83f930f6893b24abd9505eba474ca5, type: 3}
   Description: 'The agent will attempt to befriend the target. This will allow the
-    agent to gather more information about the target and also gain it''s trust.
+    agent to gather 2x information items about the target and also gain it''s trust.
 
 
-    <color=yellow>Home
-    Location, Work Location, Personality, Name, Appearance.</color>
+    <color=yellow>
+    +X2 Information</color>
+
+    <color=green> +Relations </color>
 
 
-    <color=green> 
-    +Relations </color>
-
-
-    <color=green>Relations</color> VS <color=red>Discreet</color>
-
-'
+    <color=green>Relations</color>
+    VS <color=red>Discreet</color>'
   Category: {fileID: 11400000, guid: 1db35125339ecff4b898fe146ed6198d, type: 2}
   RequiredTraits: []
   MinimumAge: 15
@@ -35,6 +32,7 @@ MonoBehaviour:
   ConnectionsCost: 0
   RumorsCost: 0
   TechRequired: {fileID: 11400000, guid: 5209e184f1765264f93a71ac3af19cda, type: 2}
+  ItemRequired: {fileID: 0}
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
@@ -44,5 +42,8 @@ MonoBehaviour:
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
+  WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
+  OnExecutePopup: {fileID: 0}
+  ActionDoneByTarget: 0
   Task: {fileID: 11400000, guid: 2b6666fc621a6554da795ff20915560b, type: 2}

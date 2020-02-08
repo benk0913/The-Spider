@@ -78,17 +78,17 @@ public class AgentAction : ScriptableObject
         {
             if (RumorsCost > 0)
             {
-                CORE.Instance.ShowHoverMessage("<color=purple> Rumors -" + RumorsCost + "</color>", ResourcesLoader.Instance.GetSprite("earIcon"), target.transform);
+                CORE.Instance.ShowHoverMessage("<color=purple> Rumors -" + RumorsCost + "</color>", ResourcesLoader.Instance.GetSprite("earIcon"), character.CurrentLocation.transform);
             }
 
             if (GoldCost > 0)
             {
-                CORE.Instance.ShowHoverMessage("<color=yellow> Gold -" + GoldCost + "</color>", ResourcesLoader.Instance.GetSprite("icon_coins"), target.transform);
+                CORE.Instance.ShowHoverMessage("<color=yellow> Gold -" + GoldCost + "</color>", ResourcesLoader.Instance.GetSprite("icon_coins"), character.CurrentLocation.transform);
             }
 
             if (ConnectionsCost > 0)
             {
-                CORE.Instance.ShowHoverMessage("<color=green> Connections -"+ConnectionsCost+"</color>",ResourcesLoader.Instance.GetSprite("connections"), target.transform);
+                CORE.Instance.ShowHoverMessage("<color=green> Connections -"+ConnectionsCost+"</color>",ResourcesLoader.Instance.GetSprite("connections"), character.CurrentLocation.transform);
             }
         }
        

@@ -431,7 +431,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             if (factionHead == CORE.PC)
             {
                 CORE.Instance.SplineAnimationObject(
-                 "PaperCollectedWorld",
+                 "ScrollCollectedWorld",
                  transform,
                  StatsViewUI.Instance.ProgressText.transform,
                  () => { StatsViewUI.Instance.RefreshProgress(); },

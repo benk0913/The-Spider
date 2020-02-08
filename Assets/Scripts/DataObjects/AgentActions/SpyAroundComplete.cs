@@ -50,9 +50,7 @@ public class SpyAroundComplete : AgentAction
                 float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
                 float agentValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value;
 
-                if (charInLocation.IsKnown("Appearance", character.TopEmployer)
-                    && charInLocation.IsKnown("CurrentLocation", character.TopEmployer)
-                    && charInLocation.IsKnown("WorkLocation", character.TopEmployer))
+                if (charInLocation.IsKnown("CurrentLocation", character.TopEmployer) && charInLocation.IsKnown("Appearance", character.TopEmployer))
                 {
                     continue;
                 }
@@ -62,13 +60,8 @@ public class SpyAroundComplete : AgentAction
                     continue;
                 }
                 
-                charInLocation.Known.Know("Appearance", character.TopEmployer);
                 charInLocation.Known.Know("CurrentLocation", character.TopEmployer);
-
-                if (charInLocation.WorkLocation == location)
-                {
-                    charInLocation.Known.Know("WorkLocation", character.TopEmployer);
-                }
+                charInLocation.Known.Know("Appearance", character.TopEmployer);
 
                 foundSomething = true;
                 break;
@@ -77,14 +70,14 @@ public class SpyAroundComplete : AgentAction
             if (!foundSomething)
             {
                 CORE.Instance.ShowHoverMessage(
-                    "Found nothing of interest...",
+                    "Saw nothing interesting...",
                     ResourcesLoader.Instance.GetSprite("Unsatisfied"),
                     character.CurrentLocation.transform);
             }
             else
             {
                 CORE.Instance.ShowHoverMessage(
-                     "Found interesting information!",
+                     "Saw someone interesting here...",
                      ResourcesLoader.Instance.GetSprite("Satisfied"),
                      character.CurrentLocation.transform);
             }

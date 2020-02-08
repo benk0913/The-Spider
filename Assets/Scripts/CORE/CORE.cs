@@ -434,6 +434,18 @@ public class CORE : MonoBehaviour
         hoverPanel.Show(targetTransform, content, icon);
     }
 
+    public void GainInformation(Transform Source, Character targetChar)
+    {
+        CORE.Instance.SplineAnimationObject(
+         "PaperCollectedWorld",
+         Source,
+         InformationLogUI.Instance.transform,
+         () => { },
+         false);
+
+        targetChar.KnowledgeRumors.Add(targetChar.Known.GetRandomKnowledgeRumor());
+    }
+
     public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
     {
         LongTermTaskEntity longTermTask = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskEntity")).GetComponent<LongTermTaskEntity>();

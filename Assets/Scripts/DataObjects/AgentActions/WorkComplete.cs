@@ -54,7 +54,7 @@ public class WorkComplete : AgentAction
             if (character.TopEmployer == CORE.PC)
             {
                 CORE.Instance.SplineAnimationObject(
-                "PaperCollectedWorld",
+                "ScrollCollectedWorld",
                 character.WorkLocation.transform,
                 StatsViewUI.Instance.ProgressText.transform,
                 () => { StatsViewUI.Instance.RefreshProgress(); },

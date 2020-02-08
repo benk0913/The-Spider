@@ -108,6 +108,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 return 0;
             }
 
+            if(Employer == this)
+            {
+                return 0;
+            }
+
             int rankCount = 0;
 
             Character CurrentEmployer = Employer;
