@@ -85,11 +85,17 @@ public class CharacterInfoUI : MonoBehaviour
 
     void RefreshTurnPassed()
     {
+        if(!this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         if(CurrentCharacter == null)
         {
             return;
         }
-        SetCurrentLocation();
+
+        ShowInfo(CurrentCharacter);
     }
 
 

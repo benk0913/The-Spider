@@ -15,9 +15,16 @@ public class ResearchCharacterWindowUI : MonoBehaviour
     [SerializeField]
     Transform RumorsContainer;
 
+    [SerializeField]
+    KnowledgeItemUnlockableSellUI SellRumorsItem;
+
+    [System.NonSerialized]
     public Character CurrentCharacter;
 
+    [System.NonSerialized]
     public DragDroppableRumorUI CurrentDragged;
+
+    [System.NonSerialized]
     public KnowledgeItemUnlockableUI CurrentHovered;
 
     private void Awake()
@@ -56,6 +63,8 @@ public class ResearchCharacterWindowUI : MonoBehaviour
 
         CurrentCharacter = ofCharacter;
         RefreshUI();
+
+        SellRumorsItem.SetInfo(CurrentCharacter, new KnowledgeInstance("Whatever", "Boi....", 69));
     }
 
     void RefreshUI()
@@ -81,7 +90,7 @@ public class ResearchCharacterWindowUI : MonoBehaviour
 
             RectTransform rectTrans = RumorsContainer.GetComponent <RectTransform>();
 
-            tempItem.transform.position = new Vector2(Random.Range(Screen.width/4f, Screen.width - Screen.width/4f ), Random.Range(Screen.height / 4f, Screen.height - Screen.height/ 4f));
+            tempItem.transform.position = new Vector2(Random.Range(Screen.width/2f, Screen.width - Screen.width/4f ), Random.Range(Screen.height / 4f, Screen.height - Screen.height/ 4f));
             tempItem.GetComponent<DragDroppableRumorUI>().SetInfo(rumor);
         }
 

@@ -6,25 +6,25 @@ using UnityEngine.UI;
 
 public class KnowledgeItemUnlockableUI : MonoBehaviour
 {
-    KnowledgeInstance CurrentKnowledge;
-    Character CurrentCharacter;
+    protected KnowledgeInstance CurrentKnowledge;
+    protected Character CurrentCharacter;
 
     [SerializeField]
-    TextMeshProUGUI Title;
+    protected TextMeshProUGUI Title;
 
     [SerializeField]
-    TextMeshProUGUI Score;
+    protected TextMeshProUGUI Score;
 
     [SerializeField]
-    GameObject KnownPanel;
+    protected GameObject KnownPanel;
 
     [SerializeField]
-    Image Icon;
+    protected Image Icon;
 
     [SerializeField]
-    TooltipTargetUI TooltipTarget;
+    protected TooltipTargetUI TooltipTarget;
 
-    public void SetInfo(Character character, KnowledgeInstance knowledge)
+    public virtual void SetInfo(Character character, KnowledgeInstance knowledge)
     {
         this.CurrentCharacter = character;
         this.CurrentKnowledge = knowledge;
@@ -32,7 +32,7 @@ public class KnowledgeItemUnlockableUI : MonoBehaviour
         RefreshUI();
     }
 
-    public void RefreshUI()
+    public virtual void RefreshUI()
     {
         this.Title.text = CurrentKnowledge.Key;
         this.TooltipTarget.SetTooltip("<color=green>Drag a relevant rumor here to unlock this knowledge </color>- " + CurrentKnowledge.Description);
@@ -68,7 +68,7 @@ public class KnowledgeItemUnlockableUI : MonoBehaviour
         }
     }
 
-    public void Consume(DragDroppableRumorUI item)
+    public virtual void Consume(DragDroppableRumorUI item)
     {
 
         CurrentCharacter.KnowledgeRumors.Remove(item.CurrentRumor);

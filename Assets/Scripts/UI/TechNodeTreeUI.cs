@@ -13,6 +13,9 @@ public class TechNodeTreeUI : NodeTreeUI
     [SerializeField]
     ScrollRect CurrentScrollRect;
 
+    [SerializeField]
+    GameObject LoadingPanel;
+
     private void Awake()
     {
         Instance = this;
@@ -81,9 +84,9 @@ public class TechNodeTreeUI : NodeTreeUI
 
     protected override IEnumerator GenerateTreeRoutine(NodeTreeUIInstance origin)
     {
-        yield return StartCoroutine(base.GenerateTreeRoutine(origin));
+        LoadingPanel.SetActive(true);
 
-        yield return 0;
+        yield return StartCoroutine(base.GenerateTreeRoutine(origin));
 
         yield return StartCoroutine(SetItemsUI((TechNodeTreeUIInstance)origin));
 
@@ -92,14 +95,13 @@ public class TechNodeTreeUI : NodeTreeUI
         CurrentScrollRect.horizontalNormalizedPosition = 0f;
         CurrentScrollRect.verticalNormalizedPosition   = 1f;
 
+        LoadingPanel.SetActive(false);
     }
 
     protected virtual IEnumerator SetItemsUI(TechNodeTreeUIInstance node)
     {
         node.nodeObject.transform.GetChild(0).GetChild(0).GetComponent<TechTreeItemUI>().SetItem(node.Item);
         node.nodeObject.transform.GetChild(1).GetComponent<Image>().color = node.Item.BoxColor;
-
-        yield return 0;
 
         for (int i = 0; i < node.Children.Count; i++)
         {

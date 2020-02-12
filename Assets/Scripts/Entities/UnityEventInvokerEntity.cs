@@ -6,7 +6,8 @@ using UnityEngine.Events;
 public class UnityEventInvokerEntity : MonoBehaviour
 {
     [SerializeField]
-    List<UnityEvent> EventsList = new List<UnityEvent>();
+    public List<UnityEvent> EventsList = new List<UnityEvent>();
+
 
     public void InvokeEventInIndex(int index)
     {

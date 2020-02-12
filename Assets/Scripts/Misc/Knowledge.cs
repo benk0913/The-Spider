@@ -16,10 +16,7 @@ public class Knowledge
 
         if(PossibleKeys.Count == 0)
         {
-            KnowledgeRumor deadrumor = new KnowledgeRumor();
-            deadrumor.RelevantKey = "nothing";
-            deadrumor.Description = "Nothing important that you don't already know of...";
-            return deadrumor;
+            return null;
         }
 
         string key = PossibleKeys[Random.Range(0, PossibleKeys.Count)].Key;

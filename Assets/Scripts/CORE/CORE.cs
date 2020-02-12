@@ -399,14 +399,42 @@ public class CORE : MonoBehaviour
 
     #region Misc
 
+    #region Portrait Effect
+
     public void ShowPortraitEffect(GameObject effect, Character character, LocationEntity targetLocation)
     {
-        GameObject effectObj = ResourcesLoader.Instance.GetRecycledObject(effect);
-        effectObj.transform.SetParent(CORE.Instance.DisposableContainer.transform);
-        effectObj.transform.localScale = Vector3.one;
-        effectObj.GetComponent<PortraitUI>().SetCharacter(character);
-        effectObj.GetComponent<WorldPositionLerperUI>().SetTransform(targetLocation.transform);
+        if(activePortraitEffects.ContainsKey(targetLocation))
+        {
+            activePortraitEffects[targetLocation]++;
+        }
+        else
+        {
+            activePortraitEffects.Add(targetLocation, 0);
+        }
+
+        DelayedInvokation(activePortraitEffects[targetLocation]*1.5f, () =>
+        {
+            GameObject effectObj = ResourcesLoader.Instance.GetRecycledObject(effect);
+            effectObj.transform.SetParent(CORE.Instance.DisposableContainer.transform);
+            effectObj.transform.localScale = Vector3.one;
+            effectObj.GetComponent<PortraitUI>().SetCharacter(character);
+            effectObj.GetComponent<WorldPositionLerperUI>().SetTransform(targetLocation.transform);
+
+            effectObj.GetComponent<UnityEventInvokerEntity>().EventsList[0].AddListener(() =>
+            {
+                activePortraitEffects[targetLocation]--;
+
+                if (activePortraitEffects[targetLocation] <= 0)
+                {
+                    activePortraitEffects.Remove(targetLocation);
+                }
+            });
+        });
     }
+
+    Dictionary<LocationEntity, int> activePortraitEffects = new Dictionary<LocationEntity, int>();
+
+    #endregion
 
     public void SplineAnimationObject(string prefabKey,Transform startPoint,Transform targetPoint,System.Action OnComplete = null, bool canvasElement = true)
     {
@@ -443,7 +471,15 @@ public class CORE : MonoBehaviour
          () => { },
          false);
 
-        targetChar.KnowledgeRumors.Add(targetChar.Known.GetRandomKnowledgeRumor());
+        KnowledgeRumor rumor = targetChar.Known.GetRandomKnowledgeRumor();
+        if (rumor != null)
+        {
+            targetChar.KnowledgeRumors.Add(rumor);
+        }
+        else
+        {
+            GlobalMessagePrompterUI.Instance.Show("You already know everything about " + targetChar.name,1f,Color.red);
+        }
     }
 
     public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
