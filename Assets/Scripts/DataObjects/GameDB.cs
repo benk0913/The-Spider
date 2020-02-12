@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Game Database", menuName = "DataObjects/Game Database", order = 2)]
@@ -50,6 +51,8 @@ public class GameDB : ScriptableObject
     public PlotType UniquePlotType;
 
     public Rumor CustomRumor;
+
+    public TMP_FontAsset DefaultFont;
 
     public List<Character> PresetCharacters = new List<Character>();
 

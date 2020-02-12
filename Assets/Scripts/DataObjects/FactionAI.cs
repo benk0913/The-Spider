@@ -643,7 +643,7 @@ public class FactionAI : ScriptableObject
 
         //Find Plotter
         List<Character> potentialPlotters = CurrentCharacter.CharactersInCommand;
-        potentialPlotters.RemoveAll(x => !x.IsAgent || x.PrisonLocation != null || x.IsDead);
+        potentialPlotters.RemoveAll(x => !x.IsAgent || x.PrisonLocation != null || x.IsPuppetOf(againstFaction) || x.IsDead);
         
         if(potentialPlotters.Count == 0)
         {
@@ -662,10 +662,11 @@ public class FactionAI : ScriptableObject
         //Gather Participants
         List<Character> participants = new List<Character>();
         List<Character> potentialParticipants = CurrentCharacter.CharactersInCommand.FindAll(
-            x => x.IsAgent 
-            && x.Age > 15 
-            &&  !participants.Contains(x) 
-            && x.PrisonLocation == null 
+            x => x.IsAgent
+            && x.Age > 15
+            && !participants.Contains(x)
+            && x.PrisonLocation == null
+            && !x.IsPuppetOf(factionHead.CurrentFaction)
             && !x.IsDead 
             && (x.CurrentTaskEntity == null || x.CurrentTaskEntity.CurrentTask.Cancelable));
 
@@ -704,6 +705,7 @@ public class FactionAI : ScriptableObject
 
             targetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x =>
            x.PrisonLocation == null
+           && !x.IsPuppetOf(CurrentCharacter.CurrentFaction)
            && !x.IsInTrouble));
         }
         else if (plotTarget.GetType() == typeof(LocationEntity))
@@ -715,6 +717,7 @@ public class FactionAI : ScriptableObject
                 targetParticipants.AddRange(CORE.Instance.Characters.FindAll(x =>
                     !targetParticipants.Contains(x)
                     && x.PrisonLocation == null
+                    && !x.IsPuppetOf(CurrentCharacter.CurrentFaction)
                     && x.CurrentLocation == location
                     && x.Age >= 15
                     && (x.TopEmployer == location.OwnerCharacter.TopEmployer || x.CurrentFaction.name == "Constabulary")));

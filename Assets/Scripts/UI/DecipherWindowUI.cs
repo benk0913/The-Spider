@@ -224,6 +224,17 @@ public class DecipherWindowUI : MonoBehaviour
 
         HoveredLetter = '@';
 
+        if(cipher.Font != null)
+        {
+            OriginalText.font = cipher.Font;
+            CurrentLetterText.font = cipher.Font;
+        }
+        else
+        {
+            OriginalText.font = CORE.Instance.Database.DefaultFont;
+            CurrentLetterText.font = CORE.Instance.Database.DefaultFont;
+        }
+
         RefreshUI();
     }
 

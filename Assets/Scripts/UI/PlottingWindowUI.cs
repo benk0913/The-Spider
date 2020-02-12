@@ -136,8 +136,9 @@ public class PlottingWindowUI : MonoBehaviour
 
             TargetParticipants.Add(targetCharacter);
 
-            TargetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x=>
-            x.PrisonLocation == null 
+            TargetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x =>
+            x.PrisonLocation == null
+            && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
             && !x.IsInTrouble));
         }
         else if (CurrentTarget.GetType() == typeof(LocationEntity))
@@ -149,6 +150,7 @@ public class PlottingWindowUI : MonoBehaviour
                 TargetParticipants.AddRange(CORE.Instance.Characters.FindAll(x =>
                        !TargetParticipants.Contains(x)
                     && x.PrisonLocation == null
+                    && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
                     && x.CurrentLocation == location
                     && x.Age >= 15
                     && (x.TopEmployer == location.OwnerCharacter.TopEmployer || x.CurrentFaction.name == "Constabulary")));
@@ -386,6 +388,7 @@ public class PlottingWindowUI : MonoBehaviour
             return;
         }
 
+        //TODO add is puppet support?
         SelectCharacterViewUI.Instance.Show(
             x => { Participants.Add(x); RefreshUI(); },
             x => 

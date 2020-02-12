@@ -193,6 +193,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public LocationEntity CurrentLocation;
 
+    public Faction PuppetOf = null;
+
     public bool Pinned
     {
         get
@@ -965,6 +967,18 @@ public class Character : ScriptableObject, ISaveFileCompatible
         return modifiers.ToArray();
     }
 
+    public bool IsPuppetOf(Faction faction)
+    {
+        faction = CORE.Instance.Factions.Find(x => x.name == faction.name);
+
+        if (PuppetOf != null || Employer == this || Employer == null)
+        {
+            return (PuppetOf == faction);
+        }
+
+        return Employer.IsPuppetOf(faction);
+    }
+
     #endregion
 
     #region AI
@@ -1541,6 +1555,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
 
+        if (PuppetOf != null)
+        {
+            node["PuppetOf"] = PuppetOf.name;
+        }
+
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
         node["WorkLocationGuard"] = WorkLocation == null ? "" : WorkLocation.GuardsCharacters.Contains(this).ToString();
         node["HomeLocation"] = HomeLocation == null ? "" : HomeLocation.ID;
@@ -1631,6 +1650,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Reputation = int.Parse(node["Reputation"]);
 
         _prisonLocationID = node["PrisonLocation"];
+        _puppetOfFaction = node["PuppetOf"];
 
         _workLocationID = node["WorkLocation"];
 
@@ -1743,6 +1763,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
 
     string _prisonLocationID;
+    string _puppetOfFaction;
     string _workLocationID;
     public bool _isGuard;
     string _homeLocationID;
@@ -1779,6 +1800,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         if (!string.IsNullOrEmpty(_prisonLocationID))
         {
             EnterPrison(CORE.Instance.GetLocationByID(_prisonLocationID));
+        }
+
+        if(!string.IsNullOrEmpty(_puppetOfFaction))
+        {
+            PuppetOf = CORE.Instance.Factions.Find(x => x.name == _puppetOfFaction);
         }
 
         if (!string.IsNullOrEmpty(_currentLocationID))

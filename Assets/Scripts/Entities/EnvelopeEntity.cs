@@ -114,6 +114,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         }
 
         TitleText.text = CurrentLetter.Title;
+
         DescriptionText.text = CurrentLetter.Content;
         SideNotesText.text = CurrentLetter.Preset.SideNotes;
 
@@ -125,8 +126,21 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             ArchiveActionText.text = "Cannot Archive Encrypted Letters...";
             DeleteActionText.text = "Cannot Delete Encrypted Letters...";
             RetreiveActionText.text = "Press 'Escape' to return...";
+            
+            if(CurrentLetter.Preset.Encryption.Font != null)
+            {
+                DescriptionText.font = CurrentLetter.Preset.Encryption.Font;
+            }
+            else
+            {
+                DescriptionText.font = CORE.Instance.Database.DefaultFont;
+            }
 
             return;
+        }
+        else
+        {
+            DescriptionText.font = CORE.Instance.Database.DefaultFont;
         }
 
         EncryptionPanel.gameObject.SetActive(false);

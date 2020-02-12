@@ -143,7 +143,14 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
         for (int i = 0; i < node["Objectives"].Count; i++)
         {
-            GetObjective(node["Objectives"][i]["Key"]).IsComplete = bool.Parse(node["Objectives"][i]["IsComplete"]);
+            QuestObjective objective = GetObjective(node["Objectives"][i]["Key"]);
+            if (objective == null)
+            {
+                Debug.LogError("Couldn't find objective " + node["Objectives"][i]["Key"]);
+                continue;
+            }
+
+            objective.IsComplete = bool.Parse(node["Objectives"][i]["IsComplete"]);
         }
 
         relevantCharacterID = node["RelevantCharacterID"];

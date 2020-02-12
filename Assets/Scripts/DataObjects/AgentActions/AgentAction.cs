@@ -27,6 +27,7 @@ public class AgentAction : ScriptableObject
     public BonusChallenge Challenge;
 
     public AgentAction FailureResult;
+    public AgentAction SuccessResult;
 
     public bool ShowHover = true;
 
@@ -203,6 +204,10 @@ public class AgentAction : ScriptableObject
             }
         });
 
+        if (SuccessResult != null)
+        {
+            SuccessResult.Execute(requester, character, target);
+        }
     }
 
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

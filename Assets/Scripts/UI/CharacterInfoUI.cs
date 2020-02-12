@@ -68,6 +68,12 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI FavorWithPlayerText;
 
+    [SerializeField]
+    GameObject PuppetOfPanel;
+
+    [SerializeField]
+    FactionPortraitUI PuppetOfPortrait;
+
 
     Character CurrentCharacter;
 
@@ -131,6 +137,8 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearTraits();
 
+        PuppetOfPanel.gameObject.SetActive(false);
+
         if (CurrentCharacter.IsKnown("Personality", CORE.PC))
         {
             for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
@@ -140,6 +148,12 @@ public class CharacterInfoUI : MonoBehaviour
                 tempTrait.transform.localScale = Vector3.one;
 
                 tempTrait.GetComponent<TraitUI>().SetInfo(CurrentCharacter.Traits[i]);
+            }
+
+            if(CurrentCharacter.PuppetOf != null)
+            {
+                PuppetOfPanel.gameObject.SetActive(true);
+                PuppetOfPortrait.SetInfo(CurrentCharacter.PuppetOf);
             }
         }
         else

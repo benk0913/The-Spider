@@ -422,11 +422,14 @@ public class CORE : MonoBehaviour
 
             effectObj.GetComponent<UnityEventInvokerEntity>().EventsList[0].AddListener(() =>
             {
-                activePortraitEffects[targetLocation]--;
-
-                if (activePortraitEffects[targetLocation] <= 0)
+                if (activePortraitEffects.ContainsKey(targetLocation))
                 {
-                    activePortraitEffects.Remove(targetLocation);
+                    activePortraitEffects[targetLocation]--;
+
+                    if (activePortraitEffects[targetLocation] <= 0)
+                    {
+                        activePortraitEffects.Remove(targetLocation);
+                    }
                 }
             });
         });

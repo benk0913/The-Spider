@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Cipher", menuName = "DataObjects/Cipher", order = 2)]
@@ -8,6 +9,8 @@ public class Cipher : ScriptableObject
     public List<CipherLetter> Replacements = new List<CipherLetter>();
 
     public bool SupportUpperCase = false;
+
+    public TMP_FontAsset Font;
 
     public string Convert(string message)
     {
