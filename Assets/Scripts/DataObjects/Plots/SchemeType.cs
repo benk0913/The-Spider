@@ -322,8 +322,9 @@ public class PlotData
     public PlotMethod Method;
     public PlotEntry Entry;
     public PlotMethod BaseMethod;
+    public string Name;
 
-    public PlotData(Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry)
+    public PlotData(string name,Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry)
     {
         this.Requester = requester;
         this.Plotter = plotter;
@@ -332,6 +333,7 @@ public class PlotData
         this.Target = target;
         this.Method = method;
         this.Entry = entry;
+        this.Name = name;
     }
 }
 

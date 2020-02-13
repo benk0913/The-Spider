@@ -23,6 +23,8 @@ public class ShowFavorMenu : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
+        
+
         return true;
     }
 }

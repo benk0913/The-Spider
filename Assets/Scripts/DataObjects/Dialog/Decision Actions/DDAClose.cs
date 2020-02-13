@@ -24,24 +24,24 @@ public class DDAClose : DialogDecisionAction
             endResult += "\n With Result: " + UniqueAction.name;
         }
 
-        if (actor.Belogings.Count > 0)
-        {
-            endResult += "\n Items Looted: ";
+        //if (actor.Belogings.Count > 0)
+        //{
+        //    endResult += "\n Items Looted: ";
 
-            foreach (Item item in actor.Belogings)
-            {
-                endResult += item.name + " - ";
-            }
+        //    foreach (Item item in actor.Belogings)
+        //    {
+        //        endResult += item.name + " - ";
+        //    }
 
-            actor.Belogings.Clear();
-        }
+        //    actor.Belogings.Clear();
+        //}
 
-        object objGainedTraits = DialogWindowUI.Instance.GetDialogParameter("GainedTraits");
-        if (objGainedTraits != null)
-        {
-            endResult += "\n Gained Traits: ";
-            endResult += "\n "+((string) objGainedTraits);
-        }
+        //object objGainedTraits = DialogWindowUI.Instance.GetDialogParameter("GainedTraits");
+        //if (objGainedTraits != null)
+        //{
+        //    endResult += "\n Gained Traits: ";
+        //    endResult += "\n "+((string) objGainedTraits);
+        //}
 
         WarningWindowUI.Instance.Show(endResult, EndDialog);
     }

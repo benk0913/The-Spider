@@ -31,7 +31,8 @@ public class LoadGameWindowUI : MonoBehaviour
         ClearSaveLines();
 
         CORE.Instance.ReadAllSaveFiles();
-        for(int i=0;i< CORE.Instance.SaveFiles.Count;i++)
+        CORE.Instance.SaveFiles.Reverse();
+        for (int i=0;i< CORE.Instance.SaveFiles.Count;i++)
         {
             GameObject tempLine = ResourcesLoader.Instance.GetRecycledObject("SaveFileLineUI");
             tempLine.transform.SetParent(SaveLinesContainer, false);

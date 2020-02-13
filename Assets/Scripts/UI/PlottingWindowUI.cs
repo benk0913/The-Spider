@@ -373,7 +373,7 @@ public class PlottingWindowUI : MonoBehaviour
 
     public void Execute()
     {
-        PlotData Plot = new PlotData(CORE.PC, CurrentPlotter, Participants, TargetParticipants, CurrentTarget, CurrentMethod, CurrentEntry);
+        PlotData Plot = new PlotData(CurrentSchemeType.name,CORE.PC, CurrentPlotter, Participants, TargetParticipants, CurrentTarget, CurrentMethod, CurrentEntry);
 
         Plot.BaseMethod = CurrentSchemeType.BaseMethod;
 

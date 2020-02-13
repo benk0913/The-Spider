@@ -119,6 +119,12 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         while(!objective.Validate())
         {
+            if(objective.Failed())
+            {
+                objective.ValidateRoutine = null;
+                yield break;
+            }
+
             yield return 0;
         }
 
@@ -263,6 +269,71 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         QuestComplete(parentQuest);
 
     }
+
+
+    public void ObjectiveFailed(QuestObjective objective)
+    {
+        Quest parentQuest = objective.ParentQuest;
+
+        if (parentQuest == null)
+        {
+            return;
+        }
+
+        if (parentQuest.ForCharacter == CORE.PC)
+        {
+
+            if (!activeQuestsButton.interactable)
+            {
+                foreach (Transform questHeadlineTransform in questsContainer)
+                {
+                    QuestHeadlineUI headline = questHeadlineTransform.GetComponent<QuestHeadlineUI>();
+
+                    if (headline == null)
+                    {
+                        continue;
+                    }
+
+                    if (headline.CurrentQuest != parentQuest)
+                    {
+                        continue;
+                    }
+
+                    headline.Show();
+
+                    QuestContentUI content = headline.ShowingObject.GetComponent<QuestContentUI>();
+                    content.Refresh();
+                    content.Notify();
+                }
+            }
+            else
+            {
+                Notification.Add(1);
+            }
+
+            GlobalMessagePrompterUI.Instance.Show(objective.name + " has failed!", 3f, Color.red);
+
+            if (objective.WorldMarker != null)
+            {
+                objective.WorldMarker.gameObject.SetActive(false);
+                objective.WorldMarker = null;
+            }
+
+        }
+
+        foreach (QuestObjective qObjective in parentQuest.Objectives)
+        {
+            objective.Complete();
+        }
+
+        if (parentQuest.ForCharacter == CORE.PC)
+        {
+            GlobalMessagePrompterUI.Instance.Show(parentQuest.name + " has failed!", 3f, Color.red);
+        }
+
+        QuestComplete(parentQuest);
+    }
+
 
     public void ShowActive()
     {

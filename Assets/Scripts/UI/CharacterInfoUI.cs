@@ -137,8 +137,7 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ClearTraits();
 
-        PuppetOfPanel.gameObject.SetActive(false);
-
+       
         if (CurrentCharacter.IsKnown("Personality", CORE.PC))
         {
             for (int i = 0; i < CurrentCharacter.Traits.Count; i++)
@@ -148,12 +147,6 @@ public class CharacterInfoUI : MonoBehaviour
                 tempTrait.transform.localScale = Vector3.one;
 
                 tempTrait.GetComponent<TraitUI>().SetInfo(CurrentCharacter.Traits[i]);
-            }
-
-            if(CurrentCharacter.PuppetOf != null)
-            {
-                PuppetOfPanel.gameObject.SetActive(true);
-                PuppetOfPortrait.SetInfo(CurrentCharacter.PuppetOf);
             }
         }
         else
@@ -332,6 +325,17 @@ public class CharacterInfoUI : MonoBehaviour
 
         DeceasedPanel.gameObject.SetActive(character.IsDead);
 
+
+        if (CurrentCharacter.PuppetOf != null)
+        {
+            PuppetOfPanel.gameObject.SetActive(true);
+            PuppetOfPortrait.SetInfo(CurrentCharacter.PuppetOf);
+        }
+        else
+        {
+            PuppetOfPanel.gameObject.SetActive(false);
+        }
+
         SetName();
         SetAppearance();
         SetPersonality();
@@ -449,24 +453,6 @@ public class CharacterInfoUI : MonoBehaviour
 
     public void ShowBribeWindow()
     {
-        if(CurrentCharacter.TopEmployer == CORE.PC)
-        {
-            GlobalMessagePrompterUI.Instance.Show("No reason to bribe your own minions!");
-            return;
-        }
-
-        if (!CurrentCharacter.IsKnown("Name", CORE.PC))
-        {
-            GlobalMessagePrompterUI.Instance.Show("Must know this characters NAME");
-            return;
-        }
-        
-        if(!CurrentCharacter.IsKnown("HomeLocation", CORE.PC))
-        {
-            GlobalMessagePrompterUI.Instance.Show("Must know this characters 'Home Location'");
-            return;
-        }
-
         BribeFavorWindowUI.Instance.Show(CurrentCharacter);
         Hide();
     }

@@ -1117,7 +1117,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             EmployeesCharacters[0].StopWorkingForCurrentLocation();
         }
 
-        if(TaskDurationUI != null)
+        while (GuardsCharacters.Count > 0)
+        {
+            GuardsCharacters[0].StopWorkingForCurrentLocation();
+        }
+
+        if (TaskDurationUI != null)
         {
             TaskDurationUI.Wipe();
         }

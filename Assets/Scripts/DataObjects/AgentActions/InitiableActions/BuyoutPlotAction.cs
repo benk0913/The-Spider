@@ -60,13 +60,13 @@ public class BuyoutPlotAction : AgentAction
 
         if (targetEntity.OwnerCharacter.CurrentFaction != CORE.Instance.Factions.Find(x=>x.name == CORE.Instance.Database.DefaultFaction.name))
         {
-            reason = new FailReason("Owner refuses every offer");
+            reason = new FailReason("Owner refuses every offer. (Not independant, Try bribing instead...)");
             return false;
         }
 
         if (CORE.PC.Gold < (targetEntity.LandValue *2))
         {
-            reason = new FailReason("Not Enough Gold");
+            reason = new FailReason("Not Enough Gold - ("+CORE.PC.Gold+"/"+ (targetEntity.LandValue * 2)+")");
             return false;
         }
 

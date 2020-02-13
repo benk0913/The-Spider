@@ -653,7 +653,16 @@ public class FactionAI : ScriptableObject
         Character plotter = potentialPlotters[UnityEngine.Random.Range(0, potentialPlotters.Count)];
 
         //Find Entry
-        PlotEntry randomEntry = currentSchemeType.PossibleEntries[UnityEngine.Random.Range(0, currentSchemeType.PossibleEntries.Count)];
+        List<PlotEntry> possibleEntries = new List<PlotEntry>();
+        possibleEntries.AddRange(currentSchemeType.PossibleEntries);
+        possibleEntries.RemoveAll(x => x.AreRequirementsMet(CurrentCharacter, plotTarget) == null);
+        if(possibleEntries.Count == 0)
+        {
+            Debug.LogError("BOT HAS NO POSSIBLE ENTRY!");
+
+            return null;
+        }
+        PlotEntry randomEntry = possibleEntries[UnityEngine.Random.Range(0, possibleEntries.Count)];
 
         //Find Method
         PlotMethod randomMethod = currentSchemeType.PossibleMethods[UnityEngine.Random.Range(0, currentSchemeType.PossibleMethods.Count)];
@@ -726,7 +735,7 @@ public class FactionAI : ScriptableObject
 
 
 
-        PlotData Plot = new PlotData(CurrentCharacter, plotter, participants, targetParticipants, plotTarget, randomMethod, randomEntry);
+        PlotData Plot = new PlotData(currentSchemeType.name,CurrentCharacter, plotter, participants, targetParticipants, plotTarget, randomMethod, randomEntry);
 
         Plot.BaseMethod = currentSchemeType.BaseMethod;
 

@@ -53,6 +53,24 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     public void Show(Character ofCharacter)
     {
+        if (ofCharacter.TopEmployer == CORE.PC)
+        {
+            GlobalMessagePrompterUI.Instance.Show("No reason to bribe your own minions!");
+            return;
+        }
+
+        if (!ofCharacter.IsKnown("Name", CORE.PC))
+        {
+            GlobalMessagePrompterUI.Instance.Show("Must know this characters NAME");
+            return;
+        }
+
+        if (!ofCharacter.IsKnown("HomeLocation", CORE.PC))
+        {
+            GlobalMessagePrompterUI.Instance.Show("Must know this characters 'Home Location'");
+            return;
+        }
+
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         CurrentCharacter = ofCharacter;

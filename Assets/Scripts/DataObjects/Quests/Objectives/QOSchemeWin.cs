@@ -73,6 +73,7 @@ public class QOSchemeWin : QuestObjective
 
     public override bool Validate()
     {
+
         if (!subscribed)
         {
             subscribed = true;

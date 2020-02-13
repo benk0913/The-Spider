@@ -28,6 +28,7 @@ public class QuestObjective : ScriptableObject
     [System.NonSerialized]
     public Character TargetCharacter;
 
+    public List<QuestObjective> FailConditions = new List<QuestObjective>();
 
     public virtual QuestObjective CreateClone()
     {
@@ -41,6 +42,25 @@ public class QuestObjective : ScriptableObject
     public virtual bool Validate()
     {
         return true;
+    }
+
+    public virtual bool Failed()
+    {
+        foreach(QuestObjective failCondition in FailConditions)
+        {
+            if(failCondition.Validate())
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    public virtual void ObjectiveFailed()
+    {
+        IsComplete = true;
+        QuestsPanelUI.Instance.ObjectiveFailed(this);
     }
 
     public virtual void Complete()

@@ -70,7 +70,6 @@ public class KnowledgeItemUnlockableUI : MonoBehaviour
 
     public virtual void Consume(DragDroppableRumorUI item)
     {
-
         CurrentCharacter.KnowledgeRumors.Remove(item.CurrentRumor);
 
         if (CurrentKnowledge.Key == item.CurrentRumor.RelevantKey)

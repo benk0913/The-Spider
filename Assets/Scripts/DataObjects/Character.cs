@@ -707,6 +707,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public List<KnowledgeRumor> KnowledgeRumors = new List<KnowledgeRumor>();
 
+    public List<KnowledgeRumor> InformationSold = new List<KnowledgeRumor>();
+
     public bool IsKnown(string itemKey, Character byCharacter)
     {
         if(Known == null)
@@ -1586,7 +1588,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             node["KnowledgeRumors"][i] = KnowledgeRumors[i].ToJSON();
         }
 
-        for(int i=0;i<FavorPoints.Count;i++)
+        for (int i = 0; i < InformationSold.Count; i++)
+        {
+            node["InformationSold"][i] = InformationSold[i].ToJSON();
+        }
+
+        for (int i=0;i<FavorPoints.Count;i++)
         {
             node["Favors"][i]["CharacterID"] = FavorPoints[i].Key.ID.ToString();
             node["Favors"][i]["Favor"] = FavorPoints[i].Value.ToString();
@@ -1699,7 +1706,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
         KnowledgeRumors.Clear();
         for (int i = 0; i < node["KnowledgeRumors"].Count; i++)
         {
+            KnowledgeRumors.Add(new KnowledgeRumor());
             KnowledgeRumors[i].FromJSON(node["KnowledgeRumors"][i]);
+        }
+
+        InformationSold.Clear();
+        for (int i = 0; i < node["InformationSold"].Count; i++)
+        {
+            InformationSold.Add(new KnowledgeRumor());
+            InformationSold[i].FromJSON(node["InformationSold"][i]);
         }
 
         favorPointsIDs.Clear();

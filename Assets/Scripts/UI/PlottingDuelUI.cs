@@ -88,6 +88,8 @@ public class PlottingDuelUI : MonoBehaviour
         CurrentEntry = plot.Entry;
         CurrentMethod = plot.Method;
 
+        PlotName.text = CurrentPlot.Name;
+
         EntryImage.sprite = plot.Entry.Icon;
         EntryTitle.text = plot.Entry.name;
         LocationPortrait.SetLocation(location);

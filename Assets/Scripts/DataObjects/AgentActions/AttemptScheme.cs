@@ -63,6 +63,14 @@ public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
                 reason = new FailReason("Don't know the targets current location");
                 return false;
             }
+
+            if(targetCharacter.PrisonLocation != null 
+                && targetCharacter.PrisonLocation.OwnerCharacter != null 
+                && targetCharacter.PrisonLocation.OwnerCharacter.TopEmployer == character.TopEmployer)
+            {
+                reason = new FailReason("No need to plot against your own prisoners.");
+                return false;
+            }
         }
         else if (target.GetType() == typeof(LocationEntity))
         {
