@@ -10,29 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e0cfd2a7a1508cd4895bd5d63bd00a32, type: 3}
-  m_Name: Interrogate
+  m_Name: Interrogated - Threats
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: a475d1e8324c2cc47b0f631d5f68a64e, type: 3}
-  Description: 'Interrogate, ask about everything the character knows, under pressure,
-    something will spill out...
+  Icon: {fileID: 21300000, guid: 6f81ff8c4cd06ed48aad6e0ef1b9d8d5, type: 3}
+  Description: 'Interrogate this character by threatening. The fear of what''s to
+    come may break it.
 
-    <color=red>Warning, the interrogated may die
-    in the process</color>'
-  Category: {fileID: 11400000, guid: 68848daf1751c4f4ea60aa9649180069, type: 2}
+    <color=yellow>Success will result in 12 information items
+    about this character & his colleagues & employer.</color>
+
+    <color=green>Your
+    Reputation VS Target''s Discreet Skill</color>'
+  Category: {fileID: 0}
   RequiredTraits: []
   MinimumAge: 0
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
-  TechRequired: {fileID: 11400000, guid: e75476d3c549b4946a395898688d823f, type: 2}
+  TechRequired: {fileID: 0}
+  ItemRequired: {fileID: 0}
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
     RarityValue: 0
     InvertedChance: 0
   FailureResult: {fileID: 0}
+  SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 1478687570250304421, guid: 55fffd0118943ee45b8cdd33230ec01c,
     type: 3}
+  WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
+  OnExecutePopup: {fileID: 0}
+  ActionDoneByTarget: 0
+  InvokeEventOnExecute: Interrogated
+  Type: 0
+  DeathPopup: {fileID: 0}
+  WinPopup: {fileID: 11400000, guid: e5549acd8933a91478c0751b97332cdf, type: 2}

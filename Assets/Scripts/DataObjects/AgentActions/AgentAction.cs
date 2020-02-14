@@ -45,6 +45,8 @@ public class AgentAction : ScriptableObject
 
     public bool ActionDoneByTarget = false;
 
+    public string InvokeEventOnExecute = "";
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         RecentTaret = target;
@@ -208,10 +210,17 @@ public class AgentAction : ScriptableObject
         {
             SuccessResult.Execute(requester, character, target);
         }
+
+        if (!string.IsNullOrEmpty(InvokeEventOnExecute))
+        {
+            CORE.Instance.InvokeEvent(InvokeEventOnExecute);
+        }
     }
 
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        RecentTaret = target;
+
         reason = null;
 
         if (TechRequired != null)
