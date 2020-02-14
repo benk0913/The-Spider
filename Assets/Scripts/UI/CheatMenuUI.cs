@@ -52,7 +52,16 @@ public class CheatMenuUI : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             Quest quest = QuestsPanelUI.Instance.ActiveQuests.Find(x => x.Tutorial);
-            QuestsPanelUI.Instance.QuestComplete(quest);
+            foreach(QuestObjective objective in quest.Objectives)
+            {
+                if (objective.ValidateRoutine != null)
+                {
+                    StopCoroutine(objective.ValidateRoutine);
+                    objective.ValidateRoutine = null;
+                }
+
+                objective.Complete();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {

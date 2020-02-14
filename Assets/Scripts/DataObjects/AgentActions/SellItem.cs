@@ -26,12 +26,8 @@ public class SellItem : AgentAction
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        reason = null;
         ItemUI item = (ItemUI)target;
-
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
 
         if(!requester.Belogings.Contains(item.CurrentItem))
         {
@@ -41,6 +37,11 @@ public class SellItem : AgentAction
         if (!item.CurrentItem.Sellable)
         {
             reason = new FailReason("This item is not for selling!");
+            return false;
+        }
+
+        if (!base.CanDoAction(requester, character, target, out reason))
+        {
             return false;
         }
 

@@ -14,12 +14,14 @@ public class AttemptInterrogatePerson : LongTermTaskExecuter //DO NOT INHERIT FR
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
+        reason = null;
+
+        if (targetChar.PrisonLocation == null)
         {
             return false;
         }
 
-        if (targetChar.PrisonLocation == null)
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }

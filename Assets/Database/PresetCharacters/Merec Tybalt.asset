@@ -13,19 +13,24 @@ MonoBehaviour:
   m_Name: Merec Tybalt
   m_EditorClassIdentifier: 
   ID: 
+  IsAlwaysKnown: 0
   IsDead: 0
   Gold: 0
   Connections: 0
   Rumors: 0
   Progress: 0
-  _currentFaction: {fileID: 0}
+  _currentFaction: {fileID: 11400000, guid: f5ecdc334a6287f4da008163a657da33, type: 2}
   AI: {fileID: 0}
   WorkLocation: {fileID: 0}
   PrisonLocation: {fileID: 0}
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
+  PuppetOf: {fileID: 0}
   PropertiesOwned: []
-  Traits: []
+  Traits:
+  - {fileID: 11400000, guid: a6ed66bc4525f3f4ba908636708afa9d, type: 2}
+  - {fileID: 11400000, guid: 5d2551cbfb435e243b1205c03ee3645a, type: 2}
+  - {fileID: 11400000, guid: 67b538a369f29254ba21e6e054b6e3d9, type: 2}
   VisualSet: {fileID: 0}
   gender: 0
   age: 60
@@ -35,10 +40,13 @@ MonoBehaviour:
   face: {fileID: 11400000, guid: b3dd17bf078954b4dbc4864e890a1091, type: 2}
   hair: {fileID: 11400000, guid: 2b5d17ea928f8e8489c86ab6d23e0e76, type: 2}
   clothing: {fileID: 11400000, guid: 47579e1895ecc3048909460289c94733, type: 2}
-  UniquePortrait: {fileID: 21300000, guid: 4f2d6da78fbe40344b76abb843bb312c, type: 3}
+  UniquePortrait: {fileID: 0}
   Belogings: []
+  KnowledgeRumors: []
+  InformationSold: []
   StateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  _isGuard: 0

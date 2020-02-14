@@ -42,6 +42,12 @@ public class WorldMissionPanelUI : MonoBehaviour
 
     public void Refresh()
     {
+        if(CurrentQuest == null)
+        {
+            Hide();
+            return;
+        }
+
         QuestTitle.text = CurrentQuest.name;
         QuestDescription.text = CurrentQuest.Description;
 

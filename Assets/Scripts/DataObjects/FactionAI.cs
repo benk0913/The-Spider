@@ -710,7 +710,11 @@ public class FactionAI : ScriptableObject
         if (plotTarget.GetType() == typeof(PortraitUI) || plotTarget.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetCharacter = ((PortraitUI)plotTarget).CurrentCharacter;
-            targetParticipants.Add(targetCharacter);
+
+            if (targetCharacter.PrisonLocation == null && targetCharacter.Age >= 15 && !targetCharacter.IsInTrouble)
+            {
+                targetParticipants.Add(targetCharacter);
+            }
 
             targetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x =>
            x.PrisonLocation == null

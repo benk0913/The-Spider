@@ -27,7 +27,7 @@ public class QOFactionHeadIsPuppet : QuestObjective
         }
         else
         {
-            if(CurrentCharacter.IsDead || CurrentCharacter.CurrentFaction.name != PuppetFaction.name)
+            if(CurrentCharacter.IsDead || (PuppetFaction != null && CurrentCharacter.CurrentFaction.name != PuppetFaction.name))
             {
                 CurrentCharacter = null;
                 return false;

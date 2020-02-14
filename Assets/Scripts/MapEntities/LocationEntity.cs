@@ -64,6 +64,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public bool PresetLocation = false;
 
     [SerializeField]
+    public bool StartsDisabled = false;
+
+    [SerializeField]
     GameObject WhenHiddenObject;
 
     public List<Character> FiredEmployeees = new List<Character>();
@@ -75,6 +78,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public bool IsRuined;
 
     public int CurrentUpgradeLength;
+
+    public bool IsDisabled = false;
 
     public UnityEvent StateUpdated;
 
@@ -248,7 +253,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 }
             }
 
-            List<Character> charactersToAdd = new List<Character>();
+            List<Character> employeesToAdd = new List<Character>();
             while (EmployeesCharacters.Count > 0)
             {
                 Character tempChar = CORE.Instance.GetCharacter(EmployeesCharacters[0].name);
@@ -260,14 +265,34 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                     continue;
                 }
 
-                charactersToAdd.Add(tempChar);
+                employeesToAdd.Add(tempChar);
             }
-            foreach (Character character in charactersToAdd)
+
+            List<Character> guardsToAdd = new List<Character>();
+            while (GuardsCharacters.Count > 0)
+            {
+                Character tempChar = CORE.Instance.GetCharacter(GuardsCharacters[0].name);
+
+                GuardsCharacters.RemoveAt(0);
+
+                if (tempChar == null)
+                {
+                    continue;
+                }
+
+                guardsToAdd.Add(tempChar);
+            }
+            foreach (Character character in employeesToAdd)
             {
                 character.StartWorkingFor(this);
             }
+            foreach (Character character in guardsToAdd)
+            {
+                character.StartWorkingFor(this,true);
+            }
 
-            charactersToAdd.Clear();
+            employeesToAdd.Clear();
+            guardsToAdd.Clear();
             while (CharactersLivingInLocation.Count > 0)
             {
                 Character tempChar = CORE.Instance.GetCharacter(CharactersLivingInLocation[0].name);
@@ -279,14 +304,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                     continue;
                 }
 
-                charactersToAdd.Add(tempChar);
+                employeesToAdd.Add(tempChar);
             }
-            foreach (Character character in charactersToAdd)
+            foreach (Character character in employeesToAdd)
             {
                 character.StartLivingIn(this);
             }
 
-            charactersToAdd.Clear();
+            employeesToAdd.Clear();
             while (CharactersInLocation.Count > 0)
             {
                 Character tempChar = CORE.Instance.GetCharacter(CharactersInLocation[0].name);
@@ -298,17 +323,49 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                     continue;
                 }
 
-                charactersToAdd.Add(tempChar);
+                employeesToAdd.Add(tempChar);
             }
-            foreach (Character character in charactersToAdd)
+            foreach (Character character in employeesToAdd)
             {
                 character.GoToLocation(this);
             }
+        }
+
+        if(StartsDisabled)
+        {
+            DisableProperty();
+        }
+    }
+
+    public void EnableProperty()
+    {
+        IsDisabled = false;
+
+        this.gameObject.SetActive(true);
+        foreach (Character character in CharactersInLocation)
+        {
+            character.EnableCharacter();
+        }
+    }
+
+    public void DisableProperty()
+    {
+        IsDisabled = true;
+
+        this.gameObject.SetActive(false);
+        foreach(Character character in CharactersInLocation)
+        {
+            character.DisableCharacter();
         }
     }
 
     public IEnumerator TurnPassed()
     {
+        if(IsDisabled)
+        {
+            yield break;
+        }
+
         ProgressUpgrade();
 
         List<LongTermTaskEntity> CompleteEarly = new List<LongTermTaskEntity>();
@@ -976,6 +1033,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
         node["NearestDistrict"] = NearestDistrict == null? "" : NearestDistrict.ID;
         node["LandValue"] = LandValue.ToString();
+        node["IsDisabled"] = IsDisabled.ToString();
 
         if (CurrentAction != null)
         {
@@ -1022,6 +1080,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
         _nearestDistrictID = node["NearestDistrict"];
         LandValue = int.Parse(node["LandValue"]);
+        IsDisabled = bool.Parse(node["IsDisabled"]);
 
 
         transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
@@ -1097,6 +1156,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             NearestDistrict = CORE.Instance.Locations.Find(x => x.ID == _nearestDistrictID);
         }
 
+        if(IsDisabled)
+        {
+            DisableProperty();
+            return;
+        }
+
         RefreshState();
     }
 
@@ -1122,6 +1187,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             GuardsCharacters[0].StopWorkingForCurrentLocation();
         }
 
+        for(int i=0;i<PrisonersCharacters.Count;i++)
+        {
+            PrisonersCharacters[i].Death();
+        }
+
         if (TaskDurationUI != null)
         {
             TaskDurationUI.Wipe();
@@ -1137,7 +1207,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 }
                 else
                 {
-                    //FACTION DED
+                    //TODO FACTION DED
                 }
             }
 

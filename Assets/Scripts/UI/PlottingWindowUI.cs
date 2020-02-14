@@ -134,7 +134,10 @@ public class PlottingWindowUI : MonoBehaviour
                 return;
             }
 
-            TargetParticipants.Add(targetCharacter);
+            if (targetCharacter.PrisonLocation == null && targetCharacter.Age >= 15 && !targetCharacter.IsInTrouble)
+            {
+                TargetParticipants.Add(targetCharacter);
+            }
 
             TargetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x =>
             x.PrisonLocation == null

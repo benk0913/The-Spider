@@ -163,6 +163,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public int Progress;
 
+    public bool IsDisabled = false;
+
+    public bool NeverDED = false;
 
     public Faction CurrentFaction
     {
@@ -981,12 +984,27 @@ public class Character : ScriptableObject, ISaveFileCompatible
         return Employer.IsPuppetOf(faction);
     }
 
+    public void DisableCharacter()
+    {
+        IsDisabled = true;
+    }
+
+    public void EnableCharacter()
+    {
+        IsDisabled = false;
+    }
+
     #endregion
 
     #region AI
 
     public void OnTurnPassedAI()
     {
+        if(IsDisabled)
+        {
+            return;
+        }
+
         for(int i=0;i<DynamicRelationsModifiers.Count;i++)
         {
             DynamicRelationsModifiers[i].Turns--;
@@ -1227,13 +1245,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void StartWorkingFor(LocationEntity location, bool isGuard = false)
     {
-        if (location.OwnerCharacter.CurrentFaction.isAlwaysKnown)
+        if (location.OwnerCharacter != null && location.OwnerCharacter.CurrentFaction.isAlwaysKnown)
         {
             Known.KnowAll("Faction");
         }
         else
         {
-            if (location.OwnerCharacter.CurrentFaction != CurrentFaction)
+            if (location.OwnerCharacter != null && location.OwnerCharacter.CurrentFaction != CurrentFaction)
             {
                 Known.ForgetAll("Faction");
             }
@@ -1481,6 +1499,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void Death(bool notify = true)
     {
+        if(NeverDED)
+        {
+            return; 
+        }
+
         if (this.TopEmployer == CORE.PC && PropertiesOwned.Count > 0)
         {
             string deathString = this.name + " has died! Lost ownership on:";
@@ -1554,6 +1577,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Rumors"] = Rumors.ToString();
         node["Progress"] = Progress.ToString();
         node["Reputation"] = Reputation.ToString();
+
+        node["NeverDED"] = NeverDED.ToString();
 
         node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
 
@@ -1655,6 +1680,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Rumors = int.Parse(node["Rumors"]);
         Progress = int.Parse(node["Progress"]);
         Reputation = int.Parse(node["Reputation"]);
+
+        NeverDED = bool.Parse(node["NeverDED"]);
 
         _prisonLocationID = node["PrisonLocation"];
         _puppetOfFaction = node["PuppetOf"];

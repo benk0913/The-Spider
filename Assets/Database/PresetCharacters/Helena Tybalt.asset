@@ -13,15 +13,22 @@ MonoBehaviour:
   m_Name: Helena Tybalt
   m_EditorClassIdentifier: 
   ID: 
-  isKnownOnStart: 0
-  _gold: 10
-  _currentFaction: {fileID: 11400000, guid: 443725c2f3553614b812c27df531305b, type: 2}
+  IsAlwaysKnown: 0
+  IsDead: 0
+  Gold: 0
+  Connections: 0
+  Rumors: 0
+  Progress: 0
+  _currentFaction: {fileID: 11400000, guid: f5ecdc334a6287f4da008163a657da33, type: 2}
+  AI: {fileID: 0}
   WorkLocation: {fileID: 0}
+  PrisonLocation: {fileID: 0}
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
+  PuppetOf: {fileID: 0}
   PropertiesOwned: []
   Traits:
-  - {fileID: 11400000, guid: a6ed66bc4525f3f4ba908636708afa9d, type: 2}
+  - {fileID: 11400000, guid: 5d2551cbfb435e243b1205c03ee3645a, type: 2}
   - {fileID: 11400000, guid: 99a7d2ffadc596e44a1db3dbe51aef29, type: 2}
   - {fileID: 11400000, guid: 2fa2c0b3560e581449fb53305ffa5e63, type: 2}
   VisualSet: {fileID: 11400000, guid: d85281ac662695d4c8936c96bac51df9, type: 2}
@@ -34,8 +41,12 @@ MonoBehaviour:
   hair: {fileID: 11400000, guid: 73ae1f2ac19630c4c8e5321af2c84aea, type: 2}
   clothing: {fileID: 11400000, guid: 0e4d991c73211ab49be57544e86338bc, type: 2}
   UniquePortrait: {fileID: 0}
+  Belogings: []
+  KnowledgeRumors: []
+  InformationSold: []
   StateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  _isGuard: 0
