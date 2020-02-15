@@ -17,7 +17,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     float DispensingSpeed = 1f;
 
-    List<EnvelopeEntity> Envelopes = new List<EnvelopeEntity>();
+    public List<EnvelopeEntity> Envelopes = new List<EnvelopeEntity>();
 
     private void Awake()
     {

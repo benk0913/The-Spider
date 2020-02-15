@@ -72,6 +72,11 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
     public void Show()
     {
         this.gameObject.SetActive(true);
+
+        if (ArchivedLetters.Count > 0)
+        {
+            LetterSelected(ArchivedLetters[ArchivedLetters.Count-1]);
+        }
     }
 
     public void CloseWindow()

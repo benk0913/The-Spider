@@ -12,6 +12,15 @@ public class QRRelationWithFaction : QuestReward
     {
         base.Claim(byCharacter);
 
-        CORE.Instance.Factions.Find(x => x.name == WithFaction.name).Relations.GetRelations(byCharacter.CurrentFaction).TotalValue += Value;
+        Faction faction = CORE.Instance.Factions.Find(x => x.name == WithFaction.name);
+
+        if(faction == null)
+        {
+            Debug.LogError("Couldn't Find Faction "+ WithFaction.name);
+            return;
+        }
+        
+        
+        faction.Relations.GetRelations(byCharacter.CurrentFaction).TotalValue += Value;
     }
 }

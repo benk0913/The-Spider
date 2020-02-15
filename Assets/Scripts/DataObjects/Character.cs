@@ -1497,9 +1497,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
         StartDoingTask(task);
     }
 
-    public void Death(bool notify = true)
+    public void Death(bool notify = true, bool forced = false)
     {
-        if(NeverDED)
+        if(NeverDED && !forced)
         {
             return; 
         }

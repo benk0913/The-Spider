@@ -52,6 +52,12 @@ public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
                 return false;
             }
 
+            if(Scheme.GetType() == typeof(AssassinateScheme) && targetCharacter.NeverDED)
+            {
+                reason = new FailReason("You are not allowed to assassinate this character.");
+                return false;
+            }
+
             if(targetCharacter.IsInHiding)
             {
                 reason = new FailReason("The Target Is Temporarily In Hiding...");

@@ -63,10 +63,15 @@ public class CheatMenuUI : MonoBehaviour
                 objective.Complete();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) // Attackers Win Duel
         {
-            ResearchCharacterWindowUI.Instance.CurrentCharacter.KnowledgeRumors.Add(ResearchCharacterWindowUI.Instance.CurrentCharacter.Known.GetRandomKnowledgeRumor());
-            ResearchCharacterWindowUI.Instance.Show(ResearchCharacterWindowUI.Instance.CurrentCharacter);
+            PlottingDuelUI.Instance.TargetsPortraits.Clear();
+            PlottingDuelUI.Instance.ExecuteDuelResult();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) // Defenders Win Dueel
+        {
+            PlottingDuelUI.Instance.ParticipantsPortraits.Clear();
+            PlottingDuelUI.Instance.ExecuteDuelResult();
         }
     }
 

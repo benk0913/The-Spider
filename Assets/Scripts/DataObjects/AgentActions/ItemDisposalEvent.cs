@@ -25,6 +25,7 @@ public class ItemDisposalEvent : AgentAction
         ItemUI itemUI = (ItemUI)target;
 
         character.TopEmployer.Belogings.Remove(itemUI.CurrentItem);
+        OtherRequiredItems.ForEach(x => character.TopEmployer.Belogings.Remove(x));
         InventoryPanelUI.Instance.ItemWasAdded(0);
 
         CORE.Instance.InvokeEvent(InvokeEventKey);

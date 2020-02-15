@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 {
     [SerializeField]
-    LetterPreset PresetLetter;
+    public LetterPreset PresetLetter;
 
     [SerializeField]
     Letter CurrentLetter;

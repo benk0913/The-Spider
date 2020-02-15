@@ -37,7 +37,13 @@ public class ExecutePrisoner : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.PrisonLocation.OwnerCharacter.TopEmployer != character.TopEmployer)
+        if (targetChar.NeverDED)
+        {
+            reason = new FailReason("You are not allowed to execute this character.");
+            return false;
+        }
+
+        if (targetChar.PrisonLocation.OwnerCharacter.TopEmployer != character.TopEmployer)
         {
             return false;
         }

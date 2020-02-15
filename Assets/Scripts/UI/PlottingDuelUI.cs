@@ -37,8 +37,8 @@ public class PlottingDuelUI : MonoBehaviour
     public TextMeshProUGUI PlotName;
 
 
-    List<PortraitUI> ParticipantsPortraits = new List<PortraitUI>();
-    List<PortraitUI> TargetsPortraits = new List<PortraitUI>();
+    public List<PortraitUI> ParticipantsPortraits = new List<PortraitUI>();
+    public List<PortraitUI> TargetsPortraits = new List<PortraitUI>();
 
     List<Transform> ParticipantsPositionTransforms = new List<Transform>();
     List<Transform> TargetsPositionTransforms = new List<Transform>();
@@ -46,9 +46,9 @@ public class PlottingDuelUI : MonoBehaviour
     PlotEntry CurrentEntry;
     PlotMethod CurrentMethod;
 
-    System.Action<DuelResultData> OnComplete;
+    public System.Action<DuelResultData> OnComplete;
 
-    PlotData CurrentPlot;
+    public PlotData CurrentPlot;
 
     public bool SpeedMode = false;
 
@@ -138,9 +138,14 @@ public class PlottingDuelUI : MonoBehaviour
 
         }
 
+        ExecuteDuelResult();
+    }
+
+    public void ExecuteDuelResult()
+    {
         FailReason reason = null;
 
-        if(ParticipantsPortraits.Count == 0)
+        if (ParticipantsPortraits.Count == 0)
         {
             reason = new FailReason("Lost Duels");
         }
@@ -161,7 +166,7 @@ public class PlottingDuelUI : MonoBehaviour
 
         DuelResultData result = new DuelResultData(CurrentPlot, participants, targets, reason);
         OnComplete(result);
-
+        
         Hide();
     }
 

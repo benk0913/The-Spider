@@ -40,6 +40,23 @@ public class WorldMissionPanelUI : MonoBehaviour
         Refresh();
     }
 
+    public void HideQuest(Quest quest)
+    {
+        if(CurrentQuest != quest)
+        {
+            return;
+        }
+
+        CurrentQuest = QuestsPanelUI.Instance.ActiveQuests.Find(x => x.Tutorial);
+
+        if(CurrentQuest != null)
+        {
+            return;
+        }
+
+        Hide();
+    }
+
     public void Refresh()
     {
         if(CurrentQuest == null)

@@ -21,6 +21,11 @@ public class AmbushAssassinate : AgentAction //DO NOT INHERIT FROM
             targetChar.CurrentFaction.Relations.GetRelations(character.CurrentFaction).TotalValue -= 2;
         }
 
+        if(targetChar.NeverDED)
+        {
+            return;
+        }
+
         float charSTR = character.GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value;
         float targetSTR = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value;
 

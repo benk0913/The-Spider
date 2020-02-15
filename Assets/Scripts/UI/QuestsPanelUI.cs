@@ -72,7 +72,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             {
                 CORE.Instance.StopCoroutine(objective.ValidateRoutine);
             }
-            Debug.Log("sTARTING ROUTINE " + objective.name);
+
             objective.ValidateRoutine = CORE.Instance.StartCoroutine(ValidateObjectiveRoutine(objective));
 
             if (quest.ForCharacter != CORE.PC)
@@ -110,6 +110,62 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             {
                 quest.OnStartQuestAction.Activate();
             }
+        }
+    }
+
+    public void RemoveExistingQuest(Quest givenQuest)
+    {
+        Quest quest = ActiveQuests.Find(x => x.name == givenQuest.name);
+
+        if(quest == null)
+        {
+            Debug.LogError("Couldn't Find Quest " + givenQuest.name);
+            return;
+        }
+
+        if (quest.ForCharacter == CORE.PC)
+        {
+            if (!activeQuestsButton.interactable)
+            {
+                for (int i = 0; i < questsContainer.childCount; i++)
+                {
+                    QuestHeadlineUI headline = questsContainer.GetChild(i).GetComponent<QuestHeadlineUI>();
+                    if (headline != null && headline.CurrentQuest == quest)
+                    {
+                        headline.Complete();
+                    }
+                }
+            }
+        }
+
+        ActiveQuests.Remove(quest);
+
+        if (quest.Tutorial)
+        {
+            WorldMissionPanelUI.Instance.HideQuest(quest);
+        }
+
+        foreach (QuestObjective objective in quest.Objectives)
+        {
+            if (objective.ValidateRoutine != null)
+            {
+                CORE.Instance.StopCoroutine(objective.ValidateRoutine);
+            }
+
+            if (objective.WorldMarker != null)
+            {
+                objective.WorldMarker.gameObject.SetActive(false);
+            }
+        }
+
+        if (quest.ForCharacter == CORE.PC)
+        {
+            Notification.Add(0);
+        }
+
+        if (quest.RelevantCharacter != null)
+        {
+            RelevantCharacters.Remove(quest.RelevantCharacter);
         }
     }
 
