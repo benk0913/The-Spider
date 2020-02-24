@@ -227,29 +227,10 @@ public class PlottingDuelUI : MonoBehaviour
                 yield return new WaitForSeconds(3f);
             }
 
-            t = 0f;
-            while (t < 1f)
-            {
-                if (!SpeedMode)
-                {
-                    t += 1f * Time.deltaTime;
-                }
-                else
-                {
-                    t += 2f * Time.deltaTime;
-                }
+            yield return StartCoroutine(KillCharacterRoutine(Target));
 
-                Target.transform.localScale = Vector3.Lerp(Target.transform.localScale, Vector3.zero, t);
-
-
-                yield return 0;
-            }
-
-            ParticipantsPortraits.Add(Participant);
-            
-
-            Target.transform.localScale = Vector3.one;
-            Target.gameObject.SetActive(false);
+            yield return StartCoroutine(RetrieveCharacterRoutine(Participant));
+           
         }
         else // Lose
         {
@@ -271,27 +252,9 @@ public class PlottingDuelUI : MonoBehaviour
             }
             else //Normal State
             {
-                t = 0f;
-                while (t < 1f)
-                {
-                    if (!SpeedMode)
-                    {
-                        t += 1f * Time.deltaTime;
-                    }
-                    else
-                    {
-                        t += 2f * Time.deltaTime;
-                    }
+                yield return StartCoroutine(KillCharacterRoutine(Participant));
 
-                    Participant.transform.localScale = Vector3.Lerp(Participant.transform.localScale, Vector3.zero, t);
-
-                    yield return 0;
-                }
-
-                TargetsPortraits.Add(Target);
-
-                Participant.transform.localScale = Vector3.one;
-                Participant.gameObject.SetActive(false);
+                yield return StartCoroutine(RetrieveCharacterRoutine(Target));
             }
         }
 
@@ -409,4 +372,77 @@ public class PlottingDuelUI : MonoBehaviour
 
         SpeedMode = true;
     }
+
+    public void RetrieveCharacter(Character character)
+    {
+        PortraitUI portrait = TargetsPortraits.Find(x => x.CurrentCharacter == character);
+
+        if (portrait == null)
+        {
+            portrait = ParticipantsPortraits.Find(x => x.CurrentCharacter == character);
+        }
+
+        if (portrait == null)
+        {
+            return;
+        }
+
+        StartCoroutine(RetrieveCharacterRoutine(portrait));
+    }
+
+    IEnumerator RetrieveCharacterRoutine(PortraitUI portrait)
+    {
+        ParticipantsPortraits.Add(portrait);
+        yield return 0;
+
+    }
+
+    public void KillCharacter(Character character)
+    {
+        PortraitUI portrait = TargetsPortraits.Find(x => x.CurrentCharacter == character);
+
+        if (portrait == null)
+        {
+            portrait = ParticipantsPortraits.Find(x => x.CurrentCharacter == character);
+            
+            if (portrait == null)
+            {
+                return;
+            }
+
+            ParticipantsPortraits.Remove(portrait);
+        }
+        else
+        {
+            TargetsPortraits.Remove(portrait);
+        }
+
+
+        StartCoroutine(KillCharacterRoutine(portrait));
+    }
+
+    IEnumerator KillCharacterRoutine(PortraitUI portrait)
+    {
+        float t = 0f;
+        while (t < 1f)
+        {
+            if (!SpeedMode)
+            {
+                t += 1f * Time.deltaTime;
+            }
+            else
+            {
+                t += 2f * Time.deltaTime;
+            }
+
+            portrait.transform.localScale = Vector3.Lerp(portrait.transform.localScale, Vector3.zero, t);
+
+
+            yield return 0;
+        }
+        
+        portrait.transform.localScale = Vector3.one;
+        portrait.gameObject.SetActive(false);
+    }
+    
 }
