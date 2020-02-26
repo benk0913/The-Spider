@@ -1955,7 +1955,11 @@ public class DynamicRelationsModifier : ISaveFileCompatible
 
         node["Modifier"] = Modifier.ToJSON();
         node["Turns"] = Turns.ToString();
-        node["ToCharacter"] = ToCharacter.ID.ToString();
+
+        if (ToCharacter != null) //TODO Potentially wrong, we may have to halt the saving of this quest if no ToChar
+        {
+            node["ToCharacter"] = ToCharacter.ID.ToString();
+        }
 
         return node;
     }

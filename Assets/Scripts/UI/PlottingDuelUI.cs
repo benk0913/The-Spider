@@ -36,6 +36,9 @@ public class PlottingDuelUI : MonoBehaviour
 
     public TextMeshProUGUI PlotName;
 
+    public GameObject ProcEventPanel;
+    public TextMeshProUGUI ProcEventTitle;
+    public Image ProcEventImage;
 
     public List<PortraitUI> ParticipantsPortraits = new List<PortraitUI>();
     public List<PortraitUI> TargetsPortraits = new List<PortraitUI>();
@@ -45,6 +48,8 @@ public class PlottingDuelUI : MonoBehaviour
 
     PlotEntry CurrentEntry;
     PlotMethod CurrentMethod;
+    public Character LastDefeatedParticipant;
+    public Character LastDefeatedTarget;
 
     public System.Action<DuelResultData> OnComplete;
 
@@ -52,6 +57,13 @@ public class PlottingDuelUI : MonoBehaviour
 
     public bool SpeedMode = false;
 
+    public bool IsPlayerAttacker
+    {
+        get
+        {
+            return CurrentPlot.Plotter.TopEmployer == CORE.PC;
+        }
+    }
 
     private void Awake()
     {
@@ -124,6 +136,8 @@ public class PlottingDuelUI : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
+        yield return StartCoroutine(InvokeStage("StartMatch"));
+
         while (ParticipantsPortraits.Count > 0 && TargetsPortraits.Count > 0)
         {
             PortraitUI Participant = ParticipantsPortraits[0];
@@ -136,7 +150,17 @@ public class PlottingDuelUI : MonoBehaviour
 
             yield return StartCoroutine(SpecificDuelRoutine(Participant, Target));
 
+            if (ParticipantsPortraits.Count == 0)
+            {
+                yield return StartCoroutine(InvokeStage("MatchFailed"));
+            }
+            else if (TargetsPortraits.Count == 0)
+            {
+                yield return StartCoroutine(InvokeStage("MatchWon"));
+            }
         }
+
+        yield return StartCoroutine(InvokeStage("EndMatch"));
 
         ExecuteDuelResult();
     }
@@ -230,7 +254,8 @@ public class PlottingDuelUI : MonoBehaviour
             yield return StartCoroutine(KillCharacterRoutine(Target));
 
             yield return StartCoroutine(RetrieveCharacterRoutine(Participant));
-           
+
+            yield return StartCoroutine(InvokeStage("DuelWon"));
         }
         else // Lose
         {
@@ -243,12 +268,12 @@ public class PlottingDuelUI : MonoBehaviour
 
             if (CurrentMethod != CurrentPlot.BaseMethod) // BRUTE SWITCH
             {
-                CurrentMethod = CurrentPlot.BaseMethod;
-                MethodImage.sprite = CurrentMethod.Icon;
-                MethodTitle.text = CurrentMethod.name;
+                ChangeMethod(CurrentPlot.BaseMethod);
 
                 ParticipantsPortraits.Add(Participant);
                 TargetsPortraits.Add(Target);
+
+                yield return StartCoroutine(InvokeStage("MethodFailure"));
             }
             else //Normal State
             {
@@ -256,6 +281,8 @@ public class PlottingDuelUI : MonoBehaviour
 
                 yield return StartCoroutine(RetrieveCharacterRoutine(Target));
             }
+
+            yield return StartCoroutine(InvokeStage("DuelFailed"));
         }
 
         if (!SpeedMode)
@@ -286,26 +313,6 @@ public class PlottingDuelUI : MonoBehaviour
         StopAllCoroutines();
         ClearGenerated();
         this.gameObject.SetActive(false);
-    }
-
-    void GenerateParticipant(Character character)
-    {
-        GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
-        portraitObj.transform.SetParent(transform);
-        portraitObj.transform.localScale = new Vector3(-1, 1, 1);
-        PortraitUI portrait = portraitObj.GetComponent<PortraitUI>();
-        portrait.SetCharacter(character);
-        ParticipantsPortraits.Add(portrait);
-    }
-
-    void GenerateTarget(Character character)
-    {
-        GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
-        portraitObj.transform.SetParent(transform);
-        portraitObj.transform.localScale = Vector3.one;
-        PortraitUI portrait = portraitObj.GetComponent<PortraitUI>();
-        portrait.SetCharacter(character);
-        TargetsPortraits.Add(portrait);
     }
 
     void RefreshPositionTransforms()
@@ -373,6 +380,26 @@ public class PlottingDuelUI : MonoBehaviour
         SpeedMode = true;
     }
 
+    public void GenerateParticipant(Character character)
+    {
+        GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+        portraitObj.transform.SetParent(transform);
+        portraitObj.transform.localScale = new Vector3(-1, 1, 1);
+        PortraitUI portrait = portraitObj.GetComponent<PortraitUI>();
+        portrait.SetCharacter(character);
+        ParticipantsPortraits.Add(portrait);
+    }
+
+    public void GenerateTarget(Character character)
+    {
+        GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
+        portraitObj.transform.SetParent(transform);
+        portraitObj.transform.localScale = Vector3.one;
+        PortraitUI portrait = portraitObj.GetComponent<PortraitUI>();
+        portrait.SetCharacter(character);
+        TargetsPortraits.Add(portrait);
+    }
+
     public void RetrieveCharacter(Character character)
     {
         PortraitUI portrait = TargetsPortraits.Find(x => x.CurrentCharacter == character);
@@ -423,6 +450,15 @@ public class PlottingDuelUI : MonoBehaviour
 
     IEnumerator KillCharacterRoutine(PortraitUI portrait)
     {
+        if (CurrentPlot.Participants.Contains(portrait.CurrentCharacter))
+        {
+            LastDefeatedParticipant = portrait.CurrentCharacter;
+        }
+        else if (CurrentPlot.TargetParticipants.Contains(portrait.CurrentCharacter))
+        {
+            LastDefeatedTarget = portrait.CurrentCharacter;
+        }
+
         float t = 0f;
         while (t < 1f)
         {
@@ -445,4 +481,44 @@ public class PlottingDuelUI : MonoBehaviour
         portrait.gameObject.SetActive(false);
     }
     
+    public IEnumerator InvokeStage(string stageKey)
+    {
+        List<DuelProc> duelProcs = CORE.Instance.Database.DuelProcs.FindAll(x => x.Type.name == stageKey);
+
+        if(duelProcs != null)
+        {
+            foreach(DuelProc duelProc in duelProcs)
+            {
+                if(CurrentPlot.ProcsUsed.Contains(duelProc))
+                {
+                    continue;
+                }
+
+                yield return StartCoroutine(duelProc.Execute());
+            }
+        }
+    }
+
+    public IEnumerator SetProcEvent(DuelProc proc)
+    {
+        if (!proc.Repeatable)
+        {
+            CurrentPlot.ProcsUsed.Add(proc);
+        }
+
+        ProcEventPanel.gameObject.SetActive(true); /// IS NULL?!?!?!? WHY!??!?
+        ProcEventTitle.text = proc.name;
+        ProcEventImage.sprite = proc.Icon;
+
+        yield return new WaitForSeconds(2f);
+
+        ProcEventPanel.gameObject.SetActive(false);
+    }
+
+    public void ChangeMethod(PlotMethod method)
+    {
+        CurrentMethod = method;
+        MethodImage.sprite = CurrentMethod.Icon;
+        MethodTitle.text = CurrentMethod.name;
+    }
 }

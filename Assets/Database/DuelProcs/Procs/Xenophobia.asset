@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd587535acc8e140b9bf5a587c4c02b, type: 3}
+  m_Name: Xenophobia
+  m_EditorClassIdentifier: 
+  isGoodFor: 1
+  Type: {fileID: 11400000, guid: a1e6b78e2c8d34a479701501b4778f03, type: 2}
+  Description: Your agents are overly suspicious of strangers. When a plot-operation
+    is performed against you, which uses stealth or cunningness, it may have a 10%
+    chance to be instantly exposed.
+  Icon: {fileID: 21300000, guid: 22b015f7124c02f40a23601c52ade275, type: 3}
+  Chance: 0.1
+  Repeatable: 0
+  ForMethodCondition:
+  - {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+  - {fileID: 11400000, guid: 8aac169c80776e64ca9b676b09947e4c, type: 2}
+  - {fileID: 11400000, guid: db6fe15c0ff4eb2499618ae3cb1838d4, type: 2}
+  - {fileID: 11400000, guid: 17a2ffebb31a02443acbc91de6eefba1, type: 2}

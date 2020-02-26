@@ -112,6 +112,13 @@ public class GameDBEditor : Editor
             db.SessionRules.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(SessionRule)) as SessionRule);
         }
 
+        guids = AssetDatabase.FindAssets("t:DuelProc", new[] { "Assets/" + db.DataPath });
+        db.DuelProcs.Clear();
+        foreach (string guid in guids)
+        {
+            db.DuelProcs.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(DuelProc)) as DuelProc);
+        }
+
         EditorUtility.SetDirty(db);
     }
 }

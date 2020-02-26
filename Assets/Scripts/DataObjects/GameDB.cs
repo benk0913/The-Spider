@@ -73,6 +73,8 @@ public class GameDB : ScriptableObject
 
     public List<LetterPreset> PresetLetters = new List<LetterPreset>();
 
+    public List<DuelProc> DuelProcs = new List<DuelProc>();
+
     public BonusType[] BonusTypes;
 
     public ReputationInstance[] ReputationTypes;

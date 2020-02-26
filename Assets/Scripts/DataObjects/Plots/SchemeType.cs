@@ -324,6 +324,8 @@ public class PlotData
     public PlotMethod BaseMethod;
     public string Name;
 
+    public List<DuelProc> ProcsUsed = new List<DuelProc>();
+
     public PlotData(string name,Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry)
     {
         this.Requester = requester;
