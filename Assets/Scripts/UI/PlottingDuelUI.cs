@@ -242,7 +242,7 @@ public class PlottingDuelUI : MonoBehaviour
         TargetSkillNumber.text = defenceSkill.ToString();
 
 
-        if (Random.Range(0, offenseSkill + defenceSkill) < offenseSkill) //Win
+        if (Random.Range(0, offenseSkill + defenceSkill) < offenseSkill) //Attackers Win
         {
             Anim.SetTrigger("WinParticipant");
 
@@ -255,9 +255,16 @@ public class PlottingDuelUI : MonoBehaviour
 
             yield return StartCoroutine(RetrieveCharacterRoutine(Participant));
 
-            yield return StartCoroutine(InvokeStage("DuelWon"));
+            if (Participant.CurrentCharacter.TopEmployer == CORE.PC)
+            {
+                yield return StartCoroutine(InvokeStage("DuelWon"));
+            }
+            else
+            {
+                yield return StartCoroutine(InvokeStage("DuelFailed"));
+            }
         }
-        else // Lose
+        else //Defenders Win
         {
             Anim.SetTrigger("WinTarget");
 
@@ -282,7 +289,14 @@ public class PlottingDuelUI : MonoBehaviour
                 yield return StartCoroutine(RetrieveCharacterRoutine(Target));
             }
 
-            yield return StartCoroutine(InvokeStage("DuelFailed"));
+            if (Target.CurrentCharacter.TopEmployer == CORE.PC)
+            {
+                yield return StartCoroutine(InvokeStage("DuelWon"));
+            }
+            else
+            {
+                yield return StartCoroutine(InvokeStage("DuelFailed"));
+            }
         }
 
         if (!SpeedMode)
@@ -419,7 +433,15 @@ public class PlottingDuelUI : MonoBehaviour
 
     IEnumerator RetrieveCharacterRoutine(PortraitUI portrait)
     {
-        ParticipantsPortraits.Add(portrait);
+        if (CurrentPlot.Participants.Contains(portrait.CurrentCharacter))
+        {
+            ParticipantsPortraits.Add(portrait);
+        }
+        else if (CurrentPlot.TargetParticipants.Contains(portrait.CurrentCharacter))
+        {
+            TargetsPortraits.Add(portrait);
+        }
+
         yield return 0;
 
     }

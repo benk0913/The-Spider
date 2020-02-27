@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5386af39a659bde489c19e28e3903d38, type: 3}
   m_Name: Tactical Raids
   m_EditorClassIdentifier: 
-  isGoodForDefenders: 0
+  RequiredTech: {fileID: 11400000, guid: f938e1568f3e54c4ea0ffeec7fb3761b, type: 2}
+  ForMethodCondition:
+  - {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+  - {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+  isGoodFor: 0
   Type: {fileID: 11400000, guid: a1e6b78e2c8d34a479701501b4778f03, type: 2}
   Description: Your assaults begin with a rain of arrows. When you perform a plot-operation
     with "Brute Force", there is a 10% chance for each enemy opponent to die at the

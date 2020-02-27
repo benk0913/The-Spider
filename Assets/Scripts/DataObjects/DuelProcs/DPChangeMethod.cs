@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DPChangeMethod", menuName = "DataObjects/DuelProcs/DPChangeMethod", order = 2)]
 public class DPChangeMethod : DuelProc
 {
-    public List<PlotMethod> ForMethodCondition;
 
     public override IEnumerator Execute()
     {
@@ -30,20 +29,30 @@ public class DPChangeMethod : DuelProc
         {
             return false;
         }
-        
-        if (PlottingDuelUI.Instance.ParticipantsPortraits == null || PlottingDuelUI.Instance.ParticipantsPortraits.Count == 0)
-        {
-            return false;
-        }
 
-        if (PlottingDuelUI.Instance.ParticipantsPortraits[0].CurrentCharacter.TopEmployer != CORE.PC)
+        if (isGoodForDefenders)
         {
-            return false;
-        }
+            if (PlottingDuelUI.Instance.TargetsPortraits == null || PlottingDuelUI.Instance.TargetsPortraits.Count == 0)
+            {
+                return false;
+            }
 
-        if(ForMethodCondition != null  && ForMethodCondition.Count > 0 && ForMethodCondition.Contains(PlottingDuelUI.Instance.CurrentPlot.Method))
+            if (PlottingDuelUI.Instance.TargetsPortraits[0].CurrentCharacter.TopEmployer != CORE.PC)
+            {
+                return false;
+            }
+        }
+        else
         {
-            return false;
+            if (PlottingDuelUI.Instance.ParticipantsPortraits == null || PlottingDuelUI.Instance.ParticipantsPortraits.Count == 0)
+            {
+                return false;
+            }
+
+            if (PlottingDuelUI.Instance.ParticipantsPortraits[0].CurrentCharacter.TopEmployer != CORE.PC)
+            {
+                return false;
+            }
         }
 
         return true;

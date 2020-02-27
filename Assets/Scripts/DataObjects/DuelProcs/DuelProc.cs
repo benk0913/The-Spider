@@ -5,6 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DuelProc", menuName = "DataObjects/DuelProcs/DuelProc", order = 2)]
 public class DuelProc : ScriptableObject
 {
+    public TechTreeItem RequiredTech;
+    
+    public List<PlotMethod> ForMethodCondition;
+
     public bool isGoodForDefenders
     {
         get
@@ -36,11 +40,31 @@ public class DuelProc : ScriptableObject
 
     public virtual bool RollChance()
     {
+        if (CORE.Instance.DEBUG)
+        {
+            Debug.Log("$$$ - Rolled Chance For - " + this.name);
+        }
+
         return Random.Range(0f, 1f) < Chance;
     }
 
     public virtual bool PassedConditions()
     {
+        if (CORE.Instance.DEBUG)
+        {
+            Debug.Log("$$$ - Attempted Conditions - " + this.name);
+        }
+
+        if(!RequiredTech.IsResearched)
+        {
+            return false;
+        }
+
+        if (ForMethodCondition != null && ForMethodCondition.Count > 0 && !ForMethodCondition.Contains(PlottingDuelUI.Instance.CurrentPlot.Method))
+        {
+            return false;
+        }
+
         return true;
     }
 }

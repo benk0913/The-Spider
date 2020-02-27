@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce2d39498671534baa14484d90b5dd6, type: 3}
+  m_Name: Master Of The Sword
+  m_EditorClassIdentifier: 
+  RequiredTech: {fileID: 11400000, guid: 82bf1b81137c16a4a9c38e501ff9c8b2, type: 2}
+  ForMethodCondition:
+  - {fileID: 11400000, guid: 903b2061214ac3e4d95536286fe3f146, type: 2}
+  - {fileID: 11400000, guid: b29f000e89c623a49ab6217aa7a5e856, type: 2}
+  isGoodFor: 2
+  Type: {fileID: 11400000, guid: 1964ddbb2d3d1044ebbf3762bfc5a000, type: 2}
+  Description: Your agents are well trained in the art of murder. When a plot-operation
+    duel is won, you may have a 20% chance to knock out an additional random enemy.
+  Icon: {fileID: 21300000, guid: f21ce7bd37fa3224cabc49d799c68f42, type: 3}
+  Chance: 0.2
+  Repeatable: 1
+  IsRandom: 1

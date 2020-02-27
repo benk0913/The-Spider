@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DPDeath", menuName = "DataObjects/DuelProcs/DPDeath", order = 2)]
-public class DPDeath : DuelProc
+[CreateAssetMenu(fileName = "DPDeathSingle", menuName = "DataObjects/DuelProcs/DPDeathSingle", order = 2)]
+public class DPDeathSingle : DuelProc
 {
+    public bool IsRandom;
 
     public override IEnumerator Execute()
     {
@@ -13,36 +14,49 @@ public class DPDeath : DuelProc
             yield break;
         }
 
+        if (!RollChance())
+        {
+            yield break;
+        }
+
         yield return PlottingDuelUI.Instance.StartCoroutine(PlottingDuelUI.Instance.SetProcEvent(this));
 
-        List<PortraitUI> affected;
+        Character victim;
 
         if (isGoodForDefenders)
         {
-            affected = PlottingDuelUI.Instance.ParticipantsPortraits;
-        }
-        else
-        {
-            affected = PlottingDuelUI.Instance.TargetsPortraits;
-        }
-
-
-        List<PortraitUI> dead = new List<PortraitUI>();
-        foreach (PortraitUI portrait in affected)
-        {
-            if(!RollChance())
+            if (PlottingDuelUI.Instance.ParticipantsPortraits.Count == 0)
             {
                 yield break;
             }
 
-            dead.Add(portrait);
+            if (IsRandom)
+            {
+                victim = PlottingDuelUI.Instance.ParticipantsPortraits[Random.Range(0, PlottingDuelUI.Instance.ParticipantsPortraits.Count)].CurrentCharacter;
+            }
+            else
+            {
+                victim = PlottingDuelUI.Instance.ParticipantsPortraits[0].CurrentCharacter;
+            }
+        }
+        else
+        {
+            if (PlottingDuelUI.Instance.TargetsPortraits.Count == 0)
+            {
+                yield break;
+            }
+
+            if (IsRandom)
+            {
+                victim = PlottingDuelUI.Instance.TargetsPortraits[Random.Range(0, PlottingDuelUI.Instance.TargetsPortraits.Count)].CurrentCharacter;
+            }
+            else
+            {
+                victim = PlottingDuelUI.Instance.TargetsPortraits[0].CurrentCharacter;
+            }
         }
 
-        while(dead.Count > 0)
-        {
-            PlottingDuelUI.Instance.KillCharacter(dead[0].CurrentCharacter);
-            dead.RemoveAt(0);
-        }
+        PlottingDuelUI.Instance.KillCharacter(victim);
     }
 
 

@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd587535acc8e140b9bf5a587c4c02b, type: 3}
   m_Name: Smoke Bomb
   m_EditorClassIdentifier: 
-  DefensiveAbility: 0
+  RequiredTech: {fileID: 11400000, guid: 4acf7ae9d6c87d74d8fb78508bbba57d, type: 2}
+  ForMethodCondition:
+  - {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+  - {fileID: 11400000, guid: 8aac169c80776e64ca9b676b09947e4c, type: 2}
+  isGoodFor: 0
   Type: {fileID: 11400000, guid: b55f6fd9467da644198ba893eeb5911b, type: 2}
   Description: Your agents are well equipped for stealth. When "Stealth" in a plot
     operation fails, there is a 50% chance for a smoke bomb to be released and prevent
     its failure.
   Icon: {fileID: 21300000, guid: 6698a71a63212414f856f73ffe7585a4, type: 3}
   Chance: 0.5
-  ForMethodCondition:
-  - {fileID: 11400000, guid: bad31a1e08f50d8459f4243166747de1, type: 2}
+  Repeatable: 0

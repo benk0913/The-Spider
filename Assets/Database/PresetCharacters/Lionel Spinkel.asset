@@ -13,12 +13,22 @@ MonoBehaviour:
   m_Name: Lionel Spinkel
   m_EditorClassIdentifier: 
   ID: bc3a3f9c9174414c8843c22496f87e4e
-  _gold: 250
+  IsAlwaysKnown: 0
+  IsDead: 0
+  Gold: 0
+  Connections: 0
+  Rumors: 0
+  Progress: 0
+  IsDisabled: 0
+  NeverDED: 1
   _currentFaction: {fileID: 11400000, guid: 1b8211c462c06164ca7e9f3f669a852d, type: 2}
+  AI: {fileID: 0}
   WorkLocation: {fileID: 0}
+  PrisonLocation: {fileID: 0}
+  HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
+  PuppetOf: {fileID: 0}
   PropertiesOwned: []
-  CurrentTaskEntity: {fileID: 0}
   Traits:
   - {fileID: 11400000, guid: 8db126df77a3f2d42ba5dfd263b6eea0, type: 2}
   - {fileID: 11400000, guid: 3b4ce51882bdf1a4fa7af4141b415c9d, type: 2}
@@ -31,8 +41,13 @@ MonoBehaviour:
   face: {fileID: 11400000, guid: 5c3749098b64b014f80f4113732c2679, type: 2}
   hair: {fileID: 11400000, guid: acb38332618742642b8c618ab412b6c0, type: 2}
   clothing: {fileID: 11400000, guid: 0e4d991c73211ab49be57544e86338bc, type: 2}
-  VisualChanged:
+  UniquePortrait: {fileID: 0}
+  Belogings: []
+  KnowledgeRumors: []
+  InformationSold: []
+  StateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  _isGuard: 0
