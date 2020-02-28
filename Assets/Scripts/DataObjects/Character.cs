@@ -1175,6 +1175,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
+        //Hangoutime!
         LocationEntity hangoutLocation = null;
 
         if(Traits.Contains(CORE.Instance.Database.GetTrait("Drunkard")) )
@@ -1557,6 +1558,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             //WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { CORE.Instance.RestartGame(); });
         }
     }
+    
 
     #endregion
 
