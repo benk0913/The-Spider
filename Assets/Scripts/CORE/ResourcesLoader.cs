@@ -375,6 +375,8 @@ public class ResourcesLoader : MonoBehaviour {
         //LoadingWindowUI.Instance.Leave(this);
         LoadingObject.gameObject.SetActive(false);
         RunResourcesLoadedCallbacks();
+
+        CORE.Instance.InvokeEvent("ResourcesComplete");
     }
 
     protected List<Action> m_resourcesLoadedCallbacks = new List<Action>();
