@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Castle Barracks
+  m_EditorClassIdentifier: 
+  Description: Household and castle guards residence in the castle
+  PropertyLevels:
+  - LevelName: Castle Barracks
+    MaxEmployees: 1
+    MaxGuards: 6
+    MaxPrisoners: 0
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Barracks
+    Description: Household and castle guards residence in the castle
+    Icon: {fileID: 21300000, guid: eeb8e36e37f5fbc4aaef07f97d4b7dec, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 11400000, guid: 69ab2559008614944912804f65ec67ae, type: 2}
+    GuardUniform: {fileID: 11400000, guid: 69ab2559008614944912804f65ec67ae, type: 2}
+  Traits:
+  - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
+  - {fileID: 11400000, guid: faae8409ee9bcc14ba648f2ab635006d, type: 2}
+  Icon: {fileID: 21300000, guid: 4df3f41cb2a5616448cf46b4c91e86c5, type: 3}
+  FigurePrefab: {fileID: 3751449078466721607, guid: 6766522c35ad32941986c7fe2f24ba68,
+    type: 3}
+  HoverPrefab: {fileID: 4886344939454610758, guid: 60227934d3b0b59479d094cafad7491e,
+    type: 3}
+  HiddenObject: {fileID: 0}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 5
+  MaxAge: 120
+  PlotType: {fileID: 11400000, guid: a1ab827bf97116440b46b833ba1e68e6, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 1
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: 
+  AlwaysKnown: 1
+  TechRequired: {fileID: 0}
+  IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
+  VisitRumors:
+  - Was spotted in the castle...
+  - Seemed to hang around in the castle more than anywhere else...
+  WorkRumors:
+  - Has a simple role in the castle...
+  - Is a simple guard.
+  - Works in the castle, but not in an important role.

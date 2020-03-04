@@ -979,7 +979,6 @@ Transform:
   - {fileID: 2888873573367131991}
   - {fileID: 1524003806157748281}
   - {fileID: 3322929069991837462}
-  - {fileID: 7169226379104800680}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -404.999, z: 0}
@@ -1137,12 +1136,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4883841866181362294}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0010534286, y: 0.00050792895, z: 0.00005927333}
-  m_LocalScale: {x: 3, y: 23.653305, z: 3}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.00043786794, y: -0.000062552164, z: 0.0005117976}
+  m_LocalScale: {x: 3, y: 23.653307, z: 3}
   m_Children: []
-  m_Father: {fileID: 786246565235082670}
-  m_RootOrder: 35
+  m_Father: {fileID: 2888873573367131991}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &834380870688914686
 MeshFilter:
@@ -1356,7 +1355,7 @@ GameObject:
   - component: {fileID: 1803192631196533367}
   - component: {fileID: 1395650047158520370}
   m_Layer: 0
-  m_Name: pCube36
+  m_Name: CastleTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1372,7 +1371,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.00061545335, y: 0.0005712388, z: -0.00045249547}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7169226379104800680}
   m_Father: {fileID: 786246565235082670}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
