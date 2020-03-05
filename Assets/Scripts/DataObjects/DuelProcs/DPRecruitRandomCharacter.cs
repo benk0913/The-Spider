@@ -21,7 +21,8 @@ public class DPRecruitRandomCharacter : DuelProc
 
         yield return PlottingDuelUI.Instance.StartCoroutine(PlottingDuelUI.Instance.SetProcEvent(this));
         
-        Character character = CORE.Instance.GenerateCharacter();
+        Character character = CORE.Instance.GenerateCharacter(-1,16,90,null);
+        character.Randomize();
 
         if (isGoodForDefenders)
         {

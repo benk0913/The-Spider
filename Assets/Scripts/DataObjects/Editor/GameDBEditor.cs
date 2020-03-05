@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+using System.Text.RegularExpressions;
 
 [CustomEditor(typeof(GameDB))]
 public class GameDBEditor : Editor
@@ -14,6 +14,11 @@ public class GameDBEditor : Editor
         if(GUILayout.Button("Auto Load"))
         {
             AutoLoad(db);
+        }
+
+        if (GUILayout.Button("Calculate Word Count"))
+        {
+            CalcWordCount(db);
         }
 
         DrawDefaultInspector();
@@ -120,5 +125,113 @@ public class GameDBEditor : Editor
         }
 
         EditorUtility.SetDirty(db);
+    }
+
+    void CalcWordCount(GameDB db)
+    {
+        string[] guids;
+        guids = AssetDatabase.FindAssets("t:DialogPiece", new[] { "Assets/" + db.DataPath });
+
+        int wordCountTotal = 0;
+        int senencesCountTotal= 0;
+        foreach (string guid in guids)
+        {
+            DialogPiece piece = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(DialogPiece)) as DialogPiece;
+
+            string desc = piece.Description;
+            Regex regex = new Regex("\"(.*?)\"");
+
+            MatchCollection matches = regex.Matches(desc);
+
+            senencesCountTotal += matches.Count;
+
+            for(int i=0;i<matches.Count;i++)
+            {
+                for (int g = 1; g < matches[i].Groups.Count; g++)
+                {
+                    string matchdesc = matches[i].Groups[g].ToString();
+
+                    int wordCount = 0, index = 0;
+
+                    // skip whitespace until first word
+                    while (index < matchdesc.Length && char.IsWhiteSpace(matchdesc[index]))
+                        index++;
+
+                    while (index < matchdesc.Length)
+                    {
+                        // check if current char is part of a word
+                        while (index < matchdesc.Length && !char.IsWhiteSpace(matchdesc[index]))
+                            index++;
+
+                        wordCount++;
+
+                        // skip whitespace until next word
+                        while (index < matchdesc.Length && char.IsWhiteSpace(matchdesc[index]))
+                            index++;
+                    }
+
+                    wordCountTotal += wordCount;
+                }
+            }
+
+        }
+
+        Debug.Log("Total Sentences In Dialogs - " + senencesCountTotal);
+        Debug.Log("Total Words In Dialogs - " + wordCountTotal);
+
+        wordCountTotal = 0;
+
+        guids = AssetDatabase.FindAssets("t:LetterPreset", new[] { "Assets/" + db.DataPath });
+
+        Dictionary<string, int> wordCountPerCharacter = new Dictionary<string, int>();
+        wordCountPerCharacter.Add("Unknown", 0);
+        foreach (string guid in guids)
+        {
+            LetterPreset letter = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LetterPreset)) as LetterPreset;
+
+            if(letter == null)
+            {
+                continue;
+            }
+
+            int wordCount = 0, index = 0;
+
+            // skip whitespace until first word
+            while (index < letter.Description.Length && char.IsWhiteSpace(letter.Description[index]))
+                index++;
+
+            while (index < letter.Description.Length)
+            {
+                // check if current char is part of a word
+                while (index < letter.Description.Length && !char.IsWhiteSpace(letter.Description[index]))
+                    index++;
+
+                wordCount++;
+
+                // skip whitespace until next word
+                while (index < letter.Description.Length && char.IsWhiteSpace(letter.Description[index]))
+                    index++;
+            }
+
+            if(letter.PresetSender == null)
+            {
+                wordCountPerCharacter["Unknown"] += wordCount;
+                continue;
+            }
+
+            if(!wordCountPerCharacter.ContainsKey(letter.PresetSender.name))
+            {
+                wordCountPerCharacter.Add(letter.PresetSender.name, 0);
+            }
+
+            wordCountPerCharacter[letter.PresetSender.name] += wordCount;
+            wordCountTotal += wordCount;
+        }
+
+        Debug.Log("- Total Words In Letterss - "+wordCountTotal);
+        foreach(string key in wordCountPerCharacter.Keys)
+        {
+            Debug.Log(key + " - " + wordCountPerCharacter[key]);
+        }
     }
 }
