@@ -46,6 +46,7 @@ public class PortraitUIEmployee : PortraitUI
 
         if (character != null && character.WorkLocation != null && !character.IsKnown("WorkLocation", CORE.PC))
         {
+            Unique.gameObject.SetActive(false);
 
             Face.color = Color.black;
             Hair.color = Color.black;

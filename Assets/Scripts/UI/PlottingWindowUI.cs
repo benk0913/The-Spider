@@ -143,6 +143,13 @@ public class PlottingWindowUI : MonoBehaviour
             x.PrisonLocation == null
             && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
             && !x.IsInTrouble));
+
+            TargetParticipants.AddRange(targetCharacter.CurrentLocation.CharactersInLocation.FindAll(x =>
+            x.CurrentFaction == targetCharacter.CurrentFaction
+            && x.PrisonLocation == null
+            && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
+            && !x.IsInTrouble 
+            && !TargetParticipants.Contains(x)));
         }
         else if (CurrentTarget.GetType() == typeof(LocationEntity))
         {
@@ -233,6 +240,7 @@ public class PlottingWindowUI : MonoBehaviour
             GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
             portraitObj.transform.SetParent(ParticipantsContainer, false);
             portraitObj.transform.localScale = Vector3.one;
+            portraitObj.transform.position = Vector3.zero;
             portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
         }
 
@@ -241,6 +249,7 @@ public class PlottingWindowUI : MonoBehaviour
             GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
             portraitObj.transform.SetParent(TargetParticipantsContainer, false);
             portraitObj.transform.localScale = Vector3.one;
+            portraitObj.transform.position = Vector3.zero;
             portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
         }
 

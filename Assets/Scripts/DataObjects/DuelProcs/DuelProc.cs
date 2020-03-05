@@ -13,8 +13,7 @@ public class DuelProc : ScriptableObject
     {
         get
         {
-            return isGoodFor == DuelTeam.Defenders
-                || (isGoodFor == DuelTeam.Player && !PlottingDuelUI.Instance.IsPlayerAttacker)
+            return (isGoodFor == DuelTeam.Player && !PlottingDuelUI.Instance.IsPlayerAttacker)
                 || (isGoodFor == DuelTeam.NotPlayer && PlottingDuelUI.Instance.IsPlayerAttacker);
         }
     }
@@ -55,7 +54,8 @@ public class DuelProc : ScriptableObject
             Debug.Log("$$$ - Attempted Conditions - " + this.name);
         }
 
-        if(!RequiredTech.IsResearched)
+        TechTreeItem techItem = CORE.Instance.TechTree.Find(x => x.name == RequiredTech.name);
+        if(!techItem.IsResearched)
         {
             return false;
         }

@@ -115,12 +115,6 @@ public class PlottingDuelUI : MonoBehaviour
         ParticipantsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
         TargetsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
 
-        if (CurrentMethod == CurrentPlot.BaseMethod)
-        {
-            plot.Participants.ForEach((x) => x.Known.Know("Appearance", plot.TargetParticipants[0].TopEmployer));
-            plot.TargetParticipants.ForEach((x) => x.Known.Know("Appearance", CurrentPlot.Requester.TopEmployer));
-        }
-
         RefreshPositionTransforms();
 
         StopAllCoroutines();
@@ -396,6 +390,9 @@ public class PlottingDuelUI : MonoBehaviour
 
     public void GenerateParticipant(Character character)
     {
+        character.Known.Know("Appearance", CurrentPlot.TargetParticipants[0].TopEmployer);
+        character.Known.Know("Appearance", CurrentPlot.Participants[0].TopEmployer);
+
         GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
         portraitObj.transform.SetParent(transform);
         portraitObj.transform.localScale = new Vector3(-1, 1, 1);
@@ -406,6 +403,9 @@ public class PlottingDuelUI : MonoBehaviour
 
     public void GenerateTarget(Character character)
     {
+        character.Known.Know("Appearance", CurrentPlot.TargetParticipants[0].TopEmployer);
+        character.Known.Know("Appearance", CurrentPlot.Participants[0].TopEmployer);
+
         GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
         portraitObj.transform.SetParent(transform);
         portraitObj.transform.localScale = Vector3.one;

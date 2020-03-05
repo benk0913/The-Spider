@@ -14,6 +14,9 @@ public class MapViewManager : MonoBehaviour
 
     [SerializeField]
     public TopdownCameraMovement TopDownCamera;
+
+    [SerializeField]
+    InteractableEntity MapInteractionEntity;
     
 
     private void Awake()
@@ -61,5 +64,15 @@ public class MapViewManager : MonoBehaviour
     public void FocusOnEntity(Transform entityTransform)
     {
         TopDownCamera.ViewTarget(entityTransform);
+    }
+
+    public void ForceInteractWithMap()
+    {
+        if (MapViewManager.Instance.MapElementsContainer.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        MapInteractionEntity.Interact();
     }
 }

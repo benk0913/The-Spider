@@ -62,6 +62,8 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
             return;
         }
 
+        MapViewManager.Instance.ForceInteractWithMap();
+
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         this.gameObject.SetActive(true);

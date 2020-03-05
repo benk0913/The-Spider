@@ -115,8 +115,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             {
                 List<LocationEntity> locationsInDistrict = CORE.Instance.Locations.FindAll(x => 
                 x.NearestDistrict == this 
-                && !x.Traits.Contains(CORE.Instance.Database.PublicAreaTrait));
-
+                && !x.Traits.Contains(CORE.Instance.Database.PublicAreaTrait)
+                && x.CurrentProperty.PlotType != CORE.Instance.Database.UniquePlotType
+                && x.gameObject.activeInHierarchy);
+                
                 if(locationsInDistrict.Count > 0)
                 {
                     Faction Potential = locationsInDistrict[0].FactionInControl;

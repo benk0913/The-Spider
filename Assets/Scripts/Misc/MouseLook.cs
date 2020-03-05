@@ -126,7 +126,7 @@ public class MouseLook : MonoBehaviour
         Instance = this;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(CORE.Instance.isLoading)
         {

@@ -34,6 +34,11 @@ public class WarningWindowUI : MonoBehaviour
 
     public void Show(string message, Action acceptCallback)
     {
+        if (MapViewManager.Instance != null && MouseLook.Instance != null && MouseLook.Instance.isAbleToLookaround)
+        {
+            MapViewManager.Instance.ForceInteractWithMap();
+        }
+
         this.gameObject.SetActive(true);
 
         Description.text = message;

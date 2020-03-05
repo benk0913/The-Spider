@@ -10,9 +10,9 @@ public class FactionAI : ScriptableObject
     public const int GOLD_SCARCE_VALUE = 150;
 
 
-    Character CurrentCharacter;
+    protected Character CurrentCharacter;
 
-    Dictionary<string, int> FailReasons = new Dictionary<string, int>();
+    protected Dictionary<string, int> FailReasons = new Dictionary<string, int>();
 
     [SerializeField]
     public AIAgression AgressionType = AIAgression.Normal;
@@ -48,7 +48,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    void BotCheats()
+    protected virtual void BotCheats()
     {
         this.CurrentCharacter.Gold += 1;
         this.CurrentCharacter.Rumors += 1;
@@ -111,7 +111,7 @@ public class FactionAI : ScriptableObject
         FailReasons[reason.Key]++;
     }
 
-    void ResolveFailures()
+    protected virtual void ResolveFailures()
     {
         for(int i=0;i<FailReasons.Keys.Count;i++)
         {
@@ -119,7 +119,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    void ResolveFailure(string key)
+    protected virtual void ResolveFailure(string key)
     {
         switch(key)
         {
@@ -166,7 +166,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptMaximizeRumors()
+    protected virtual void AttemptMaximizeRumors()
     {
         List<LocationEntity> locationsOwned = CurrentCharacter.PropertiesInCommand;
 
@@ -228,7 +228,7 @@ public class FactionAI : ScriptableObject
 
     }
 
-    private void AttemptMaximizeConnections()
+    protected virtual void AttemptMaximizeConnections()
     {
         List<LocationEntity> locationsOwned = CurrentCharacter.PropertiesInCommand;
 
@@ -289,7 +289,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptMaximizeGold()
+    protected virtual void AttemptMaximizeGold()
     {
         List<LocationEntity> locationsOwned = CurrentCharacter.PropertiesInCommand;
 
@@ -350,7 +350,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptMaximizeEmployees()
+    protected virtual void AttemptMaximizeEmployees()
     {
         FailReason failReason;
 
@@ -370,7 +370,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptMaximizeGuards()
+    protected virtual void AttemptMaximizeGuards()
     {
         FailReason failReason;
 
@@ -390,7 +390,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptMaximizeProperties()
+    protected virtual void AttemptMaximizeProperties()
     {
         FailReason failReason = null;
 
@@ -415,7 +415,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptRecruitAgents()
+    protected virtual void AttemptRecruitAgents()
     {
         //Attempt Recruit current properties.
         List<LocationEntity> properties = CurrentCharacter.PropertiesInCommand;
@@ -435,7 +435,7 @@ public class FactionAI : ScriptableObject
 
     }
 
-    private void AttemptMaximizeAgentsSlots()
+    protected virtual void AttemptMaximizeAgentsSlots()
     {
         List<LocationEntity> properties = CurrentCharacter.PropertiesInCommand;
         properties.RemoveAll(x => !x.CurrentProperty.EmployeesAreAgents);//Not agent properties
@@ -460,7 +460,7 @@ public class FactionAI : ScriptableObject
         
     }
 
-    private void AttemptMaximizeAgentProperties()
+    protected virtual void AttemptMaximizeAgentProperties()
     {
         return; //TODO PROPER REBRAND
 
@@ -498,7 +498,7 @@ public class FactionAI : ScriptableObject
 
     }
 
-    private void AttemptRepairLocations()
+    protected virtual void AttemptRepairLocations()
     {
         List<LocationEntity> properties = CurrentCharacter.PropertiesInCommand;
         properties.RemoveAll(x => !x.IsRuined);//Not ruined
@@ -516,7 +516,7 @@ public class FactionAI : ScriptableObject
         }
     }
 
-    private void AttemptMaintainance()
+    protected virtual void AttemptMaintainance()
     {
 
         List<LocationEntity> locations = CurrentCharacter.PropertiesInCommand;
@@ -762,5 +762,5 @@ public enum AIAgression
 {
     Passive,
     Normal,
-    Agressive
+    Agressive,
 }

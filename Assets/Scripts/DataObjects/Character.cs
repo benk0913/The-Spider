@@ -1275,12 +1275,18 @@ public class Character : ScriptableObject, ISaveFileCompatible
             StartLivingIn(WorkLocation);
         }
 
-        foreach (LocationEntity ownedLocation in PropertiesOwned)
+        foreach (LocationEntity ownedLocation in PropertiesInCommand)
         {
+            ownedLocation.Known.KnowEverything(TopEmployer);
             ownedLocation.RefreshState();
         }
 
-        if(isKnownOnStart)
+        foreach (Character employee in CharactersInCommand)
+        {
+            employee.Known.KnowEverything(TopEmployer);
+        }
+
+        if (isKnownOnStart)
         {
             Known.KnowEverything(TopEmployer);
         }

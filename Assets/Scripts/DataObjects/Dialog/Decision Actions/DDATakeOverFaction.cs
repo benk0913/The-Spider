@@ -11,7 +11,7 @@ public class DDATakeOverFaction : DialogDecisionAction
 
     public override void Activate()
     {
-        Character factionHead = CORE.Instance.Characters.Find(x => x.CurrentFaction.name == faction.name && x.TopEmployer == x);
+        Character factionHead = CORE.Instance.Characters.Find(x => x.CurrentFaction.name == faction.name && x.name == faction.FactionHead.name);
 
         if(factionHead == null)
         {
