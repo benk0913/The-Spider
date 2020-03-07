@@ -48,6 +48,18 @@ public class TechTreeItemUI : MonoBehaviour
 
     public void RefreshUI()
     {
+        if (CurrentItem.IsHidden && !CurrentItem.IsResearched)
+        {
+            this.gameObject.SetActive(false);
+            transform.parent.parent.GetComponent<UILineRenderer>().enabled = false;
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
+            transform.parent.parent.GetComponent<UILineRenderer>().enabled = true;
+        }
+
+
         TechTitle.text = CurrentItem.name;
 
         TechIcon.sprite = CurrentItem.Icon;

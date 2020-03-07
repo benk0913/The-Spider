@@ -16,6 +16,12 @@ public class TechNodeTreeUI : NodeTreeUI
     [SerializeField]
     GameObject LoadingPanel;
 
+    [SerializeField]
+    GameObject FirstNode;
+
+    public float MinScale = 0.5f;
+    public float MaxScale = 1f;
+
     private void Awake()
     {
         Instance = this;
@@ -35,6 +41,15 @@ public class TechNodeTreeUI : NodeTreeUI
         {
             this.gameObject.SetActive(false);
         }
+
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f && FirstNode.transform.localScale.x < MaxScale)
+        {
+            FirstNode.transform.localScale += Vector3.one *2f* Time.deltaTime;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f && FirstNode.transform.localScale.x > MinScale)
+        {
+            FirstNode.transform.localScale -= Vector3.one * 2f * Time.deltaTime;
+        }
     }
 
     public void Show()
@@ -42,6 +57,7 @@ public class TechNodeTreeUI : NodeTreeUI
         MouseLook.Instance.CurrentWindow = this.gameObject;
         this.gameObject.SetActive(true);
         ShowTechHirarchy(CORE.Instance.TechTree);
+        FirstNode.transform.localScale = Vector3.one* MinScale;
     }
 
     public virtual void ShowTechHirarchy(TechTreeItem rootItem)
@@ -101,7 +117,15 @@ public class TechNodeTreeUI : NodeTreeUI
     protected virtual IEnumerator SetItemsUI(TechNodeTreeUIInstance node)
     {
         node.nodeObject.transform.GetChild(0).GetChild(0).GetComponent<TechTreeItemUI>().SetItem(node.Item);
-        node.nodeObject.transform.GetChild(1).GetComponent<Image>().color = node.Item.BoxColor;
+
+        if (node.Item.IsHidden)
+        {
+            node.nodeObject.transform.GetChild(1).GetComponent<Image>().color = Color.clear;
+        }
+        else
+        {
+            node.nodeObject.transform.GetChild(1).GetComponent<Image>().color = node.Item.BoxColor;
+        }
 
         for (int i = 0; i < node.Children.Count; i++)
         {

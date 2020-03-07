@@ -22,12 +22,19 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
     public Color BoxColor;
 
+    public bool IsHidden = false;
+    public bool IsUnresearchable = false;
     public bool IsResearched;
     public bool IsResearchable
     {
         get
         {
             if(Parent != null && !Parent.IsResearched)
+            {
+                return false;
+            }
+
+            if(IsUnresearchable)
             {
                 return false;
             }
