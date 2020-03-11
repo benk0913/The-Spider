@@ -12,6 +12,8 @@ public class Cipher : ScriptableObject
 
     public TMP_FontAsset Font;
 
+    public float LineSpacing = 190.5f;
+
     public string Convert(string message)
     {
 

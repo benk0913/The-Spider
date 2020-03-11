@@ -228,11 +228,13 @@ public class DecipherWindowUI : MonoBehaviour
         {
             OriginalText.font = cipher.Font;
             CurrentLetterText.font = cipher.Font;
+            OriginalText.lineSpacing = cipher.LineSpacing;
         }
         else
         {
             OriginalText.font = CORE.Instance.Database.DefaultFont;
             CurrentLetterText.font = CORE.Instance.Database.DefaultFont;
+            OriginalText.lineSpacing = 190.5f;
         }
 
         RefreshUI();

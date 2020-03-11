@@ -8,6 +8,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
     public static AllCharactersWindowUI Instance;
     public GridType CurrentType;
 
+
     protected override void Awake()
     {
         Instance = this;

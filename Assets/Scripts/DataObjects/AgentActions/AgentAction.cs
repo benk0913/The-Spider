@@ -23,6 +23,7 @@ public class AgentAction : ScriptableObject
     public TechTreeItem TechRequired;
 
     public Item ItemRequired;
+    public List<Item> MoreItemsRequired;
 
     public BonusChallenge Challenge;
 
@@ -204,6 +205,11 @@ public class AgentAction : ScriptableObject
             {
                 requester.Belogings.Remove(requester.Belogings.Find(x => x.name == ItemRequired.name));
             }
+
+            if(MoreItemsRequired.Count > 0)
+            {
+                MoreItemsRequired.ForEach((x) => { requester.Belogings.Remove(requester.Belogings.Find(y => y.name == x.name)); });
+            }
         });
 
         if (SuccessResult != null)
@@ -260,6 +266,18 @@ public class AgentAction : ScriptableObject
             {
                 reason = new FailReason("Requires The Item: "+ItemRequired.name);
                 return false;
+            }
+        }
+
+        if (MoreItemsRequired.Count > 0)
+        {
+            foreach (Item requirement in MoreItemsRequired)
+            {
+                if (requester.Belogings.Find(x => x.name == requirement.name) == null)
+                {
+                    reason = new FailReason("Requires The Item: " + requirement.name);
+                    return false;
+                }
             }
         }
 

@@ -7,6 +7,8 @@ public class QOOwnItem : QuestObjective
 {
     public Item TargetItem;
 
+    public int RequestedAmount = 1;
+
     public override bool Validate()
     {
         if(ParentQuest.ForCharacter == null)
@@ -14,7 +16,19 @@ public class QOOwnItem : QuestObjective
             return false;
         }
 
-        return ParentQuest.ForCharacter.GetItem(TargetItem.name) != null;
+        List<Item> items = ParentQuest.ForCharacter.Belogings.FindAll(x => x.name == TargetItem.name);
+
+        if(items == null || items.Count == 0)
+        {
+            return false;
+        }
+
+        if(items.Count < RequestedAmount)
+        {
+            return false;
+        }
+
+        return true;
     }
     
 }

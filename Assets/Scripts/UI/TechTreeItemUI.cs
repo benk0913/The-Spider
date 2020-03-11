@@ -64,7 +64,7 @@ public class TechTreeItemUI : MonoBehaviour
 
         TechIcon.sprite = CurrentItem.Icon;
 
-        if (CurrentItem.Parent == null || CurrentItem.IsResearchable)
+        if (CurrentItem.Parent == null || CurrentItem.IsResearchable || CurrentItem.IsResearched)
         {
             NotDiscoveredPanel.SetActive(false);
 

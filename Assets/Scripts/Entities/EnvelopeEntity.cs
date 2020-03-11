@@ -130,10 +130,12 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             if(CurrentLetter.Preset.Encryption.Font != null)
             {
                 DescriptionText.font = CurrentLetter.Preset.Encryption.Font;
+                DescriptionText.lineSpacing = CurrentLetter.Preset.Encryption.LineSpacing;
             }
             else
             {
                 DescriptionText.font = CORE.Instance.Database.DefaultFont;
+                DescriptionText.lineSpacing = 190.5f;
             }
 
             return;

@@ -27,7 +27,12 @@ public class SelectCharacterViewUI : MonoBehaviour
     string CurrentTitle;
 
     public string CurrentSortKey;
-    
+
+    public GameObject ZoomableContainer;
+
+    public float MinScale = 0.5f;
+    public float MaxScale = 1f;
+
     protected virtual void Awake()
     {
         Instance = this;
@@ -46,6 +51,18 @@ public class SelectCharacterViewUI : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             this.gameObject.SetActive(false);
+        }
+
+        if (ZoomableContainer != null)
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f && ZoomableContainer.transform.localScale.x < MaxScale)
+            {
+                ZoomableContainer.transform.localScale += Vector3.one * 2f * Time.deltaTime;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f && ZoomableContainer.transform.localScale.x > MinScale)
+            {
+                ZoomableContainer.transform.localScale -= Vector3.one * 2f * Time.deltaTime;
+            }
         }
     }
 

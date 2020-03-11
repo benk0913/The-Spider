@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Ecksinth Farm
+  m_EditorClassIdentifier: 
+  Description: This area acts as a simple and innocent garden, growing herbs of all
+    sorts. It may also grow Ecksinth secretly and illegally.
+  PropertyLevels:
+  - LevelName: Small Ecksinth Garden
+    MaxEmployees: 2
+    MaxGuards: 0
+    MaxPrisoners: 0
+    MaxActions: 2
+    UpgradePrice: 20
+    UpgradeLength: 2
+    InventoryCap: 2
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 36513019338dfae44b5ac34615d50334, type: 2}
+  - LevelName: Ecksinth Garden
+    MaxEmployees: 4
+    MaxGuards: 1
+    MaxPrisoners: 1
+    MaxActions: 2
+    UpgradePrice: 50
+    UpgradeLength: 4
+    InventoryCap: 4
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 36513019338dfae44b5ac34615d50334, type: 2}
+  - LevelName: Ecksinth Farm
+    MaxEmployees: 6
+    MaxGuards: 3
+    MaxPrisoners: 2
+    MaxActions: 2
+    UpgradePrice: 100
+    UpgradeLength: 6
+    InventoryCap: 6
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 36513019338dfae44b5ac34615d50334, type: 2}
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Normal Garden
+    Description: Grow and harvest regular plants.
+    Icon: {fileID: 21300000, guid: cda360a0784927b4ba6e433a488834e9, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
+  - Name: Ecksinth Farm
+    Description: Grow and harvest Ecksinth in secret.
+    Icon: {fileID: 21300000, guid: 77610a466132ac14f9d770d030644b99, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 5a080bbf1bcd97d4ab6c9186aed5009a, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 0}
+  Traits:
+  - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
+  Icon: {fileID: 21300000, guid: cda360a0784927b4ba6e433a488834e9, type: 3}
+  FigurePrefab: {fileID: 808478850817181922, guid: 57ff0c7a7aec11243b8288312f4c6796,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: 2ef8a6c6a89ac0c498ab22e296de4f02,
+    type: 3}
+  HiddenObject: {fileID: 0}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 12
+  MaxAge: 70
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 1
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: gardener
+  AlwaysKnown: 0
+  TechRequired: {fileID: 11400000, guid: 47a1c7ed7a3db6c4d8d615667c081876, type: 2}
+  IsVendor: 1
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
+  VisitRumors:
+  - Was seen passing by a garden of sorts.
+  WorkRumors:
+  - a Farmer
+  - Gradener
+  - Knows the way around a plant!
+  - Has botanical experience...
+  - '"Smells of Ecksinth, can''t say why..."'

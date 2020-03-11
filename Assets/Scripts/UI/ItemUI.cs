@@ -38,7 +38,7 @@ public class ItemUI : AgentInteractable, IPointerClickHandler
     void RefreshUI()
     {
         Icon.sprite = CurrentItem.Icon;
-        TooltipTarget.SetTooltip(CurrentItem.Description + "\n <color=yellow>Vendor Price: "+CurrentItem.Price+"</color>");
+        TooltipTarget.SetTooltip(CurrentItem.name + " - " + CurrentItem.Description + "\n <color=yellow>Vendor Price: "+CurrentItem.Price+"</color>");
     }
 
     public override List<AgentAction> GetPossibleAgentActions(Character forCharacter)

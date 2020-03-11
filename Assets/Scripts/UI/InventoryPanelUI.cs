@@ -94,6 +94,7 @@ public class InventoryPanelUI : MonoBehaviour
     {
         GameObject rumorPanel = ResourcesLoader.Instance.GetRecycledObject("ItemUI");
         rumorPanel.transform.SetParent(itemsContainer, false);
+        rumorPanel.transform.localScale = Vector3.one;
         rumorPanel.GetComponent<ItemUI>().SetInfo(item);
     }
 

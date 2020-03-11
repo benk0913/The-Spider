@@ -12,7 +12,8 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
     SelectableCharacterNodeTreeUI Tree;
 
     Character TopCharacter;
-    
+
+
     protected override void Awake()
     {
         Instance = this;

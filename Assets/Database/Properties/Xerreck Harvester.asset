@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Xerreck Harvester
+  m_EditorClassIdentifier: 
+  Description: 'This ship is in charge of harvesting the Xerreck Seaweed from the
+    bottom of this bay.
+
+'
+  PropertyLevels:
+  - LevelName: Xerreck Harvester
+    MaxEmployees: 1
+    MaxGuards: 6
+    MaxPrisoners: 0
+    MaxActions: 1
+    UpgradePrice: 20
+    UpgradeLength: 2
+    InventoryCap: 2
+    PossibleMerchantise:
+    - {fileID: 11400000, guid: 4bafb620342e74146a170075d6fee91d, type: 2}
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Xerreck Harvesting
+    Description: Fish out the Xerreck Seaweed.
+    Icon: {fileID: 21300000, guid: 3616c86d99b30b24e925c3f82fb45f85, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: e4e800d191c72844a947662e7b8f8e3c, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 11400000, guid: 038bde99b5ac0954b8d56eefc4d1a576, type: 2}
+    GuardUniform: {fileID: 0}
+  Traits:
+  - {fileID: 11400000, guid: e7ac1d93bf83d334ca30c1b5e5b2f5d1, type: 2}
+  Icon: {fileID: 21300000, guid: 3616c86d99b30b24e925c3f82fb45f85, type: 3}
+  FigurePrefab: {fileID: 4410676136326942142, guid: d1122cc6d831fd546935816b40686cdc,
+    type: 3}
+  HoverPrefab: {fileID: 9146372209172139092, guid: 7c6d6e404e11d604489b05f1057999f8,
+    type: 3}
+  HiddenObject: {fileID: 0}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 25
+  MaxAge: 60
+  PlotType: {fileID: 11400000, guid: 59646825e2cab094e91fd44bb8c97e8d, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 1
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: captain
+  AlwaysKnown: 0
+  TechRequired: {fileID: 11400000, guid: 9106a9a53887d3748ae155c15e5406d6, type: 2}
+  IsVendor: 1
+  AutoRestock: 0
+  EmployeesAreAgents: 0
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
+  VisitRumors:
+  - Has been seen on a strange ship, covered in too much seaweed.
+  WorkRumors:
+  - '"Smells like sea-weed."'
+  - Sailor
+  - Knows the way around a boat!
+  - Too much seaweed everywhere on its boat.
+  - '"Seen the fella covered in seaweed from head to toe."'
