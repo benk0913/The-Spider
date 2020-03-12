@@ -17,6 +17,8 @@ public class MapViewManager : MonoBehaviour
 
     [SerializeField]
     InteractableEntity MapInteractionEntity;
+
+    public FocusView MapFocusView;
     
 
     private void Awake()

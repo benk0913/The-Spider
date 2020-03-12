@@ -10,38 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80098d3412a2eb5439a6ddb1a778fdea, type: 3}
-  m_Name: Commission - Silkstring Antidote
+  m_Name: Gas Location With Silkstring Toxin
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 0c32ff36dd014cd458e796ae76418a2d, type: 3}
-  Description: The lab employees will attempt to produce a single vial of Silkstring
-    Gas Antidote.
-  Category: {fileID: 0}
+  Icon: {fileID: 21300000, guid: d7d48e485b704a044aae853af3fdf934, type: 3}
+  Description: Use the Silkstring Toxic Gas Weapon on this location, it result in
+    the destruction of this location and will most likely kill everyone involved.
+    (Except for the handler)
+  Category: {fileID: 11400000, guid: 80757559e68124547a270ed1d8a1ce9c, type: 2}
   RequiredTraits: []
   MinimumAge: 0
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
   TechRequired: {fileID: 11400000, guid: 802e29c1a8b2eba40bab1c7b324331f4, type: 2}
-  ItemRequired: {fileID: 11400000, guid: 6208c9647f69668448562b6fa4da0bbf, type: 2}
-  MoreItemsRequired:
-  - {fileID: 11400000, guid: df6cd41e9f204bd4088cbf857eb41f92, type: 2}
+  ItemRequired: {fileID: 11400000, guid: 85acee5186dcecc4ca415feb31099b0c, type: 2}
+  MoreItemsRequired: []
   Challenge:
-    Type: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+    Type: {fileID: 0}
     ChallengeValue: 0
     RarityValue: 0
     InvertedChance: 0
   FailureResult: {fileID: 0}
   SuccessResult: {fileID: 0}
-  ShowHover: 0
+  ShowHover: 1
   employerLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
   WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
-  ActionDoneByTarget: 1
+  ActionDoneByTarget: 0
   InvokeEventOnExecute: 
-  Task: {fileID: 11400000, guid: b469737c5c7e1ad4ba6195fd71e463a0, type: 2}
+  Task: {fileID: 11400000, guid: a18f7492787364f43959fe3a913b8aea, type: 2}
   RandomLocation: 0
   FriendlyLocation: 0
   LocationTrait: {fileID: 0}
-  DoneOnlyByEmployer: 1
+  DoneOnlyByEmployer: 0
