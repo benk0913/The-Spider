@@ -74,6 +74,8 @@ public class SmugglingComplete : WorkComplete
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
                     () => { StatsViewUI.Instance.RefreshGold(); },
                     canvasElement: false);
+
+                AudioControl.Instance.PlayInPosition("resource_gold", character.CurrentLocation.transform.position);
             }
 
             character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);

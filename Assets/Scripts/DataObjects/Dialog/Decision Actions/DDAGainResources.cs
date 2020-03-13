@@ -46,6 +46,8 @@ public class DDAGainResources : DialogDecisionAction
              StatsViewUI.Instance.ProgressText.transform,
              () => { StatsViewUI.Instance.RefreshProgress(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_progression", resourceSource.position);
         }
 
         if (tempGold > 0)
@@ -57,6 +59,8 @@ public class DDAGainResources : DialogDecisionAction
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshGold(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_gold", resourceSource.position);
         }
 
         if (tempRumors > 0)
@@ -67,6 +71,8 @@ public class DDAGainResources : DialogDecisionAction
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshRumors(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_rumors", resourceSource.position);
         }
 
         if (tempConnections > 0)
@@ -77,6 +83,8 @@ public class DDAGainResources : DialogDecisionAction
              StatsViewUI.Instance.ConnectionsText.transform,
              () => { StatsViewUI.Instance.RefreshConnections(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_connections", resourceSource.position);
         }
 
         if (CORE.PC.TopEmployer == CORE.PC)

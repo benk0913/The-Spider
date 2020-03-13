@@ -98,6 +98,7 @@ public class StatsViewUI : MonoBehaviour
     {
         if (GoldText.text != CORE.PC.Gold.ToString() + "c")
         {
+            AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
             GoldText.text = CORE.PC.Gold.ToString() + "c";
             OnGoldChanged?.Invoke();
         }
@@ -107,6 +108,7 @@ public class StatsViewUI : MonoBehaviour
     {
         if (ConnectionsText.text != CORE.PC.Connections.ToString())
         {
+            AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
             ConnectionsText.text = CORE.PC.Connections.ToString();
             OnConnectionsChanged?.Invoke();
         }
@@ -116,6 +118,7 @@ public class StatsViewUI : MonoBehaviour
     {
         if (RumorsText.text != CORE.PC.Rumors.ToString())
         {
+            AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
             RumorsText.text = CORE.PC.Rumors.ToString();
             OnRumorsChanged?.Invoke();
         }
@@ -125,6 +128,7 @@ public class StatsViewUI : MonoBehaviour
     {
         if (ProgressText.text != CORE.PC.Progress.ToString())
         {
+            AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
             ProgressText.text = CORE.PC.Progress.ToString();
             OnProgressChanged?.Invoke();
         }

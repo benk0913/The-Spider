@@ -16,6 +16,9 @@ public class DDABuyItem : DialogDecisionAction
             return;
         }
 
+
+        AudioControl.Instance.Play("purchase");
+
         CORE.PC.Gold -= ItemToPurchase.Price;
         Item purchasedItem = Instantiate(ItemToPurchase);
         purchasedItem.name = ItemToPurchase.name;

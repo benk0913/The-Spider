@@ -16,6 +16,8 @@ public class BuyItem : AgentAction
             return;
         }
 
+        AudioControl.Instance.Play("purchase");
+
         ItemUI itemUI = (ItemUI)target;
 
         character.TopEmployer.Gold -= itemUI.CurrentItem.Price;

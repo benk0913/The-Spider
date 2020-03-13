@@ -17,6 +17,9 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     float DispensingSpeed = 1f;
 
+    [SerializeField]
+    public UnityEvent OnReceiveLetter;
+
     public List<EnvelopeEntity> Envelopes = new List<EnvelopeEntity>();
 
     private void Awake()
@@ -109,6 +112,8 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
         EnvelopeEntity envelope = tempLetter.GetComponent<EnvelopeEntity>();
         envelope.SetInfo(letter, DisposeLetter);
         Envelopes.Add(envelope);
+
+        OnReceiveLetter.Invoke();
 
         return tempLetter;
     }

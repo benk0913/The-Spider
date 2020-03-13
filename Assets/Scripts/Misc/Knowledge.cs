@@ -300,6 +300,7 @@ public class LocationKnowledge : Knowledge
 
         if (key == "Existance")
         {
+            AudioControl.Instance.PlayInPosition("location_reveal",CurrentLocation.transform.position);
             CurrentLocation.RefreshState();
         }
     }

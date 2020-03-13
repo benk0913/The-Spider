@@ -47,6 +47,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
     public void AddNewExistingQuest(Quest quest, bool loadedFromSave = false)
     {
+        if(!loadedFromSave)
+        {
+            AudioControl.Instance.Play("quest_accept");
+        }
+
         ActiveQuests.Add(quest);
 
         AddQuestToContainer(quest);
@@ -192,7 +197,12 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
     public void QuestComplete(Quest quest)
     {
-        if(quest.Tutorial)
+        if (quest.HasSounds)
+        {
+            AudioControl.Instance.Play("quest_complete");
+        }
+
+        if (quest.Tutorial)
         {
             WorldMissionPanelUI.Instance.QuestComplete();
         }
@@ -252,6 +262,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
     public void ObjectiveComplete(QuestObjective objective)
     {
+        if (objective.ParentQuest != null && objective.ParentQuest.HasSounds)
+        {
+            AudioControl.Instance.Play("quest_objective_complete");
+        }
+
         Quest parentQuest = objective.ParentQuest;
 
         if(parentQuest == null)

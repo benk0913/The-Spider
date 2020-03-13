@@ -495,6 +495,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                  StatsViewUI.Instance.ProgressText.transform,
                  () => { StatsViewUI.Instance.RefreshProgress(); },
                  false);
+
+                AudioControl.Instance.PlayInPosition("resource_progression", transform.position);
             }
         }
 
@@ -510,6 +512,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshGold(); },
              false);
+
+                AudioControl.Instance.PlayInPosition("resource_gold", transform.position);
             }
         }
 
@@ -525,6 +529,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshRumors(); },
              false);
+
+                AudioControl.Instance.PlayInPosition("resource_rumors", transform.position);
             }
         }
 
@@ -540,6 +546,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
              StatsViewUI.Instance.ConnectionsText.transform,
              () => { StatsViewUI.Instance.RefreshConnections(); },
              false);
+
+                AudioControl.Instance.PlayInPosition("resource_connections", transform.position);
             }
         }
     }
@@ -770,6 +778,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             return new FailReason("Not Enough Gold", (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold));
         }
+        
+        if(funder == CORE.PC)
+        {
+            AudioControl.Instance.PlayInPosition("property_upgrade",transform.position);
+        }
 
         funder.Gold -= CurrentProperty.PropertyLevels[Level].UpgradePrice;
         IsUpgrading = true;
@@ -834,6 +847,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             return new FailReason("Do Not Own Property");
         }
+
+        AudioControl.Instance.Play("property_select");
 
         CurrentAction = action;
 
@@ -1311,7 +1326,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
         }
 
-
         requester.Connections -= recruitmentCost;
 
         Character randomNewEmployee = CORE.Instance.GenerateCharacter(
@@ -1326,6 +1340,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
         {
+            AudioControl.Instance.PlayInPosition("property_recruit",transform.position);
+
             SelectedPanelUI.Instance.Select(this);
 
             if (isGuard)
@@ -1374,6 +1390,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public FailReason PurchasePlot(Character funder, Character forCharacter)
     {
 
+
+
         if (funder.Gold < LandValue)
         {
             if (funder == CORE.PC)
@@ -1403,6 +1421,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (funder.CurrentFaction == CORE.PC.CurrentFaction)
         {
+            AudioControl.Instance.PlayInPosition("purchase",transform.position);
+
             CORE.Instance.ShowHoverMessage(string.Format("{0:n0}", LandValue.ToString()), ResourcesLoader.Instance.GetSprite("pay_money"), transform);
 
             RebrandWindowUI.Instance.Show(this);

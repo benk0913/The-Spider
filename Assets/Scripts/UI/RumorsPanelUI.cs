@@ -106,6 +106,8 @@ public class RumorsPanelUI : MonoBehaviour, ISaveFileCompatible
                     null,
                     false);
 
+                AudioControl.Instance.PlayInPosition("resource_rumors", transform.position);
+
                 GainRumors(location.Level);
             }
         }

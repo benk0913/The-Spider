@@ -17,6 +17,8 @@ public class SellItem : AgentAction
             return;
         }
 
+        AudioControl.Instance.Play("resource_gold");
+
         ItemUI itemUI = (ItemUI)target;
 
         character.TopEmployer.Gold += Mathf.CeilToInt(itemUI.CurrentItem.Price * ValueMultiplier);

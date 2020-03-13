@@ -59,6 +59,8 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
              StatsViewUI.Instance.ProgressText.transform,
              () => { StatsViewUI.Instance.RefreshProgress(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_progression", character.CurrentLocation.transform.position);
         }
 
         if (Gold != 0)
@@ -71,6 +73,8 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshGold(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_gold", character.CurrentLocation.transform.position);
         }
 
         if (Rumors != 0)
@@ -83,6 +87,8 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshRumors(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position);
         }
 
         if (Connections != 0)
@@ -95,6 +101,8 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
              StatsViewUI.Instance.ConnectionsText.transform,
              () => { StatsViewUI.Instance.RefreshConnections(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_connections", character.CurrentLocation.transform.position);
         }
 
         if (character.TopEmployer == CORE.PC)

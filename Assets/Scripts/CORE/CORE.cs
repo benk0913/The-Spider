@@ -733,6 +733,8 @@ public class CORE : MonoBehaviour
         File.WriteAllText(ePath, tempNode.ToString());
 
         ReadAllSaveFiles();
+
+        AudioControl.Instance.Play("save");
     }
 
     public void LoadGame(SaveFile file = null)
@@ -741,6 +743,8 @@ public class CORE : MonoBehaviour
         {
             return;
         }
+
+        AudioControl.Instance.Play("load");
 
         LoadingGameRoutine = StartCoroutine(LoadGameRoutine(file));
     }

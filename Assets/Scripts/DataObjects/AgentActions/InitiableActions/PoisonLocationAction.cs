@@ -60,6 +60,8 @@ public class PoisonLocationAction : AgentAction
                    RumorsPanelUI.Instance.Notification.transform,
                    () => { StatsViewUI.Instance.RefreshRumors(); },
                    false);
+
+            AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position);
         }
 
         while (charactersToKill.Count > 0)

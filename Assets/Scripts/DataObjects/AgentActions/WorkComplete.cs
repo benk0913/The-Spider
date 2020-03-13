@@ -59,6 +59,8 @@ public class WorkComplete : AgentAction
                 StatsViewUI.Instance.ProgressText.transform,
                 () => { StatsViewUI.Instance.RefreshProgress(); },
                 false);
+
+                AudioControl.Instance.PlayInPosition("resource_progression", character.CurrentLocation.transform.position);
             }
 
             character.TopEmployer.Progress += Mathf.RoundToInt(earnedProgress + addedProgress);
@@ -92,6 +94,8 @@ public class WorkComplete : AgentAction
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
                     ()=> { StatsViewUI.Instance.RefreshConnections(); },
                     canvasElement: false);
+
+                AudioControl.Instance.PlayInPosition("resource_connections", character.CurrentLocation.transform.position);
             }
 
             character.TopEmployer.Connections += Mathf.RoundToInt(earnedConnections + addedConnections);
@@ -126,6 +130,8 @@ public class WorkComplete : AgentAction
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
                     () => { StatsViewUI.Instance.RefreshRumors(); },
                     canvasElement: false);
+
+                AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position);
             }
 
             character.TopEmployer.Rumors += Mathf.RoundToInt(earnedRumors + addedRumors);
@@ -159,6 +165,8 @@ public class WorkComplete : AgentAction
                     targetPoint: StatsViewUI.Instance.GoldText.transform,
                     () => { StatsViewUI.Instance.RefreshGold(); },
                     canvasElement: false);
+
+                AudioControl.Instance.PlayInPosition("resource_gold", character.CurrentLocation.transform.position);
             }
 
             character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);

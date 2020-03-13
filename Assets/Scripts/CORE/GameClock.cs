@@ -68,6 +68,8 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
     public Coroutine PassTimeRoutineInstance;
     IEnumerator PassTimeRoutine()
     {
+        AudioControl.Instance.Play("turn_pass");
+        AudioControl.Instance.Play("turn_pass_loading");
         CORE.Instance.InvokeEvent("PassTimeStarted");
 
         int currentWeek = CurrentWeek;
@@ -101,6 +103,7 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
 
         CORE.Instance.InvokeEvent("PassTimeComplete");
 
+        AudioControl.Instance.StopSound("turn_pass_loading");
         PassTimeRoutineInstance = null;
     }
 

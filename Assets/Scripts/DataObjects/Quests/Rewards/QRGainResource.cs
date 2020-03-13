@@ -30,6 +30,8 @@ public class QRGainResource : QuestReward
              StatsViewUI.Instance.ProgressText.transform,
              () => { StatsViewUI.Instance.RefreshProgress(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_progression", resourceSource.position);
         }
 
         if (Gold > 0)
@@ -41,6 +43,8 @@ public class QRGainResource : QuestReward
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshGold(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_gold", resourceSource.position);
         }
 
         if (Rumors > 0)
@@ -51,6 +55,8 @@ public class QRGainResource : QuestReward
              StatsViewUI.Instance.RumorsText.transform,
              () => { StatsViewUI.Instance.RefreshRumors(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_rumors", resourceSource.position);
         }
 
         if (Connections > 0)
@@ -61,6 +67,8 @@ public class QRGainResource : QuestReward
              StatsViewUI.Instance.ConnectionsText.transform,
              () => { StatsViewUI.Instance.RefreshConnections(); },
              false);
+
+            AudioControl.Instance.PlayInPosition("resource_connections", resourceSource.position);
         }
 
         if (byCharacter.TopEmployer == CORE.PC)

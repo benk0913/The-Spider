@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class SoundEntity : MonoBehaviour
 {
+    public bool WorldSound = true;
 
     public void PlaySound(string key)
     {
-        AudioControl.Instance.Play(key);
+        if (WorldSound)
+        {
+            AudioControl.Instance.PlayInPosition(key, transform.position);
+        }
+        else
+        {
+            AudioControl.Instance.Play(key);
+        }
     }
 
     public void PlayMusic(string key)
