@@ -74,7 +74,7 @@ public class WorldMissionPanelUI : MonoBehaviour
             TextMeshProUGUI QuestTitle = ResourcesLoader.Instance.GetRecycledObject("ObjectiveTitleUI").GetComponent<TextMeshProUGUI>();
             QuestTitle.transform.SetParent(QuestObjectivesContainer);
             QuestTitle.transform.SetAsLastSibling();
-            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "yellow") + ">" + objective.name + "</color>";
+            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "black") + ">" + objective.name + "</color>";
         }
     }
 

@@ -86,7 +86,7 @@ public class QuestContentUI : HeadlineContentUI
             QuestTitle.transform.SetParent(ObjectivesContainer);
             QuestTitle.transform.SetAsLastSibling();
             QuestTitle.transform.localScale = Vector3.one;
-            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "yellow") + ">" + objective.name + "</color>";
+            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "black") + ">" + objective.name + "</color>";
         }
 
         foreach (QuestReward reward in CurrentQuest.Rewards)
@@ -95,7 +95,7 @@ public class QuestContentUI : HeadlineContentUI
             QuestTitle.transform.SetParent(RewardsContainer);
             QuestTitle.transform.SetAsLastSibling();
             QuestTitle.transform.localScale = Vector3.one;
-            QuestTitle.text = "<color=yellow>"+reward.name+"</color>";
+            QuestTitle.text = "<color=black>" + reward.name+"</color>";
         }
     }
 

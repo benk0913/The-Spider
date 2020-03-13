@@ -55,7 +55,7 @@ public class BribeFavorWindowUI : MonoBehaviour
     {
         if (ofCharacter.TopEmployer == CORE.PC)
         {
-            GlobalMessagePrompterUI.Instance.Show("No reason to bribe your own minions!");
+            GlobalMessagePrompterUI.Instance.Show("No reason to bribe your own minions!", 1f, Color.red);
             return;
         }
 
