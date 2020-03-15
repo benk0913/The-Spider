@@ -98,6 +98,11 @@ public class PlottingWindowUI : MonoBehaviour
     public PlotMethod CurrentMethod;
     public PlotEntry CurrentEntry;
 
+    private void OnDisable()
+    {
+        AudioControl.Instance.StopSound("soundscape_plotting");
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -172,6 +177,8 @@ public class PlottingWindowUI : MonoBehaviour
         CurrentEntry  = CurrentSchemeType.PossibleEntries[0];
 
         CORE.Instance.DelayedInvokation(0.1f, RefreshUI);
+
+        AudioControl.Instance.Play("soundscape_plotting", true);
 
         this.gameObject.SetActive(true);
     }

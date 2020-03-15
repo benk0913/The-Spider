@@ -98,6 +98,7 @@ public class AudioControl : MonoBehaviour {
         currentInstance.GetComponent<AudioSource>().spatialBlend = 0f;
         currentInstance.GetComponent<AudioSource>().pitch = 1f;
         currentInstance.GetComponent<AudioSource>().clip = ResourcesLoader.Instance.GetClip(gClip);
+        currentInstance.GetComponent<AudioSource>().loop = false;
         currentInstance.GetComponent<AudioSource>().Play();
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
@@ -231,6 +232,7 @@ public class AudioControl : MonoBehaviour {
         currentInstance.GetComponent<AudioSource>().spatialBlend = 0f;
         currentInstance.GetComponent<AudioSource>().clip = ResourcesLoader.Instance.GetClip(gClip);
         currentInstance.GetComponent<AudioSource>().pitch = fPitch;
+        currentInstance.GetComponent<AudioSource>().loop = false;
         currentInstance.GetComponent<AudioSource>().Play();
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
@@ -239,9 +241,11 @@ public class AudioControl : MonoBehaviour {
         }
     }
 
-    public void SetMusic(string gClip, float fPitch = 1f)
+    public void SetMusic(string gClip, float fPitch = 1f, bool isLoop = true)
     {
         MusicSource.volume = VolumeGroups["Music"];
+
+        MusicSource.loop = isLoop;
 
         if (string.IsNullOrEmpty(gClip))
         {

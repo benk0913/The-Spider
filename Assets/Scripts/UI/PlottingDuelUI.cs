@@ -78,6 +78,8 @@ public class PlottingDuelUI : MonoBehaviour
 
     private void OnDisable()
     {
+        AudioControl.Instance.StopSound("soundscape_combat");
+
         if (MouseLook.Instance == null) return;
 
         MouseLook.Instance.CurrentWindow = null;
@@ -93,6 +95,8 @@ public class PlottingDuelUI : MonoBehaviour
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         this.gameObject.SetActive(true);
+
+        AudioControl.Instance.Play("soundscape_combat", true);
 
         CurrentPlot = plot;
         this.OnComplete = onComplete;

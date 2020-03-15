@@ -38,6 +38,8 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     private void OnDisable()
     {
+        AudioControl.Instance.StopSound("soundscape_bribing");
+
         if (MouseLook.Instance == null) return;
 
         MouseLook.Instance.CurrentWindow = null;
@@ -72,6 +74,8 @@ public class BribeFavorWindowUI : MonoBehaviour
         }
 
         MouseLook.Instance.CurrentWindow = this.gameObject;
+
+        AudioControl.Instance.Play("soundscape_bribing", true);
 
         CurrentCharacter = ofCharacter;
         this.gameObject.SetActive(true);

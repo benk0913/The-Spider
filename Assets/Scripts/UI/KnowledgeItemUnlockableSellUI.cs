@@ -46,10 +46,14 @@ public class KnowledgeItemUnlockableSellUI : KnowledgeItemUnlockableUI
     {
         if (CurrentCharacter.InformationSold.Find(x => x.Description == item.CurrentRumor.Description) != null)
         {
+            AudioControl.Instance.Play("paper_crumple");
+
             GlobalMessagePrompterUI.Instance.Show("Disposed of information.", 1f, Color.red);
         }
         else
         {
+            AudioControl.Instance.Play("resource_gold");
+
             CurrentCharacter.InformationSold.Add(item.CurrentRumor);
             CurrentCharacter.KnowledgeRumors.Remove(item.CurrentRumor);
 

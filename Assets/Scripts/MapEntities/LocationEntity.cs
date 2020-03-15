@@ -848,7 +848,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return new FailReason("Do Not Own Property");
         }
 
-        AudioControl.Instance.Play("property_select");
+        if (requester == CORE.PC)
+        {
+            AudioControl.Instance.Play("property_select");
+        }
 
         CurrentAction = action;
 

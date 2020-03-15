@@ -35,6 +35,8 @@ public class ResearchCharacterWindowUI : MonoBehaviour
 
     private void OnDisable()
     {
+        AudioControl.Instance.StopSound("soundscape_research_character");
+
         if (MouseLook.Instance == null) return;
 
         MouseLook.Instance.CurrentWindow = null;
@@ -60,6 +62,8 @@ public class ResearchCharacterWindowUI : MonoBehaviour
     {
         MouseLook.Instance.CurrentWindow = this.gameObject;
         this.gameObject.SetActive(true);
+
+        AudioControl.Instance.Play("soundscape_research_character", true);
 
         CurrentCharacter = ofCharacter;
         RefreshUI();

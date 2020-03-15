@@ -74,6 +74,8 @@ public class KnowledgeItemUnlockableUI : MonoBehaviour
 
         if (CurrentKnowledge.Key == item.CurrentRumor.RelevantKey)
         {
+            AudioControl.Instance.Play("researchchar_good");
+
             item.Consume();
 
             CurrentKnowledge.Score++;
@@ -84,6 +86,7 @@ public class KnowledgeItemUnlockableUI : MonoBehaviour
         }
         else
         {
+            AudioControl.Instance.Play("researchchar_bad");
             item.ConsumeIncorrect();
         }
     }

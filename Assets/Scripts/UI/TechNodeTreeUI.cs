@@ -30,6 +30,10 @@ public class TechNodeTreeUI : NodeTreeUI
 
     private void OnDisable()
     {
+
+        AudioControl.Instance.StopSound("soundscape_research_tech");
+
+
         if (MouseLook.Instance == null) return;
 
         MouseLook.Instance.CurrentWindow = null;
@@ -54,6 +58,9 @@ public class TechNodeTreeUI : NodeTreeUI
 
     public void Show()
     {
+
+        AudioControl.Instance.Play("soundscape_research_tech", true);
+
         MouseLook.Instance.CurrentWindow = this.gameObject;
         this.gameObject.SetActive(true);
         ShowTechHirarchy(CORE.Instance.TechTree);
