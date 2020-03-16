@@ -7,6 +7,9 @@ public class LoadGameWindowUI : MonoBehaviour
     [SerializeField]
     Transform SaveLinesContainer;
 
+    [SerializeField]
+    public GameObject NoSaveFilesPanel;
+
     public static LoadGameWindowUI Instance;
 
     private void Awake()
@@ -31,6 +34,9 @@ public class LoadGameWindowUI : MonoBehaviour
         ClearSaveLines();
 
         CORE.Instance.ReadAllSaveFiles();
+
+        NoSaveFilesPanel.gameObject.SetActive(CORE.Instance.SaveFiles.Count == 0);
+
         CORE.Instance.SaveFiles.Reverse();
         for (int i=0;i< CORE.Instance.SaveFiles.Count;i++)
         {

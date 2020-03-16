@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QuestObjective", menuName = "DataObjects/Quests/QuestObjective", order = 2)]
@@ -13,6 +14,9 @@ public class QuestObjective : ScriptableObject
     public Coroutine ValidateRoutine;
 
     public string WorldMarkerTarget;
+
+    public string MapMarkerLocationID;
+
 
     [System.NonSerialized]
     public GameObject WorldMarker;
