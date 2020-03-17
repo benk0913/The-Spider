@@ -78,7 +78,10 @@ public class PlottingDuelUI : MonoBehaviour
 
     private void OnDisable()
     {
-        AudioControl.Instance.StopSound("soundscape_combat");
+        if (AudioControl.Instance != null)
+        {
+            AudioControl.Instance.StopSound("soundscape_combat");
+        }
 
         if (MouseLook.Instance == null) return;
 

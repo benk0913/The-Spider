@@ -35,7 +35,11 @@ public class ResearchCharacterWindowUI : MonoBehaviour
 
     private void OnDisable()
     {
-        AudioControl.Instance.StopSound("soundscape_research_character");
+        if (AudioControl.Instance != null)
+        {
+            AudioControl.Instance.StopSound("soundscape_research_character");
+        }
+
 
         if (MouseLook.Instance == null) return;
 

@@ -58,6 +58,7 @@ public class WorldPositionLerperUI : MonoBehaviour
 
         if (StickToEdgeOfScreen)
         {
+            Debug.Log(CurrentPos.z + "Z");
             CurrentPos = new Vector3(CurrentPos.x < 0 ? 0f : CurrentPos.x, CurrentPos.y < 0 ? 0f : CurrentPos.y, CurrentPos.z);
             CurrentPos = new Vector3(CurrentPos.x > Screen.width? Screen.width : CurrentPos.x, CurrentPos.y > Screen.height ? Screen.height : CurrentPos.y, CurrentPos.z);
         }

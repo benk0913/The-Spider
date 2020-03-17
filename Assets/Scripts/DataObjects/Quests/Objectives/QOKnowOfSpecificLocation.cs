@@ -19,4 +19,10 @@ public class QOKnowOfSpecificLocation : QuestObjective
 
         return false;
     }
+
+    public override GameObject GetMarkerTarget()
+    {
+        return CORE.Instance.Locations.Find(x => x.CurrentProperty.name == OfProperty.name).gameObject;
+    }
+
 }

@@ -36,5 +36,31 @@ public class QOPropertySetToAction : QuestObjective
 
         return false;
     }
-    
+
+    public override GameObject GetMarkerTarget()
+    {
+        if(!SelectedPanelUI.Instance.LocationPanel.gameObject.activeInHierarchy)
+        {
+            return null;
+        }
+
+        if(SelectedPanelUI.Instance.LocationPanel.CurrentLocation.OwnerCharacter == null)
+        {
+            return null;
+        }
+
+        if (SelectedPanelUI.Instance.LocationPanel.CurrentLocation.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return null;
+        }
+
+        if (SelectedPanelUI.Instance.LocationPanel.CurrentLocation.CurrentProperty.name != TargetProperty.name)
+        {
+            return null;
+        }
+
+
+        return SelectedPanelUI.Instance.LocationPanel.ActionGrid.GetChild(TargetActionIndex).gameObject;
+    }
+
 }

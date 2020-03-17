@@ -30,5 +30,10 @@ public class QOPropertyIsInRuins : QuestObjective
         return false;
     }
 
-    
+
+    public override GameObject GetMarkerTarget()
+    {
+        return TheLocation.gameObject;
+    }
+
 }

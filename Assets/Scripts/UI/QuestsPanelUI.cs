@@ -84,19 +84,6 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             {
                 continue;
             }
-
-            if (objective.WorldMarker != null)
-            {
-                objective.WorldMarker.gameObject.SetActive(false);
-            }
-
-            if (!string.IsNullOrEmpty(objective.WorldMarkerTarget))
-            {
-                objective.WorldMarker = ResourcesLoader.Instance.GetRecycledObject("MarkerWorld");
-                objective.WorldMarker.transform.SetParent(CORE.Instance.DisposableContainer);
-                objective.WorldMarker.transform.SetAsLastSibling();
-                objective.WorldMarker.GetComponent<WorldPositionLerperUI>().SetTransform(GameObject.Find(objective.WorldMarkerTarget).transform);
-            }
         }
 
         if (quest.ForCharacter == CORE.PC)
@@ -116,6 +103,8 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
                 quest.OnStartQuestAction.Activate();
             }
         }
+
+        CORE.Instance.InvokeEvent("QuestStarted");
     }
 
     public void RemoveExistingQuest(Quest givenQuest)
@@ -156,11 +145,6 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             {
                 CORE.Instance.StopCoroutine(objective.ValidateRoutine);
             }
-
-            if (objective.WorldMarker != null)
-            {
-                objective.WorldMarker.gameObject.SetActive(false);
-            }
         }
 
         if (quest.ForCharacter == CORE.PC)
@@ -180,6 +164,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         while(!objective.Validate())
         {
+            if (objective.ShowObjectiveMarker)
+            {
+                objective.RefreshMarker();
+            }
+
             if(objective.Failed())
             {
                 objective.ValidateRoutine = null;
@@ -311,11 +300,6 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
             GlobalMessagePrompterUI.Instance.Show(objective.name + " is complete!", 1f, Color.green);
 
-            if (objective.WorldMarker != null)
-            {
-                objective.WorldMarker.gameObject.SetActive(false);
-                objective.WorldMarker = null;
-            }
 
         }
 
@@ -336,6 +320,8 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             GlobalMessagePrompterUI.Instance.Show(parentQuest.name + " is complete!", 1f, Color.green);
         }
+
+        CORE.Instance.InvokeEvent("ObjectiveComplete");
 
         QuestComplete(parentQuest);
 
@@ -384,11 +370,6 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
             GlobalMessagePrompterUI.Instance.Show(objective.name + " has failed!", 3f, Color.red);
 
-            if (objective.WorldMarker != null)
-            {
-                objective.WorldMarker.gameObject.SetActive(false);
-                objective.WorldMarker = null;
-            }
 
         }
 

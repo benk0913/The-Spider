@@ -47,4 +47,43 @@ public class QOResearchComplete : QuestObjective
 
         valid = true;
     }
+
+    public override GameObject GetMarkerTarget()
+    {
+        if(!TechNodeTreeUI.Instance.gameObject.activeInHierarchy)
+        {
+            return null;
+        }
+
+        TechTreeItem item = CORE.Instance.TechTree.Find(X => X.name == TechRequired.name);
+
+        if (item == null)
+        {
+            return null;
+        }
+
+        if (item.IsResearched)
+        {
+            return null;
+        }
+
+        TechNodeTreeUIInstance node = TechNodeTreeUI.Instance.FindNode(item);
+
+        if (node == null)
+        {
+            return null;
+        }
+
+        if(node.nodeObject == null)
+        {
+            return null;
+        }
+
+        if(node.nodeObject.transform.childCount == 0)
+        {
+            return null;
+        }
+
+        return node.nodeObject.transform.GetChild(0).gameObject;
+    }
 }

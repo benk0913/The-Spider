@@ -13,14 +13,6 @@ public class QuestObjective : ScriptableObject
     [System.NonSerialized]
     public Coroutine ValidateRoutine;
 
-    public string WorldMarkerTarget;
-
-    public string MapMarkerLocationID;
-
-
-    [System.NonSerialized]
-    public GameObject WorldMarker;
-
     [System.NonSerialized]
     public Quest ParentQuest;
 
@@ -31,6 +23,12 @@ public class QuestObjective : ScriptableObject
 
     [System.NonSerialized]
     public Character TargetCharacter;
+
+    [SerializeField]
+    public bool ShowObjectiveMarker = false;
+
+    protected GameObject MarkerTarget;
+    protected GameObject MarkerObject;
 
     public List<QuestObjective> FailConditions = new List<QuestObjective>();
 
@@ -71,5 +69,60 @@ public class QuestObjective : ScriptableObject
     {
         IsComplete = true;
         QuestsPanelUI.Instance.ObjectiveComplete(this);
+
+        if (MarkerObject != null && MarkerObject.activeInHierarchy)
+        {
+            MarkerObject.gameObject.SetActive(false);
+        }
+    }
+
+    public virtual void RefreshMarker()
+    {
+        if(IsComplete)
+        {
+            if(MarkerObject != null && MarkerObject.activeInHierarchy)
+            {
+                MarkerObject.gameObject.SetActive(false);
+            }
+
+            return;
+        }
+        if (MarkerTarget == null)
+        {
+            MarkerTarget = GetMarkerTarget();
+
+            if (MarkerTarget == null)
+            {
+                return;
+            }
+        }
+
+        if (MarkerObject == null)
+        {
+            MarkerObject = ResourcesLoader.Instance.GetRecycledObject("MarkerWorld");
+            MarkerObject.transform.SetParent(CORE.Instance.DisposableContainer);
+            MarkerObject.transform.SetAsLastSibling();
+            MarkerObject.GetComponent<WorldPositionLerperUI>().SetTransform(MarkerTarget.transform);
+        }
+        else
+        {
+
+            if (MarkerTarget.gameObject.activeInHierarchy)
+            {
+                if (!MarkerObject.activeInHierarchy)
+                {
+                    MarkerObject.gameObject.SetActive(true);
+                }
+            }
+            else
+            {
+                MarkerObject.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public virtual GameObject GetMarkerTarget()
+    {
+        return null;
     }
 }

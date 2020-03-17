@@ -40,4 +40,9 @@ public class QOInteractWithRealWorldObject : QuestObjective
         Entity.Actions.RemoveListener(OnInteract);
         interacted = true;
     }
+
+    public override GameObject GetMarkerTarget()
+    {
+        return GameObject.Find(ObjectName);
+    }
 }

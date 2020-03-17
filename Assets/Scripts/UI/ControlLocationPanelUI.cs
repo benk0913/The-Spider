@@ -42,7 +42,7 @@ public class ControlLocationPanelUI : MonoBehaviour
     Transform EmployeeGrid;
 
     [SerializeField]
-    Transform ActionGrid;
+    public Transform ActionGrid;
 
     [SerializeField]
     Transform AgentActionsGrid;
@@ -86,7 +86,7 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     GameObject LocationRuinedPanel;
 
-    LocationEntity CurrentLocation;
+    public LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
     {

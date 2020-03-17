@@ -139,6 +139,31 @@ public class TechNodeTreeUI : NodeTreeUI
             yield return StartCoroutine(SetItemsUI((TechNodeTreeUIInstance) node.Children[i]));
         }
     }
+
+    public virtual TechNodeTreeUIInstance FindNode(TechTreeItem tech)
+    {
+        return FindNode(CurrentRoot, tech);
+    }
+
+    protected virtual TechNodeTreeUIInstance FindNode(TechNodeTreeUIInstance node, TechTreeItem tech)
+    {
+        if(node.Item.name == tech.name)
+        {
+            return node;
+        }
+
+        for(int i=0;i<node.Children.Count;i++)
+        {
+            TechNodeTreeUIInstance potentialNode = FindNode((TechNodeTreeUIInstance)node.Children[i], tech);
+
+            if(potentialNode != null)
+            {
+                return potentialNode;
+            }
+        }
+
+        return null;
+    }
 }
 
 public class TechNodeTreeUIInstance : NodeTreeUIInstance

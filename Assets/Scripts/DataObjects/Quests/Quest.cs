@@ -126,7 +126,7 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         return false;
     }
 
-    QuestObjective GetObjective(string objectiveKey)
+    public QuestObjective GetObjective(string objectiveKey)
     {
         foreach(QuestObjective objective in Objectives)
         {

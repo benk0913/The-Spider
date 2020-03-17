@@ -38,7 +38,10 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     private void OnDisable()
     {
-        AudioControl.Instance.StopSound("soundscape_bribing");
+        if (AudioControl.Instance != null)
+        {
+            AudioControl.Instance.StopSound("soundscape_bribing");
+        }
 
         if (MouseLook.Instance == null) return;
 

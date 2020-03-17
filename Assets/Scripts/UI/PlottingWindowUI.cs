@@ -100,7 +100,10 @@ public class PlottingWindowUI : MonoBehaviour
 
     private void OnDisable()
     {
-        AudioControl.Instance.StopSound("soundscape_plotting");
+        if (AudioControl.Instance != null)
+        {
+            AudioControl.Instance.StopSound("soundscape_plotting");
+        }
     }
 
     private void Awake()
