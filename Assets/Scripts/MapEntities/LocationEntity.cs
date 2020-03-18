@@ -774,7 +774,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (funder.Gold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
         {
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                "(You need more " + (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold)+")", 1f, Color.red);
+                "(" +funder.Gold+"/"+ CurrentProperty.PropertyLevels[Level].UpgradePrice + ")", 1f, Color.red);
 
             return new FailReason("Not Enough Gold", (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold));
         }

@@ -18,6 +18,8 @@ public class RelationUI : MonoBehaviour
     Character CurrentCharacter;
     Character TargetCharacter;
 
+    public bool InverseClickResult = false;
+
     public void SetInfo(Character currentCharacter, Character targetCharacter)
     {
         this.CurrentCharacter = currentCharacter;
@@ -79,6 +81,12 @@ public class RelationUI : MonoBehaviour
     {
         if (this.CurrentCharacter == null || this.TargetCharacter == null)
         {
+            return;
+        }
+
+        if(InverseClickResult)
+        {
+            CharacterRelationsViewUI.Instance.Show(CurrentCharacter, null, null, CurrentCharacter.name + "'s Relations With Characters");
             return;
         }
 

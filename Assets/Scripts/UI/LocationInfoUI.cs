@@ -44,6 +44,15 @@ public class LocationInfoUI : MonoBehaviour
     {
         CORE.Instance.SubscribeToEvent("HideMap", Hide);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     public void Hide()
     {
         CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", RefreshUI);

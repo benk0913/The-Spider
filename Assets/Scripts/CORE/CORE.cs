@@ -230,6 +230,8 @@ public class CORE : MonoBehaviour
                 });
             });
         }
+
+        InvokeEvent("MainSceneLoaded");
     }
 
     void AddListeners()

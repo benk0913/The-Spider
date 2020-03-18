@@ -19,9 +19,17 @@ public class WorldMissionPanelUI : MonoBehaviour
     [SerializeField]
     Animator Anim;
 
+    [SerializeField]
+    CanvasGroup CG;
+
+    [SerializeField]
+    GameObject FoldedPanel;
+
     Quest CurrentQuest;
 
     bool isHidden = false;
+
+    public bool ToggleHidden = false;
 
     private void Awake()
     {
@@ -74,7 +82,7 @@ public class WorldMissionPanelUI : MonoBehaviour
             TextMeshProUGUI QuestTitle = ResourcesLoader.Instance.GetRecycledObject("ObjectiveTitleUI").GetComponent<TextMeshProUGUI>();
             QuestTitle.transform.SetParent(QuestObjectivesContainer);
             QuestTitle.transform.SetAsLastSibling();
-            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "black") + ">" + objective.name + "</color>";
+            QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "yellow") + ">" + objective.name + "</color>";
         }
     }
 
@@ -131,5 +139,13 @@ public class WorldMissionPanelUI : MonoBehaviour
         Anim.SetTrigger("Notify");
 
         Refresh();
+    }
+
+    public void ToggleHide()
+    {
+        ToggleHidden = !ToggleHidden;
+
+        CG.alpha = ToggleHidden ? 1f : 0f;
+        FoldedPanel.gameObject.SetActive(!ToggleHidden);
     }
 }

@@ -181,6 +181,10 @@ public class MouseLook : MonoBehaviour
             {
                 CurrentItemInHands.Retrieve();
             }
+            else if(State == ActorState.Idle)
+            {
+                CORE.Instance.InvokeEvent("EnterBedOut");
+            }
         }
     }
 

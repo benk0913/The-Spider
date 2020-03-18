@@ -89,6 +89,14 @@ public class CharacterInfoUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     void RefreshTurnPassed()
     {
         if(!this.gameObject.activeInHierarchy)

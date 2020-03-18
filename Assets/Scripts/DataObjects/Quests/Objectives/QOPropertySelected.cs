@@ -11,6 +11,7 @@ public class QOPropertySelected : QuestObjective
 
     public bool IsPlayers = false;
 
+
     public override bool Validate()
     {
         return PropertyIsSelected(ParentQuest.ForCharacter, TargetProperty);
