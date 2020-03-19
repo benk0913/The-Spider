@@ -177,6 +177,10 @@ public class MouseLook : MonoBehaviour
             {
                 CurrentFocus.Deactivate();
             }
+            else if(State == ActorState.Interpolation)
+            {
+                return;
+            }
             else if (State == ActorState.ItemInHands)
             {
                 CurrentItemInHands.Retrieve();
@@ -331,6 +335,9 @@ public class MouseLook : MonoBehaviour
     Coroutine FocusingRoutineInstance = null;
     IEnumerator FocusOnViewRoutine(FocusView view)
     {
+        ActorState originalState = State;
+        State = ActorState.Interpolation;
+
         float t = 0f;
         while(t<0.1f)
         {
@@ -345,6 +352,11 @@ public class MouseLook : MonoBehaviour
         CameraTransform.position = view.CurrentCamera.transform.position;
         CameraTransform.rotation = view.CurrentCamera.transform.rotation;
 
+        if (State == ActorState.Interpolation)
+        {
+            State = originalState;
+        }
+
         CameraTransform.gameObject.SetActive(false);
         view.CurrentCamera.gameObject.SetActive(true);
         FocusingRoutineInstance = null;
@@ -352,6 +364,9 @@ public class MouseLook : MonoBehaviour
 
     IEnumerator UnfocusViewRoutine()
     {
+        ActorState originalState = State;
+        State = ActorState.Interpolation;
+
         CameraTransform.gameObject.SetActive(true);
         CurrentFocus.CurrentCamera.gameObject.SetActive(false);
         
@@ -368,6 +383,12 @@ public class MouseLook : MonoBehaviour
 
         CameraTransform.position = preFocusPosition;
         CameraTransform.rotation = preFocusRotation;
+
+
+        if (State == ActorState.Interpolation)
+        {
+            State = originalState;
+        }
 
 
         FocusingRoutineInstance = null;
@@ -522,6 +543,7 @@ public class MouseLook : MonoBehaviour
     {
         Idle,
         Focusing,
-        ItemInHands
+        ItemInHands,
+        Interpolation
     }
 }

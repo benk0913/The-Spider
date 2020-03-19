@@ -16,6 +16,7 @@ public class SplineLerperWorldUI : MonoBehaviour
     [SerializeField]
     float maxSpeed = 1f;
 
+
     public void SetInfo(Transform startPoint, Transform targetPoint, System.Action onComplete = null)
     {
         if(MovementRoutineInstance != null)
@@ -26,6 +27,8 @@ public class SplineLerperWorldUI : MonoBehaviour
 
         CurrentActionInstance = onComplete;
         MovementRoutineInstance = StartCoroutine(MovementRoutine(startPoint, targetPoint));
+
+
     }
 
     IEnumerator MovementRoutine(Transform startPoint, Transform targetPoint)

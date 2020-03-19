@@ -27,10 +27,18 @@ public class PropertyLevelTierUI : MonoBehaviour
 
         TierTitle.text = CurrentLevel.LevelName;
         TierLevel.text = "Level: "+ currentLevelIndex;
+
+        TierMaxEmployees.gameObject.SetActive(CurrentLevel.MaxEmployees > 0);
         TierMaxEmployees.text = CurrentLevel.MaxEmployees.ToString();
+
         TierMaxGuards.text = CurrentLevel.MaxGuards.ToString();
+        TierMaxGuards.gameObject.SetActive(CurrentLevel.MaxGuards > 0);
+
         TierMaxPrisoners.text = CurrentLevel.MaxPrisoners.ToString();
+        TierMaxPrisoners.gameObject.SetActive(CurrentLevel.MaxPrisoners > 0);
+
         TierMaxInventory.text = CurrentLevel.InventoryCap.ToString();
+        TierMaxInventory.gameObject.SetActive(CurrentLevel.InventoryCap > 0);
 
         ClearContainers();
 

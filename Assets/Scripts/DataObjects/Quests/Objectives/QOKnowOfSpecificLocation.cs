@@ -36,7 +36,7 @@ public class QOKnowOfSpecificLocation : QuestObjective
             {
                 float currentDist = Vector3.Distance(hostLocation.gameObject.transform.position, location.gameObject.transform.position);
 
-                if(currentDist > distance)
+                if(currentDist < distance)
                 {
                     distance = currentDist;
                     target = location;

@@ -30,8 +30,10 @@ public class TechNodeTreeUI : NodeTreeUI
 
     private void OnDisable()
     {
-
-        AudioControl.Instance.StopSound("soundscape_research_tech");
+        if (AudioControl.Instance != null)
+        {
+            AudioControl.Instance.StopSound("soundscape_research_tech");
+        }
 
 
         if (MouseLook.Instance == null) return;

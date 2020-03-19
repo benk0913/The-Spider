@@ -12,6 +12,10 @@ public class WorldPositionLerperUI : MonoBehaviour
     [SerializeField]
     bool StickToEdgeOfScreen = false;
 
+    public bool IsIgnoringMapBackfacing = false;
+    public bool IsMapElement;
+
+
     public void SetPosition(Vector3 pos)
     {
         CurrentTransform = null;
@@ -31,6 +35,9 @@ public class WorldPositionLerperUI : MonoBehaviour
         CurrentPos = CurrentTransform.position;
 
         transformIsCanvas = (CurrentTransform.transform.GetType() == typeof(RectTransform));
+
+
+        IsMapElement = targetTransform.IsChildOf(MapViewManager.Instance.transform);
     }
 
     void Update()
@@ -58,7 +65,7 @@ public class WorldPositionLerperUI : MonoBehaviour
 
         if (StickToEdgeOfScreen)
         {
-            if (CurrentPos.z < 0f)
+            if (CurrentPos.z < 0f && !(IsIgnoringMapBackfacing && IsMapElement))
             {
                 CurrentPos = new Vector3(CurrentPos.x < Screen.width /2f ? 0f : Screen.width, CurrentPos.y < Screen.height/2f? 0f : Screen.height, CurrentPos.z);
             }
