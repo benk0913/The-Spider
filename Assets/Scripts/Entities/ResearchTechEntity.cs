@@ -32,6 +32,7 @@ public class ResearchTechEntity : MonoBehaviour
         if (CORE.Instance == null || CORE.Instance.TechTree == null)
         {
             Reset.Invoke();
+            return;
         }
 
         if (!CORE.Instance.TechTree.Find(x => x.name == RequiredTech.name).IsResearched)

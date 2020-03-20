@@ -34,7 +34,8 @@ public class CharactersInLocationUI : MonoBehaviour
         }
 
         this.gameObject.SetActive(true);
-        Refresh();
+
+        CORE.Instance.DelayedInvokation(0.1f, Refresh);
     }
 
     public void Hide()
@@ -68,6 +69,7 @@ public class CharactersInLocationUI : MonoBehaviour
         {
             return;
         }
+
         Characters.Add(character);
 
         PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();

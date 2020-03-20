@@ -97,6 +97,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     CharactersInLocationUI CharactersInLocationUIInstance;
 
+    StatsOfLocationUI StatsOfLocationUIInstance;
+
     [SerializeField]
     protected List<AgentAction> PossibleAgentActions = new List<AgentAction>();
 
@@ -741,6 +743,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             hoverModel.transform.rotation = HoverPoint.rotation;
         }
 
+
+        RefreshStatsOfLocationUI();
+
         StateUpdated.Invoke();
     }
 
@@ -855,6 +860,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         CurrentAction = action;
 
+        EmployeesCharacters.ForEach((x) => x.TryToDoSomething());
+
+        RefreshStatsOfLocationUI();
+
         StateUpdated.Invoke();
 
         return null;
@@ -956,6 +965,27 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
         CharactersInLocationUIInstance.SetInfo(this);
+    }
+
+    public void RefreshStatsOfLocationUI()
+    {
+        if (OwnerCharacter == null || OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
+        if (StatsOfLocationUIInstance == null)
+        {
+            StatsOfLocationUIInstance = ResourcesLoader.Instance.GetRecycledObject("StatsOfLocationUI").GetComponent<StatsOfLocationUI>();
+            StatsOfLocationUIInstance.transform.SetParent(CORE.Instance.DisposableContainer);
+            StatsOfLocationUIInstance.transform.localScale = Vector3.one;
+            StatsOfLocationUIInstance.transform.SetAsFirstSibling();
+            StatsOfLocationUIInstance.SetInfo(this);
+        }
+        else
+        {
+            StatsOfLocationUIInstance.Refresh();
+        }
     }
 
     public void RefreshTasks()
@@ -1335,7 +1365,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                CurrentProperty.RecruitingGenderType,
                CurrentProperty.MinAge,
                CurrentProperty.MaxAge,
-               this);
+               this.NearestDistrict);
 
         randomNewEmployee.StartWorkingFor(this, isGuard);
 

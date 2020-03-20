@@ -1210,8 +1210,27 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CORE.Instance.Factions.Add(this.CurrentFaction);
     }
 
-    bool TryToDoSomething()
+    public bool TryToDoSomething()
     {
+        if(IsDisabled)
+        {
+            return false;
+        }
+
+        if (CurrentFaction.FactionHead != null && this.name == CurrentFaction.FactionHead.name)//Faction Head
+        {
+            return false;
+        }
+
+        if (PrisonLocation != null) // Imprisoned
+        {
+            return false;
+        }
+
+        if (CurrentTaskEntity != null)
+        {
+        }
+
 
         if (IsGuard && Random.Range(0,2) == 0) // Guards keep working
         {
@@ -1359,6 +1378,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             Known.KnowEverything(TopEmployer);
         }
+
+        GoToLocation(WorkLocation);
+
+        TryToDoSomething();
 
         RefreshVisualTree();
     }
