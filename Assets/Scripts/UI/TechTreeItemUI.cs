@@ -84,7 +84,7 @@ public class TechTreeItemUI : MonoBehaviour
 
                 Liner.color = UnresearchedColor;
 
-                Cost.color = CORE.PC.Progress >= CurrentItem.Price ? Color.white : Color.red;
+                Cost.color = CORE.PC.CProgress >= CurrentItem.Price ? Color.white : Color.red;
                 Cost.text = CurrentItem.Price.ToString();
             }
         }
@@ -116,14 +116,14 @@ public class TechTreeItemUI : MonoBehaviour
             return;
         }
 
-        if (CurrentItem.Price > CORE.PC.Progress)
+        if (CurrentItem.Price > CORE.PC.CProgress)
         {
             return;
         }
 
         AudioControl.Instance.Play("tech_research");
 
-        CORE.PC.Progress -= CurrentItem.Price;
+        CORE.PC.CProgress -= CurrentItem.Price;
         CurrentItem.IsResearched = true;
         TechNodeTreeUI.Instance.RefreshNodes();
         CORE.Instance.InvokeEvent("ResearchComplete");

@@ -51,7 +51,7 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
 
         if (Progression != 0)
         {
-            character.TopEmployer.Progress += Progression;
+            character.TopEmployer.CProgress += Progression;
 
             CORE.Instance.SplineAnimationObject(
              "PaperCollectedWorld",
@@ -65,7 +65,7 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
 
         if (Gold != 0)
         {
-            character.TopEmployer.Gold += Gold;
+            character.TopEmployer.CGold += Gold;
 
             CORE.Instance.SplineAnimationObject(
              "CoinCollectedWorld",
@@ -79,7 +79,7 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
 
         if (Rumors != 0)
         {
-            character.TopEmployer.Rumors += Rumors;
+            character.TopEmployer.CRumors += Rumors;
 
             CORE.Instance.SplineAnimationObject(
              "EarCollectedWorld",
@@ -93,7 +93,7 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
 
         if (Connections != 0)
         {
-            character.TopEmployer.Connections += Connections;
+            character.TopEmployer.CConnections += Connections;
 
             CORE.Instance.SplineAnimationObject(
              "ConnectionCollectedWorld",

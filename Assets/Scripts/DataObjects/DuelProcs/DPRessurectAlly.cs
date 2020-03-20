@@ -23,6 +23,8 @@ public class DPRessurectAlly : DuelProc
 
         Character ressurrected;
 
+        PortraitUI rsPortrait;
+
         if (isGoodForDefenders)
         {
             if (isRandom || PlottingDuelUI.Instance.LastDefeatedTarget == null)
@@ -34,7 +36,7 @@ public class DPRessurectAlly : DuelProc
                 ressurrected = PlottingDuelUI.Instance.LastDefeatedTarget;
             }
 
-            PlottingDuelUI.Instance.GenerateTarget(ressurrected);
+            rsPortrait = PlottingDuelUI.Instance.GenerateTarget(ressurrected);
         }
         else
         {
@@ -47,8 +49,10 @@ public class DPRessurectAlly : DuelProc
                 ressurrected = PlottingDuelUI.Instance.LastDefeatedParticipant;
             }
 
-            PlottingDuelUI.Instance.GenerateParticipant(ressurrected);
+            rsPortrait = PlottingDuelUI.Instance.GenerateParticipant(ressurrected);
         }
+
+        GenerateEffectOnPortrait(rsPortrait);
     }
 
     public override bool PassedConditions()

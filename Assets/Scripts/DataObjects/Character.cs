@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Character", menuName = "DataObjects/Character", order = 2)]
 public class Character : ScriptableObject, ISaveFileCompatible
@@ -155,13 +156,88 @@ public class Character : ScriptableObject, ISaveFileCompatible
     }
     int _reputation;
 
-    public int Gold;
 
-    public int Connections;
+    public int CGold
+    {
+        get
+        {
+            return _gold;
+        }
+        set
+        {
+            _gold = value;
 
-    public int Rumors;
+            if (_gold < 0)
+            {
+                _gold = 0;
+            }
+        }
+    }
 
-    public int Progress;
+
+    [FormerlySerializedAs("Gold")]
+    public int _gold;
+
+    public int CConnections
+    {
+        get
+        {
+            return _connections;
+        }
+        set
+        {
+            _connections = value;
+
+            if (_connections < 0)
+            {
+                _connections = 0;
+            }
+        }
+    }
+
+    [FormerlySerializedAs("Connections")]
+    public int _connections;
+
+    public int CRumors
+    {
+        get
+        {
+            return _rumors;
+        }
+        set
+        {
+            _rumors = value;
+
+            if (_rumors < 0)
+            {
+                _rumors = 0;
+            }
+        }
+    }
+
+    [FormerlySerializedAs("Rumors")]
+    public int _rumors;
+
+
+    public int CProgress
+    {
+        get
+        {
+            return _progress;
+        }
+        set
+        {
+            _progress = value;
+
+            if (_progress < 0)
+            {
+                _progress = 0;
+            }
+        }
+    }
+
+    [FormerlySerializedAs("Progress")]
+    public int _progress;
 
     public bool IsDisabled = false;
 
@@ -1143,17 +1219,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return true;
         }
 
-        if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning 
-            || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Noon 
-            || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Afternoon)
-        {
-            //foreach (LocationEntity location in PropertiesOwned) //TODO Reimplement later?
-            //{
-            //    if (AttemptManagePropertyAI(location))
-            //    {
-            //        return true;
-            //    }
-            //}
+        //if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning 
+        //    || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Noon 
+        //    || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Afternoon)
+        //{
 
             if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
             {
@@ -1164,16 +1233,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
                 return true;
             }
-        }
-        else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
-        {
-            if (HomeLocation != null)
-            {
-                CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
+        //}
+        //else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
+        //{
+        //    if (HomeLocation != null)
+        //    {
+        //        CORE.Instance.Database.SleepAction.Execute(this, this, HomeLocation);
 
-                return true;
-            }
-        }
+        //        return true;
+        //    }
+        //}
 
         //Hangoutime!
         LocationEntity hangoutLocation = null;
@@ -1580,10 +1649,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["Gender"] = ((int)Gender).ToString();
 
-        node["Gold"] = Gold.ToString();
-        node["Connections"] = Connections.ToString();
-        node["Rumors"] = Rumors.ToString();
-        node["Progress"] = Progress.ToString();
+        node["Gold"] = CGold.ToString();
+        node["Connections"] = CConnections.ToString();
+        node["Rumors"] = CRumors.ToString();
+        node["Progress"] = CProgress.ToString();
         node["Reputation"] = Reputation.ToString();
 
         node["NeverDED"] = NeverDED.ToString();
@@ -1683,10 +1752,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         Gender = (GenderType)int.Parse(node["Gender"]);
 
-        Gold = int.Parse(node["Gold"]);
-        Connections = int.Parse(node["Connections"]);
-        Rumors = int.Parse(node["Rumors"]);
-        Progress = int.Parse(node["Progress"]);
+        CGold = int.Parse(node["Gold"]);
+        CConnections = int.Parse(node["Connections"]);
+        CRumors = int.Parse(node["Rumors"]);
+        CProgress = int.Parse(node["Progress"]);
         Reputation = int.Parse(node["Reputation"]);
 
         NeverDED = bool.Parse(node["NeverDED"]);

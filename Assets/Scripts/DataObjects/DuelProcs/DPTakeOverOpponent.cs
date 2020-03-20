@@ -20,19 +20,21 @@ public class DPTakeOverOpponent : DuelProc
         yield return PlottingDuelUI.Instance.StartCoroutine(PlottingDuelUI.Instance.SetProcEvent(this));
 
         Character victim;
-
+        PortraitUI victimPortrait;
         if (isGoodForDefenders)//Get victim of opposite team.
         {
             victim = PlottingDuelUI.Instance.CurrentPlot.Participants[Random.Range(0, PlottingDuelUI.Instance.CurrentPlot.Participants.Count)];
             PlottingDuelUI.Instance.KillCharacter(victim);
-            PlottingDuelUI.Instance.GenerateTarget(victim);
+            victimPortrait = PlottingDuelUI.Instance.GenerateTarget(victim);
         }
         else
         {
             victim = PlottingDuelUI.Instance.CurrentPlot.TargetParticipants[Random.Range(0, PlottingDuelUI.Instance.CurrentPlot.TargetParticipants.Count)];
             PlottingDuelUI.Instance.KillCharacter(victim);
-            PlottingDuelUI.Instance.GenerateParticipant(victim);
+            victimPortrait = PlottingDuelUI.Instance.GenerateParticipant(victim);
         }
+
+        GenerateEffectOnPortrait(victimPortrait);
     }
 
     public override bool PassedConditions()

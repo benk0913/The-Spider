@@ -40,6 +40,8 @@ public class DPDeathAOE : DuelProc
 
         while(dead.Count > 0)
         {
+            GenerateEffectOnPortrait(dead[0]);
+
             PlottingDuelUI.Instance.KillCharacter(dead[0].CurrentCharacter);
             dead.RemoveAt(0);
         }

@@ -21,7 +21,7 @@ public class DDADecisionPerItemInLocation : DialogDecisionAction
         foreach (Item item in location.Inventory)
         {
             DialogDecision newDecision = DecisionsPerItem.Clone();
-            newDecision.name += " - " + item.name + "("+item.Price+"/"+CORE.PC.Gold+")";
+            newDecision.name += " - " + item.name + "("+item.Price+"/"+CORE.PC.CGold+")";
       
             piece.Decisions.Add(newDecision);
             newDecision.Icon = item.Icon;

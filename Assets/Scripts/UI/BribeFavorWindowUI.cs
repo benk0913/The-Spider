@@ -118,13 +118,13 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     public void BuyFavorGold()
     {
-        if(CORE.PC.Gold < CurrentCharacter.FavorPointGoldPrice(CORE.PC))
+        if(CORE.PC.CGold < CurrentCharacter.FavorPointGoldPrice(CORE.PC))
         {
-            GlobalMessagePrompterUI.Instance.Show("Not Enough Gold (" + CORE.PC.Gold + "/" + CurrentCharacter.FavorPointGoldPrice(CORE.PC) + ")", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show("Not Enough Gold (" + CORE.PC.CGold + "/" + CurrentCharacter.FavorPointGoldPrice(CORE.PC) + ")", 1f, Color.red);
             return;
         }
 
-        CORE.PC.Gold -= CurrentCharacter.FavorPointGoldPrice(CORE.PC);
+        CORE.PC.CGold -= CurrentCharacter.FavorPointGoldPrice(CORE.PC);
         CurrentCharacter.AddFavorPoints(CORE.PC, 1);
 
         RefreshUI();
@@ -132,13 +132,13 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     public void BuyFavorRumors()
     {
-        if (CORE.PC.Rumors < CurrentCharacter.FavorPointRumorsPrice(CORE.PC))
+        if (CORE.PC.CRumors < CurrentCharacter.FavorPointRumorsPrice(CORE.PC))
         {
-            GlobalMessagePrompterUI.Instance.Show("Not Enough Rumors (" + CORE.PC.Rumors + "/" + CurrentCharacter.FavorPointRumorsPrice(CORE.PC) + ")", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show("Not Enough Rumors (" + CORE.PC.CRumors + "/" + CurrentCharacter.FavorPointRumorsPrice(CORE.PC) + ")", 1f, Color.red);
             return;
         }
 
-        CORE.PC.Rumors -= CurrentCharacter.FavorPointRumorsPrice(CORE.PC);
+        CORE.PC.CRumors -= CurrentCharacter.FavorPointRumorsPrice(CORE.PC);
         CurrentCharacter.AddFavorPoints(CORE.PC, 1);
 
         RefreshUI();
@@ -146,13 +146,13 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     public void BuyFavorConnections()
     {
-        if (CORE.PC.Connections < CurrentCharacter.FavorPointConnectionsPrice(CORE.PC))
+        if (CORE.PC.CConnections < CurrentCharacter.FavorPointConnectionsPrice(CORE.PC))
         {
-            GlobalMessagePrompterUI.Instance.Show("Not Enough Connections (" + CORE.PC.Connections + "/" + CurrentCharacter.FavorPointConnectionsPrice(CORE.PC) + ")", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show("Not Enough Connections (" + CORE.PC.CConnections + "/" + CurrentCharacter.FavorPointConnectionsPrice(CORE.PC) + ")", 1f, Color.red);
             return;
         }
 
-        CORE.PC.Connections -= CurrentCharacter.FavorPointConnectionsPrice(CORE.PC);
+        CORE.PC.CConnections -= CurrentCharacter.FavorPointConnectionsPrice(CORE.PC);
         CurrentCharacter.AddFavorPoints(CORE.PC, 1);
 
         RefreshUI();

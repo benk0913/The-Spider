@@ -395,7 +395,7 @@ public class PlottingDuelUI : MonoBehaviour
         SpeedMode = true;
     }
 
-    public void GenerateParticipant(Character character)
+    public PortraitUI GenerateParticipant(Character character)
     {
         character.Known.Know("Appearance", CurrentPlot.TargetParticipants[0].TopEmployer);
         character.Known.Know("Appearance", CurrentPlot.Participants[0].TopEmployer);
@@ -406,9 +406,11 @@ public class PlottingDuelUI : MonoBehaviour
         PortraitUI portrait = portraitObj.GetComponent<PortraitUI>();
         portrait.SetCharacter(character);
         ParticipantsPortraits.Add(portrait);
+
+        return portrait;
     }
 
-    public void GenerateTarget(Character character)
+    public PortraitUI GenerateTarget(Character character)
     {
         character.Known.Know("Appearance", CurrentPlot.TargetParticipants[0].TopEmployer);
         character.Known.Know("Appearance", CurrentPlot.Participants[0].TopEmployer);
@@ -419,6 +421,8 @@ public class PlottingDuelUI : MonoBehaviour
         PortraitUI portrait = portraitObj.GetComponent<PortraitUI>();
         portrait.SetCharacter(character);
         TargetsPortraits.Add(portrait);
+
+        return portrait;
     }
 
     public void RetrieveCharacter(Character character)

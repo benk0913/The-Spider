@@ -15,10 +15,10 @@ public class QRGainResource : QuestReward
     {
         base.Claim(byCharacter);
 
-        byCharacter.TopEmployer.Gold += Gold;
-        byCharacter.TopEmployer.Rumors += Rumors;
-        byCharacter.TopEmployer.Connections += Connections;
-        byCharacter.TopEmployer.Progress += Progression;
+        byCharacter.TopEmployer.CGold += Gold;
+        byCharacter.TopEmployer.CRumors += Rumors;
+        byCharacter.TopEmployer.CConnections += Connections;
+        byCharacter.TopEmployer.CProgress += Progression;
         byCharacter.TopEmployer.Reputation += Reputation;
 
         Transform resourceSource = byCharacter.TopEmployer.CurrentLocation.transform;

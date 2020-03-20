@@ -13,22 +13,22 @@ public class QOResourceCount : QuestObjective
 
     public override bool Validate()
     {
-        if(Gold > 0 && CORE.PC.Gold >= Gold)
+        if(Gold > 0 && CORE.PC.CGold >= Gold)
         {
             return true;
         }
 
-        if (Rumors > 0 && CORE.PC.Rumors >= Rumors)
+        if (Rumors > 0 && CORE.PC.CRumors >= Rumors)
         {
             return true;
         }
 
-        if (Connections > 0 && CORE.PC.Connections >= Connections)
+        if (Connections > 0 && CORE.PC.CConnections >= Connections)
         {
             return true;
         }
 
-        if (Progression > 0 && CORE.PC.Progress >= Progression)
+        if (Progression > 0 && CORE.PC.CProgress >= Progression)
         {
             return true;
         }

@@ -23,18 +23,18 @@ public class DDAGainResources : DialogDecisionAction
 
         if (inPrecent)
         {
-            tempGold = Mathf.RoundToInt(CORE.PC.Gold * (Gold / 100f));
-            tempRumors = Mathf.RoundToInt(CORE.PC.Rumors * (Rumors / 100f));
-            tempConnections = Mathf.RoundToInt(CORE.PC.Connections * (Connections / 100f));
-            tempProgression = Mathf.RoundToInt(CORE.PC.Progress * (Progression / 100f));
+            tempGold = Mathf.RoundToInt(CORE.PC.CGold * (Gold / 100f));
+            tempRumors = Mathf.RoundToInt(CORE.PC.CRumors * (Rumors / 100f));
+            tempConnections = Mathf.RoundToInt(CORE.PC.CConnections * (Connections / 100f));
+            tempProgression = Mathf.RoundToInt(CORE.PC.CProgress * (Progression / 100f));
             tempReputation = Mathf.RoundToInt(CORE.PC.Reputation * (Reputation / 100f));
         }
 
 
-        CORE.PC.TopEmployer.Gold += tempGold;
-        CORE.PC.TopEmployer.Rumors += tempRumors;
-        CORE.PC.TopEmployer.Connections += tempConnections;
-        CORE.PC.TopEmployer.Progress += tempProgression;
+        CORE.PC.TopEmployer.CGold += tempGold;
+        CORE.PC.TopEmployer.CRumors += tempRumors;
+        CORE.PC.TopEmployer.CConnections += tempConnections;
+        CORE.PC.TopEmployer.CProgress += tempProgression;
         CORE.PC.TopEmployer.Reputation += tempReputation;
 
         Transform resourceSource = CORE.PC.TopEmployer.CurrentLocation.transform;

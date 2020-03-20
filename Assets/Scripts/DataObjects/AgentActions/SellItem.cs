@@ -21,7 +21,7 @@ public class SellItem : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        character.TopEmployer.Gold += Mathf.CeilToInt(itemUI.CurrentItem.Price * ValueMultiplier);
+        character.TopEmployer.CGold += Mathf.CeilToInt(itemUI.CurrentItem.Price * ValueMultiplier);
         character.TopEmployer.Belogings.Remove(itemUI.CurrentItem);
         InventoryPanelUI.Instance.ItemWasAdded(0);
     }

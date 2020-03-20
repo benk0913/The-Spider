@@ -64,9 +64,9 @@ public class BuyoutPlotAction : AgentAction
             return false;
         }
 
-        if (CORE.PC.Gold < (targetEntity.LandValue *2))
+        if (CORE.PC.CGold < (targetEntity.LandValue *2))
         {
-            reason = new FailReason("Not Enough Gold - ("+CORE.PC.Gold+"/"+ (targetEntity.LandValue * 2)+")");
+            reason = new FailReason("Not Enough Gold - ("+CORE.PC.CGold+"/"+ (targetEntity.LandValue * 2)+")");
             return false;
         }
 

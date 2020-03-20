@@ -425,13 +425,13 @@ public class CharacterInfoUI : MonoBehaviour
 
     public void AddTraitAttempt()
     {
-        if(CORE.PC.Progress < 3)
+        if(CORE.PC.CProgress < 3)
         {
             GlobalMessagePrompterUI.Instance.Show("Not Enough Progression Points", 1f, Color.red);
             return;
         }
 
-        CORE.PC.Progress -= 3;
+        CORE.PC.CProgress -= 3;
 
         ChangePerkWindowUI.Instance.Show(CurrentCharacter, false);
 
@@ -440,7 +440,7 @@ public class CharacterInfoUI : MonoBehaviour
 
     public void RemoveTraitAttempt()
     {
-        if (CORE.PC.Progress < 3)
+        if (CORE.PC.CProgress < 3)
         {
             GlobalMessagePrompterUI.Instance.Show("Not Enough Progression Points", 1f, Color.red);
             return;
@@ -452,7 +452,7 @@ public class CharacterInfoUI : MonoBehaviour
             return;
         }
 
-        CORE.PC.Progress -= 3;
+        CORE.PC.CProgress -= 3;
 
         ChangePerkWindowUI.Instance.Show(CurrentCharacter, true);
 

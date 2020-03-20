@@ -13,7 +13,7 @@ public class DDCHasResource : DialogDecisionCondition
 
     public override bool CheckCondition()
     {
-        if (CORE.PC.Gold >= Gold && CORE.PC.Rumors >= Rumors && CORE.PC.Connections >= Connections && CORE.PC.Progress >= Progression)
+        if (CORE.PC.CGold >= Gold && CORE.PC.CRumors >= Rumors && CORE.PC.CConnections >= Connections && CORE.PC.CProgress >= Progression)
         {
             if (Inverted)
             {

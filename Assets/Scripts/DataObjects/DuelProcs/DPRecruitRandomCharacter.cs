@@ -28,14 +28,16 @@ public class DPRecruitRandomCharacter : DuelProc
         {
             for (int i = 0; i < Count; i++)
             {
-                PlottingDuelUI.Instance.GenerateTarget(character);
+                PortraitUI portrait = PlottingDuelUI.Instance.GenerateTarget(character);
+                GenerateEffectOnPortrait(portrait);
             }
         }
         else
         {
             for (int i = 0; i < Count; i++)
             {
-                PlottingDuelUI.Instance.GenerateParticipant(character);
+                PortraitUI portrait = PlottingDuelUI.Instance.GenerateParticipant(character);
+                GenerateEffectOnPortrait(portrait);
             }
         }
     }

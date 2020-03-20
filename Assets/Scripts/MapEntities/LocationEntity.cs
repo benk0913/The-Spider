@@ -485,7 +485,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (CurrentProperty.DistrictBonus.ProgressionPerTurn != 0)
         {
-            factionHead.Progress += CurrentProperty.DistrictBonus.ProgressionPerTurn;
+            factionHead.CProgress += CurrentProperty.DistrictBonus.ProgressionPerTurn;
 
             if (factionHead == CORE.PC)
             {
@@ -502,7 +502,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (CurrentProperty.DistrictBonus.GoldPerTurn != 0)
         {
-            factionHead.Gold += CurrentProperty.DistrictBonus.GoldPerTurn;
+            factionHead.CGold += CurrentProperty.DistrictBonus.GoldPerTurn;
 
             if (factionHead == CORE.PC)
             {
@@ -519,7 +519,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (CurrentProperty.DistrictBonus.RumorsPerTurn != 0)
         {
-            factionHead.Rumors += CurrentProperty.DistrictBonus.RumorsPerTurn;
+            factionHead.CRumors += CurrentProperty.DistrictBonus.RumorsPerTurn;
 
             if (factionHead == CORE.PC)
             {
@@ -536,7 +536,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (CurrentProperty.DistrictBonus.ConnectionsPerTurn != 0)
         {
-            factionHead.Connections += CurrentProperty.DistrictBonus.ConnectionsPerTurn;
+            factionHead.CConnections += CurrentProperty.DistrictBonus.ConnectionsPerTurn;
 
             if (factionHead == CORE.PC)
             {
@@ -771,12 +771,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return new FailReason("Level Already Maxed Out");
         }
 
-        if (funder.Gold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
+        if (funder.CGold < CurrentProperty.PropertyLevels[Level].UpgradePrice)
         {
             GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                "(" +funder.Gold+"/"+ CurrentProperty.PropertyLevels[Level].UpgradePrice + ")", 1f, Color.red);
+                "(" +funder.CGold+"/"+ CurrentProperty.PropertyLevels[Level].UpgradePrice + ")", 1f, Color.red);
 
-            return new FailReason("Not Enough Gold", (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.Gold));
+            return new FailReason("Not Enough Gold", (CurrentProperty.PropertyLevels[Level].UpgradePrice - funder.CGold));
         }
         
         if(funder == CORE.PC)
@@ -784,7 +784,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             AudioControl.Instance.PlayInPosition("property_upgrade",transform.position);
         }
 
-        funder.Gold -= CurrentProperty.PropertyLevels[Level].UpgradePrice;
+        funder.CGold -= CurrentProperty.PropertyLevels[Level].UpgradePrice;
         IsUpgrading = true;
         CurrentUpgradeLength = CurrentProperty.PropertyLevels[Level].UpgradeLength;
         StateUpdated.Invoke();
@@ -831,7 +831,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return;
         }
 
-        OwnerCharacter.TopEmployer.Gold += CurrentProperty.PropertyLevels[Level].UpgradePrice;
+        OwnerCharacter.TopEmployer.CGold += CurrentProperty.PropertyLevels[Level].UpgradePrice;
         IsUpgrading = false;
         StateUpdated.Invoke();
     }
@@ -1254,17 +1254,17 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return new FailReason("Location Unavailable");
         }
 
-        if (funder.Gold < 40)
+        if (funder.CGold < 40)
         {
             if (funder == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("Need More Gold: (" + CORE.PC.Gold + "/" + 40 + ")", 1f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("Need More Gold: (" + CORE.PC.CGold + "/" + 40 + ")", 1f, Color.red);
             }
 
             return new FailReason("Not Enough Gold");
         }
 
-        funder.Gold -= 40;
+        funder.CGold -= 40;
 
         IsRuined = false;
         RefreshState();
@@ -1287,11 +1287,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return new FailReason("Do Not Own Property");
         }
 
-        if (requester.Connections < recruitmentCost) //TODO replace magic number...
+        if (requester.CConnections < recruitmentCost) //TODO replace magic number...
         {
             if (requester == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("Need more connections (" + requester.Connections + "/" + recruitmentCost.ToString(), 1f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("Need more connections (" + requester.CConnections + "/" + recruitmentCost.ToString(), 1f, Color.red);
             }
 
             return new FailReason("Not Enough Connections",3);
@@ -1329,7 +1329,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
         }
 
-        requester.Connections -= recruitmentCost;
+        requester.CConnections -= recruitmentCost;
 
         Character randomNewEmployee = CORE.Instance.GenerateCharacter(
                CurrentProperty.RecruitingGenderType,
@@ -1395,12 +1395,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
 
 
-        if (funder.Gold < LandValue)
+        if (funder.CGold < LandValue)
         {
             if (funder == CORE.PC)
             {
                 GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                    "(You need more " + (LandValue - funder.Gold) + ")", 1f, Color.red);
+                    "(You need more " + (LandValue - funder.CGold) + ")", 1f, Color.red);
             }
 
             return new FailReason("Not Enough Gold");
@@ -1420,7 +1420,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         forCharacter.StartOwningLocation(this);
 
-        funder.Gold -= LandValue;
+        funder.CGold -= LandValue;
 
         if (funder.CurrentFaction == CORE.PC.CurrentFaction)
         {
@@ -1448,12 +1448,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public FailReason BuyoutPlot(Character funder, Character forCharacter)
     {
 
-        if (funder.Gold < LandValue*2)
+        if (funder.CGold < LandValue*2)
         {
             if (funder == CORE.PC)
             {
                 GlobalMessagePrompterUI.Instance.Show("NOT ENOUGH GOLD! " +
-                    "(You need more " + (LandValue - funder.Gold) + ")", 1f, Color.red);
+                    "(You need more " + (LandValue - funder.CGold) + ")", 1f, Color.red);
             }
 
             return new FailReason("Not Enough Gold");
@@ -1473,7 +1473,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         forCharacter.StartOwningLocation(this);
 
-        funder.Gold -= LandValue*2;
+        funder.CGold -= LandValue*2;
 
         if (funder.CurrentFaction == CORE.PC.CurrentFaction)
         {

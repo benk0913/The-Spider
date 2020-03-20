@@ -22,6 +22,16 @@ public class FactionAI : ScriptableObject
     {
         this.CurrentCharacter = character;
 
+        if(character.PropertiesOwned.Count == 0)
+        {
+            return;
+        }
+
+        if(!character.PropertiesOwned[0].gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         FailReasons.Clear();
 
         BotCheats();
@@ -50,9 +60,9 @@ public class FactionAI : ScriptableObject
 
     protected virtual void BotCheats()
     {
-        this.CurrentCharacter.Gold += 1;
-        this.CurrentCharacter.Rumors += 1;
-        this.CurrentCharacter.Connections += 1;
+        this.CurrentCharacter.CGold += 1;
+        this.CurrentCharacter.CRumors += 1;
+        this.CurrentCharacter.CConnections += 1;
     }
 
     public virtual void Expand()
@@ -464,7 +474,7 @@ public class FactionAI : ScriptableObject
     {
         return; //TODO PROPER REBRAND
 
-        if (CurrentCharacter.Gold <= GOLD_SCARCE_VALUE) //In scarcity we shall not bother the system.
+        if (CurrentCharacter.CGold <= GOLD_SCARCE_VALUE) //In scarcity we shall not bother the system.
         {
             return;
         }

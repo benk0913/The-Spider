@@ -49,9 +49,9 @@ public class UpgradeLocationPlayerAction : PlayerAction
             return false;
         }
 
-        if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > requester.Gold)
+        if (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice > requester.CGold)
         {
-            reason = new FailReason("Requires more: " + (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice - requester.Gold) + " gold.");
+            reason = new FailReason("Requires more: " + (location.CurrentProperty.PropertyLevels[location.Level - 1].UpgradePrice - requester.CGold) + " gold.");
             return false;
         }
 

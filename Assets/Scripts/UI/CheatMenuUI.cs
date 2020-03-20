@@ -39,10 +39,10 @@ public class CheatMenuUI : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            CORE.PC.Gold += 100;
-            CORE.PC.Connections += 100;
-            CORE.PC.Rumors += 100;
-            CORE.PC.Progress += 100;
+            CORE.PC.CGold += 100;
+            CORE.PC.CConnections += 100;
+            CORE.PC.CRumors += 100;
+            CORE.PC.CProgress += 100;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {

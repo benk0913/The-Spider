@@ -20,7 +20,7 @@ public class RecruitEmployeePlayer : PlayerAction
              (Character character) => 
              {
                  character.StartWorkingFor(location);
-                 requester.Gold -= 100;
+                 requester.CGold -= 100;
              }
              , (Character charInQuestion) => 
              {
@@ -55,9 +55,9 @@ public class RecruitEmployeePlayer : PlayerAction
             return false;
         }
 
-        if(requester.Gold < 100)
+        if(requester.CGold < 100)
         {
-            reason = new FailReason("Not enough gold! (" +requester.Gold+"/100)",100);
+            reason = new FailReason("Not enough gold! (" +requester.CGold+"/100)",100);
             return false;
         }
 

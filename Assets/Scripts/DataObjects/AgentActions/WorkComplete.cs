@@ -47,7 +47,7 @@ public class WorkComplete : AgentAction
         {
             if (character.TopEmployer == null)
             {
-                character.Progress += Mathf.RoundToInt(earnedProgress + addedProgress);
+                character.CProgress += Mathf.RoundToInt(earnedProgress + addedProgress);
                 return;
             }
 
@@ -63,7 +63,7 @@ public class WorkComplete : AgentAction
                 AudioControl.Instance.PlayInPosition("resource_progression", character.CurrentLocation.transform.position);
             }
 
-            character.TopEmployer.Progress += Mathf.RoundToInt(earnedProgress + addedProgress);
+            character.TopEmployer.CProgress += Mathf.RoundToInt(earnedProgress + addedProgress);
         }
     }
 
@@ -82,7 +82,7 @@ public class WorkComplete : AgentAction
         {
             if(character.TopEmployer == null)
             {
-                character.Connections += Mathf.RoundToInt(earnedConnections + addedConnections);
+                character.CConnections += Mathf.RoundToInt(earnedConnections + addedConnections);
                 return;
             }
 
@@ -98,7 +98,7 @@ public class WorkComplete : AgentAction
                 AudioControl.Instance.PlayInPosition("resource_connections", character.CurrentLocation.transform.position);
             }
 
-            character.TopEmployer.Connections += Mathf.RoundToInt(earnedConnections + addedConnections);
+            character.TopEmployer.CConnections += Mathf.RoundToInt(earnedConnections + addedConnections);
         }
     }
 
@@ -118,7 +118,7 @@ public class WorkComplete : AgentAction
 
             if(character.TopEmployer == null)
             {
-                character.Rumors += Mathf.RoundToInt(earnedRumors + addedRumors);
+                character.CRumors += Mathf.RoundToInt(earnedRumors + addedRumors);
                 return;
             }
 
@@ -134,7 +134,7 @@ public class WorkComplete : AgentAction
                 AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position);
             }
 
-            character.TopEmployer.Rumors += Mathf.RoundToInt(earnedRumors + addedRumors);
+            character.TopEmployer.CRumors += Mathf.RoundToInt(earnedRumors + addedRumors);
         }
     }
 
@@ -153,7 +153,7 @@ public class WorkComplete : AgentAction
         {
             if(character.TopEmployer == null)
             {
-                character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+                character.TopEmployer.CGold += Mathf.RoundToInt(earnedGold + addedGold);
                 return;
             }
 
@@ -169,7 +169,7 @@ public class WorkComplete : AgentAction
                 AudioControl.Instance.PlayInPosition("resource_gold", character.CurrentLocation.transform.position);
             }
 
-            character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+            character.TopEmployer.CGold += Mathf.RoundToInt(earnedGold + addedGold);
         }
     }
 

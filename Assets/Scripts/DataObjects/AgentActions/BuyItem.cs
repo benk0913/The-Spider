@@ -20,7 +20,7 @@ public class BuyItem : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        character.TopEmployer.Gold -= itemUI.CurrentItem.Price;
+        character.TopEmployer.CGold -= itemUI.CurrentItem.Price;
         character.TopEmployer.Belogings.Add(itemUI.CurrentItem);
         itemUI.LocationParent.Inventory.Remove(itemUI.CurrentItem);
         InventoryPanelUI.Instance.ItemWasAdded(0);
@@ -54,7 +54,7 @@ public class BuyItem : AgentAction
             return false;
         }
 
-        if(requester.Gold < item.CurrentItem.Price)
+        if(requester.CGold < item.CurrentItem.Price)
         {
             reason = new FailReason("Not enough gold!");
             return false;

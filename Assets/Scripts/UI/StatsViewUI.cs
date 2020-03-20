@@ -96,40 +96,40 @@ public class StatsViewUI : MonoBehaviour
 
     public void RefreshGold()
     {
-        if (GoldText.text != CORE.PC.Gold.ToString() + "c")
+        if (GoldText.text != CORE.PC.CGold.ToString() + "c")
         {
             AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
-            GoldText.text = CORE.PC.Gold.ToString() + "c";
+            GoldText.text = CORE.PC.CGold.ToString() + "c";
             OnGoldChanged?.Invoke();
         }
     }
 
     public void RefreshConnections()
     {
-        if (ConnectionsText.text != CORE.PC.Connections.ToString())
+        if (ConnectionsText.text != CORE.PC.CConnections.ToString())
         {
             AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
-            ConnectionsText.text = CORE.PC.Connections.ToString();
+            ConnectionsText.text = CORE.PC.CConnections.ToString();
             OnConnectionsChanged?.Invoke();
         }
     }
 
     public void RefreshRumors()
     {
-        if (RumorsText.text != CORE.PC.Rumors.ToString())
+        if (RumorsText.text != CORE.PC.CRumors.ToString())
         {
             AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
-            RumorsText.text = CORE.PC.Rumors.ToString();
+            RumorsText.text = CORE.PC.CRumors.ToString();
             OnRumorsChanged?.Invoke();
         }
     }
 
     public void RefreshProgress()
     {
-        if (ProgressText.text != CORE.PC.Progress.ToString())
+        if (ProgressText.text != CORE.PC.CProgress.ToString())
         {
             AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
-            ProgressText.text = CORE.PC.Progress.ToString();
+            ProgressText.text = CORE.PC.CProgress.ToString();
             OnProgressChanged?.Invoke();
         }
     }

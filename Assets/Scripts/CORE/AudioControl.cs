@@ -45,6 +45,12 @@ public class AudioControl : MonoBehaviour {
 
         for (int i = 0; i < Instances.Count; i++)
         {
+            if(Instances[i] == null || Instances[i].GetComponent<AudioSource>() == null)
+            {
+                Instances.RemoveAt(i);
+                continue;
+            }
+
             if (!Instances[i].GetComponent<AudioSource>().isPlaying)
             {
                 currentInstance = Instances[i];

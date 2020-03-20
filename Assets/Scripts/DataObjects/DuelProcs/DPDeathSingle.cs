@@ -21,7 +21,8 @@ public class DPDeathSingle : DuelProc
 
         yield return PlottingDuelUI.Instance.StartCoroutine(PlottingDuelUI.Instance.SetProcEvent(this));
 
-        Character victim;
+        Character victim = null;
+        PortraitUI victimPortrait = null;
 
         if (isGoodForDefenders)
         {
@@ -32,11 +33,13 @@ public class DPDeathSingle : DuelProc
 
             if (IsRandom)
             {
-                victim = PlottingDuelUI.Instance.ParticipantsPortraits[Random.Range(0, PlottingDuelUI.Instance.ParticipantsPortraits.Count)].CurrentCharacter;
+                victimPortrait = PlottingDuelUI.Instance.ParticipantsPortraits[Random.Range(0, PlottingDuelUI.Instance.ParticipantsPortraits.Count)];
+                
             }
             else
             {
-                victim = PlottingDuelUI.Instance.ParticipantsPortraits[0].CurrentCharacter;
+                victimPortrait = PlottingDuelUI.Instance.ParticipantsPortraits[0];
+                victim = victimPortrait.CurrentCharacter;
             }
         }
         else
@@ -48,14 +51,17 @@ public class DPDeathSingle : DuelProc
 
             if (IsRandom)
             {
-                victim = PlottingDuelUI.Instance.TargetsPortraits[Random.Range(0, PlottingDuelUI.Instance.TargetsPortraits.Count)].CurrentCharacter;
+                victimPortrait = PlottingDuelUI.Instance.TargetsPortraits[Random.Range(0, PlottingDuelUI.Instance.TargetsPortraits.Count)];
+                victim = victimPortrait.CurrentCharacter;
             }
             else
             {
-                victim = PlottingDuelUI.Instance.TargetsPortraits[0].CurrentCharacter;
+                victimPortrait = PlottingDuelUI.Instance.TargetsPortraits[0];
+                victim = victimPortrait.CurrentCharacter;
             }
         }
 
+        GenerateEffectOnPortrait(victimPortrait);
         PlottingDuelUI.Instance.KillCharacter(victim);
     }
 

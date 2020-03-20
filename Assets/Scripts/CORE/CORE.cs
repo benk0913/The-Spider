@@ -381,10 +381,10 @@ public class CORE : MonoBehaviour
                     continue;
                 }
 
-                factionHead.Gold += faction.GoldGeneratedPerDay;
-                factionHead.Connections += faction.ConnectionsGeneratedPerDay;
-                factionHead.Rumors += faction.RumorsGeneratedPerDay;
-                factionHead.Progress += faction.ProgressGeneratedPerDay;
+                factionHead.CGold += faction.GoldGeneratedPerDay;
+                factionHead.CConnections += faction.ConnectionsGeneratedPerDay;
+                factionHead.CRumors += faction.RumorsGeneratedPerDay;
+                factionHead.CProgress += faction.ProgressGeneratedPerDay;
                 factionHead.Reputation += faction.ReputationGeneratedPerDay;
             }
         }

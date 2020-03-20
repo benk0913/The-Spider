@@ -31,7 +31,10 @@ public class DuelProc : ScriptableObject
     public float Chance = 1f;
 
     public bool Repeatable;
-    
+
+    [SerializeField]
+    protected GameObject EffectOnTarget;
+
     public virtual IEnumerator Execute()
     {
         yield return 0;
@@ -66,6 +69,25 @@ public class DuelProc : ScriptableObject
         }
 
         return true;
+    }
+
+    public void GenerateEffectOnPortrait(PortraitUI portrait)
+    {
+        if (EffectOnTarget == null)
+        {
+            return;
+        }
+
+        if(portrait == null)
+        {
+            return;
+        }
+
+
+        GameObject effect = ResourcesLoader.Instance.GetRecycledObject(EffectOnTarget);
+        effect.transform.SetParent(portrait.transform.parent);
+        effect.transform.localScale = Vector3.one;
+        effect.transform.position = portrait.transform.position;
     }
 }
 

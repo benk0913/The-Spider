@@ -197,9 +197,9 @@ public class AgentAction : ScriptableObject
 
         CORE.Instance.DelayedInvokation(0.1f, () =>
         {
-            requester.Gold -= GoldCost;
-            requester.Connections -= ConnectionsCost;
-            requester.Rumors -= RumorsCost;
+            requester.CGold -= GoldCost;
+            requester.CConnections -= ConnectionsCost;
+            requester.CRumors -= RumorsCost;
 
             if (ItemRequired != null)
             {
@@ -315,19 +315,19 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
-        if (requester.Gold < GoldCost)
+        if (requester.CGold < GoldCost)
         {
             reason = new FailReason("Not Enough Gold");
             return false;
         }
 
-        if (requester.Connections < ConnectionsCost)
+        if (requester.CConnections < ConnectionsCost)
         {
             reason = new FailReason("Not Enough Connections");
             return false;
         }
 
-        if (requester.Rumors < RumorsCost)
+        if (requester.CRumors < RumorsCost)
         {
             reason = new FailReason("Not Enough Rumors");
             return false;

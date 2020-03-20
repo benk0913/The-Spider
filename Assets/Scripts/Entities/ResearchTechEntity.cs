@@ -12,6 +12,9 @@ public class ResearchTechEntity : MonoBehaviour
     [SerializeField]
     UnityEvent OnResearch;
 
+    [SerializeField]
+    UnityEvent Reset;
+
     private void Start()
     {
         if(RequiredTech == null)
@@ -22,6 +25,19 @@ public class ResearchTechEntity : MonoBehaviour
         CORE.Instance.SubscribeToEvent("ResearchComplete", OnResearchComplete);
         CORE.Instance.SubscribeToEvent("GameLoadComplete", OnResearchComplete);
         OnResearchComplete();
+    }
+
+    private void OnEnable()
+    {
+        if (CORE.Instance == null || CORE.Instance.TechTree == null)
+        {
+            Reset.Invoke();
+        }
+
+        if (!CORE.Instance.TechTree.Find(x => x.name == RequiredTech.name).IsResearched)
+        {
+            Reset.Invoke();
+        }
     }
 
     private void OnResearchComplete()

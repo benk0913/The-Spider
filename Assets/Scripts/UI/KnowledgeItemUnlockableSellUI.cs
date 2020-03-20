@@ -58,7 +58,7 @@ public class KnowledgeItemUnlockableSellUI : KnowledgeItemUnlockableUI
             CurrentCharacter.KnowledgeRumors.Remove(item.CurrentRumor);
 
             int goldRevenue = Mathf.RoundToInt(Mathf.Max(0f, (float)20 - (5 * CurrentCharacter.Rank)));
-            CORE.PC.Gold += goldRevenue;
+            CORE.PC.CGold += goldRevenue;
             StatsViewUI.Instance.RefreshGold();
             GlobalMessagePrompterUI.Instance.Show("Sold information for " + goldRevenue + " gold.", 1f, Color.yellow);
         }

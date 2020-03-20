@@ -33,7 +33,7 @@ public class PiracyComplete : WorkComplete
         {
             if (character.TopEmployer == null)
             {
-                character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+                character.TopEmployer.CGold += Mathf.RoundToInt(earnedGold + addedGold);
                 return;
             }
 
@@ -51,7 +51,7 @@ public class PiracyComplete : WorkComplete
                 AudioControl.Instance.PlayInPosition("resource_gold", character.CurrentLocation.transform.position);
             }
 
-            character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+            character.TopEmployer.CGold += Mathf.RoundToInt(earnedGold + addedGold);
         }
     }
 

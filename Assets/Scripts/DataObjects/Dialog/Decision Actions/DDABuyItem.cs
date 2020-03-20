@@ -10,16 +10,16 @@ public class DDABuyItem : DialogDecisionAction
 
     public override void Activate()
     {
-        if(CORE.PC.Gold < ItemToPurchase.Price)
+        if(CORE.PC.CGold < ItemToPurchase.Price)
         {
-            GlobalMessagePrompterUI.Instance.Show("Not enough gold to buy " + ItemToPurchase.name + " (" + CORE.PC.Gold + "/" + ItemToPurchase.Price + ")", 1f , Color.red);
+            GlobalMessagePrompterUI.Instance.Show("Not enough gold to buy " + ItemToPurchase.name + " (" + CORE.PC.CGold + "/" + ItemToPurchase.Price + ")", 1f , Color.red);
             return;
         }
 
 
         AudioControl.Instance.Play("purchase");
 
-        CORE.PC.Gold -= ItemToPurchase.Price;
+        CORE.PC.CGold -= ItemToPurchase.Price;
         Item purchasedItem = Instantiate(ItemToPurchase);
         purchasedItem.name = ItemToPurchase.name;
         CORE.PC.Belogings.Add(purchasedItem);

@@ -10,7 +10,7 @@ public class DDCCanBuy : DialogDecisionCondition
 
     public override bool CheckCondition()
     {
-        if(CORE.PC.Gold < TheItem.Price)
+        if(CORE.PC.CGold < TheItem.Price)
         {
             if(Inverted)
             {

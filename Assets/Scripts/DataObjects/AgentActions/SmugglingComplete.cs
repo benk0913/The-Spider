@@ -60,7 +60,7 @@ public class SmugglingComplete : WorkComplete
         {
             if (character.TopEmployer == null)
             {
-                character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+                character.TopEmployer.CGold += Mathf.RoundToInt(earnedGold + addedGold);
                 return;
             }
 
@@ -78,7 +78,7 @@ public class SmugglingComplete : WorkComplete
                 AudioControl.Instance.PlayInPosition("resource_gold", character.CurrentLocation.transform.position);
             }
 
-            character.TopEmployer.Gold += Mathf.RoundToInt(earnedGold + addedGold);
+            character.TopEmployer.CGold += Mathf.RoundToInt(earnedGold + addedGold);
         }
     }
 
