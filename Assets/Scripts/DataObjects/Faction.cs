@@ -60,7 +60,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     {
         foreach (KnowledgeInstance item in Known.Items)
         {
-            if (string.IsNullOrEmpty(node["Knowledge"][item.Key]))
+            if (string.IsNullOrEmpty(node["Knowledge"][item.Key].ToString()))
             {
                 continue;
             }
@@ -68,10 +68,10 @@ public class Faction : ScriptableObject, ISaveFileCompatible
             List<string> IDs = new List<string>();
             for (int i = 0; i < node["Knowledge"][item.Key].Count; i++)
             {
-                IDs.Add(node["Knowledge"][item.Key][i]);
+                IDs.Add(node["Knowledge"][item.Key][i].Value);
             }
 
-            knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
+            knowledgeCharacterIDs.Add(item.Key, IDs);
         }
         
         if(Relations == null)

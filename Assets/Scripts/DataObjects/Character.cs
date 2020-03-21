@@ -1693,7 +1693,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["CurrentLocation"] = CurrentLocation == null ? "" : CurrentLocation.ID;
 
-        node["CurrentFaction"] = _currentFaction == null  ? "" : _currentFaction.name;
+        node["CurrentFaction"] = CurrentFaction == null  ? "" : CurrentFaction.name;
 
         node["Pinned"] = Pinned.ToString();
 
@@ -1807,7 +1807,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         foreach (KnowledgeInstance item in Known.Items)
         {
-            if(string.IsNullOrEmpty(node["Knowledge"][item.Key]))
+            if (string.IsNullOrEmpty(node["Knowledge"][item.Key].ToString()))
             {
                 continue;
             }
@@ -1815,10 +1815,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             List<string> IDs = new List<string>();
             for(int i=0;i< node["Knowledge"][item.Key].Count;i++)
             {
-                IDs.Add(node["Knowledge"][item.Key][i]);
+                IDs.Add(node["Knowledge"][item.Key][i].Value);
             }
 
-            knowledgeCharacterIDs.Add(node["Knowledge"][item.Key], IDs);
+            knowledgeCharacterIDs.Add(item.Key, IDs);
+
+            
 
             int score = 0;
             if (!string.IsNullOrEmpty(node["Knowledge"]["Score"][item.Key]))
@@ -1981,10 +1983,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
         foreach (string key in knowledgeCharacterIDs.Keys)
         {
             for (int i = 0; i < knowledgeCharacterIDs[key].Count; i++)
-            { 
+            {
                 Character character = CORE.Instance.GetCharacterByID(knowledgeCharacterIDs[key][i]);
 
-                if(character == null)
+                if (character == null)
                 {
                     continue;
                 }

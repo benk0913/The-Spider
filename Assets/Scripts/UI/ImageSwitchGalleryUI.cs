@@ -39,15 +39,31 @@ public class ImageSwitchGalleryUI : MonoBehaviour
         ImageB.color = Color.clear;
         float t = 0f;
 
+
+        ImageA.sprite = Gallery[Random.Range(0, Gallery.Count)];
+        ImageB.sprite = Gallery[Random.Range(0, Gallery.Count)];
+
+
         while (true)
         {
             yield return 0;
 
+            t = 0f;
+            while(t<0.5f)
+            {
+                t += Time.deltaTime * FadeSpeed;
+
+                ImageA.color = Color.Lerp(Color.white, Color.clear, t);
+                ImageB.color = Color.Lerp(Color.clear, Color.white, t);
+
+                yield return 0;
+            }
+
+            
             ImageA.sprite = Gallery[Random.Range(0, Gallery.Count)];
             ImageB.sprite = Gallery[Random.Range(0, Gallery.Count)];
 
-            t = 0f;
-            while(t<1f)
+            while (t < 1f)
             {
                 t += Time.deltaTime * FadeSpeed;
 
@@ -58,9 +74,6 @@ public class ImageSwitchGalleryUI : MonoBehaviour
             }
 
             yield return new WaitForSeconds(StayDuration);
-
-            ImageB.sprite = Gallery[Random.Range(0, Gallery.Count)];
-            ImageA.sprite = Gallery[Random.Range(0, Gallery.Count)];
 
             t = 0f;
             while (t < 1f)
