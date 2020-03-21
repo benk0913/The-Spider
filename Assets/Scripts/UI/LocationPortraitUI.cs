@@ -56,7 +56,7 @@ public class LocationPortraitUI : MonoBehaviour, IPointerClickHandler
                 + (CurrentLocation.OwnerCharacter == null ?
                 " no one."
                 :
-                CurrentLocation.OwnerCharacter.name));
+                (CurrentLocation.OwnerCharacter.Known.IsKnown("Name",CORE.PC)? CurrentLocation.OwnerCharacter.name : "- ???")));
         }
     }
 

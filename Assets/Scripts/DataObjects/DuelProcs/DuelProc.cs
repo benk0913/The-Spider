@@ -13,8 +13,7 @@ public class DuelProc : ScriptableObject
     {
         get
         {
-            return (isGoodFor == DuelTeam.Player && !PlottingDuelUI.Instance.IsPlayerAttacker)
-                || (isGoodFor == DuelTeam.NotPlayer && PlottingDuelUI.Instance.IsPlayerAttacker);
+            return isGoodFor == DuelTeam.Defenders;
         }
     }
 
@@ -34,6 +33,12 @@ public class DuelProc : ScriptableObject
 
     [SerializeField]
     protected GameObject EffectOnTarget;
+
+    [SerializeField]
+    protected GameObject EffectOnTargetFail;
+
+    [SerializeField]
+    public DuelProc ContinuesProc;
 
     public virtual IEnumerator Execute()
     {
@@ -68,6 +73,11 @@ public class DuelProc : ScriptableObject
             return false;
         }
 
+        if (ContinuesProc != null && !PlottingDuelUI.Instance.CurrentPlot.ProcsUsed.Contains(ContinuesProc))
+        {
+            return false;
+        }
+
         return true;
     }
 
@@ -85,6 +95,25 @@ public class DuelProc : ScriptableObject
 
 
         GameObject effect = ResourcesLoader.Instance.GetRecycledObject(EffectOnTarget);
+        effect.transform.SetParent(portrait.transform.parent);
+        effect.transform.localScale = Vector3.one;
+        effect.transform.position = portrait.transform.position;
+    }
+
+    public void GenerateEffectOnPortraitFail(PortraitUI portrait)
+    {
+        if (EffectOnTarget == null)
+        {
+            return;
+        }
+
+        if (portrait == null)
+        {
+            return;
+        }
+
+
+        GameObject effect = ResourcesLoader.Instance.GetRecycledObject(EffectOnTargetFail);
         effect.transform.SetParent(portrait.transform.parent);
         effect.transform.localScale = Vector3.one;
         effect.transform.position = portrait.transform.position;

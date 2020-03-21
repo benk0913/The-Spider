@@ -142,6 +142,13 @@ public class PlottingWindowUI : MonoBehaviour
                 return;
             }
 
+            if (targetCharacter.TopEmployer == plotter.TopEmployer)
+            {
+                Hide();
+                GlobalMessagePrompterUI.Instance.Show("No reason to plot against your own employees.", 1f, Color.red);
+                return;
+            }
+
             if (targetCharacter.PrisonLocation == null && targetCharacter.Age >= 15 && !targetCharacter.IsInTrouble)
             {
                 TargetParticipants.Add(targetCharacter);

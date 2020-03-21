@@ -20,11 +20,22 @@ public class QuestContentUI : HeadlineContentUI
     [SerializeField]
     Transform RewardsContainer;
 
+    [SerializeField]
+    GameObject RewardsTitle;
+
+    [SerializeField]
+    ScrollRect Scroll;
+
     QuestHeadlineUI CurrentHeadline;
 
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
+    }
+
+    private void OnEnable()
+    {
+        Scroll.verticalNormalizedPosition = 0f;
     }
 
     public void SetInfo(QuestHeadlineUI headline)
@@ -89,14 +100,18 @@ public class QuestContentUI : HeadlineContentUI
             QuestTitle.text = "<color=" + (objective.IsComplete ? "green" : "black") + ">" + objective.name + "</color>";
         }
 
+
+        RewardsTitle.gameObject.SetActive(CurrentQuest.Rewards.Length > 0);
+
         foreach (QuestReward reward in CurrentQuest.Rewards)
         {
             TextMeshProUGUI QuestTitle = ResourcesLoader.Instance.GetRecycledObject("ObjectiveTitleUI").GetComponent<TextMeshProUGUI>();
             QuestTitle.transform.SetParent(RewardsContainer);
             QuestTitle.transform.SetAsLastSibling();
             QuestTitle.transform.localScale = Vector3.one;
-            QuestTitle.text = "<color=black>" + reward.name+"</color>";
+            QuestTitle.text = "<color=black>" + reward.name + "</color>";
         }
+        
     }
 
     public void Notify()

@@ -26,6 +26,9 @@ public class CORE : MonoBehaviour
     [SerializeField]
     public EventSystem UIEventSystem;
 
+    [SerializeField]
+    public GameObject LoadingPanel;
+
     public TechTreeItem TechTree;
 
     public List<Faction> Factions = new List<Faction>();
@@ -754,6 +757,8 @@ public class CORE : MonoBehaviour
 
     IEnumerator LoadGameRoutine(SaveFile file = null)
     {
+        LoadingPanel.SetActive(true);
+
         while (ResourcesLoader.Instance.m_bLoading)
         {
             yield return 0;
@@ -837,6 +842,8 @@ public class CORE : MonoBehaviour
             RoomsManager.Instance.FromJSON(file.Content["Rooms"]);
             TechTree.FromJSON(file.Content["TechTree"]);
             SessionRules.FromJSON(file.Content["SessionRules"]);
+
+            
         }
         yield return 0;
 
@@ -875,8 +882,41 @@ public class CORE : MonoBehaviour
 
         PC.Known.KnowEverything(PC);
 
+        foreach (Faction faction in Factions)
+        {
+            if (faction.FactionHead != null)
+            {
+                Character head = CORE.Instance.Characters.Find(x => x.name == faction.FactionHead.name);
+                head.CurrentFaction = faction;
+                faction.FactionHead = head;
+            }
+
+            if (faction.isAlwaysKnown)
+            {
+                faction.Known.KnowAll("Existance");
+
+                if (faction.FactionHead != null)
+                {
+                    faction.FactionHead.Known.KnowAll("Name");
+                    faction.FactionHead.Known.KnowAll("Faction");
+                }
+            }
+        }
+
+        DelayedInvokation(1f, () =>
+        {
+            foreach (LocationEntity location in Locations)
+            {
+                location.RefreshState();
+            }
+        });
+
+        LoadingPanel.SetActive(false);
+
         LoadingGameRoutine = null;
+
         InvokeEvent("GameLoadComplete");
+
     }
 
     public void ReadAllSaveFiles()

@@ -32,7 +32,8 @@ public class DPDeathAOE : DuelProc
         {
             if(!RollChance())
             {
-                yield break;
+                GenerateEffectOnPortraitFail(portrait);
+                continue;
             }
 
             dead.Add(portrait);

@@ -312,12 +312,22 @@ public class PlottingDuelUI : MonoBehaviour
     {
         for (int i = 0; i < ParticipantsPortraits.Count; i++)
         {
+            if(ParticipantsContainer.childCount <= i)
+            {
+                break;
+            }
+
             ParticipantsPortraits[i].transform.position =
                 Vector2.Lerp(ParticipantsPortraits[i].transform.position, ParticipantsContainer.GetChild(i).position, Time.deltaTime * 3f);
         }
 
         for (int i = 0; i < TargetsPortraits.Count; i++)
         {
+            if (TargetsContainer.childCount <= i)
+            {
+                break;
+            }
+
             TargetsPortraits[i].transform.position =
                 Vector2.Lerp(TargetsPortraits[i].transform.position, TargetsContainer.GetChild(i).position, Time.deltaTime * 3f);
         }

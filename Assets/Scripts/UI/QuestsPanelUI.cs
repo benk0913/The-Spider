@@ -222,7 +222,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
                 letterParameters.Add("Letter_From", sender);
                 letterParameters.Add("Letter_To", CORE.PC);
 
-                LetterDispenserEntity.Instance.DispenseLetter(new Letter(quest.CompletionLetter, letterParameters));
+                CORE.Instance.DelayedInvokation(1f, () => { LetterDispenserEntity.Instance.DispenseLetter(new Letter(quest.CompletionLetter, letterParameters)); });
             }
         }
 

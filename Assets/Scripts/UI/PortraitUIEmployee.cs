@@ -31,6 +31,7 @@ public class PortraitUIEmployee : PortraitUI
 
         if (emptySlot && CurrentLocation.OwnerCharacter != null && CurrentLocation.OwnerCharacter.TopEmployer == CORE.PC)
         {
+            TooltipTarget.enabled = false;
             RecruitButton.gameObject.SetActive(true);
 
             int recruitmentCost = CORE.Instance.Database.BaseRecruitmentCost;
@@ -39,6 +40,7 @@ public class PortraitUIEmployee : PortraitUI
         }
         else
         {
+            TooltipTarget.enabled = true;
             RecruitButton.gameObject.SetActive(false);
         }
 

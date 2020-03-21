@@ -21,13 +21,13 @@ public class DPRecruitRandomCharacter : DuelProc
 
         yield return PlottingDuelUI.Instance.StartCoroutine(PlottingDuelUI.Instance.SetProcEvent(this));
         
-        Character character = CORE.Instance.GenerateCharacter(-1,16,90,null);
-        character.Randomize();
 
         if (isGoodForDefenders)
         {
             for (int i = 0; i < Count; i++)
             {
+                Character character = CORE.Instance.GenerateCharacter(-1, 16, 90, null);
+                character.Randomize();
                 PortraitUI portrait = PlottingDuelUI.Instance.GenerateTarget(character);
                 GenerateEffectOnPortrait(portrait);
             }
@@ -36,6 +36,8 @@ public class DPRecruitRandomCharacter : DuelProc
         {
             for (int i = 0; i < Count; i++)
             {
+                Character character = CORE.Instance.GenerateCharacter(-1, 16, 90, null);
+                character.Randomize();
                 PortraitUI portrait = PlottingDuelUI.Instance.GenerateParticipant(character);
                 GenerateEffectOnPortrait(portrait);
             }
