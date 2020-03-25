@@ -48,6 +48,9 @@ public class AgentAction : ScriptableObject
 
     public string InvokeEventOnExecute = "";
 
+    [SerializeField]
+    bool CanDoInPrison = false;
+
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
         RecentTaret = target;
@@ -297,7 +300,7 @@ public class AgentAction : ScriptableObject
             }
         }
 
-        if(character.PrisonLocation != null)
+        if(character.PrisonLocation != null && !CanDoInPrison)
         {
             reason = new FailReason("Character is in prison.");
             return false;

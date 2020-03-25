@@ -72,7 +72,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
         if (CurrentTask.OnGoingEffect != null)
         {
-            CurrentLongTermTaskEffect = ResourcesLoader.Instance.GetRecycledObject(CurrentTask.OnGoingEffect);
+            CurrentLongTermTaskEffect = Instantiate(CurrentTask.OnGoingEffect);
             CurrentLongTermTaskEffect.transform.SetParent(CORE.Instance.DisposableContainer);
             CurrentLongTermTaskEffect.GetComponent<LongTermTaskEffectUI>().SetInfo(this);
         }
@@ -149,7 +149,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
     {
         if(CurrentLongTermTaskEffect != null)
         {
-            CurrentLongTermTaskEffect.gameObject.SetActive(false);
+            Destroy(CurrentLongTermTaskEffect);
         }
 
         CurrentLocation.RemoveLongTermTask(this);

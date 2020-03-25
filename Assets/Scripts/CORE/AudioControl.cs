@@ -41,6 +41,11 @@ public class AudioControl : MonoBehaviour {
 
     public void PlayInPosition(string gClip, Vector3 pos, float MaxDistance = 47f, bool gLoop = false)
     {
+        if(CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         GameObject currentInstance = null;
 
         for (int i = 0; i < Instances.Count; i++)
@@ -74,7 +79,6 @@ public class AudioControl : MonoBehaviour {
         source.loop = gLoop;
         source.clip = ResourcesLoader.Instance.GetClip(gClip);
         source.Play();
-        StartCoroutine(DisableOnFinish(source));
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
@@ -116,7 +120,6 @@ public class AudioControl : MonoBehaviour {
         source.loop = false;
         source.clip = ResourcesLoader.Instance.GetClip(gClip);
         source.Play();
-        StartCoroutine(DisableOnFinish(source));
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
@@ -155,7 +158,6 @@ public class AudioControl : MonoBehaviour {
         source.loop = gLoop;
         source.clip = ResourcesLoader.Instance.GetClip(gClip);
         source.Play();
-        StartCoroutine(DisableOnFinish(source));
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
@@ -195,7 +197,6 @@ public class AudioControl : MonoBehaviour {
         source.loop = gLoop;
         source.clip = ResourcesLoader.Instance.GetClip(gClip);
         source.Play();
-        StartCoroutine(DisableOnFinish(source));
 
         currentInstance.tag = gTag;
 
@@ -323,16 +324,6 @@ public class AudioControl : MonoBehaviour {
 
         Instances.Add(source.gameObject);
         source.volume = VolumeGroups[source.gameObject.tag];
-    }
-
-    IEnumerator DisableOnFinish(AudioSource source)
-    {
-        while(source.isPlaying)
-        {
-            yield return 0;
-        }
-
-        source.gameObject.SetActive(false);
     }
 
     #endregion

@@ -94,7 +94,7 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             List<LocationEntity> potentialLocations = new List<LocationEntity>();
             potentialLocations.AddRange(CORE.Instance.Locations);
 
-            potentialLocations.RemoveAll(x => x.IsDisabled || !x.gameObject.activeInHierarchy);
+            potentialLocations.RemoveAll(x => x.IsDisabled);
 
             if (LocationTrait != null)
             {
@@ -106,19 +106,22 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
                 potentialLocations.RemoveAll(x => x.OwnerCharacter == null || x.OwnerCharacter.TopEmployer != character.TopEmployer);
             }
 
-            if(RandomLocation)
+            if (potentialLocations.Count > 0)
             {
-                character.GoToLocation(potentialLocations[Random.Range(0,potentialLocations.Count)]);
-            }
-            else
-            {
-                if (target.GetType() == typeof(LocationEntity))
+                if (RandomLocation)
                 {
-                    character.GoToLocation((LocationEntity)target);
+                    character.GoToLocation(potentialLocations[Random.Range(0, potentialLocations.Count)]);
                 }
-                else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+                else
                 {
-                    character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
+                    if (target.GetType() == typeof(LocationEntity))
+                    {
+                        character.GoToLocation((LocationEntity)target);
+                    }
+                    else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+                    {
+                        character.GoToLocation(((PortraitUI)target).CurrentCharacter.CurrentLocation);
+                    }
                 }
             }
         }

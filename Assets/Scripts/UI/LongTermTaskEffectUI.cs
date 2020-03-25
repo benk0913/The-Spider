@@ -13,8 +13,45 @@ public class LongTermTaskEffectUI : MonoBehaviour
     public bool DisplayOnQuestionMark = false;
     public bool DisplayOnOtherProperties = false;
 
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("ShowMap", Show);
+
+        CORE.Instance.SubscribeToEvent("HideMap", Hide);
+    }
+
+    private void OnDestroy()
+    {
+        if (CORE.Instance == null)
+        {
+            return;
+        }
+
+        CORE.Instance.UnsubscribeFromEvent("ShowMap", Show);
+        CORE.Instance.UnsubscribeFromEvent("HideMap", Hide);
+    }
+
+    public void Show()
+    {
+        if (!MapViewManager.Instance.MapElementsContainer.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        this.gameObject.SetActive(true);
+
+        Refresh();
+    }
+
+    public void Hide()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     public void SetInfo(LongTermTaskEntity entity)
     {
+        Show();
+
         CurrentEntity = entity;
 
         Refresh();
