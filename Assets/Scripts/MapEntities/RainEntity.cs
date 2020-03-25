@@ -59,10 +59,6 @@ public class RainEntity : MonoBehaviour
         UpdateRoutineInstance = StartCoroutine(UpdateRoutine());
     }
 
-    private void Update()
-    {
-        Debug.Log(Intensity + "");
-    }
     public void SetIntensity(float value)
     {
         Intensity = value;

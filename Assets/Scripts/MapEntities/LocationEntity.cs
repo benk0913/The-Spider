@@ -4,6 +4,7 @@ using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LocationEntity : AgentInteractable, ISaveFileCompatible
@@ -564,6 +565,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void OnHover()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (VisibilityState == VisibilityStateEnum.Visible || VisibilityState == VisibilityStateEnum.QuestionMark)
         {
             LocationHoverUI.Instance.Show(this, VisibilityState == VisibilityStateEnum.QuestionMark);
@@ -760,7 +766,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             if (funder == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("You don't own this place.", 1f, Color.red);
             }
 
             return new FailReason("Do Not Own Property");
@@ -847,7 +853,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             if (requester == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("You don't own this place.", 1f, Color.red);
             }
 
             return new FailReason("Do Not Own Property");
@@ -875,7 +881,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             if (requester == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("YOU DON'T OWN THIS PLACE!", 1f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("You don't own this place.", 1f, Color.red);
             }
 
             return new FailReason("Do Not Own Property");

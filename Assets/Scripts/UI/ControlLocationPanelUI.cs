@@ -86,6 +86,9 @@ public class ControlLocationPanelUI : MonoBehaviour
     [SerializeField]
     GameObject LocationRuinedPanel;
 
+    [SerializeField]
+    GameObject UpgradeLabel;
+
     public LocationEntity CurrentLocation;
 
     public void Select(LocationEntity location)
@@ -256,6 +259,8 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     void RefreshRanks()
     {
+        UpgradeLabel.SetActive(CurrentLocation.IsUpgrading);
+
         for (int i = 0; i < RanksContainer.childCount; i++)
         {
             RanksContainer.GetChild(i).gameObject.SetActive(CurrentLocation.Level > i);
@@ -436,7 +441,10 @@ public class ControlLocationPanelUI : MonoBehaviour
 
     public void PurchaseUpgrade()
     {
-        CurrentLocation.PurchaseUpgrade();
+        WarningWindowUI.Instance.Show("Upgrade Property For "+ CurrentLocation.CurrentProperty.PropertyLevels[CurrentLocation.Level].UpgradePrice + " Gold?", () => 
+        {
+            CurrentLocation.PurchaseUpgrade();
+        });
     }
 
     public void CancelUpgrade()
