@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c3506745b497741ac92abf0c9f070d, type: 3}
   m_Name: Wanted
   m_EditorClassIdentifier: 
-  Description: This person is wanted by the authorities.
+  Description: 'This person is wanted by the authorities.
+
+    - If a constabulary
+    patrol is occuring in the same location as this character''s, the character may
+    have a chance to be arrested.'
   icon: {fileID: 21300000, guid: 2adeba8280511f544b57cdd9cba0bd82, type: 3}
   Bonuses: []
   NextTrait: {fileID: 0}
   PreviousTrait: {fileID: 0}
   OppositeTraits: []
   RelationModifiers: []
-  DropChance: 0.01
+  DropChance: 0
   KnowledgeRumor: '"Yes! I think that''s the one who the constabulary is after!"'

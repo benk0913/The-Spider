@@ -94,7 +94,9 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             List<LocationEntity> potentialLocations = new List<LocationEntity>();
             potentialLocations.AddRange(CORE.Instance.Locations);
 
-            if(LocationTrait != null)
+            potentialLocations.RemoveAll(x => x.IsDisabled || !x.gameObject.activeInHierarchy);
+
+            if (LocationTrait != null)
             {
                 potentialLocations.RemoveAll(x => !x.Traits.Contains(LocationTrait));
             }

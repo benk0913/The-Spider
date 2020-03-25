@@ -47,11 +47,21 @@ public class InformationLogUI : MonoBehaviour
 
     public void AddInformationGathered(string information, Character aboutChar)
     {
+        if(CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         AddInformationGathered(new NewInformationInstance(information, aboutChar));
     }
 
     public void AddInformationGathered(NewInformationInstance instance)
     {
+        if (CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         InformationGatheredThisTurn.Add(instance);
 
         if (this.gameObject.activeInHierarchy)

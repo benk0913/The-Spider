@@ -73,6 +73,7 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        reason = null;
         if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;

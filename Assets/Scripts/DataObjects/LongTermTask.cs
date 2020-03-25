@@ -33,6 +33,8 @@ public class LongTermTask : ScriptableObject
     [SerializeField]
     public bool ShowCharacterInWorld = false;
 
+    public GameObject OnGoingEffect;
+
     public AgentAction GetResult(Character character)
     {
         List<AgentAction> results = new List<AgentAction>();

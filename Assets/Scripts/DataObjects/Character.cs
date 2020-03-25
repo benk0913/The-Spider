@@ -893,7 +893,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
         else
         {
-            Clothing = VisualSet.Clothing.GetVCByName(Clothing.name);
+            if (Clothing == null)
+            {
+                Clothing = VisualSet.Clothing.Pool[0];
+            }
+            else
+            {
+                Clothing = VisualSet.Clothing.GetVCByName(Clothing.name);
+            }
         }
 
         StateChanged.Invoke();

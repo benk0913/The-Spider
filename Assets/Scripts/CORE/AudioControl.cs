@@ -39,7 +39,7 @@ public class AudioControl : MonoBehaviour {
 
     #region Methods
 
-    public void PlayInPosition(string gClip, Vector3 pos, float MaxDistance = 47f)
+    public void PlayInPosition(string gClip, Vector3 pos, float MaxDistance = 47f, bool gLoop = false)
     {
         GameObject currentInstance = null;
 
@@ -66,11 +66,15 @@ public class AudioControl : MonoBehaviour {
         }
 
         currentInstance.transform.position = pos;
-        currentInstance.GetComponent<AudioSource>().spatialBlend = 1f;
-        currentInstance.GetComponent<AudioSource>().maxDistance = MaxDistance;
-        currentInstance.GetComponent<AudioSource>().pitch = 1f;
-        currentInstance.GetComponent<AudioSource>().clip = ResourcesLoader.Instance.GetClip(gClip);
-        currentInstance.GetComponent<AudioSource>().Play();
+        
+        AudioSource source = currentInstance.GetComponent<AudioSource>();
+        source.spatialBlend = 1f;
+        source.maxDistance = MaxDistance;
+        source.pitch = 1f;
+        source.loop = gLoop;
+        source.clip = ResourcesLoader.Instance.GetClip(gClip);
+        source.Play();
+        StartCoroutine(DisableOnFinish(source));
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
@@ -83,6 +87,11 @@ public class AudioControl : MonoBehaviour {
 
     public void Play(string gClip)
     {
+        if (CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         GameObject currentInstance = null;
 
         for (int i=0;i<Instances.Count;i++)
@@ -101,20 +110,27 @@ public class AudioControl : MonoBehaviour {
             Instances.Add(currentInstance);
         }
 
-        currentInstance.GetComponent<AudioSource>().spatialBlend = 0f;
-        currentInstance.GetComponent<AudioSource>().pitch = 1f;
-        currentInstance.GetComponent<AudioSource>().clip = ResourcesLoader.Instance.GetClip(gClip);
-        currentInstance.GetComponent<AudioSource>().loop = false;
-        currentInstance.GetComponent<AudioSource>().Play();
+        AudioSource source = currentInstance.GetComponent<AudioSource>();
+        source.spatialBlend = 0f;
+        source.pitch = 1f;
+        source.loop = false;
+        source.clip = ResourcesLoader.Instance.GetClip(gClip);
+        source.Play();
+        StartCoroutine(DisableOnFinish(source));
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
-            currentInstance.GetComponent<AudioSource>().volume = VolumeGroups[currentInstance.tag];
+            source.volume = VolumeGroups[currentInstance.tag];
         }
     }
 
     public void Play(string gClip, bool gLoop)
     {
+        if (CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         GameObject currentInstance = null;
 
         for (int i = 0; i < Instances.Count; i++)
@@ -133,21 +149,28 @@ public class AudioControl : MonoBehaviour {
             Instances.Add(currentInstance);
         }
 
-        currentInstance.GetComponent<AudioSource>().spatialBlend = 0f;
-        currentInstance.GetComponent<AudioSource>().pitch = 1f;
-        currentInstance.GetComponent<AudioSource>().loop = gLoop;
-        currentInstance.GetComponent<AudioSource>().clip = ResourcesLoader.Instance.GetClip(gClip);
-        currentInstance.GetComponent<AudioSource>().Play();
+        AudioSource source = currentInstance.GetComponent<AudioSource>();
+        source.spatialBlend = 0f;
+        source.pitch = 1f;
+        source.loop = gLoop;
+        source.clip = ResourcesLoader.Instance.GetClip(gClip);
+        source.Play();
+        StartCoroutine(DisableOnFinish(source));
 
         if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
-            currentInstance.GetComponent<AudioSource>().volume = VolumeGroups[currentInstance.tag];
+            source.volume = VolumeGroups[currentInstance.tag];
         }
 
     }
 
     public void Play(string gClip, bool gLoop, string gTag)
     {
+        if (CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         GameObject currentInstance = null;
 
         for (int i = 0; i < Instances.Count; i++)
@@ -166,17 +189,19 @@ public class AudioControl : MonoBehaviour {
             Instances.Add(currentInstance);
         }
 
-        currentInstance.GetComponent<AudioSource>().spatialBlend = 0f;
-        currentInstance.GetComponent<AudioSource>().pitch = 1f;
-        currentInstance.GetComponent<AudioSource>().loop = gLoop;
-        currentInstance.GetComponent<AudioSource>().clip = ResourcesLoader.Instance.GetClip(gClip);
-        currentInstance.GetComponent<AudioSource>().Play();
+        AudioSource source = currentInstance.GetComponent<AudioSource>();
+        source.spatialBlend = 0f;
+        source.pitch = 1f;
+        source.loop = gLoop;
+        source.clip = ResourcesLoader.Instance.GetClip(gClip);
+        source.Play();
+        StartCoroutine(DisableOnFinish(source));
 
         currentInstance.tag = gTag;
 
         if(VolumeGroups.ContainsKey(currentInstance.tag))
         {
-            currentInstance.GetComponent<AudioSource>().volume = VolumeGroups[currentInstance.tag];
+            source.volume = VolumeGroups[currentInstance.tag];
         }
     }
 
@@ -217,6 +242,11 @@ public class AudioControl : MonoBehaviour {
 
     public void PlayWithPitch(string gClip,float fPitch)
     {
+        if (CORE.Instance.isLoading)
+        {
+            return;
+        }
+
         GameObject currentInstance = null;
 
         for (int i = 0; i < Instances.Count; i++)
@@ -294,5 +324,16 @@ public class AudioControl : MonoBehaviour {
         Instances.Add(source.gameObject);
         source.volume = VolumeGroups[source.gameObject.tag];
     }
+
+    IEnumerator DisableOnFinish(AudioSource source)
+    {
+        while(source.isPlaying)
+        {
+            yield return 0;
+        }
+
+        source.gameObject.SetActive(false);
+    }
+
     #endregion
 }

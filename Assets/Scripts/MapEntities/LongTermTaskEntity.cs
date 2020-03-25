@@ -34,6 +34,9 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     public bool HaltWhenActionPerTurnExecuted;
 
+    [SerializeField]
+    GameObject CurrentLongTermTaskEffect;
+
     public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
     {
         if(turnsLeft > 0)
@@ -65,6 +68,17 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             LocationEntity currLocation = character.CurrentLocation;
             character.GoToLocation(CORE.Instance.Locations[0]);
             character.GoToLocation(currLocation);
+        }
+
+        if (CurrentTask.OnGoingEffect != null)
+        {
+            CurrentLongTermTaskEffect = ResourcesLoader.Instance.GetRecycledObject(CurrentTask.OnGoingEffect);
+            CurrentLongTermTaskEffect.transform.SetParent(CORE.Instance.DisposableContainer);
+            CurrentLongTermTaskEffect.GetComponent<LongTermTaskEffectUI>().SetInfo(this);
+        }
+        else
+        {
+            CurrentLongTermTaskEffect = null;
         }
     }
 
@@ -101,6 +115,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
             Complete();
             return;
         }
+
+        if(CurrentLongTermTaskEffect != null)
+        {
+            CurrentLongTermTaskEffect.GetComponent<LongTermTaskEffectUI>().Refresh();
+        }
     }
 
     public void Complete()
@@ -128,6 +147,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     public void Dispose()
     {
+        if(CurrentLongTermTaskEffect != null)
+        {
+            CurrentLongTermTaskEffect.gameObject.SetActive(false);
+        }
+
         CurrentLocation.RemoveLongTermTask(this);
        
         if (!isComplete)
