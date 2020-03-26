@@ -70,6 +70,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     [SerializeField]
     GameObject WhenHiddenObject;
 
+    [SerializeField]
+    GameObject LocationShade;
+
     public List<Character> FiredEmployeees = new List<Character>();
 
     public int Level = 1;
@@ -664,6 +667,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         GameObject hoverModel;
         if (VisibilityState == VisibilityStateEnum.Visible) //If player has scouted this location.
         {
+            LocationShade.SetActive(true);
+
             if (IsRuined)
             {
                 tempFigure = Instantiate(CORE.Instance.Database.RuinsFigurePrefab);
@@ -706,6 +711,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
         else if (VisibilityState == VisibilityStateEnum.QuestionMark) //If player has scouted the nearest district
         {
+            LocationShade.SetActive(false);
             if (NearestDistrict == null)
             {
                 tempFigure = Instantiate(CORE.Instance.Database.UnknownFigurePrefabBIG);
@@ -726,6 +732,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
         else //Player didn't scout nearest district.
         {
+            LocationShade.SetActive(false);
+
             if (WhenHiddenObject != null)
             {
                 WhenHiddenObject.gameObject.SetActive(true);

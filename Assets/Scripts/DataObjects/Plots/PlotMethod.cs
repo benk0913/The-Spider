@@ -11,6 +11,7 @@ public class PlotMethod : ScriptableObject
     public Item[] ItemsRequired;
     public BonusType OffenseSkill;
     public BonusType DefenceSkill;
+    public int MethodBonus;
     public int MinimumSkillRequired;
     public int MinimumParticipants;
     public int MaximumParticipants;

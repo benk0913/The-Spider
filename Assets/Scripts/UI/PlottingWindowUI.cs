@@ -86,6 +86,13 @@ public class PlottingWindowUI : MonoBehaviour
     TooltipTargetUI ExecuteTooltipTarget;
 
 
+    [SerializeField]
+    TextMeshProUGUI EntryBonus;
+
+    [SerializeField]
+    TextMeshProUGUI MethodBonus;
+
+
 
 
     SchemeType CurrentSchemeType;
@@ -275,6 +282,15 @@ public class PlottingWindowUI : MonoBehaviour
         EntryFrame.color =  entryRequirements == null ? Color.black : Color.red;
         EntryName.text = (entryRequirements == null ? "<color=yellow>" : "<color=red>") + CurrentEntry.name + "</color>";
 
+        if (CurrentEntry.BonusToSkill > 0)
+        {
+            EntryBonus.text = "+" + CurrentEntry.BonusToSkill + " " + CurrentEntry.Skill.name;
+        }
+        else
+        {
+            EntryBonus.text = "";
+        }
+
         List<TooltipBonus> entryTTBonuses = new List<TooltipBonus>();
         entryTTBonuses.Add(new TooltipBonus("<color=green>" + "+" + CurrentEntry.BonusToSkill + " " + CurrentEntry.Skill.name + "</color>", CurrentEntry.Skill.icon));
         if (entryRequirements != null)
@@ -290,6 +306,15 @@ public class PlottingWindowUI : MonoBehaviour
         MethodIcon.sprite = CurrentMethod.Icon;
         MethodFrame.color = methodRequirements == null? Color.black : Color.red;
         MethodName.text = (methodRequirements == null ? "<color=yellow>" : "<color=red>") + CurrentMethod.name + "</color>";
+
+        if (CurrentMethod.MethodBonus > 0)
+        {
+            MethodBonus.text = "+" + CurrentMethod.MethodBonus + " " + CurrentMethod.OffenseSkill.name;
+        }
+        else
+        {
+            MethodBonus.text = "";
+        }
 
         List<TooltipBonus> methodTTBonuses = new List<TooltipBonus>();
         if (methodRequirements != null)

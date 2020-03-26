@@ -24,6 +24,7 @@ public class SelectCharacterViewUI : MonoBehaviour
     Predicate<Character> CurrentFilter;
 
 
+
     string CurrentTitle;
 
     public string CurrentSortKey;
@@ -68,6 +69,8 @@ public class SelectCharacterViewUI : MonoBehaviour
 
     public virtual void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Select Agent:", Character topCharacter = null)
     {
+        CurrentSortKey = "";
+
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         this.gameObject.SetActive(true);
@@ -108,6 +111,7 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         List<Character> characters = CORE.Instance.Characters.FindAll(filter != null? filter : CommonFilter);
 
+
         characters = SortCharacters(CurrentSortKey, characters);
 
         yield return 0;
@@ -131,6 +135,11 @@ public class SelectCharacterViewUI : MonoBehaviour
             }
 
             selectableChar.transform.GetComponentInChildren<PortraitUI>().SetCharacter(character);
+
+            
+            selectableChar.transform.GetComponentInChildren<PortraitUI>().transform.Find("ExternalUseText").GetComponent<TextMeshProUGUI>().text = GetTextOnPortrait(character);
+
+
             yield return 0;
         }
 
@@ -145,12 +154,13 @@ public class SelectCharacterViewUI : MonoBehaviour
     public void SetSortingKey(string sortingKey)
     {
         CurrentSortKey = sortingKey;
+
+
         Refresh();
     }
 
     public List<Character> SortCharacters(string byKey, List<Character> characters)
     {
-
         switch(byKey)
         {
             case "Skill_Strong":
@@ -193,5 +203,52 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         //Default Abc...
         return characters.OrderBy(x => x.name).ToList();
+    }
+
+    public string GetTextOnPortrait(Character character)
+    {
+        switch (CurrentSortKey)
+        {
+            case "Skill_Strong":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value.ToString();
+                }
+            case "Skill_Charming":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value.ToString();
+                }
+            case "Skill_Intelligent":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Intelligent")).Value.ToString();
+                }
+            case "Skill_Aware":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value.ToString();
+                }
+            case "Skill_Discreet":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value.ToString();
+                }
+            case "Skill_Menacing":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value.ToString();
+                }
+            case "Skill_Stealthy":
+                {
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value.ToString();
+                }
+            case "Age":
+                {
+                    return character.Age.ToString();
+                }
+            case "Rank":
+                {
+                    return character.Rank.ToString();
+                }
+            default:
+                {
+                    return "";
+                }
+        }
     }
 }
