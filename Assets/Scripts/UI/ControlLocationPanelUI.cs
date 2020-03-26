@@ -153,7 +153,8 @@ public class ControlLocationPanelUI : MonoBehaviour
         UpgradeButton.gameObject.SetActive(
             CurrentLocation.IsOwnedByPlayer 
             && !CurrentLocation.IsUpgrading
-            && CurrentLocation.CurrentProperty.PropertyLevels.Count > CurrentLocation.Level);
+            && CurrentLocation.CurrentProperty.PropertyLevels.Count > CurrentLocation.Level
+            && !CurrentLocation.IsBuyable);
 
         RebrandButton.gameObject.SetActive(CurrentLocation.IsOwnedByPlayer);
 
@@ -482,5 +483,10 @@ public class ControlLocationPanelUI : MonoBehaviour
     public void RepairLocation()
     {
         CurrentLocation.RepairRuins(CORE.PC);
+    }
+
+    public void ViewCharactersInLocation()
+    {
+        SelectCharacterViewUI.Instance.Show((selected) => CharacterInfoUI.Instance.ShowInfo(selected), (x) => CurrentLocation.CharactersInLocation.Contains(x), "Characters In " + CurrentLocation.Name + ":");
     }
 }
