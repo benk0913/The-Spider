@@ -50,11 +50,10 @@ public class LongTermTaskEffectUI : MonoBehaviour
 
     public void SetInfo(LongTermTaskEntity entity)
     {
-        Show();
 
         CurrentEntity = entity;
 
-        Refresh();
+        Show();
     }
 
     public void Refresh()

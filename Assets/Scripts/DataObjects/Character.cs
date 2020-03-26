@@ -273,6 +273,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     public LocationEntity CurrentLocation;
 
     public Faction PuppetOf = null;
+    public int PupperTurnsLeft;
 
     public bool Pinned
     {
@@ -1088,6 +1089,15 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
+        if (PuppetOf != null)
+        {
+            PupperTurnsLeft--;
+            if (PupperTurnsLeft <= 0)
+            {
+                PuppetOf = null;
+            }
+        }
+
         for(int i=0;i<DynamicRelationsModifiers.Count;i++)
         {
             DynamicRelationsModifiers[i].Turns--;
@@ -1692,6 +1702,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         if (PuppetOf != null)
         {
             node["PuppetOf"] = PuppetOf.name;
+            node["PupperTurnsLeft"] = PupperTurnsLeft.ToString();
         }
 
         node["WorkLocation"] = WorkLocation == null ? "" : WorkLocation.ID;
@@ -1792,6 +1803,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         _prisonLocationID = node["PrisonLocation"];
         _puppetOfFaction = node["PuppetOf"];
+
+        if (!string.IsNullOrEmpty(node["PupperTurnsLeft"]))
+        {
+            PupperTurnsLeft = int.Parse(node["PupperTurnsLeft"]);
+        }
 
         _workLocationID = node["WorkLocation"];
 

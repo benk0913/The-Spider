@@ -26,6 +26,7 @@ public class InstantDoubleAgent : AgentAction //DO NOT INHERIT FROM
             return;
         }
 
+        character.PupperTurnsLeft = 35;
         character.PuppetOf = CORE.PC.CurrentFaction;
         
     }
