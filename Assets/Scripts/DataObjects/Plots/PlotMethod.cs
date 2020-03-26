@@ -15,6 +15,8 @@ public class PlotMethod : ScriptableObject
     public int MinimumParticipants;
     public int MaximumParticipants;
 
+    public GameObject MethodCombatEffect;
+
 
 
     public FailReason AreRequirementsMet(Character[] Participants)

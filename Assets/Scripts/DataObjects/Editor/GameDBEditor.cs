@@ -21,6 +21,11 @@ public class GameDBEditor : Editor
             CalcWordCount(db);
         }
 
+        if (GUILayout.Button("Print Custom Analysis"))
+        {
+            PrintCustomAnalysis(db);
+        }
+
         DrawDefaultInspector();
     }
 
@@ -233,5 +238,14 @@ public class GameDBEditor : Editor
         {
             Debug.Log(key + " - " + wordCountPerCharacter[key]);
         }
+    }
+
+    void PrintCustomAnalysis(GameDB db)
+    {
+        List<Character> characters = new List<Character>();
+
+        characters.AddRange(db.PresetCharacters.FindAll(x => x.Clothing == null));
+
+        characters.ForEach((x) => { Debug.Log(x.name); });
     }
 }

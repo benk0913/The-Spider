@@ -277,6 +277,18 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
     public virtual void RefreshVisuals()
     {
+        if(CurrentCharacter == null)
+        {
+            Debug.LogError("NO CHARACTER!?");
+            return;
+        }
+
+        if (CurrentCharacter.Clothing == null)
+        {
+            Debug.LogError("NO CLOTHING!? - "+CurrentCharacter.name);
+            return;
+        }
+
         Face.sprite = CurrentCharacter.Face.Sprite;
         Hair.sprite = CurrentCharacter.Hair.Sprite;
         Clothing.sprite = CurrentCharacter.Clothing.Sprite;

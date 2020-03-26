@@ -26,6 +26,8 @@ public class PlottingDuelUI : MonoBehaviour
     public Transform ParticipantDuelTransform;
     public Transform TargetDuelTransform;
 
+    public Transform CombatEffectPoint;
+
     public Animator Anim;
 
     public Image ParticipantSkillIcon;
@@ -241,6 +243,15 @@ public class PlottingDuelUI : MonoBehaviour
         ParticipantSkillNumber.text = offenseSkill.ToString();
         TargetSkillIcon.sprite = CurrentMethod.DefenceSkill.icon;
         TargetSkillNumber.text = defenceSkill.ToString();
+
+        //Show COmbat Effect
+        if(CurrentMethod.MethodCombatEffect != null)
+        {
+            GameObject effect = ResourcesLoader.Instance.GetRecycledObject(CurrentMethod.MethodCombatEffect);
+            effect.transform.SetParent(CombatEffectPoint);
+            effect.transform.position = CombatEffectPoint.position;
+            effect.transform.localScale = Vector3.one;
+        }
 
 
         if (Random.Range(0, offenseSkill + defenceSkill) < offenseSkill) //Attackers Win
