@@ -12,10 +12,19 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     GameObject LetterPrefab;
 
     [SerializeField]
+    GameObject LetterPrefabRaven;
+
+    [SerializeField]
     Transform targetPoint;
 
     [SerializeField]
+    Transform targetPointRaven;
+
+    [SerializeField]
     float DispensingSpeed = 1f;
+
+    [SerializeField]
+    Transform RavenScroll;
 
     [SerializeField]
     public UnityEvent OnReceiveLetter;
@@ -64,18 +73,23 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
 
         for(int i=0;i<letters.Length;i++)
         {
-            StartCoroutine(DispenseLetterRoutine(GenerateLetter(letters[i]).transform, i));
+            StartCoroutine(DispenseLetterRoutine(GenerateLetter(letters[i]).transform, i, letters[i].Preset.FromRaven));
         }
     }
 
     public void DispenseLetter(Letter letter)
     {
-        StartCoroutine(DispenseLetterRoutine(GenerateLetter(letter).transform));
+        StartCoroutine(DispenseLetterRoutine(GenerateLetter(letter).transform,0f,letter.Preset.FromRaven));
     }
 
-    IEnumerator DispenseLetterRoutine(Transform letterTransform, float addedY = 0f)
+    IEnumerator DispenseLetterRoutine(Transform letterTransform, float addedY = 0f, bool isRaven = false)
     {
         CORE.Instance.InvokeEvent("NewLetter");
+
+        if(isRaven)
+        {
+            RavenEntity.Instance.ReceiveLetter();
+        }
 
         yield return 0;
 
@@ -86,8 +100,16 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
         {
             t += DispensingSpeed * Time.deltaTime;
 
-            letterTransform.position = Vector3.Lerp(letterTransform.position, targetPoint.position +new Vector3(0f,addedY/100f+Envelopes.Count/100f,0f), t);
-            letterTransform.rotation = Quaternion.Lerp(letterTransform.rotation, targetRotation, t);
+            if(isRaven)
+            {
+                letterTransform.position = Vector3.Lerp(letterTransform.position, targetPointRaven.position + new Vector3(0f, addedY / 100f + Envelopes.Count / 100f, 0f), t);
+                letterTransform.rotation = Quaternion.Lerp(letterTransform.rotation, targetRotation, t);
+            }
+            else
+            {
+                letterTransform.position = Vector3.Lerp(letterTransform.position, targetPoint.position + new Vector3(0f, addedY / 100f + Envelopes.Count / 100f, 0f), t);
+                letterTransform.rotation = Quaternion.Lerp(letterTransform.rotation, targetRotation, t);
+            }
 
             yield return 0;
         }
@@ -99,15 +121,34 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     {
         for(int i=0;i<Envelopes.Count;i++)
         {
-            Envelopes[i].transform.position = targetPoint.position + new Vector3(0f, i / 100f, 0f);
+            if (Envelopes[i].PresetLetter.FromRaven)
+            {
+                Envelopes[i].transform.position = targetPointRaven.position + new Vector3(0f, i / 100f, 0f);
+            }
+            else
+            {
+                Envelopes[i].transform.position = targetPoint.position + new Vector3(0f, i / 100f, 0f);
+            }
         }
     }
 
     GameObject GenerateLetter(Letter letter)
     {
-        GameObject tempLetter = Instantiate(LetterPrefab);
-        tempLetter.transform.position = transform.position;
-        tempLetter.transform.rotation = transform.rotation;
+        GameObject tempLetter;
+
+        if (letter.Preset.FromRaven)
+        {
+            tempLetter = Instantiate(LetterPrefabRaven);
+            tempLetter.transform.position = targetPointRaven.position;
+            tempLetter.transform.rotation = targetPointRaven.rotation;
+            tempLetter.transform.SetParent(targetPointRaven);
+        }
+        else
+        {
+            tempLetter = Instantiate(LetterPrefab);
+            tempLetter.transform.position = transform.position;
+            tempLetter.transform.rotation = transform.rotation;
+        }
 
         EnvelopeEntity envelope = tempLetter.GetComponent<EnvelopeEntity>();
         envelope.SetInfo(letter, DisposeLetter);
@@ -145,7 +186,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
             Letter tempLetter = new Letter(CORE.Instance.Database.PresetLetters.Find(x => x.name == node["Envelopes"][i]["Preset"]));
             EnvelopeEntity tempEnvelope = GenerateLetter(tempLetter).GetComponent<EnvelopeEntity>();
             tempEnvelope.FromJSON(node["Envelopes"][i]);
-            StartCoroutine(DispenseLetterRoutine(tempEnvelope.transform));
+            StartCoroutine(DispenseLetterRoutine(tempEnvelope.transform,0f,tempLetter.Preset.FromRaven));
         }
     }
 

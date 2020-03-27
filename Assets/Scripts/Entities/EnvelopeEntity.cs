@@ -105,12 +105,18 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
         if(CurrentLetter.Preset.Seal != null)
         {
-            SealRenderer.gameObject.SetActive(true);
-            SealRenderer.material = CurrentLetter.Preset.Seal;
+            if (SealRenderer != null)
+            {
+                SealRenderer.gameObject.SetActive(true);
+                SealRenderer.material = CurrentLetter.Preset.Seal;
+            }
         }
         else
         {
-            SealRenderer.gameObject.SetActive(false);
+            if (SealRenderer != null)
+            {
+                SealRenderer.gameObject.SetActive(false);
+            }
         }
 
         TitleText.text = CurrentLetter.Title;
@@ -230,7 +236,16 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
     {
         if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
-            DecipherWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.Preset.Encryption, ()=> { this.CurrentLetter.IsDeciphered = true; RefreshUI(); SealRenderer.gameObject.SetActive(false); });
+            DecipherWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.Preset.Encryption, ()=> 
+            {
+                this.CurrentLetter.IsDeciphered = true;
+                RefreshUI();
+
+                if (SealRenderer != null)
+                {
+                    SealRenderer.gameObject.SetActive(false);
+                }
+            });
             return;
         }
 

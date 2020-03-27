@@ -35,6 +35,9 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public Cipher Encryption;
 
+    [SerializeField]
+    public bool FromRaven = false;
+
     public LetterPreset CreateClone()
     {
         LetterPreset clone = Instantiate(this);
