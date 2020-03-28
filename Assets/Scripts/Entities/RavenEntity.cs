@@ -19,6 +19,9 @@ public class RavenEntity : MonoBehaviour
     [SerializeField]
     GameObject RavenCollider;
 
+    [SerializeField]
+    SoundEntity RavenSoundEntity;
+
     public GameObject ScrollOnBird;
 
     bool LetterIsIdle = false;
@@ -106,5 +109,10 @@ public class RavenEntity : MonoBehaviour
     public void SetRavenGround()
     {
         Raven.SetBool("OnGround", true);
+    }
+
+    public void RavenPlaySound(string key)
+    {
+        RavenSoundEntity.PlaySound(key);
     }
 }

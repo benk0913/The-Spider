@@ -17,52 +17,56 @@ public class FireAgent : PlayerAction
 
         Character character = ((PortraitUI)target).CurrentCharacter;
 
-        if (character.WorkLocation.OwnerCharacter.GetRelationsWith(character) > 5)
+        WarningWindowUI.Instance.Show("Are you sure?, firing "+character.name+" may have consequences.", () => 
         {
-            character.WorkLocation.OwnerCharacter.DynamicRelationsModifiers.Add
-            (
-            new DynamicRelationsModifier(
-            new RelationsModifier("Took an employee I liked!", -2)
-            , 10
-            , requester)
-            );
-        }
-
-        if (character.CurrentTaskEntity != null)
-        {
-            string taskName = character.CurrentTaskEntity.CurrentTask.name;
-
-            if (character.IsInTrouble)
+            if (character.WorkLocation.OwnerCharacter.GetRelationsWith(character) > 5)
             {
-                CORE.Instance.ShowHoverMessage(
-                    "Abandoned Employee, <color=red>REP -1</color>"
-                    ,ResourcesLoader.Instance.GetSprite("DeceasedIcon")
-                    , character.WorkLocation.transform);
-
-                if (character.TopEmployer == CORE.PC)
-                {
-                    CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
-                      character.CurrentLocation.transform,
-                      StatsViewUI.Instance.transform,
-                      null,
-                      false);
-                }
-
-                character.TopEmployer.Reputation -= 2;
+                character.WorkLocation.OwnerCharacter.DynamicRelationsModifiers.Add
+                (
+                new DynamicRelationsModifier(
+                new RelationsModifier("Took an employee I liked!", -2)
+                , 10
+                , requester)
+                );
             }
-        }
 
-        if (character.Employer == requester)
-        {
-            character.StopDoingCurrentTask();
-            character.StopWorkingForCurrentLocation();
-        }
-        else
-        {
-            character.WorkLocation.FiredEmployeees.Add(character);
-            character.StopDoingCurrentTask();
-            character.StopWorkingForCurrentLocation();
-        }
+            if (character.CurrentTaskEntity != null)
+            {
+                string taskName = character.CurrentTaskEntity.CurrentTask.name;
+
+                if (character.IsInTrouble)
+                {
+                    CORE.Instance.ShowHoverMessage(
+                        "Abandoned Employee, <color=red>REP -1</color>"
+                        , ResourcesLoader.Instance.GetSprite("DeceasedIcon")
+                        , character.WorkLocation.transform);
+
+                    if (character.TopEmployer == CORE.PC)
+                    {
+                        CORE.Instance.SplineAnimationObject("BadReputationCollectedWorld",
+                          character.CurrentLocation.transform,
+                          StatsViewUI.Instance.transform,
+                          null,
+                          false);
+                    }
+
+                    character.TopEmployer.Reputation -= 2;
+                }
+            }
+
+            if (character.Employer == requester)
+            {
+                character.StopDoingCurrentTask();
+                character.StopWorkingForCurrentLocation();
+            }
+            else
+            {
+                character.WorkLocation.FiredEmployeees.Add(character);
+                character.StopDoingCurrentTask();
+                character.StopWorkingForCurrentLocation();
+            }
+        });
+        
     }
 
 

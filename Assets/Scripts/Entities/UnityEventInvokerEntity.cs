@@ -11,6 +11,11 @@ public class UnityEventInvokerEntity : MonoBehaviour
 
     public void InvokeEventInIndex(int index)
     {
+        if(EventsList.Count <= index)
+        {
+            return;
+        }
+
         EventsList[index].Invoke();
     }
 }

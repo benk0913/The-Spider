@@ -142,6 +142,11 @@ public class SchemeType : ScriptableObject
 
     public virtual void WinResult(DuelResultData result)
     {
+        if(result.Plot.Plotter.TopEmployer == CORE.PC)
+        {
+            AudioControl.Instance.Play("plot_win");
+        }
+
         result.Plot.Plotter.Reputation += 1;
         result.Plot.Plotter.TopEmployer.Reputation += 1;
 
@@ -251,7 +256,12 @@ public class SchemeType : ScriptableObject
 
     public virtual void LoseResult(DuelResultData result)
     {
-        foreach(Character participant in result.Plot.Participants)
+        if (result.Plot.Plotter.TopEmployer == CORE.PC)
+        {
+            AudioControl.Instance.Play("plot_fail");
+        }
+
+        foreach (Character participant in result.Plot.Participants)
         {
             if(!result.LeftParticipants.Contains(participant))
             {

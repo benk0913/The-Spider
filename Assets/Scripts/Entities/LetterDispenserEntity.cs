@@ -23,11 +23,12 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     float DispensingSpeed = 1f;
 
-    [SerializeField]
-    Transform RavenScroll;
 
     [SerializeField]
     public UnityEvent OnReceiveLetter;
+
+    [SerializeField]
+    public UnityEvent OnReceiveLetterRaven;
 
     public List<EnvelopeEntity> Envelopes = new List<EnvelopeEntity>();
 
@@ -84,11 +85,16 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
 
     IEnumerator DispenseLetterRoutine(Transform letterTransform, float addedY = 0f, bool isRaven = false)
     {
-        CORE.Instance.InvokeEvent("NewLetter");
+       
 
         if(isRaven)
         {
             RavenEntity.Instance.ReceiveLetter();
+            CORE.Instance.InvokeEvent("NewLetterRaven");
+        }
+        else
+        {
+            CORE.Instance.InvokeEvent("NewLetter");
         }
 
         yield return 0;
@@ -142,19 +148,20 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
             tempLetter.transform.position = targetPointRaven.position;
             tempLetter.transform.rotation = targetPointRaven.rotation;
             tempLetter.transform.SetParent(targetPointRaven);
+            OnReceiveLetterRaven.Invoke();
         }
         else
         {
             tempLetter = Instantiate(LetterPrefab);
             tempLetter.transform.position = transform.position;
             tempLetter.transform.rotation = transform.rotation;
+            OnReceiveLetter.Invoke();
         }
 
         EnvelopeEntity envelope = tempLetter.GetComponent<EnvelopeEntity>();
         envelope.SetInfo(letter, DisposeLetter);
         Envelopes.Add(envelope);
 
-        OnReceiveLetter.Invoke();
 
         return tempLetter;
     }

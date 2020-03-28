@@ -33,7 +33,12 @@ public class SpyAroundComplete : AgentAction
         {
             LocationEntity location = (LocationEntity)target;
 
-            location.Known.Know("Existance", character.TopEmployer);
+            bool foundSomething = false;
+            if (!location.Known.IsKnown("Existance",character.TopEmployer))
+            {
+                foundSomething = true;
+                location.Known.Know("Existance", character.TopEmployer);
+            }
 
             CORE.Instance.Locations.FindAll(x => x.NearestDistrict == location).ForEach(x => { x.RefreshState(); });
 
@@ -44,7 +49,6 @@ public class SpyAroundComplete : AgentAction
                     return charInQuestion.isImportant || location.EmployeesCharacters.Contains(charInQuestion);
                 });
 
-            bool foundSomething = false;
             foreach (Character charInLocation in possibleTargets)
             {
                 float enemyValue = charInLocation.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
@@ -63,7 +67,6 @@ public class SpyAroundComplete : AgentAction
                 charInLocation.Known.Know("CurrentLocation", character.TopEmployer);
                 charInLocation.Known.Know("Appearance", character.TopEmployer);
 
-                foundSomething = true;
                 break;
             }
 
@@ -77,7 +80,7 @@ public class SpyAroundComplete : AgentAction
             else
             {
                 CORE.Instance.ShowHoverMessage(
-                     "Saw someone interesting here...",
+                     "Discovered - "+location.Name,
                      ResourcesLoader.Instance.GetSprite("Satisfied"),
                      character.CurrentLocation.transform);
             }
