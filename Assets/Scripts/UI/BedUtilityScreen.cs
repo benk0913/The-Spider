@@ -42,6 +42,12 @@ public class BedUtilityScreen : MonoBehaviour
 
     public void SaveGame()
     {
-        WarningWindowUI.Instance.Show("Game Has Been Saved.", () => { CORE.Instance.SaveGame(); Resume(); });
+        TextInputWindowUI.Instance.Show((saveName) =>
+        {
+            WarningWindowUI.Instance.Show("Game Has Been Saved.", () =>
+            {
+                CORE.Instance.SaveGame(saveName); Resume();
+            });
+        },"Save Name:", "Save" + CORE.Instance.SaveFiles.Count);
     }
 }

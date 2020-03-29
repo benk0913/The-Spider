@@ -9,6 +9,30 @@ public class Letter : ISaveFileCompatible
     public LetterPreset Preset;
     public Dictionary<string, object> Parameters;
     public bool IsDeciphered = false;
+    public bool FromRaven
+    {
+        get
+        {
+            if(_fromRaven == -1)
+            {
+                if(Preset != null)
+                {
+                    _fromRaven = Preset.FromRaven? 1 : 0;
+                }
+                else
+                {
+                    _fromRaven = 0;
+                }
+            }
+
+            return _fromRaven == 1? true : false;
+        }
+        set
+        {
+            _fromRaven = value? 1 : 0;
+        }
+    }
+    int _fromRaven = -1;
 
     public string Title
     {
@@ -73,6 +97,8 @@ public class Letter : ISaveFileCompatible
 
         node["IsDeciphered"] = IsDeciphered.ToString();
 
+        node["FromRaven"] = FromRaven.ToString();
+
         if (Preset != null)
         {
             node["Preset"] = Preset.name;
@@ -121,6 +147,8 @@ public class Letter : ISaveFileCompatible
         IsDeciphered = bool.Parse(node["IsDeciphered"]);
 
         Preset = CORE.Instance.Database.PresetLetters.Find(x=>x.name == node["Preset"].Value.ToString());
+
+        FromRaven = bool.Parse(node["FromRaven"]);
 
         tempParameters = new Dictionary<string, string>();
         for(int i=0;i<node["Parameters"].Count;i++)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class LoadGameWindowUI : MonoBehaviour
 {
@@ -37,7 +38,6 @@ public class LoadGameWindowUI : MonoBehaviour
 
         NoSaveFilesPanel.gameObject.SetActive(CORE.Instance.SaveFiles.Count == 0);
 
-        CORE.Instance.SaveFiles.Reverse();
         for (int i=0;i< CORE.Instance.SaveFiles.Count;i++)
         {
             GameObject tempLine = ResourcesLoader.Instance.GetRecycledObject("SaveFileLineUI");

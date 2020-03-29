@@ -12,6 +12,12 @@ public class QOPropertySetToAction : QuestObjective
 
     public override bool Validate()
     {
+        if(ParentQuest.ForCharacter == null)
+        {
+            Debug.Log("NO FOR CHARACTER");
+            return false;
+        }
+
         return CharacterHasPropertyInAction(ParentQuest.ForCharacter, TargetProperty);
     }
 

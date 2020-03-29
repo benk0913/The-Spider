@@ -60,9 +60,9 @@ public class FactionAI : ScriptableObject
 
     protected virtual void BotCheats()
     {
-        this.CurrentCharacter.CGold += 1;
-        this.CurrentCharacter.CRumors += 1;
-        this.CurrentCharacter.CConnections += 1;
+        //this.CurrentCharacter.CGold += 1;
+        //this.CurrentCharacter.CRumors += 1;
+        //this.CurrentCharacter.CConnections += 1;
     }
 
     public virtual void Expand()
@@ -417,6 +417,11 @@ public class FactionAI : ScriptableObject
             }
 
             failReason = purchasable.PurchasePlot(CurrentCharacter, charsInCommand[UnityEngine.Random.Range(0, charsInCommand.Count)]);
+            
+            if(failReason == null)
+            {
+                return;
+            }
         }
 
         if (failReason != null)

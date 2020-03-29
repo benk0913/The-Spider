@@ -312,6 +312,11 @@ public class CORE : MonoBehaviour
     public Coroutine TurnPassedRoutineInstance;
     IEnumerator TurnPassedRoutine()
     {
+        if(GameClock.Instance.CurrentTurn % 15 == 0)
+        {
+            Instance.SaveGame("Auto Save");
+        }
+
         //AI DECISIONS
         foreach (Faction faction in CORE.Instance.Factions)
         {
@@ -696,12 +701,21 @@ public class CORE : MonoBehaviour
 
     public List<SaveFile> SaveFiles = new List<SaveFile>();
 
-    public void SaveGame()
+    public void SaveGame(string customName = "")
     {
         ReadAllSaveFiles();
 
         JSONClass savefile = new JSONClass();
-        savefile["Name"] = "Save" + SaveFiles.Count;
+
+        if (!string.IsNullOrEmpty(customName))
+        {
+            savefile["Name"] = customName;
+        }
+        else
+        {
+            savefile["Name"] = "Save" + SaveFiles.Count;
+        }
+
         savefile["Date"] = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
         savefile["SelectedFaction"] = PlayerFaction.name;
         savefile["PlayerCharacter"] = PC.name;
@@ -940,6 +954,8 @@ public class CORE : MonoBehaviour
                 }
             }
         }
+
+        CORE.Instance.SaveFiles.OrderBy(x => x.Date);
     }
 
     public void RemoveSave(SaveFile currentSave)

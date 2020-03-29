@@ -142,7 +142,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     {
         GameObject tempLetter;
 
-        if (letter.Preset.FromRaven)
+        if (letter.FromRaven)
         {
             tempLetter = Instantiate(LetterPrefabRaven);
             tempLetter.transform.position = targetPointRaven.position;

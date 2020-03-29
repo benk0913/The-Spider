@@ -33,11 +33,6 @@ public class QuestContentUI : HeadlineContentUI
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
     }
 
-    private void OnEnable()
-    {
-        Scroll.verticalNormalizedPosition = 0f;
-    }
-
     public void SetInfo(QuestHeadlineUI headline)
     {
         CurrentHeadline = headline;
@@ -111,7 +106,9 @@ public class QuestContentUI : HeadlineContentUI
             QuestTitle.transform.localScale = Vector3.one;
             QuestTitle.text = "<color=black>" + reward.name + "</color>";
         }
-        
+
+        Scroll.verticalNormalizedPosition = 1f;
+
     }
 
     public void Notify()

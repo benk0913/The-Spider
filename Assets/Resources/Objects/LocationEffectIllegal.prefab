@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 387029461387149424}
   - component: {fileID: 397375501330254828}
   - component: {fileID: 166500580328605147}
+  - component: {fileID: 4295174478105851994}
   m_Layer: 5
   m_Name: LocationEffectIllegal
   m_TagString: Untagged
@@ -152,7 +153,7 @@ MonoBehaviour:
   CurrentTransform: {fileID: 0}
   StickToEdgeOfScreen: 1
   IsIgnoringMapBackfacing: 0
-  IsMapElement: 0
+  IsMapElement: 1
 --- !u!114 &397375501330254828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +189,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4295174478105851994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478687570250304421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737b48a166fcbd849b062b1a7d076b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: Illegal actions are being commited in this area...
 --- !u!1 &3284618027559958044
 GameObject:
   m_ObjectHideFlags: 0
