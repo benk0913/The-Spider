@@ -8,6 +8,10 @@ public class QOAgentDoingTask : QuestObjective
     [SerializeField]
     LongTermTask Task;
 
+    [SerializeField]
+    Character TargetCharacter;
+
+
     bool valid = false;
     bool subscribed = false;
 
@@ -15,14 +19,14 @@ public class QOAgentDoingTask : QuestObjective
     {
         if (!subscribed)
         {
-            CORE.Instance.SubscribeToEvent("AgentRefreshedAction", OnAgentAction);
+            CORE.Instance.SubscribeToEvent("PassTimeStarted", OnAgentAction);
             subscribed = true;
         }
 
         if(valid)
         {
             subscribed = false;
-            CORE.Instance.UnsubscribeFromEvent("AgentRefreshedAction", OnAgentAction);
+            CORE.Instance.UnsubscribeFromEvent("PassTimeStarted", OnAgentAction);
             return true;
         }
         else
@@ -51,6 +55,11 @@ public class QOAgentDoingTask : QuestObjective
             {
                 if(agent.CurrentTaskEntity.CurrentTask == Task)
                 {
+                    if(TargetCharacter!=null && agent.CurrentTaskEntity.TargetCharacter.name != TargetCharacter.name)
+                    {
+                        continue;
+                    }
+
                     valid = true;
                     break;
                 }

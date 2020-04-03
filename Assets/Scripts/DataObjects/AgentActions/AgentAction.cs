@@ -33,6 +33,7 @@ public class AgentAction : ScriptableObject
     public bool ShowHover = true;
 
     public LetterPreset employerLetterPreset;
+    public LetterPreset characterLetterPreset;
 
     public GameObject WorldPortraitEffect;
 
@@ -146,6 +147,22 @@ public class AgentAction : ScriptableObject
                     letterParameters.Add("Letter_SubjectCharacter", character);
 
                     LetterDispenserEntity.Instance.DispenseLetter(new Letter(employerLetterPreset, letterParameters));
+                }
+            }
+
+            if (characterLetterPreset != null)
+            {
+                if (character.Employer != null && character.TopEmployer != null && character != character.TopEmployer)
+                {
+                    Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+
+                    letterParameters.Add("Target_Name", character.name);
+                    letterParameters.Add("Target_Role", character.CurrentRole);
+                    letterParameters.Add("Letter_From", character);
+                    letterParameters.Add("Letter_To", character.TopEmployer);
+                    letterParameters.Add("Letter_SubjectCharacter", characterLetterPreset.PresetSubjectCharacter);
+
+                    LetterDispenserEntity.Instance.DispenseLetter(new Letter(characterLetterPreset, letterParameters));
                 }
             }
 

@@ -42,6 +42,11 @@ public class AttemptScheme : AgentAction //DO NOT INHERIT FROM
         {
             Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
 
+            if(targetCharacter.TopEmployer == CORE.PC)
+            {
+                return false;
+            }
+
             if (targetCharacter == character)
             {
                 return false;

@@ -52,6 +52,11 @@ public class AttemptSchemeAbduct : AgentAction //DO NOT INHERIT FROM
                 return false;
             }
 
+            if(targetCharacter.TopEmployer == CORE.PC)
+            {
+                return false;
+            }
+
             if(!targetCharacter.IsKnown("CurrentLocation",requester))
             {
                 reason = new FailReason("Don't know the targets current location");

@@ -23,6 +23,13 @@ public class ShowFavorMenu : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
+        if(target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+        {
+            if(((PortraitUI) target).CurrentCharacter.TopEmployer == CORE.PC)
+            {
+                return false;
+            }
+        }
         
 
         return true;

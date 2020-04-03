@@ -51,6 +51,11 @@ public class ConsumeItem : AgentAction
             return false;
         }
 
+        if(!item.CurrentItem.Usable)
+        {
+            return false;
+        }
+
         
 
         return true;
