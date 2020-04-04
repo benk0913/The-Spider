@@ -17,12 +17,17 @@ public class DDCHasResource : DialogDecisionCondition
         {
             if (Inverted)
             {
-                return base.CheckCondition();
+                return false;
             }
 
-            return false;
+            return base.CheckCondition();
         }
 
-        return base.CheckCondition();
+        if (Inverted)
+        {
+            return base.CheckCondition();
+        }
+
+        return false;
     }
 }

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d431cca442f92e44ebdcbe5a083d4254, type: 3}
+  m_Name: Ruins 5
+  m_EditorClassIdentifier: 
+  Description: 'The room is quickly revealed under the light of her torch.
+
+    This
+    place is clearly in ruins. Old wooden benches, tables and pottery remain half
+    broken at the sides of the hall, in their midst could be spotted here and there
+    statues like her own in different colours and shapes, but in a very poor condition.
+
+    At
+    the end of the hall, a locked wooden door, which probably leads to another hall.'
+  Image: {fileID: 21300000, guid: c07dc5aaa878e114fa2eecc3b8f7e2f9, type: 3}
+  LobbyPiece: 0
+  Decisions:
+  - {fileID: 11400000, guid: da91d1f407238444998b5dec5271cd59, type: 2}
+  - {fileID: 11400000, guid: de53c4a656637664fadc3bfdcb6a6fdb, type: 2}
+  SimpleDecision:
+    Title: Return back to the manor.
+    Icon: {fileID: 21300000, guid: 117032de806261d48ae0f03586ed21bf, type: 3}
+    NextPiece: {fileID: 0}
+    Action: {fileID: 11400000, guid: 72161224d6d2d2447b0258115c51e0d0, type: 2}
+  RandomDescriptions: []
+  TargetCharacters: []

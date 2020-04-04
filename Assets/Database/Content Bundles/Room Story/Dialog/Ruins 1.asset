@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d431cca442f92e44ebdcbe5a083d4254, type: 3}
+  m_Name: Ruins 1
+  m_EditorClassIdentifier: 
+  Description: Julianna has directed the Carriage driver to a village called Kelt,
+    located west of the city. This village must contain information about the crevice
+    and its specific location.
+  Image: {fileID: 21300000, guid: 0f08a5163fb9a6f4d880d2bd4f1b4ba7, type: 3}
+  LobbyPiece: 0
+  Decisions:
+  - {fileID: 11400000, guid: feaf0b5e1c147a54bb80178e00fca14b, type: 2}
+  - {fileID: 11400000, guid: 4b983f065143c95418072760e48bc43e, type: 2}
+  - {fileID: 11400000, guid: 5319049de7ceaff449c7e983b856888c, type: 2}
+  - {fileID: 11400000, guid: c2b8a59d1814b984b90abdb00905cba5, type: 2}
+  SimpleDecision:
+    Title: Return back to the manor.
+    Icon: {fileID: 21300000, guid: 117032de806261d48ae0f03586ed21bf, type: 3}
+    NextPiece: {fileID: 0}
+    Action: {fileID: 11400000, guid: 72161224d6d2d2447b0258115c51e0d0, type: 2}
+  RandomDescriptions: []
+  TargetCharacters: []

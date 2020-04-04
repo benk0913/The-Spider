@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2184c756f2a3418ee443e87a01316, type: 3}
+  m_Name: Ask locals
+  m_EditorClassIdentifier: 
+  CustomTitle: Ask a local you know there about the crevice in the rock.
+  Icon: {fileID: 21300000, guid: 55262f68ca9d25b48b617d601fe3a99b, type: 3}
+  AppearanceConditions:
+  - {fileID: 11400000, guid: 47e0c8c5070d2b34881a51722beffaa1, type: 2}
+  ActiveConditions:
+  - {fileID: 11400000, guid: d13a75995c97d6048ad69aa0f9fa5b6b, type: 2}
+  Actions:
+  - {fileID: 11400000, guid: d0ce0125fd9b26c4b97558ab93a03595, type: 2}
+  NextPiece: {fileID: 11400000, guid: accbb04f144e65547817cf778f547ef3, type: 2}
+  RefreshCurrentPiece: 0

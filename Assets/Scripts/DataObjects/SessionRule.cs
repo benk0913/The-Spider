@@ -14,8 +14,11 @@ public class SessionRule : ScriptableObject, ISaveFileCompatible
 
     public void Execute()
     {
-        PopupData popup = new PopupData(PopupPreset, null, null, () => { Action.Activate(); });
-        PopupWindowUI.Instance.AddPopup(popup);
+        if (PopupPreset != null)
+        {
+            PopupData popup = new PopupData(PopupPreset, null, null, () => { Action?.Activate(); });
+            PopupWindowUI.Instance.AddPopup(popup);
+        }
     }
 
     public void PassTurn()
