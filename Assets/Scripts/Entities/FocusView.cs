@@ -27,6 +27,7 @@ public class FocusView : MonoBehaviour
     
     public void Deactivate()
     {
+
         if (CORE.Instance.FocusViewLocked)
         {
             return;

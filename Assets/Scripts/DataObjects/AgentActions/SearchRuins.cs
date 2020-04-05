@@ -18,7 +18,7 @@ public class SearchRuins : AgentAction
             return;
         }
 
-        MapViewManager.Instance.MapFocusView.Deactivate();
+        GameClock.Instance.PassTime();
 
         Dictionary<string, object> parameters = new Dictionary<string, object>();
 

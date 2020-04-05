@@ -12,6 +12,14 @@ public class InvestigateItemComplete : AgentAction
    
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
+
+        Item invItem = CORE.PC.Belogings.Find(x => x.name == ItemToRemove.name);
+
+        if (invItem == null)
+        {
+            return;
+        }
+
         base.Execute(requester, character, target);
 
         FailReason reason;
@@ -20,12 +28,8 @@ public class InvestigateItemComplete : AgentAction
             return;
         }
 
-        Item invItem = CORE.PC.Belogings.Find(x => x.name == ItemToRemove.name);
 
-        if(invItem != null)
-        {
-            CORE.PC.Belogings.Remove(invItem);
-        }
+        CORE.PC.Belogings.Remove(invItem);
 
         CORE.PC.Belogings.Add(replacementItem);
         InventoryPanelUI.Instance.RefreshInventory();

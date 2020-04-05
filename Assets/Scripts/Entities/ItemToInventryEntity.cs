@@ -12,9 +12,14 @@ public class ItemToInventryEntity : MonoBehaviour
 
     private void Start()
     {
+        CORE.Instance.SubscribeToEvent("GameLoadComplete", Refresh);
+    }
+
+    void Refresh()
+    {
         foreach (Item item in InventoryItem)
         {
-            if (CORE.PC.Belogings.Find(X => X.name == item.name))
+            if (CORE.PC != null && CORE.PC.Belogings.Find(X => X.name == item.name) != null)
             {
                 AlreadyHasItem();
                 return;
