@@ -33,6 +33,16 @@ public class DecipherWindowUI : MonoBehaviour
     [System.NonSerialized]
     public Cipher Cipher;
 
+    public string LetterSpacingTagOpen
+    {
+        get
+        {
+            return Cipher ? ("<mspace="+Cipher.LetterSpacing+">") : " < mspace=40>";
+        }
+    }
+
+    public const string LetterSpacingTagClose = "</mspace>";
+
     char[] lettersInText;
 
     Dictionary<char, char> CurrentReplacements = new Dictionary<char, char>();
@@ -253,17 +263,17 @@ public class DecipherWindowUI : MonoBehaviour
             CurrentLetterText.color = Color.yellow;
         }
 
-        OriginalText.text = "<mspace=40>" + OriginalEncryptedMessage;
+        OriginalText.text = LetterSpacingTagOpen + OriginalEncryptedMessage;
 
         if (HoveredLetter != '@')
         {
-            DecipheredText.text = "<mspace=40>" + ResolvedMessage;
-            DecipheredTextHighlighted.text = "<mspace=40>"+ GetHighlightedCharacterStringFromOther(HoveredLetter,ResolvedMessage, OriginalEncryptedMessage);
+            DecipheredText.text = LetterSpacingTagOpen + ResolvedMessage;
+            DecipheredTextHighlighted.text = LetterSpacingTagOpen + GetHighlightedCharacterStringFromOther(HoveredLetter,ResolvedMessage, OriginalEncryptedMessage);
         }
         else
         {
-            DecipheredText.text = "<mspace=40>" + ResolvedMessage;
-            DecipheredTextHighlighted.text = "<mspace=40>" + ResolvedMessage;
+            DecipheredText.text = LetterSpacingTagOpen + ResolvedMessage;
+            DecipheredTextHighlighted.text = LetterSpacingTagOpen + ResolvedMessage;
         }
 
         ClearContainer();

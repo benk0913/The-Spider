@@ -30,6 +30,59 @@ public class DDAGainResources : DialogDecisionAction
             tempReputation = Mathf.RoundToInt(CORE.PC.Reputation * (Reputation / 100f));
         }
 
+        if(tempGold > 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Gained " + tempGold + " Gold", 1f, Color.yellow);
+        }
+        else if (tempGold < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Lost " + tempGold + " Gold", 1f, Color.red);
+        }
+
+        if (tempGold > 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Gained " + tempGold + " Gold", 1f, Color.yellow);
+        }
+        else if (tempGold < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Lost " + tempGold + " Gold", 1f, Color.red);
+        }
+
+        if (tempRumors > 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Gained " + tempRumors + " Rumors", 1f, Color.yellow);
+        }
+        else if (tempRumors < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Lost " + tempRumors + " Rumors", 1f, Color.red);
+        }
+
+        if (tempConnections > 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Gained " + tempConnections + " Connection", 1f, Color.yellow);
+        }
+        else if (tempConnections < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Lost " + tempConnections + " Connection", 1f, Color.red);
+        }
+
+        if (tempProgression > 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Gained " + tempProgression + " Progression", 1f, Color.yellow);
+        }
+        else if (tempProgression < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Lost " + tempProgression + " Progression", 1f, Color.red);
+        }
+
+        if (tempReputation > 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Gained " + tempReputation + " Reputation", 1f, Color.yellow);
+        }
+        else if (tempReputation < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Lost " + tempReputation + " Reputation", 1f, Color.red);
+        }
 
         CORE.PC.TopEmployer.CGold += tempGold;
         CORE.PC.TopEmployer.CRumors += tempRumors;

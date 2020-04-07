@@ -14,6 +14,8 @@ public class Cipher : ScriptableObject
 
     public float LineSpacing = 190.5f;
 
+    public float LetterSpacing = 40f;
+
     public string Convert(string message)
     {
 

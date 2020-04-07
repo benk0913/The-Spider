@@ -16,6 +16,8 @@ public class CursorTooltipUI : MonoBehaviour
 
     Color baseColor;
 
+    Coroutine IsShowingRoutine;
+
     private void Awake()
     {
         TooltipInstance = this;
@@ -29,7 +31,7 @@ public class CursorTooltipUI : MonoBehaviour
     public void Show(string message)
     {
         StopAllCoroutines();
-        StartCoroutine(FadeIn());
+        IsShowingRoutine = StartCoroutine(FadeIn());
 
         TextLabel.text = message;
         TextLabel.color = baseColor;
@@ -38,23 +40,38 @@ public class CursorTooltipUI : MonoBehaviour
     public void Show(string message, float Length)
     {
         StopAllCoroutines();
-        StartCoroutine(FadeIn(Length));
+        IsShowingRoutine = StartCoroutine(FadeIn(Length));
 
         TextLabel.text = message;
         TextLabel.color = baseColor;
     }
 
+
     public void Show(string message, float Length, Color color)
     {
-        StopAllCoroutines();
-        StartCoroutine(FadeIn(Length));
+        if(IsShowingRoutine != null)
+        {
+            MessageQue.Add(new MessageQueItem(message, Length, color));
+            return;
+        }
+
+        IsShowingRoutine = StartCoroutine(FadeIn(Length));
 
         TextLabel.text = message;
         TextLabel.color = color;
     }
 
+    protected List<MessageQueItem> MessageQue = new List<MessageQueItem>();
+
     public void Hide()
     {
+        if(MessageQue.Count > 0)
+        {
+            Show(MessageQue[0].Message, MessageQue[0].Length, MessageQue[0].WithColor);
+            MessageQue.RemoveAt(0);
+            return;
+        }
+
         StopAllCoroutines();
         StartCoroutine(FadeOut());
 
@@ -69,11 +86,16 @@ public class CursorTooltipUI : MonoBehaviour
             yield return 0;
         }
 
-        if(Length > 0)
+        if (Length > 0)
         {
             yield return new WaitForSeconds(Length);
+
+            IsShowingRoutine = null;
             Hide();
+            yield break;
         }
+
+        IsShowingRoutine = null;
     }
 
     protected IEnumerator FadeOut()
@@ -83,6 +105,20 @@ public class CursorTooltipUI : MonoBehaviour
             CG.alpha -= 4f * Time.deltaTime;
 
             yield return 0;
+        }
+    }
+
+    protected class MessageQueItem
+    {
+        public string Message;
+        public float Length;
+        public Color WithColor;
+
+        public MessageQueItem(string message, float length, Color color)
+        {
+            this.Message = message;
+            this.Length = length;
+            this.WithColor = color;
         }
     }
 }
