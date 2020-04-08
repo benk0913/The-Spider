@@ -11,8 +11,12 @@ public class InteractableEntity : MonoBehaviour
     [SerializeField]
     public UnityEvent Actions = new UnityEvent();
 
+    [SerializeField]
+    public DialogDecisionAction DDAction;
+
     public void Interact()
     {
         Actions.Invoke();
+        DDAction?.Activate();
     }
 }
