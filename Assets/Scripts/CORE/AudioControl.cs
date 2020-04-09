@@ -19,6 +19,10 @@ public class AudioControl : MonoBehaviour {
     [SerializeField]
     protected AudioSource MusicSource;
 
+    public List<MusicPlaylist> MusicPlayLists = new List<MusicPlaylist>();
+
+    public MusicPlaylist CurrentPlaylist = new MusicPlaylist();
+
     void Awake()
     {
         Instance = this;
@@ -278,11 +282,39 @@ public class AudioControl : MonoBehaviour {
         }
     }
 
-    public void SetMusic(string gClip, float fPitch = 1f, bool isLoop = true)
+    public void SetPlaylist(int playlistIndex)
     {
+        CurrentPlaylist = MusicPlayLists[playlistIndex];
+        SetMusic(CurrentPlaylist.Playlist[Random.Range(0, CurrentPlaylist.Playlist.Count)]);
+    }
+
+    public void SetPlaylistIndex(int index)
+    {
+        if(CurrentPlaylist == null)
+        {
+            Debug.LogError("AUDIO - NO ACTIVE PLAYLIST");
+            return;
+        }
+
+        if(CurrentPlaylist.Playlist.Count <= index)
+        {
+            Debug.LogError("AUDIO - BAD INDEX OF PLAYLIST");
+            return;
+        }
+
+        SetMusic(CurrentPlaylist.Playlist[index]);
+    }
+
+    protected void SetMusic(string gClip, float fPitch = 1f)
+    {
+        if(WaitForMusicEndRoutineInstance != null)
+        {
+            StopCoroutine(WaitForMusicEndRoutineInstance);
+        }
+
         MusicSource.volume = VolumeGroups["Music"];
 
-        MusicSource.loop = isLoop;
+        MusicSource.loop = false;
 
         if (string.IsNullOrEmpty(gClip))
         {
@@ -293,12 +325,36 @@ public class AudioControl : MonoBehaviour {
 
         MusicSource.pitch = fPitch;
 
-        if(MusicSource.clip == null || MusicSource.clip.name != gClip)
+        MusicSource.Stop();
+        MusicSource.clip = ResourcesLoader.Instance.GetClip(gClip);
+        MusicSource.Play();    
+
+        WaitForMusicEndRoutineInstance = StartCoroutine(WaitForMusicEndRoutine());
+    }
+
+    Coroutine WaitForMusicEndRoutineInstance;
+
+    IEnumerator WaitForMusicEndRoutine()
+    { 
+        yield return 0;
+
+        while(MusicSource.isPlaying)
         {
-            MusicSource.Stop();
-            MusicSource.clip = ResourcesLoader.Instance.GetClip(gClip);
-            MusicSource.Play();
+            yield return 0;
         }
+
+        WaitForMusicEndRoutineInstance = null;
+
+        if (CurrentPlaylist != null)
+        {
+            int targetIndex = CurrentPlaylist.Playlist.IndexOf(MusicSource.clip.name) + 1;
+            if(targetIndex >= CurrentPlaylist.Playlist.Count)
+            {
+                targetIndex = 0;
+            }
+
+            SetMusic(CurrentPlaylist.Playlist[targetIndex]);
+        }        
     }
 
     public void StopSound(string gClip)
@@ -327,4 +383,11 @@ public class AudioControl : MonoBehaviour {
     }
 
     #endregion
+
+    [System.Serializable]
+    public class MusicPlaylist
+    {
+        public string Name;
+        public List<string> Playlist = new List<string>();
+    }
 }

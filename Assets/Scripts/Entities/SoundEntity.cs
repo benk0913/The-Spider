@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SoundEntity : MonoBehaviour
 {
@@ -18,8 +19,14 @@ public class SoundEntity : MonoBehaviour
         }
     }
 
-    public void PlayMusic(string key)
+    public void SetPlaylist(int playlistIndex)
     {
-        AudioControl.Instance.SetMusic(key);
+        AudioControl.Instance.SetPlaylist(playlistIndex);
     }
+
+    public void SetMusic(int musicIndex)
+    {
+        AudioControl.Instance.SetPlaylistIndex(musicIndex);
+    }
+
 }
