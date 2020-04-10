@@ -397,9 +397,23 @@ public class CORE : MonoBehaviour
             }
         }
 
+        bool shouldRemoveRule = false;
+        List<SessionRule> rulesToRemove = new List<SessionRule>();
+
         foreach (SessionRule rule in SessionRules.Rules)
         {
-            rule.PassTurn();
+            rule.PassTurn(out shouldRemoveRule);
+
+            if(shouldRemoveRule)
+            {
+                rulesToRemove.Add(rule);
+            }
+        }
+
+        while(rulesToRemove.Count > 0)
+        {
+            SessionRules.Rules.Remove(rulesToRemove[0]);
+            rulesToRemove.RemoveAt(0);
         }
 
         TurnPassedRoutineInstance = null;

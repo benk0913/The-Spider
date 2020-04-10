@@ -66,6 +66,8 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
     UnityAction<EnvelopeEntity> DisposeAction;
 
+    public bool RoomSetLetter = false;
+
 
     private void Start()
     {
@@ -78,6 +80,13 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             CurrentLetter = new Letter(PresetLetter, null);
             RefreshUI();
         }
+        
+        if (RoomSetLetter)
+        {
+            CORE.Instance.UnsubscribeFromEvent("GameLoadComplete", GameLoadComplete);
+            CORE.Instance.SubscribeToEvent("GameLoadComplete", GameLoadComplete);
+            GameLoadComplete();
+        }
     }
 
     public void SetInfo(Letter letter, UnityAction<EnvelopeEntity> disposeAction)
@@ -87,8 +96,22 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         DisposeAction = disposeAction;
 
         RefreshUI();
+    }
 
+    public void GameLoadComplete()
+    {
+        if (LettersPanelUI.Instance != null && LettersPanelUI.Instance.ArchivedLetters.Find(x =>
+        {
+            if (x.CurrentLetter.Preset == null)
+            {
+                return false;
+            }
 
+            return x.CurrentLetter.Title == this.CurrentLetter.Title;
+        }) != null)
+        {
+            Delete();
+        }
     }
 
     void RefreshUI()
@@ -228,7 +251,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             return;
         }
 
-        DisposeAction(this);
+        DisposeAction?.Invoke(this);
         Destroy(this.gameObject);
     }
 

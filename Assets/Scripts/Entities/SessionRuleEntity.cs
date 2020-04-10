@@ -34,6 +34,11 @@ public class SessionRuleEntity : MonoBehaviour
 
     private void OnHaveRule()
     {
+        if(CORE.Instance == null)
+        {
+            return;
+        }
+
         if(CORE.Instance.SessionRules == null)
         {
             Reset.Invoke();

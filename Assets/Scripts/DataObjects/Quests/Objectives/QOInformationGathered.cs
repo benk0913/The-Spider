@@ -25,8 +25,8 @@ public class QOInformationGathered : QuestObjective
             if (Target == null)
             {
                 Debug.LogError("CAN'T FIND " + CharacterName);
-                valid = true;
-                return true;
+                valid = false;
+                return false;
             }
         }
 

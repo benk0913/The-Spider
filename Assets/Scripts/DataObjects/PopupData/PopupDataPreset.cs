@@ -10,6 +10,9 @@ public class PopupDataPreset : ScriptableObject
 
     public Sprite Image;
 
+    [SerializeField]
+    public DialogDecisionAction OnOpenAction;
+
 
     public PopupDataPreset Clone()
     {

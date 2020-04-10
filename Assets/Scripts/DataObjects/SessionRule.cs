@@ -19,10 +19,15 @@ public class SessionRule : ScriptableObject, ISaveFileCompatible
             PopupData popup = new PopupData(PopupPreset, null, null, () => { Action?.Activate(); });
             PopupWindowUI.Instance.AddPopup(popup);
         }
+        else
+        {
+            CORE.Instance.DelayedInvokation(1f,()=>Action?.Activate());
+        }
     }
 
-    public void PassTurn()
+    public void PassTurn(out bool shouldRemove)
     {
+        shouldRemove = false;
         CurrentTurn++;
 
         if(CurrentTurn >= TurnInterval)
@@ -32,7 +37,7 @@ public class SessionRule : ScriptableObject, ISaveFileCompatible
 
             if(!isRepeating)
             {
-                CORE.Instance.Database.SessionRules.Remove(this);
+                shouldRemove = true;
             }
         }
     }

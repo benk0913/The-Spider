@@ -131,6 +131,8 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
                 }
             });
         }
+
+        
     }
 
     public void HideCurrentPopup()
@@ -145,6 +147,7 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
         if(CurrentPopup != null)
         {
             CurrentPopup.OnPopupDisplayed?.Invoke();
+            CurrentPopup.Preset.OnOpenAction?.Activate();
         }
 
         if(PopupQue.Count == 0)
