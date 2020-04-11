@@ -87,19 +87,26 @@ public class MouseLook : MonoBehaviour
         }
         set
         {
-            if (value)
+            if (value != _onZoom)
             {
-                Cam.fieldOfView = 5;
-            }
-            else
-            {
-                Cam.fieldOfView = 60;
-            }
-            _onZoom = value;
+                if (value)
+                {
+                    targetFOV = 5;
+                    SpyglassViewUI.Instance.gameObject.SetActive(true);
+                }
+                else
+                {
+                    targetFOV = 60;
+                    SpyglassViewUI.Instance.gameObject.SetActive(false);
+                }
 
+                _onZoom = value;
+            }
         }
     }
     bool _onZoom;
+
+    float targetFOV = 60;
 
     float rotationY = 0F;
 
@@ -162,6 +169,8 @@ public class MouseLook : MonoBehaviour
             CurrentItemInHands.transform.position = Vector3.Lerp(CurrentItemInHands.transform.position, ItemPickViewPoint.position, Time.deltaTime * 4f);
             CurrentItemInHands.transform.rotation = Quaternion.Lerp(CurrentItemInHands.transform.rotation, ItemPickViewPoint.rotation, Time.deltaTime * 4f);
         }
+
+        Cam.fieldOfView = Mathf.Lerp(Cam.fieldOfView, targetFOV, Time.deltaTime * 2f);
     }
 
     #region Input
@@ -265,9 +274,13 @@ public class MouseLook : MonoBehaviour
             CameraTransform.localEulerAngles = new Vector3(-rotationY, CameraTransform.localEulerAngles.y, 0);
         }
 
-        if(Input.GetKeyDown(InputMap.Map["Zoom"]))
+        if(Input.GetKeyDown(InputMap.Map["Zoom"]) && CORE.Instance.SessionRules.Rules.Find(x=>x.name == "Can Zoom") != null)
         {
             OnZoom = !OnZoom;
+        }
+        else
+        {
+            OnZoom = OnZoom;
         }
     }
 
@@ -277,7 +290,11 @@ public class MouseLook : MonoBehaviour
         {
             InteractRay.EmitRay();
 
-            if (Input.GetKeyDown(InputMap.Map["Interact"]))
+            if (InteractRay.CurrentInteractable != null && InteractRay.CurrentInteractable.ZoomToInteract && OnZoom)
+            {
+                Interact();
+            }
+            else if (Input.GetKeyDown(InputMap.Map["Interact"]) && InteractRay.CurrentInteractable != null && !InteractRay.CurrentInteractable.ZoomToInteract)
             {
                 Interact();
             }

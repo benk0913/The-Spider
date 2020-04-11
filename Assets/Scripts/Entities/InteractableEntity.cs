@@ -14,6 +14,8 @@ public class InteractableEntity : MonoBehaviour
     [SerializeField]
     public DialogDecisionAction DDAction;
 
+    public bool ZoomToInteract = false;
+
     public void Interact()
     {
         Actions.Invoke();

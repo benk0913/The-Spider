@@ -15,7 +15,7 @@ public class InteractionRay : MonoBehaviour
 
     public virtual void EmitRay()
     {
-        Physics.Raycast(transform.position, transform.forward,  out rhit, HitMask);
+        Physics.Raycast(transform.position, transform.forward,  out rhit, Mathf.Infinity, HitMask);
 
         if (rhit.collider != null)
         {
