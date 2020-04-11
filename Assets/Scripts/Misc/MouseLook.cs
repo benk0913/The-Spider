@@ -79,6 +79,28 @@ public class MouseLook : MonoBehaviour
     [SerializeField]
     Transform ItemPickViewPoint;
 
+    public bool OnZoom
+    {
+        get
+        {
+            return _onZoom;
+        }
+        set
+        {
+            if (value)
+            {
+                Cam.fieldOfView = 5;
+            }
+            else
+            {
+                Cam.fieldOfView = 60;
+            }
+            _onZoom = value;
+
+        }
+    }
+    bool _onZoom;
+
     float rotationY = 0F;
 
     float translation;
@@ -241,6 +263,11 @@ public class MouseLook : MonoBehaviour
             rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
 
             CameraTransform.localEulerAngles = new Vector3(-rotationY, CameraTransform.localEulerAngles.y, 0);
+        }
+
+        if(Input.GetKeyDown(InputMap.Map["Zoom"]))
+        {
+            OnZoom = !OnZoom;
         }
     }
 
