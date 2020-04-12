@@ -3393,6 +3393,7 @@ MonoBehaviour:
   QuestFirstObjective: {fileID: 6935623180062934120}
   QuestAcceptText1: {fileID: 8826576176192560785}
   QuestAcceptText2: {fileID: 9155177395339408241}
+  RoomSetLetter: 0
 --- !u!64 &8823724888999439985
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3458,6 +3459,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  DDAction: {fileID: 0}
+  ZoomToInteract: 0
 --- !u!114 &8823724888999439986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3527,7 +3530,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8823724888999439986}
-        m_MethodName: ReleaseItem
+        m_MethodName: Retrieve
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

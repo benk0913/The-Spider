@@ -13,11 +13,21 @@ public class LongTermTaskEffectUI : MonoBehaviour
     public bool DisplayOnQuestionMark = false;
     public bool DisplayOnOtherProperties = false;
 
+    public bool IsHidden;
+
     private void Start()
     {
-        CORE.Instance.SubscribeToEvent("ShowMap", Show);
+        CORE.Instance.SubscribeToEvent("ShowMap", ()=>
+        {
+            IsHidden = false;
+            Show();
+        });
 
-        CORE.Instance.SubscribeToEvent("HideMap", Hide);
+        CORE.Instance.SubscribeToEvent("HideMap", ()=> 
+        {
+            IsHidden = true;
+            Hide();
+        });
     }
 
     private void OnDestroy()
@@ -34,6 +44,11 @@ public class LongTermTaskEffectUI : MonoBehaviour
     public void Show()
     {
         if (!MapViewManager.Instance.MapElementsContainer.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        if(IsHidden)
         {
             return;
         }

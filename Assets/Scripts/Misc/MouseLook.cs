@@ -20,18 +20,23 @@ public class MouseLook : MonoBehaviour
                     {
                         Cursor.visible = false;
                         Cursor.lockState = CursorLockMode.Locked;
+                        ReticleViewUI.Instance.Show();
                         break;
                     }
                 case ActorState.ItemInHands:
                     {
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
+                        ReticleViewUI.Instance.Hide();
+                        OnZoom = false;
                         break;
                     }
                 case ActorState.Focusing:
                     {
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
+                        ReticleViewUI.Instance.Hide();
+                        OnZoom = false;
                         break;
                     }
             }
