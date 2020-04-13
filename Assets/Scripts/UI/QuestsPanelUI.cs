@@ -104,6 +104,25 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             }
         }
 
+        //if (activeQuestsButton.interactable == false) //Is on active quest view.
+        //{
+        //    for (int i = 0; i < questsContainer.childCount; i++)
+        //    {
+        //        QuestHeadlineUI potentialHeadline = questsContainer.GetChild(i).GetComponent<QuestHeadlineUI>();
+
+        //        if (potentialHeadline == null) continue;
+
+        //        if(potentialHeadline.CurrentQuest.name == quest.name && potentialHeadline.ShowingObject == null)
+        //        {
+        //            potentialHeadline.Show();
+        //        }
+        //        else if (potentialHeadline.CurrentQuest.name != quest.name && potentialHeadline.ShowingObject != null)
+        //        {
+        //            potentialHeadline.Hide();
+        //        }
+        //    }
+        //}
+
         CORE.Instance.InvokeEvent("QuestStarted");
     }
 

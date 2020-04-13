@@ -50,7 +50,7 @@ public class ResearchCharacterWindowUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            this.gameObject.SetActive(false);
+            Hide();
         }
 
         if(Input.GetMouseButtonUp(0))
@@ -73,6 +73,12 @@ public class ResearchCharacterWindowUI : MonoBehaviour
         RefreshUI();
 
         SellRumorsItem.SetInfo(CurrentCharacter, new KnowledgeInstance("Whatever", "Boi....", 69));
+    }
+
+    public void Hide()
+    {
+        CORE.Instance.InvokeEvent("HideResearchCharacterWindow");
+        this.gameObject.SetActive(false);
     }
 
     void RefreshUI()

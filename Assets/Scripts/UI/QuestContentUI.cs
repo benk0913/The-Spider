@@ -31,6 +31,7 @@ public class QuestContentUI : HeadlineContentUI
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
+        CORE.Instance.SubscribeToEvent("HideResearchCharacterWindow", Refresh);
     }
 
     public void SetInfo(QuestHeadlineUI headline)

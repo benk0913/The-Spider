@@ -8,6 +8,10 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 {
     [TextArea(4, 6)]
     public string Description;
+
+    [TextArea(4, 6)]
+    public string HowToPlayDescription;
+
     public Sprite Icon;
 
     public Material WaxMaterial;
