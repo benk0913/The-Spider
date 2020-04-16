@@ -237,6 +237,11 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             return;
         }
 
+        if (CurrentLetter.Preset.QuestAttachment != null && CurrentLetter.Preset.QuestAttachment.MustQuest)
+        {
+            AcceptQuest();
+        }
+
         LettersPanelUI.Instance.AddLetterToLog(this.CurrentLetter);
 
         DisposeAction?.Invoke(this);

@@ -22,6 +22,8 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
     public Color BoxColor;
 
+    public TutorialScreenInstance TutorialScreen;
+
     public bool IsHidden = false;
     public bool IsUnresearchable = false;
     public bool IsResearched;
@@ -132,5 +134,15 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
         }
 
         return node;
+    }
+
+    public void Research()
+    {
+        if(TutorialScreen != null)
+        {
+            TutorialScreenUI.Instance.Show(TutorialScreen.name);
+        }
+
+        IsResearched = true;
     }
 }

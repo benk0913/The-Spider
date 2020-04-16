@@ -136,6 +136,11 @@ public class StatsViewUI : MonoBehaviour
 
     public void RefreshReputation()
     {
+        if(CORE.PC.Reputation < 0)
+        {
+            TutorialScreenUI.Instance.Show("BadReputation");
+        }
+
         ReputationInstance instance = CORE.Instance.Database.GetReputationType(CORE.PC.Reputation);
 
         if (instance.name != ReputationText.text)

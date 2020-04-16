@@ -51,11 +51,21 @@ public class MouseLook : MonoBehaviour
     [SerializeField]
     public RotationAxes axes = RotationAxes.MouseXAndY;
 
-    [SerializeField]
-    public float sensitivityX = 15F;
+    public float sensitivityX
+    {
+        get
+        {
+            return bl_PauseOptions.Sensitivity;
+        }
+    }
 
-    [SerializeField]
-    public float sensitivityY = 15F;
+    public float sensitivityY
+    {
+        get
+        {
+            return bl_PauseOptions.Sensitivity;
+        }
+    }
 
     [SerializeField]
     public float minimumX = -360F;
@@ -171,6 +181,12 @@ public class MouseLook : MonoBehaviour
 
         if(State == ActorState.ItemInHands)
         {
+            if(CurrentItemInHands == null)
+            {
+                State = ActorState.Idle;
+                return;
+            }
+
             CurrentItemInHands.transform.position = Vector3.Lerp(CurrentItemInHands.transform.position, ItemPickViewPoint.position, Time.deltaTime * 4f);
             CurrentItemInHands.transform.rotation = Quaternion.Lerp(CurrentItemInHands.transform.rotation, ItemPickViewPoint.rotation, Time.deltaTime * 4f);
         }

@@ -129,6 +129,13 @@ public class GameDBEditor : Editor
             db.DuelProcs.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(DuelProc)) as DuelProc);
         }
 
+        guids = AssetDatabase.FindAssets("t:TutorialScreenInstance", new[] { "Assets/" + db.DataPath });
+        db.TutorialScreenInstances.Clear();
+        foreach (string guid in guids)
+        {
+            db.TutorialScreenInstances.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(TutorialScreenInstance)) as TutorialScreenInstance);
+        }
+
         EditorUtility.SetDirty(db);
     }
 

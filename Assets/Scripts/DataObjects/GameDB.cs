@@ -75,6 +75,8 @@ public class GameDB : ScriptableObject
 
     public List<DuelProc> DuelProcs = new List<DuelProc>();
 
+    public List<TutorialScreenInstance> TutorialScreenInstances = new List<TutorialScreenInstance>();
+
     public BonusType[] BonusTypes;
 
     public ReputationInstance[] ReputationTypes;

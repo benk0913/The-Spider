@@ -35,6 +35,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public bool HasSounds = true;
 
+    public bool MustQuest = false;
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);

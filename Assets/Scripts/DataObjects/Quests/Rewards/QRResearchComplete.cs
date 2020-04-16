@@ -20,7 +20,7 @@ public class QRResearchComplete : QuestReward
                 return;
             }
 
-            item.IsResearched = true;
+            item.Research();
             TechNodeTreeUI.Instance.RefreshNodes();
             CORE.Instance.InvokeEvent("ResearchComplete");
         }

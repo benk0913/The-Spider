@@ -124,7 +124,7 @@ public class TechTreeItemUI : MonoBehaviour
         AudioControl.Instance.Play("tech_research");
 
         CORE.PC.CProgress -= CurrentItem.Price;
-        CurrentItem.IsResearched = true;
+        CurrentItem.Research();
         TechNodeTreeUI.Instance.RefreshNodes();
         CORE.Instance.InvokeEvent("ResearchComplete");
     }

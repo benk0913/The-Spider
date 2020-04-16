@@ -18,7 +18,25 @@ public class bl_PauseOptions : MonoBehaviour {
     /// <summary>
     /// Get this sensitivity from your mouse loook
     /// </summary>
-    public static float Sensitivity = 5.0f;
+    public static float Sensitivity = 3f;
+
+    public static bool TutorialOn = true;
+
+    [SerializeField]
+    List<Button> QualityButtons = new List<Button>();
+
+    [SerializeField]
+    Slider MouseSensitivity;
+
+    [SerializeField]
+    Slider SoundSlider;
+
+    [SerializeField]
+    Slider MusicSlider;
+
+    [SerializeField]
+    Toggle TutorialOnToggle;
+
     /// <summary>
     /// 
     /// </summary>
@@ -28,6 +46,8 @@ public class bl_PauseOptions : MonoBehaviour {
         if (FPSFrames != null) { FPSFrames.gameObject.SetActive(ShowFramesPerSecond); }
         timeleft = UpdateInterval;
 
+        QualityButtons.ForEach(x => x.interactable = true);
+        QualityButtons[QualitySettings.GetQualityLevel()].interactable = false;
         //Developer Util info
         /*Debug.Log(SystemInfo.deviceModel);
         Debug.Log(SystemInfo.deviceName);
@@ -43,6 +63,16 @@ public class bl_PauseOptions : MonoBehaviour {
         Debug.Log(SystemInfo.supportsShadows);*/
     }
 
+    private void Start()
+    {
+
+        MouseSensitivity.value = PlayerPrefs.GetFloat("MouseSensitivity", 3f);
+        SoundSlider.value = AudioControl.Instance.VolumeGroups["Untagged"];
+        MusicSlider.value = AudioControl.Instance.VolumeGroups["Music"];
+        TutorialOn = PlayerPrefs.GetInt("TutorialOn", 1) == 1? true : false;
+        TutorialOnToggle.isOn = TutorialOn;
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -53,17 +83,31 @@ public class bl_PauseOptions : MonoBehaviour {
         if (ResolutionButtons == null)
             return;
 
-        int n = 0;
-        for (int i = 0; i < Screen.resolutions.Length; i++)
+        for(int i=0;i<ResolutionPanel.childCount;i++)
         {
-            GameObject b = Instantiate(ResolutionButtons) as GameObject;
-            b.GetComponentInChildren<Text>().text = Screen.resolutions[i].width + " x " + Screen.resolutions[i].height;
-            b.transform.SetParent(ResolutionPanel,false);
-
-            int passedNumber = n;
-            AddResolutionListener(b.GetComponent<Button>(), passedNumber);
-            n++;
+            Destroy(ResolutionPanel.GetChild(i).gameObject,0.1f);
         }
+
+        CORE.Instance.DelayedInvokation(1f, () => 
+        {
+            int n = 0;
+            for (int i = 0; i < Screen.resolutions.Length; i++)
+            {
+                GameObject b = Instantiate(ResolutionButtons) as GameObject;
+
+                b.GetComponentInChildren<Text>().text = Screen.resolutions[i].width + " x " + Screen.resolutions[i].height;
+                b.transform.SetParent(ResolutionPanel,false);
+
+                int passedNumber = n;
+                AddResolutionListener(b.GetComponent<Button>(), passedNumber);
+                n++;
+
+                if (Screen.width == Screen.resolutions[i].width && Screen.height == Screen.resolutions[i].height)
+                {
+                    b.GetComponent<Button>().interactable = false;
+                }
+            }
+        });
 
 
     }
@@ -137,6 +181,7 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         AudioControl.Instance.Play("sound_click");
         Screen.SetResolution(Screen.resolutions[r].width, Screen.resolutions[r].height, true);
+        PostResolutions();
     }
     /// <summary>
     /// 
@@ -146,6 +191,9 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         QualitySettings.SetQualityLevel(q,true);
         AudioControl.Instance.Play("sound_click");
+
+        QualityButtons.ForEach(x => x.interactable = true);
+        QualityButtons[q].interactable = false;
     }
 
     /// <summary>
@@ -155,7 +203,13 @@ public class bl_PauseOptions : MonoBehaviour {
     public void UpdateVolumen(float v)
     {
         //Apply volumen
-         AudioListener.volume = v;
+         AudioControl.Instance.SetVolume("Untagged", v);
+    }
+
+    public void UpdateVolumenMusic(float v)
+    {
+        //Apply volumen
+        AudioControl.Instance.SetVolume("Music", v);
     }
 
     /// <summary>
@@ -165,6 +219,7 @@ public class bl_PauseOptions : MonoBehaviour {
     public void UpdateSensitivity(float s)
     {
         Sensitivity = s;
+        PlayerPrefs.SetFloat("MouseSensitivity", s);
     }
 
     public void AntiAliasing(int a)
@@ -248,5 +303,16 @@ public class bl_PauseOptions : MonoBehaviour {
     public void SoftVegetation(bool b)
     {
         QualitySettings.softVegetation = b;
+    }
+
+    public void SetTutorialScreens(bool b)
+    {
+        TutorialOn = b;
+        PlayerPrefs.SetInt("TutorialOn", TutorialOn ? 1 : 0);
+    }
+
+    public void ResetTutorial()
+    {
+        TutorialScreenUI.Instance.ResetTutorial();
     }
 }

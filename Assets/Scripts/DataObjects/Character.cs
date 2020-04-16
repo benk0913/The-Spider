@@ -1169,7 +1169,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
-        if(PropertiesInCommand.Count < (TopEmployer.PropertiesInCommand.Count / 2))
+        if (PropertiesInCommand.Count < (TopEmployer.PropertiesInCommand.Count / 2))
         {
             return;
         }
@@ -1202,7 +1202,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             PropertiesOwned.ForEach((x) => { deathString += x.Name + " - "; });
 
-            WarningWindowUI.Instance.Show(deathString, () => { });
+            WarningWindowUI.Instance.Show(deathString, () => { TutorialScreenUI.Instance.Show("FirstBetray"); });
         }
 
         LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();

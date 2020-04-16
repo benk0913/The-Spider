@@ -22,6 +22,13 @@ public class DDAResearchTech : DialogDecisionAction
             return;
         }
 
-        originalTech.IsResearched = ResearchState;
+        if (ResearchState)
+        {
+            originalTech.Research();
+        }
+        else
+        {
+            originalTech.IsResearched = false;
+        }
     }
 }

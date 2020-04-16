@@ -108,6 +108,8 @@ public class CORE : MonoBehaviour
             QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
         }
 
+        DelayedInvokation(5f, () => TutorialScreenUI.Instance.Show("FirstGame"));
+
         LoadingGameRoutine = null;
     }
 
