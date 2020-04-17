@@ -9,6 +9,6 @@ public class InteractiveBookUI : MonoBehaviour
 
     private void Start()
     {
-        HowToPlayText.text = CORE.PC.CurrentFaction.HowToPlayDescription;
+        CORE.Instance.DelayedInvokation(1f, ()=>HowToPlayText.text = CORE.PC.CurrentFaction.HowToPlayDescription);
     }
 }

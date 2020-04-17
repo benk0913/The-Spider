@@ -15,10 +15,7 @@ public class InvestigateItemComplete : AgentAction
 
         Item invItem = CORE.PC.Belogings.Find(x => x.name == ItemToRemove.name);
 
-        if (invItem == null)
-        {
-            return;
-        }
+
 
         base.Execute(requester, character, target);
 
@@ -28,8 +25,10 @@ public class InvestigateItemComplete : AgentAction
             return;
         }
 
-
-        CORE.PC.Belogings.Remove(invItem);
+        if (invItem != null)
+        {
+            CORE.PC.Belogings.Remove(invItem);
+        }
 
         CORE.PC.Belogings.Add(replacementItem);
         InventoryPanelUI.Instance.RefreshInventory();

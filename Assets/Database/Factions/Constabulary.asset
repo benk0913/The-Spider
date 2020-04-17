@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Constabulary
   m_EditorClassIdentifier: 
   Description: 
+  HowToPlayDescription: 
   Icon: {fileID: 21300000, guid: 0477d09f6fbeec740a2bd027e0cf8f0a, type: 3}
   WaxMaterial: {fileID: 2100000, guid: eb9fe5040f4b9df4dbb703dd6ec9b1ac, type: 2}
   FactionColor: {r: 0.11792451, g: 0.41856343, b: 1, a: 1}
@@ -21,7 +22,10 @@ MonoBehaviour:
   FactionSelectionPrefab: {fileID: 7911249182946308248, guid: ff25f0588e1b2084b90f2eac9739cfbc,
     type: 3}
   AI: {fileID: 11400000, guid: 251e6057d34345c45b0b719f6280816c, type: 2}
-  FactionProperties: []
+  FactionProperties:
+  - {fileID: 11400000, guid: 6a9caebc8abf09b43962c540d49d0e09, type: 2}
+  - {fileID: 11400000, guid: 74701567c0900f44a9ccf2bf00f6afe6, type: 2}
+  - {fileID: 11400000, guid: 10d7f00d30d2eae49bf6360e75bf9553, type: 2}
   StartingLetters: []
   AgentActionsOnLocation: []
   AgentActionsOnAgent: []
@@ -31,7 +35,7 @@ MonoBehaviour:
   isLocked: 0
   isPlayable: 1
   isAlwaysKnown: 1
-  GoldGeneratedPerDay: 50
+  GoldGeneratedPerDay: 25
   ConnectionsGeneratedPerDay: 10
   RumorsGeneratedPerDay: 10
   ProgressGeneratedPerDay: 10

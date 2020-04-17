@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: Town Watch
+  m_EditorClassIdentifier: 
+  Description: The constabulary is in charge of policing the surrounding distric;
+    from patrolling the streets to capturing and imprisoning the local criminals.
+  PropertyLevels:
+  - LevelName: Town Watch Booth
+    MaxEmployees: 1
+    MaxGuards: 1
+    MaxPrisoners: 6
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: District Watch
+    MaxEmployees: 3
+    MaxGuards: 3
+    MaxPrisoners: 6
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: City Watch
+    MaxEmployees: 6
+    MaxGuards: 6
+    MaxPrisoners: 6
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 0
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: Patrolling
+    Description: The constables and militia-men will patrol the district's streets
+      and ensure it's safety.
+    Icon: {fileID: 21300000, guid: 3f6136d6aca528b4e882604e3f138d72, type: 3}
+    GoldGenerated: 1
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 11400000, guid: 824490893afe28a44992b02c39e4f457, type: 2}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 11400000, guid: ae31828b27fc3b64c84cf85d4453489a, type: 2}
+    GuardUniform: {fileID: 11400000, guid: 69ab2559008614944912804f65ec67ae, type: 2}
+  Traits:
+  - {fileID: 11400000, guid: 8e875a65ba599d24a8dd2cf9acccdc10, type: 2}
+  - {fileID: 11400000, guid: 05ffe315c068e174dacdf9e89ac9ca5d, type: 2}
+  Icon: {fileID: 21300000, guid: 91e842339cfe19243b3ead08dae8e42d, type: 3}
+  FigurePrefab: {fileID: 3751449078466721607, guid: 53203657aaa28a746be402b4ca0a0e4d,
+    type: 3}
+  HoverPrefab: {fileID: 1418353000759972474, guid: ee0a6138b2175734c9359ca3d4d39b82,
+    type: 3}
+  HiddenObject: {fileID: 0}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 20
+  MaxAge: 60
+  PlotType: {fileID: 11400000, guid: 42390c5b77a599b419e52e7b3562c887, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 0
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: constable
+  AlwaysKnown: 0
+  TechRequired: {fileID: 0}
+  IsVendor: 0
+  AutoRestock: 0
+  EmployeesAreAgents: 1
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
+  VisitRumors:
+  - '"I saw this one once by the town watch building."'
+  - '"Seen pacing by the constabulary."'
+  WorkRumors:
+  - '"This one once chased us! With a wooden bat in hand!"'
+  - '"Saw this one with guarding the port, dressed as a member of the city''s watch..."'

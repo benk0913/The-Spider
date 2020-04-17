@@ -59,7 +59,10 @@ public class AgentAction : ScriptableObject
         FailReason reason;
         if (!CanDoAction(requester, character, target, out reason))
         {
-            GlobalMessagePrompterUI.Instance.Show("This character can not do this action! "+reason?.Key, 2f, Color.red);
+            if (character.TopEmployer == CORE.PC)
+            {
+                GlobalMessagePrompterUI.Instance.Show("This character can not do this action! " + reason?.Key, 2f, Color.red);
+            }
 
             return;
         }
@@ -337,6 +340,11 @@ public class AgentAction : ScriptableObject
 
         if (requester.CGold < GoldCost)
         {
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.ShowHoverMessage("Not enough Gold!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+            }
+
             reason = new FailReason("Not Enough Gold");
             return false;
         }
@@ -344,12 +352,24 @@ public class AgentAction : ScriptableObject
         if (requester.CConnections < ConnectionsCost)
         {
             reason = new FailReason("Not Enough Connections");
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.ShowHoverMessage("Not enough Connections!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+            }
+
             return false;
         }
 
         if (requester.CRumors < RumorsCost)
         {
             reason = new FailReason("Not Enough Rumors");
+
+            if (character.TopEmployer == CORE.PC)
+            {
+                CORE.Instance.ShowHoverMessage("Not enough Rumors!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+            }
+
             return false;
         }
 

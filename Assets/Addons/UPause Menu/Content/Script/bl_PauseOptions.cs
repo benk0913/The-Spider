@@ -22,6 +22,8 @@ public class bl_PauseOptions : MonoBehaviour {
 
     public static bool TutorialOn = true;
 
+    public float Brightness = 1f;
+
     [SerializeField]
     List<Button> QualityButtons = new List<Button>();
 
@@ -36,6 +38,10 @@ public class bl_PauseOptions : MonoBehaviour {
 
     [SerializeField]
     Toggle TutorialOnToggle;
+
+    [SerializeField]
+    Slider BrightnessSlider;
+    
 
     /// <summary>
     /// 
@@ -71,6 +77,8 @@ public class bl_PauseOptions : MonoBehaviour {
         MusicSlider.value = AudioControl.Instance.VolumeGroups["Music"];
         TutorialOn = PlayerPrefs.GetInt("TutorialOn", 1) == 1? true : false;
         TutorialOnToggle.isOn = TutorialOn;
+        Brightness = PlayerPrefs.GetFloat("Brightness", Screen.brightness);
+        
     }
 
     /// <summary>
@@ -314,5 +322,12 @@ public class bl_PauseOptions : MonoBehaviour {
     public void ResetTutorial()
     {
         TutorialScreenUI.Instance.ResetTutorial();
+    }
+
+    public void UpdateBrightness(float v)
+    {
+        Brightness = v;
+        Screen.brightness = Brightness;
+        PlayerPrefs.SetFloat("Brightness", Brightness);
     }
 }

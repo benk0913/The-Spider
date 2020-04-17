@@ -177,9 +177,12 @@ public class MouseLook : MonoBehaviour
             return;
         }
 
-        RefreshInput();
+        if (isAbleToMove)
+        {
+            RefreshMovementInput();
+        }
 
-        if(State == ActorState.ItemInHands)
+        if (State == ActorState.ItemInHands)
         {
             if(CurrentItemInHands == null)
             {
@@ -194,27 +197,27 @@ public class MouseLook : MonoBehaviour
         Cam.fieldOfView = Mathf.Lerp(Cam.fieldOfView, targetFOV, Time.deltaTime * 2f);
     }
 
-    #region Input
-
-    void RefreshInput()
+    private void Update()
     {
-        RefreshCancelInput();
-
-        if(isAbleToMove)
+        if (CORE.Instance.isLoading)
         {
-            RefreshMovementInput();
+            return;
         }
 
-        if(isAbleToLookaround)
+        RefreshCancelInput();
+
+        if (isAbleToLookaround)
         {
             RefreshMouseLookInput();
         }
 
-        if(isAbleToInteract)
+        if (isAbleToInteract)
         {
             RefreshInteractionInput();
         }
     }
+
+    #region Input
 
     void RefreshCancelInput()
     {
@@ -578,6 +581,11 @@ public class MouseLook : MonoBehaviour
         while (t < 1f)
         {
             t += 1f * Time.deltaTime;
+
+            if(item == null)
+            {
+                break;
+            }
 
             item.transform.position = Vector3.Lerp(item.transform.position, prePickupItemPosition, t);
             item.transform.rotation = Quaternion.Lerp(item.transform.rotation, prePickupItemRotation, t);

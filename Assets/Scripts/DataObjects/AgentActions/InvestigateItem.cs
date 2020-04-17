@@ -26,7 +26,13 @@ public class InvestigateItem : AgentAction
 
         CORE.Instance.GenerateLongTermTask(TaskToExecute, requester, character, character.CurrentLocation);
 
+        Item item = CORE.PC.Belogings.Find(X => X.name == itemUI.CurrentItem.name);
 
+        if (item != null)
+        {
+            CORE.PC.Belogings.Remove(item);
+            InventoryPanelUI.Instance.RefreshInventory();
+        }
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

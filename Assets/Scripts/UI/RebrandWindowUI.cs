@@ -29,6 +29,9 @@ public class RebrandWindowUI : MonoBehaviour
     [SerializeField]
     GameObject CurrentPropertyPointer;
 
+    [SerializeField]
+    GameObject NoPropertiesPanel;
+
     LocationEntity CurrentLocation;
 
     public int CurrentIndex = 0;
@@ -63,6 +66,26 @@ public class RebrandWindowUI : MonoBehaviour
         CurrentLocation = currentLocation;
 
         this.gameObject.SetActive(true);
+
+        int propertiesAvailable = 0;
+        for(int i=0;i< CORE.PlayerFaction.FactionProperties.Length;i++)
+        {
+            Property property = CORE.PlayerFaction.FactionProperties[i];
+            if (property.PlotType != CurrentLocation.CurrentProperty.PlotType)
+            {
+                continue;
+            }
+
+            if (property.TechRequired != null && !property.TechRequired.IsResearched)
+            {
+                continue;
+            }
+
+            propertiesAvailable++;
+        }
+
+        NoPropertiesPanel.gameObject.SetActive(propertiesAvailable < 2);
+
 
         SetProperty(CurrentLocation.CurrentProperty);
     }
