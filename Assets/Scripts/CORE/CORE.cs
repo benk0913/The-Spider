@@ -48,6 +48,8 @@ public class CORE : MonoBehaviour
 
     public List<SplineLerperWorldUI> ActiveLerpers = new List<SplineLerperWorldUI>();
 
+    public static SessionStats Stats;
+
     public bool isLoading
     {
         get
@@ -62,6 +64,7 @@ public class CORE : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         DontDestroyOnLoad(this.gameObject);
+        Stats = new SessionStats();
         Instance = this;
     }
 
@@ -736,6 +739,10 @@ public class CORE : MonoBehaviour
         savefile["SelectedFaction"] = PlayerFaction.name;
         savefile["PlayerCharacter"] = PC.name;
 
+        savefile["PlotsWithBrute"] = Stats.PlotsWithBrute.ToString();
+        savefile["PlotsWithCunning"] = Stats.PlotsWithCunning.ToString();
+        savefile["PlotsWithStealth"] = Stats.PlotsWithStealth.ToString();
+
         savefile["GameClock"] = GameClock.Instance.ToJSON();
 
         for (int i = 0; i < Factions.Count; i++)
@@ -812,6 +819,10 @@ public class CORE : MonoBehaviour
         {
 
             GameClock.Instance.FromJSON(file.Content["GameClock"]);
+
+            Stats.PlotsWithBrute = int.Parse(file.Content["PlotsWithBrute"]);
+            Stats.PlotsWithCunning = int.Parse(file.Content["PlotsWithCunning"]);
+            Stats.PlotsWithStealth = int.Parse(file.Content["PlotsWithStealth"]);
 
             Factions.Clear();
             for (int i = 0; i < file.Content["Factions"].Count; i++)
@@ -1061,4 +1072,11 @@ public class SessionRulesManager
 
         return node;
     }
+}
+
+public class SessionStats
+{
+    public int PlotsWithBrute;
+    public int PlotsWithStealth;
+    public int PlotsWithCunning;
 }

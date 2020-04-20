@@ -119,7 +119,7 @@ public class PlottingDuelUI : MonoBehaviour
         MethodTitle.text = plot.Method.name;
 
         plot.Participants.ForEach((x) => { GenerateParticipant(x); });
-        plot.TargetParticipants.ForEach     ((x) => { GenerateTarget(x); });
+        plot.TargetParticipants.ForEach((x) => { GenerateTarget(x); });
 
         ParticipantsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
         TargetsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
@@ -129,6 +129,19 @@ public class PlottingDuelUI : MonoBehaviour
         StopAllCoroutines();
 
         StartCoroutine(DuelsRoutine());
+
+        if (plot.Method.OffenseSkill == CORE.Instance.Database.GetBonusType("Strong"))
+        {
+            CORE.Stats.PlotsWithBrute++;
+        }
+        else if (plot.Method.OffenseSkill == CORE.Instance.Database.GetBonusType("Stealthy"))
+        {
+            CORE.Stats.PlotsWithStealth++;
+        }
+        else if (plot.Method.OffenseSkill == CORE.Instance.Database.GetBonusType("Charming"))
+        {
+            CORE.Stats.PlotsWithCunning++;
+        }
     }
     
     IEnumerator DuelsRoutine()

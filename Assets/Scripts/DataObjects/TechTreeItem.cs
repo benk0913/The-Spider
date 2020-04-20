@@ -24,6 +24,20 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
     public TutorialScreenInstance TutorialScreen;
 
+    public int TotalPointsSpentOnBranch
+    {
+        get
+        {
+            int totalPoints = 0;
+
+            totalPoints += Price;
+
+            Children.ForEach(x => totalPoints += x.TotalPointsSpentOnBranch);
+
+            return totalPoints;
+        }
+    }
+
     public bool IsHidden = false;
     public bool IsUnresearchable = false;
     public bool IsResearched;

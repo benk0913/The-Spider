@@ -373,6 +373,20 @@ public class Character : ScriptableObject, ISaveFileCompatible
     
     #region Traits & Bonuses
 
+    public int TotalBonusScore
+    {
+        get
+        {
+            return Mathf.RoundToInt(GetBonus(CORE.Instance.Database.GetBonusType("Strong")).Value
+            + GetBonus(CORE.Instance.Database.GetBonusType("Charming")).Value
+            + GetBonus(CORE.Instance.Database.GetBonusType("Intelligent")).Value
+            + GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value
+            + GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value
+            + GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value
+            + GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value);
+        }
+    }
+
     /// <summary>
     /// DO NOT EVER SET (PUBLIC FOR SERIALIZATION)
     /// </summary>

@@ -189,7 +189,7 @@ public class SelectCharacterViewUI : MonoBehaviour
                 }
             case "Skill_Stealthy":
                 {
-                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value).ToList();
+                    return characters.OrderByDescending(x => x.GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value).ToList();
                 }
             case "Age":
                 {

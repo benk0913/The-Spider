@@ -70,19 +70,22 @@ public class RebrandWindowUI : MonoBehaviour
         int propertiesAvailable = 0;
         for(int i=0;i< CORE.PlayerFaction.FactionProperties.Length;i++)
         {
+
             Property property = CORE.PlayerFaction.FactionProperties[i];
             if (property.PlotType != CurrentLocation.CurrentProperty.PlotType)
             {
                 continue;
             }
 
-            if (property.TechRequired != null && !property.TechRequired.IsResearched)
+            if (property.TechRequired != null && !CORE.Instance.TechTree.Find(x=>x.name == property.TechRequired.name).IsResearched)
             {
                 continue;
             }
 
+
             propertiesAvailable++;
         }
+
 
         NoPropertiesPanel.gameObject.SetActive(propertiesAvailable < 2);
 

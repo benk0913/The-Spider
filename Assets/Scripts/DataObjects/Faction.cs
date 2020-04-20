@@ -49,6 +49,9 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public FactionRelations Relations;
 
     public List<string> FactionRumors = new List<string>();
+
+    public List<EndGameParameter> EndGameUniqueParameters = new List<EndGameParameter>();
+
     public Faction Clone()
     {
         Faction newClone = Instantiate(this);

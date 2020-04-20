@@ -95,6 +95,11 @@ public class QuestObjective : ScriptableObject
             {
                 return;
             }
+            
+            if (MarkerObject != null)
+            {
+                MarkerObject.GetComponent<WorldPositionLerperUI>().SetTransform(MarkerTarget.transform);
+            }
         }
 
         if (MarkerObject == null)
