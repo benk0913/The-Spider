@@ -7,6 +7,8 @@ public class CheatMenuUI : MonoBehaviour
 {
     public bool ShowAllCharactersOn = false;
 
+    public bool IsCheatOn = false;
+
     private void Start()
     {
         GameClock.Instance.OnTurnPassed.AddListener(ShowAllCharacters);
@@ -33,6 +35,16 @@ public class CheatMenuUI : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.End))
+        {
+            IsCheatOn = !IsCheatOn;
+        }
+
+        if(!IsCheatOn)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             ShowAllCharactersOn = !ShowAllCharactersOn;
@@ -72,6 +84,13 @@ public class CheatMenuUI : MonoBehaviour
         {
             PlottingDuelUI.Instance.ParticipantsPortraits.Clear();
             PlottingDuelUI.Instance.ExecuteDuelResult();
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            foreach(LocationEntity location in CORE.Instance.Locations)
+            {
+                location.PurchasePlot(CORE.PC, CORE.PC.PropertiesOwned[0].EmployeesCharacters[0]);
+            }
         }
     }
 

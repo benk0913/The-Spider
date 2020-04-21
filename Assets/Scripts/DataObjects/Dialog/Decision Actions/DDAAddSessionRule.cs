@@ -17,6 +17,11 @@ public class DDAAddSessionRule : DialogDecisionAction
         }
         else
         {
+            if(CORE.Instance.SessionRules.Rules.Find(x=>x.name == Rule.name) != null)
+            {
+                return;
+            }
+
             CORE.Instance.SessionRules.Rules.Add(Rule.Clone());
             CORE.Instance.InvokeEvent("GainSessionRule");
         }

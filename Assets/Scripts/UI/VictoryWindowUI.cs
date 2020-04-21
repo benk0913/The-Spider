@@ -58,7 +58,7 @@ public class VictoryWindowUI : MonoBehaviour
         }
 
         tempStat = ResourcesLoader.Instance.GetRecycledObject("EndGameStatPortrait").GetComponent<EndGameStatUI>();
-        Agents = Agents.OrderBy(x => x.PropertiesInCommand).ToList();
+        Agents = Agents.OrderBy(x => x.PropertiesInCommand.Count).ToList();
         tempStat.Show(
             "Most Powerful Agent",
             "The Agent With Most Properties Under Its Control.",
