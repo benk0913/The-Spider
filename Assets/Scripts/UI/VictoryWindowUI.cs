@@ -145,9 +145,7 @@ public class VictoryWindowUI : MonoBehaviour
 
     public void Confirm()
     {
-        MapViewManager.Instance.MapFocusView.Deactivate();
-        this.gameObject.SetActive(false);
-        SceneManager.LoadScene(0);
+        BedUtilityScreen.Instance.QuitGame();
     }
 
     public void QuitGame()
