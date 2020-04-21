@@ -18,6 +18,8 @@ public class CursorTooltipUI : MonoBehaviour
 
     Coroutine IsShowingRoutine;
 
+    protected List<MessageQueItem> MessageQue = new List<MessageQueItem>();
+
     private void Awake()
     {
         TooltipInstance = this;
@@ -51,6 +53,11 @@ public class CursorTooltipUI : MonoBehaviour
     {
         if(IsShowingRoutine != null)
         {
+            if(MessageQue.Find(x=>x.Message == message) != null)
+            {
+                return;
+            }
+
             MessageQue.Add(new MessageQueItem(message, Length, color));
             return;
         }
@@ -60,8 +67,6 @@ public class CursorTooltipUI : MonoBehaviour
         TextLabel.text = message;
         TextLabel.color = color;
     }
-
-    protected List<MessageQueItem> MessageQue = new List<MessageQueItem>();
 
     public void Hide()
     {

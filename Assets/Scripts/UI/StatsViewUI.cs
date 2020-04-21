@@ -64,6 +64,7 @@ public class StatsViewUI : MonoBehaviour
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
+        CORE.Instance.SubscribeToEvent("GameLoadComplete", OnTurnPassed);
     }
 
     void OnTurnPassed()
