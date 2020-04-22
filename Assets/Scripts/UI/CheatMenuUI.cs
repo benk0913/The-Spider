@@ -58,8 +58,7 @@ public class CheatMenuUI : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            CORE.Instance.TechTree.FindAll().ForEach(x => x.IsResearched = true);
-            CORE.Instance.InvokeEvent("ResearchComplete");
+            CORE.Instance.TechTree.FindAll().ForEach(x => x.Research());
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {

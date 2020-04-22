@@ -292,7 +292,7 @@ public class SchemeType : ScriptableObject
 
         if (randomResult > 0.5f)
         {
-            if (allowArrest) // Not a Good guy?
+            if (allowArrest && loser.CurrentFaction.name != "Constabulary")
             {
                 PopupWindowUI.Instance.AddPopup(
                     new PopupData(DuelResultArrestScenario.PopupData, new List<Character> { loser }, new List<Character>()

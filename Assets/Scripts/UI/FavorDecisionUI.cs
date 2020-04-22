@@ -9,6 +9,7 @@ public class FavorDecisionUI : MonoBehaviour
     public TextMeshProUGUI TitleText;
     public TooltipTargetUI TooltipTarget;
     public Image Icon;
+    public Button ImgButton;
 
     FavorDecision CurrentDecision;
     Character CurrentCharacter;
@@ -19,8 +20,23 @@ public class FavorDecisionUI : MonoBehaviour
         this.CurrentCharacter = ofCharacter;
 
         TitleText.text = CurrentDecision.name + "\n <size=15>"+CurrentDecision.FavorCost+"</size>";
-        TooltipTarget.SetTooltip(CurrentDecision.Description);
         Icon.sprite = CurrentDecision.Icon;
+
+        if(favorDecision.LockedToFaction.Find(x=>x.name == ofCharacter.CurrentFaction.name) != null)
+        {
+            ImgButton.interactable = false;
+            TooltipTarget.SetTooltip("<color=red>LOCKED FOR - "+ofCharacter.CurrentFaction.name+" - </color>"+CurrentDecision.Description);
+        }
+        else if (favorDecision.UnavailableForFactionleader && ofCharacter.TopEmployer == ofCharacter)
+        {
+            ImgButton.interactable = false;
+            TooltipTarget.SetTooltip("<color=red> "+ofCharacter.name+" has no one to betray. - </color>" + CurrentDecision.Description);
+        }
+        else
+        {
+            ImgButton.interactable = true;
+            TooltipTarget.SetTooltip(CurrentDecision.Description);
+        }
     }
 
     public void BuyDecision()

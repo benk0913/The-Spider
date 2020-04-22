@@ -158,5 +158,7 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
         }
 
         IsResearched = true;
+
+        CORE.Instance.InvokeEvent("ResearchComplete");
     }
 }

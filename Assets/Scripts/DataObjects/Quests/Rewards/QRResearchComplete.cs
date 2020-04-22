@@ -22,7 +22,6 @@ public class QRResearchComplete : QuestReward
 
             item.Research();
             TechNodeTreeUI.Instance.RefreshNodes();
-            CORE.Instance.InvokeEvent("ResearchComplete");
         }
     }
 }

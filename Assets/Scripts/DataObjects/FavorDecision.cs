@@ -12,4 +12,6 @@ public class FavorDecision : ScriptableObject
     public int FavorDuration;
     public AgentAction ActionToExecute;
     public TechTreeItem RequiresTech;
+    public List<Faction> LockedToFaction = new List<Faction>();
+    public bool UnavailableForFactionleader;
 }

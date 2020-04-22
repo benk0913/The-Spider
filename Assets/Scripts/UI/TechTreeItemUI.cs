@@ -39,6 +39,9 @@ public class TechTreeItemUI : MonoBehaviour
     [SerializeField]
     Color ResearchedColor;
 
+    [SerializeField]
+    Button ImgButton;
+
     public void SetItem(TechTreeItem item)
     {
         CurrentItem = item;
@@ -102,6 +105,11 @@ public class TechTreeItemUI : MonoBehaviour
         tooltipBonuses.Add(new TooltipBonus("Cost: " + CurrentItem.Price, ResourcesLoader.Instance.GetSprite("scroll-unfurled")));
 
         TooltipTarget.SetTooltip("<u>"+CurrentItem.name + "</u>\n" + CurrentItem.Description, tooltipBonuses);
+
+        bool isUnavailable = CurrentItem.FactionsLocked.Find(x => x.name == CORE.PlayerFaction.name) != null;
+
+        Lock.gameObject.SetActive(isUnavailable);
+        ImgButton.interactable = !isUnavailable;
     }
 
     public void OnClick()
