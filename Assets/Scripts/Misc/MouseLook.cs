@@ -94,6 +94,15 @@ public class MouseLook : MonoBehaviour
     [SerializeField]
     Transform ItemPickViewPoint;
 
+    [SerializeField]
+    float ZoomOnItemMin = 0.486f;
+
+    [SerializeField]
+    float ZoomOnItemMax = 0.213f;
+
+    [SerializeField]
+    float ZoomOnItemSpeed = 5f;
+
     public bool OnZoom
     {
         get
@@ -192,6 +201,15 @@ public class MouseLook : MonoBehaviour
 
             CurrentItemInHands.transform.position = Vector3.Lerp(CurrentItemInHands.transform.position, ItemPickViewPoint.position, Time.deltaTime * 4f);
             CurrentItemInHands.transform.rotation = Quaternion.Lerp(CurrentItemInHands.transform.rotation, ItemPickViewPoint.rotation, Time.deltaTime * 4f);
+
+            if(Input.GetAxis("Mouse ScrollWheel") > 0f && ItemPickViewPoint.transform.localPosition.z > ZoomOnItemMax)
+            {
+                ItemPickViewPoint.transform.position -= (ItemPickViewPoint.transform.forward + (ItemPickViewPoint.transform.up/3f)) * ZoomOnItemSpeed * Time.deltaTime;
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f && ItemPickViewPoint.transform.localPosition.z < ZoomOnItemMin)
+            {
+                ItemPickViewPoint.transform.position += (ItemPickViewPoint.transform.forward + (ItemPickViewPoint.transform.up / 3f)) * ZoomOnItemSpeed * Time.deltaTime;
+            }
         }
 
         Cam.fieldOfView = Mathf.Lerp(Cam.fieldOfView, targetFOV, Time.deltaTime * 2f);

@@ -505,7 +505,10 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             foreach (QuestObjective objective in x.Objectives)
             {
-                StopCoroutine(objective.ValidateRoutine);
+                if (objective.ValidateRoutine != null)
+                {
+                    StopCoroutine(objective.ValidateRoutine);
+                }
             }
         });
 

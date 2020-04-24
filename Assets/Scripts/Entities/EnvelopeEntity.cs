@@ -63,6 +63,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
     [SerializeField]
     TextMeshProUGUI QuestAcceptText2;
+    
 
     UnityAction<EnvelopeEntity> DisposeAction;
 

@@ -28,6 +28,7 @@ public class StatsOfLocationUI : MonoBehaviour
 
     private void Start()
     {
+        Hide();
         CORE.Instance.SubscribeToEvent("ShowMap", Show);
 
         CORE.Instance.SubscribeToEvent("HideMap", Hide);

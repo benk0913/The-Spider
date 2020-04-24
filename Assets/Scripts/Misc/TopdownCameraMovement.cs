@@ -31,12 +31,14 @@ public class TopdownCameraMovement : MonoBehaviour
     
     public bool PlayerGivesInput { private set; get; }
 
+    public bool replaceXZ = false;
+
 
     bool isBeforeBorderTop
     {
         get
         {
-            return CurrentCamera.transform.position.z < TopRightBorder.position.z;
+            return replaceXZ ? CurrentCamera.transform.position.x < TopRightBorder.position.x : CurrentCamera.transform.position.z < TopRightBorder.position.z;
         }
     }
 
@@ -44,7 +46,7 @@ public class TopdownCameraMovement : MonoBehaviour
     {
         get
         {
-            return CurrentCamera.transform.position.z > BottomLeftBorder.position.z;
+            return replaceXZ ? CurrentCamera.transform.position.x > BottomLeftBorder.position.x : CurrentCamera.transform.position.z > BottomLeftBorder.position.z;
         }
     }
 
@@ -52,7 +54,7 @@ public class TopdownCameraMovement : MonoBehaviour
     {
         get
         {
-            return CurrentCamera.transform.position.x > BottomLeftBorder.position.x;
+            return replaceXZ ? CurrentCamera.transform.position.z < BottomLeftBorder.position.z : CurrentCamera.transform.position.x > BottomLeftBorder.position.x;
         }
     }
 
@@ -60,7 +62,7 @@ public class TopdownCameraMovement : MonoBehaviour
     {
         get
         {
-            return CurrentCamera.transform.position.x < TopRightBorder.position.x;
+            return replaceXZ ? (CurrentCamera.transform.position.z > TopRightBorder.position.z) : (CurrentCamera.transform.position.x < TopRightBorder.position.x);
         }
     }
 
