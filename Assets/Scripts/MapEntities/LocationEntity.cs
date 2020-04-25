@@ -1373,31 +1373,75 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             }
         }
 
-        requester.CConnections -= recruitmentCost;
+        
 
-        Character randomNewEmployee = CORE.Instance.GenerateCharacter(
+        Character randomNewEmployee;
+
+
+        if (requester == CORE.PC && RecruitmentWindowUI.Instance.AvailablePools > 0)
+        {
+
+            RecruitmentWindowUI.Instance.Show(
+                this,
+                requester, 
+                CurrentProperty.MinAge,
+                CurrentProperty.MaxAge, 
+                CurrentProperty.RecruitingGenderType, 
+                this.NearestDistrict, 
+                (Character selected) =>
+                {
+                    requester.CConnections -= recruitmentCost;
+                    randomNewEmployee = selected;
+
+                    randomNewEmployee.StartWorkingFor(this, isGuard);
+
+                    randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
+
+                    if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
+                    {
+                        AudioControl.Instance.PlayInPosition("property_recruit", transform.position);
+
+                        SelectedPanelUI.Instance.Select(this);
+
+                        if (isGuard)
+                        {
+                            CORE.Instance.InvokeEvent("GuardRecruited");
+                        }
+                        else
+                        {
+                            CORE.Instance.InvokeEvent("AgentRecruited");
+                        }
+                    }
+                });
+        }
+        else
+        {
+            requester.CConnections -= recruitmentCost;
+
+            randomNewEmployee = CORE.Instance.GenerateCharacter(
                CurrentProperty.RecruitingGenderType,
                CurrentProperty.MinAge,
                CurrentProperty.MaxAge,
                this.NearestDistrict);
 
-        randomNewEmployee.StartWorkingFor(this, isGuard);
+            randomNewEmployee.StartWorkingFor(this, isGuard);
 
-        randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
+            randomNewEmployee.Known.KnowEverything(OwnerCharacter.TopEmployer);
 
-        if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
-        {
-            AudioControl.Instance.PlayInPosition("property_recruit",transform.position);
-
-            SelectedPanelUI.Instance.Select(this);
-
-            if (isGuard)
+            if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
             {
-                CORE.Instance.InvokeEvent("GuardRecruited");
-            }
-            else
-            {
-                CORE.Instance.InvokeEvent("AgentRecruited");
+                AudioControl.Instance.PlayInPosition("property_recruit", transform.position);
+
+                SelectedPanelUI.Instance.Select(this);
+
+                if (isGuard)
+                {
+                    CORE.Instance.InvokeEvent("GuardRecruited");
+                }
+                else
+                {
+                    CORE.Instance.InvokeEvent("AgentRecruited");
+                }
             }
         }
 

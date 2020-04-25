@@ -39,6 +39,8 @@ public class CORE : MonoBehaviour
 
     public List<LocationEntity> PresetLocations = new List<LocationEntity>();
 
+    public List<RecruitmentPool> RecruitmentPools = new List<RecruitmentPool>();
+
     public static Character PC;
     public static Faction PlayerFaction;
 
@@ -136,6 +138,12 @@ public class CORE : MonoBehaviour
         foreach (Faction faction in Database.Factions)
         {
             Factions.Add(faction.Clone());
+        }
+
+        RecruitmentPools.Clear();
+        foreach(RecruitmentPool pool in Database.RecruitmentPools)
+        {
+            RecruitmentPools.Add(pool.Clone());
         }
 
         TechTree = Database.TechTreeRoot.Clone();
@@ -745,6 +753,11 @@ public class CORE : MonoBehaviour
 
         savefile["GameClock"] = GameClock.Instance.ToJSON();
 
+        for(int i=0;i<RecruitmentPools.Count;i++)
+        {
+            savefile["RecruitmentPools"][i] = RecruitmentPools[i].ToJSON();
+        }
+
         for (int i = 0; i < Factions.Count; i++)
         {
             savefile["Factions"][i] = Factions[i].ToJSON();
@@ -823,6 +836,22 @@ public class CORE : MonoBehaviour
             Stats.PlotsWithBrute = int.Parse(file.Content["PlotsWithBrute"]);
             Stats.PlotsWithCunning = int.Parse(file.Content["PlotsWithCunning"]);
             Stats.PlotsWithStealth = int.Parse(file.Content["PlotsWithStealth"]);
+
+            if (RecruitmentPools.Count > 0)
+            {
+                for (int i = 0; i < file.Content["RecruitmentPools"].Count; i++)
+                {
+                    string key = file.Content["RecruitmentPools"][i]["Key"];
+                    RecruitmentPool pool = RecruitmentPools.Find(x => x.name == key);
+
+                    if (pool == null)
+                    {
+                        continue;
+                    }
+
+                    pool.FromJSON(file.Content["RecruitmentPools"][i]);
+                }
+            }
 
             Factions.Clear();
             for (int i = 0; i < file.Content["Factions"].Count; i++)
