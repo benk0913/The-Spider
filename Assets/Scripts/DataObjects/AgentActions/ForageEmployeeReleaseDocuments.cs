@@ -50,7 +50,7 @@ public class ForageEmployeeReleaseDocuments : AgentAction
                 return x.TopEmployer == CORE.PC && x.PrisonLocation != null
                 && x.PrisonLocation.Traits.Contains(CORE.Instance.Database.LawAreaTrait);
             }, 
-            "Select an employee to release from prison.");
+            "Select an employee to release from prison.",null,this);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

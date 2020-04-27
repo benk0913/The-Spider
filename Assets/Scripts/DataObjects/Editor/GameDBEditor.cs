@@ -136,6 +136,14 @@ public class GameDBEditor : Editor
             db.TutorialScreenInstances.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(TutorialScreenInstance)) as TutorialScreenInstance);
         }
 
+        guids = AssetDatabase.FindAssets("t:RecruitmentPool", new[] { "Assets/" + db.DataPath });
+        db.RecruitmentPools.Clear();
+        foreach (string guid in guids)
+        {
+            db.RecruitmentPools.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(RecruitmentPool)) as RecruitmentPool);
+        }
+
+
         EditorUtility.SetDirty(db);
     }
 

@@ -33,7 +33,7 @@ public class InstantReleasePrisoner : AgentAction //DO NOT INHERIT FROM
             CORE.Instance.ShowHoverMessage(x.name + " was released.", ResourcesLoader.Instance.GetSprite("Satisfied"), character.CurrentLocation.transform);
             x.ExitPrison();
         }
-        , x=> x.PrisonLocation != null && (propertiesInCommand.Contains(x.PrisonLocation) || character.WorkLocation == x));
+        , x=> x.PrisonLocation != null && (propertiesInCommand.Contains(x.PrisonLocation) || character.WorkLocation == x),"Select Agent:",null, this);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

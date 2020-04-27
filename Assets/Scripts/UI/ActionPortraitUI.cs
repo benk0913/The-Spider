@@ -87,6 +87,12 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
                     continue;
                 }
 
+                if(result.Challenge == null)
+                {
+                    Debug.LogError("NO CHALLENGE! " + this.CurrentEntity.CurrentTask.name);
+                    continue;
+                }
+
                 TooltipTarget.Text += "\n <color=yellow>" + result.name + "</color> - <color=green>" + result.Challenge.Type.name
                     + "</color> <color=yellow> (" + Mathf.RoundToInt(100f * precentNormalized) + "%) </color>";
             }

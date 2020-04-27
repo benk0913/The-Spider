@@ -37,7 +37,7 @@ public class LayAmbush : AgentAction //DO NOT INHERIT FROM
                     && charInQuestion.TopEmployer != requester 
                     && charInQuestion != requester;
                }
-               ,"Select Ambush Target");
+               ,"Select Ambush Target",null,this);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

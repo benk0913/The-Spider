@@ -20,6 +20,9 @@ public class AgentAction : ScriptableObject
     public int ConnectionsCost;
     public int RumorsCost;
 
+    public BonusType RequiredBonus = null;
+    public int RequiredBonusValue = 0;
+
     public TechTreeItem TechRequired;
 
     public Item ItemRequired;
@@ -371,6 +374,17 @@ public class AgentAction : ScriptableObject
             }
 
             return false;
+        }
+
+        if(RequiredBonus != null)
+        {
+            float bonusValue = character.GetBonus(RequiredBonus).Value;
+
+            if (bonusValue < RequiredBonusValue)
+            {
+                reason = new FailReason(RequiredBonus.name+" is too low! ("+bonusValue +"/"+RequiredBonusValue+")");
+                return false;
+            }
         }
 
 

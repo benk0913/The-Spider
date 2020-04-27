@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.Events;
+using System;
 
 public class PortraitUI : AgentInteractable, IPointerClickHandler
 {
@@ -408,4 +409,6 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
     {
         CharacterInfoUI.Instance.ShowInfo(this.CurrentCharacter);
     }
+
+
 }

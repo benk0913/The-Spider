@@ -100,6 +100,9 @@ public class GameDB : ScriptableObject
 
     public List<SessionRule> SessionRules;
 
+    public List<RecruitmentPool> RecruitmentPools;
+    public RecruitmentPool DefaultPool;
+
     public TimelineInstance[] Timeline;
 
     public PopupDataPreset GetPopupPreset(string popupName)
