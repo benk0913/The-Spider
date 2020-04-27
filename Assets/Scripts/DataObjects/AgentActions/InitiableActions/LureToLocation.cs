@@ -52,7 +52,7 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                     && charInQuestion.CurrentTaskEntity == null 
                     || (charInQuestion.CurrentTaskEntity != null && charInQuestion.CurrentTaskEntity.CurrentTask.Cancelable);
                }
-               , "Select Who To Invite (Relations above 6)");
+               , "Select Who To Invite (Relations above 6)",null,this);
 
     }
 

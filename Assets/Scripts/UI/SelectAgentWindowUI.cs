@@ -13,6 +13,8 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
 
     Character TopCharacter;
 
+    AgentAction RelevantAction = null;
+    AgentInteractable RelevantTarget = null;
 
     protected override void Awake()
     {
@@ -20,9 +22,11 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         this.gameObject.SetActive(false);
     }
     
-    public override void Show(Action<Character> onSelect, Predicate<Character> filter, string title = "Select Agent:", Character topCharacter = null)
+    public override void Show(Action<Character> onSelect, Predicate<Character> filter, string title = "Select Agent:", Character topCharacter = null, AgentAction agentAction = null, AgentInteractable relevantTarget = null)
     {
         TopCharacter = topCharacter;
+        RelevantAction = agentAction;
+        RelevantTarget = relevantTarget;
 
         this.gameObject.SetActive(true);
         base.Show(onSelect, filter);
@@ -39,7 +43,7 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
             TopCharacter = CORE.PC;
         }
 
-        Tree.SetSelectableCharacters(TopCharacter, onSelect);
+        Tree.SetSelectableCharacters(TopCharacter, onSelect, RelevantAction, RelevantTarget);
 
         PopulateGridRoutine = null;
     }

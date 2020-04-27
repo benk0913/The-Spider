@@ -12,13 +12,19 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
 
     public UnityEvent OnSelected;
 
+    AgentAction RelevantAction = null;
+    AgentInteractable RelevantTarget = null;
+
     public void Show()
     {
         ShowCharactersHirarchy(CORE.PC);
     }
 
-    public void SetSelectableCharacters(Character topCharacter, Action<Character> onSelect = null)
+    public void SetSelectableCharacters(Character topCharacter, Action<Character> onSelect = null, AgentAction agentAction = null, AgentInteractable relevantTarget = null)
     {
+        RelevantAction = agentAction;
+        RelevantTarget = relevantTarget;
+
         LocalOnSelect = onSelect;
         ShowCharactersHirarchy(topCharacter);
     }
@@ -33,6 +39,7 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
             Button tempButton = nodeRoot.GetComponent<Button>();
             tempButton.onClick.RemoveAllListeners();
 
+            FailReason potentialReason = null;
 
             if (node.CurrentCharacter == CORE.PC)
             {
@@ -50,6 +57,15 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
                 tempButton.onClick.AddListener(() =>
                 {
                     GlobalMessagePrompterUI.Instance.Show("This character is not an agent.", 1f, Color.red);
+                });
+            }
+            else if(RelevantAction != null && !RelevantAction.CanDoAction(node.CurrentCharacter.TopEmployer,node.CurrentCharacter, RelevantTarget, out potentialReason))
+            {
+                nodeRoot.GetComponent<CanvasGroup>().alpha = 0.5f;
+
+                tempButton.onClick.AddListener(() =>
+                {
+                    GlobalMessagePrompterUI.Instance.Show(node.CurrentCharacter.name+" can not do this"+(potentialReason != null?(", "+potentialReason.Key) : ".") , 1f, Color.red);
                 });
             }
             else

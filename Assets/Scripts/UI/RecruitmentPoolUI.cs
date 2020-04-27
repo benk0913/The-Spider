@@ -44,7 +44,7 @@ public class RecruitmentPoolUI : MonoBehaviour, IPointerClickHandler
         {
             Label.text = "Random";
             IconImage.sprite = DefaultSprite;
-            TooltipTarget.SetTooltip("Random Character - Cost: " + 3 + " Connections");
+            TooltipTarget.SetTooltip("<color=yellow>Random Character</color><color=green> - Cost: " + 3 + " Connections </color>");
             return;
         }
 
@@ -53,12 +53,12 @@ public class RecruitmentPoolUI : MonoBehaviour, IPointerClickHandler
 
         if(CORE.PC.Reputation < pool.MinReputation)
         {
-            TooltipTarget.SetTooltip(pool.name + " - <color=red>Minimum Reputation: " + CurrentPool.MinReputation + "</color> - Cost: " + pool.Cost + " Connections - " + CurrentPool.Description);
+            TooltipTarget.SetTooltip("<color=yellow>"+pool.name + "</color> - <color=red>Minimum Reputation: " + CurrentPool.MinReputation + "</color> - <color=green>Cost: " + pool.Cost + " Connections</color> - " + CurrentPool.Description);
             IconImage.color = Color.red;
         }
         else
         {
-            TooltipTarget.SetTooltip(pool.name + " - Minimum Reputation: " + CurrentPool.MinReputation + " - Cost: " + pool.Cost + " Connections - " + CurrentPool.Description);
+            TooltipTarget.SetTooltip("<color=yellow>"+pool.name + "</color> - Minimum Reputation: " + CurrentPool.MinReputation + " - <color=green>Cost: " + pool.Cost + " Connections</color> - " + CurrentPool.Description);
             IconImage.color = Color.white;
         }
     }

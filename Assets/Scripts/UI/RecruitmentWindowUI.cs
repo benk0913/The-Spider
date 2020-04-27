@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class RecruitmentWindowUI : MonoBehaviour
 
     [SerializeField]
     public Transform CharactersContainer;
+
+    public TextMeshProUGUI RecruitmentLabelTitle;
 
     public RecruitmentPool CurrentPool;
 
@@ -107,7 +110,7 @@ public class RecruitmentWindowUI : MonoBehaviour
 
 
 
-        ShowPool(CORE.Instance.RecruitmentPools[0], requester);
+        ShowPool(CORE.Instance.Database.DefaultPool, requester);
     }
 
 
@@ -132,6 +135,8 @@ public class RecruitmentWindowUI : MonoBehaviour
 
     public void ShowPool(RecruitmentPool pool, Character requester, int minAge = 6, int maxAge = 70, int gender = -1, LocationEntity spawn = null)
     {
+
+        RecruitmentLabelTitle.text = pool.name;
 
         ClearCharactersContainer();
         foreach (Character character in pool.Characters)
