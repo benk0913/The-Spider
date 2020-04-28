@@ -20,7 +20,7 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
         ShowCharactersHirarchy(CORE.PC);
     }
 
-    public void SetSelectableCharacters(Character topCharacter, Action<Character> onSelect = null, AgentAction agentAction = null, AgentInteractable relevantTarget = null)
+    public virtual void SetSelectableCharacters(Character topCharacter, Action<Character> onSelect = null, AgentAction agentAction = null, AgentInteractable relevantTarget = null)
     {
         RelevantAction = agentAction;
         RelevantTarget = relevantTarget;

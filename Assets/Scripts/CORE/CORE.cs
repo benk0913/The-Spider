@@ -386,29 +386,29 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
-        if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
+        //if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
+        //{
+        foreach(Faction faction in CORE.Instance.Factions)
         {
-            foreach(Faction faction in CORE.Instance.Factions)
+            if(faction.FactionHead == null)
             {
-                if(faction.FactionHead == null)
-                {
-                    continue;
-                }
-
-                Character factionHead = GetCharacter(faction.FactionHead.name);
-
-                if(factionHead == null)
-                {
-                    continue;
-                }
-
-                factionHead.CGold += faction.GoldGeneratedPerDay;
-                factionHead.CConnections += faction.ConnectionsGeneratedPerDay;
-                factionHead.CRumors += faction.RumorsGeneratedPerDay;
-                factionHead.CProgress += faction.ProgressGeneratedPerDay;
-                factionHead.Reputation += faction.ReputationGeneratedPerDay;
+                continue;
             }
+
+            Character factionHead = GetCharacter(faction.FactionHead.name);
+
+            if(factionHead == null)
+            {
+                continue;
+            }
+
+            factionHead.CGold += faction.GoldGeneratedPerDay;
+            factionHead.CConnections += faction.ConnectionsGeneratedPerDay;
+            factionHead.CRumors += faction.RumorsGeneratedPerDay;
+            factionHead.CProgress += faction.ProgressGeneratedPerDay;
+            factionHead.Reputation += faction.ReputationGeneratedPerDay;
         }
+        //}
 
         bool shouldRemoveRule = false;
         List<SessionRule> rulesToRemove = new List<SessionRule>();

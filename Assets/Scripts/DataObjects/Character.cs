@@ -1148,7 +1148,57 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     void AttemptPersonalMotives()
     {
-        AttemptBetrayEmployer();
+        if (CurrentFaction.HasPromotionSystem)
+        {
+            if(IsGuard)
+            {
+                return;
+            }
+
+            int total = 0;
+            Bonuses.ForEach((x) => 
+            {
+                total += Mathf.RoundToInt(x.Value);
+                total--;
+            });
+
+            total /= 5;
+            total++;
+
+            CProgress += total;
+
+            if(CProgress >= 50)
+            {
+                if(Employer == CORE.PC)
+                {
+                    LoseWindowUI.Instance.Show();
+                    return;
+                }
+                else if(this == CORE.PC || Employer == this)
+                {
+                    return;
+                }
+                else
+                {
+                    WorkLocation.RecruitEmployee(CORE.PC);
+                    StartWorkingFor(Employer.WorkLocation);
+
+                    List<LocationEntity> Inheritence = new List<LocationEntity>();
+                    Inheritence.AddRange(Employer.PropertiesOwned);
+                    foreach(LocationEntity location in Inheritence)
+                    {
+                        StartOwningLocation(location);
+                    }
+
+                    Employer.StopDoingCurrentTask();
+                    Employer.StopWorkingForCurrentLocation();
+                }
+            }
+        }
+        else
+        {
+            AttemptBetrayEmployer();
+        }
     }
 
     void AttemptBetrayEmployer()

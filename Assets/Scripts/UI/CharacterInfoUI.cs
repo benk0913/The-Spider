@@ -74,6 +74,21 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     FactionPortraitUI PuppetOfPortrait;
 
+    [SerializeField]
+    GameObject PromotionSystemPanel;
+
+    [SerializeField]
+    TextMeshProUGUI PromotionProgressText;
+
+    [SerializeField]
+    Image PromotionProgressFill;
+
+    [SerializeField]
+    TextMeshProUGUI ProgressionPointsText;
+
+    [SerializeField]
+    TextMeshProUGUI ProgressionPerTurnText;
+
 
     Character CurrentCharacter;
 
@@ -344,6 +359,32 @@ public class CharacterInfoUI : MonoBehaviour
             PuppetOfPanel.gameObject.SetActive(false);
         }
 
+        if(CurrentCharacter.CurrentFaction.HasPromotionSystem && CurrentCharacter != CORE.PC && CurrentCharacter.TopEmployer == CORE.PC)
+        {
+            PromotionSystemPanel.gameObject.SetActive(true);
+            float precent = CurrentCharacter.CProgress / 50f;
+            PromotionProgressText.text = Mathf.RoundToInt(precent*100) + "%";
+            PromotionProgressFill.fillAmount = precent;
+
+            ProgressionPointsText.text = CurrentCharacter.CProgress+ " Progression Points";
+            
+            int totalPerTurn = 0;
+            CurrentCharacter.Bonuses.ForEach((x) =>
+            {
+                totalPerTurn += Mathf.RoundToInt(x.Value);
+                totalPerTurn--;
+            });
+
+            totalPerTurn /= 5;
+            totalPerTurn++;
+
+            ProgressionPerTurnText.text = +Mathf.RoundToInt((totalPerTurn / 50f) * 100f) + "% per Turn.";
+        }
+        else
+        {
+            PromotionSystemPanel.gameObject.SetActive(false);
+        }
+
         SetName();
         SetAppearance();
         SetPersonality();
@@ -469,5 +510,24 @@ public class CharacterInfoUI : MonoBehaviour
     {
         ResearchCharacterWindowUI.Instance.Show(CurrentCharacter);
         Hide();
+    }
+
+    public void StealCredit()
+    {
+        if (CurrentCharacter.CProgress <= 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show("No progress points to steal...", 1f, Color.red);
+            return;
+        }
+
+        GlobalMessagePrompterUI.Instance.Show("Stole " + CurrentCharacter.CProgress + " Progress Points from " + CurrentCharacter.name, 1f, Color.green);
+
+        CORE.PC.CProgress += CurrentCharacter.CProgress/2;
+        CurrentCharacter.CProgress/=2;
+        CurrentCharacter.DynamicRelationsModifiers.Add(
+            new DynamicRelationsModifier(
+                new RelationsModifier("Stole my credit!", -10), 35, CORE.PC));
+
+        RefreshTurnPassed();
     }
 }

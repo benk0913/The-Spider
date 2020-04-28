@@ -44,6 +44,11 @@ public class CharacterRelationsViewUI : SelectCharacterViewUI
 
         foreach (Character character in characters)
         {
+            if(!character.Known.GetIsAnythingKnown(CORE.PC))
+            {
+                continue;
+            }
+
             GameObject selectableChar = ResourcesLoader.Instance.GetRecycledObject(PortraitPrefab);
 
             selectableChar.transform.SetParent(Container, false);

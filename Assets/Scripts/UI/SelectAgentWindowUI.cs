@@ -21,7 +21,9 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         Instance = this;
         this.gameObject.SetActive(false);
     }
-    
+
+   
+
     public override void Show(Action<Character> onSelect, Predicate<Character> filter, string title = "Select Agent:", Character topCharacter = null, AgentAction agentAction = null, AgentInteractable relevantTarget = null)
     {
         TopCharacter = topCharacter;
