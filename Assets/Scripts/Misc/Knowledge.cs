@@ -102,6 +102,11 @@ public class Knowledge
     {
         foreach(KnowledgeInstance item in Items)
         {
+            if(item.Key == "Faction")
+            {
+                continue;
+            }
+
             if(item.IsKnownByCharacter(byCharacter))
             {
                 return true;

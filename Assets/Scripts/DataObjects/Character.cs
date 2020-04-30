@@ -1148,6 +1148,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     void AttemptPersonalMotives()
     {
+        if(TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
         if (CurrentFaction.HasPromotionSystem)
         {
             if(IsGuard)
@@ -1194,11 +1199,41 @@ public class Character : ScriptableObject, ISaveFileCompatible
                     Employer.StopWorkingForCurrentLocation();
                 }
             }
+
+            if(GetRelationsWith(TopEmployer) < -20)
+            {
+                if(Random.Range(0,5) == 0)
+                {
+                    LeaveFaction();
+                }
+            }
+            else if(GetRelationsWith(TopEmployer) < -5)
+            {
+                if (Random.Range(0,3) == 0)
+                {
+                    
+                    StopDoingCurrentTask();
+                    CORE.Instance.Database.SlackOfAction.Execute(TopEmployer, this, this.CurrentLocation);
+                    
+                }
+            }
         }
         else
         {
             AttemptBetrayEmployer();
         }
+    }
+
+    void LeaveFaction()
+    {
+        WarningWindowUI.Instance.Show(this.name+" has left your faction.",null);
+
+        while(PropertiesOwned.Count > 0)
+        {
+            StopOwningLocation(PropertiesOwned[0], true);
+        }
+
+        StopWorkingForCurrentLocation();
     }
 
     void AttemptBetrayEmployer()

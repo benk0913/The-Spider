@@ -37,7 +37,14 @@ public class BedUtilityScreen : MonoBehaviour
 
     public void QuitGame()
     {
-        WarningWindowUI.Instance.Show("Go, nobody will miss you...", () => { CORE.Instance.DisposeCurrentGame(); SceneManager.LoadScene(0); Hide(); });
+        WarningWindowUI.Instance.Show("Go, nobody will miss you...", QuitFinal);
+    }
+
+    public void QuitFinal()
+    {
+        CORE.Instance.DisposeCurrentGame();
+        SceneManager.LoadScene(0);
+        Hide();
     }
 
     public void SaveGame()

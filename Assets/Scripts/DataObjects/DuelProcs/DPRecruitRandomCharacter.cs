@@ -43,4 +43,42 @@ public class DPRecruitRandomCharacter : DuelProc
             }
         }
     }
+
+
+    public override bool PassedConditions()
+    {
+        if (!base.PassedConditions())
+        {
+            return false;
+        }
+
+        if (isGoodForDefenders)
+        {
+            if (PlottingDuelUI.Instance.CurrentPlot.TargetParticipants == null || PlottingDuelUI.Instance.CurrentPlot.TargetParticipants.Count == 0)
+            {
+                return false;
+            }
+
+            if (PlottingDuelUI.Instance.CurrentPlot.TargetParticipants[0].TopEmployer != CORE.PC)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (PlottingDuelUI.Instance.CurrentPlot.Participants == null || PlottingDuelUI.Instance.CurrentPlot.Participants.Count == 0)
+            {
+                return false;
+            }
+
+            if (PlottingDuelUI.Instance.CurrentPlot.Participants[0].TopEmployer != CORE.PC)
+            {
+                return false;
+            }
+        }
+
+
+        return true;
+
+    }
 }

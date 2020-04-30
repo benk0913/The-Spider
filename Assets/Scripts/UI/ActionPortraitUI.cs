@@ -10,7 +10,7 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
     Image Icon;
 
     [SerializeField]
-    TooltipTargetUI TooltipTarget;
+    public TooltipTargetUI TooltipTarget;
 
     [SerializeField]
     List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();

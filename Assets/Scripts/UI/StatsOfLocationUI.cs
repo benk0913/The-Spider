@@ -28,7 +28,11 @@ public class StatsOfLocationUI : MonoBehaviour
 
     private void Start()
     {
-        Hide();
+        if (!MapViewManager.Instance.MapElementsContainer.gameObject.activeInHierarchy)
+        {
+            Hide();
+        }
+
         CORE.Instance.SubscribeToEvent("ShowMap", Show);
 
         CORE.Instance.SubscribeToEvent("HideMap", Hide);

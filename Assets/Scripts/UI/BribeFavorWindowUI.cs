@@ -66,13 +66,13 @@ public class BribeFavorWindowUI : MonoBehaviour
 
         if (!ofCharacter.IsKnown("Name", CORE.PC))
         {
-            GlobalMessagePrompterUI.Instance.Show("Must know this characters NAME");
+            GlobalMessagePrompterUI.Instance.Show("Must know this characters NAME", 1f, Color.red);
             return;
         }
 
         if (!ofCharacter.IsKnown("HomeLocation", CORE.PC))
         {
-            GlobalMessagePrompterUI.Instance.Show("Must know this characters 'Home Location'");
+            GlobalMessagePrompterUI.Instance.Show("Must know this characters 'Home Location'", 1f, Color.red);
             return;
         }
 

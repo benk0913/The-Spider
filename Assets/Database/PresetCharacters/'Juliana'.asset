@@ -13,17 +13,22 @@ MonoBehaviour:
   m_Name: '''Juliana'''
   m_EditorClassIdentifier: 
   ID: bc3a3f9c9174414c8843c22496f87e4e
+  IsAlwaysKnown: 0
   IsDead: 0
-  Gold: 150
-  Connections: 15
-  Rumors: 15
-  Progress: 3
+  _gold: 150
+  _connections: 15
+  _rumors: 15
+  _progress: 3
+  IsDisabled: 1
+  NeverDED: 0
   _currentFaction: {fileID: 11400000, guid: 36191dfb6d28b674fa05ad0b4feed761, type: 2}
   AI: {fileID: 0}
   WorkLocation: {fileID: 0}
   PrisonLocation: {fileID: 0}
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
+  PuppetOf: {fileID: 0}
+  PupperTurnsLeft: 0
   PropertiesOwned: []
   Traits:
   - {fileID: 11400000, guid: a6ed66bc4525f3f4ba908636708afa9d, type: 2}
@@ -39,8 +44,11 @@ MonoBehaviour:
   clothing: {fileID: 11400000, guid: 147bfae349b33c74282727e8ae9479b4, type: 2}
   UniquePortrait: {fileID: 21300000, guid: 5e6c7d9a56393974a82c2c6eb4a0e25f, type: 3}
   Belogings: []
+  KnowledgeRumors: []
+  InformationSold: []
   StateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  _isGuard: 0

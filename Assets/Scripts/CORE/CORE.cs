@@ -140,12 +140,6 @@ public class CORE : MonoBehaviour
             Factions.Add(faction.Clone());
         }
 
-        RecruitmentPools.Clear();
-        foreach(RecruitmentPool pool in Database.RecruitmentPools)
-        {
-            RecruitmentPools.Add(pool.Clone());
-        }
-
         TechTree = Database.TechTreeRoot.Clone();
 
         PlayerFaction = selectedFaction;
@@ -245,6 +239,12 @@ public class CORE : MonoBehaviour
                     QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
                 });
             });
+        }
+
+        RecruitmentPools.Clear();
+        foreach (RecruitmentPool pool in Database.RecruitmentPools)
+        {
+            RecruitmentPools.Add(pool.Clone());
         }
 
         InvokeEvent("MainSceneLoaded");
@@ -427,6 +427,19 @@ public class CORE : MonoBehaviour
         {
             SessionRules.Rules.Remove(rulesToRemove[0]);
             rulesToRemove.RemoveAt(0);
+        }
+
+        if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
+        {
+            foreach(RecruitmentPool pool in Database.RecruitmentPools)
+            {
+                if(pool.Characters.Count == 0)
+                {
+                    continue;
+                }
+
+                pool.Remove(pool.Characters[Random.Range(0, pool.Characters.Count)]);
+            }
         }
 
         TurnPassedRoutineInstance = null;

@@ -9,9 +9,15 @@ public class ReflectionEventEntity : MonoBehaviour
     public UnityEvent OnAwakeEvent;
     public UnityEvent OnStartEvent;
     public UnityEvent OnDisableEvent;
+    public bool isRequireCORE = false;
 
     private void OnEnable()
     {
+        if(isRequireCORE && CORE.Instance == null)
+        {
+            return;
+        }
+
         OnEnableEvent.Invoke();
     }
 

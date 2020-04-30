@@ -39,13 +39,16 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
             }
             else if (target.GetType() == typeof(LocationEntity))
             {
-                Character targetCharacter = ((LocationEntity)target).EmployeesCharacters.Find(x => 
-                x.CurrentTaskEntity == null 
-                || (x.CurrentTaskEntity != null && x.CurrentTaskEntity.CurrentTask != Task && x.CurrentTaskEntity.CurrentTask.Cancelable));
+                FailReason tempFailReason = null;
+
+                Character targetCharacter = ((LocationEntity)target).EmployeesCharacters.Find(x =>
+                    CanDoAction(requester, x, target, out tempFailReason)
+                    && (x.CurrentTaskEntity == null || (x.CurrentTaskEntity != null && x.CurrentTaskEntity.CurrentTask != Task && x.CurrentTaskEntity.CurrentTask.Cancelable)));
+
 
                 if (targetCharacter == null)
                 {
-                    GlobalMessagePrompterUI.Instance.Show("The target is currently unavailable for this task.", 1f, Color.red);
+                    GlobalMessagePrompterUI.Instance.Show("The target is currently unavailable for this task. "+(tempFailReason == null? "" : tempFailReason.Key), 1f, Color.red);
                     return;
                 }
 
@@ -152,7 +155,6 @@ public class LongTermTaskExecuter : AgentAction //DO NOT INHERIT FROM
                 return false;
             }
         }
-
        
 
         return true;

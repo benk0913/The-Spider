@@ -13,13 +13,22 @@ MonoBehaviour:
   m_Name: Jane Calmwaters
   m_EditorClassIdentifier: 
   ID: bc4a3f9c9174414c8843c22496f87e4e
+  IsAlwaysKnown: 0
   IsDead: 0
-  isKnownOnStart: 0
   _gold: 25
+  _connections: 0
+  _rumors: 0
+  _progress: 0
+  IsDisabled: 1
+  NeverDED: 0
   _currentFaction: {fileID: 11400000, guid: 36191dfb6d28b674fa05ad0b4feed761, type: 2}
+  AI: {fileID: 0}
   WorkLocation: {fileID: 0}
+  PrisonLocation: {fileID: 0}
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
+  PuppetOf: {fileID: 0}
+  PupperTurnsLeft: 0
   PropertiesOwned: []
   Traits:
   - {fileID: 11400000, guid: d6febda8456277c43bf9087b636c02fd, type: 2}
@@ -36,8 +45,11 @@ MonoBehaviour:
   clothing: {fileID: 11400000, guid: d54562d0b40f6964aab81078629da274, type: 2}
   UniquePortrait: {fileID: 21300000, guid: f71da86b598055e46bb673096b01c4b8, type: 3}
   Belogings: []
+  KnowledgeRumors: []
+  InformationSold: []
   StateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  _isGuard: 0

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac1c5fa1884b9774eaa159be33720a67, type: 3}
-  m_Name: StreetPatrolCompleteConstable
+  m_Name: Constabulary Patrol Complete
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 636a0c8d53f0f674c93c5d94ba8d4d5a, type: 3}
   Description: The constable has patrolled this area of town, he may attempt to arrest
@@ -21,6 +21,8 @@ MonoBehaviour:
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 0}
   ItemRequired: {fileID: 0}
   MoreItemsRequired: []
@@ -33,12 +35,15 @@ MonoBehaviour:
   SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
   WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
   InvokeEventOnExecute: 
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 1
   DuelBonus: 2
   PortraitEffectWanted: {fileID: 1478687570250304421, guid: 5ae4f9f9b4889c24fb5a6227c333186f,
     type: 3}

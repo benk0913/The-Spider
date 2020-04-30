@@ -41,6 +41,6 @@ public class LoseWindowUI : MonoBehaviour
     public void Confirm()
     {
         this.gameObject.SetActive(false);
-        WarningWindowUI.Instance.Show("Go, nobody will miss you...", ()=> { BedUtilityScreen.Instance.QuitGame(); });
+        WarningWindowUI.Instance.Show("Go, nobody will miss you...", BedUtilityScreen.Instance.QuitFinal, true);
     }
 }

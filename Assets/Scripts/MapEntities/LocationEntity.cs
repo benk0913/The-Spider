@@ -68,10 +68,16 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     public bool StartsDisabled = false;
 
     [SerializeField]
-    GameObject WhenHiddenObject;
+    GameObject WhenHiddenObject; //Usually for fog
+
+    [SerializeField]
+    GameObject WhenSelectedObject; //Usually for district marker.
 
     [SerializeField]
     GameObject LocationShade;
+
+    [SerializeField]
+    Transform OnClickTransform;
 
     public List<Character> FiredEmployeees = new List<Character>();
 
@@ -638,12 +644,25 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.CentralAreaTrait, this);
         }
 
+        if (OnClickTransform != null)
+        {
+            IdleStateObject = OnClickTransform.gameObject;
+        }
+
         if(CurrentProperty.HiddenObject != null)
         {
             this.WhenHiddenObject = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.HiddenObject);
             this.WhenHiddenObject.transform.SetParent(transform);
             this.WhenHiddenObject.transform.localPosition = CurrentProperty.HiddenObject.transform.position;
             this.WhenHiddenObject.transform.localRotation = CurrentProperty.HiddenObject.transform.rotation;
+        }
+
+        if (CurrentProperty.SelectedObject != null)
+        {
+            this.WhenSelectedObject = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.SelectedObject);
+            this.WhenSelectedObject.transform.SetParent(OnClickTransform);
+            this.WhenSelectedObject.transform.localPosition = CurrentProperty.SelectedObject.transform.position;
+            this.WhenSelectedObject.transform.localRotation = CurrentProperty.SelectedObject.transform.rotation;
         }
 
         RefreshState();
@@ -990,7 +1009,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if (StatsOfLocationUIInstance == null)
         {
-            StatsOfLocationUIInstance = ResourcesLoader.Instance.GetRecycledObject("StatsOfLocationUI").GetComponent<StatsOfLocationUI>();
+            StatsOfLocationUIInstance = Instantiate(ResourcesLoader.Instance.GetObject("StatsOfLocationUI")).GetComponent<StatsOfLocationUI>();
             StatsOfLocationUIInstance.transform.SetParent(CORE.Instance.DisposableContainer);
             StatsOfLocationUIInstance.transform.localScale = Vector3.one;
             StatsOfLocationUIInstance.transform.SetAsFirstSibling();

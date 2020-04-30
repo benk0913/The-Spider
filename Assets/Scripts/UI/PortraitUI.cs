@@ -183,6 +183,11 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
                 tooltipString += "\n <color=yellow>role unknown</color>";
             }
 
+            if (character.TopEmployer == CORE.PC && ActionPortrait != null && ActionPortrait.CurrentEntity != null)
+            {
+                tooltipString += "\n CURRENT ACTION: ";
+                tooltipString += ActionPortrait.TooltipTarget.Text;
+            }
 
             tooltipString += "\n 'Right Click' for more options...";
 
@@ -248,8 +253,12 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             tooltipString += "\n <color=yellow>Role: unknown</color>";
         }
 
-
-
+        
+        if (character.TopEmployer == CORE.PC && ActionPortrait != null && ActionPortrait.CurrentEntity != null)
+        {
+            tooltipString += "\n <color=black>------------</color>";
+            tooltipString += ActionPortrait.TooltipTarget.Text;
+        }
 
         tooltipString += "\n 'Right Click' for more options...";
 
@@ -329,8 +338,8 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             return;
         }
 
-        RefreshVisuals();
         RefreshAction();
+        RefreshVisuals();
     }
 
     public virtual void RefreshAction()

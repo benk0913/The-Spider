@@ -13,6 +13,12 @@ public class WarningWindowUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI Description;
 
+
+    [SerializeField]
+    GameObject HideButton;
+
+    public bool CantHide = false;
+
     private void Awake()
     {
         Instance = this;
@@ -26,14 +32,18 @@ public class WarningWindowUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        if (!CantHide && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
         {
             Hide();
         }
     }
 
-    public void Show(string message, Action acceptCallback)
+    public void Show(string message, Action acceptCallback, bool cantHide = false)
     {
+        CantHide = cantHide;
+
+        HideButton.gameObject.SetActive(!CantHide);
+
         if (MapViewManager.Instance != null && MouseLook.Instance != null && MouseLook.Instance.isAbleToLookaround)
         {
             MapViewManager.Instance.ForceInteractWithMap();
@@ -47,7 +57,7 @@ public class WarningWindowUI : MonoBehaviour
 
     public void Accept()
     {
-        AcceptAction.Invoke();
+        AcceptAction?.Invoke();
         Hide();
     }
 }

@@ -44,11 +44,16 @@ public class CharacterRelationsViewUI : SelectCharacterViewUI
 
         foreach (Character character in characters)
         {
-            if(!character.Known.GetIsAnythingKnown(CORE.PC))
+            if(character.Known.Items.Find(x=> x.Key != "Faction" && x.IsKnownByCharacter(CORE.PC)) == null)
             {
                 continue;
             }
 
+            if(character.IsDisabled)
+            {
+                continue;
+            }
+            
             GameObject selectableChar = ResourcesLoader.Instance.GetRecycledObject(PortraitPrefab);
 
             selectableChar.transform.SetParent(Container, false);
@@ -64,7 +69,7 @@ public class CharacterRelationsViewUI : SelectCharacterViewUI
 
     public override bool CommonFilter(Character character)
     {
-        return character.Known.GetIsAnythingKnown(CORE.PC) && character != CurrentCharacter;
+        return character.Known.GetIsAnythingKnown(CORE.PC) && character != CurrentCharacter && !character.IsDisabled;
     }
 
 }

@@ -32,10 +32,11 @@ public class LayAmbush : AgentAction //DO NOT INHERIT FROM
                }
                , (Character charInQuestion) => 
                {
-                   return 
-                    charInQuestion.Known.GetIsAnythingKnown(requester) 
-                    && charInQuestion.TopEmployer != requester 
-                    && charInQuestion != requester;
+                   return
+                    charInQuestion.Known.GetIsAnythingKnown(requester)
+                    && charInQuestion.TopEmployer != requester
+                    && charInQuestion != requester
+                    && !charInQuestion.IsDisabled;
                }
                ,"Select Ambush Target",null,this);
     }
@@ -53,7 +54,7 @@ public class LayAmbush : AgentAction //DO NOT INHERIT FROM
         {
             return false;
         }
-        if (!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
+        if (targetEntity.VisibilityState == LocationEntity.VisibilityStateEnum.QuestionMark || targetEntity.VisibilityState == LocationEntity.VisibilityStateEnum.Hidden)
         {
             //reason = new FailReason("This location is not known to you.");
 

@@ -46,6 +46,7 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                {
                    return
                     charInQuestion.Known.GetIsAnythingKnown(requester)
+                    && !charInQuestion.IsDisabled
                     && charInQuestion.TopEmployer != requester
                     && charInQuestion != requester
                     && charInQuestion.GetRelationsWith(character) > 6

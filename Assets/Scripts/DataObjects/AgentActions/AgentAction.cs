@@ -54,6 +54,8 @@ public class AgentAction : ScriptableObject
 
     [SerializeField]
     bool CanDoInPrison = false;
+    
+    public bool CanTargetQuestionmarks = false;
 
     public virtual void Execute(Character requester, Character character, AgentInteractable target)
     {
@@ -286,7 +288,28 @@ public class AgentAction : ScriptableObject
             }
         }
 
-        if(ItemRequired != null)
+        if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+        {
+            Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+
+            if (targetCharacter.IsDead)
+            {
+                return false;
+            }
+        }
+        else if (target.GetType() == typeof(LocationEntity))
+        {
+            if (((LocationEntity)target).VisibilityState == LocationEntity.VisibilityStateEnum.Hidden && !CanTargetQuestionmarks)
+            {
+                return false;
+            }
+            else if (((LocationEntity)target).VisibilityState == LocationEntity.VisibilityStateEnum.QuestionMark && !CanTargetQuestionmarks)
+            {
+                return false;
+            }
+        }
+
+        if (ItemRequired != null)
         {
             if(requester.Belogings.Find(x=>x.name == ItemRequired.name) == null)
             {
@@ -313,17 +336,7 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
-        if(target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
-        {
-            Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
-
-            if (targetCharacter.IsDead)
-            {
-                return false;
-            }
-        }
-
-        if(character.PrisonLocation != null && !CanDoInPrison)
+        if (character.PrisonLocation != null && !CanDoInPrison)
         {
             reason = new FailReason("Character is in prison.");
             return false;

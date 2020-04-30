@@ -19,7 +19,8 @@ public class Property : ScriptableObject
 
     public GameObject FigurePrefab;
     public GameObject HoverPrefab;
-    public GameObject HiddenObject;
+    public GameObject HiddenObject;// Usually for FOG 
+    public GameObject SelectedObject; // Usually for DISTRICT MARK
 
     public Material MaterialOverride;
 

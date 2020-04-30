@@ -361,7 +361,14 @@ public class AudioControl : MonoBehaviour {
     {
         foreach(GameObject obj in Instances)
         {
-            if(obj.GetComponent<AudioSource>().isPlaying)
+            AudioSource source = obj.GetComponent<AudioSource>();
+
+            if(source == null)
+            {
+                continue;
+            }
+
+            if (source.isPlaying)
             {
                 if(obj.GetComponent<AudioSource>().clip.name == gClip)
                 {

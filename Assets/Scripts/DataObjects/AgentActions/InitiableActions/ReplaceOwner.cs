@@ -102,6 +102,12 @@ public class ReplaceOwner : AgentAction
             return false;
         }
 
+        if(character.CurrentFaction.HasPromotionSystem)
+        {
+            reason = new FailReason("You can not replace owners in the faction: " + character.CurrentFaction.name);
+            return false;
+        }
+
         return true;
     }
 }

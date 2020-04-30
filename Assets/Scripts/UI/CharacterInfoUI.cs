@@ -520,10 +520,10 @@ public class CharacterInfoUI : MonoBehaviour
             return;
         }
 
+        CurrentCharacter.CProgress /= 2;
+        CORE.PC.CProgress += CurrentCharacter.CProgress / 2;
         GlobalMessagePrompterUI.Instance.Show("Stole " + CurrentCharacter.CProgress + " Progress Points from " + CurrentCharacter.name, 1f, Color.green);
-
-        CORE.PC.CProgress += CurrentCharacter.CProgress/2;
-        CurrentCharacter.CProgress/=2;
+        
         CurrentCharacter.DynamicRelationsModifiers.Add(
             new DynamicRelationsModifier(
                 new RelationsModifier("Stole my credit!", -10), 35, CORE.PC));

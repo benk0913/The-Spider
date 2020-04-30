@@ -157,7 +157,7 @@ public class SchemeType : ScriptableObject
             if (location.OwnerCharacter != null && location.OwnerCharacter.CurrentFaction.Relations != null)
             {
                 location.OwnerCharacter.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
-                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 4; //GOT MY VANDETTA
             }
 
             if (result.Plot.Plotter.TopEmployer == CORE.PC)
@@ -191,7 +191,7 @@ public class SchemeType : ScriptableObject
             if (targetChar != null && targetChar.CurrentFaction.Relations != null)
             {
                 targetChar.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
-                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 3; //GOT MY VANDETTA
             }
 
             if (result.Plot.Plotter.TopEmployer == CORE.PC)
@@ -216,6 +216,16 @@ public class SchemeType : ScriptableObject
                       null,
                       false);
                 }
+            }
+        }
+        else
+        {
+            Character targetChar = ((PortraitUI)result.Plot.Target).CurrentCharacter;
+
+            if (targetChar != null && targetChar.CurrentFaction.Relations != null)
+            {
+                targetChar.CurrentFaction.Relations.GetRelations(result.Plot.Participants[0].CurrentFaction).TotalValue -= 2; //VANDETTA
+                result.Plot.Participants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 3; //GOT MY VANDETTA
             }
         }
 

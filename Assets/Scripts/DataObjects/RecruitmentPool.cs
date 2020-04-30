@@ -45,8 +45,7 @@ public class RecruitmentPool : ScriptableObject, ISaveFileCompatible
 
     void GenerateCharacter()
     {
-        Character temp = CORE.Instance.GenerateSimpleCharacter();
-        temp.Randomize();
+        Character temp = CORE.Instance.GenerateCharacter(-1,15,70);
 
         foreach (Trait mustTrait in MustHaveTraits)
         {
@@ -74,6 +73,7 @@ public class RecruitmentPool : ScriptableObject, ISaveFileCompatible
         }
 
         Characters.Add(temp);
+
     }
 
     public void Remove(Character character)

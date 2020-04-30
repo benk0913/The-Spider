@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fef19c1947d2b448d2da768ca390e2, type: 3}
   m_Name: False Arrest
   m_EditorClassIdentifier: 
-  Description: Sometimes you must make deliberate mistakes. <color=yellow>Pay 30
-    connections in order to arrest a specific character for no valid reason.</color>
+  Description: Sometimes you must make deliberate mistakes. <color=yellow>Pay 5 connections
+    in order to arrest a specific character for no valid reason. This will hurt your
+    reputation</color>
   Icon: {fileID: 21300000, guid: 60346838cbac98445b1e80b51103234d, type: 3}
   Price: 50
   Children: []
@@ -22,6 +23,8 @@ MonoBehaviour:
   FactionsLocked:
   - {fileID: 11400000, guid: 36191dfb6d28b674fa05ad0b4feed761, type: 2}
   - {fileID: 11400000, guid: ec51fe90c6756354090e4840290c9528, type: 2}
+  FactionsHidden:
+  - {fileID: 11400000, guid: 36191dfb6d28b674fa05ad0b4feed761, type: 2}
   BoxColor: {r: 0, g: 0, b: 0, a: 0}
   TutorialScreen: {fileID: 0}
   IsHidden: 0

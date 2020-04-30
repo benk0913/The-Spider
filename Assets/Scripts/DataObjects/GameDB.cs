@@ -54,6 +54,8 @@ public class GameDB : ScriptableObject
 
     public TMP_FontAsset DefaultFont;
 
+    public AgentAction SlackOfAction;
+
     public List<Character> PresetCharacters = new List<Character>();
 
     public List<Property> Properties = new List<Property>();

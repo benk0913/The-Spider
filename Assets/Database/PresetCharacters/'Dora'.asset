@@ -15,10 +15,12 @@ MonoBehaviour:
   ID: 
   IsAlwaysKnown: 1
   IsDead: 0
-  Gold: 0
-  Connections: 0
-  Rumors: 0
-  Progress: 0
+  _gold: 0
+  _connections: 0
+  _rumors: 0
+  _progress: 0
+  IsDisabled: 1
+  NeverDED: 0
   _currentFaction: {fileID: 11400000, guid: 36191dfb6d28b674fa05ad0b4feed761, type: 2}
   AI: {fileID: 0}
   WorkLocation: {fileID: 0}
@@ -26,6 +28,7 @@ MonoBehaviour:
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
   PuppetOf: {fileID: 0}
+  PupperTurnsLeft: 0
   PropertiesOwned: []
   Traits:
   - {fileID: 11400000, guid: a6ed66bc4525f3f4ba908636708afa9d, type: 2}
@@ -42,6 +45,7 @@ MonoBehaviour:
   UniquePortrait: {fileID: 21300000, guid: 39367a93539899143b71ee8838e3f979, type: 3}
   Belogings: []
   KnowledgeRumors: []
+  InformationSold: []
   StateChanged:
     m_PersistentCalls:
       m_Calls: []

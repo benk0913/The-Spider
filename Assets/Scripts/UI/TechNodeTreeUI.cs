@@ -127,7 +127,7 @@ public class TechNodeTreeUI : NodeTreeUI
     {
         node.nodeObject.transform.GetChild(0).GetChild(0).GetComponent<TechTreeItemUI>().SetItem(node.Item);
 
-        if (node.Item.IsHidden)
+        if (node.Item.IsHidden || node.Item.FactionsHidden.Find(x=>x.name == CORE.PlayerFaction.name) != null)
         {
             node.nodeObject.transform.GetChild(1).GetComponent<Image>().color = Color.clear;
         }

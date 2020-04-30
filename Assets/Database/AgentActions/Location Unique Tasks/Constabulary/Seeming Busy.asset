@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68101a18fb5f09d4c9328c455e08282a, type: 3}
+  m_Name: Seeming Busy
+  m_EditorClassIdentifier: 
+  Description: "Seem busy, give the impression good that you work hard.\r\nThis will
+    take 5 turns and has a chance of \xBC to gain a reputation point as well as 20
+    gold in the shape of \u201Cextra funds\u201D, which the constabulary direly requires..\r\n"
+  Icon: {fileID: 21300000, guid: ac7cb7873fbb8c548ad6bafe7da01e6a, type: 3}
+  TurnsToComplete: 5
+  PossibleResults:
+  - {fileID: 11400000, guid: dae07c1ef6b5c5447b8794d73d596ca5, type: 2}
+  DefaultResults:
+  - {fileID: 11400000, guid: 36d8d8e220f3d484f8e5e4e452d9df49, type: 2}
+  Cancelable: 1
+  ExecuteAtHome: 0
+  HideFromLog: 1
+  TraitsToTargetDuringAction: []
+  Illegal: 0
+  CompleteLate: 0
+  CompleteEarly: 0
+  HaltWhenActionPerTurnExecuted: 0
+  ShowCharacterInWorld: 1
+  OnGoingEffect: {fileID: 0}

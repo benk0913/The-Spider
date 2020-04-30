@@ -47,6 +47,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 1418353000759972474, guid: ee0a6138b2175734c9359ca3d4d39b82,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 20
@@ -54,10 +55,12 @@ MonoBehaviour:
   PlotType: {fileID: 11400000, guid: a1ab827bf97116440b46b833ba1e68e6, type: 2}
   ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
   isHomeOfEmployees: 0
-  UniquePlayerActions: []
-  UniqueAgentActions: []
+  UniquePlayerActions:
+  - {fileID: 11400000, guid: 34ae3406a32e5004daa98a7d3850a271, type: 2}
+  UniqueAgentActions:
+  - {fileID: 11400000, guid: 97a7e574631ebaa4895c7d52f069608a, type: 2}
   EmployeeRole: constable
-  AlwaysKnown: 0
+  AlwaysKnown: 1
   TechRequired: {fileID: 0}
   IsVendor: 0
   AutoRestock: 0

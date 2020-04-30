@@ -42,7 +42,22 @@ public class LongTermTask : ScriptableObject
 
         foreach (AgentAction possibleResult in PossibleResults)
         {
-            if(possibleResult.RollSucceed(character))
+            if(possibleResult.TechRequired != null)
+            {
+                TechTreeItem tech = CORE.Instance.TechTree.Find(x => x.name == possibleResult.TechRequired.name);
+
+                if(tech == null)
+                {
+                    continue;
+                }
+
+                if(!tech.IsResearched)
+                {
+                    continue;
+                }
+            }
+
+            if (possibleResult.RollSucceed(character))
             {
                 results.Add(possibleResult);
             }
