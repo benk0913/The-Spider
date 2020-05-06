@@ -19,9 +19,6 @@ public class FactionBriefPanelUI : MonoBehaviour
     [SerializeField]
     Transform GoalsContainer;
 
-    [SerializeField]
-    Transform RulesContainer;
-
     public void Show(Faction faction)
     {
         this.gameObject.SetActive(true);
@@ -32,7 +29,6 @@ public class FactionBriefPanelUI : MonoBehaviour
 
         ClearContainer(AvatarContainer);
         ClearContainer(GoalsContainer);
-        ClearContainer(RulesContainer);
 
         GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject(faction.FactionSelectionPrefab);
         tempObj.transform.SetParent(AvatarContainer, false);

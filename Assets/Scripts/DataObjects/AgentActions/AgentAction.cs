@@ -67,6 +67,11 @@ public class AgentAction : ScriptableObject
             if (character.TopEmployer == CORE.PC)
             {
                 GlobalMessagePrompterUI.Instance.Show("This character can not do this action! " + reason?.Key, 2f, Color.red);
+
+                if(CORE.Instance.DEBUG)
+                {
+                    Debug.Log("CAN NOT DO " + this.name);
+                }
             }
 
             return;

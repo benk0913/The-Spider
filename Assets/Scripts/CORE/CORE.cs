@@ -189,6 +189,12 @@ public class CORE : MonoBehaviour
             }
         }
 
+        while(PresetLocations.Count == 0)
+        {
+            yield return 0;
+        }
+
+        yield return 0;
         selectedFaction = Factions.Find(x => x.name == selectedFaction.name);
 
         foreach (LocationEntity presetLocation in PresetLocations)
