@@ -77,7 +77,7 @@ public class DDAClose : DialogDecisionAction
 
         while(charactersToKill.Count > 0)
         {
-            CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, charactersToKill[0], charactersToKill[0].CurrentLocation);
+            CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, charactersToKill[0], charactersToKill[0].CurrentLocation);
             charactersToKill.RemoveAt(0);
         }
     }

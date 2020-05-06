@@ -30,7 +30,7 @@ public class ExecuteActionInWorkLocation : AgentAction //DO NOT INHERIT FROM
 
         target = character.WorkLocation;
 
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, null, -1, null, this);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

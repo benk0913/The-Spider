@@ -46,7 +46,7 @@ public class GetLiberated : AgentAction //DO NOT INHERIT FROM
 
             if (this.Task != null)
             {
-                CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+                CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation, null, -1, null, this);
             }
 
             character.ExitPrison();
@@ -59,7 +59,7 @@ public class GetLiberated : AgentAction //DO NOT INHERIT FROM
 
             if (this.Task != null)
             {
-                CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+                CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation, null, -1, null, this);
             }
 
             character.ExitPrison();

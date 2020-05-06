@@ -28,7 +28,7 @@ public class LayAmbush : AgentAction //DO NOT INHERIT FROM
         SelectCharacterViewUI.Instance.Show(
                (Character targetCharacter) => 
                {
-                   CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, targetCharacter, -1, ActionPerTurn);
+                   CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, targetCharacter, -1, ActionPerTurn, this);
                }
                , (Character charInQuestion) => 
                {

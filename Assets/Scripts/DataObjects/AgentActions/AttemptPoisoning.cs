@@ -68,12 +68,12 @@ public class AttemptPoisoning : AgentAction //DO NOT INHERIT FROM
         if (target.GetType() == typeof(LocationEntity))
         {
             target = character.CurrentLocation;
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, null, -1, null, this);
         }
         else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar, -1, null, this);
         }
 
         requester.Belogings.Remove(requester.GetItem("Poison"));

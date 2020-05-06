@@ -306,20 +306,20 @@ public class SchemeType : ScriptableObject
             {
                 PopupWindowUI.Instance.AddPopup(
                     new PopupData(DuelResultArrestScenario.PopupData, new List<Character> { loser }, new List<Character>()
-                    , () => { CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+                    , () => { CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
 
             }
             else
             {
                 PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultWoundScenario.PopupData, new List<Character> { loser }, new List<Character>()
-                , () => { CORE.Instance.Database.GetEventAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+                , () => { CORE.Instance.Database.GetAgentAction("Wounded").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
                 
             }
         }
         else
         {
             PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character>()
-                 , () => { CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+                 , () => { CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
         }
     }
 }

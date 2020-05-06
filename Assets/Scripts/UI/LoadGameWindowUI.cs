@@ -19,6 +19,14 @@ public class LoadGameWindowUI : MonoBehaviour
         Hide();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     public void Show()
     {
         this.gameObject.SetActive(true);

@@ -143,6 +143,13 @@ public class GameDBEditor : Editor
             db.RecruitmentPools.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(RecruitmentPool)) as RecruitmentPool);
         }
 
+        guids = AssetDatabase.FindAssets("t:AgentAction", new[] { "Assets/" + db.DataPath });
+        db.AgentActions.Clear();
+        foreach (string guid in guids)
+        {
+            db.AgentActions.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(AgentAction)) as AgentAction);
+        }
+
 
         EditorUtility.SetDirty(db);
     }

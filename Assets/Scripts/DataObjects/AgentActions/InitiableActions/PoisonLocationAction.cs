@@ -67,7 +67,7 @@ public class PoisonLocationAction : AgentAction
         while (charactersToKill.Count > 0)
         {
             charactersToKill[0].StopDoingCurrentTask(true);
-            CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, charactersToKill[0], target);
+            CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, charactersToKill[0], target);
             charactersToKill.RemoveAt(0);
         }
     }

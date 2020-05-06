@@ -56,7 +56,7 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
             }
 
             character.EnterPrison(targetLocation);
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation, null, -1,null,this);
         }
         else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
@@ -65,7 +65,7 @@ public class GetArrested : AgentAction //DO NOT INHERIT FROM
             LocationEntity targetLocation  = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.LawAreaTrait, targetCharacter.CurrentCharacter.CurrentLocation);
 
             character.EnterPrison(targetLocation);
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetLocation, null, -1, null, this);
         }
 
     }

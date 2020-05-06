@@ -81,6 +81,7 @@ public class bl_PauseOptions : MonoBehaviour {
         
     }
 
+
     /// <summary>
     /// 
     /// </summary>
@@ -96,19 +97,37 @@ public class bl_PauseOptions : MonoBehaviour {
             Destroy(ResolutionPanel.GetChild(i).gameObject,0.1f);
         }
 
+        List<Resolution> AddedResolutions = new List<Resolution>();
+        
         CORE.Instance.DelayedInvokation(1f, () => 
         {
-            int n = 0;
             for (int i = 0; i < Screen.resolutions.Length; i++)
             {
+                bool exists = false;
+                foreach(Resolution resolution in AddedResolutions)
+                {
+                    if(resolution.width == Screen.resolutions[i].width && resolution.height == Screen.resolutions[i].height)
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if(exists)
+                {
+                    continue;
+                }
+
+                AddedResolutions.Add(Screen.resolutions[i]);
+
+
                 GameObject b = Instantiate(ResolutionButtons) as GameObject;
 
                 b.GetComponentInChildren<Text>().text = Screen.resolutions[i].width + " x " + Screen.resolutions[i].height;
                 b.transform.SetParent(ResolutionPanel,false);
 
-                int passedNumber = n;
+                int passedNumber = i;
                 AddResolutionListener(b.GetComponent<Button>(), passedNumber);
-                n++;
 
                 if (Screen.width == Screen.resolutions[i].width && Screen.height == Screen.resolutions[i].height)
                 {
@@ -133,6 +152,11 @@ public class bl_PauseOptions : MonoBehaviour {
         if (ShowFramesPerSecond && FPSFrames != null)
         {
             FramesPerSecond();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.gameObject.SetActive(false);
         }
     }
     /// <summary>

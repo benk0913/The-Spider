@@ -1174,7 +1174,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             if(CProgress >= 50)
             {
-                if(Employer == CORE.PC)
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has been promoted!", ResourcesLoader.Instance.GetSprite("thumb-up"), this));
+
+                if (Employer == CORE.PC)
                 {
                     LoseWindowUI.Instance.Show();
                     return;
@@ -1297,6 +1299,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (this.TopEmployer == CORE.PC && PropertiesOwned.Count > 0)
         {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has stabbed you in the back!", ResourcesLoader.Instance.GetSprite("thumb-down"), this));
+
             string deathString = this.name + " has grown too strong and decided to betray you! Lost ownership on:";
 
             PropertiesOwned.ForEach((x) => { deathString += x.Name + " - "; });
@@ -1350,7 +1354,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (IsGuard && Random.Range(0,2) == 0) // Guards keep working
         {
-            CORE.Instance.Database.GetEventAction("Guard Location").Execute(TopEmployer, this, WorkLocation);
+            CORE.Instance.Database.GetAgentAction("Guard Location").Execute(TopEmployer, this, WorkLocation);
             return true;
         }
 
@@ -1397,7 +1401,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if(hangoutLocation != null)
         {
-            CORE.Instance.Database.GetEventAction("Hang Out").Execute(TopEmployer, this, hangoutLocation);
+            CORE.Instance.Database.GetAgentAction("Hang Out").Execute(TopEmployer, this, hangoutLocation);
             return true;
         }
 
@@ -1500,6 +1504,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         TryToDoSomething();
 
         RefreshVisualTree();
+
+        if (TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has began working for " + WorkLocation.Name, WorkLocation.CurrentProperty.Icon, this));
+        }
     }
 
     public void EnterPrison(LocationEntity location)
@@ -1523,6 +1532,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
         PrisonLocation = location;
         location.RefreshState();
         RefreshVisualTree();
+
+        if (TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has been imprisoned in " + location.Name, location.CurrentProperty.Icon, this));
+        }
+
     }
 
     public void ExitPrison()
@@ -1537,6 +1552,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         PrisonLocation.RefreshState();
         PrisonLocation = null;
         RefreshVisualTree();
+
+        if (TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": is no longer imprisoned.", null, this));
+        }
     }
 
     public void StopWorkingForCurrentLocation()
@@ -1554,6 +1574,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         else
         {
             return;
+        }
+
+        if (TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has stopped working for "+WorkLocation.Name, WorkLocation.CurrentProperty.Icon, this));
         }
 
         if (location.CharactersLivingInLocation.Contains(this))
@@ -1578,7 +1603,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         location.OwnerCharacter = this;
-        
+
         location.Known.KnowEverything(TopEmployer);
         
 
@@ -1589,11 +1614,20 @@ public class Character : ScriptableObject, ISaveFileCompatible
             PropertiesOwned.Add(location);
         }
 
+        if (TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": now owns " + location.Name, location.CurrentProperty.Icon, this));
+        }
     }
 
     public void StopOwningLocation(LocationEntity location, bool lookForReplacement = false)
     {
-        if(lookForReplacement)
+        if (TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": no longer owns " + location.Name, location.CurrentProperty.Icon, this));
+        }
+
+        if (lookForReplacement)
         {
             Character possibleReplacement = location.EmployeesCharacters.Find((Character employee) => { return employee.age > 15; });
 
@@ -1877,6 +1911,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
             node["CurrentTaskEntityCurrentTarget"] = ((LocationEntity)CurrentTaskEntity.CurrentTargetLocation).ID;
             node["CurrentTaskEntityCurrentTargetCharacter"] = CurrentTaskEntity.TargetCharacter != null ? CurrentTaskEntity.TargetCharacter.ID : "";
             node["CurrentTaskEntityTurnsLeft"] = CurrentTaskEntity.TurnsLeft.ToString();
+            node["CurrentTaskOriginalAction"] = CurrentTaskEntity.OriginAction != null? CurrentTaskEntity.OriginAction.name : "";
+            node["CurrentTaskPerTurnAction"] = CurrentTaskEntity.ActionPerTurn != null ? CurrentTaskEntity.ActionPerTurn.name : "";
         }
 
         return node;
@@ -2021,7 +2057,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
             _currentTaskRequesterID = node["CurrentTaskEntityCurrentRequester"];
             _currentTaskCharacterID = node["CurrentTaskEntityCurrentCharacter"];
             _currentTaskTargetID = node["CurrentTaskEntityCurrentTarget"];
-            _currentTaskTargetCharacterID = node["CurrentTaskEntityCurrentTargetCharacter"];
+            _currentTaskOriginalAction = node["CurrentTaskOriginalAction"];
+            _currentTaskPerTurnAction = node["CurrentTaskPerTurnAction"];
         }
 
     }
@@ -2042,6 +2079,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     string _currentTaskCharacterID;
     string _currentTaskTargetCharacterID;
     string _currentTaskTargetID;
+    string _currentTaskPerTurnAction;
+    string _currentTaskOriginalAction;
 
     string _currentFactionName;
 
@@ -2093,13 +2132,17 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (!string.IsNullOrEmpty(_currentTaskName))
         {
+            LongTermTask task = CORE.Instance.Database.GetLongTermTaskByName(_currentTaskName);
+
             CORE.Instance.GenerateLongTermTask(
-                CORE.Instance.Database.GetLongTermTaskByName(_currentTaskName),
+                task,
                 CORE.Instance.GetCharacterByID(_currentTaskRequesterID),
                 CORE.Instance.GetCharacterByID(_currentTaskCharacterID),
                 CORE.Instance.GetLocationByID(_currentTaskTargetID),
                 CORE.Instance.GetCharacterByID(_currentTaskTargetCharacterID),
-                _currentTaskTurnsLeft);
+                _currentTaskTurnsLeft,
+                !string.IsNullOrEmpty(_currentTaskPerTurnAction) ? CORE.Instance.Database.GetAgentAction(_currentTaskPerTurnAction) : null,
+                !string.IsNullOrEmpty(_currentTaskOriginalAction)? CORE.Instance.Database.GetAgentAction(_currentTaskOriginalAction) : null);
         }
 
         foreach (string key in knowledgeCharacterIDs.Keys)

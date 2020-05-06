@@ -46,7 +46,7 @@ public class AmbushAbduct : AgentAction //DO NOT INHERIT FROM
                     else
                     {
                         targetChar.StopDoingCurrentTask(false);
-                        CORE.Instance.Database.GetEventAction("Get Abducted").Execute(CORE.Instance.Database.GOD, targetChar, location);
+                        CORE.Instance.Database.GetAgentAction("Get Abducted").Execute(CORE.Instance.Database.GOD, targetChar, location);
                     }
 
                 }));
@@ -59,7 +59,7 @@ public class AmbushAbduct : AgentAction //DO NOT INHERIT FROM
                 if (location != null)
                 { 
                     targetChar.StopDoingCurrentTask(false);
-                    CORE.Instance.Database.GetEventAction("Get Abducted").Execute(CORE.Instance.Database.GOD, targetChar, location);
+                    CORE.Instance.Database.GetAgentAction("Get Abducted").Execute(CORE.Instance.Database.GOD, targetChar, location);
                 }
                 else
                 {
@@ -70,7 +70,7 @@ public class AmbushAbduct : AgentAction //DO NOT INHERIT FROM
         else
         {
             CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, targetChar.CurrentLocation);
-            CORE.Instance.Database.GetEventAction("Wound").Execute(character.TopEmployer, character, character.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wound").Execute(character.TopEmployer, character, character.HomeLocation);
         }
     }
 

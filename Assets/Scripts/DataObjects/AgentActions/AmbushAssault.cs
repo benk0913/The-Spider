@@ -38,7 +38,7 @@ public class AmbushAssault : AgentAction //DO NOT INHERIT FROM
                 {
                     targetChar.StopDoingCurrentTask(false);
                     targetChar.Known.Forget("CurrentLocation", character.TopEmployer);
-                    CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
+                    CORE.Instance.Database.GetAgentAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
 
                 }));
             }
@@ -46,13 +46,13 @@ public class AmbushAssault : AgentAction //DO NOT INHERIT FROM
             {
                 targetChar.StopDoingCurrentTask(false);
                 targetChar.Known.Forget("CurrentLocation", character.TopEmployer);
-                CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
+                CORE.Instance.Database.GetAgentAction("Wounded").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
             }
         }
         else
         {
             CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, targetChar.CurrentLocation);
-            CORE.Instance.Database.GetEventAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
         }
     }
 

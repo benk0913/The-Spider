@@ -24,7 +24,7 @@ public class InvestigateItem : AgentAction
         portrait.transform.position = new Vector3(9999, 9999, 9999);
         portrait.SetCharacter(character);
 
-        CORE.Instance.GenerateLongTermTask(TaskToExecute, requester, character, character.CurrentLocation);
+        CORE.Instance.GenerateLongTermTask(TaskToExecute, requester, character, character.CurrentLocation, null, -1, null, this);
 
         Item item = CORE.PC.Belogings.Find(X => X.name == itemUI.CurrentItem.name);
 

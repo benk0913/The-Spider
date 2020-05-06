@@ -30,14 +30,16 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
     public bool isComplete;
 
-    AgentAction ActionPerTurn;
+    public AgentAction ActionPerTurn;
+
+    public AgentAction OriginAction;
 
     public bool HaltWhenActionPerTurnExecuted;
 
     [SerializeField]
     GameObject CurrentLongTermTaskEffect;
 
-    public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
+    public void SetInfo(LongTermTask task, Character requester, Character character, LocationEntity targetLocation, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null, AgentAction originAction = null)
     {
         if(turnsLeft > 0)
         {
@@ -54,13 +56,15 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         RefreshKnownTaskState();
 
         this.CurrentCharacter.StartDoingTask(this);
-            
+
+        
 
         CurrentLocation = ((LocationEntity)targetLocation);
 
         CurrentLocation.AddLongTermTask(this);
 
         this.ActionPerTurn = actionPerTurn;
+        this.OriginAction = originAction;
         HaltWhenActionPerTurnExecuted = CurrentTask.HaltWhenActionPerTurnExecuted;
 
         if(CurrentTask.ShowCharacterInWorld)
@@ -172,6 +176,13 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         CurrentLocation.RemoveLongTermTask(this);
 
         CurrentCharacter.StopDoingCurrentTask();
+
+        if(OriginAction != null)
+        {
+            CurrentCharacter.TopEmployer.CGold += OriginAction.GoldCost;
+            CurrentCharacter.TopEmployer.CRumors += OriginAction.RumorsCost;
+            CurrentCharacter.TopEmployer.CConnections += OriginAction.ConnectionsCost;
+        }
 
         Destroy(this.gameObject);
 

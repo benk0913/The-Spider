@@ -24,7 +24,7 @@ public class EmployeeForcedTask : GameEvent
 
         parameters.Add("Target_Name", character.name);
 
-        CORE.Instance.GenerateLongTermTask(this.Task, CORE.Instance.Database.GOD, character, (LocationEntity)character.WorkLocation);
+        CORE.Instance.GenerateLongTermTask(this.Task, CORE.Instance.Database.GOD, character, (LocationEntity)character.WorkLocation, null, -1, null, null);
 
         base.Execute(parameters, sendLetter);
     }

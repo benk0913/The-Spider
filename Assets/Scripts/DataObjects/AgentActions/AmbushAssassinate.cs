@@ -42,20 +42,20 @@ public class AmbushAssassinate : AgentAction //DO NOT INHERIT FROM
                 PopupWindowUI.Instance.AddPopup(new PopupData(WinPopup, new List<Character> { character }, new List<Character> { targetChar }, () => 
                 {
                     targetChar.StopDoingCurrentTask(false);
-                    CORE.Instance.Database.GetEventAction("Death").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
+                    CORE.Instance.Database.GetAgentAction("Death").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
 
                 }));
             }
             else
             {
                 targetChar.StopDoingCurrentTask(false);
-                CORE.Instance.Database.GetEventAction("Death").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
+                CORE.Instance.Database.GetAgentAction("Death").Execute(targetChar.TopEmployer, targetChar, character.HomeLocation);
             }
         }
         else
         {
             CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, targetChar.CurrentLocation);
-            CORE.Instance.Database.GetEventAction("Wound").Execute(character.TopEmployer, character, character.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wound").Execute(character.TopEmployer, character, character.HomeLocation);
         }
     }
 

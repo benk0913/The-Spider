@@ -70,7 +70,7 @@ public class StreetPatrolComplete : AgentAction
                 if (Random.Range(0, targetDiscreet + heroAware + DuelBonus) < heroAware + DuelBonus)
                 {
                     wantedChar.StopDoingCurrentTask();
-                    CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, wantedChar, target);
+                    CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, wantedChar, target);
                     continue;
                 }
             }

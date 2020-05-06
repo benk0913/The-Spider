@@ -286,19 +286,11 @@ public class GameDB : ScriptableObject
 
 
 
-    public AgentAction[] EventActions;
+    public List<AgentAction> AgentActions = new List<AgentAction>();
 
-    public AgentAction GetEventAction(string key)
+    public AgentAction GetAgentAction(string key)
     {
-        foreach(AgentAction action in EventActions)
-        {
-            if(action.name == key)
-            {
-                return action;
-            }
-        }
-
-        return null;
+        return AgentActions.Find(x => x.name == key);
     }
 
 }

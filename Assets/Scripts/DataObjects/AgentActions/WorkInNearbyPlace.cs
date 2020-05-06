@@ -40,7 +40,7 @@ public class WorkInNearbyPlace : AgentAction //DO NOT INHERIT FROM
             target = CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.PublicAreaTrait);
         }
 
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, null, -1, null, this);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

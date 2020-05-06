@@ -29,7 +29,7 @@ public class TriggerLocationAction : PlayerAction
             location = CORE.Instance.GetClosestLocationWithTrait(TargetPropertyTrait, location);
         }
         
-        CORE.Instance.GenerateLongTermTask(this.OwnerTask, requester, locationOwner, location);
+        CORE.Instance.GenerateLongTermTask(this.OwnerTask, requester, locationOwner, location, null, -1, null, null);
     }
 
     public override bool CanDoAction(Character requester, AgentInteractable target, out FailReason reason)

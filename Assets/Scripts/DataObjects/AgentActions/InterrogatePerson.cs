@@ -91,13 +91,13 @@ public class InterrogatePerson : AgentAction //DO NOT INHERIT FROM
                             () =>
                             {
                                 CORE.Instance.ShowHoverMessage(targetChar.name + " has died.", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
-                                CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, targetChar, targetChar.CurrentLocation);
+                                CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, targetChar, targetChar.CurrentLocation);
                             }));
                     }
                     else
                     {
                         CORE.Instance.ShowHoverMessage(targetChar.name + " has died.", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
-                        CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, targetChar, targetChar.CurrentLocation);
+                        CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, targetChar, targetChar.CurrentLocation);
                     }
                 }
             }

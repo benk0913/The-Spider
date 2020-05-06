@@ -39,8 +39,8 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                    character.GoToLocation(targetLocation);
                    targetCharacter.GoToLocation(targetLocation);
                    targetCharacter.Known.Know("CurrentLocation", requester);
-                   CORE.Instance.Database.GetEventAction("Hang Out").Execute(targetCharacter.TopEmployer, targetCharacter, targetLocation);
-                   CORE.Instance.Database.GetEventAction("Hang Out").Execute(character.TopEmployer, character, targetLocation);
+                   CORE.Instance.Database.GetAgentAction("Hang Out").Execute(targetCharacter.TopEmployer, targetCharacter, targetLocation);
+                   CORE.Instance.Database.GetAgentAction("Hang Out").Execute(character.TopEmployer, character, targetLocation);
                }
                , (Character charInQuestion) =>
                {

@@ -19,7 +19,7 @@ public class TailAgent : AgentAction //DO NOT INHERIT FROM
         }
 
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar, -1, null, this);
 
         targetChar.Known.Know("CurrentLocation", character.TopEmployer);
 

@@ -50,7 +50,7 @@ public class ArsonScheme : SchemeType
                         PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>(){ data.Plot.Plotter } ,
                         () =>
                         {
-                            CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
+                            CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
                         }));
                     }
                 }
@@ -62,7 +62,7 @@ public class ArsonScheme : SchemeType
                         () =>
                         {
 
-                            CORE.Instance.Database.GetEventAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
+                            CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
                         }));
                     }
                 }

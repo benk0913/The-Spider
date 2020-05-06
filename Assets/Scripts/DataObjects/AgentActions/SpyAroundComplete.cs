@@ -90,7 +90,7 @@ public class SpyAroundComplete : AgentAction
                 return;
             }
 
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, null, -1, null, this);
         }
     }
 

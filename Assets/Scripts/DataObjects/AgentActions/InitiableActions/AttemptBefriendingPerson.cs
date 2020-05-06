@@ -35,12 +35,12 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
 
         if (target.GetType() == typeof(LocationEntity))
         {
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, null, -1, null, this);
         }
         else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
             Character targetChar = ((PortraitUI)target).CurrentCharacter;
-            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar);
+            CORE.Instance.GenerateLongTermTask(this.Task, requester, character, targetChar.CurrentLocation, targetChar, -1, null, this);
         }
     }
 

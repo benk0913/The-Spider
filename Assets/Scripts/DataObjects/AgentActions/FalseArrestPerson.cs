@@ -22,7 +22,7 @@ public class FalseArrestPerson : AgentAction //DO NOT INHERIT FROM
         {
             character.GoToLocation(targetChar.CurrentLocation);
             targetChar.StopDoingCurrentTask(false);
-            CORE.Instance.Database.GetEventAction("Get Arrested").Execute(targetChar.TopEmployer, targetChar, target);
+            CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(targetChar.TopEmployer, targetChar, target);
 
             if (character.TopEmployer == CORE.PC)
             {
@@ -37,7 +37,7 @@ public class FalseArrestPerson : AgentAction //DO NOT INHERIT FROM
         {
             character.GoToLocation(targetChar.CurrentLocation);
             CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, targetChar.CurrentLocation);
-            CORE.Instance.Database.GetEventAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
             TurnReportUI.Instance.Log.Add(
                 new TurnReportLogItemInstance(
                     character.name + " has failed arresting " + targetChar.name,

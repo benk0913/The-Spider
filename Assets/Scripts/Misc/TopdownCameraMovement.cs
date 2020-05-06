@@ -128,6 +128,11 @@ public class TopdownCameraMovement : MonoBehaviour
         }
         else
         {
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
             if (Input.mouseScrollDelta.y > 0 && transform.position.y > BottomLeftBorder.position.y)
             {
                 transform.position -= Vector3.up * ZoomSpeed * Time.deltaTime;

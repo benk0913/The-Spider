@@ -535,13 +535,13 @@ public class CORE : MonoBehaviour
         }
     }
 
-    public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null)
+    public void GenerateLongTermTask(LongTermTask task, Character requester, Character character, LocationEntity target, Character targetCharacter = null, int turnsLeft = -1, AgentAction actionPerTurn = null, AgentAction originAction = null)
     {
         LongTermTaskEntity longTermTask = Instantiate(ResourcesLoader.Instance.GetObject("LongTermTaskEntity")).GetComponent<LongTermTaskEntity>();
 
         longTermTask.transform.SetParent(MapViewManager.Instance.MapElementsContainer);
         longTermTask.transform.position = target.transform.position;
-        longTermTask.SetInfo(task, requester, character, target, targetCharacter, turnsLeft, actionPerTurn);
+        longTermTask.SetInfo(task, requester, character, target, targetCharacter, turnsLeft, actionPerTurn, originAction);
     }
 
     public void DelayedInvokation(float time, System.Action action)
@@ -756,7 +756,10 @@ public class CORE : MonoBehaviour
             savefile["Name"] = "Save" + SaveFiles.Count;
         }
 
+        long UNIX = (long)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
+
         savefile["Date"] = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        savefile["UNIX"] = UNIX.ToString();
         savefile["SelectedFaction"] = PlayerFaction.name;
         savefile["PlayerCharacter"] = PC.name;
 
@@ -1024,7 +1027,8 @@ public class CORE : MonoBehaviour
             }
         }
 
-        CORE.Instance.SaveFiles.OrderBy(x => x.Date);
+
+        SaveFiles = SaveFiles.OrderByDescending(x => (long)(x.RealDate.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds).ToList();
     }
 
     public void RemoveSave(SaveFile currentSave)
@@ -1066,9 +1070,16 @@ public class SaveFile
         this.Name = this.Content["Name"].Value;
         this.Date = this.Content["Date"].Value;
 
+        if(!string.IsNullOrEmpty(this.Content["UNIX"]))
+        {
+            this.RealDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
+            this.RealDate = this.RealDate.AddSeconds(long.Parse(this.Content["UNIX"]));
+        }
+
         this.Path = path;
     }
 
+    public System.DateTime RealDate;
     public string Name;
     public string Date;
     public string Path;

@@ -856,9 +856,9 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             if (OwnerCharacter != null && OwnerCharacter.TopEmployer == CORE.PC)
             {
                 CORE.Instance.InvokeEvent("Upgrade Complete");
+                CORE.Instance.ShowHoverMessage("Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"), transform);
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.Name + ": Upgrade Complete!", ResourcesLoader.Instance.GetSprite("thumb-up"), OwnerCharacter));
             }
-
-            CORE.Instance.ShowHoverMessage("Upgrade Complete", ResourcesLoader.Instance.GetSprite("thumb-up"), transform);
         }
     }
 
@@ -1300,6 +1300,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void BecomeRuins()
     {
+        if (Known.IsKnown("Existance", CORE.PC))
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.Name + ": Has Been Destroyed!", CurrentProperty.Icon, null));
+        }
+
         Dispose();
         IsRuined = true;
         RefreshState();
@@ -1331,6 +1336,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         IsRuined = false;
         RefreshState();
+
+        if (Known.IsKnown("Existance", CORE.PC))
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.Name + ": Has Been Repaired!", CurrentProperty.Icon, null));
+        }
 
         return null;
     }
@@ -1548,6 +1558,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         , funder)
         );
 
+        if (Known.IsKnown("Existance", CORE.PC))
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.Name + ": Has Been Purchased!", CurrentProperty.Icon, null));
+        }
 
         return null;
     }

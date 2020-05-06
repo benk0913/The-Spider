@@ -55,11 +55,11 @@ public class TellOnColleague : AgentAction
         if (snitchTarget != null)
         {
             character.Reputation -= 2;
-            CORE.Instance.Database.GetEventAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
+            CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
         }
 
 
-        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target);
+        CORE.Instance.GenerateLongTermTask(this.Task, requester, character, (LocationEntity)target, null, -1, null, this);
     }
 
     bool CanBeSnitchedUpon(Character character)

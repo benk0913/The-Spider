@@ -22,7 +22,7 @@ public class AssaultPerson : AgentAction //DO NOT INHERIT FROM
         {
             character.GoToLocation(targetChar.CurrentLocation);
             targetChar.StopDoingCurrentTask(false);
-            CORE.Instance.Database.GetEventAction("Wounded").Execute(targetChar.TopEmployer, targetChar, targetChar.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wounded").Execute(targetChar.TopEmployer, targetChar, targetChar.HomeLocation);
 
             if (character.TopEmployer == CORE.PC)
             {
@@ -37,7 +37,7 @@ public class AssaultPerson : AgentAction //DO NOT INHERIT FROM
         {
             character.GoToLocation(targetChar.CurrentLocation);
             CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, targetChar.CurrentLocation);
-            CORE.Instance.Database.GetEventAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
         }
     }
 
