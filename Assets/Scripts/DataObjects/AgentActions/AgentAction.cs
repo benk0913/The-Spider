@@ -52,6 +52,7 @@ public class AgentAction : ScriptableObject
 
     public string InvokeEventOnExecute = "";
 
+
     [SerializeField]
     bool CanDoInPrison = false;
     

@@ -54,6 +54,33 @@ public class FireAgent : PlayerAction
                 }
             }
 
+            //Snitch on colleagues when fired while arrested.
+            if(character.PrisonLocation != null && character.PrisonLocation.OwnerCharacter != null && character.PrisonLocation.OwnerCharacter.CurrentFaction.name == "Constabulary")
+            {
+                List<Character> SnitchTargets = new List<Character>();
+                SnitchTargets.AddRange(character.WorkLocation.EmployeesCharacters.FindAll(x => x != character && x.PrisonLocation == null));
+                SnitchTargets.AddRange(character.WorkLocation.GuardsCharacters.FindAll(x => x != character && x.PrisonLocation == null));
+
+                if (character.Employer.PrisonLocation == null)
+                {
+                    SnitchTargets.Add(character.Employer);
+                }
+
+                string charactersString = "";
+                SnitchTargets.ForEach(x => charactersString += "," + x.name);
+                if (charactersString.Length > 0)
+                {
+                    charactersString.Remove(0);
+                }
+
+                WarningWindowUI.Instance.Show(this.name + " has snitched on: " + charactersString,null);
+                foreach (Character snitchTarget in SnitchTargets)
+                {
+                    CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
+                }
+
+            }
+
             if (character.Employer == requester)
             {
                 character.StopDoingCurrentTask();

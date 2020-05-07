@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Steward Richard Goldtower
   m_EditorClassIdentifier: 
   ID: 
-  IsAlwaysKnown: 0
+  IsAlwaysKnown: 1
   IsDead: 0
-  Gold: 0
-  Connections: 0
-  Rumors: 0
-  Progress: 0
+  _gold: 0
+  _connections: 0
+  _rumors: 0
+  _progress: 0
   IsDisabled: 0
   NeverDED: 0
   _currentFaction: {fileID: 11400000, guid: d4de47a73513e6e42a7d66d5856e5f88, type: 2}
@@ -28,6 +28,7 @@ MonoBehaviour:
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
   PuppetOf: {fileID: 0}
+  PupperTurnsLeft: 0
   PropertiesOwned: []
   Traits:
   - {fileID: 11400000, guid: ede8dbf370247e94a85c708c7c2fb9d6, type: 2}

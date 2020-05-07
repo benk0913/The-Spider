@@ -6,6 +6,7 @@ using System;
 
 public class InputMap : MonoBehaviour {
 
+    public static InputMap Instance;
     [SerializeField]
     List<InputKeyPair> InitList = new List<InputKeyPair>();
      
@@ -13,10 +14,18 @@ public class InputMap : MonoBehaviour {
 
     private void Awake()
     {
+        Instance = this;
         Initialize();
     }
 
     public void Initialize()
+    {
+        ResetMap();
+
+        LoadMap();
+    }
+
+    public void ResetMap()
     {
         Map.Clear();
 
@@ -24,8 +33,6 @@ public class InputMap : MonoBehaviour {
         {
             Map.Add(InitList[i].name, InitList[i].KeyCode);
         }
-
-        LoadMap();
     }
 
     public static void LoadMap()
@@ -61,6 +68,12 @@ public class InputMap : MonoBehaviour {
         }
 
         PlayerPrefs.Save();
+    }
+
+    public void ResetMapSave()
+    {
+        ResetMap();
+        SaveMap();
     }
 
 }

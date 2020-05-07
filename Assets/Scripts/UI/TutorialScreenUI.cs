@@ -11,7 +11,7 @@ public class TutorialScreenUI : MonoBehaviour
 
     public Image TutorialScreenImage;
 
-    private List<TutorialScreenInstance> Instances = new List<TutorialScreenInstance>();
+    public List<TutorialScreenInstance> Instances = new List<TutorialScreenInstance>();
 
     [SerializeField]
     CanvasGroup CG;
@@ -88,6 +88,7 @@ public class TutorialScreenUI : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(CurrentInstance.NextScreenKey))
         {
+            Instances.Find(x => x.name == CurrentInstance.NextScreenKey).WasSeen = false;
             Show(CurrentInstance.NextScreenKey,0f);
             return;
         }
