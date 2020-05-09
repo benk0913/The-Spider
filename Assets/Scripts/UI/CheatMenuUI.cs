@@ -9,6 +9,10 @@ public class CheatMenuUI : MonoBehaviour
 
     public bool IsCheatOn = false;
 
+    [SerializeField]
+    public DialogDecisionAction testaction;
+
+
     private void Start()
     {
         GameClock.Instance.OnTurnPassed.AddListener(ShowAllCharacters);
@@ -83,6 +87,14 @@ public class CheatMenuUI : MonoBehaviour
         {
             PlottingDuelUI.Instance.ParticipantsPortraits.Clear();
             PlottingDuelUI.Instance.ExecuteDuelResult();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) // Questioning Test
+        {
+            QuestioningWindowUI.Instance.Test();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) // Dialog aCTION
+        {
+            testaction.Activate();
         }
         else if(Input.GetKeyDown(KeyCode.Alpha0))
         {

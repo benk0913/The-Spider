@@ -89,6 +89,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI ProgressionPerTurnText;
 
+    [SerializeField]
+    GameObject HasQuestioningPanel;
+
 
     Character CurrentCharacter;
 
@@ -394,6 +397,8 @@ public class CharacterInfoUI : MonoBehaviour
         SetSkills();
         SetRelation();
         SetFavors();
+
+        HasQuestioningPanel.gameObject.SetActive(CurrentCharacter.CurrentQuestioningInstance != null);
     }
 
     void ClearPropertiesOwned()
@@ -521,7 +526,7 @@ public class CharacterInfoUI : MonoBehaviour
         }
 
         CurrentCharacter.CProgress /= 2;
-        CORE.PC.CProgress += CurrentCharacter.CProgress / 2;
+        CORE.PC.CProgress += CurrentCharacter.CProgress;
         GlobalMessagePrompterUI.Instance.Show("Stole " + CurrentCharacter.CProgress + " Progress Points from " + CurrentCharacter.name, 1f, Color.green);
         
         CurrentCharacter.DynamicRelationsModifiers.Add(

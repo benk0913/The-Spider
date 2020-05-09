@@ -12,6 +12,8 @@ public class QuestionPerson : AgentAction //DO NOT INHERIT FROM
         base.Execute(requester, character, target);
 
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
+
+        QuestioningWindowUI.Instance.Show(character, targetChar);
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
@@ -23,23 +25,29 @@ public class QuestionPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.TopEmployer == character.TopEmployer)
+        if (targetChar.CurrentQuestioningInstance == null)
         {
+            reason = new FailReason("You have nothing to ask...");
             return false;
         }
 
-        if(!targetChar.IsKnown("CurrentLocation", character.TopEmployer))
+        if (!targetChar.IsKnown("HomeLocation", character.TopEmployer))
         {
-            reason = new FailReason("You don't know where this character is!");
+            reason = new FailReason("You don't know where this person lives!");
             return false;
         }
 
-        if (character.Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) || character.Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))
+        if (!targetChar.IsKnown("Appearance", character.TopEmployer))
         {
-            reason = new FailReason(character.name + " refuses. This act is too evil (Good Moral Standards)");
+            reason = new FailReason("You don't know how this person looks like...");
             return false;
         }
 
+        if (!targetChar.IsKnown("Name", character.TopEmployer))
+        {
+            reason = new FailReason("You don't the name of this person...");
+            return false;
+        }
 
         return true;
     }
