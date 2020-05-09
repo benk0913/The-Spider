@@ -778,7 +778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -189.22, y: -20.618}
+  m_AnchoredPosition: {x: -189.21997, y: -20.618042}
   m_SizeDelta: {x: 33.52, y: 33.52}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &119490705
@@ -2590,6 +2590,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorldSound: 0
+--- !u!1 &759134938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2453819493520672182, guid: 3bfd4283c2e24f748ab276e06f5e7ee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1111280487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &759134940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759134938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b548e6e69d25914d9297d3797043c03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEnableEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnAwakeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnStartEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 759134941}
+        m_MethodName: SetTutorial
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: e639fca0c79468e498826a1d2ca4f384,
+            type: 2}
+          m_ObjectArgumentAssemblyTypeName: TutorialScreenInstance, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDisableEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  isRequireCORE: 0
+--- !u!114 &759134941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759134938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9424b4833a47db14eade99dbb7c36949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &784269474
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,6 +2990,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 845521299, guid: 3bfd4283c2e24f748ab276e06f5e7ee7, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 845521299, guid: 3bfd4283c2e24f748ab276e06f5e7ee7, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1847362393100243135, guid: 3bfd4283c2e24f748ab276e06f5e7ee7,

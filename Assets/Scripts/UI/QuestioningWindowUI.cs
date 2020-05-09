@@ -223,12 +223,12 @@ public class QuestioningWindowUI : MonoBehaviour
     {
         InputBlocker.SetActive(true);
 
-        float height = Random.Range(-100f, 100f);
+        float height = Random.Range(-500f, 500f);
 
         float t = 0f;
         while (t < 1f)
         {
-            t += (t + 0.5f) * Time.deltaTime;
+            t += (t + 1f) * Time.deltaTime;
 
             card.transform.position = Util.SplineLerpX(CharacterDeckText.transform.position, OptionsContainer.transform.position, height, t);
 
@@ -244,12 +244,12 @@ public class QuestioningWindowUI : MonoBehaviour
     {
         InputBlocker.SetActive(true);
 
-        float height = Random.Range(-100f, 100f);
+        float height = Random.Range(-500f, 500f);
 
         float t = 0f;
         while (t < 1f)
         {
-            t += (t + 0.5f) * Time.deltaTime;
+            t += (t + 1f) * Time.deltaTime;
 
             card.transform.position = Util.SplineLerpX(TargetDeckText.transform.position, TargetHandPosition.transform.position, height, t);
 

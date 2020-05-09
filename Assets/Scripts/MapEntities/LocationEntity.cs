@@ -123,7 +123,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         get
         {
-            if (Traits.Contains(CORE.Instance.Database.CentralAreaTrait))
+            if (Traits.Contains(CORE.Instance.Database.CentralAreaTrait)) // Is district
             {
                 List<LocationEntity> locationsInDistrict = CORE.Instance.Locations.FindAll(x => 
                 x.NearestDistrict == this 
@@ -133,13 +133,27 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 
                 if(locationsInDistrict.Count > 0)
                 {
-                    Faction Potential = locationsInDistrict[0].FactionInControl;
-                    if(locationsInDistrict.Find(x=>x.FactionInControl != Potential))
+                    Dictionary<Faction, int> ControlSize = new Dictionary<Faction, int>();
+
+                    foreach(LocationEntity entity in locationsInDistrict)
                     {
-                        return CORE.Instance.Database.NoFaction;
+                        if(!ControlSize.ContainsKey(entity.FactionInControl))
+                        {
+                            ControlSize.Add(entity.FactionInControl, 0);
+                        }
+
+                        ControlSize[entity.FactionInControl]++;
                     }
 
-                    return Potential;
+                    foreach(Faction key in ControlSize.Keys)
+                    {
+                        if (ControlSize[key] >= locationsInDistrict.Count / 2)
+                        {
+                            return key;
+                        }
+                    }
+
+                    return CORE.Instance.Database.NoFaction;
                 }
             }
 
