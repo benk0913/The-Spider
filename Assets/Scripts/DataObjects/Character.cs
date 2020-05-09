@@ -370,6 +370,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return WorkLocation != null ? WorkLocation.CurrentProperty.EmployeeRole : "";
         }
     }
+
+    public QuestioningInstance CurrentQuestioningInstance = null;
     
     #region Traits & Bonuses
 
@@ -558,6 +560,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
     }
 
     public List<DynamicRelationsModifier> DynamicRelationsModifiers = new List<DynamicRelationsModifier>();
+
+
 
     #endregion
 
@@ -1903,6 +1907,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["clothing"] = Clothing.name;
         node["UniquePortrait"] = UniquePortrait == null? "" : UniquePortrait.name;
 
+        if (CurrentQuestioningInstance != null)
+        {
+            node["CurrentQuestioningInstance"] = CurrentQuestioningInstance.ToJSON();
+        }
+
         if (CurrentTaskEntity != null)
         {
             node["CurrentTaskEntityCurrentTask"] = CurrentTaskEntity.CurrentTask.name;
@@ -2061,6 +2070,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             _currentTaskPerTurnAction = node["CurrentTaskPerTurnAction"];
         }
 
+        if (CurrentQuestioningInstance != null)
+        {
+            CurrentQuestioningInstance = CORE.Instance.Database.DefaultQeustioningInstance.Clone();
+
+            CurrentQuestioningInstance.FromJSON(node["CurrentQuestioningInstance"]);
+        }
     }
 
 

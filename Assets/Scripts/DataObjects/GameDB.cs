@@ -63,6 +63,8 @@ public class GameDB : ScriptableObject
 
     public AgentAction SleepAction;
 
+    public QuestioningInstance DefaultQeustioningInstance;
+
     public List<PlayerAction> PlayerActionsOnAgent = new List<PlayerAction>();
 
     public List<AgentAction> AgentActionsOnAgent = new List<AgentAction>();
