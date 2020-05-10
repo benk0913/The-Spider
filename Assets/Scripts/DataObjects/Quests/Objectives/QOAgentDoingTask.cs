@@ -9,6 +9,10 @@ public class QOAgentDoingTask : QuestObjective
     LongTermTask Task;
 
     [SerializeField]
+    List<LongTermTask> OptionalTasks = new List<LongTermTask>();
+
+
+    [SerializeField]
     Character TargetCharacter;
 
 
@@ -53,7 +57,7 @@ public class QOAgentDoingTask : QuestObjective
         {
             if(agent.CurrentTaskEntity != null)
             {
-                if(agent.CurrentTaskEntity.CurrentTask == Task)
+                if(agent.CurrentTaskEntity.CurrentTask == Task || OptionalTasks.Contains(agent.CurrentTaskEntity.CurrentTask))
                 {
                     if(TargetCharacter!=null && agent.CurrentTaskEntity.TargetCharacter.name != TargetCharacter.name)
                     {

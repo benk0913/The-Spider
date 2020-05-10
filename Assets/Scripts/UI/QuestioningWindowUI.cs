@@ -93,7 +93,15 @@ public class QuestioningWindowUI : MonoBehaviour
             MatchEffectPanel.transform.SetAsLastSibling();
             MatchEffectTitle.text = "Questioning...";
 
-            CORE.Instance.DelayedInvokation(2f, () => { InputBlocker.SetActive(false); });
+            CORE.Instance.DelayedInvokation(2f, () => 
+            {
+                InputBlocker.SetActive(false);
+
+                if(CurrentInstance.InstantFailure)
+                {
+                    InstantLose();
+                }
+            });
         });
         
     }
@@ -197,7 +205,11 @@ public class QuestioningWindowUI : MonoBehaviour
     {
         if(CharacterDeck.Count == 0)
         {
-            Lose();
+            if (Hand.Count == 0)
+            {
+                Lose();
+            }
+
             return;
         }
 
@@ -389,6 +401,38 @@ public class QuestioningWindowUI : MonoBehaviour
             WarningWindowUI.Instance.Show(CurrentCharacter.name + " Has failed questioning "+CurrentTarget.name+" properly.",null);
         });
     }
+
+    public void InstantLose()
+    {
+        InputBlocker.SetActive(true);
+        MatchEffectPanel.SetActive(true);
+        MatchEffectPanel.transform.SetAsLastSibling();
+        MatchEffectTitle.text = "Failure!";
+
+        CORE.Instance.DelayedInvokation(3f, () =>
+        {
+            InputBlocker.SetActive(false);
+            this.gameObject.SetActive(false);
+
+            WarningWindowUI.Instance.Show(CurrentCharacter.name + " Has failed questioning " + CurrentTarget.name + " properly.", ()=> 
+            {
+                if (CurrentTarget.CurrentQuestioningInstance.CompleteLetter != null)
+                {
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("Letter_From", CurrentTarget.CurrentQuestioningInstance.CompleteLetter.PresetSender);
+                    parameters.Add("Letter_To", CORE.PC);
+
+                    Letter letter = new Letter(CurrentTarget.CurrentQuestioningInstance.CompleteLetter, parameters);
+
+                    LetterDispenserEntity.Instance.DispenseLetter(letter);
+                }
+
+
+                CurrentTarget.CurrentQuestioningInstance = null;
+            },true);
+        });
+    }
+
 
     public void Win()
     {

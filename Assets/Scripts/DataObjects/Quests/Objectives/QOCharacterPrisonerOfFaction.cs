@@ -18,6 +18,8 @@ public class QOCharacterPrisonerOfFaction : QuestObjective
     Character CurrentCharacter;
     Faction CurrentFaction;
 
+    public bool Inverse;
+
     public override bool Validate()
     {
         if (CurrentCharacter == null || CurrentFaction == null)
@@ -37,7 +39,19 @@ public class QOCharacterPrisonerOfFaction : QuestObjective
                 && CurrentCharacter.PrisonLocation.OwnerCharacter != null 
                 && CurrentCharacter.PrisonLocation.OwnerCharacter.CurrentFaction == CurrentFaction)
             {
+                if(Inverse)
+                {
+                    return false;
+                }
+
                 return true;
+            }
+            else
+            {
+                if(Inverse)
+                {
+                    return true;
+                }
             }
         }
      

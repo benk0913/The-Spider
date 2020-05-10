@@ -1182,7 +1182,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
                 if (Employer == CORE.PC)
                 {
-                    LoseWindowUI.Instance.Show();
+                    WarningWindowUI.Instance.Show(this.name + " has been promoted to replace YOU. Keep your agent's in check next time.", () => { LoseWindowUI.Instance.Show(); }, true);
                     return;
                 }
                 else if(this == CORE.PC || Employer == this)

@@ -29,7 +29,12 @@ public class QuestioningInstance : ScriptableObject, ISaveFileCompatible
         JSONClass node = new JSONClass();
 
         node["Title"] = Title;
-        node["CompleteDialog"] = CompleteLetter.name;
+
+        if (CompleteLetter != null)
+        {
+            node["CompleteDialog"] = CompleteLetter.name;
+        }
+
         node["InstantFailure"] = InstantFailure.ToString();
 
         return node;
