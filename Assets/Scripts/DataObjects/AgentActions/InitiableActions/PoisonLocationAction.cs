@@ -43,27 +43,6 @@ public class PoisonLocationAction : AgentAction
             charactersToKill.Add(targetEntity.OwnerCharacter);
         }
 
-        if(charactersToKill.Count > 0)
-        {
-            Rumor gatheredRumor = Instantiate(CORE.Instance.Database.CustomRumor);
-
-            gatheredRumor.name = "Poisoning in " + targetEntity.Name + " ?";
-            gatheredRumor.Title = gatheredRumor.name;
-            gatheredRumor.Description = "It is rumored that the owner and employees of " + targetEntity.Name + " were victims of a malicious poisoning, who would do such a vile and dishonorable thing? Only a coward, they say.";
-            gatheredRumor.RelevantLocationID = targetEntity.ID;
-            gatheredRumor.isTemporary = true;
-
-            RumorsPanelUI.Instance.GainCustomRumor(gatheredRumor);
-
-            CORE.Instance.SplineAnimationObject("EarCollectedWorld",
-                   targetEntity.transform,
-                   RumorsPanelUI.Instance.Notification.transform,
-                   () => { StatsViewUI.Instance.RefreshRumors(); },
-                   false);
-
-            AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position);
-        }
-
         while (charactersToKill.Count > 0)
         {
             charactersToKill[0].StopDoingCurrentTask(true);

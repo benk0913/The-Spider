@@ -37,34 +37,6 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
         Instance = this;
     }
 
-    private void Start()
-    {
-        GameClock.Instance.OnWeekPassed.AddListener(OnWeekPassed);
-
-        if(GameClock.Instance.CurrentTurn == 0 && CORE.Instance.Database.Timeline.Length > 0)
-        {
-            foreach (LetterPreset letter in CORE.Instance.Database.Timeline[0].Letters)
-            {
-                DispenseLetter(new Letter(letter));
-            }
-        }
-
-        
-    }
-
-    void OnWeekPassed()
-    {
-        if(GameClock.Instance.CurrentWeek >= CORE.Instance.Database.Timeline.Length)
-        {
-            return;
-        }
-
-        foreach (LetterPreset letter in CORE.Instance.Database.Timeline[GameClock.Instance.CurrentWeek].Letters)
-        {
-            DispenseLetter(new Letter(letter));
-        }
-    }
-
     public void DispenseLetters(Letter[] letters)
     {
         if(letters == null || letters.Length == 0)

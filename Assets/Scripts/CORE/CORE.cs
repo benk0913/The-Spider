@@ -339,6 +339,8 @@ public class CORE : MonoBehaviour
         //AI DECISIONS
         foreach (Faction faction in CORE.Instance.Factions)
         {
+            faction.OnTurnPassed();
+
             if (faction.FactionHead == null)
             {
                 continue;

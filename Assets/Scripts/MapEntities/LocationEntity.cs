@@ -147,7 +147,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
                     foreach(Faction key in ControlSize.Keys)
                     {
-                        if (ControlSize[key] >= locationsInDistrict.Count / 2)
+                        if (ControlSize[key] >= locationsInDistrict.Count * 0.8)
                         {
                             return key;
                         }
@@ -1018,6 +1018,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         if (OwnerCharacter == null || OwnerCharacter.TopEmployer != CORE.PC)
         {
+            if(StatsOfLocationUIInstance != null && StatsOfLocationUIInstance.gameObject.activeInHierarchy)
+            {
+                StatsOfLocationUIInstance.Hide();
+            }
+
             return;
         }
 
@@ -1031,8 +1036,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
         else
         {
+            if (StatsOfLocationUIInstance != null && StatsOfLocationUIInstance.gameObject.activeInHierarchy)
+            {
+                StatsOfLocationUIInstance.Show();
+            }
+
             StatsOfLocationUIInstance.Refresh();
         }
+
     }
 
     public void RefreshTasks()
@@ -1575,6 +1586,22 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (Known.IsKnown("Existance", CORE.PC))
         {
             TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.Name + ": Has Been Purchased!", CurrentProperty.Icon, null));
+        }
+
+
+        bool existsInFactionProperties = false;
+        foreach(Property property in OwnerCharacter.CurrentFaction.FactionProperties)
+        {
+            if(property.name == CurrentProperty.name)
+            {
+                existsInFactionProperties = true;
+                break;
+            }
+        }
+
+        if(!existsInFactionProperties)
+        {
+            Rebrand(OwnerCharacter.TopEmployer, CurrentProperty.PlotType.BaseProperty);
         }
 
         return null;

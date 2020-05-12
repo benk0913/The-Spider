@@ -53,6 +53,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public List<EndGameParameter> EndGameUniqueParameters = new List<EndGameParameter>();
 
+    public List<TimelineInstance> Timeline = new List<TimelineInstance>();
+
     public Faction Clone()
     {
         Faction newClone = Instantiate(this);
@@ -128,6 +130,26 @@ public class Faction : ScriptableObject, ISaveFileCompatible
         node["Relations"] = Relations.ToJSON();
 
         return node;
+    }
+
+    public void OnTurnPassed()
+    {
+        TimelineInstance instance = Timeline.Find(x => x.Turn == GameClock.Instance.CurrentTurn);
+
+        if(instance == null)
+        {
+            return;
+        }
+
+        if(instance.PlayerOnly && CORE.PlayerFaction.name != this.name)
+        {
+            return;
+        }
+
+        foreach(DialogDecisionAction action in instance.Actions)
+        {
+            action.Activate();
+        }
     }
 }
 

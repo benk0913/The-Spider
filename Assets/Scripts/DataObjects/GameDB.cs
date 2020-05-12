@@ -50,8 +50,6 @@ public class GameDB : ScriptableObject
 
     public PlotType UniquePlotType;
 
-    public Rumor CustomRumor;
-
     public TMP_FontAsset DefaultFont;
 
     public AgentAction SlackOfAction;
@@ -107,8 +105,6 @@ public class GameDB : ScriptableObject
     public List<RecruitmentPool> RecruitmentPools;
     public RecruitmentPool DefaultPool;
 
-    public TimelineInstance[] Timeline;
-
     public PopupDataPreset GetPopupPreset(string popupName)
     {
         foreach(PopupDataPreset popup in AllPopupPresets)
@@ -160,22 +156,6 @@ public class GameDB : ScriptableObject
             if (AllQuests[i].name == questName)
             {
                 return AllQuests[i];
-            }
-        }
-
-        return null;
-    }
-
-    public Rumor GetRumor(string rumorName)
-    {
-        for(int i=0;i<Timeline.Length;i++)
-        {
-            for(int r=0;r<Timeline[i].Rumors.Length;r++)
-            {
-                if (Timeline[i].Rumors[r].name == rumorName)
-                {
-                    return Timeline[i].Rumors[r];
-                }
             }
         }
 
@@ -306,8 +286,10 @@ public class GameStats
 [System.Serializable]
 public class TimelineInstance
 {
-    public Rumor[] Rumors;
+    public bool PlayerOnly = true;
 
-    public LetterPreset[] Letters;
+    public int Turn;
+
+    public DialogDecisionAction[] Actions;
 }
    

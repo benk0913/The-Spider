@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 82589378b4d03614cb712a380509b8f5, type: 3}
   Description: 'Take over the Windgate district, this is done by <color=yellow>Owning
-    all of the available properties in this district. Even properties from enemy
+    80% of the available properties in this district. Even properties from enemy
     factions.</color> To see which properties are a part of a set district, simply
     click on the district (The "Fountain") and see which available properties are
     in its borders. You don''t have to own neutral properties (Like Market Places
@@ -22,9 +22,7 @@ MonoBehaviour:
 
     When a district is under your control,
     it''s fountain''s colour will change to your faction''s color and its bonuses
-    will be given to you from this point on.
-
-'
+    will be given to you from this point on.'
   Objectives:
   - {fileID: 11400000, guid: 40630a43d1380264caca414f73f713d1, type: 2}
   Rewards: []
@@ -38,6 +36,8 @@ MonoBehaviour:
   CompletePopup: {fileID: 0}
   OnStartQuestAction: {fileID: 0}
   HasSounds: 1
+  MustQuest: 0
+  LockPassTime: 0
   relevantCharacterID: 
   relevantLocationID: 
   forCharacterID: 
