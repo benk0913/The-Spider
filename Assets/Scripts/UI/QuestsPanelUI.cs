@@ -52,6 +52,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             AudioControl.Instance.Play("quest_accept");
         }
 
+        if (quest.LockPassTime)
+        {
+            GameClock.Instance.LockingQuest = quest;
+        }
+
         ActiveQuests.Add(quest);
 
         AddQuestToContainer(quest);
@@ -149,6 +154,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
                     }
                 }
             }
+        }
+
+        if(GameClock.Instance.LockingQuest == quest)
+        {
+            GameClock.Instance.LockingQuest = null;
         }
 
         ActiveQuests.Remove(quest);

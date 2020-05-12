@@ -38,6 +38,8 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public bool FromRaven = false;
 
+    public bool LockPassTime = false;
+
     public LetterPreset CreateClone()
     {
         LetterPreset clone = Instantiate(this);

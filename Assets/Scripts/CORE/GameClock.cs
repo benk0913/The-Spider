@@ -34,6 +34,9 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
 
     public UnityEvent OnWeekPassed = new UnityEvent();
 
+    public Quest LockingQuest;
+    public LetterPreset LockingLetter;
+
     private void Awake()
     {
         Instance = this;
@@ -59,6 +62,18 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
     {
         if (PassTimeRoutineInstance != null)
         {
+            return;
+        }
+
+        if(LockingQuest != null)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Can not pass time, you must first complete the quest: " + LockingQuest.name,3f,Color.red);
+            return;
+        }
+
+        if (LockingLetter != null)
+        {
+            GlobalMessagePrompterUI.Instance.Show("Can not pass time, an important letter is waiting for you.", 3f, Color.red);
             return;
         }
 

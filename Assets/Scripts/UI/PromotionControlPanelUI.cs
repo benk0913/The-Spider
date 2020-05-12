@@ -7,6 +7,7 @@ using System.Linq;
 
 public class PromotionControlPanelUI : MonoBehaviour
 {
+
     public TextMeshProUGUI PercentageText;
 
     public PortraitUI CharPortrait;
@@ -18,6 +19,7 @@ public class PromotionControlPanelUI : MonoBehaviour
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
+        CORE.Instance.SubscribeToEvent("CreditStolen", Refresh);
         DefaultView();
     }
 

@@ -74,16 +74,16 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
 
         for(int i=0;i<letters.Length;i++)
         {
-            StartCoroutine(DispenseLetterRoutine(GenerateLetter(letters[i]).transform, i, letters[i].Preset.FromRaven));
+            StartCoroutine(DispenseLetterRoutine(letters[i], GenerateLetter(letters[i]).transform, i, letters[i].Preset.FromRaven));
         }
     }
 
     public void DispenseLetter(Letter letter)
     {
-        StartCoroutine(DispenseLetterRoutine(GenerateLetter(letter).transform,0f,letter.Preset.FromRaven));
+        StartCoroutine(DispenseLetterRoutine(letter, GenerateLetter(letter).transform,0f,letter.Preset.FromRaven));
     }
 
-    IEnumerator DispenseLetterRoutine(Transform letterTransform, float addedY = 0f, bool isRaven = false)
+    IEnumerator DispenseLetterRoutine(Letter letter ,Transform letterTransform, float addedY = 0f, bool isRaven = false)
     {
        
 
@@ -95,6 +95,11 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
         else
         {
             CORE.Instance.InvokeEvent("NewLetter");
+        }
+
+        if(letter.Preset.LockPassTime)
+        {
+            GameClock.Instance.LockingLetter = letter.Preset;
         }
 
         yield return 0;
@@ -193,7 +198,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
             Letter tempLetter = new Letter(CORE.Instance.Database.PresetLetters.Find(x => x.name == node["Envelopes"][i]["Preset"]));
             EnvelopeEntity tempEnvelope = GenerateLetter(tempLetter).GetComponent<EnvelopeEntity>();
             tempEnvelope.FromJSON(node["Envelopes"][i]);
-            StartCoroutine(DispenseLetterRoutine(tempEnvelope.transform,0f,tempLetter.Preset.FromRaven));
+            StartCoroutine(DispenseLetterRoutine(tempLetter, tempEnvelope.transform,0f,tempLetter.Preset.FromRaven));
         }
     }
 

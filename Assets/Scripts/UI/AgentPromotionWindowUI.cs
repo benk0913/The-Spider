@@ -24,6 +24,7 @@ public class AgentPromotionWindowUI : SelectCharacterViewUI
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
+        CORE.Instance.SubscribeToEvent("CreditStolen", Refresh);
     }
 
     void Refresh()

@@ -295,6 +295,14 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         QuestPanel.gameObject.SetActive(false);
     }
 
+    public void OpenLetter()
+    {
+        if(CurrentLetter.Preset.LockPassTime && GameClock.Instance.LockingLetter.name == CurrentLetter.Preset.name)
+        {
+            GameClock.Instance.LockingLetter = null;
+        }
+    }
+
     public JSONNode ToJSON()
     {
         JSONClass node = new JSONClass();

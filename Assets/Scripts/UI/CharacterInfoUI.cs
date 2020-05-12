@@ -534,5 +534,6 @@ public class CharacterInfoUI : MonoBehaviour
                 new RelationsModifier("Stole my credit!", -10), 35, CORE.PC));
 
         RefreshTurnPassed();
+        CORE.Instance.InvokeEvent("CreditStolen");
     }
 }

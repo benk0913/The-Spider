@@ -37,6 +37,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public bool MustQuest = false;
 
+    public bool LockPassTime;//TODO WARNING, DANGEROUS, USE WITH CARE.
+
     public Quest CreateClone()
     {
         Quest quest = Instantiate(this);
@@ -160,6 +162,11 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         relevantCharacterID = node["RelevantCharacterID"];
         relevantLocationID  = node["RelevantLocationID"];
         forCharacterID = node["ForCharacter"].Value;
+
+        if (!string.IsNullOrEmpty(node["LockPassTime"]))
+        {
+            LockPassTime = bool.Parse(node["LockPassTime"]);
+        }
     }
 
     public string relevantCharacterID;
@@ -216,6 +223,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
         {
             node["ForCharacter"] = this.ForCharacter.ID;
         }
+
+        node["LockPassTime"] = LockPassTime.ToString();
 
         return node;
     }

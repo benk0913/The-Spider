@@ -965,7 +965,7 @@ public class CORE : MonoBehaviour
         }
 
         QuestsPanelUI.Instance.ImplementIDs();
-
+        
         LetterDispenserEntity.Instance.ImplementIDs();
         LettersPanelUI.Instance.ImplementIDs();
 
