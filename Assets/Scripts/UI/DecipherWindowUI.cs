@@ -135,7 +135,9 @@ public class DecipherWindowUI : MonoBehaviour
             {
                 foreach (char letter in lettersInText)
                 {
-                    if (char.ToLower(letter) == Input.inputString[0])
+                    char targetChar;
+
+                    if (char.ToLower(letter) == char.ToLower(Input.inputString[0]))
                     {
                         SetCharacter(letter);
                         break;

@@ -182,11 +182,18 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             FromPortrait.gameObject.SetActive(true);
             ToPortrait.gameObject.SetActive(true);
 
-            FromText.text = ((Character)CurrentLetter.Parameters["Letter_From"]).name;
-            FromPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_From"]));
-            ToPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_To"]));
+            if (CurrentLetter.Parameters.ContainsKey("Letter_From") && CurrentLetter.Parameters["Letter_From"] != null)
+            {
+                FromText.text = ((Character)CurrentLetter.Parameters["Letter_From"]).name;
+                FromPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_From"]));
+            }
 
-            if (CurrentLetter.Parameters.ContainsKey("Letter_SubjectCharacter"))
+            if (CurrentLetter.Parameters.ContainsKey("Letter_To") && CurrentLetter.Parameters["Letter_To"] != null)
+            {
+                ToPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_To"]));
+            }
+
+            if (CurrentLetter.Parameters.ContainsKey("Letter_SubjectCharacter") && CurrentLetter.Parameters["Letter_SubjectCharacter"] != null)
             {
                 SubjectPortrait.gameObject.SetActive(true);
                 SubjectPortrait.SetCharacter(((Character)CurrentLetter.Parameters["Letter_SubjectCharacter"]));

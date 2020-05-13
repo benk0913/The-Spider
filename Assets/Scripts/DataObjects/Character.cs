@@ -1858,6 +1858,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             for(int i=0;i<item.KnownByCharacters.Count;i++)
             {
+                if(item.KnownByCharacters[i] == null)
+                {
+                    continue;
+                }
+
                 node["Knowledge"][item.Key][i] = item.KnownByCharacters[i].ID;
                 node["Knowledge"]["Score"][item.Key] = item.Score.ToString();
             }
@@ -2054,9 +2059,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
         Hair = HairColor.GetVCByName(node["hair"]);
         clothing = VisualSet.GetVCByName(node["clothing"]);
 
-        if (!string.IsNullOrEmpty(node["UniquePortrait"]))
+        if (!string.IsNullOrEmpty(node["UniquePortrait"].Value))
         {
-            UniquePortrait = ResourcesLoader.Instance.GetSprite(node["UniquePortrait"]);
+            UniquePortrait = ResourcesLoader.Instance.GetSprite(node["UniquePortrait"].Value);
         }
 
         if (!string.IsNullOrEmpty(node["CurrentTaskEntityCurrentTask"]))
