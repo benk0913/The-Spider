@@ -4,7 +4,7 @@ using SimpleJSON;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QuestioningInstance", menuName = "DataObjects/QuestioningInstance", order = 2)]
-public class QuestioningInstance : ScriptableObject, ISaveFileCompatible
+public class QuestioningInstance : ScriptableObject
 {
     public string Title;
 
@@ -12,39 +12,4 @@ public class QuestioningInstance : ScriptableObject, ISaveFileCompatible
 
     public bool InstantFailure = false;
 
-    public void FromJSON(JSONNode node)
-    {
-        Title = node["Title"];
-        CompleteLetter = CORE.Instance.Database.PresetLetters.Find(x=>x.name == node["CompleteDialog"]);
-        InstantFailure = bool.Parse(node["InstantFailure"]);
-    }
-
-    public void ImplementIDs()
-    {
-        
-    }
-
-    public JSONNode ToJSON()
-    {
-        JSONClass node = new JSONClass();
-
-        node["Title"] = Title;
-
-        if (CompleteLetter != null)
-        {
-            node["CompleteDialog"] = CompleteLetter.name;
-        }
-
-        node["InstantFailure"] = InstantFailure.ToString();
-
-        return node;
-    }
-
-    public QuestioningInstance Clone()
-    {
-        QuestioningInstance clone = Instantiate(this);
-        clone.name = this.name;
-
-        return clone;
-    }
 }

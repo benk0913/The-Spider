@@ -88,13 +88,16 @@ public class CheatMenuUI : MonoBehaviour
             PlottingDuelUI.Instance.ParticipantsPortraits.Clear();
             PlottingDuelUI.Instance.ExecuteDuelResult();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) // Questioning Test
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            QuestioningWindowUI.Instance.Test();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) // Dialog aCTION
         {
             testaction.Activate();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1)) // Change the current turn;
+        {
+            GameClock.Instance.CurrentTurn++;
         }
         else if(Input.GetKeyDown(KeyCode.Alpha0))
         {

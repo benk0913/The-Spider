@@ -156,7 +156,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             }
         }
 
-        if(GameClock.Instance.LockingQuest == quest)
+        if(GameClock.Instance.LockingQuest.name == quest.name)
         {
             GameClock.Instance.LockingQuest = null;
         }
@@ -227,6 +227,12 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         ActiveQuests.Remove(quest);
         AddCompletedQuest(quest);
+
+
+        if (GameClock.Instance.LockingQuest != null && GameClock.Instance.LockingQuest.name == quest.name)
+        {
+            GameClock.Instance.LockingQuest = null;
+        }
 
         if (quest.ForCharacter == CORE.PC)
         {

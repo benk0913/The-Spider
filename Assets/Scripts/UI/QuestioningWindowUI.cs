@@ -463,18 +463,6 @@ public class QuestioningWindowUI : MonoBehaviour
         });
     }
 
-
-    //DEBUG
-
-    public void Test()
-    {
-        Character chara = CORE.Instance.Characters[Random.Range(0, CORE.Instance.Characters.Count)];
-        Character targe = CORE.Instance.Characters[Random.Range(0, CORE.Instance.Characters.Count)];
-        targe.CurrentQuestioningInstance = CORE.Instance.Database.DefaultQeustioningInstance.Clone();
-        targe.CurrentQuestioningInstance.Title = "Test";
-
-        Show(chara, targe);
-    }
 }
 
 [System.Serializable]

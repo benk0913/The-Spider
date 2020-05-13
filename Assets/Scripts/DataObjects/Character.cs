@@ -1909,7 +1909,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         if (CurrentQuestioningInstance != null)
         {
-            node["CurrentQuestioningInstance"] = CurrentQuestioningInstance.ToJSON();
+            node["CurrentQuestioningInstance"] = CurrentQuestioningInstance.name;
         }
 
         if (CurrentTaskEntity != null)
@@ -2070,11 +2070,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
             _currentTaskPerTurnAction = node["CurrentTaskPerTurnAction"];
         }
 
-        if (CurrentQuestioningInstance != null)
+        if (!string.IsNullOrEmpty(node["CurrentQuestioningInstance"].Value))
         {
-            CurrentQuestioningInstance = CORE.Instance.Database.DefaultQeustioningInstance.Clone();
-
-            CurrentQuestioningInstance.FromJSON(node["CurrentQuestioningInstance"]);
+            CurrentQuestioningInstance = CORE.Instance.Database.QuestioningInstances.Find(x => x.name == node["CurrentQuestioningInstance"].Value);
+        }
+        else
+        {
+            CurrentQuestioningInstance = null;
         }
     }
 

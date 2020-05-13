@@ -150,6 +150,13 @@ public class GameDBEditor : Editor
             db.AgentActions.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(AgentAction)) as AgentAction);
         }
 
+        guids = AssetDatabase.FindAssets("t:QuestioningInstance", new[] { "Assets/" + db.DataPath });
+        db.QuestioningInstances.Clear();
+        foreach (string guid in guids)
+        {
+            db.QuestioningInstances.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(QuestioningInstance)) as QuestioningInstance);
+        }
+
 
         EditorUtility.SetDirty(db);
     }

@@ -105,6 +105,8 @@ public class GameDB : ScriptableObject
     public List<RecruitmentPool> RecruitmentPools;
     public RecruitmentPool DefaultPool;
 
+    public List<QuestioningInstance> QuestioningInstances;
+
     public PopupDataPreset GetPopupPreset(string popupName)
     {
         foreach(PopupDataPreset popup in AllPopupPresets)

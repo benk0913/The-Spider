@@ -11,6 +11,11 @@ public class QOQuestionedCharacter : QuestObjective
 
     public override bool Validate()
     {
+        if(CORE.Instance.isLoading)
+        {
+            return false;
+        }
+
         if (ParentQuest.ForCharacter == null)
         {
             return false;

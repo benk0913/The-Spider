@@ -15,6 +15,9 @@ public class QOAgentDoingTask : QuestObjective
     [SerializeField]
     Character TargetCharacter;
 
+    [SerializeField]
+    Property TargetLocation;
+
 
     bool valid = false;
     bool subscribed = false;
@@ -60,6 +63,10 @@ public class QOAgentDoingTask : QuestObjective
                 if(agent.CurrentTaskEntity.CurrentTask == Task || OptionalTasks.Contains(agent.CurrentTaskEntity.CurrentTask))
                 {
                     if(TargetCharacter!=null && agent.CurrentTaskEntity.TargetCharacter.name != TargetCharacter.name)
+                    {
+                        continue;
+                    }
+                    else if (TargetLocation != null && agent.CurrentTaskEntity.CurrentTargetLocation.CurrentProperty.name != TargetLocation.name)
                     {
                         continue;
                     }
