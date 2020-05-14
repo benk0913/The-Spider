@@ -47,10 +47,7 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
+        reason = null;
 
         if (requester != character && requester != CORE.Instance.Database.GOD && character.TopEmployer != requester)
         {
@@ -73,6 +70,10 @@ public class AttemptBefriendingPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
+        if (!base.CanDoAction(requester, character, target, out reason))
+        {
+            return false;
+        }
 
         return true;
     }

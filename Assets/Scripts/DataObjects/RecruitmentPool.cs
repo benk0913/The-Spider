@@ -27,6 +27,7 @@ public class RecruitmentPool : ScriptableObject, ISaveFileCompatible
 
     public int Cost = 3;
 
+
     public RecruitmentPool Clone()
     {
         RecruitmentPool clone = Instantiate(this);

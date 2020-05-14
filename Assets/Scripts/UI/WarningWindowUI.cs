@@ -32,9 +32,13 @@ public class WarningWindowUI : MonoBehaviour
 
     private void Update()
     {
-        if (!CantHide && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+        if (!CantHide && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space)))
         {
             Hide();
+        }
+        else if(Input.GetKeyDown(KeyCode.Return))
+        {
+            Accept();
         }
     }
 

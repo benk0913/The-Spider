@@ -400,6 +400,17 @@ public class CharacterInfoUI : MonoBehaviour
 
         HasQuestioningPanel.gameObject.SetActive(CurrentCharacter.CurrentQuestioningInstance != null);
     }
+    
+    public void RefreshUI()
+    {
+        if(!this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        ShowInfo(CurrentCharacter);
+    }
+
 
     void ClearPropertiesOwned()
     {

@@ -29,9 +29,13 @@ public class TextInputWindowUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Hide();
+        }
+        else if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Accept();
         }
     }
 

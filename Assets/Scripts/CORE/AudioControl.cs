@@ -113,7 +113,14 @@ public class AudioControl : MonoBehaviour {
 
         if(currentInstance==null)
         {
-            currentInstance = (GameObject)Instantiate(ResourcesLoader.Instance.GetObject(m_sInstancePrefab));
+            GameObject prefab = ResourcesLoader.Instance.GetObject(m_sInstancePrefab);
+
+            if(prefab == null)
+            {
+                return;
+            }
+
+            currentInstance = (GameObject)Instantiate(prefab);
             currentInstance.transform.parent = m_tInstancesContainer;
             Instances.Add(currentInstance);
         }

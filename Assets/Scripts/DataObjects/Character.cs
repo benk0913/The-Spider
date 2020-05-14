@@ -1201,6 +1201,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
                         StartOwningLocation(location);
                     }
 
+                    if(Employer == null)
+                    {
+                        return;
+                    }
+
                     Employer.StopDoingCurrentTask();
                     Employer.StopWorkingForCurrentLocation();
                 }
@@ -1503,11 +1508,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             Known.KnowEverything(TopEmployer);
         }
 
-        GoToLocation(WorkLocation);
-
-        TryToDoSomething();
-
         RefreshVisualTree();
+
+        GoToLocation(WorkLocation);
+        
+        TryToDoSomething();
 
         if (TopEmployer == CORE.PC)
         {
@@ -2052,12 +2057,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             Belogings.Add(CORE.Instance.Database.GetItem(node["Inventory"][i]).Clone());
         }
 
-        Age = int.Parse(node["age"]);
-        SkinColor = VisualSet.GetVCByName(node["skinColor"]);
-        HairColor = VisualSet.GetVCByName(node["hairColor"]);
-        Face = SkinColor.GetVCByName(node["face"]);
-        Hair = HairColor.GetVCByName(node["hair"]);
-        clothing = VisualSet.GetVCByName(node["clothing"]);
+        Age = int.Parse(node["age"].Value);
+        SkinColor = VisualSet.GetVCByName(node["skinColor"].Value);
+        HairColor = VisualSet.GetVCByName(node["hairColor"].Value);
+        Face = SkinColor.GetVCByName(node["face"].Value);
+        Hair = HairColor.GetVCByName(node["hair"].Value);
+        clothing = VisualSet.GetVCByName(node["clothing"].Value);
 
         if (!string.IsNullOrEmpty(node["UniquePortrait"].Value))
         {
@@ -2197,6 +2202,27 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             AI = Instantiate(CurrentFaction.AI);
         }
+
+        //if (Clothing == null)
+        //{
+        //    if (IsGuard)
+        //    {
+        //        if (WorkLocation != null && WorkLocation.CurrentAction.GuardUniform != null)
+        //        {
+        //            Clothing = Gender == GenderType.Male ?
+        //                WorkLocation.CurrentAction.GuardUniform.MaleClothing : WorkLocation.CurrentAction.GuardUniform.FemaleClothing;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (WorkLocation != null && WorkLocation.CurrentAction.EmployeeUniform != null)
+        //        {
+        //            Clothing = Gender == GenderType.Male ?
+        //                WorkLocation.CurrentAction.EmployeeUniform.MaleClothing : WorkLocation.CurrentAction.EmployeeUniform.FemaleClothing;
+        //        }
+        //    }
+        //}
+
 
         if (IsDead)
         {

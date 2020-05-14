@@ -111,15 +111,15 @@ public class Letter : ISaveFileCompatible
                 string elementValue = "";
 
                 object tempValue = Parameters[Parameters.Keys.ElementAt(i)];
-                if (tempValue.GetType() == typeof(string))
+                if (tempValue != null && tempValue.GetType() == typeof(string))
                 {
                     elementValue = (string)tempValue;
                 }
-                else if (tempValue.GetType() == typeof(Character))
+                else if (tempValue != null && tempValue.GetType() == typeof(Character))
                 {
                     elementValue = ((Character)tempValue).ID;
                 }
-                else if (tempValue.GetType() == typeof(LocationEntity))
+                else if (tempValue != null && tempValue.GetType() == typeof(LocationEntity))
                 {
                     elementValue = ((LocationEntity)tempValue).ID;
                 }
@@ -153,20 +153,20 @@ public class Letter : ISaveFileCompatible
         tempParameters = new Dictionary<string, string>();
         for(int i=0;i<node["Parameters"].Count;i++)
         {
-            if(node["Parameters"][i]["Value"] == null)
+            if(node["Parameters"][i]["Value"].Value == null)
             {
-                Debug.LogError("LETTER VALUE IS NULL " + node["Parameters"][i]["Key"]);
-                tempParameters.Add(node["Parameters"][i]["Key"], "");
+                Debug.LogError("LETTER VALUE IS NULL " + node["Parameters"][i]["Key"].Value);
+                tempParameters.Add(node["Parameters"][i]["Key"].Value, "");
                 continue;
             }
 
-            if (node["Parameters"][i]["Key"] == null)
+            if (node["Parameters"][i]["Key"].Value == null)
             {
-                Debug.LogError("LETTER KEY IS NULL " + node["Parameters"][i]["Value"]);
+                Debug.LogError("LETTER KEY IS NULL " + node["Parameters"][i]["Value"].Value);
                 continue;
             }
 
-            tempParameters.Add(node["Parameters"][i]["Key"], node["Parameters"][i]["Value"]);
+            tempParameters.Add(node["Parameters"][i]["Key"].Value, node["Parameters"][i]["Value"].Value);
         }
     }
 

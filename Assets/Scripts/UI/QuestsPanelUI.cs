@@ -356,9 +356,9 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             GlobalMessagePrompterUI.Instance.Show(parentQuest.name + " is complete!", 1f, Color.green);
         }
 
-        CORE.Instance.InvokeEvent("ObjectiveComplete");
-
         QuestComplete(parentQuest);
+
+        CORE.Instance.InvokeEvent("ObjectiveComplete");
 
     }
 

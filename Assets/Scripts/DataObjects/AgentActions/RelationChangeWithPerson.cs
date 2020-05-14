@@ -20,6 +20,8 @@ public class RelationChangeWithPerson : AgentAction //DO NOT INHERIT FROM
         targetChar.DynamicRelationsModifiers.Add(
              new DynamicRelationsModifier(
                  new RelationsModifier(RelationTitle, RelationAmount), RelationDuration, CORE.PC));
+
+        CharacterInfoUI.Instance.RefreshUI();
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
