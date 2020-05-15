@@ -245,6 +245,38 @@ public class AudioControl : MonoBehaviour {
         }
     }
 
+    public void SetTemporaryVolume(string gTag, float gVolume)
+    {
+
+        if (gTag == "Music")
+        {
+            MusicSource.volume = gVolume;
+        }
+
+        if (!VolumeGroups.ContainsKey(gTag))
+        {
+            VolumeGroups.Add(gTag, gVolume);
+        }
+        else
+        {
+            VolumeGroups[gTag] = gVolume;
+        }
+
+        for (int i = 0; i < Instances.Count; i++)
+        {
+            if (Instances[i].tag == gTag)
+            {
+                Instances[i].GetComponent<AudioSource>().volume = gVolume;
+            }
+        }
+    }
+
+    public void ResetTemporaryVolume(string gTag)
+    {
+        SetTemporaryVolume(gTag,PlayerPrefs.GetFloat(gTag));
+    }
+
+
     public void SetMasterVolume(float gVolume)
     {
         AudioListener.volume = gVolume;
@@ -399,12 +431,14 @@ public class AudioControl : MonoBehaviour {
 
     public void MuteMusic()
     {
-        MusicSource.mute = true;
+        SetTemporaryVolume("Music", PlayerPrefs.GetFloat("Music") / 2f);
+        //MusicSource.mute = true;
     }
 
     public void UnmuteMusic()
     {
-        MusicSource.mute = false;
+        ResetTemporaryVolume("Music");
+        //MusicSource.mute = false;
     }
 
     #endregion

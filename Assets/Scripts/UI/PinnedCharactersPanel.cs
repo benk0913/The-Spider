@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleAgentsPanel : MonoBehaviour
+public class PinnedCharactersPanel : MonoBehaviour
 {
-    public static IdleAgentsPanel Instance;
+    public static PinnedCharactersPanel Instance;
 
     [SerializeField]
     GameObject ContentPanel;
@@ -15,17 +15,11 @@ public class IdleAgentsPanel : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        ContentPanel.SetActive(false);
     }
 
     private void Start()
     {
-        CORE.Instance.SubscribeToEvent("AgentRefreshedAction", OnAgentChangedAction);
-        Refresh();
-    }
-
-    void OnAgentChangedAction()
-    {
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
         Refresh();
     }
 
@@ -53,7 +47,7 @@ public class IdleAgentsPanel : MonoBehaviour
         bool empty = true;
         foreach (Character character in CORE.Instance.Characters)
         {
-            if(character.TopEmployer == CORE.PC && character != CORE.PC && character.CurrentTaskEntity == null)
+            if(character.Pinned)
             {
                 PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
                 portrait.SetCharacter(character);
@@ -67,6 +61,7 @@ public class IdleAgentsPanel : MonoBehaviour
                 }
             }
 
+            yield return 0;
         }
 
         if(empty)

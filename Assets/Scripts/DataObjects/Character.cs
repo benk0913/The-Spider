@@ -284,11 +284,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
         set
         {
             _pinned = value;
-            
-            //if(CurrentLocation != null) //HEAVY
-            //{
-            //    CurrentLocation.RefreshCharactersInLocationUI();
-            //}
         }
     }
     bool _pinned;

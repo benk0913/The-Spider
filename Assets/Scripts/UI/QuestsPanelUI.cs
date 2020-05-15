@@ -61,7 +61,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         AddQuestToContainer(quest);
 
-        if (quest.RelevantCharacter != null)
+        if (quest.ForCharacter == CORE.PC && quest.RelevantCharacter != null)
         {
             quest.RelevantCharacter.Pinned = true;
 
