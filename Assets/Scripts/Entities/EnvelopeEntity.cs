@@ -304,7 +304,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
     public void OpenLetter()
     {
-        if(CurrentLetter.Preset.LockPassTime && GameClock.Instance.LockingLetter.name == CurrentLetter.Preset.name)
+        if(CurrentLetter.Preset.LockPassTime)
         {
             GameClock.Instance.LockingLetter = null;
         }

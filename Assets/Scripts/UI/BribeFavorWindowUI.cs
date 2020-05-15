@@ -41,6 +41,7 @@ public class BribeFavorWindowUI : MonoBehaviour
         if (AudioControl.Instance != null)
         {
             AudioControl.Instance.StopSound("soundscape_bribing");
+            AudioControl.Instance.UnmuteMusic();
         }
 
         if (MouseLook.Instance == null) return;
@@ -79,6 +80,7 @@ public class BribeFavorWindowUI : MonoBehaviour
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         AudioControl.Instance.Play("soundscape_bribing", true);
+        AudioControl.Instance.MuteMusic();
 
         CurrentCharacter = ofCharacter;
         this.gameObject.SetActive(true);

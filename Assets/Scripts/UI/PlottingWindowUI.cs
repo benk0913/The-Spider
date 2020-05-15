@@ -110,6 +110,7 @@ public class PlottingWindowUI : MonoBehaviour
         if (AudioControl.Instance != null)
         {
             AudioControl.Instance.StopSound("soundscape_plotting");
+            AudioControl.Instance.UnmuteMusic();
         }
     }
 
@@ -196,6 +197,7 @@ public class PlottingWindowUI : MonoBehaviour
         CORE.Instance.DelayedInvokation(0.1f, RefreshUI);
 
         AudioControl.Instance.Play("soundscape_plotting", true);
+        AudioControl.Instance.MuteMusic();
 
         this.gameObject.SetActive(true);
     }

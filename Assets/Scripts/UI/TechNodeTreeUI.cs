@@ -33,6 +33,7 @@ public class TechNodeTreeUI : NodeTreeUI
         if (AudioControl.Instance != null)
         {
             AudioControl.Instance.StopSound("soundscape_research_tech");
+            AudioControl.Instance.UnmuteMusic();
         }
 
 
@@ -62,6 +63,7 @@ public class TechNodeTreeUI : NodeTreeUI
     {
 
         AudioControl.Instance.Play("soundscape_research_tech", true);
+        AudioControl.Instance.MuteMusic();
 
         MouseLook.Instance.CurrentWindow = this.gameObject;
         this.gameObject.SetActive(true);

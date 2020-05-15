@@ -56,6 +56,7 @@ public class RecruitmentWindowUI : MonoBehaviour
         if (AudioControl.Instance != null)
         {
             AudioControl.Instance.StopSound("soundscape_research_character");
+            AudioControl.Instance.UnmuteMusic();
         }
 
         if (MouseLook.Instance == null) return;
@@ -72,6 +73,7 @@ public class RecruitmentWindowUI : MonoBehaviour
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         AudioControl.Instance.Play("soundscape_research_character", true);
+        AudioControl.Instance.MuteMusic();
 
         ClearPoolsContainers();
 

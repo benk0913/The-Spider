@@ -37,6 +37,7 @@ public class ResearchCharacterWindowUI : MonoBehaviour
     {
         if (AudioControl.Instance != null)
         {
+            AudioControl.Instance.UnmuteMusic();
             AudioControl.Instance.StopSound("soundscape_research_character");
         }
 
@@ -68,6 +69,7 @@ public class ResearchCharacterWindowUI : MonoBehaviour
         this.gameObject.SetActive(true);
 
         AudioControl.Instance.Play("soundscape_research_character", true);
+        AudioControl.Instance.MuteMusic();
 
         CurrentCharacter = ofCharacter;
         RefreshUI();

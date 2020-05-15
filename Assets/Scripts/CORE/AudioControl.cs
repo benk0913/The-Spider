@@ -314,6 +314,7 @@ public class AudioControl : MonoBehaviour {
 
     protected void SetMusic(string gClip, float fPitch = 1f)
     {
+
         if(WaitForMusicEndRoutineInstance != null)
         {
             StopCoroutine(WaitForMusicEndRoutineInstance);
@@ -394,6 +395,16 @@ public class AudioControl : MonoBehaviour {
 
         Instances.Add(source.gameObject);
         source.volume = VolumeGroups[source.gameObject.tag];
+    }
+
+    public void MuteMusic()
+    {
+        MusicSource.mute = true;
+    }
+
+    public void UnmuteMusic()
+    {
+        MusicSource.mute = false;
     }
 
     #endregion
