@@ -100,6 +100,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public LocationKnowledge Known;
 
+    public List<ForgeryCaseElement> CaseElements = new List<ForgeryCaseElement>();
 
     public LocationEntity NearestDistrict;
 
@@ -1175,6 +1176,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             node["Inventory"][i] = Inventory[i].name;
         }
 
+        for (int i = 0; i < CaseElements.Count; i++)
+        {
+            node["CaseElements"][i] = CaseElements[i].name;
+        }
+
         return node;
     }
 
@@ -1230,6 +1236,13 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
             Inventory.Add(itemPreset.Clone());
         }
+
+        CaseElements.Clear();
+        for (int i = 0; i < node["CaseElements"].Count; i++)
+        {
+            CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"].Value));
+        }
+
     }
 
     Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();

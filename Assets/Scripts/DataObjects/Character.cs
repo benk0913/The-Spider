@@ -344,6 +344,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
+    public List<ForgeryCaseElement> CaseElements = new List<ForgeryCaseElement>();
+
     public LongTermTaskEntity CurrentTaskEntity
     {
         get
@@ -1904,6 +1906,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             node["Inventory"][i] = Belogings[i].name;
         }
 
+        for(int i=0;i<CaseElements.Count;i++)
+        {
+            node["CaseElements"][i] = CaseElements[i].name;
+        }
+
         node["age"] = Age.ToString();
         node["skinColor"] = SkinColor.name;
         node["hairColor"] = HairColor.name;
@@ -2036,6 +2043,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
         for (int i = 0; i < node["Traits"].Count; i++)
         {
             AddTrait(CORE.Instance.Database.GetTrait(node["Traits"][i]));
+        }
+
+        CaseElements.Clear();
+        for (int i = 0; i < node["CaseElements"].Count; i++)
+        {
+            CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"].Value));
         }
 
         for (int i = 0; i < node["DynamicRelationsModifiers"].Count; i++)

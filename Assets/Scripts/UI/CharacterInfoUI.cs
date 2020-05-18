@@ -92,6 +92,9 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField]
     GameObject HasQuestioningPanel;
 
+    [SerializeField]
+    GameObject HasCaseInProgressPanel;
+
 
     Character CurrentCharacter;
 
@@ -398,7 +401,8 @@ public class CharacterInfoUI : MonoBehaviour
         SetRelation();
         SetFavors();
 
-        HasQuestioningPanel.gameObject.SetActive(CurrentCharacter.CurrentQuestioningInstance != null);
+        HasQuestioningPanel.SetActive(CurrentCharacter.CurrentQuestioningInstance != null);
+        HasCaseInProgressPanel.SetActive(CurrentCharacter.CaseElements.Count > 0);
     }
     
     public void RefreshUI()

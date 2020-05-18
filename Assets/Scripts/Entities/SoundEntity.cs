@@ -9,6 +9,11 @@ public class SoundEntity : MonoBehaviour
 
     public void PlaySound(string key)
     {
+        if(AudioControl.Instance == null)
+        {
+            return;
+        }
+
         if (WorldSound)
         {
             AudioControl.Instance.PlayInPosition(key, transform.position);

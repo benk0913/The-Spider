@@ -79,6 +79,8 @@ public class GameDB : ScriptableObject
 
     public List<TutorialScreenInstance> TutorialScreenInstances = new List<TutorialScreenInstance>();
 
+    public List<ForgeryCaseElement> CaseElements = new List<ForgeryCaseElement>();
+
     public BonusType[] BonusTypes;
 
     public ReputationInstance[] ReputationTypes;

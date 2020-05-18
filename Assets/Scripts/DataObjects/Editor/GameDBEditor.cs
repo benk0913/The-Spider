@@ -157,6 +157,13 @@ public class GameDBEditor : Editor
             db.QuestioningInstances.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(QuestioningInstance)) as QuestioningInstance);
         }
 
+        guids = AssetDatabase.FindAssets("t:ForgeryCaseElement", new[] { "Assets/" + db.DataPath });
+        db.CaseElements.Clear();
+        foreach (string guid in guids)
+        {
+            db.CaseElements.Add(AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(ForgeryCaseElement)) as ForgeryCaseElement);
+        }
+
 
         EditorUtility.SetDirty(db);
     }

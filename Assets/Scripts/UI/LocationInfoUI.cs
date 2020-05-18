@@ -31,6 +31,9 @@ public class LocationInfoUI : MonoBehaviour
     [SerializeField]
     Transform TraitsContainer;
 
+    [SerializeField]
+    GameObject HasCaseInProgressPanel;
+
     LocationEntity CurrentLocation;
 
 
@@ -125,6 +128,8 @@ public class LocationInfoUI : MonoBehaviour
             tempTrait.transform.localScale = Vector3.one;
             tempTrait.GetComponent<TraitUI>().SetInfo(CurrentLocation.Traits[i]);
         }
+
+        HasCaseInProgressPanel.SetActive(CurrentLocation.CaseElements.Count > 0);
     }
 
     void ClearContainer(Transform containerTransform)
