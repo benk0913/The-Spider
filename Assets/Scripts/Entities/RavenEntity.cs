@@ -40,6 +40,11 @@ public class RavenEntity : MonoBehaviour
                 return;
             }
 
+            if(Raven == null)
+            {
+                return;
+            }
+
             Raven.SetInteger("RandomIdle", Random.Range(0, 9));
 
             CORE.Instance.DelayedInvokation(Random.Range(1f, 6f), randomizeRavenIdle);

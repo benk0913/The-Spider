@@ -104,7 +104,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     {
         for(int i=0;i<Envelopes.Count;i++)
         {
-            if (Envelopes[i].PresetLetter.FromRaven)
+            if (Envelopes[i].PresetLetter != null && Envelopes[i].PresetLetter.FromRaven)
             {
                 Envelopes[i].transform.position = targetPointRaven.position + new Vector3(0f, i / 100f, 0f);
             }
