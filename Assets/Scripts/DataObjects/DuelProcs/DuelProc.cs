@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DuelProc", menuName = "DataObjects/DuelProcs/DuelProc", order = 2)]
 public class DuelProc : ScriptableObject
 {
+    public Sprite SideIcon;
+
     public TechTreeItem RequiredTech;
     
     public List<PlotMethod> ForMethodCondition;

@@ -10,6 +10,7 @@ public class PlottingDuelUI : MonoBehaviour
 {
     public static PlottingDuelUI Instance;
 
+    public Transform UnspentProcsContainer;
 
 
     public TextMeshProUGUI EntryTitle;
@@ -59,6 +60,8 @@ public class PlottingDuelUI : MonoBehaviour
 
     public bool SpeedMode = false;
 
+    public List<DuelProc> AllDuelProcs = new List<DuelProc>();
+
     public bool IsPlayerAttacker
     {
         get
@@ -96,6 +99,9 @@ public class PlottingDuelUI : MonoBehaviour
         LocationEntity location,
         System.Action<DuelResultData> onComplete)
     {
+        AllDuelProcs.Clear();
+        AllDuelProcs.AddRange(CORE.Instance.Database.DuelProcs);
+
         SpeedMode = false;
 
         MouseLook.Instance.CurrentWindow = this.gameObject;
@@ -142,6 +148,11 @@ public class PlottingDuelUI : MonoBehaviour
         else if (plot.Method.OffenseSkill == CORE.Instance.Database.GetBonusType("Charming"))
         {
             CORE.Stats.PlotsWithCunning++;
+        }
+
+        if (RefreshProcsInstance == null)
+        {
+            RefreshProcsInstance = StartCoroutine(RefreshProcs());
         }
     }
     
@@ -581,6 +592,11 @@ public class PlottingDuelUI : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         ProcEventPanel.gameObject.SetActive(false);
+
+        if (RefreshProcsInstance == null)
+        {
+            RefreshProcsInstance = StartCoroutine(RefreshProcs());
+        }
     }
 
     public void ChangeMethod(PlotMethod method)
@@ -588,5 +604,40 @@ public class PlottingDuelUI : MonoBehaviour
         CurrentMethod = method;
         MethodImage.sprite = CurrentMethod.Icon;
         MethodTitle.text = CurrentMethod.name;
+    }
+
+    Coroutine RefreshProcsInstance;
+    public IEnumerator RefreshProcs()
+    {
+        ClearDuelProcsContainer();
+
+        yield return 0;
+
+        for(int i=0;i<AllDuelProcs.Count;i++)
+        {
+            TechTreeItem techItem = CORE.Instance.TechTree.Find(X => X.name == AllDuelProcs[i].RequiredTech.name);
+            if(!techItem.IsResearched)
+            {
+                continue;
+            }
+
+            UnspentDuelProcUI duelProc = ResourcesLoader.Instance.GetRecycledObject("UnspentDuelProcUI").GetComponent<UnspentDuelProcUI>();
+            duelProc.transform.SetParent(UnspentProcsContainer, false);
+            duelProc.transform.position = Vector3.one;
+            duelProc.transform.localScale = Vector3.one;
+            duelProc.SetInfo(AllDuelProcs[i], (CurrentPlot.ProcsUsed.Find(x => x.name == AllDuelProcs[i].name) != null )? Color.red : Color.white);
+            yield return 0;
+        }
+
+        RefreshProcsInstance = null;
+    }
+
+    void ClearDuelProcsContainer()
+    {
+        while(UnspentProcsContainer.childCount > 0)
+        {
+            UnspentProcsContainer.GetChild(0).gameObject.SetActive(false);
+            UnspentProcsContainer.GetChild(0).SetParent(transform);
+        }
     }
 }

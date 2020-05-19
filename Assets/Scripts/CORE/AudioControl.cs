@@ -264,6 +264,11 @@ public class AudioControl : MonoBehaviour {
 
         for (int i = 0; i < Instances.Count; i++)
         {
+            if(Instances[i] == null)
+            {
+                Instances.RemoveAt(i);
+                continue;
+            }
             if (Instances[i].tag == gTag)
             {
                 Instances[i].GetComponent<AudioSource>().volume = gVolume;
