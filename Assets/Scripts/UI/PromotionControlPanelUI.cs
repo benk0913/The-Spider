@@ -25,7 +25,15 @@ public class PromotionControlPanelUI : MonoBehaviour
 
     void Refresh()
     {
-        List<Character> potentialThreats = CORE.PC.PropertiesInCommand[0].EmployeesCharacters.OrderByDescending(x => x.CProgress).ToList();
+        List<LocationEntity> PropertiesInCommand = new List<LocationEntity>();
+        PropertiesInCommand = CORE.PC.PropertiesInCommand;
+
+        if(PropertiesInCommand.Count <= 0)
+        {
+            return;
+        }
+
+        List<Character> potentialThreats = PropertiesInCommand[0].EmployeesCharacters.OrderByDescending(x => x.CProgress).ToList();
         if(potentialThreats == null || potentialThreats.Count == 0)
         {
             DefaultView();

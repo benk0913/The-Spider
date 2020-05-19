@@ -1175,6 +1175,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             if(CProgress >= 50)
             {
+                PopupData popup = new PopupData(CORE.Instance.Database.AllPopupPresets.Find(x => x.name == "Promotion"), new List<Character> { this }, new List<Character> { this.Employer });
+                PopupWindowUI.Instance.AddPopup(popup);
+
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has been promoted!", ResourcesLoader.Instance.GetSprite("thumb-up"), this));
 
                 if (Employer == CORE.PC)
@@ -1188,23 +1191,27 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 }
                 else
                 {
-                    WorkLocation.RecruitEmployee(CORE.PC);
-                    StartWorkingFor(Employer.WorkLocation);
+                    LocationEntity previousWorkLocation = WorkLocation;
+                    Character previousEmployer = Employer;
+                    StopWorkingForCurrentLocation();
+                    StartWorkingFor(previousEmployer.WorkLocation);
+
+                    previousWorkLocation.RecruitEmployee(TopEmployer);
+
+                    if (previousEmployer == null)
+                    {
+                        return;
+                    }
 
                     List<LocationEntity> Inheritence = new List<LocationEntity>();
-                    Inheritence.AddRange(Employer.PropertiesOwned);
+                    Inheritence.AddRange(previousEmployer.PropertiesOwned);
                     foreach(LocationEntity location in Inheritence)
                     {
                         StartOwningLocation(location);
                     }
 
-                    if(Employer == null)
-                    {
-                        return;
-                    }
-
-                    Employer.StopDoingCurrentTask();
-                    Employer.StopWorkingForCurrentLocation();
+                    previousEmployer.StopDoingCurrentTask();
+                    previousEmployer.StopWorkingForCurrentLocation();
                 }
             }
 
@@ -1311,7 +1318,17 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             PropertiesOwned.ForEach((x) => { deathString += x.Name + " - "; });
 
-            WarningWindowUI.Instance.Show(deathString, () => { TutorialScreenUI.Instance.Show("FirstBetray"); });
+            PopupData popup = new PopupData(CORE.Instance.Database.AllPopupPresets.Find(x => x.name == "Betrayal"), new List<Character> { this }, new List<Character> { this.TopEmployer },
+                ()=> 
+                {
+                    WarningWindowUI.Instance.Show(deathString, () => 
+                    {
+                        TutorialScreenUI.Instance.Show("FirstBetray");
+                    });
+                });
+
+            PopupWindowUI.Instance.AddPopup(popup);
+            
         }
 
         LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();
