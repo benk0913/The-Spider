@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652520dbcfdfcc142aad72eaa7f4039c, type: 3}
+  m_Name: Poisoning
+  m_EditorClassIdentifier: 
+  Description: Meet with the target, discuss things over a glass of wine, arrange
+    for the glass to be poisoned.
+  Icon: {fileID: 21300000, guid: e6c79d1b5f5726f43b05f89d53394056, type: 3}
+  ItemsRequired:
+  - {fileID: 11400000, guid: 83cf8e6d8e202db4d9bea85949fa0fcf, type: 2}
+  - {fileID: 11400000, guid: ff79f3f8649f4d344991eb1a2c4ce5de, type: 2}
+  OffenseSkill: {fileID: 11400000, guid: 44aa6025642ecb7409350f2d12312c11, type: 2}
+  DefenceSkill: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  MethodBonus: 3
+  MinimumSkillRequired: 2
+  MinimumParticipants: 1
+  MaximumParticipants: 1
+  MethodCombatEffect: {fileID: 6487598601725507166, guid: 06a24e286d8afac4f8450740c04d0615,
+    type: 3}

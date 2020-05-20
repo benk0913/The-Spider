@@ -1667,7 +1667,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
             else
             {
+                possibleReplacement.StopWorkingForCurrentLocation();
                 possibleReplacement.StartOwningLocation(location);
+                
                 return;
             }
         }
