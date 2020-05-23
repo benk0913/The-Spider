@@ -41,6 +41,9 @@ public class CORE : MonoBehaviour
 
     public List<RecruitmentPool> RecruitmentPools = new List<RecruitmentPool>();
 
+
+    public List<DayRumor> DayRumors = new List<DayRumor>();
+
     public static Character PC;
     public static Faction PlayerFaction;
 
@@ -450,6 +453,11 @@ public class CORE : MonoBehaviour
 
                 pool.Remove(pool.Characters[Random.Range(0, pool.Characters.Count)]);
             }
+        }
+
+        if (GameClock.Instance.CurrentTurn % 3 == 0)
+        {
+            yield return StartCoroutine(DisplayDayRumorRoutine());
         }
 
         TurnPassedRoutineInstance = null;
@@ -1061,7 +1069,34 @@ public class CORE : MonoBehaviour
     }
     #endregion
 
-    #region Character Utils
+    #region 3Day Rumors
+
+    public IEnumerator DisplayDayRumorRoutine()
+    {
+        List<PopupData> possibleRumors = new List<PopupData>();
+
+        foreach(DayRumor rumor in DayRumors)
+        {
+            PopupData temp = rumor.GetPopup();
+
+            if (temp == null)
+            {
+                continue;
+            }
+
+            possibleRumors.Add(temp);
+
+            yield return 0;
+        }
+
+        if(possibleRumors.Count <= 0)
+        {
+            yield break;
+        }
+
+        PopupWindowUI.Instance.AddPopup(possibleRumors[Random.Range(0, possibleRumors.Count)]);
+    }
+
 
     #endregion
 }

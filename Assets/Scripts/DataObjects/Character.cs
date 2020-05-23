@@ -342,6 +342,21 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
 
+    public Character RandomAgent
+    {
+        get
+        {
+            List<Character> characters = CharactersInCommand.FindAll(x => x.IsAgent);
+
+            if (characters == null || characters.Count == 0)
+            {
+                return null;
+            }
+
+            return characters[Random.Range(0, characters.Count)];
+        }
+    }
+
     public List<LocationEntity> PropertiesOwned = new List<LocationEntity>();
 
     public List<ForgeryCaseElement> CaseElements = new List<ForgeryCaseElement>();
