@@ -379,7 +379,7 @@ public class CORE : MonoBehaviour
         yield return 0;
 
 
-        TurnLoadingWindowUI.Instance.SetLoadingTitle("Locations... (" + Locations.Count + ")");
+        TurnLoadingWindowUI.Instance.SetLoadingTitle("Locations... ");//(" + Locations.Count + ")
 
         for (int i=0;i<Locations.Count;i++)
         {
@@ -388,7 +388,7 @@ public class CORE : MonoBehaviour
             yield return StartCoroutine(Locations[i].TurnPassed());
         }
 
-        TurnLoadingWindowUI.Instance.SetLoadingTitle("Characters... ("+Characters.Count + ")");
+        TurnLoadingWindowUI.Instance.SetLoadingTitle("Characters... ");//("+Characters.Count + ")
 
         for (int i=0;i<Characters.Count;i++)
         {
@@ -457,6 +457,8 @@ public class CORE : MonoBehaviour
 
         if (GameClock.Instance.CurrentTurn % 3 == 0)
         {
+            TurnLoadingWindowUI.Instance.SetLoadingTitle("Whispers...");
+
             yield return StartCoroutine(DisplayDayRumorRoutine());
         }
 

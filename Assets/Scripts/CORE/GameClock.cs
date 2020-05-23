@@ -56,6 +56,8 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
     {
         OnTurnPassed.RemoveAllListeners();
         OnDayPassed.RemoveAllListeners();
+        LockingQuest = null;
+        LockingLetter= null;
     }
 
     public void PassTime()

@@ -51,6 +51,36 @@ public class DayRumor : ScriptableObject
 
                     break;
                 }
+            case DayRumorType.MorePeople:
+                {
+                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.EmployeesCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level-1].MaxEmployees);
+
+                    if (property == null)
+                    {
+                        break;
+                    }
+
+                    Character agent = property.OwnerCharacter;
+
+                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC });
+
+                    break;
+                }
+            case DayRumorType.MoreGuards:
+                {
+                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.GuardsCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level - 1].MaxGuards);
+
+                    if (property == null)
+                    {
+                        break;
+                    }
+
+                    Character agent = property.OwnerCharacter;
+
+                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC });
+
+                    break;
+                }
             case DayRumorType.AgentTooPowerful:
                 {
                     if (CORE.PC.CurrentFaction.HasPromotionSystem)
@@ -162,5 +192,7 @@ public class DayRumor : ScriptableObject
         AgentHatesPlayer,
         AgentLikesPlayer,
         PromotionSoon,
+        MorePeople,
+        MoreGuards
     }
 }
