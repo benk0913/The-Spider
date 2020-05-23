@@ -333,8 +333,9 @@ public class CORE : MonoBehaviour
     {
         if(GameClock.Instance.CurrentTurn % 15 == 0)
         {
-            Instance.SaveGame("Auto Save");
-            GlobalMessagePrompterUI.Instance.Show("Game Saved", 2f, Color.green);
+            GlobalMessagePrompterUI.Instance.Show("Auto Save", 3f, Color.green);
+
+            CORE.Instance.DelayedInvokation(0.1f, () => CORE.Instance.SaveGame("Auto Save"));
         }
 
         //AI DECISIONS

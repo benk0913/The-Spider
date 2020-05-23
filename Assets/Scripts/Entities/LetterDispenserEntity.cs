@@ -69,6 +69,8 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
             CORE.Instance.InvokeEvent("NewLetter");
         }
 
+        GlobalMessagePrompterUI.Instance.Show("New Letter!", 1f, Color.yellow);
+
         if(letter.Preset.LockPassTime)
         {
             GameClock.Instance.LockingLetter = letter.Preset;
