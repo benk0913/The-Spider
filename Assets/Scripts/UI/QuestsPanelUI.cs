@@ -236,6 +236,11 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         if (quest.ForCharacter == CORE.PC)
         {
+            if(quest.RelevantCharacter != null)
+            {
+                quest.RelevantCharacter.Pinned = false;
+            }
+
             if (!activeQuestsButton.interactable)
             {
                 for (int i = 0; i < questsContainer.childCount; i++)

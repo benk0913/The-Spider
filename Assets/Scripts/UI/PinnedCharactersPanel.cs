@@ -36,6 +36,8 @@ public class PinnedCharactersPanel : MonoBehaviour
     Coroutine RefreshRoutineInstance;
     IEnumerator RefreshRoutine()
     {
+        yield return new WaitForSeconds(0.5f);
+
         while(Container.childCount > 0)
         {
             Container.GetChild(0).gameObject.SetActive(false);
@@ -45,6 +47,7 @@ public class PinnedCharactersPanel : MonoBehaviour
         }
 
         bool empty = true;
+        int counter = 0;
         foreach (Character character in CORE.Instance.Characters)
         {
             if(character.Pinned)
@@ -61,7 +64,12 @@ public class PinnedCharactersPanel : MonoBehaviour
                 }
             }
 
-            yield return 0;
+            counter++;
+
+            if (counter % 5 == 0)
+            {
+                yield return 0;
+            }
         }
 
         if(empty)

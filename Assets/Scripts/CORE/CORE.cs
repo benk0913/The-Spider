@@ -993,8 +993,12 @@ public class CORE : MonoBehaviour
             if (faction.FactionHead != null)
             {
                 Character head = CORE.Instance.Characters.Find(x => x.name == faction.FactionHead.name);
-                head.CurrentFaction = faction;
-                faction.FactionHead = head;
+
+                if (head != null)
+                {
+                    head.CurrentFaction = faction;
+                    faction.FactionHead = head;
+                }
             }
 
             if (faction.isAlwaysKnown)

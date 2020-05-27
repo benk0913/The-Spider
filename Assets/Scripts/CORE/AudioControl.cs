@@ -406,13 +406,15 @@ public class AudioControl : MonoBehaviour {
     {
         foreach(GameObject obj in Instances)
         {
-            AudioSource source = obj.GetComponent<AudioSource>();
-
-            if(source == null)
+            if(obj == null)
             {
-                continue;
+                Instances.RemoveAll(x=>x == null);
+                StopSound(gClip);
+                return;
             }
 
+            AudioSource source = obj.GetComponent<AudioSource>();
+            
             if (source.isPlaying)
             {
                 if(obj.GetComponent<AudioSource>().clip.name == gClip)

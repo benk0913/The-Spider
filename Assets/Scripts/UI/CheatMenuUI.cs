@@ -90,6 +90,7 @@ public class CheatMenuUI : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            GameClock.Instance.CurrentTurn--;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) // Dialog aCTION
         {

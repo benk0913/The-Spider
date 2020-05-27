@@ -159,22 +159,16 @@ public class DayRumor : ScriptableObject
                         break;
                     }
 
-                    Character tellingAgent = CORE.PC.RandomAgent;
                     Character targetAgent = CORE.PC.CharactersInCommand.Find(X => X.IsAgent
-                    && X != tellingAgent
+                    && X != CORE.PC
                     && X.CProgress > 35);
 
-                    if (tellingAgent == null)
+                    if (targetAgent == null || targetAgent.Employer == null)
                     {
                         break;
                     }
 
-                    if (targetAgent == null)
-                    {
-                        break;
-                    }
-
-                    popup = new PopupData(Preset, new List<Character> { tellingAgent }, new List<Character> { targetAgent });
+                    popup = new PopupData(Preset, new List<Character> { targetAgent.Employer }, new List<Character> { targetAgent });
 
                     break;
                 }

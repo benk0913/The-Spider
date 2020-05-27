@@ -115,14 +115,18 @@ public class FactionInfoUI : MonoBehaviour
         if(CurrentFaction.FactionHead != null)
         {
             Character factionHead = CORE.Instance.Characters.Find(x=>x.name == CurrentFaction.FactionHead.name);
-            List<LocationEntity> PropertiesOwned = factionHead.PropertiesInCommand;
 
-            for (int i = 0; i < PropertiesOwned.Count; i++)
+            if (factionHead != null)
             {
-                GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("LocationPortraitUI");
-                tempPortrait.transform.SetParent(PropertiesOwnedContainer, false);
-                tempPortrait.transform.localScale = Vector3.one;
-                tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(PropertiesOwned[i]);
+                List<LocationEntity> PropertiesOwned = factionHead.PropertiesInCommand;
+
+                for (int i = 0; i < PropertiesOwned.Count; i++)
+                {
+                    GameObject tempPortrait = ResourcesLoader.Instance.GetRecycledObject("LocationPortraitUI");
+                    tempPortrait.transform.SetParent(PropertiesOwnedContainer, false);
+                    tempPortrait.transform.localScale = Vector3.one;
+                    tempPortrait.GetComponent<LocationPortraitUI>().SetLocation(PropertiesOwned[i]);
+                }
             }
         }
 
@@ -165,9 +169,12 @@ public class FactionInfoUI : MonoBehaviour
 
         Character factionLeader = CORE.Instance.Characters.Find(x => x.name == CurrentFaction.FactionHead.name);
 
-        SelectAgentWindowUI.Instance.Show(
-                (Character character) => { CharacterInfoUI.Instance.ShowInfo(character); }
-                , x => { return x.TopEmployer == factionLeader && x.TopEmployer != x; }, factionLeader.CurrentFaction.name , factionLeader);
+        if (factionLeader != null)
+        {
+            SelectAgentWindowUI.Instance.Show(
+                    (Character character) => { CharacterInfoUI.Instance.ShowInfo(character); }
+                    , x => { return x.TopEmployer == factionLeader && x.TopEmployer != x; }, factionLeader.CurrentFaction.name, factionLeader);
+        }
 
         Hide();
     }

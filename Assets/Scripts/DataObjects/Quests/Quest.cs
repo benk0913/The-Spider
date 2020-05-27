@@ -191,7 +191,10 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
             if (ForCharacter == null && !string.IsNullOrEmpty(forCharacterID))
             {
-                Debug.LogError("COULDN'T LOAD CHARACTER ID " + forCharacterID);
+                if (CORE.Instance.DEBUG)
+                {
+                    Debug.LogError("COULDN'T LOAD CHARACTER ID " + forCharacterID);
+                }
             }
         }
     }

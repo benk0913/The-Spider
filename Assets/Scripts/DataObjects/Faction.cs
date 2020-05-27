@@ -32,7 +32,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public PlayerAction[] PlayerActionsOnAgent;
 
     public bool isLockedByDefault = true;
-    public bool isLocked =  false;
+    public bool isLocked = false;
     public bool isPlayable = true;
     public bool isAlwaysKnown = false;
     public bool HasPromotionSystem = false;
@@ -42,6 +42,22 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public int RumorsGeneratedPerDay;
     public int ProgressGeneratedPerDay;
     public int ReputationGeneratedPerDay;
+
+
+    public List<Character> Members
+    {
+        get
+        {
+            List<Character> members = CORE.Instance.Characters.FindAll(X => X.CurrentFaction.name == this.name);
+            
+            if(members == null)
+            {
+                return new List<Character>();
+            }
+
+            return members;
+        }
+    }
 
     public List<Quest> Goals = new List<Quest>();
 
@@ -83,8 +99,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
             knowledgeCharacterIDs.Add(item.Key, IDs);
         }
-        
-        if(Relations == null)
+
+        if (Relations == null)
         {
             Relations = new FactionRelations(this);
         }
@@ -136,21 +152,35 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     {
         TimelineInstance instance = Timeline.Find(x => x.Turn == GameClock.Instance.CurrentTurn);
 
-        if(instance == null)
+        if (instance == null)
         {
             return;
         }
 
-        if(instance.PlayerOnly && CORE.PlayerFaction.name != this.name)
+        if (instance.PlayerOnly && CORE.PlayerFaction.name != this.name)
         {
             return;
         }
 
-        foreach(DialogDecisionAction action in instance.Actions)
+        foreach (DialogDecisionAction action in instance.Actions)
         {
             action.Activate();
         }
     }
+
+    public void DissolveFaction()
+    {
+        WarningWindowUI.Instance.Show("The faction " + this.name + " has been destroyed!", () => { });
+
+        List<Character> members = Members;
+
+        foreach(Character character in members)
+        {
+            character.CurrentFaction = CORE.Instance.Database.NoFaction;
+        }
+    }
+
+
 }
 
 public class FactionRelations : ISaveFileCompatible

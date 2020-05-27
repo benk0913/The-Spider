@@ -1845,6 +1845,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
             WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { LoseWindowUI.Instance.Show(); });
             //WarningWindowUI.Instance.Show(this.name + " has died! GAME OVER.", () => { CORE.Instance.RestartGame(); });
         }
+
+        Faction factionWhichIAmLeaderOf = CORE.Instance.Factions.Find(x => x.FactionHead != null && x.FactionHead.name == this.name);
+
+        if(factionWhichIAmLeaderOf != null)
+        {
+            CurrentFaction.DissolveFaction();
+            CurrentFaction.FactionHead = null;
+        }
     }
     
 

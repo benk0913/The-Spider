@@ -360,38 +360,46 @@ public class AgentAction : ScriptableObject
             return false;
         }
 
-        if (requester.CGold < GoldCost)
+        if (requester != null)
         {
-            if (character.TopEmployer == CORE.PC)
+            if (requester.CGold < GoldCost)
             {
-                CORE.Instance.ShowHoverMessage("Not enough Gold!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                if (character.TopEmployer == CORE.PC)
+                {
+                    CORE.Instance.ShowHoverMessage("Not enough Gold!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                }
+
+                reason = new FailReason("Not Enough Gold");
+                return false;
             }
 
-            reason = new FailReason("Not Enough Gold");
-            return false;
+            if (requester.CConnections < ConnectionsCost)
+            {
+                reason = new FailReason("Not Enough Connections");
+
+                if (character.TopEmployer == CORE.PC)
+                {
+                    CORE.Instance.ShowHoverMessage("Not enough Connections!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                }
+
+                return false;
+            }
+
+            if (requester.CRumors < RumorsCost)
+            {
+                reason = new FailReason("Not Enough Rumors");
+
+                if (character.TopEmployer == CORE.PC)
+                {
+                    CORE.Instance.ShowHoverMessage("Not enough Rumors!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                }
+
+                return false;
+            }
         }
-
-        if (requester.CConnections < ConnectionsCost)
+        else
         {
-            reason = new FailReason("Not Enough Connections");
-
-            if (character.TopEmployer == CORE.PC)
-            {
-                CORE.Instance.ShowHoverMessage("Not enough Connections!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
-            }
-
-            return false;
-        }
-
-        if (requester.CRumors < RumorsCost)
-        {
-            reason = new FailReason("Not Enough Rumors");
-
-            if (character.TopEmployer == CORE.PC)
-            {
-                CORE.Instance.ShowHoverMessage("Not enough Rumors!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
-            }
-
+            reason = new FailReason("No Requester (Error) [ sorry... ]");
             return false;
         }
 
