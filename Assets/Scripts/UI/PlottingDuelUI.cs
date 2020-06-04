@@ -128,8 +128,8 @@ public class PlottingDuelUI : MonoBehaviour
         plot.Participants.ForEach((x) => { GenerateParticipant(x); });
         plot.TargetParticipants.ForEach((x) => { GenerateTarget(x); });
 
-        ParticipantsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
-        TargetsPortraits.OrderByDescending(x => x.CurrentCharacter.Rank).ToList();
+        ParticipantsPortraits.OrderBy(x => x.CurrentCharacter.Rank).ToList();
+        TargetsPortraits.OrderBy(x => x.CurrentCharacter.Rank).ToList();
 
         RefreshPositionTransforms();
 

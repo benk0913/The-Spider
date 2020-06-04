@@ -323,7 +323,7 @@ public class PlottingWindowUI : MonoBehaviour
         {
             methodTTBonuses.Add(new TooltipBonus("<color=red>"+methodRequirements.Key + "</color>", ResourcesLoader.Instance.GetSprite("Unsatisfied")));
         }
-        MethodTooltipTarget.SetTooltip(CurrentMethod.name + " \n " + CurrentMethod.Description, methodTTBonuses);
+        MethodTooltipTarget.SetTooltip(CurrentMethod.name + " - " + CurrentMethod.Description, methodTTBonuses);
 
 
         RelevantSkill.text = CurrentMethod.OffenseSkill.name;

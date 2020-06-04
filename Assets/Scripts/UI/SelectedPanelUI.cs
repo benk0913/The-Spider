@@ -89,6 +89,7 @@ public class SelectedPanelUI : MonoBehaviour
 
         CurrentSelectionType = SelectionType.Location;
 
+
         LocationPanel.Select(location);
     }
 

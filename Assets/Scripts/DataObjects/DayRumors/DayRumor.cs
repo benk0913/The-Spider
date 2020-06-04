@@ -38,7 +38,7 @@ public class DayRumor : ScriptableObject
                 }
             case DayRumorType.InvestmentRequest:
                 {
-                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.CurrentProperty.PropertyLevels.Count > x.Level);
+                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.CurrentProperty.PropertyLevels.Count > x.Level && !x.IsUpgrading);
 
                     if (property == null)
                     {
@@ -68,6 +68,11 @@ public class DayRumor : ScriptableObject
                 }
             case DayRumorType.MoreGuards:
                 {
+                    if(!CORE.Instance.TechTree.Find(X=>X.name == "Street Gangs").IsResearched)
+                    {
+                        break;
+                    }
+
                     LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.GuardsCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level - 1].MaxGuards);
 
                     if (property == null)
