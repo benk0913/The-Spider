@@ -34,6 +34,13 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        reason = null;
+
+        if(target.GetType() != typeof(PortraitUI) || target.GetType() != typeof(PortraitUIEmployee))
+        {
+            return false;
+        }
+
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
         if (!base.CanDoAction(requester, character, target, out reason))

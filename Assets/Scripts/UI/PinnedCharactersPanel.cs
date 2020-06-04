@@ -36,7 +36,7 @@ public class PinnedCharactersPanel : MonoBehaviour
     Coroutine RefreshRoutineInstance;
     IEnumerator RefreshRoutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         while(Container.childCount > 0)
         {

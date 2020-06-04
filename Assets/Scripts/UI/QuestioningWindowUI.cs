@@ -58,6 +58,15 @@ public class QuestioningWindowUI : MonoBehaviour
     public List<QuestioningItemUI> Hand = new List<QuestioningItemUI>();
     public QuestioningItemUI TargetHand;
 
+    private void OnDisable()
+    {
+        if (AudioControl.Instance != null)
+        {
+            AudioControl.Instance.StopSound("soundscape_case");
+            AudioControl.Instance.UnmuteMusic();
+        }
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -103,7 +112,10 @@ public class QuestioningWindowUI : MonoBehaviour
                 }
             });
         });
-        
+
+        AudioControl.Instance.Play("soundscape_case", true);
+        AudioControl.Instance.MuteMusic();
+
     }
 
     void ResetDecks()
@@ -229,6 +241,8 @@ public class QuestioningWindowUI : MonoBehaviour
         StartCoroutine(AnimateToContainer(cardUI));
 
         RefreshDeckCounts();
+
+        AudioControl.Instance.Play("pickup");
     }
 
     IEnumerator AnimateToContainer(QuestioningItemUI card)
@@ -283,10 +297,15 @@ public class QuestioningWindowUI : MonoBehaviour
 
         if (IsWin(card.CurrentItem, TargetHand.CurrentItem))
         {
+            AudioControl.Instance.Play("researchchar_good");
             TargetHand.UseRight();
             TargetDrawCard();
             DrawCard();
             return true;
+        }
+        else
+        {
+            AudioControl.Instance.Play("researchchar_bad");
         }
 
         card.UseWrong();
@@ -311,6 +330,7 @@ public class QuestioningWindowUI : MonoBehaviour
         MatchEffectPanel.transform.SetAsLastSibling();
         MatchEffectTitle.text = System.Text.RegularExpressions.Regex.Replace(card.CurrentItem.Type.ToString(), @"((?<=\p{Ll})\p{Lu})|((?!\A)\p{Lu}(?>\p{Ll}))", " $0");
 
+        AudioControl.Instance.Play("property_recruit");
 
         switch (card.CurrentItem.Type)
         {
@@ -393,6 +413,8 @@ public class QuestioningWindowUI : MonoBehaviour
         MatchEffectPanel.transform.SetAsLastSibling();
         MatchEffectTitle.text = "Failure!";
 
+        AudioControl.Instance.Play("plot_fail");
+
         CORE.Instance.DelayedInvokation(3f, () =>
         {
             InputBlocker.SetActive(false);
@@ -440,6 +462,9 @@ public class QuestioningWindowUI : MonoBehaviour
         MatchEffectPanel.SetActive(true);
         MatchEffectPanel.transform.SetAsLastSibling();
         MatchEffectTitle.text = "Success!";
+
+
+        AudioControl.Instance.Play("plot_win");
 
         CORE.Instance.DelayedInvokation(3f, () =>
         {

@@ -200,6 +200,7 @@ public class PlottingWindowUI : MonoBehaviour
         AudioControl.Instance.MuteMusic();
 
         this.gameObject.SetActive(true);
+
     }
 
     private void Update()

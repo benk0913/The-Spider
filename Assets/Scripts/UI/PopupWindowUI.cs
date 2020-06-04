@@ -120,7 +120,7 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
 
         if (data.CharactersRight != null)
         {
-            CORE.Instance.DelayedInvokation(0.2f, () =>
+            CORE.Instance.DelayedInvokation(0.3f, () =>
             {
                 foreach (Character character in data.CharactersRight)
                 {
