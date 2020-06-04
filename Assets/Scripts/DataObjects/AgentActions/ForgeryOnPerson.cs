@@ -32,7 +32,11 @@ public class ForgeryOnPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.TopEmployer == targetChar)
+        if(
+            targetChar.CurrentFaction != CORE.Instance.Database.DefaultFaction 
+            && targetChar.CurrentFaction != CORE.Instance.Database.NoFaction 
+            && targetChar.CurrentFaction != null 
+            && targetChar.TopEmployer == targetChar)
         {
             reason = new FailReason("Unavailable With This Character");
             return false;
