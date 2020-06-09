@@ -73,11 +73,13 @@ public class FireAgent : PlayerAction
                     charactersString.Remove(0);
                 }
 
-                WarningWindowUI.Instance.Show(this.name + " has snitched on: " + charactersString,null);
-                foreach (Character snitchTarget in SnitchTargets)
+                WarningWindowUI.Instance.Show(this.name + " snitched on: " + charactersString,()=> 
                 {
-                    CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
-                }
+                    foreach (Character snitchTarget in SnitchTargets)
+                    {
+                        CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
+                    }
+                });
 
             }
 

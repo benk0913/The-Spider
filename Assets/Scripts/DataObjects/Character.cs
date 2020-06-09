@@ -1629,7 +1629,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         tempLocation.RefreshState();
 
         PropertiesInCommand.ForEach(x => x.RefreshState());
-
+        
         RefreshVisualTree();
     }
 
@@ -1676,13 +1676,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             if (possibleReplacement == null)
             {
-                //TODO KILL LOCATION AND MAKE SURE PROPERTY REMOVED TO PREVENT INFINITE LOOP
                 location.Dispose();
                 return;
             }
             else
             {
                 possibleReplacement.StopWorkingForCurrentLocation();
+                possibleReplacement.CurrentFaction = CORE.Instance.Database.NoFaction;//TEST - THIS MAY BE SHIT.
                 possibleReplacement.StartOwningLocation(location);
                 
                 return;

@@ -31,6 +31,11 @@ public class ReleasePrisoner : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
+        if (targetChar.PrisonLocation.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return false;
+        }
+
         if (targetChar.PrisonLocation.OwnerCharacter == null)
         {
             Debug.LogError("No owner but still imprisoned?");

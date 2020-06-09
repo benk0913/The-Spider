@@ -13,23 +13,38 @@ MonoBehaviour:
   m_Name: Attempt Muggary
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 06b34bbaa9a645544af5db05c500e74f, type: 3}
-  Description: This character will attempt to extort and mug civilians which are
+  Description: 'This character will attempt to extort and mug civilians which are
     unfortunate enough to walk in a dark alley.
+
+
+    <color=red>Illegal!</color>'
   Category: {fileID: 0}
   RequiredTraits: []
   MinimumAge: 0
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 0}
+  ItemRequired: {fileID: 0}
+  MoreItemsRequired: []
   Challenge:
     Type: {fileID: 11400000, guid: 8cceea28f292b754d94dc9c57e51b048, type: 2}
     ChallengeValue: 1
     RarityValue: 0
     InvertedChance: 0
   FailureResult: {fileID: 0}
+  SuccessResult: {fileID: 0}
   ShowHover: 0
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
+  WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
+  OnExecutePopup: {fileID: 0}
+  ActionDoneByTarget: 0
+  InvokeEventOnExecute: 
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   Task: {fileID: 11400000, guid: 50a398eff21315b4b807d0f6c9368d01, type: 2}

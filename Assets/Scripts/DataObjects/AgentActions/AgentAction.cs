@@ -260,7 +260,7 @@ public class AgentAction : ScriptableObject
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         RecentTaret = target;
-
+        Character targetCharacter = null;
         reason = null;
 
         if (TechRequired != null)
@@ -285,9 +285,9 @@ public class AgentAction : ScriptableObject
             }
             else if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
             {
-                Character targetChar = ((PortraitUI)target).CurrentCharacter;
+                targetCharacter = ((PortraitUI)target).CurrentCharacter;
 
-                if (targetChar.TopEmployer != requester)
+                if (targetCharacter.TopEmployer != requester)
                 {
                     return false;
                 }
@@ -296,9 +296,9 @@ public class AgentAction : ScriptableObject
 
         if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
         {
-            Character targetCharacter = ((PortraitUI)target).CurrentCharacter;
+            targetCharacter = ((PortraitUI)target).CurrentCharacter;
 
-            if (targetCharacter.IsDead)
+            if (targetCharacter != null && targetCharacter.IsDead)
             {
                 return false;
             }
@@ -366,7 +366,7 @@ public class AgentAction : ScriptableObject
             {
                 if (character.TopEmployer == CORE.PC)
                 {
-                    CORE.Instance.ShowHoverMessage("Not enough Gold!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                    CORE.Instance.ShowHoverMessage("Not enough Gold! "+"("+requester.CGold+"/"+GoldCost+")", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
                 }
 
                 reason = new FailReason("Not Enough Gold");
@@ -379,7 +379,7 @@ public class AgentAction : ScriptableObject
 
                 if (character.TopEmployer == CORE.PC)
                 {
-                    CORE.Instance.ShowHoverMessage("Not enough Connections!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                    CORE.Instance.ShowHoverMessage("Not enough Connections!" + "(" + requester.CConnections+ "/" + ConnectionsCost+ ")", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
                 }
 
                 return false;
@@ -391,7 +391,7 @@ public class AgentAction : ScriptableObject
 
                 if (character.TopEmployer == CORE.PC)
                 {
-                    CORE.Instance.ShowHoverMessage("Not enough Rumors!", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
+                    CORE.Instance.ShowHoverMessage("Not enough Rumors!" + "(" + requester.CRumors+ "/" + RumorsCost+ ")", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
                 }
 
                 return false;
@@ -405,7 +405,23 @@ public class AgentAction : ScriptableObject
 
         if(RequiredBonus != null)
         {
-            float bonusValue = character.GetBonus(RequiredBonus).Value;
+            float bonusValue = 0f;
+
+            if (ActionDoneByTarget)
+            {
+                if (targetCharacter == null)
+                {
+                    Debug.LogError("NO CHARACTER " + this.name + " - " + character.name);
+                }
+                else
+                {
+                    bonusValue = targetCharacter.GetBonus(RequiredBonus).Value;
+                }
+            }
+            else
+            {
+                bonusValue = character.GetBonus(RequiredBonus).Value;
+            }
 
             if (bonusValue < RequiredBonusValue)
             {

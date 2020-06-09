@@ -21,8 +21,11 @@ public class LiberateScheme : SchemeType
 
                 foreach (Character prisoner in targetLocation.PrisonersCharacters)
                 {
-                    prisoner.StopDoingCurrentTask(true);
-                    CORE.Instance.Database.GetAgentAction("Get Liberated").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
+                    CORE.Instance.DelayedInvokation(0.1f, () =>
+                    {
+                        prisoner.StopDoingCurrentTask(true);
+                        CORE.Instance.Database.GetAgentAction("Get Liberated").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
+                    });
                 }
             }));
 
