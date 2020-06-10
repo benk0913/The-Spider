@@ -92,10 +92,10 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
 
                 if(result.Challenge.Type == null)
                 {
-                    if (CORE.Instance.DEBUG)
-                    {
-                        Debug.LogError("NO CHALLENGE! " + this.CurrentEntity.CurrentTask.name);
-                    }
+                    //if (CORE.Instance.DEBUG)
+                    //{
+                    //    Debug.LogError("NO CHALLENGE! " + this.CurrentEntity.CurrentTask.name);
+                    //}
                     continue;
                 }
 

@@ -75,6 +75,8 @@ public class MapViewManager : MonoBehaviour
             return;
         }
 
+        MouseLook.Instance.ReleaseItem();
+
         MapInteractionEntity.Interact();
     }
 }

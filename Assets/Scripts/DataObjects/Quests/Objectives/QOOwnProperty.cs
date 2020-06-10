@@ -11,7 +11,11 @@ public class QOOwnProperty : QuestObjective
     {
         if (ParentQuest.ForCharacter == null)
         {
-            Debug.Log("NO FOR CHARACTER ");
+            if (CORE.Instance.DEBUG)
+            {
+                Debug.Log("NO FOR CHARACTER - " + this.name);
+            }
+
             return false;
         }
 

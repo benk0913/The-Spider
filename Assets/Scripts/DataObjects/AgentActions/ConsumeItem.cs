@@ -27,6 +27,8 @@ public class ConsumeItem : AgentAction
             action.Execute(requester, character, portrait);
         }
 
+        portrait.gameObject.SetActive(false);
+
         requester.Belogings.Remove(itemUI.CurrentItem);
 
         InventoryPanelUI.Instance.RefreshInventory();

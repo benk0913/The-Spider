@@ -30,6 +30,7 @@ public class FactionSelectionWindowUI : MonoBehaviour
             {
                 factionObj = ResourcesLoader.Instance.GetRecycledObject(LockedFactionPrefab);
                 factionObj.transform.SetParent(FactionContainer, false);
+                factionObj.GetComponent<TooltipTargetUI>().SetTooltip("<color=yellow>" + faction.name + "</color> " + System.Environment.NewLine + "- To Unlock: " + faction.UnlockDescription);
                 continue;
             }
 

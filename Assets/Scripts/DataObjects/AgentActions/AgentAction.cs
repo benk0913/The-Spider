@@ -67,7 +67,7 @@ public class AgentAction : ScriptableObject
         {
             if (character.TopEmployer == CORE.PC)
             {
-                GlobalMessagePrompterUI.Instance.Show("This character can not do this action! " + reason?.Key, 2f, Color.red);
+                GlobalMessagePrompterUI.Instance.Show("This character can not do this action! " + (reason == null? "" : reason.Key), 2f, Color.red);
 
                 if(CORE.Instance.DEBUG)
                 {
@@ -263,6 +263,13 @@ public class AgentAction : ScriptableObject
         Character targetCharacter = null;
         reason = null;
 
+        if (target == null)
+        {
+            Debug.LogError("Target NULL?!!?!?!?");
+            return false;
+        }
+
+
         if (TechRequired != null)
         {
             TechTreeItem techInstance = CORE.Instance.TechTree.Find(x => x.name == TechRequired.name);
@@ -336,11 +343,6 @@ public class AgentAction : ScriptableObject
             }
         }
 
-        if(target == null)
-        {
-            Debug.LogError("Target NULL?!!?!?!?");
-            return false;
-        }
 
         if (character.PrisonLocation != null && !CanDoInPrison)
         {
@@ -407,21 +409,8 @@ public class AgentAction : ScriptableObject
         {
             float bonusValue = 0f;
 
-            if (ActionDoneByTarget)
-            {
-                if (targetCharacter == null)
-                {
-                    Debug.LogError("NO CHARACTER " + this.name + " - " + character.name);
-                }
-                else
-                {
-                    bonusValue = targetCharacter.GetBonus(RequiredBonus).Value;
-                }
-            }
-            else
-            {
-                bonusValue = character.GetBonus(RequiredBonus).Value;
-            }
+ 
+            bonusValue = character.GetBonus(RequiredBonus).Value;
 
             if (bonusValue < RequiredBonusValue)
             {

@@ -19,7 +19,7 @@ public class QOFactionHeadIsPuppet : QuestObjective
 
     public override bool Validate()
     {
-        if (CurrentCharacter == null && CurrentFaction == null)
+        if (CurrentCharacter == null || CurrentFaction == null)
         {
             CurrentCharacter = CORE.Instance.Characters.Find(x => x.name == PuppetFaction.FactionHead.name);
 
@@ -27,7 +27,12 @@ public class QOFactionHeadIsPuppet : QuestObjective
         }
         else
         {
-            if(CurrentCharacter.IsDead || (PuppetFaction != null && CurrentCharacter.CurrentFaction.name != PuppetFaction.name))
+            if(CurrentCharacter.CurrentFaction == null)
+            {
+                return false;
+            }
+
+            if(CurrentCharacter.IsDead || (PuppetFaction != null &&  CurrentCharacter.CurrentFaction.name != PuppetFaction.name))
             {
                 CurrentCharacter = null;
                 return false;

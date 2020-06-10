@@ -100,6 +100,7 @@ public class DialogWindowUI : MonoBehaviour
                 PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
                 portrait.transform.SetParent(TargetPortraitsContainer, false);
                 portrait.transform.localScale = Vector3.one;
+                portrait.transform.position = Vector3.zero;
                 portrait.SetCharacter(targetCharacter);
             }
         }

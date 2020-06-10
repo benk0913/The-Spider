@@ -454,7 +454,11 @@ public class MouseLook : MonoBehaviour
         State = ActorState.Interpolation;
 
         CameraTransform.gameObject.SetActive(true);
-        CurrentFocus.CurrentCamera.gameObject.SetActive(false);
+
+        if (CurrentFocus != null && CurrentFocus.CurrentCamera != null)
+        {
+            CurrentFocus.CurrentCamera.gameObject.SetActive(false);
+        }
         
         float t = 0f;
         while (t < 0.1f)
@@ -559,6 +563,11 @@ public class MouseLook : MonoBehaviour
 
     public void ReleaseItem()
     {
+        if(CurrentItemInHands == null)
+        {
+            return;
+        }
+
         if (CurrentItemInHands.GetComponent<Rigidbody>() != null)
         {
             CurrentItemInHands.GetComponent<Rigidbody>().isKinematic = false;

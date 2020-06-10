@@ -21,10 +21,7 @@ public class ExecutePrisoner : AgentAction //DO NOT INHERIT FROM
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
+        reason = null;
 
         if (targetChar.PrisonLocation == null)
         {
@@ -42,10 +39,19 @@ public class ExecutePrisoner : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if(targetChar.PrisonLocation.OwnerCharacter.TopEmployer != CORE.PC)
+        if (targetChar.PrisonLocation.OwnerCharacter.TopEmployer != CORE.PC)
         {
             return false;
         }
+
+        if (!base.CanDoAction(requester, character, target, out reason))
+        {
+            return false;
+        }
+
+
+
+
 
         if (targetChar.NeverDED)
         {

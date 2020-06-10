@@ -77,6 +77,7 @@ public class LocationInfoUI : MonoBehaviour
         CurrentLocation = location;
 
         CORE.Instance.SubscribeToEvent("PassTimeComplete", RefreshUI);
+        RefreshUI();
     }
 
     public void RefreshUI()

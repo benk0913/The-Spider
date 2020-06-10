@@ -32,6 +32,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public PlayerAction[] PlayerActionsOnAgent;
 
     public bool isLockedByDefault = true;
+    public string UnlockDescription;
     public bool isLocked = false;
     public bool isPlayable = true;
     public bool isAlwaysKnown = false;

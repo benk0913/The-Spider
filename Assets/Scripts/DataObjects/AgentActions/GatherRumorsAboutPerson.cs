@@ -15,6 +15,12 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
     {
         base.Execute(requester, character, target);
 
+        if(target.GetType() != typeof(PortraitUI) && target.GetType() != typeof(PortraitUIEmployee))
+        {
+            Debug.LogError("TASK ONLY FOR TARGHET CHARS " + target.name);
+            return;
+        }
+
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
         float awareValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value;
@@ -36,7 +42,7 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
     {
         reason = null;
 
-        if(target.GetType() != typeof(PortraitUI) || target.GetType() != typeof(PortraitUIEmployee))
+        if(target.GetType() != typeof(PortraitUI) && target.GetType() != typeof(PortraitUIEmployee))
         {
             return false;
         }

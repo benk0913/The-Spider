@@ -328,6 +328,7 @@ public class ControlLocationPanelUI : MonoBehaviour
             tempRegularPortrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
             tempRegularPortrait.transform.SetParent(PrisonersGrid, false);
             tempRegularPortrait.transform.localScale = Vector3.one;
+            tempRegularPortrait.transform.position = Vector3.zero;
 
             if (CurrentLocation.PrisonersCharacters.Count > i)
             {

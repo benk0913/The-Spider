@@ -253,6 +253,11 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
 
         yield return 0;
 
+        if (CORE.Instance.DEBUG)
+        {
+            Debug.Log("Adding letterS to log - "+node["Letters"].ToString());
+        }
+
         for (int i = 0; i < node["Letters"].Count; i++)
         {
             Letter letter = new Letter(CORE.Instance.Database.PresetLetters[0]);

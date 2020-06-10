@@ -113,6 +113,7 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
                     GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
                     portraitObj.transform.SetParent(LeftPortraitsContainer, false);
                     portraitObj.transform.localScale = Vector3.one;
+                    portraitObj.transform.position = Vector3.zero;
                     portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
                 }
             });
@@ -127,6 +128,7 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
                     GameObject portraitObj = ResourcesLoader.Instance.GetRecycledObject("PortraitUI");
                     portraitObj.transform.SetParent(RightPortraitsContainer, false);
                     portraitObj.transform.localScale = Vector3.one;
+                    portraitObj.transform.position = Vector3.zero;
                     portraitObj.GetComponent<PortraitUI>().SetCharacter(character);
                 }
             });

@@ -20,9 +20,6 @@ public class InvestigateItem : AgentAction
 
         ItemUI itemUI = (ItemUI)target;
 
-        PortraitUI portrait = ResourcesLoader.Instance.GetRecycledObject("PortraitUI").GetComponent<PortraitUI>();
-        portrait.transform.position = new Vector3(9999, 9999, 9999);
-        portrait.SetCharacter(character);
 
         CORE.Instance.GenerateLongTermTask(TaskToExecute, requester, character, character.CurrentLocation, null, -1, null, this);
 

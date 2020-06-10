@@ -21,17 +21,9 @@ public class ReleasePrisoner : AgentAction //DO NOT INHERIT FROM
     {
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
+        reason = null;
 
         if (targetChar.PrisonLocation == null)
-        {
-            return false;
-        }
-
-        if (targetChar.PrisonLocation.OwnerCharacter.TopEmployer != CORE.PC)
         {
             return false;
         }
@@ -41,6 +33,18 @@ public class ReleasePrisoner : AgentAction //DO NOT INHERIT FROM
             Debug.LogError("No owner but still imprisoned?");
             return false;
         }
+
+        if (targetChar.PrisonLocation.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return false;
+        }
+
+        if (!base.CanDoAction(requester, character, target, out reason))
+        {
+            return false;
+        }
+
+
 
         if(targetChar.PrisonLocation.OwnerCharacter.TopEmployer != character.TopEmployer)
         {

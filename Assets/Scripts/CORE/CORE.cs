@@ -641,7 +641,7 @@ public class CORE : MonoBehaviour
             }
         }
 
-        return null;
+        return GetCharacter(ID);
     }
 
     #endregion

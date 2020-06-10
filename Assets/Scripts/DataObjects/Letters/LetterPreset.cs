@@ -43,7 +43,8 @@ public class LetterPreset : ScriptableObject
     public LetterPreset CreateClone()
     {
         LetterPreset clone = Instantiate(this);
-
+        clone.name = this.name;
+        
         if (clone.QuestAttachment != null)
         {
             clone.QuestAttachment.CreateClone();

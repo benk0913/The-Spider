@@ -38,7 +38,20 @@ public class Letter : ISaveFileCompatible
     {
         get
         {
-            string title = Preset.Title;
+            string title = "";
+            if (Preset == null)
+            {
+                if (CORE.Instance.DEBUG)
+                {
+                    Debug.Log("NO PRESET FOR LETTER");
+                }
+
+                title = " -- ";
+            }
+            else
+            {
+                title = Preset.Title;
+            }
 
             if (Parameters != null)
             {
@@ -61,7 +74,21 @@ public class Letter : ISaveFileCompatible
     {
         get
         {
-            string description = Preset.Description;
+            string description = "";
+
+            if (Preset == null)
+            {
+                if (CORE.Instance.DEBUG)
+                {
+                    Debug.Log("NO PRESET FOR LETTER");
+                }
+
+                description = " -- ";
+            }
+            else
+            {
+                description = Preset.Description;
+            }
 
             if (Parameters != null)
             {

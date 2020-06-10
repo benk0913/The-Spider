@@ -120,11 +120,27 @@ public class ForceAgentActionPlayer : PlayerAction
         //    return false;
         //}
 
+
         List<Character> agents = new List<Character>();
-        agents.AddRange(CORE.PC.CharactersInCommand.FindAll(x => x.IsAgent));
+
+        if (ActionToForce.ActionDoneByTarget)
+        {
+            if(target.GetType() == typeof(LocationEntity))
+            {
+                agents.AddRange(((LocationEntity)target).EmployeesCharacters);
+            }
+            else if(target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+            {
+                agents.Add(((PortraitUI)target).CurrentCharacter);
+            }
+        }
+        else
+        {
+            agents.AddRange(CORE.PC.CharactersInCommand.FindAll(x => x.IsAgent));
+        }
 
         bool canDo = false;
-        foreach(Character agent in agents)
+        foreach (Character agent in agents)
         {
             if (ActionToForce.CanDoAction(requester, agent, target, out reason))
             {
@@ -133,7 +149,7 @@ public class ForceAgentActionPlayer : PlayerAction
             }
         }
 
-        if(!canDo)
+        if (!canDo)
         {
             return false;
         }

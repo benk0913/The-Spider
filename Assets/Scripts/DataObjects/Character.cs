@@ -1985,46 +1985,46 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         Initialize();
 
-        ID = node["ID"];
+        ID = node["ID"].Value;
 
-        name = node["name"];
+        name = node["name"].Value;
 
-        Gender = (GenderType)int.Parse(node["Gender"]);
+        Gender = (GenderType)int.Parse(node["Gender"].Value);
 
-        CGold = int.Parse(node["Gold"]);
-        CConnections = int.Parse(node["Connections"]);
-        CRumors = int.Parse(node["Rumors"]);
-        CProgress = int.Parse(node["Progress"]);
-        Reputation = int.Parse(node["Reputation"]);
+        CGold = int.Parse(node["Gold"].Value);
+        CConnections = int.Parse(node["Connections"].Value);
+        CRumors = int.Parse(node["Rumors"].Value);
+        CProgress = int.Parse(node["Progress"].Value);
+        Reputation = int.Parse(node["Reputation"].Value);
 
-        NeverDED = bool.Parse(node["NeverDED"]);
+        NeverDED = bool.Parse(node["NeverDED"].Value);
 
-        _prisonLocationID = node["PrisonLocation"];
-        _puppetOfFaction = node["PuppetOf"];
+        _prisonLocationID = node["PrisonLocation"].Value;
+        _puppetOfFaction = node["PuppetOf"].Value;
 
-        if (!string.IsNullOrEmpty(node["PupperTurnsLeft"]))
+        if (!string.IsNullOrEmpty(node["PupperTurnsLeft"].Value))
         {
-            PupperTurnsLeft = int.Parse(node["PupperTurnsLeft"]);
+            PupperTurnsLeft = int.Parse(node["PupperTurnsLeft"].Value);
         }
 
-        _workLocationID = node["WorkLocation"];
+        _workLocationID = node["WorkLocation"].Value;
 
-        if (!string.IsNullOrEmpty(node["WorkLocationGuard"]))
+        if (!string.IsNullOrEmpty(node["WorkLocationGuard"].Value))
         {
-            _isGuard = bool.Parse(node["WorkLocationGuard"]);
+            _isGuard = bool.Parse(node["WorkLocationGuard"].Value);
         }
         else
         {
             _isGuard = false;
         }
 
-        _homeLocationID = node["HomeLocation"];
+        _homeLocationID = node["HomeLocation"].Value;
 
-        _currentLocationID = node["CurrentLocation"];
+        _currentLocationID = node["CurrentLocation"].Value;
 
-        Pinned = bool.Parse(node["Pinned"]);
+        Pinned = bool.Parse(node["Pinned"].Value);
 
-        IsDead = bool.Parse(node["IsDead"]);
+        IsDead = bool.Parse(node["IsDead"].Value);
 
         foreach (KnowledgeInstance item in Known.Items)
         {
@@ -2071,7 +2071,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         for (int i=0; i < node["Favors"].Count;i++)
         {
-            favorPointsIDs.Add(new FavorPointsPair(null, int.Parse(node["Favors"][i]["Favor"]), node["Favors"][i]["CharacterID"]));
+            favorPointsIDs.Add(new FavorPointsPair(null, int.Parse(node["Favors"][i]["Favor"].Value), node["Favors"][i]["CharacterID"].Value));
         }
 
         _currentFactionName = node["CurrentFaction"];
@@ -2119,15 +2119,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
             UniquePortrait = ResourcesLoader.Instance.GetSprite(node["UniquePortrait"].Value);
         }
 
-        if (!string.IsNullOrEmpty(node["CurrentTaskEntityCurrentTask"]))
+        if (!string.IsNullOrEmpty(node["CurrentTaskEntityCurrentTask"].Value))
         {
-            _currentTaskTurnsLeft = int.Parse(node["CurrentTaskEntityTurnsLeft"]);
-            _currentTaskName = node["CurrentTaskEntityCurrentTask"];
-            _currentTaskRequesterID = node["CurrentTaskEntityCurrentRequester"];
-            _currentTaskCharacterID = node["CurrentTaskEntityCurrentCharacter"];
-            _currentTaskTargetID = node["CurrentTaskEntityCurrentTarget"];
-            _currentTaskOriginalAction = node["CurrentTaskOriginalAction"];
-            _currentTaskPerTurnAction = node["CurrentTaskPerTurnAction"];
+            _currentTaskTurnsLeft = int.Parse(node["CurrentTaskEntityTurnsLeft"].Value);
+            _currentTaskName = node["CurrentTaskEntityCurrentTask"].Value;
+            _currentTaskRequesterID = node["CurrentTaskEntityCurrentRequester"].Value;
+            _currentTaskCharacterID = node["CurrentTaskEntityCurrentCharacter"].Value;
+            _currentTaskTargetCharacterID = node["CurrentTaskEntityCurrentTargetCharacter"].Value;
+            _currentTaskTargetID = node["CurrentTaskEntityCurrentTarget"].Value;
+            _currentTaskOriginalAction = node["CurrentTaskOriginalAction"].Value;
+            _currentTaskPerTurnAction = node["CurrentTaskPerTurnAction"].Value;
         }
 
         if (!string.IsNullOrEmpty(node["CurrentQuestioningInstance"].Value))

@@ -53,16 +53,6 @@ public class AttemptGatheringRumorsAboutPerson : AgentAction //DO NOT INHERIT FR
             return false;
         }
 
-        if (requester != character && requester != CORE.Instance.Database.GOD && character.TopEmployer != requester)
-        {
-            return false;
-        }
-
-        if(targetChar.TopEmployer == requester)
-        {
-            return false;
-        }
-
         return true;
     }
 }

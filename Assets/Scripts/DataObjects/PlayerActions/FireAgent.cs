@@ -77,7 +77,7 @@ public class FireAgent : PlayerAction
                 {
                     foreach (Character snitchTarget in SnitchTargets)
                     {
-                        CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, target);
+                        CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, snitchTarget, character.CurrentLocation);
                     }
                 });
 

@@ -767,6 +767,12 @@ public class FactionAI : ScriptableObject
 
         currentSchemeType.Execute(Plot);
 
+
+        if(plotTarget.GetType() == typeof(PortraitUI) || plotTarget.GetType() == typeof(PortraitUIEmployee))
+        {
+            plotTarget.gameObject.SetActive(false);
+        }
+
         return null;
     }
 
