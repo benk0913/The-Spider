@@ -21,6 +21,11 @@ public class GameDBEditor : Editor
             CalcWordCount(db);
         }
 
+        if (GUILayout.Button("Print Voice Comissions"))
+        {
+            PrintVoiceComissions(db);
+        }
+
         if (GUILayout.Button("Print Custom Analysis"))
         {
             PrintCustomAnalysis(db);
@@ -275,6 +280,49 @@ public class GameDBEditor : Editor
             Debug.Log(key + " - " + wordCountPerCharacter[key]);
         }
     }
+
+    void PrintVoiceComissions(GameDB db)
+    {
+        string[] guids;
+        guids = AssetDatabase.FindAssets("t:LetterPreset", new[] { "Assets/" + db.DataPath });
+
+        Dictionary<string, string> letters = new Dictionary<string, string>();
+        foreach (string guid in guids)
+        {
+            LetterPreset preset = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LetterPreset)) as LetterPreset;
+
+            string fromName;
+            if(preset.PresetSender != null)
+            {
+                fromName = preset.PresetSender.name;
+            }
+            else if(!string.IsNullOrEmpty(preset.From))
+            {
+                fromName = preset.From;
+            }
+            else
+            {
+                fromName = "Unknown";
+            }
+
+            string desc = preset.Title + " - " + System.Environment.NewLine + preset.Description + System.Environment.NewLine + System.Environment.NewLine;
+            if (letters.ContainsKey(fromName))
+            {
+                letters[fromName] += desc;
+            }
+            else
+            {
+                letters.Add(fromName, desc);
+            }
+
+        }
+
+        foreach(string letterKey in letters.Keys)
+        {
+            Debug.Log("-----" + letterKey + "-----" + System.Environment.NewLine + letters[letterKey]);
+        }
+    }
+
 
     void PrintCustomAnalysis(GameDB db)
     {
