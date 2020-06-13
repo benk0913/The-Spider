@@ -86,6 +86,11 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
 
     public void Hide()
     {
+        if(SelectedLetter != null)
+        {
+            AudioControl.Instance.StopSound(SelectedLetter.CurrentLetter.Preset.VoiceLine);
+        }
+
         this.gameObject.SetActive(false);
     }
 
@@ -129,6 +134,7 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
     {
         if(SelectedLetter != null)
         {
+            AudioControl.Instance.StopSound(SelectedLetter.CurrentLetter.Preset.VoiceLine);
             SelectedLetter.Deselect();
         }
 
@@ -202,6 +208,11 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
             QuestPanel.gameObject.SetActive(false);
         }
 
+        if (!string.IsNullOrEmpty(SelectedLetter.CurrentLetter.Preset.VoiceLine))
+        {
+            AudioControl.Instance.StopSound(SelectedLetter.CurrentLetter.Preset.VoiceLine);
+            AudioControl.Instance.Play(SelectedLetter.CurrentLetter.Preset.VoiceLine);
+        }
     }
 
     public void AcceptQuest()

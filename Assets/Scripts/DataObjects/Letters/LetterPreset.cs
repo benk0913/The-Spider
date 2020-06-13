@@ -40,6 +40,8 @@ public class LetterPreset : ScriptableObject
 
     public bool LockPassTime = false;
 
+    public string VoiceLine;
+
     public LetterPreset CreateClone()
     {
         LetterPreset clone = Instantiate(this);

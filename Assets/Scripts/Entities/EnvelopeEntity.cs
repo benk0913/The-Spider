@@ -254,6 +254,11 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
         DisposeAction?.Invoke(this);
 
+        if (!string.IsNullOrEmpty(CurrentLetter.Preset.VoiceLine))
+        {
+            AudioControl.Instance.StopSound(CurrentLetter.Preset.VoiceLine);
+        }
+
         Destroy(this.gameObject);
     }
 
@@ -262,6 +267,11 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
             return;
+        }
+
+        if (!string.IsNullOrEmpty(CurrentLetter.Preset.VoiceLine))
+        {
+            AudioControl.Instance.StopSound(CurrentLetter.Preset.VoiceLine);
         }
 
         DisposeAction?.Invoke(this);
@@ -300,6 +310,14 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         questClone.ForCharacter = CORE.PC;
         QuestsPanelUI.Instance.AddNewExistingQuest(questClone);
         QuestPanel.gameObject.SetActive(false);
+
+        CORE.Instance.DelayedInvokation(0.1f, () =>
+        {
+            if (!string.IsNullOrEmpty(CurrentLetter.Preset.VoiceLine))
+            {
+                AudioControl.Instance.StopSound(CurrentLetter.Preset.VoiceLine);
+            }
+        });
     }
 
     public void OpenLetter()
@@ -307,6 +325,12 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         if(CurrentLetter.Preset.LockPassTime)
         {
             GameClock.Instance.LockingLetter = null;
+        }
+
+        if (!string.IsNullOrEmpty(CurrentLetter.Preset.VoiceLine))
+        {
+            AudioControl.Instance.StopSound(CurrentLetter.Preset.VoiceLine);
+            AudioControl.Instance.Play(CurrentLetter.Preset.VoiceLine);
         }
     }
 
