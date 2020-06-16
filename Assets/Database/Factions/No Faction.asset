@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: No Faction
   m_EditorClassIdentifier: 
   Description: 
+  HowToPlayDescription: 
   Icon: {fileID: -9132612767764584241, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
   WaxMaterial: {fileID: 2100000, guid: 419ebd144e0615f4d9a4482d8068f087, type: 2}
-  FactionColor: {r: 0, g: 0, b: 0, a: 0}
+  FactionColor: {r: 0, g: 0, b: 0, a: 1}
   RoomScene: 
   FactionHead: {fileID: 0}
   FactionSelectionPrefab: {fileID: 7413705410465203827, guid: c2dd6d680fc4ee34e879fd04bc96ac16,
@@ -28,9 +29,11 @@ MonoBehaviour:
   PlayerActionsOnLocation: []
   PlayerActionsOnAgent: []
   isLockedByDefault: 1
+  UnlockDescription: 
   isLocked: 1
   isPlayable: 0
   isAlwaysKnown: 1
+  HasPromotionSystem: 0
   GoldGeneratedPerDay: 0
   ConnectionsGeneratedPerDay: 0
   RumorsGeneratedPerDay: 0
@@ -44,3 +47,5 @@ MonoBehaviour:
   - Not related to any faction...
   - Not related to any gang...
   - Not related to any group...
+  EndGameUniqueParameters: []
+  Timeline: []

@@ -837,6 +837,7 @@ public class CORE : MonoBehaviour
 
         AudioControl.Instance.Play("load");
 
+        DisposeSessionElements();
         LoadingGameRoutine = StartCoroutine(LoadGameRoutine(file));
     }
 
@@ -1064,15 +1065,22 @@ public class CORE : MonoBehaviour
 
     public void DisposeCurrentGame()
     {
-        //for (int i = 0; i < DisposableContainer.childCount; i++)
-        //{
-        //    Destroy(DisposableContainer.GetChild(i).gameObject, 0.05f);
-        //}
-
+        DisposeSessionElements();
         //WorldMissionPanelUI.Instance.gameObject.SetActive(false);
         //InvokeEvent("HideMap");
         Destroy(this.gameObject);
     }
+
+    public void DisposeSessionElements()
+    {
+        InvokeEvent("HideMap");
+
+        for (int i = 0; i < DisposableContainer.childCount; i++)
+        {
+            Destroy(DisposableContainer.GetChild(i).gameObject, 0.05f);
+        }
+    }
+
     #endregion
 
     #region 3Day Rumors

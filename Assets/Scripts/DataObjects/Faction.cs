@@ -44,6 +44,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public int ProgressGeneratedPerDay;
     public int ReputationGeneratedPerDay;
 
+    public int RecommendedPropertyCap = 999;
+
 
     public List<Character> Members
     {
@@ -177,7 +179,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
         foreach(Character character in members)
         {
-            character.CurrentFaction = CORE.Instance.Database.NoFaction;
+            character.CurrentFaction = CORE.Instance.Database.DefaultFaction;
         }
     }
 

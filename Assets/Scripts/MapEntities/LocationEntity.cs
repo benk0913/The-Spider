@@ -148,7 +148,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
                     foreach(Faction key in ControlSize.Keys)
                     {
-                        if (ControlSize[key] >= locationsInDistrict.Count * 0.8)
+                        if (ControlSize[key] >= locationsInDistrict.Count * 0.7)
                         {
                             return key;
                         }

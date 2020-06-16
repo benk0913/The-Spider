@@ -46,7 +46,7 @@ public class PortraitUIEmployee : PortraitUI
 
         base.SetCharacter(character);
 
-        if (character != null && character.WorkLocation != null && !character.IsKnown("WorkLocation", CORE.PC))
+        if (character != null && character.WorkLocation != null && character.PropertiesOwned.Find(x=>x == RelevantLocation) == null && !character.IsKnown("WorkLocation", CORE.PC))
         {
             Unique.gameObject.SetActive(false);
 

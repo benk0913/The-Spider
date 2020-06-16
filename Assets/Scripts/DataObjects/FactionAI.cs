@@ -402,6 +402,11 @@ public class FactionAI : ScriptableObject
 
     protected virtual void AttemptMaximizeProperties()
     {
+        if(CurrentCharacter.PropertiesInCommand.Count >= CurrentCharacter.CurrentFaction.RecommendedPropertyCap)
+        {
+            return;
+        }
+
         FailReason failReason = null;
 
         List<Character> charsInCommand = CurrentCharacter.CharactersInCommand;

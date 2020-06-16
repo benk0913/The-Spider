@@ -1288,7 +1288,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
-        if(Random.Range(0, 2) == 0)
+        if(Random.Range(0, 5) == 0)
         {
             return;
         }
@@ -1302,7 +1302,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             return;
         }
-        
+
         int minRelationToBetray = 5;
         if (Traits.Contains(CORE.Instance.Database.GetTrait("Bad Moral Standards")))
         {
@@ -1682,7 +1682,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
             else
             {
                 possibleReplacement.StopWorkingForCurrentLocation();
-                possibleReplacement.CurrentFaction = CORE.Instance.Database.NoFaction;//TEST - THIS MAY BE SHIT.
+                possibleReplacement.CurrentFaction = CORE.Instance.Database.DefaultFaction;//TEST - THIS MAY BE SHIT.
                 possibleReplacement.StartOwningLocation(location);
                 
                 return;
