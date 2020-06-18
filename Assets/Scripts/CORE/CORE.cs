@@ -1032,6 +1032,7 @@ public class CORE : MonoBehaviour
 
     public void ReadAllSaveFiles()
     {
+
         SaveFiles.Clear();
 
         if (!Directory.Exists(Application.dataPath + "/Saves"))

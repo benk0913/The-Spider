@@ -76,7 +76,7 @@ public class FavorDecisionUI : MonoBehaviour
         }
 
 
-        CurrentCharacter.AddFavorPoints(CORE.PC, CurrentDecision.FavorCost);
+        CurrentCharacter.AddFavorPoints(CORE.PC, -CurrentDecision.FavorCost);
 
         SelectedPanelUI.Instance.LocationPanel.RefreshUI();
 

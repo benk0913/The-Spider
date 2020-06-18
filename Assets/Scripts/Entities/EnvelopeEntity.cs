@@ -366,4 +366,15 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         CurrentLetter.ImplementIDs();
         RefreshUI();
     }
+
+    public void Retreive()
+    {
+        CORE.Instance.DelayedInvokation(0.1f, () =>
+        {
+            if (!string.IsNullOrEmpty(CurrentLetter.Preset.VoiceLine))
+            {
+                AudioControl.Instance.StopSound(CurrentLetter.Preset.VoiceLine);
+            }
+        });
+    }
 }

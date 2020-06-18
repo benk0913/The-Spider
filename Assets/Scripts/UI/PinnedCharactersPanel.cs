@@ -46,6 +46,11 @@ public class PinnedCharactersPanel : MonoBehaviour
             yield return 0;
         }
 
+        while(CORE.Instance.isLoading)
+        {
+            yield return 0;
+        }
+
         bool empty = true;
         int counter = 0;
         foreach (Character character in CORE.Instance.Characters)

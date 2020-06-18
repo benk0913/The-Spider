@@ -16,6 +16,7 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
     AgentAction RelevantAction = null;
     AgentInteractable RelevantTarget = null;
 
+
     protected override void Awake()
     {
         Instance = this;
@@ -46,6 +47,8 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         }
 
         Tree.SetSelectableCharacters(TopCharacter, onSelect, RelevantAction, RelevantTarget);
+
+        yield return 0;
 
         PopulateGridRoutine = null;
     }

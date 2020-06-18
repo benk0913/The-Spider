@@ -82,7 +82,7 @@ public class SelectableCharacterNodeTreeUI : CharacterNodeTreeUI
             
         }
 
-        yield return 0;
+        //yield return 0;
 
         for (int i = 0; i < node.Children.Count; i++)
         {

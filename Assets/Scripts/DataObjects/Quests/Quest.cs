@@ -17,6 +17,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public Character RelevantCharacter;
 
+    public bool DoNotPinRelevantCharacter;
+
     public LocationEntity RelevantLocation;
 
     public List<string> InfoGivenOnCharacter = new List<string>();

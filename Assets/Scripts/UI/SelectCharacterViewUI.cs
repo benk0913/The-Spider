@@ -114,7 +114,7 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         characters = SortCharacters(CurrentSortKey, characters);
 
-        yield return 0;
+        //yield return 0;
 
         foreach (Character character in characters)
         {
@@ -140,7 +140,7 @@ public class SelectCharacterViewUI : MonoBehaviour
             selectableChar.transform.GetComponentInChildren<PortraitUI>().transform.Find("ExternalUseText").GetComponent<TextMeshProUGUI>().text = GetTextOnPortrait(character);
 
 
-            yield return 0;
+            //yield return 0;
         }
 
         PopulateGridRoutine = null;

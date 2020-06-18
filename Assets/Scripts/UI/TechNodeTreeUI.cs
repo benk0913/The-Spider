@@ -19,16 +19,26 @@ public class TechNodeTreeUI : NodeTreeUI
     [SerializeField]
     GameObject FirstNode;
 
+    [SerializeField]
+    CanvasGroup CG;
+
     public float MinScale = 0.5f;
     public float MaxScale = 1f;
+
+    public bool Initialized = false;
 
     private void Awake()
     {
         Instance = this;
-        this.gameObject.SetActive(false);
+        Hide();
     }
 
-    private void OnDisable()
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("GameLoadComplete", () => { Initialized = false; });
+    }
+
+    public void Hide()
     {
         if (AudioControl.Instance != null)
         {
@@ -36,17 +46,17 @@ public class TechNodeTreeUI : NodeTreeUI
             AudioControl.Instance.UnmuteMusic();
         }
 
+        CG.alpha = 0f;
+        CG.interactable = false;
+        CG.blocksRaycasts = false;
 
-        if (MouseLook.Instance == null) return;
-
-        MouseLook.Instance.CurrentWindow = null;
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            this.gameObject.SetActive(false);
+            Hide();
         }
 
         if(Input.GetAxis("Mouse ScrollWheel") > 0f && FirstNode.transform.localScale.x < MaxScale)
@@ -59,16 +69,30 @@ public class TechNodeTreeUI : NodeTreeUI
         }
     }
 
+    public void Reveal()
+    {
+        CG.alpha = 1f;
+        CG.interactable = true;
+        CG.blocksRaycasts = true;
+    }
+
     public void Show()
     {
 
         AudioControl.Instance.Play("soundscape_research_tech", true);
         AudioControl.Instance.MuteMusic();
 
-        MouseLook.Instance.CurrentWindow = this.gameObject;
-        this.gameObject.SetActive(true);
+        Reveal();
+
+        if (Initialized)
+        {
+            return;
+        }
+
         ShowTechHirarchy(CORE.Instance.TechTree);
-        FirstNode.transform.localScale = Vector3.one* MinScale;
+        FirstNode.transform.localScale = Vector3.one * MinScale;
+
+        Initialized = true;
     }
 
     public virtual void ShowTechHirarchy(TechTreeItem rootItem)
@@ -95,7 +119,7 @@ public class TechNodeTreeUI : NodeTreeUI
 
     public void RefreshNodes()
     {
-        if(!this.gameObject.activeInHierarchy)
+        if(this.CG.interactable == false)
         {
             return;
         }

@@ -63,7 +63,10 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         if (quest.ForCharacter == CORE.PC && quest.RelevantCharacter != null)
         {
-            quest.RelevantCharacter.Pinned = true;
+            if (!quest.DoNotPinRelevantCharacter)
+            {
+                quest.RelevantCharacter.Pinned = true;
+            }
 
             foreach (string infoKey in quest.InfoGivenOnCharacter)
             {
@@ -156,7 +159,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
             }
         }
 
-        if(GameClock.Instance.LockingQuest.name == quest.name)
+        if(GameClock.Instance.LockingQuest != null && GameClock.Instance.LockingQuest.name == quest.name)
         {
             GameClock.Instance.LockingQuest = null;
         }
@@ -185,6 +188,7 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             RelevantCharacters.Remove(quest.RelevantCharacter);
         }
+        
     }
 
     IEnumerator ValidateObjectiveRoutine(QuestObjective objective)
@@ -238,7 +242,10 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
         {
             if(quest.RelevantCharacter != null)
             {
-                quest.RelevantCharacter.Pinned = false;
+                if (!quest.DoNotPinRelevantCharacter)
+                {
+                    quest.RelevantCharacter.Pinned = false;
+                }
             }
 
             if (!activeQuestsButton.interactable)
