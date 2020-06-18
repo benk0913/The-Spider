@@ -55,6 +55,12 @@ public class QOResearchComplete : QuestObjective
             return null;
         }
 
+
+        if (CORE.Instance.isLoading)
+        {
+            return null;
+        }
+
         TechTreeItem item = CORE.Instance.TechTree.Find(X => X.name == TechRequired.name);
 
         if (item == null)
@@ -66,6 +72,7 @@ public class QOResearchComplete : QuestObjective
         {
             return null;
         }
+
 
         TechNodeTreeUIInstance node = TechNodeTreeUI.Instance.FindNode(item);
 

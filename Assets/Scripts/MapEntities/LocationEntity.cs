@@ -388,11 +388,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
     }
 
-    public IEnumerator TurnPassed()
+    public void TurnPassed()
     {
-        if(IsDisabled)
+        if (IsDisabled)
         {
-            yield break;
+            return;
         }
 
         ProgressUpgrade();
@@ -420,32 +420,32 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         foreach (LongTermTaskEntity task in CompleteEarly)
         {
             task.TurnPassed();
-            yield return 0;
+            //yield return 0;
         }
 
         foreach (LongTermTaskEntity task in CompleteNormal)
         {
             task.TurnPassed();
-            yield return 0;
+            //yield return 0;
         }
 
         foreach (LongTermTaskEntity task in CompleteLate)
         {
             task.TurnPassed();
-            yield return 0;
+            //yield return 0;
         }
 
-        if(CurrentProperty.AutoRestock)
+        if (CurrentProperty.AutoRestock)
         {
-            if(Inventory.Count > 0)
+            if (Inventory.Count > 0)
             {
                 Inventory.RemoveAt(0);
             }
 
-            while(Inventory.Count < CurrentProperty.PropertyLevels[Level - 1].InventoryCap)
+            while (Inventory.Count < CurrentProperty.PropertyLevels[Level - 1].InventoryCap)
             {
-               int rnd = Random.Range(0, CurrentProperty.PropertyLevels[Level - 1].PossibleMerchantise.Length);
-               Inventory.Add(CurrentProperty.PropertyLevels[Level - 1].PossibleMerchantise[rnd].Clone());
+                int rnd = Random.Range(0, CurrentProperty.PropertyLevels[Level - 1].PossibleMerchantise.Length);
+                Inventory.Add(CurrentProperty.PropertyLevels[Level - 1].PossibleMerchantise[rnd].Clone());
             }
         }
 
@@ -453,7 +453,6 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         RefreshState();
 
-        yield return 0;
     }
 
     void DayPassed() //TODO move to mechanical flow

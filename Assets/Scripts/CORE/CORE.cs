@@ -385,18 +385,27 @@ public class CORE : MonoBehaviour
         {
             TurnLoadingWindowUI.Instance.SetProgress(i * 1f / (Locations.Count + Characters.Count) * 1f);
 
-            yield return StartCoroutine(Locations[i].TurnPassed());
+            Locations[i].TurnPassed();
+
+            if (i % 2 == 0)
+            {
+                yield return 0;
+            }
         }
 
         TurnLoadingWindowUI.Instance.SetLoadingTitle("Characters... ");//("+Characters.Count + ")
-
+        
         for (int i=0;i<Characters.Count;i++)
         {
 
             TurnLoadingWindowUI.Instance.SetProgress((Locations.Count + i) * 1f / (Locations.Count + Characters.Count) * 1f);
 
             Characters[i].OnTurnPassedAI();
-            yield return 0;
+
+            if (i % 2 == 0)
+            {
+                yield return 0;
+            }
         }
 
         //if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
@@ -957,6 +966,8 @@ public class CORE : MonoBehaviour
         PC = GetCharacter(file.Content["PlayerCharacter"]);
 
         DialogEntity.Instance.FromJSON(file.Content["DialogEntity"]);
+
+
 
         foreach (Character character in Characters)
         {

@@ -74,6 +74,16 @@ public class TechNodeTreeUI : NodeTreeUI
         CG.alpha = 1f;
         CG.interactable = true;
         CG.blocksRaycasts = true;
+
+        if (Initialized)
+        {
+            TechTreeItemUI[] items = (FirstNode.transform.GetComponentsInChildren<TechTreeItemUI>());
+            foreach(TechTreeItemUI item in items)
+            {
+                item.RefreshUI();
+            }
+        }
+
     }
 
     public void Show()
@@ -175,6 +185,16 @@ public class TechNodeTreeUI : NodeTreeUI
 
     protected virtual TechNodeTreeUIInstance FindNode(TechNodeTreeUIInstance node, TechTreeItem tech)
     {
+        if(node == null)
+        {
+            return null;
+        }
+
+        if(node.Item == null)
+        {
+            return null;
+        }
+
         if(node.Item.name == tech.name)
         {
             return node;

@@ -64,6 +64,8 @@ public class DecipherWindowUI : MonoBehaviour
 
     public System.Action OnResolveAction;
 
+    public bool InittedLetters;
+
     public string ResolvedMessage
     {
         get
@@ -218,6 +220,8 @@ public class DecipherWindowUI : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
+        InittedLetters = false;
+
         OnResolveAction = OnResolve;
 
         MouseLook.Instance.FocusOnItemInHands();
@@ -278,30 +282,7 @@ public class DecipherWindowUI : MonoBehaviour
             DecipheredTextHighlighted.text = LetterSpacingTagOpen + ResolvedMessage;
         }
 
-        ClearContainer();
-        foreach(char letter in lettersInText)
-        {
-            GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("LetterInstanceUI");
-            tempObj.transform.SetParent(LettersContainer, false);
-
-            tempObj.GetComponentInChildren<TextMeshProUGUI>().text = letter.ToString();
-
-            char currentLetter = letter;
-
-            tempObj.GetComponent<Button>().onClick.RemoveAllListeners();
-
-            if (CurrentReplacements.ContainsValue(letter))
-            {
-                tempObj.GetComponent<Image>().color = Color.blue;
-                tempObj.GetComponent<Button>().onClick.AddListener(()=> { UnsetCharacter(currentLetter); });
-            }
-            else
-            {
-                tempObj.GetComponent<Image>().color = Color.white;
-                tempObj.GetComponent<Button>().onClick.AddListener(() => { SetCharacter(currentLetter); });
-            }
-
-        }
+        RefreshSolvedLetters();
 
         if (IsEncryptionSolved)
         {
@@ -312,6 +293,75 @@ public class DecipherWindowUI : MonoBehaviour
         {
             ResolveButton.gameObject.SetActive(false);
             CloseButton.gameObject.SetActive(true);
+        }
+    }
+
+    void RefreshSolvedLetters()
+    {
+        if (!InittedLetters)
+        {
+            ClearContainer();
+            foreach (char letter in lettersInText)
+            {
+                GameObject tempObj = ResourcesLoader.Instance.GetRecycledObject("LetterInstanceUI");
+                tempObj.transform.SetParent(LettersContainer, false);
+
+                tempObj.GetComponentInChildren<TextMeshProUGUI>().text = letter.ToString();
+
+                char currentLetter = letter;
+
+                tempObj.GetComponent<Button>().onClick.RemoveAllListeners();
+
+                if (CurrentReplacements.ContainsValue(letter))
+                {
+                    tempObj.GetComponent<Image>().color = Color.blue;
+                    tempObj.GetComponent<Button>().onClick.AddListener(() => { UnsetCharacter(currentLetter); });
+                }
+                else
+                {
+                    tempObj.GetComponent<Image>().color = Color.white;
+                    tempObj.GetComponent<Button>().onClick.AddListener(() => { SetCharacter(currentLetter); });
+                }
+
+            }
+
+            InittedLetters = true;
+        }
+
+        for(int i=0;i<LettersContainer.childCount;i++)
+        {
+            Transform child = LettersContainer.GetChild(i);
+            char currentLetter = child.GetComponentInChildren<TextMeshProUGUI>().text[0];
+
+            if (CurrentReplacements.ContainsValue(currentLetter))
+            {
+                Image img = child.GetComponent<Image>();
+                if (img.color == Color.blue)
+                {
+                    continue;
+                }
+
+                Button button = child.GetComponent<Button>();
+                button.onClick.RemoveAllListeners();
+
+                child.GetComponent<Image>().color = Color.blue;
+                button.onClick.AddListener(() => { UnsetCharacter(currentLetter); });
+            }
+            else
+            {
+                Image img = child.GetComponent<Image>();
+                if (img.color == Color.white)
+                {
+                    continue;
+                }
+
+                Button button = child.GetComponent<Button>();
+                button.onClick.RemoveAllListeners();
+
+                child.GetComponent<Image>().color = Color.white;
+                button.onClick.AddListener(() => { SetCharacter(currentLetter); });
+            }
+
         }
     }
 

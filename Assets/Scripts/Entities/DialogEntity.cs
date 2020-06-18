@@ -81,12 +81,12 @@ public class DialogEntity : MonoBehaviour, ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
-        if(string.IsNullOrEmpty(node["CurrentDialog"]))
+        if(string.IsNullOrEmpty(node["CurrentDialog"].Value))
         {
             return;
         }
 
-        CurrentDialog = CORE.Instance.Database.AllDialogPieces.Find(x => x.name == node["CurrentDialog"]);
+        CurrentDialog = CORE.Instance.Database.AllDialogPieces.Find(x => x.name == node["CurrentDialog"].Value);
     }
 
     public void ImplementIDs()

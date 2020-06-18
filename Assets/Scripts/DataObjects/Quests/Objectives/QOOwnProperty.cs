@@ -22,7 +22,8 @@ public class QOOwnProperty : QuestObjective
         if (CORE.Instance.Locations.Find(x => 
         x.CurrentProperty == TargetProperty 
         && x.FactionInControl != null 
-        && x.FactionInControl == ParentQuest.ForCharacter.CurrentFaction) != null)
+        && x.FactionInControl == ParentQuest.ForCharacter.CurrentFaction
+        && !x.IsDisabled) != null)
         {
             return true;
         }

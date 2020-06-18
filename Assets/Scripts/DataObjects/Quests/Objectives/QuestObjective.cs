@@ -48,10 +48,14 @@ public class QuestObjective : ScriptableObject
 
     public virtual bool Failed()
     {
+
         foreach(QuestObjective failCondition in FailConditions)
         {
             if(failCondition.Validate())
             {
+                if (CORE.Instance.DEBUG)
+                    Debug.LogError("FAILED OBJECTIVE - " + this.name);
+
                 return true;
             }
         }

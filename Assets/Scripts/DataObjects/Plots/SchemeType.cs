@@ -56,8 +56,15 @@ public class SchemeType : ScriptableObject
 
                 if (location.OwnerCharacter != null)
                 {
-                    location.OwnerCharacter.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
-                    entryParticipants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                    if (location.OwnerCharacter.CurrentFaction.Relations != null)
+                    {
+                        location.OwnerCharacter.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                    }
+
+                    if (entryParticipants[0].CurrentFaction.Relations != null)
+                    {
+                        entryParticipants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                    }
                 }
             }
             else if(data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
@@ -66,8 +73,15 @@ public class SchemeType : ScriptableObject
 
                 if (targetChar != null && targetChar.CurrentFaction != null && targetChar.CurrentFaction.Relations != null)
                 {
-                    targetChar.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
-                    entryParticipants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                    if (targetChar.CurrentFaction.Relations != null)
+                    {
+                        targetChar.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                    }
+
+                    if (entryParticipants[0].CurrentFaction.Relations != null)
+                    {
+                        entryParticipants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                    }
                 }
             }
 
