@@ -453,6 +453,23 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         RefreshState();
 
+        ValidityCheck();
+    }
+
+    void ValidityCheck()
+    {
+        List<Character> PotentialChars = new List<Character>();
+        PotentialChars.AddRange(EmployeesCharacters);
+        PotentialChars.AddRange(GuardsCharacters);
+
+        foreach (Character character in PotentialChars)
+        {
+            if (character.Age < CurrentProperty.MinAge)
+            {
+                character.StopWorkingForCurrentLocation();
+
+            }
+        }
     }
 
     void DayPassed() //TODO move to mechanical flow

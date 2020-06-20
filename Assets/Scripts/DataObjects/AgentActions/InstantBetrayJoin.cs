@@ -41,19 +41,16 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
             }
 
             character.BetrayEmployer();
-            character.StartWorkingFor(x);
+            CORE.Instance.DelayedInvokation(0.5f, ()=> { character.StartWorkingFor(x); });
         }, x => possibleProperties.Contains(x), "Where the agent should join?");
         
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
-        LocationEntity targetEntity = (LocationEntity)target;
+        reason = null;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
+        LocationEntity targetEntity = (LocationEntity)target;
 
         LocationEntity targetProperty = CORE.PC.PropertiesInCommand.Find(
             x => x.CurrentProperty.EmployeesAreAgents && x.EmployeesCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level - 1].MaxEmployees);

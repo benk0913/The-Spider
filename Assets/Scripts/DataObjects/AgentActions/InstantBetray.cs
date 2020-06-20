@@ -34,10 +34,7 @@ public class InstantBetray : AgentAction //DO NOT INHERIT FROM
     {
         LocationEntity targetEntity = (LocationEntity)target;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
+        reason = null;
 
         return true;
     }
