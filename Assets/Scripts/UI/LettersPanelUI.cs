@@ -130,7 +130,8 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
         FromText.text = "";
     }
 
-    public void LetterSelected(LogLetterUI letter)
+
+    public void LetterSelected(LogLetterUI letter, bool withSound = false)
     {
         if(SelectedLetter != null)
         {
@@ -208,7 +209,7 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
             QuestPanel.gameObject.SetActive(false);
         }
 
-        if (!string.IsNullOrEmpty(SelectedLetter.CurrentLetter.Preset.VoiceLine))
+        if (withSound && !string.IsNullOrEmpty(SelectedLetter.CurrentLetter.Preset.VoiceLine))
         {
             AudioControl.Instance.StopSound(SelectedLetter.CurrentLetter.Preset.VoiceLine);
             AudioControl.Instance.Play(SelectedLetter.CurrentLetter.Preset.VoiceLine);

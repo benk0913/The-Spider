@@ -25,7 +25,7 @@ public class LogLetterUI : MonoBehaviour
 
     public void Interact()
     {
-        CurrentParent.LetterSelected(this);
+        CurrentParent.LetterSelected(this, true);
     }
 
     public void Select()
