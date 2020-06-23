@@ -343,6 +343,12 @@ public class AgentAction : ScriptableObject
             }
         }
 
+        if(character == null)
+        {
+            Debug.LogError("NO CHARACTER? - "+target.name);
+            return false;
+        }
+
 
         if (character.PrisonLocation != null && !CanDoInPrison)
         {

@@ -1195,9 +1195,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has been promoted!", ResourcesLoader.Instance.GetSprite("thumb-up"), this));
 
+
                 if (Employer == CORE.PC)
                 {
-                    WarningWindowUI.Instance.Show(this.name + " has been promoted to replace YOU. Keep your agent's in check next time.", () => { LoseWindowUI.Instance.Show(); }, true);
+                    CProgress = 0;
+                    WarningWindowUI.Instance.Show(this.name + " has been promoted by the Hand to replace YOU. Keep your agent's in check next time.", () => { LoseWindowUI.Instance.Show(); }, true);
                     return;
                 }
                 else if(this == CORE.PC || Employer == this)
@@ -1206,27 +1208,31 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 }
                 else
                 {
-                    LocationEntity previousWorkLocation = WorkLocation;
-                    Character previousEmployer = Employer;
-                    StopWorkingForCurrentLocation();
-                    StartWorkingFor(previousEmployer.WorkLocation);
-
-                    previousWorkLocation.RecruitEmployee(TopEmployer);
-
-                    if (previousEmployer == null)
+                    WarningWindowUI.Instance.Show(this.name + " has been promoted by the Hand to replace "+Employer.name+".", () => 
                     {
-                        return;
-                    }
+                        LocationEntity previousWorkLocation = WorkLocation;
+                        Character previousEmployer = Employer;
+                        StopWorkingForCurrentLocation();
+                        StartWorkingFor(previousEmployer.WorkLocation);
 
-                    List<LocationEntity> Inheritence = new List<LocationEntity>();
-                    Inheritence.AddRange(previousEmployer.PropertiesOwned);
-                    foreach(LocationEntity location in Inheritence)
-                    {
-                        StartOwningLocation(location);
-                    }
+                        previousWorkLocation.RecruitEmployee(TopEmployer);
 
-                    previousEmployer.StopDoingCurrentTask();
-                    previousEmployer.StopWorkingForCurrentLocation();
+                        if (previousEmployer == null)
+                        {
+                            return;
+                        }
+
+                        List<LocationEntity> Inheritence = new List<LocationEntity>();
+                        Inheritence.AddRange(previousEmployer.PropertiesOwned);
+                        foreach (LocationEntity location in Inheritence)
+                        {
+                            StartOwningLocation(location);
+                        }
+
+                        previousEmployer.StopDoingCurrentTask();
+                        previousEmployer.StopWorkingForCurrentLocation();
+                        CProgress = 0;
+                    }, true);
                 }
             }
 

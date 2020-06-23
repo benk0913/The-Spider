@@ -451,17 +451,14 @@ public class CORE : MonoBehaviour
             rulesToRemove.RemoveAt(0);
         }
 
-        if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
+        foreach(RecruitmentPool pool in Database.RecruitmentPools)
         {
-            foreach(RecruitmentPool pool in Database.RecruitmentPools)
+            if(pool.Characters.Count == 0)
             {
-                if(pool.Characters.Count == 0)
-                {
-                    continue;
-                }
-
-                pool.Remove(pool.Characters[Random.Range(0, pool.Characters.Count)]);
+                continue;
             }
+
+            pool.Remove(pool.Characters[Random.Range(0, pool.Characters.Count)]);
         }
 
         if (GameClock.Instance.CurrentTurn % 3 == 0)

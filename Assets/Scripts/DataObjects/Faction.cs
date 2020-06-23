@@ -365,8 +365,8 @@ public class FactionRelationInstance : ISaveFileCompatible
     public JSONNode ToJSON()
     {
         JSONClass node = new JSONClass();
-        node["OfFaction"] = OfFaction.name;
-        node["WithFaction"] = WithFaction.name;
+        node["OfFaction"] = OfFaction != null ? OfFaction.name : CORE.Instance.Database.DefaultFaction.name;
+        node["WithFaction"] = WithFaction != null? WithFaction.name : CORE.Instance.Database.DefaultFaction.name;
         node["Value"] = _value.ToString();
 
         return node;
@@ -374,9 +374,9 @@ public class FactionRelationInstance : ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
-        this.ofFactionName = node["OfFaction"];
-        this.withFactionName = node["WithFaction"];
-        this._value = int.Parse(node["Value"]);
+        this.ofFactionName = node["OfFaction"].Value;
+        this.withFactionName = node["WithFaction"].Value;
+        this._value = int.Parse(node["Value"].Value);
     }
 
     public string withFactionName;

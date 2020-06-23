@@ -54,6 +54,7 @@ public class MapViewManager : MonoBehaviour
     {
         SelectedPanelUI.Instance.Deselect();
         RightClickDropDownPanelUI.Instance.Hide();
+
         CORE.Instance.InvokeEvent("HideMap");
     }
 

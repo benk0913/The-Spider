@@ -79,6 +79,7 @@ public class RecruitmentPool : ScriptableObject, ISaveFileCompatible
 
     public void Remove(Character character)
     {
+
         Characters.Remove(character);
         GenerateCharacter();
     }
