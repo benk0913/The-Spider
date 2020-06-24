@@ -16,6 +16,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool IsDead = false;
 
+    public bool HiddenFromCharacterWindows = false;
+
     public bool IsAgent
     {
         get

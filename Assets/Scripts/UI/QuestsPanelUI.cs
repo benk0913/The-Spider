@@ -350,6 +350,9 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         }
 
+
+        CORE.Instance.InvokeEvent("ObjectiveComplete");
+
         foreach (QuestObjective qObjective in parentQuest.Objectives)
         {
             if(objective == qObjective)
@@ -370,7 +373,6 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         QuestComplete(parentQuest);
 
-        CORE.Instance.InvokeEvent("ObjectiveComplete");
 
     }
 

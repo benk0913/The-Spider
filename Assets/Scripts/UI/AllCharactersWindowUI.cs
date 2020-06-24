@@ -29,9 +29,11 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
                 {
                     base.Show(null, (Character charInQuestion) =>
                     {
-                        return charInQuestion.Known.GetIsAnythingKnown(CORE.PC) 
+                        return charInQuestion.Known.GetIsAnythingKnown(CORE.PC)
                         && charInQuestion != CORE.PC
-                        && !charInQuestion.IsDisabled;
+                        && !charInQuestion.IsDisabled
+                        && !charInQuestion.HiddenFromCharacterWindows;
+
                     });
                     break;
                 }
@@ -42,7 +44,8 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
                         return charInQuestion.Known.GetIsAnythingKnown(CORE.PC)
                         && charInQuestion.TopEmployer == CORE.PC
                         && charInQuestion != CORE.PC
-                        && !charInQuestion.IsDisabled;
+                        && !charInQuestion.IsDisabled
+                        && !charInQuestion.HiddenFromCharacterWindows;
                     });
                     break;
                 }
@@ -53,7 +56,8 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
                         return charInQuestion.Known.GetIsAnythingKnown(CORE.PC)
                         && charInQuestion.isImportant
                         && charInQuestion != CORE.PC
-                        && !charInQuestion.IsDisabled;
+                        && !charInQuestion.IsDisabled
+                        && !charInQuestion.HiddenFromCharacterWindows;
                     });
                     break;
                 }
