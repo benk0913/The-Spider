@@ -82,6 +82,11 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
         }
         else
         {
+            if(CurrentLongTermTaskEffect != null)
+            {
+                Destroy(CurrentLongTermTaskEffect);
+            }
+
             CurrentLongTermTaskEffect = null;
         }
     }

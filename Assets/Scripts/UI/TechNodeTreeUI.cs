@@ -27,6 +27,8 @@ public class TechNodeTreeUI : NodeTreeUI
 
     public bool Initialized = false;
 
+    public bool IsHidden = false;
+
     private void Awake()
     {
         Instance = this;
@@ -49,6 +51,7 @@ public class TechNodeTreeUI : NodeTreeUI
         CG.alpha = 0f;
         CG.interactable = false;
         CG.blocksRaycasts = false;
+        IsHidden = true;
 
     }
 
@@ -83,6 +86,8 @@ public class TechNodeTreeUI : NodeTreeUI
                 item.RefreshUI();
             }
         }
+
+        IsHidden = false;
 
     }
 

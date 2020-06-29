@@ -52,6 +52,7 @@ public class TechTreeItemUI : MonoBehaviour
 
     public void RefreshUI()
     {
+
         if ((CurrentItem.IsHidden || CurrentItem.FactionsHidden.Find(x => x.name == CORE.PlayerFaction.name) != null )
             && !CurrentItem.IsResearched)
         {

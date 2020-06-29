@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI.Extensions;
 
 [CreateAssetMenu(fileName = "QuestObjective", menuName = "DataObjects/Quests/QuestObjective", order = 2)]
 public class QuestObjective : ScriptableObject
@@ -116,16 +117,33 @@ public class QuestObjective : ScriptableObject
         else
         {
 
-            if (MarkerTarget.gameObject.activeInHierarchy)
+            if (MarkerTarget.transform.parent != null && MarkerTarget.transform.parent.GetComponent<UILineRenderer>() != null) //PATCH- SPECIFIC HARDCODED CHECK FOR TECH TREE...
             {
-                if (!MarkerObject.activeInHierarchy)
+                if (TechNodeTreeUI.Instance.IsHidden)
                 {
-                    MarkerObject.gameObject.SetActive(true);
+                    if (MarkerObject.activeInHierarchy)
+                        MarkerObject.SetActive(false);
                 }
+                else
+                {
+                    if (!MarkerObject.activeInHierarchy)
+                        MarkerObject.SetActive(true);
+                }
+
             }
             else
             {
-                MarkerObject.gameObject.SetActive(false);
+                if (MarkerTarget.gameObject.activeInHierarchy)
+                {
+                    if (!MarkerObject.activeInHierarchy)
+                    {
+                        MarkerObject.gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    MarkerObject.gameObject.SetActive(false);
+                }
             }
         }
     }

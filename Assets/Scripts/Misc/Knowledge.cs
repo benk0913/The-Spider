@@ -145,7 +145,7 @@ public class Knowledge
         Items.Add(new KnowledgeInstance("Appearance", "How this person looks",2, ResourcesLoader.Instance.GetSprite("clothingTexture")));
         Items.Add(new KnowledgeInstance("CurrentLocation", "Where this person currently is.",2, ResourcesLoader.Instance.GetSprite("DiscoverMap")));
 
-        Items.Add(new KnowledgeInstance("Faction", "Who is this person working for?",5, ResourcesLoader.Instance.GetSprite("standoff")));
+        Items.Add(new KnowledgeInstance("Faction", "Who is this person working for?",3, ResourcesLoader.Instance.GetSprite("standoff")));
     }
 
     public virtual void KnowEverything(Character byCharacter)

@@ -89,7 +89,7 @@ MonoBehaviour:
   PlayerActionsOnAgent: []
   isLockedByDefault: 1
   UnlockDescription: Solve Your First Cryptogram.
-  isLocked: 1
+  isLocked: 0
   isPlayable: 1
   isAlwaysKnown: 1
   HasPromotionSystem: 1
@@ -107,7 +107,8 @@ MonoBehaviour:
   - Is related to the constabulary, in tongue, manners and everything inbetween.
   - May be member of the constabulary.
   - May be working for the law...
-  EndGameUniqueParameters: []
+  EndGameUniqueParameters:
+  - {fileID: 11400000, guid: 247abd3c61df519419f9cd0bcf16e9f7, type: 2}
   Timeline:
   - PlayerOnly: 1
     Turn: 35

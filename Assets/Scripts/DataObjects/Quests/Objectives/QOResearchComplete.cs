@@ -73,6 +73,11 @@ public class QOResearchComplete : QuestObjective
             return null;
         }
 
+        if (TechNodeTreeUI.Instance.IsHidden)
+        {
+            return null;
+        }
+
 
         TechNodeTreeUIInstance node = TechNodeTreeUI.Instance.FindNode(item);
 
