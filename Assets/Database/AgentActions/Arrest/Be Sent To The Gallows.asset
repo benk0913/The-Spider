@@ -20,6 +20,8 @@ MonoBehaviour:
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 0}
   ItemRequired: {fileID: 0}
   MoreItemsRequired: []
@@ -31,8 +33,8 @@ MonoBehaviour:
   FailureResult: {fileID: 0}
   SuccessResult: {fileID: 0}
   ShowHover: 1
-  employerLetterPreset: {fileID: 11400000, guid: 5ea5dc4c1c99e614b906652e1c121325,
-    type: 2}
+  employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 1478687570250304421, guid: a2860fc04df05f3468498e115ed5a9e5,
     type: 3}
   WorldPortraitEffectOnTarget: {fileID: 0}
@@ -41,6 +43,7 @@ MonoBehaviour:
   ActionDoneByTarget: 0
   InvokeEventOnExecute: 
   CanDoInPrison: 1
+  CanTargetQuestionmarks: 0
   Task: {fileID: 11400000, guid: 927e468dc0cfee54eaeeebf62e36ae01, type: 2}
   RandomLocation: 0
   FriendlyLocation: 0

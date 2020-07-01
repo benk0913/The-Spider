@@ -13,20 +13,24 @@ MonoBehaviour:
   m_Name: Murder Jeremy Rowanson
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: f52d7231ea10a2c4085693bcbfb1762d, type: 3}
-  Description: 'Jeremy Rowanson is somewhere in the city. You are one of the very
-    few who know his true identity. You are also on your own, find him and kill him,
-    note that you may need additional progression unlocks, properties or tools to
-    do so.
+  Description: '<color=green>NOTE: You may right click on the portrait in this panel
+    and select "Gather Information"</color>
 
-    <color=yellow> To track down Jeremy, you must first research "Information
-    Gathering", then right-click on Jeremy''s Portrait (On Quest Panel, a question
-    mark) and select "Gather Information".  </color> This will allow you to gain
-    "Information Items" on Jeremy. After accumulating a few you may begin researching
-    this fella. <color=yellow>To use the gathered information and research a character,
-    right click and then select "Research Character".</color>
 
-    After Jeremy''s
-    location is clear, you may have to form your own murder plan.'
+    Jeremy Rowanson is somewhere in
+    the city. You are one of the very few who know his true identity. You are also
+    on your own, find him and kill him, note that you may need additional progression
+    unlocks, properties or tools to do so.
+
+    <color=yellow> To track down Jeremy,
+    you must first research "Information Gathering", then right-click on Jeremy''s
+    Portrait (On Quest Panel, a question mark) and select "Gather Information". 
+    </color> This will allow you to gain "Information Items" on Jeremy. After accumulating
+    a few you may begin researching this fella. <color=yellow>To use the gathered
+    information and research a character, right click and then select "Research Character".</color>
+
+    After
+    Jeremy''s location is clear, you may have to form your own murder plan.'
   Objectives:
   - {fileID: 11400000, guid: 90aa8da2fcf4acc46b74cee5cb751d9b, type: 2}
   - {fileID: 11400000, guid: a96142cededabf24d8d59bf3507ef93f, type: 2}
@@ -34,6 +38,7 @@ MonoBehaviour:
   Rewards:
   - {fileID: 11400000, guid: cfec94277250ae949b1c2b39fd78035a, type: 2}
   RelevantCharacter: {fileID: 11400000, guid: 4ab785541f9e28f4da146808699c81bf, type: 2}
+  DoNotPinRelevantCharacter: 0
   RelevantLocation: {fileID: 0}
   InfoGivenOnCharacter:
   - Name
@@ -43,6 +48,10 @@ MonoBehaviour:
   ForCharacter: {fileID: 0}
   CompletePopup: {fileID: 0}
   OnStartQuestAction: {fileID: 0}
+  RelevantTutorial: {fileID: 11400000, guid: 7dedf10291a2bd0498198e0ca496cd62, type: 2}
+  HasSounds: 1
+  MustQuest: 0
+  LockPassTime: 0
   relevantCharacterID: 
   relevantLocationID: 
   forCharacterID: 

@@ -18,12 +18,14 @@ public class CharactersInLocationUI : MonoBehaviour
         CORE.Instance.SubscribeToEvent("ShowMap", Show);
 
         CORE.Instance.SubscribeToEvent("HideMap", Hide);
+        CORE.Instance.SubscribeToEvent("NewGameComplete", Hide);
     }
 
     private void OnDestroy()
     {
         CORE.Instance.UnsubscribeFromEvent("ShowMap", Show);
         CORE.Instance.UnsubscribeFromEvent("HideMap", Hide);
+        CORE.Instance.UnsubscribeFromEvent("NewGameComplete", Hide);
     }
 
     public void Show()

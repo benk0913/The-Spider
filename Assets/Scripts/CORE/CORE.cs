@@ -29,6 +29,9 @@ public class CORE : MonoBehaviour
     [SerializeField]
     public GameObject LoadingPanel;
 
+    [SerializeField]
+    AudioListener ListenerOfSound;
+
     public TechTreeItem TechTree;
 
     public List<Faction> Factions = new List<Faction>();
@@ -71,6 +74,16 @@ public class CORE : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         Stats = new SessionStats();
         Instance = this;
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        ListenerOfSound.enabled = false;
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        ListenerOfSound.enabled = true;
     }
 
     private void Start()
@@ -119,6 +132,8 @@ public class CORE : MonoBehaviour
         DelayedInvokation(5f, () => TutorialScreenUI.Instance.Show("FirstGame"));
 
         LoadingGameRoutine = null;
+
+        DelayedInvokation(1f, ()=> InvokeEvent("NewGameComplete"));
     }
 
     IEnumerator LoadMainScene(Faction selectedFaction, bool isLoadedFromSave = false)

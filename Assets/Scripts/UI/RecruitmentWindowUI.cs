@@ -15,6 +15,9 @@ public class RecruitmentWindowUI : MonoBehaviour
     [SerializeField]
     public Transform CharactersContainer;
 
+    [SerializeField]
+    public GameObject NoOneToRecruitLabel;
+
     public TextMeshProUGUI RecruitmentLabelTitle;
 
     public RecruitmentPool CurrentPool;
@@ -184,6 +187,8 @@ public class RecruitmentWindowUI : MonoBehaviour
                 }
             });
         }
+
+        NoOneToRecruitLabel.SetActive(CharactersContainer.childCount <= 0);
     }
 
     void HideWindow()

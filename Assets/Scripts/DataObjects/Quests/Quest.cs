@@ -35,6 +35,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public DialogDecisionAction OnStartQuestAction;
 
+    public TutorialScreenInstance RelevantTutorial;
+
     public bool HasSounds = true;
 
     public bool MustQuest = false;

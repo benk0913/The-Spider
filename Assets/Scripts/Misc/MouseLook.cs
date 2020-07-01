@@ -179,6 +179,11 @@ public class MouseLook : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        State = ActorState.Idle;
+    }
+
     void FixedUpdate()
     {
         if(CORE.Instance.isLoading)

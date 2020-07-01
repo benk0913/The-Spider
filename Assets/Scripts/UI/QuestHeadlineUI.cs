@@ -9,13 +9,15 @@ public class QuestHeadlineUI : HeadlineUI
     
     QuestsPanelUI ParentPanel;
 
+    [SerializeField]
+    GameObject QuestTutorialButton;
+
     public void SetInfo(Quest quest, QuestsPanelUI parentPanel)
     {
         CurrentQuest = quest;
         ParentPanel = parentPanel;
 
         Title.text = CurrentQuest.name;
-
     }
 
     public override void Toggle()
@@ -41,6 +43,11 @@ public class QuestHeadlineUI : HeadlineUI
         ShowingObject.transform.SetParent(transform.parent, false);
         ShowingObject.transform.SetSiblingIndex(transform.GetSiblingIndex() + 1);
         ShowingObject.GetComponent<QuestContentUI>().SetInfo(this);
+
+        if (CurrentQuest != null)
+        {
+            QuestTutorialButton.SetActive(CurrentQuest.RelevantTutorial != null);
+        }
     }
 
     public override void Hide()
@@ -67,6 +74,16 @@ public class QuestHeadlineUI : HeadlineUI
     {
 
         this.gameObject.SetActive(false);
+    }
+    
+    public void ShowQuestTutorial()
+    {
+        if(CurrentQuest == null || CurrentQuest.RelevantTutorial == null)
+        {
+            return;
+        }
+
+        TutorialScreenUI.Instance.Show(CurrentQuest.RelevantTutorial.name,0f,true);
     }
 
 }

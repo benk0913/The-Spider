@@ -37,9 +37,9 @@ public class TutorialScreenUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Show(string byKey, float invokationDelay = 1f)
+    public void Show(string byKey, float invokationDelay = 1f, bool forced = false)
     {
-            if (!bl_PauseOptions.TutorialOn)
+            if (!bl_PauseOptions.TutorialOn && !forced)
             {
                 return;
             }
@@ -51,7 +51,7 @@ public class TutorialScreenUI : MonoBehaviour
                 return;
             }
 
-            if (instance.WasSeen)
+            if (instance.WasSeen && !forced)
             {
                 return;
             }

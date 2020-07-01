@@ -41,7 +41,18 @@ public class bl_PauseOptions : MonoBehaviour {
 
     [SerializeField]
     Slider BrightnessSlider;
-    
+
+    [SerializeField]
+    Transform TextureQualityContainer;
+
+    [SerializeField]
+    Transform AnisotropicContainer;
+
+    [SerializeField]
+    Transform AntiAliasingContainer;
+
+    [SerializeField]
+    Transform ShadowCascadesContainer;
 
     /// <summary>
     /// 
@@ -67,8 +78,13 @@ public class bl_PauseOptions : MonoBehaviour {
         Debug.Log(SystemInfo.processorType);
         Debug.Log(SystemInfo.systemMemorySize);
         Debug.Log(SystemInfo.supportsShadows);*/
+        RefreshTextureQualityUI();
+        RefreshAntialiasingUI();
+        RefreshAnisotropicUI();
+        RefreshShadowCascadesUI();
     }
 
+    
     private void Start()
     {
 
@@ -226,6 +242,11 @@ public class bl_PauseOptions : MonoBehaviour {
 
         QualityButtons.ForEach(x => x.interactable = true);
         QualityButtons[q].interactable = false;
+
+        RefreshTextureQualityUI();
+        RefreshAntialiasingUI();
+        RefreshAnisotropicUI();
+        RefreshShadowCascadesUI();
     }
 
     /// <summary>
@@ -258,6 +279,8 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         QualitySettings.antiAliasing = a;
         AudioControl.Instance.Play("sound_click");
+
+        RefreshAntialiasingUI();
     }
 
     /// <summary>
@@ -268,6 +291,8 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         QualitySettings.masterTextureLimit = tq;
         AudioControl.Instance.Play("sound_click");
+
+        RefreshTextureQualityUI();
     }
 
     /// <summary>
@@ -290,6 +315,8 @@ public class bl_PauseOptions : MonoBehaviour {
             QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
             break;
         }
+
+        RefreshAnisotropicUI();
     }
     /// <summary>
     /// Update VSync Option
@@ -308,6 +335,8 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         AudioControl.Instance.Play("sound_click");
         QualitySettings.shadowCascades = s;
+
+        RefreshShadowCascadesUI();
     }
     /// <summary>
     /// 
@@ -353,5 +382,37 @@ public class bl_PauseOptions : MonoBehaviour {
         Brightness = v;
         Screen.brightness = Brightness;
         PlayerPrefs.SetFloat("Brightness", Brightness);
+    }
+
+    public void RefreshTextureQualityUI()
+    {
+        for(int i=0;i<TextureQualityContainer.childCount;i++)
+        {
+            TextureQualityContainer.GetChild(i).GetComponent<Button>().interactable = QualitySettings.masterTextureLimit == i? false : true;
+        }   
+    }
+
+    public void RefreshShadowCascadesUI()
+    {
+        for (int i = 0; i < ShadowCascadesContainer.childCount; i++)
+        {
+            ShadowCascadesContainer.GetChild(i).GetComponent<Button>().interactable = QualitySettings.shadowCascades == i ? false : true;
+        }
+    }
+
+    public void RefreshAntialiasingUI()
+    {
+        for (int i = 0; i < AntiAliasingContainer.childCount; i++)
+        {
+            AntiAliasingContainer.GetChild(i).GetComponent<Button>().interactable = QualitySettings.antiAliasing == i ? false : true;
+        }
+    }
+
+    public void RefreshAnisotropicUI()
+    {
+        for (int i = 0; i < AnisotropicContainer.childCount; i++)
+        {
+            AnisotropicContainer.GetChild(i).GetComponent<Button>().interactable = (int)QualitySettings.anisotropicFiltering == i ? false : true;
+        }
     }
 }
