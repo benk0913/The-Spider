@@ -237,11 +237,16 @@ public class bl_PauseOptions : MonoBehaviour {
     /// <param name="q"></param>
     public void ChangeQuality(int q)
     {
+        Resolution currentRes = Screen.currentResolution;
+
         QualitySettings.SetQualityLevel(q,true);
         AudioControl.Instance.Play("sound_click");
 
         QualityButtons.ForEach(x => x.interactable = true);
         QualityButtons[q].interactable = false;
+
+        Screen.SetResolution(currentRes.width, currentRes.height, true);
+        PostResolutions();
 
         RefreshTextureQualityUI();
         RefreshAntialiasingUI();

@@ -1374,6 +1374,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         this.CurrentFaction.WaxMaterial = new Material(this.CurrentFaction.WaxMaterial);
         this.CurrentFaction.WaxMaterial.color = this.CurrentFaction.FactionColor;
         CORE.Instance.Factions.Add(this.CurrentFaction);
+
+        StopDoingCurrentTask();
     }
 
     public bool TryToDoSomething()

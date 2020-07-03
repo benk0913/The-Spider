@@ -272,6 +272,12 @@ public class CORE : MonoBehaviour
         }
 
         InvokeEvent("MainSceneLoaded");
+
+        AudioListener newListener = Camera.main.GetComponent<AudioListener>();
+        if(newListener != null && newListener.enabled)
+        {
+            ListenerOfSound = newListener;
+        }
     }
 
     void AddListeners()

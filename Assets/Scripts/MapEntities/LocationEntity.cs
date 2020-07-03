@@ -672,7 +672,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
         else if (!Traits.Contains(CORE.Instance.Database.CentralAreaTrait)) //If not a district
         {
-            NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.CentralAreaTrait, this);
+            CORE.Instance.DelayedInvokation(0.1f, 
+                () =>
+                {
+                    NearestDistrict = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.CentralAreaTrait, this);
+                    RefreshState();
+                });
         }
 
         if (OnClickTransform != null)
@@ -684,7 +689,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             this.WhenHiddenObject = ResourcesLoader.Instance.GetRecycledObject(CurrentProperty.HiddenObject);
             this.WhenHiddenObject.transform.SetParent(transform);
-            this.WhenHiddenObject.transform.localPosition = CurrentProperty.HiddenObject.transform.position;
+            this.WhenHiddenObject.transform.localPosition = CurrentProperty.HiddenObject.transform.position+new Vector3(0f,Random.Range(0.001f,0.002f),0f);
             this.WhenHiddenObject.transform.localRotation = CurrentProperty.HiddenObject.transform.rotation;
         }
 

@@ -33,11 +33,6 @@ public class RainEntity : MonoBehaviour
                 ParticleSystem.EmissionModule emissionModule = x.emission;
                 emissionModule.rateOverTime = Mathf.Lerp(0f,particleSystemEmissionData[x], _intensity);
             });
-
-            AudioSources.ForEach((x) =>
-            {
-                x.volume = _intensity;
-            });
         }
         get
         {
@@ -86,6 +81,7 @@ public class RainEntity : MonoBehaviour
             }
 
             randomTime = Random.Range(DurationTimeMin, DurationTimeMax);
+
             yield return new WaitForSeconds(randomTime);
 
             while (Intensity > 0f)
@@ -100,5 +96,13 @@ public class RainEntity : MonoBehaviour
         }
     }
 
-    
+    private void LateUpdate()
+    {
+        AudioSources.ForEach((x) =>
+        {
+            x.volume = _intensity * AudioControl.Instance.VolumeGroups["Untagged"];
+        });
+    }
+
+
 }
