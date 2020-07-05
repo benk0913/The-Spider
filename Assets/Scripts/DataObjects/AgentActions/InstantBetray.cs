@@ -32,9 +32,26 @@ public class InstantBetray : AgentAction //DO NOT INHERIT FROM
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
-        LocationEntity targetEntity = (LocationEntity)target;
-
         reason = null;
+
+        if (target.GetType() == typeof(PortraitUI) || target.GetType() == typeof(PortraitUIEmployee))
+        {
+            Character targetChar = ((PortraitUI)target).CurrentCharacter;
+
+            if (targetChar != null)
+            {
+                if (targetChar.TopEmployer == targetChar)
+                {
+                    reason = new FailReason(targetChar.name + " is not stupid. (Will not betray self)");
+                    return false;
+                }
+            }
+        }
+        
+
+        
+
+        
 
         return true;
     }

@@ -38,8 +38,6 @@ public class InstantReleasePrisoner : AgentAction //DO NOT INHERIT FROM
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
-        LocationEntity targetEntity = (LocationEntity)target;
-
         reason = null;
         return true;
     }

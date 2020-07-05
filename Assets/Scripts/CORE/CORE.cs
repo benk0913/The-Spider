@@ -78,12 +78,18 @@ public class CORE : MonoBehaviour
 
     private void OnApplicationPause(bool pause)
     {
-        ListenerOfSound.enabled = false;
+        if (ListenerOfSound != null)
+        {
+            ListenerOfSound.enabled = false;
+        }
     }
 
     private void OnApplicationFocus(bool focus)
     {
-        ListenerOfSound.enabled = true;
+        if (ListenerOfSound != null)
+        {
+            ListenerOfSound.enabled = true;
+        }
     }
 
     private void Start()
@@ -928,7 +934,24 @@ public class CORE : MonoBehaviour
                 }
                 else
                 {
-                    faction = CORE.Instance.Database.DefaultFaction.Clone();
+                    string clonedFrom = file.Content["Factions"][i]["ClonedFrom"].Value;
+                    if (!string.IsNullOrEmpty(clonedFrom))
+                    {
+                        Faction clonedFromFaction = Database.Factions.Find(x => x.name == file.Content["Factions"][i]["ClonedFrom"].Value);
+
+                        if (clonedFromFaction != null)
+                        {
+                            faction = clonedFromFaction.Clone();
+                        }
+                        else
+                        {
+                            faction = CORE.Instance.Database.DefaultFaction.Clone();
+                        }
+                    }
+                    else
+                    {
+                        faction = CORE.Instance.Database.DefaultFaction.Clone();
+                    }
                 }
 
                 faction.FromJSON(file.Content["Factions"][i]);

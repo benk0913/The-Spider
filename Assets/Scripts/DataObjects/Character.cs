@@ -1354,13 +1354,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
             
         }
 
-        LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();
-        Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+        if (TopEmployer == CORE.PC)
+        {
+            LetterPreset letter = CORE.Instance.Database.BetrayalLetter.CreateClone();
+            Dictionary<string, object> letterParameters = new Dictionary<string, object>();
 
-        letterParameters.Add("Letter_From", this);
-        letterParameters.Add("Letter_To", TopEmployer);
+            letterParameters.Add("Letter_From", this);
+            letterParameters.Add("Letter_To", TopEmployer);
 
-        LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter, letterParameters));
+            LetterDispenserEntity.Instance.DispenseLetter(new Letter(letter, letterParameters));
+        }
 
         StopWorkingForCurrentLocation();
 
@@ -1373,6 +1376,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         this.CurrentFaction.FactionColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
         this.CurrentFaction.WaxMaterial = new Material(this.CurrentFaction.WaxMaterial);
         this.CurrentFaction.WaxMaterial.color = this.CurrentFaction.FactionColor;
+        this.CurrentFaction.Known.KnowEverythingAll();
+        this.Known.KnowAll("Faction");
         CORE.Instance.Factions.Add(this.CurrentFaction);
 
         StopDoingCurrentTask();
@@ -1979,8 +1984,17 @@ public class Character : ScriptableObject, ISaveFileCompatible
         if (CurrentTaskEntity != null)
         {
             node["CurrentTaskEntityCurrentTask"] = CurrentTaskEntity.CurrentTask.name;
-            node["CurrentTaskEntityCurrentRequester"] = CurrentTaskEntity.CurrentRequester.ID;
-            node["CurrentTaskEntityCurrentCharacter"] = CurrentTaskEntity.CurrentCharacter.ID;
+
+            if (CurrentTaskEntity.CurrentRequester != null)
+            {
+                node["CurrentTaskEntityCurrentRequester"] = CurrentTaskEntity.CurrentRequester.ID;
+            }
+
+            if (CurrentTaskEntity.CurrentCharacter != null)
+            {
+                node["CurrentTaskEntityCurrentCharacter"] = CurrentTaskEntity.CurrentCharacter.ID;
+            }
+
             node["CurrentTaskEntityCurrentTarget"] = ((LocationEntity)CurrentTaskEntity.CurrentTargetLocation).ID;
             node["CurrentTaskEntityCurrentTargetCharacter"] = CurrentTaskEntity.TargetCharacter != null ? CurrentTaskEntity.TargetCharacter.ID : "";
             node["CurrentTaskEntityTurnsLeft"] = CurrentTaskEntity.TurnsLeft.ToString();

@@ -420,4 +420,13 @@ public class bl_PauseOptions : MonoBehaviour {
             AnisotropicContainer.GetChild(i).GetComponent<Button>().interactable = (int)QualitySettings.anisotropicFiltering == i ? false : true;
         }
     }
+
+    public void ResetGameProgress()
+    {
+        WarningWindowUI.Instance.Show("ARE YOU SURE? (THIS IS IRREVERTABLE)", () => 
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+        });
+    }
 }

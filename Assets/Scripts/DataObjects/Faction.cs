@@ -46,6 +46,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public int RecommendedPropertyCap = 999;
 
+    public Faction ClonedFrom = null;
 
     public List<Character> Members
     {
@@ -81,6 +82,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
         newClone.name = this.name;
         newClone.Known = new FactionKnowledge(newClone);
         newClone.Relations = new FactionRelations(newClone);
+        newClone.ClonedFrom = this;
 
         return newClone;
     }
@@ -138,6 +140,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
         JSONClass node = new JSONClass();
 
         node["Key"] = this.name;
+        node["ClonedFrom"] = ClonedFrom == null ? "" : ClonedFrom.name;
         foreach (KnowledgeInstance item in Known.Items)
         {
             for (int i = 0; i < item.KnownByCharacters.Count; i++)

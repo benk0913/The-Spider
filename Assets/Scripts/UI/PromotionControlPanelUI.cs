@@ -27,14 +27,14 @@ public class PromotionControlPanelUI : MonoBehaviour
     {
         List<LocationEntity> PropertiesInCommand = new List<LocationEntity>();
         PropertiesInCommand = CORE.PC.PropertiesInCommand;
-
-        if(PropertiesInCommand.Count <= 0)
+        if (PropertiesInCommand.Count <= 0)
         {
             return;
         }
 
-        List<Character> potentialThreats = PropertiesInCommand[0].EmployeesCharacters.OrderByDescending(x => x.CProgress).ToList();
-        if(potentialThreats == null || potentialThreats.Count == 0)
+        LocationEntity HQ = PropertiesInCommand.Find(x => x.name == "Constabulary");
+        List<Character> potentialThreats = HQ.EmployeesCharacters.OrderByDescending(x => x.CProgress).ToList();
+        if (potentialThreats == null || potentialThreats.Count == 0)
         {
             DefaultView();
             return;

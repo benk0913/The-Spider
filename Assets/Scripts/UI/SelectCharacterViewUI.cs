@@ -109,8 +109,16 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         yield return 0;
 
-        List<Character> characters = CORE.Instance.Characters.FindAll(filter != null? filter : CommonFilter);
+        if (filter == null)
+        {
+            if (CORE.Instance.DEBUG)
+            {
+                Debug.LogError("NO FILTER?");
+            }
+        }
 
+        List<Character> characters = CORE.Instance.Characters.FindAll(filter != null? filter : CommonFilter);
+        characters.RemoveAll(x => x.HiddenFromCharacterWindows);
 
         characters = SortCharacters(CurrentSortKey, characters);
 
