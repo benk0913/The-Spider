@@ -7,6 +7,7 @@ using SimpleJSON;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Steamworks;
 
 public class CORE : MonoBehaviour
 {
@@ -501,6 +502,37 @@ public class CORE : MonoBehaviour
     #endregion
 
     #region Misc
+
+    #region Steam
+
+    public void WinAchievement(string key)
+    {
+        Debug.Log("#### - ACHIEVEMENT " + key);
+
+        if (AchievementsWonThisSession.Contains(key))
+        {
+            return;
+        }
+
+        AchievementsWonThisSession.Add(key);
+
+        StartCoroutine(WinAchievementRoutine(key));
+    }
+
+    public List<string> AchievementsWonThisSession = new List<string>();
+
+    IEnumerator WinAchievementRoutine(string key)
+    {
+        while (!SteamManager.Initialized)
+        {
+            yield return 0;
+        }
+
+        SteamUserStats.SetAchievement(key);
+        SteamUserStats.StoreStats();
+    }
+
+    #endregion
 
     #region Portrait Effect
 
