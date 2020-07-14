@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "TutorialScreenInstance", menuName = "DataObjects/TutorialScreenInstance", order = 2)]
 public class TutorialScreenInstance : ScriptableObject
 {
     public Sprite Image;
+    public VideoClip Video;
     public bool WasSeen = false;
     public string NextScreenKey;
 

@@ -47,6 +47,11 @@ public class BedUtilityScreen : MonoBehaviour
         Hide();
     }
 
+    public void QuitTotalGame()
+    {
+        WarningWindowUI.Instance.Show("I will miss you...", ()=> { Application.Quit(); });
+    }
+
     public void SaveGame()
     {
         TextInputWindowUI.Instance.Show((saveName) =>

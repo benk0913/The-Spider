@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class TutorialScreenUI : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class TutorialScreenUI : MonoBehaviour
     public TutorialScreenInstance CurrentInstance;
 
     public Image TutorialScreenImage;
+
+    public VideoPlayer TutorialVideo;
 
     public List<TutorialScreenInstance> Instances = new List<TutorialScreenInstance>();
 
@@ -64,6 +67,17 @@ public class TutorialScreenUI : MonoBehaviour
 
             this.gameObject.SetActive(true);
 
+            if(CurrentInstance.Video != null)
+            {
+                TutorialVideo.gameObject.SetActive(true);
+                TutorialVideo.clip = CurrentInstance.Video;
+                TutorialVideo.Play();
+            }
+            else
+            {
+                TutorialVideo.gameObject.SetActive(false);
+            }
+
             TutorialScreenImage.sprite = CurrentInstance.Image;
 
             instance.WasSeen = true;
@@ -81,6 +95,7 @@ public class TutorialScreenUI : MonoBehaviour
 
     void Hide()
     {
+        TutorialVideo.Stop();
         this.gameObject.SetActive(false);
     }
 
