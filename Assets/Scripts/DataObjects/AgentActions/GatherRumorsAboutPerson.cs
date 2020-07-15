@@ -30,11 +30,49 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
         CORE.Instance.ShowPortraitEffect(WinEffectPrefab, character, character.CurrentLocation);
 
+        GameObject tempObj = CORE.Instance.SplineAnimationObject(
+                                   "PortraitCollection",
+                                    character.CurrentLocation.transform,
+                                    InformationLogUI.Instance.transform,
+                                    () => { AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position); },
+                                    true,
+                                    true);
+
+        if (targetChar.IsKnown("Appearance", CORE.PC))
+        {
+            tempObj.transform.GetComponentInChildren<PortraitUI>().SetCharacter(targetChar);
+        }
+        else
+        {
+            tempObj.transform.GetComponentInChildren<PortraitUI>().SetCharacter(null);
+        }
+
+
         if (Random.Range(0, awareValue + targetDiscreetValue) <= awareValue)
         {
             CORE.Instance.GainInformation(character.CurrentLocation.transform, targetChar);
 
             CORE.Instance.ShowHoverMessage("Bonus X1 Information - Aware VS Discreet", ResourcesLoader.Instance.GetSprite("scroll-unfurled"), character.CurrentLocation.transform);
+
+            CORE.Instance.DelayedInvokation(0.5f, () =>
+            {
+                tempObj = CORE.Instance.SplineAnimationObject(
+                                   "PortraitCollection",
+                                    character.CurrentLocation.transform,
+                                     InformationLogUI.Instance.transform,
+                                    () => { AudioControl.Instance.PlayInPosition("resource_rumors", character.CurrentLocation.transform.position); },
+                                    true,
+                                    true);
+
+                if (targetChar.IsKnown("Appearance", CORE.PC))
+                {
+                    tempObj.transform.GetComponentInChildren<PortraitUI>().SetCharacter(targetChar);
+                }
+                else
+                {
+                    tempObj.transform.GetComponentInChildren<PortraitUI>().SetCharacter(null);
+                }
+            });
         }
     }
 

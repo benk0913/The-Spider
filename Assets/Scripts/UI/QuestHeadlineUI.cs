@@ -18,6 +18,11 @@ public class QuestHeadlineUI : HeadlineUI
         ParentPanel = parentPanel;
 
         Title.text = CurrentQuest.name;
+
+        if (CurrentQuest != null)
+        {
+            QuestTutorialButton.SetActive(CurrentQuest.RelevantTutorial != null);
+        }
     }
 
     public override void Toggle()

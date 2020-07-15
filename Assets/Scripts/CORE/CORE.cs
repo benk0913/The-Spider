@@ -72,6 +72,20 @@ public class CORE : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
+
+        if(PlayerPrefs.GetInt("FirstTimePlaying",1) == 1)
+        {
+            PlayerPrefs.SetInt("FirstTimePlaying", 0);
+            for (int i=0;i< Screen.resolutions.Length;i++)
+            {
+                if(Screen.resolutions[i].width == 1920 && Screen.resolutions[i].height == 1080)
+                {
+                    Screen.SetResolution(1920, 1080, true);
+                    break;
+                }
+            }
+        }
+
         DontDestroyOnLoad(this.gameObject);
         Stats = new SessionStats();
         Instance = this;
@@ -574,7 +588,7 @@ public class CORE : MonoBehaviour
 
     #endregion
 
-    public void SplineAnimationObject(string prefabKey,Transform startPoint,Transform targetPoint,System.Action OnComplete = null, bool canvasElement = true)
+    public GameObject SplineAnimationObject(string prefabKey, Transform startPoint, Transform targetPoint, System.Action OnComplete = null, bool canvasElement = true, bool noZ = false)
     {
         GameObject prefabObj = ResourcesLoader.Instance.GetRecycledObject(prefabKey);
 
@@ -589,7 +603,9 @@ public class CORE : MonoBehaviour
         ActiveLerpers.Add(lerper);
         OnComplete += (() => { ActiveLerpers.Remove(lerper); });
 
-        lerper.SetInfo(startPoint ,targetPoint, OnComplete);
+        lerper.SetInfo(startPoint ,targetPoint, OnComplete, noZ);
+
+        return prefabObj;
     }
 
     public void ShowHoverMessage(string content, Sprite icon, Transform targetTransform)

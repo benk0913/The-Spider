@@ -17,7 +17,7 @@ public class SplineLerperWorldUI : MonoBehaviour
     float maxSpeed = 1f;
 
 
-    public void SetInfo(Transform startPoint, Transform targetPoint, System.Action onComplete = null)
+    public void SetInfo(Transform startPoint, Transform targetPoint, System.Action onComplete = null, bool noZ = false)
     {
         if(MovementRoutineInstance != null)
         {
@@ -26,12 +26,12 @@ public class SplineLerperWorldUI : MonoBehaviour
         }
 
         CurrentActionInstance = onComplete;
-        MovementRoutineInstance = StartCoroutine(MovementRoutine(startPoint, targetPoint));
+        MovementRoutineInstance = StartCoroutine(MovementRoutine(startPoint, targetPoint, noZ));
 
 
     }
 
-    IEnumerator MovementRoutine(Transform startPoint, Transform targetPoint)
+    IEnumerator MovementRoutine(Transform startPoint, Transform targetPoint, bool noZ = false)
     {
         Vector3 startPos;
         Vector3 endPos;
@@ -103,6 +103,11 @@ public class SplineLerperWorldUI : MonoBehaviour
             startPos += (Vector3.one / 100f) * 2f;
             transform.position = startPos;
             yield return new WaitForSeconds(DelayTime);
+        }
+
+        if(noZ)
+        {
+            endPos = new Vector3(endPos.x, endPos.y, startPos.z);
         }
 
         float t = 0f;
