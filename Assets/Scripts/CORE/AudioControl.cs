@@ -219,6 +219,7 @@ public class AudioControl : MonoBehaviour {
 
     public void SetVolume(string gTag, float gVolume)
     {
+
         PlayerPrefs.SetFloat(gTag, gVolume);
         PlayerPrefs.Save();
 
@@ -278,7 +279,7 @@ public class AudioControl : MonoBehaviour {
 
     public void ResetTemporaryVolume(string gTag)
     {
-        SetTemporaryVolume(gTag,PlayerPrefs.GetFloat(gTag));
+        SetTemporaryVolume(gTag,PlayerPrefs.GetFloat(gTag,0.6f));
     }
 
 
@@ -404,6 +405,7 @@ public class AudioControl : MonoBehaviour {
 
     public void StopSound(string gClip)
     {
+
         foreach(GameObject obj in Instances)
         {
             if(obj == null)
