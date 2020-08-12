@@ -48,6 +48,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public Faction ClonedFrom = null;
 
+    public string LeaveRoomDescription;
+
     public List<Character> Members
     {
         get

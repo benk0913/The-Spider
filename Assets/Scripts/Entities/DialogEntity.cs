@@ -42,7 +42,15 @@ public class DialogEntity : MonoBehaviour, ISaveFileCompatible
     {
         if(CurrentDialog == null)
         {
-            GlobalMessagePrompterUI.Instance.Show("You have no reason to go anywhere...", 1f, Color.yellow);
+            if (string.IsNullOrEmpty(CORE.PC.CurrentFaction.LeaveRoomDescription))
+            {
+                GlobalMessagePrompterUI.Instance.Show("You have no reason to go anywhere...", 1f, Color.yellow);
+            }
+            else
+            {
+                GlobalMessagePrompterUI.Instance.Show(CORE.PC.CurrentFaction.LeaveRoomDescription, 1f, Color.yellow);
+            }
+
             return;
         }
 

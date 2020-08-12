@@ -165,13 +165,15 @@ public class PlottingWindowUI : MonoBehaviour
             TargetParticipants.AddRange(targetCharacter.GuardsInCommand.FindAll(x =>
             x.PrisonLocation == null
             && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
-            && !x.IsInTrouble));
+            && !x.IsInTrouble
+            && !x.IsDisabled));
 
             TargetParticipants.AddRange(targetCharacter.CurrentLocation.CharactersInLocation.FindAll(x =>
             x.CurrentFaction == targetCharacter.CurrentFaction
             && x.PrisonLocation == null
             && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
-            && !x.IsInTrouble 
+            && !x.IsInTrouble
+            && !x.IsDisabled
             && !TargetParticipants.Contains(x)));
         }
         else if (CurrentTarget.GetType() == typeof(LocationEntity))
@@ -186,6 +188,7 @@ public class PlottingWindowUI : MonoBehaviour
                     && !x.IsPuppetOf(CurrentPlotter.CurrentFaction)
                     && x.CurrentLocation == location
                     && x.Age >= 15
+                    && !x.IsDisabled
                     && (x.TopEmployer == location.OwnerCharacter.TopEmployer || x.CurrentFaction.name == "Constabulary")));
             }
         }
@@ -451,6 +454,7 @@ public class PlottingWindowUI : MonoBehaviour
             x => 
             x.TopEmployer == CORE.PC 
             && x.TopEmployer != x 
+            && !x.IsDisabled
             && x.Age > 15
             && !Participants.Contains(x)
             && !TargetParticipants.Contains(x)
