@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine;
+using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "Faction", menuName = "DataObjects/Faction", order = 2)]
 public class Faction : ScriptableObject, ISaveFileCompatible
@@ -49,6 +50,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public Faction ClonedFrom = null;
 
     public string LeaveRoomDescription;
+
+    public VideoClip IntroCutscene;
 
     public List<Character> Members
     {

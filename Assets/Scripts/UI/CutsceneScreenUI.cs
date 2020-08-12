@@ -41,7 +41,7 @@ public class CutsceneScreenUI : MonoBehaviour
 
         TutorialVideo.clip = video; 
         TutorialVideo.Prepare();
-        TutorialVideo.prepareCompleted += delegate { TutorialVideo.Play(); FirstPrep = false ; };
+        TutorialVideo.prepareCompleted += delegate { TutorialVideo.Play(); FirstPrep = false ; AudioControl.Instance.MuteMusic(); };
         
         
 
@@ -68,6 +68,7 @@ public class CutsceneScreenUI : MonoBehaviour
         OnComplete?.Invoke();
         TutorialVideo.Stop();
         this.gameObject.SetActive(false);
+        AudioControl.Instance.UnmuteMusic();
     }
     
 }

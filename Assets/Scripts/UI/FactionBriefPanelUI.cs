@@ -61,6 +61,16 @@ public class FactionBriefPanelUI : MonoBehaviour
 
     public void PlayOnCurrentFaction()
     {
-        CORE.Instance.NewGame(CurrentFaction);
+        if (CurrentFaction.IntroCutscene != null)
+        {
+            CutsceneScreenUI.Instance.Show(CurrentFaction.IntroCutscene, () =>
+            {
+                CORE.Instance.NewGame(CurrentFaction);
+            });
+        }
+        else
+        {
+            CORE.Instance.NewGame(CurrentFaction);
+        }
     }
 }
