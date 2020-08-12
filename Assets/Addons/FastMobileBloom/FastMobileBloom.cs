@@ -13,7 +13,22 @@ public class FastMobileBloom : MonoBehaviour
 
 	public Material fastBloomMaterial = null;
 
-	void OnRenderImage(RenderTexture source, RenderTexture destination)
+    private void Start()
+    {
+        CORE.Instance.SubscribeToEvent("BloomUpdated", OnBloomUpdated);
+    }
+
+    private void OnEnable()
+    {
+        OnBloomUpdated();
+    }
+
+    void OnBloomUpdated()
+    {
+        this.enabled = bl_PauseOptions.BloomOn;
+    }
+
+    void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
 		int rtW = source.width / 4;
 		int rtH = source.height / 4;

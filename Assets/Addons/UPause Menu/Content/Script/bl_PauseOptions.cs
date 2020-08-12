@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class bl_PauseOptions : MonoBehaviour {
 
+    
+
     public Transform ResolutionPanel = null;
     public GameObject ResolutionButtons = null;
     [Space(5)]
@@ -21,6 +23,8 @@ public class bl_PauseOptions : MonoBehaviour {
     public static float Sensitivity = 3f;
 
     public static bool TutorialOn = true;
+
+    public static bool BloomOn = true;
 
     public float Brightness = 1f;
 
@@ -53,6 +57,9 @@ public class bl_PauseOptions : MonoBehaviour {
 
     [SerializeField]
     Transform ShadowCascadesContainer;
+
+    [SerializeField]
+    Toggle BloomOnToggle;
 
     /// <summary>
     /// 
@@ -92,9 +99,10 @@ public class bl_PauseOptions : MonoBehaviour {
         SoundSlider.value = AudioControl.Instance.VolumeGroups["Untagged"];
         MusicSlider.value = AudioControl.Instance.VolumeGroups["Music"];
         TutorialOn = PlayerPrefs.GetInt("TutorialOn", 1) == 1? true : false;
+        BloomOn = PlayerPrefs.GetInt("BloomOn", 1) == 1 ? true : false;
         TutorialOnToggle.isOn = TutorialOn;
         Brightness = PlayerPrefs.GetFloat("Brightness", Screen.brightness);
-        
+        BloomOnToggle.isOn = BloomOn;
     }
 
 
@@ -158,6 +166,15 @@ public class bl_PauseOptions : MonoBehaviour {
     void AddResolutionListener(Button butt, int number)
     {
         butt.onClick.AddListener(() => { ChangeResolution(number); });
+    }
+
+    public void ToggleBloom()
+    {
+        BloomOn = !BloomOn;
+        BloomOnToggle.isOn = BloomOn;
+        CORE.Instance.InvokeEvent("BloomUpdated");
+
+        PlayerPrefs.SetInt("BloomOn", BloomOn ? 1 : 0);
     }
 
     /// <summary>
