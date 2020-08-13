@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TopdownCameraMovement : MonoBehaviour
 {
@@ -79,41 +80,103 @@ public class TopdownCameraMovement : MonoBehaviour
         RefreshInput();
     }
 
+    void MoveForward(float addedSpeed = 1f)
+    {
+        if(!isBeforeBorderTop)
+        {
+            return;
+        }
+
+        transform.position += transform.forward * addedSpeed* MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+        PlayerGivesInput = true;
+    }
+
+    void MoveBackward(float addedSpeed = 1f)
+    {
+        if (!isBeforeBorderBottom)
+        {
+            return;
+        }
+
+        transform.position += -transform.forward * addedSpeed* MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+        PlayerGivesInput = true;
+    }
+
+    void MoveRight(float addedSpeed = 1f)
+    {
+        if (!isBeforeBorderRight)
+        {
+            return;
+        }
+
+        transform.position += transform.right * addedSpeed * MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+        PlayerGivesInput = true;
+    }
+
+    void MoveLeft(float addedSpeed = 1f)
+    {
+        if (!isBeforeBorderLeft)
+        {
+            return;
+        }
+
+        transform.position += -transform.right * addedSpeed* MovementSpeed * Time.deltaTime *
+                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+
+        PlayerGivesInput = true;
+    }
+
     void RefreshInput()
     {
-        if (Input.GetKey(InputMap.Map["MoveForward"]) && isBeforeBorderTop)
-        {
-            transform.position += transform.forward * MovementSpeed * Time.deltaTime *
-                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
+        if (!EventSystem.current.IsPointerOverGameObject())
+        { 
+            if (Input.mousePosition.x > Screen.width - Screen.width / 16)
+            {
+                MoveRight();
+            }
+            else if (Input.mousePosition.x < Screen.width / 16)
+            {
+                MoveLeft();
+            }
 
-            PlayerGivesInput = true;
+            if (Input.mousePosition.y > Screen.height - Screen.height / 16)
+            {
+                MoveForward();
+            }
+            else if (Input.mousePosition.y < Screen.height / 16)
+            {
+                MoveBackward();
+            }
         }
-        else if (Input.GetKey(InputMap.Map["MoveBackward"]) && isBeforeBorderBottom)
-        {
-            transform.position += -transform.forward * MovementSpeed * Time.deltaTime *
-                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
 
-            PlayerGivesInput = true;
+        if (Input.GetKey(InputMap.Map["MoveForward"]))
+        {
+            MoveForward();
+        }
+        else if (Input.GetKey(InputMap.Map["MoveBackward"]))
+        {
+            MoveBackward();
         }
 
-        if (Input.GetKey(InputMap.Map["MoveLeft"]) && isBeforeBorderLeft)
+        if (Input.GetKey(InputMap.Map["MoveLeft"]))
         {
-            transform.position += -transform.right * MovementSpeed * Time.deltaTime *
-                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
-
-            PlayerGivesInput = true;
+            MoveLeft();
         }
-        else if (Input.GetKey(InputMap.Map["MoveRight"]) && isBeforeBorderRight)
+        else if (Input.GetKey(InputMap.Map["MoveRight"]))
         {
-            transform.position += transform.right * MovementSpeed * Time.deltaTime *
-                (IsOrthographic ? CurrentCamera.orthographicSize : PerspectiveZoomValue);
-
-            PlayerGivesInput = true;
+            MoveRight();
         }
         else
         {
             PlayerGivesInput = false;
         }
+        
 
         if (IsOrthographic)
         {
