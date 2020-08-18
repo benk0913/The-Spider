@@ -19,7 +19,15 @@ public class AbductScheme : SchemeType
 
         List<LocationEntity> locations = data.Plot.Plotter.TopEmployer.PropertiesOwned;
         LocationEntity location = locations.Find(x => x.HasFreePrisonCell);
-        CORE.Instance.Database.GetAgentAction("Get Abducted").Execute(CORE.Instance.Database.GOD, ((PortraitUI)data.Plot.Target).CurrentCharacter, location);
+
+        if (location == null)
+        {
+            WarningWindowUI.Instance.Show(data.Plot.Plotter.CurrentFaction.name + " faction has no place to hide " + ((PortraitUI)data.Plot.Target).CurrentCharacter.name + " so they had decided to ditch the plan at the last moment.",null);
+        }
+        else
+        {
+            CORE.Instance.Database.GetAgentAction("Get Abducted").Execute(CORE.Instance.Database.GOD, ((PortraitUI)data.Plot.Target).CurrentCharacter, location);
+        }
         
     }));
     }

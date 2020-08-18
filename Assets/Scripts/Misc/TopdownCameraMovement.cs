@@ -136,20 +136,20 @@ public class TopdownCameraMovement : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         { 
-            if (Input.mousePosition.x > Screen.width - Screen.width / 16)
+            if (Input.mousePosition.x > Screen.width - Screen.width / 100f)
             {
                 MoveRight();
             }
-            else if (Input.mousePosition.x < Screen.width / 16)
+            else if (Input.mousePosition.x < Screen.width / 100f)
             {
                 MoveLeft();
             }
 
-            if (Input.mousePosition.y > Screen.height - Screen.height / 16)
+            if (Input.mousePosition.y > Screen.height - Screen.height / 100f)
             {
                 MoveForward();
             }
-            else if (Input.mousePosition.y < Screen.height / 16)
+            else if (Input.mousePosition.y < Screen.height /100f)
             {
                 MoveBackward();
             }

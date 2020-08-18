@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Text.RegularExpressions;
+using TMPro;
 
 [CustomEditor(typeof(GameDB))]
 public class GameDBEditor : Editor
@@ -326,10 +327,75 @@ public class GameDBEditor : Editor
 
     void PrintCustomAnalysis(GameDB db)
     {
-        List<Character> characters = new List<Character>();
+        foreach(LetterPreset letter in db.PresetLetters)
+        {
+            if(letter.Description.Contains("avarage") || letter.Description.Contains("Avarage"))
+            {
+                Debug.LogError(letter.name + " - error");
+            }
+        }
 
-        characters.AddRange(db.PresetCharacters.FindAll(x => x.Clothing == null));
+        foreach (Quest quest in db.AllQuests)
+        {
+            if (quest.Description.Contains("avarage") || quest.Description.Contains("Avarage"))
+            {
+                Debug.LogError(quest.name + " - error");
+            }
+        }
 
-        characters.ForEach((x) => { Debug.Log(x.name); });
+        foreach (DialogPiece piece in db.AllDialogPieces)
+        {
+            if (piece.Description.Contains("avarage") || piece.Description.Contains("Avarage"))
+            {
+                Debug.LogError(piece.name + " - error");
+            }
+        }
+
+
+        foreach (AgentAction action in db.AgentActions)
+        {
+            if (action.Description.Contains("avarage") || action.Description.Contains("Avarage"))
+            {
+                Debug.LogError(action.name + " - error");
+            }
+        }
+
+        foreach (PlayerAction action in db.PlayerActionsOnAgent)
+        {
+            if (action.Description.Contains("avarage") || action.Description.Contains("Avarage"))
+            {
+                Debug.LogError(action.name + " - error");
+            }
+        }
+
+        foreach (Property property in db.Properties)
+        {
+            if (property.Description.Contains("avarage") || property.Description.Contains("Avarage"))
+            {
+                Debug.LogError(property.name + " - error");
+            }
+        }
+
+        TooltipTargetUI[] tooltips = Resources.FindObjectsOfTypeAll(typeof(TooltipTargetUI)) as TooltipTargetUI[];
+
+        foreach (TooltipTargetUI tt in tooltips)
+        {
+            if (tt.Text.Contains("avarage") || tt.Text.Contains("Avarage"))
+            {
+                Debug.LogError(tt.gameObject.name + " - error");
+            }
+        }
+
+        TextMeshProUGUI[] texts = Resources.FindObjectsOfTypeAll(typeof(TextMeshProUGUI)) as TextMeshProUGUI[];
+
+        foreach (TextMeshProUGUI tt in texts)
+        {
+            if (tt.text.Contains("avarage") || tt.text.Contains("Avarage"))
+            {
+                Debug.LogError(tt.gameObject.name + " - error");
+            }
+        }
+
+        Debug.Log("Passed...");
     }
 }

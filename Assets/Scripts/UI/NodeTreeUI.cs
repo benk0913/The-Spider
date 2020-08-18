@@ -78,13 +78,11 @@ public class NodeTreeUI : MonoBehaviour
 
         yield return StartCoroutine(GenerateNode(origin));
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(origin.nodeObject.GetComponent<RectTransform>());
         //yield return 0;
 
         yield return StartCoroutine(GenerateLines(origin));
 
-        //yield return 0;
-
-        yield return StartCoroutine(GenerateLines(origin));
     }
 
     protected virtual IEnumerator GenerateNode(NodeTreeUIInstance node)
@@ -102,7 +100,7 @@ public class NodeTreeUI : MonoBehaviour
 
         node.nodeObject = tempObj;
 
-        yield return 0;
+        //yield return 0;
 
         for (int i=0;i<node.Children.Count;i++)
         {
@@ -129,7 +127,7 @@ public class NodeTreeUI : MonoBehaviour
             node.nodeObject.GetComponent<UILineRenderer>().Points = linePoints.ToArray();
         }
 
-        yield return 0;
+        //yield return 0;
 
         for (int i = 0; i < node.Children.Count; i++)
         {

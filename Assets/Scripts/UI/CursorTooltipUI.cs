@@ -101,6 +101,7 @@ public class CursorTooltipUI : MonoBehaviour
         }
 
         IsShowingRoutine = null;
+        Hide();
     }
 
     protected IEnumerator FadeOut()
