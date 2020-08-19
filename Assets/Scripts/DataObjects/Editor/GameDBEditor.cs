@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEditor;
 using System.Text.RegularExpressions;
 using TMPro;
+using System.Linq;
+using SimpleJSON;
+using System.IO;
 
 [CustomEditor(typeof(GameDB))]
 public class GameDBEditor : Editor
@@ -27,9 +30,9 @@ public class GameDBEditor : Editor
             PrintVoiceComissions(db);
         }
 
-        if (GUILayout.Button("Print Custom Analysis"))
+        if (GUILayout.Button("Refresh Language"))
         {
-            PrintCustomAnalysis(db);
+            RefreshLanguages(db);
         }
 
         DrawDefaultInspector();
@@ -325,7 +328,154 @@ public class GameDBEditor : Editor
     }
 
 
-    void PrintCustomAnalysis(GameDB db)
+    Dictionary<string, string> currentLang = new Dictionary<string, string>();
+    List<string> potentialTags = new List<string>();
+
+    public void AddToCurrentLang(string key, string value)
+    {
+        if (currentLang.ContainsKey(key))
+        {
+            return;
+        }
+
+        currentLang.Add(key, value);
+
+        Regex reg = new Regex("<.*?>|{...}");
+        MatchCollection collection = reg.Matches(value);
+
+        if(collection != null && collection.Count > 0)
+        {
+            for(int i = 0; i < collection.Count; i++)
+            {
+                if(potentialTags.Contains(collection[i].ToString()))
+                {
+                    continue;
+                }
+
+                else
+                {
+                    potentialTags.Add(collection[i].ToString());
+                }
+            }
+        }
+        
+    }
+
+    void RefreshLanguages(GameDB db)
+    {
+        foreach (LocalizationLanguage lang in db.Languages)
+        {
+            currentLang.Clear();
+            potentialTags.Clear();
+
+            foreach (LetterPreset letter in db.PresetLetters)
+            {
+                AddToCurrentLang(letter.Title, letter.Title);
+                AddToCurrentLang(letter.Description, letter.Description);
+                AddToCurrentLang(letter.SideNotes, letter.SideNotes);
+            }
+
+            foreach (Quest quest in db.AllQuests)
+            {
+                AddToCurrentLang(quest.Description, quest.Description);
+                AddToCurrentLang(quest.name, quest.name);
+                foreach (QuestObjective objective in quest.Objectives)
+                {
+                    if(objective == null)
+                    {
+                        Debug.LogError(quest.name + " has a null objective...");
+                        continue;
+                    }
+                    AddToCurrentLang(objective.name, objective.name);
+                }
+
+                foreach (QuestReward reward in quest.Rewards)
+                {
+                    if (reward == null)
+                    {
+                        Debug.LogError(quest.name + " has a null reward...");
+                        continue;
+                    }
+                    AddToCurrentLang(reward.name, reward.name);
+                }
+            }
+
+            foreach (DialogPiece piece in db.AllDialogPieces)
+            {
+                AddToCurrentLang(piece.Description, piece.Description);
+                foreach (DialogDecision decision in piece.Decisions)
+                {
+                    AddToCurrentLang(decision.Title, decision.Title);
+                }
+            }
+
+
+            foreach (AgentAction action in db.AgentActions)
+            {
+                AddToCurrentLang(action.Description, action.Description);
+            }
+
+            foreach (PlayerAction action in db.PlayerActionsOnAgent)
+            {
+                AddToCurrentLang(action.Description, action.Description);
+            }
+
+            foreach (Property property in db.Properties)
+            {
+                AddToCurrentLang(property.name, property.name);
+                AddToCurrentLang(property.Description, property.Description);
+
+                foreach (Property.PropertyLevel propertyLevel in property.PropertyLevels)
+                {
+                    AddToCurrentLang(propertyLevel.LevelName, propertyLevel.LevelName);
+                }
+
+                foreach (Property.PropertyAction action in property.Actions)
+                {
+                    AddToCurrentLang(action.Name, action.Name);
+                    AddToCurrentLang(action.Description, action.Description);
+                }
+            }
+
+            TooltipTargetUI[] tooltips = Resources.FindObjectsOfTypeAll(typeof(TooltipTargetUI)) as TooltipTargetUI[];
+
+            foreach (TooltipTargetUI tt in tooltips)
+            {
+                AddToCurrentLang(tt.Text, tt.Text);
+            }
+
+            TextMeshProUGUI[] texts = Resources.FindObjectsOfTypeAll(typeof(TextMeshProUGUI)) as TextMeshProUGUI[];
+
+            foreach (TextMeshProUGUI tt in texts)
+            {
+                AddToCurrentLang(tt.text, tt.text);
+            }
+
+            lang.Instances.Clear();
+            for (int i = 0; i < currentLang.Keys.Count; i++)
+            {
+                lang.Instances.Add(new TranslationInstance(currentLang.Keys.ElementAt(i), currentLang[currentLang.Keys.ElementAt(i)]));
+            }
+
+            lang.StringsToIgnore.Clear();
+            lang.StringsToIgnore.AddRange(potentialTags);
+
+            JSONNode langJson = new JSONClass();
+            foreach(TranslationInstance instance in lang.Instances)
+            {
+                langJson[instance.Key] = instance.Value;
+            }
+
+            string ePath = Application.dataPath + "/Languages/" + lang.LanguageKey + ".json";
+            JSONNode tempNode = (JSONNode)langJson;
+            File.WriteAllText(ePath, tempNode.ToString());
+        }
+
+
+
+    }
+
+    void PrintTypos(GameDB db)
     {
         foreach(LetterPreset letter in db.PresetLetters)
         {

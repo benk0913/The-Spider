@@ -279,6 +279,8 @@ public class GameDB : ScriptableObject
         return AgentActions.Find(x => x.name == key);
     }
 
+    public List<LocalizationLanguage> Languages = new List<LocalizationLanguage>();
+
 }
 
 [System.Serializable]
