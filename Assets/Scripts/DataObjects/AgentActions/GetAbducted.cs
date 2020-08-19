@@ -8,11 +8,11 @@ public class GetAbducted : AgentAction //DO NOT INHERIT FROM
 {
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        FailReason reason;
-        if (!CanDoAction(requester, character, target, out reason))
-        {
-            return;
-        }
+        //FailReason reason;
+        //if (!CanDoAction(requester, character, target, out reason))
+        //{
+        //    return;
+        //}
         
         if (!RollSucceed(character))
         {

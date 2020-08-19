@@ -69,7 +69,7 @@ public class SchemeType : ScriptableObject
             }
             else if(data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
             {
-                Character targetChar = ((PortraitUI)data.Target).CurrentCharacter;
+                Character targetChar = data.TargetCharacter;
 
                 if (targetChar != null && targetChar.CurrentFaction != null && targetChar.CurrentFaction.Relations != null)
                 {
@@ -128,7 +128,7 @@ public class SchemeType : ScriptableObject
         LocationEntity InLocation = null;
         if (data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
         {
-            targetCharacter = ((PortraitUI)data.Target).CurrentCharacter;
+            targetCharacter = data.TargetCharacter;
             InLocation = targetCharacter.CurrentLocation;
         }
         else if (data.Target.GetType() == typeof(LocationEntity))
@@ -200,7 +200,7 @@ public class SchemeType : ScriptableObject
         }
         else if (result.Plot.Target.GetType() == typeof(PortraitUI) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
         {
-            Character targetChar = ((PortraitUI)result.Plot.Target).CurrentCharacter;
+            Character targetChar = result.Plot.TargetCharacter;
 
             if (targetChar != null && targetChar.CurrentFaction.Relations != null)
             {
@@ -234,7 +234,7 @@ public class SchemeType : ScriptableObject
         }
         else
         {
-            Character targetChar = ((PortraitUI)result.Plot.Target).CurrentCharacter;
+            Character targetChar = result.Plot.TargetCharacter;
 
             if (targetChar != null && targetChar.CurrentFaction.Relations != null)
             {
@@ -252,9 +252,9 @@ public class SchemeType : ScriptableObject
         }
 
         if (((result.Plot.Target.GetType() == typeof(PortraitUI)) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee)) 
-            && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
+            && result.Plot.Participants.Contains(result.Plot.TargetCharacter))
         {
-            result.Plot.TargetParticipants.Remove(((PortraitUI)result.Plot.Target).CurrentCharacter);
+            result.Plot.TargetParticipants.Remove(result.Plot.TargetCharacter);
         }
 
         foreach (Character target in result.Plot.TargetParticipants)
@@ -273,7 +273,7 @@ public class SchemeType : ScriptableObject
         }
         else if (result.Plot.Target.GetType() == typeof(PortraitUI) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
         {
-            Character targetCharacter = ((PortraitUI)result.Plot.Target).CurrentCharacter;
+            Character targetCharacter = result.Plot.TargetCharacter ;
             CORE.Instance.OnSchemeWin.Invoke(this, null, targetCharacter);
         }
     }
@@ -294,9 +294,9 @@ public class SchemeType : ScriptableObject
         }
 
         if (((result.Plot.Target.GetType() == typeof(PortraitUI)) || result.Plot.Target.GetType() == typeof(PortraitUIEmployee))
-            && result.Plot.Participants.Contains(((PortraitUI)result.Plot.Target).CurrentCharacter))
+            && result.Plot.Participants.Contains(result.Plot.TargetCharacter))
         {
-            result.Plot.TargetParticipants.Remove(((PortraitUI)result.Plot.Target).CurrentCharacter);
+            result.Plot.TargetParticipants.Remove(result.Plot.TargetCharacter);
         }
 
         foreach (Character target in result.Plot.TargetParticipants)
@@ -352,7 +352,24 @@ public class PlotData
     public Character Plotter;
     public List<Character> Participants;
     public List<Character> TargetParticipants;
-    public AgentInteractable Target;
+    public AgentInteractable Target
+    {
+        get
+        {
+            return _target;
+        }
+        set
+        {
+            if (value != null && (value.GetType() == typeof(PortraitUI) || value.GetType() == typeof(PortraitUIEmployee)))
+            {
+                TargetCharacter = ((PortraitUI)value).CurrentCharacter;
+            }
+
+            _target = value;
+        }
+    }
+    AgentInteractable _target;
+    public Character TargetCharacter;
     public PlotMethod Method;
     public PlotEntry Entry;
     public PlotMethod BaseMethod;

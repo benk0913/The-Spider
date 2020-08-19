@@ -79,9 +79,10 @@ public class NodeTreeUI : MonoBehaviour
         yield return StartCoroutine(GenerateNode(origin));
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(origin.nodeObject.GetComponent<RectTransform>());
-        //yield return 0;
+        yield return 0;
 
-        yield return StartCoroutine(GenerateLines(origin));
+        //yield return StartCoroutine(GenerateLines(origin));
+        GenerateLinesInstant(origin);
 
     }
 
@@ -105,6 +106,33 @@ public class NodeTreeUI : MonoBehaviour
         for (int i=0;i<node.Children.Count;i++)
         {
             yield return StartCoroutine(GenerateNode(node.Children[i]));
+        }
+    }
+
+    protected void GenerateLinesInstant(NodeTreeUIInstance node)
+    {
+        if (node.Parent != null)
+        {
+            List<Vector2> linePoints = new List<Vector2>();
+
+            Vector2 localPortrait = node.nodeObject.transform.InverseTransformPoint(node.nodeObject.transform.GetChild(0).position);
+            Vector2 parentPortrait = node.nodeObject.transform.InverseTransformPoint(node.Parent.nodeObject.transform.GetChild(0).position);
+            Vector2 midpointA = Vector2.Lerp(localPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
+            Vector2 midpointB = Vector2.Lerp(parentPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
+
+            linePoints.Add(localPortrait);
+            linePoints.Add(midpointA);
+            linePoints.Add(midpointB);
+            linePoints.Add(parentPortrait);
+
+            node.nodeObject.GetComponent<UILineRenderer>().Points = linePoints.ToArray();
+        }
+
+        //yield return 0;
+
+        for (int i = 0; i < node.Children.Count; i++)
+        {
+            GenerateLinesInstant(node.Children[i]);
         }
     }
 

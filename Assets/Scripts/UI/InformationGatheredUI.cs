@@ -17,6 +17,11 @@ public class InformationGatheredUI : MonoBehaviour
     {
         CurrentInstance = instance;
 
+        if(instance.AboutCharacter == null)
+        {
+            return;
+        }
+
         Title.text = "You have learned <color=green>"+instance.AboutCharacter.name+ "'s</color> <color=yellow>\n" + instance.Information+ "</color>";
         CharacterPortrait.SetCharacter(instance.AboutCharacter);
     }

@@ -28,6 +28,8 @@ public class QuestObjective : ScriptableObject
     [SerializeField]
     public bool ShowObjectiveMarker = false;
 
+    public bool IsMapRelatedMarker;
+
     protected GameObject MarkerTarget;
     protected GameObject MarkerObject;
 
@@ -116,8 +118,12 @@ public class QuestObjective : ScriptableObject
         }
         else
         {
-
-            if (MarkerTarget.transform.parent != null && MarkerTarget.transform.parent.GetComponent<UILineRenderer>() != null) //PATCH- SPECIFIC HARDCODED CHECK FOR TECH TREE...
+            if(MarkerTarget == null)
+            {
+                if (MarkerObject.activeInHierarchy)
+                    MarkerObject.SetActive(false);
+            }
+            else if (MarkerTarget.transform.parent != null && MarkerTarget.transform.parent.GetComponent<UILineRenderer>() != null) //PATCH- SPECIFIC HARDCODED CHECK FOR TECH TREE...
             {
                 if (TechNodeTreeUI.Instance.IsHidden)
                 {
@@ -142,7 +148,10 @@ public class QuestObjective : ScriptableObject
                 }
                 else
                 {
-                    MarkerObject.gameObject.SetActive(false);
+                    if (MarkerObject.activeInHierarchy)
+                    {
+                        MarkerObject.gameObject.SetActive(false);
+                    }
                 }
             }
         }

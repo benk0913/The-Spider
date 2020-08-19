@@ -18,7 +18,7 @@ public class AssassinateScheme : SchemeType
     {
         base.WinResult(data);
 
-    CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, ((PortraitUI)data.Plot.Target).CurrentCharacter, ((PortraitUI)data.Plot.Target).CurrentCharacter.CurrentLocation);
+    CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, data.Plot.TargetCharacter, data.Plot.TargetCharacter.CurrentLocation);
     }));
     }
 }

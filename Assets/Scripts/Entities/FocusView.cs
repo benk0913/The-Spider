@@ -13,6 +13,8 @@ public class FocusView : MonoBehaviour
     [SerializeField]
     UnityEvent OnDeactivate = new UnityEvent();
 
+    public bool IsFocusing = false;
+
     public void Activate()
     {
         if(CORE.Instance.FocusViewLocked)
@@ -23,6 +25,8 @@ public class FocusView : MonoBehaviour
         this.gameObject.SetActive(true);
         MouseLook.Instance.FocusOnView(this);
         OnActivate.Invoke();
+
+        IsFocusing = true;
     }
     
     public void Deactivate()
@@ -36,6 +40,8 @@ public class FocusView : MonoBehaviour
         MouseLook.Instance.UnfocusCurrentView();
         this.gameObject.SetActive(false);
         OnDeactivate.Invoke();
+
+        IsFocusing = false;
     }
 
 }

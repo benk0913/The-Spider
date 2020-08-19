@@ -137,7 +137,8 @@ public class Letter : ISaveFileCompatible
             {
                 string elementValue = "";
 
-                object tempValue = Parameters[Parameters.Keys.ElementAt(i)];
+                string tempkey = Parameters.Keys.ElementAt(i);
+                object tempValue = Parameters[tempkey];
                 if (tempValue != null && tempValue.GetType() == typeof(string))
                 {
                     elementValue = (string)tempValue;
@@ -152,12 +153,13 @@ public class Letter : ISaveFileCompatible
                 }
                 else
                 {
+                    elementValue = tempValue.ToString();
                     Debug.LogError("Couldn't find element value!!!!! " + Parameters.Keys.ElementAt(i).ToString());
                 }
 
                 if (!string.IsNullOrEmpty(elementValue))
                 {
-                    node["Parameters"][i]["Key"] = Parameters.Keys.ElementAt(i).ToString();
+                    node["Parameters"][i]["Key"] = tempkey;
                     node["Parameters"][i]["Value"] = elementValue;
                 }
             }

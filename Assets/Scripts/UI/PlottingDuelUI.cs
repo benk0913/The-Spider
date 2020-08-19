@@ -312,6 +312,8 @@ public class PlottingDuelUI : MonoBehaviour
 
             if (CurrentMethod != CurrentPlot.BaseMethod) // BRUTE SWITCH
             {
+                GlobalMessagePrompterUI.Instance.Show("Plotters have been exposed!", 1f, Color.red);
+
                 ChangeMethod(CurrentPlot.BaseMethod);
 
                 ParticipantsPortraits.Add(Participant);

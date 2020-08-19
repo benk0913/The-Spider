@@ -1892,6 +1892,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Reputation"] = Reputation.ToString();
 
         node["NeverDED"] = NeverDED.ToString();
+        node["IsDisabled"] = IsDisabled.ToString();
 
         node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
 
@@ -2021,7 +2022,23 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CProgress = int.Parse(node["Progress"].Value);
         Reputation = int.Parse(node["Reputation"].Value);
 
-        NeverDED = bool.Parse(node["NeverDED"].Value);
+        if (!string.IsNullOrEmpty(node["NeverDED"].Value))
+        {
+            NeverDED = bool.Parse(node["NeverDED"].Value);
+        }
+
+        if(!string.IsNullOrEmpty(node["IsDisabled"].Value))
+        {
+            IsDisabled = bool.Parse(node["IsDisabled"].Value);
+        }
+        else
+        {
+            Character existingChar = CORE.Instance.Database.PresetCharacters.Find(x => x.name == this.name);
+            if (existingChar != null)
+            {
+                IsDisabled = existingChar.IsDisabled;
+            }
+        }
 
         _prisonLocationID = node["PrisonLocation"].Value;
         _puppetOfFaction = node["PuppetOf"].Value;
