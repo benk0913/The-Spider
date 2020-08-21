@@ -63,7 +63,17 @@ public class SpyAroundComplete : AgentAction
                 {
                     continue;
                 }
-                
+
+                GameObject tempObj = CORE.Instance.SplineAnimationObject(
+                                   "PortraitCollection",
+                                    charInLocation.CurrentLocation.transform,
+                                    InformationLogUI.Instance.transform,
+                                    () => { AudioControl.Instance.PlayInPosition("resource_rumors", charInLocation.CurrentLocation.transform.position); },
+                                    true,
+                                    true);
+
+                tempObj.transform.GetComponentInChildren<PortraitUI>().SetCharacter(charInLocation);
+
                 charInLocation.Known.Know("CurrentLocation", character.TopEmployer);
                 charInLocation.Known.Know("Appearance", character.TopEmployer);
 

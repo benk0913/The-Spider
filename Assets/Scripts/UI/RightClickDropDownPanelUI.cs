@@ -98,10 +98,10 @@ public class RightClickDropDownPanelUI : MonoBehaviour
                 Hide,
                 ()=>
                 {
-                    if(SelectedPanelUI.Instance.CharacterPanel.gameObject.activeInHierarchy)
-                    {
-                        SelectedPanelUI.Instance.Deselect();
-                    }
+                    //if(SelectedPanelUI.Instance.CharacterPanel.gameObject.activeInHierarchy)
+                    //{
+                    //    SelectedPanelUI.Instance.Deselect();
+                    //}
                 }
             };
 

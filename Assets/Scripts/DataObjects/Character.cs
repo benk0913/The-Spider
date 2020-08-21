@@ -801,12 +801,18 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public int FavorPointRumorsPrice(Character withCharacter)
     {
-        return 100;
+        return Mathf.RoundToInt(Mathf.Max(
+            10
+            ,
+            (50) + (GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value * 10f)));
     }
 
     public int FavorPointConnectionsPrice(Character withCharacter)
     {
-        return 100;
+        return Mathf.RoundToInt(Mathf.Max(
+            10
+            ,
+            (60) + (PropertiesInCommand.Count * 10f)));
     }
 
 
@@ -1451,8 +1457,16 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.HouseOfPleasureTrait, HomeLocation);
         }
+        else if (Traits.Contains(CORE.Instance.Database.GetTrait("Gambler")))
+        {
+            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.PlaceForGamblersTrait, HomeLocation);
+        }
+        else if (Traits.Contains(CORE.Instance.Database.GetTrait("Drug Addict")))
+        {
+            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.SourceForDrugsTrait, HomeLocation);
+        }
 
-        if(hangoutLocation != null)
+        if (hangoutLocation != null)
         {
             CORE.Instance.Database.GetAgentAction("Hang Out").Execute(TopEmployer, this, hangoutLocation);
             return true;
@@ -1821,8 +1835,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         SelectedPanelUI.Instance.Deselect();
 
-        GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.BurialGroundTrait));
-
         if(PrisonLocation != null)
         {
             ExitPrison();
@@ -1868,8 +1880,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
             CurrentFaction.DissolveFaction();
             CurrentFaction.FactionHead = null;
         }
+
+
+        GoToLocation(CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.BurialGroundTrait));
+
     }
-    
+
 
     #endregion
 
@@ -1974,7 +1990,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["hairColor"] = HairColor.name;
         node["face"] = Face.name;
         node["hair"] = Hair.name;
-        node["clothing"] = Clothing.name;
+        node["clothing"] = Clothing != null? Clothing.name : CORE.Instance.Database.HumanReference.Clothing.name;
         node["UniquePortrait"] = UniquePortrait == null? "" : UniquePortrait.name;
 
         if (CurrentQuestioningInstance != null)

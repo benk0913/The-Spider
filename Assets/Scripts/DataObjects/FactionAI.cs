@@ -412,7 +412,7 @@ public class FactionAI : ScriptableObject
         List<Character> charsInCommand = CurrentCharacter.CharactersInCommand;
         List<LocationEntity> purchasables = CORE.Instance.Locations.FindAll((LocationEntity location) =>
         {
-            return location.IsBuyable;
+            return location.IsBuyable && !location.IsDisabled;
         });
         foreach (LocationEntity purchasable in purchasables)
         {

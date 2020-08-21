@@ -1120,6 +1120,8 @@ public class CORE : MonoBehaviour
             {
                 location.RefreshState();
             }
+
+            AudioControl.Instance.SetPlaylist();
         });
 
         LoadingPanel.SetActive(false);

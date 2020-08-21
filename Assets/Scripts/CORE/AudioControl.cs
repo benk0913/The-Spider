@@ -327,10 +327,15 @@ public class AudioControl : MonoBehaviour {
         }
     }
 
+    public void SetPlaylist()
+    {
+        SetMusic(CurrentPlaylist.Playlist[Random.Range(0, CurrentPlaylist.Playlist.Count)]);
+    }
+
     public void SetPlaylist(int playlistIndex)
     {
         CurrentPlaylist = MusicPlayLists[playlistIndex];
-        SetMusic(CurrentPlaylist.Playlist[Random.Range(0, CurrentPlaylist.Playlist.Count)]);
+        SetPlaylist();
     }
 
     public void SetPlaylistIndex(int index)

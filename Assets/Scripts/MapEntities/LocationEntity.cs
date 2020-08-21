@@ -982,6 +982,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             RecruitEmployeeForce();
         }
 
+        CORE.Instance.InvokeEvent("OnLocationChanged");
         return null;
     }
 
@@ -1506,11 +1507,30 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             requester.CConnections -= recruitmentCost;
 
-            randomNewEmployee = CORE.Instance.GenerateCharacter(
-               CurrentProperty.RecruitingGenderType,
-               CurrentProperty.MinAge,
-               CurrentProperty.MaxAge,
-               this.NearestDistrict);
+            Character potentialExistingCharacter = 
+                CORE.Instance.Characters.Find(X => X.TopEmployer == X 
+                                                    && X.PropertiesOwned.Count == 0 
+                                                    && FiredEmployeees.Find(F=>F.name == X.name) == null
+                                                    && !X.IsDead
+                                                    && X.PrisonLocation == null
+                                                    && X.Age > CurrentProperty.MinAge
+                                                    && X.Age < CurrentProperty.MaxAge
+                                                    && !X.IsDisabled
+                                                    && (int)X.Gender == CurrentProperty.RecruitingGenderType);
+
+            if (potentialExistingCharacter)
+            {
+                randomNewEmployee = potentialExistingCharacter;
+            }
+            else
+            {
+
+                randomNewEmployee = CORE.Instance.GenerateCharacter(
+                   CurrentProperty.RecruitingGenderType,
+                   CurrentProperty.MinAge,
+                   CurrentProperty.MaxAge,
+                   this.NearestDistrict);
+            }
 
             randomNewEmployee.StartWorkingFor(this, isGuard);
 

@@ -98,6 +98,7 @@ public class Knowledge
         return rumor;
     }
 
+    
     public bool GetIsAnythingKnown(Character byCharacter)
     {
         foreach(KnowledgeInstance item in Items)
@@ -115,6 +116,22 @@ public class Knowledge
 
         return false;
         
+    }
+
+
+    public bool GetIsEverythingKnown(Character byCharacter)
+    {
+        foreach (KnowledgeInstance item in Items)
+        {
+
+            if (!item.IsKnownByCharacter(byCharacter))
+            {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 
     public int GetKnownCount(Character byCharacter)

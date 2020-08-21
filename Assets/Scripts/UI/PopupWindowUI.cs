@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
@@ -93,6 +94,14 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
                 {
                     parameters.Add("TargetName", "the stranger");
                 }
+            }
+        }
+
+        if(data.Parameters != null && data.Parameters.Count > 0)
+        {
+            for(int i=0;i<data.Parameters.Keys.Count;i++)
+            {
+                parameters.Add(data.Parameters.Keys.ElementAt(i), data.Parameters[data.Parameters.Keys.ElementAt(i)]);
             }
         }
 
@@ -220,13 +229,15 @@ public class PopupData : ISaveFileCompatible
     public List<Character> CharactersRight;
     public Action OnPopupDisplayed;
     public Action OnPopupClosed;
+    public Dictionary<string, string> Parameters;
 
-    public PopupData(PopupDataPreset preset = null, List<Character> charactersLeft = null, List<Character> charactersRight = null, Action onPopupDisplay = null)
+    public PopupData(PopupDataPreset preset = null, List<Character> charactersLeft = null, List<Character> charactersRight = null, Action onPopupDisplay = null,Dictionary<string,string> parameters = null)
     {
         this.Preset = preset;
         this.CharactersLeft = charactersLeft;
         this.CharactersRight = charactersRight;
         this.OnPopupDisplayed = onPopupDisplay;
+        this.Parameters = parameters;
     }
 
     public void FromJSON(JSONNode node)
@@ -241,6 +252,16 @@ public class PopupData : ISaveFileCompatible
         for (int i = 0; i < node["RightCharactersIDs"].Count; i++)
         {
             leftCharsIDS.Add(node["RightCharactersIDs"][i]);
+        }
+
+        if(node["Parameters"]!=null&& node["Parameters"].Count > 0)
+        {
+            Parameters = new Dictionary<string, string>();
+
+            for(int i=0;i< node["Parameters"].Count;i++)
+            {
+                Parameters.Add(node["Parameters"][i]["Key"].Value, node["Parameters"][i]["Value"].Value);
+            }
         }
     }
 
@@ -277,6 +298,14 @@ public class PopupData : ISaveFileCompatible
             node["RightCharactersIDs"][i] = CharactersRight[i].ID;
         }
 
+        if(Parameters != null)
+        {
+            for(int i=0;i<Parameters.Keys.Count;i++)
+            {
+                node["Parameters"][i]["Key"] = Parameters.Keys.ElementAt(i);
+                node["Parameters"][i]["Value"] = Parameters[Parameters.Keys.ElementAt(i)];
+            }
+        }
         return node;
     }
 }

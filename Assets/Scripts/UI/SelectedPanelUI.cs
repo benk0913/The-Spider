@@ -77,6 +77,8 @@ public class SelectedPanelUI : MonoBehaviour
 
         CurrentSelectionType = SelectionType.Agent;
 
+        RightClickDropDownPanelUI.Instance.Hide();
+
         CharacterPanel.Select(character);
     }
 
@@ -89,6 +91,7 @@ public class SelectedPanelUI : MonoBehaviour
 
         CurrentSelectionType = SelectionType.Location;
 
+        RightClickDropDownPanelUI.Instance.Hide();
 
         LocationPanel.Select(location);
     }

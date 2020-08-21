@@ -21,6 +21,15 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
     {
         CurrentEntity = entity;
 
+        if(CurrentEntity == null)
+        {
+            Icon.enabled = false;
+            TooltipTarget.SetTooltip("Doing nothing...");
+            return;
+        }
+
+        Icon.enabled = true;
+
         Icon.sprite = entity.CurrentTask.Icon;
 
         TooltipTarget.SetTooltip("<size=24><u>" + entity.CurrentTask.name + "</u></size> ");
@@ -116,12 +125,22 @@ public class ActionPortraitUI : AgentInteractable, IPointerClickHandler
 
     public void OnRightClick()
     {
+        if(CurrentEntity == null)
+        {
+            return;
+        }
+
         ShowActionMenu();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Right)
+        if (CurrentEntity == null)
+        {
+            return;
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
             ShowActionMenu();
         }

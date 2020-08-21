@@ -62,6 +62,8 @@ public class PlottingDuelUI : MonoBehaviour
 
     public List<DuelProc> AllDuelProcs = new List<DuelProc>();
 
+    public Transform CombatLogContainer;
+
     public bool IsPlayerAttacker
     {
         get
@@ -99,6 +101,8 @@ public class PlottingDuelUI : MonoBehaviour
         LocationEntity location,
         System.Action<DuelResultData> onComplete)
     {
+        ClearCombatLog();
+
         AllDuelProcs.Clear();
         AllDuelProcs.AddRange(CORE.Instance.Database.DuelProcs);
 
@@ -158,7 +162,10 @@ public class PlottingDuelUI : MonoBehaviour
     
     IEnumerator DuelsRoutine()
     {
-
+        if (CurrentPlot.TargetParticipants.Count > 0)
+        {
+            AddToCombatLog("An encounter between " + CurrentPlot.Participants[0].CurrentFaction.name + " and " + CurrentPlot.TargetParticipants[0].CurrentFaction.name);
+        }
         if (!SpeedMode)
         {
             yield return new WaitForSeconds(1f);
@@ -181,10 +188,28 @@ public class PlottingDuelUI : MonoBehaviour
             if (ParticipantsPortraits.Count == 0)
             {
                 yield return StartCoroutine(InvokeStage("MatchFailed"));
+
+                if(CurrentPlot.Plotter.TopEmployer == CORE.PC)
+                {
+                    AddToCombatLog("<color=red>Defeat...</color>");
+                }
+                else
+                {
+                    AddToCombatLog("<color=green>Victory!</color>");
+                }
             }
             else if (TargetsPortraits.Count == 0)
             {
                 yield return StartCoroutine(InvokeStage("MatchWon"));
+
+                if (CurrentPlot.Plotter.TopEmployer == CORE.PC)
+                {
+                    AddToCombatLog("<color=green>Victory!</color>");
+                }
+                else
+                {
+                    AddToCombatLog("<color=red>Defeat...</color>");
+                }
             }
         }
 
@@ -294,10 +319,12 @@ public class PlottingDuelUI : MonoBehaviour
 
             if (Participant.CurrentCharacter.TopEmployer == CORE.PC)
             {
+                AddToCombatLog("<color=green>"+Participant.CurrentCharacter.name + " had beaten "+Target.CurrentCharacter.name + "...</color>");
                 yield return StartCoroutine(InvokeStage("DuelWon"));
             }
             else
             {
+                AddToCombatLog("<color=red>" + Participant.CurrentCharacter.name + " had beaten " + Target.CurrentCharacter.name + "...</color>");
                 yield return StartCoroutine(InvokeStage("DuelFailed"));
             }
         }
@@ -313,6 +340,7 @@ public class PlottingDuelUI : MonoBehaviour
             if (CurrentMethod != CurrentPlot.BaseMethod) // BRUTE SWITCH
             {
                 GlobalMessagePrompterUI.Instance.Show("Plotters have been exposed!", 1f, Color.red);
+                AddToCombatLog("<color=yellow>Plotters fall back to violence...</color>");
 
                 ChangeMethod(CurrentPlot.BaseMethod);
 
@@ -330,10 +358,12 @@ public class PlottingDuelUI : MonoBehaviour
 
             if (Target.CurrentCharacter.TopEmployer == CORE.PC)
             {
+                AddToCombatLog("<color=green>" + Target.CurrentCharacter.name + " had beaten " + Participant.CurrentCharacter.name + "...</color>");
                 yield return StartCoroutine(InvokeStage("DuelWon"));
             }
             else
             {
+                AddToCombatLog("<color=red>" + Target.CurrentCharacter.name + " had beaten " + Participant.CurrentCharacter.name + "...</color>");
                 yield return StartCoroutine(InvokeStage("DuelFailed"));
             }
         }
@@ -640,6 +670,31 @@ public class PlottingDuelUI : MonoBehaviour
         {
             UnspentProcsContainer.GetChild(0).gameObject.SetActive(false);
             UnspentProcsContainer.GetChild(0).SetParent(transform);
+        }
+    }
+
+    public void ClearCombatLog()
+    {
+        while(CombatLogContainer.childCount > 0)
+        {
+            CombatLogContainer.GetChild(0).gameObject.SetActive(false);
+            CombatLogContainer.GetChild(0).SetParent(transform, false);
+        }
+    }
+
+    public void AddToCombatLog(string message)
+    {
+        GameObject entry = ResourcesLoader.Instance.GetRecycledObject("CombatLogEntry");
+        entry.transform.SetParent(CombatLogContainer, false);
+        entry.transform.SetAsFirstSibling();
+        entry.transform.localScale = Vector3.one;
+        entry.transform.position = Vector3.zero;
+        entry.GetComponent<TextMeshProUGUI>().text = message;
+
+        if (CombatLogContainer.childCount > 5)
+        {
+            CombatLogContainer.GetChild(CombatLogContainer.childCount - 1).gameObject.SetActive(false);
+            CombatLogContainer.GetChild(CombatLogContainer.childCount - 1).SetParent(transform, false);
         }
     }
 }

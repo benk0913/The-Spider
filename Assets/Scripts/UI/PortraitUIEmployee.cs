@@ -46,27 +46,27 @@ public class PortraitUIEmployee : PortraitUI
 
         base.SetCharacter(character);
 
-        if (character != null && character.WorkLocation != null && character.PropertiesOwned.Find(x=>x == RelevantLocation) == null && !character.IsKnown("WorkLocation", CORE.PC))
-        {
-            Unique.gameObject.SetActive(false);
+        //if (character != null && character.WorkLocation != null && character.PropertiesOwned.Find(x=>x == RelevantLocation) == null && !character.IsKnown("WorkLocation", CORE.PC))
+        //{
+        //    Unique.gameObject.SetActive(false);
 
-            Face.color = Color.black;
-            Hair.color = Color.black;
-            Clothing.color = Color.black;
-            Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
-            FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+        //    Face.color = Color.black;
+        //    Hair.color = Color.black;
+        //    Clothing.color = Color.black;
+        //    Frame.color = CORE.Instance.Database.DefaultFaction.FactionColor;
+        //    FrameBG.color = CORE.Instance.Database.DefaultFaction.FactionColor;
 
-            if (ActionPortrait != null)
-            {
-                ActionPortrait.gameObject.SetActive(false);
-            }
+        //    if (ActionPortrait != null)
+        //    {
+        //        ActionPortrait.gameObject.SetActive(false);
+        //    }
 
-            TooltipTarget.SetTooltip("This character is unknown");
+        //    TooltipTarget.SetTooltip("This character is unknown");
 
-            QuestionMark.gameObject.SetActive(true);
+        //    QuestionMark.gameObject.SetActive(true);
 
-            return;
-        }
+        //    return;
+        //}
     }
 
     public void RecruitEmployee()

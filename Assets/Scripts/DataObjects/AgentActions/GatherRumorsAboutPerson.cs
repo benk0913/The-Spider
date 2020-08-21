@@ -13,15 +13,21 @@ public class GatherRumorsAboutPerson : AgentAction //DO NOT INHERIT FROM
 
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
-        base.Execute(requester, character, target);
-
-        if(target.GetType() != typeof(PortraitUI) && target.GetType() != typeof(PortraitUIEmployee))
+        if (target.GetType() != typeof(PortraitUI) && target.GetType() != typeof(PortraitUIEmployee))
         {
             Debug.LogError("TASK ONLY FOR TARGHET CHARS " + target.name);
             return;
         }
 
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
+
+        if (targetChar.Known.GetIsEverythingKnown(character.TopEmployer))
+        {
+            GlobalMessagePrompterUI.Instance.Show("You already know everything about " + targetChar.name,1f,Color.red);
+            return;
+        }
+
+        base.Execute(requester, character, target);
 
         float awareValue = character.GetBonus(CORE.Instance.Database.GetBonusType("Aware")).Value;
         float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;

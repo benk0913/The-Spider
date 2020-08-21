@@ -12,6 +12,6 @@ public class DDAMessagePrompt : DialogDecisionAction
 
     public override void Activate()
     {
-        GlobalMessagePrompterUI.Instance.Show(Message, Time, WithColor);
+        GlobalMessagePrompterUI.Instance.Show(Message, Mathf.Clamp(Time,1f,Mathf.Infinity), WithColor);
     }
 }

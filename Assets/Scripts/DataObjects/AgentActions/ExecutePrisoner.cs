@@ -14,7 +14,7 @@ public class ExecutePrisoner : AgentAction //DO NOT INHERIT FROM
         Character targetChar = ((PortraitUI)target).CurrentCharacter;
 
         CORE.Instance.ShowHoverMessage(targetChar.name+" has died.", ResourcesLoader.Instance.GetSprite("Unsatisfied"), character.CurrentLocation.transform);
-        CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, targetChar, targetChar.CurrentLocation);
+        CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, targetChar, CORE.Instance.GetRandomLocationWithTrait(CORE.Instance.Database.BurialGroundTrait));
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

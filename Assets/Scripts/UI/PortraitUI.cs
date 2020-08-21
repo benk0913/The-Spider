@@ -190,6 +190,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
                 tooltipString += ActionPortrait.TooltipTarget.Text;
             }
 
+
             tooltipString += "\n 'Right Click' for more options...";
 
             TooltipTarget?.SetTooltip(tooltipString);
@@ -228,6 +229,18 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         else
         {
             tooltipString += "??? - ";
+        }
+
+
+        if (character.IsKnown("Personality", CORE.PC))
+        {
+            foreach (BonusType bonus in CORE.Instance.Database.BonusTypes)
+            {
+                if (character.GetBonus(bonus).Value > 1)
+                {
+                    tooltipString += "\n <color=yellow>" + bonus.name + " " + character.GetBonus(bonus).Value + "</color>";
+                }
+            }
         }
 
         if (character.IsKnown("WorkLocation", CORE.PC))

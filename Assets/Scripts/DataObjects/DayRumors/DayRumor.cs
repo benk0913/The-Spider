@@ -47,7 +47,11 @@ public class DayRumor : ScriptableObject
 
                     Character agent = property.OwnerCharacter;
 
-                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC });
+                    Dictionary<string, string> parameters = new Dictionary<string, string>();
+                    parameters.Add("LocationName", property.Name);
+                    parameters.Add("DistrictName", property.NearestDistrict == null ? "Glassden" : property.NearestDistrict.Name);
+
+                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC },null,parameters);
 
                     break;
                 }
@@ -62,7 +66,11 @@ public class DayRumor : ScriptableObject
 
                     Character agent = property.OwnerCharacter;
 
-                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC });
+                    Dictionary<string, string> parameters = new Dictionary<string, string>();
+                    parameters.Add("LocationName", property.Name);
+                    parameters.Add("DistrictName", property.NearestDistrict == null ? "Glassden" : property.NearestDistrict.Name);
+
+                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC },null, parameters);
 
                     break;
                 }
@@ -82,7 +90,11 @@ public class DayRumor : ScriptableObject
 
                     Character agent = property.OwnerCharacter;
 
-                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC });
+                    Dictionary<string, string> parameters = new Dictionary<string, string>();
+                    parameters.Add("LocationName", property.Name);
+                    parameters.Add("DistrictName", property.NearestDistrict == null? "Glassden" : property.NearestDistrict.Name);
+
+                    popup = new PopupData(Preset, new List<Character> { agent }, new List<Character> { CORE.PC }, null, parameters);
 
                     break;
                 }
@@ -177,7 +189,25 @@ public class DayRumor : ScriptableObject
 
                     break;
                 }
+            case DayRumorType.AgentPrisoner:
+                {
+                    Character targetAgent = CORE.PC.CharactersInCommand.Find(X => X.IsAgent
+                    && X != CORE.PC
+                    && X.PrisonLocation != null);
 
+                    if (targetAgent == null)
+                    {
+                        break;
+                    }
+
+                    Dictionary<string, string> parameters = new Dictionary<string, string>();
+                    parameters.Add("LocationName", targetAgent.PrisonLocation.Name);
+                    parameters.Add("DistrictName", targetAgent.PrisonLocation.NearestDistrict == null ? "Glassden" : targetAgent.PrisonLocation.NearestDistrict.Name);
+
+                    popup = new PopupData(Preset, new List<Character> { targetAgent.Employer }, new List<Character> { targetAgent },null,parameters);
+
+                    break;
+                }
         }
 
         return popup;
@@ -192,6 +222,7 @@ public class DayRumor : ScriptableObject
         AgentLikesPlayer,
         PromotionSoon,
         MorePeople,
-        MoreGuards
+        MoreGuards,
+        AgentPrisoner
     }
 }

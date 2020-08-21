@@ -39,9 +39,21 @@ public class CheatMenuUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.End))
         {
             IsCheatOn = !IsCheatOn;
+
+            WarningWindowUI.Instance.Show("DEV CHEATS: " + IsCheatOn.ToString()
+                + System.Environment.NewLine + " 0 - attempt to auto buy all plots"
+                + System.Environment.NewLine + " 1 - Add to turn number"
+                + System.Environment.NewLine + " 2 - test custom action (dont touch)"
+                + System.Environment.NewLine + " 3 - decrease turn number..."
+                + System.Environment.NewLine + " 4 - Auto defenders win duel"
+                + System.Environment.NewLine + " 5 - Auto attackers win duel"
+                + System.Environment.NewLine + " 6 - Auto complete quest (Unstable)"
+                + System.Environment.NewLine + " 7 - Research all tech"
+                + System.Environment.NewLine + " 8 - 100 to all resources"
+                + System.Environment.NewLine + " 9 - Know everything after passing turn...", null);
         }
 
         if(!IsCheatOn)

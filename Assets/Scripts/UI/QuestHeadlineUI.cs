@@ -66,6 +66,8 @@ public class QuestHeadlineUI : HeadlineUI
         ShowingObject.transform.SetParent(transform.parent.parent);
         ShowingObject = null;
         Anim.SetBool("Showing", false);
+
+        RightClickDropDownPanelUI.Instance.Hide();
     }
 
     public void Complete()

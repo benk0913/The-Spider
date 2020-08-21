@@ -28,6 +28,8 @@ public class GameDB : ScriptableObject
     public PropertyTrait RumorsHubTrait;
     public PropertyTrait HouseOfWorshipTrait;
     public PropertyTrait HouseOfPleasureTrait;
+    public PropertyTrait PlaceForGamblersTrait;
+    public PropertyTrait SourceForDrugsTrait;
     public PropertyTrait BurialGroundTrait;
 
     public LetterPreset BetrayalLetter;

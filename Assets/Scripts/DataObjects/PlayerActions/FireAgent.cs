@@ -83,6 +83,8 @@ public class FireAgent : PlayerAction
 
             }
 
+            character.WorkLocation.FiredEmployeees.Add(character);
+
             if (character.Employer == requester)
             {
                 character.StopDoingCurrentTask();
@@ -90,7 +92,6 @@ public class FireAgent : PlayerAction
             }
             else
             {
-                character.WorkLocation.FiredEmployeees.Add(character);
                 character.StopDoingCurrentTask();
                 character.StopWorkingForCurrentLocation();
             }

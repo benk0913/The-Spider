@@ -105,6 +105,19 @@ public class PlottingWindowUI : MonoBehaviour
     public PlotMethod CurrentMethod;
     public PlotEntry CurrentEntry;
 
+    #region WindowCache
+
+    AgentInteractable CachedTarget;
+    SchemeType CachedSchemeType;
+
+    PlotMethod CachedMethod;
+    PlotEntry CachedEntry;
+    Character CachedPlotter;
+    List<Character> CachedParticipants = new List<Character>();
+    
+
+    #endregion
+
     private void OnDisable()
     {
         if (AudioControl.Instance != null)
@@ -130,7 +143,6 @@ public class PlottingWindowUI : MonoBehaviour
         CurrentTarget = target;
         CurrentSchemeType = type;
         CurrentPlotter = plotter;
-
 
         if (target == null)
         {
@@ -204,6 +216,7 @@ public class PlottingWindowUI : MonoBehaviour
 
         this.gameObject.SetActive(true);
 
+        CORE.Instance.DelayedInvokation(0.1f, LoadCache);
     }
 
     private void Update()
@@ -214,8 +227,57 @@ public class PlottingWindowUI : MonoBehaviour
         }
     }
 
+    public void LoadCache()
+    {
+        if (CachedSchemeType != null && CachedTarget != null && CachedSchemeType == CurrentSchemeType && CachedTarget == CurrentTarget)
+        {
+            if (CachedMethod != null)
+                CurrentMethod = CachedMethod;
+
+            if (CachedEntry != null)
+                CurrentEntry = CachedEntry;
+
+            if (CachedPlotter != null)
+                CurrentPlotter = CachedPlotter;
+
+            foreach (Character x in CachedParticipants)
+            {
+                if (x.TopEmployer == CORE.PC
+                    && x.TopEmployer != x
+                    && !x.IsDisabled
+                    && x.Age > 15
+                    && !Participants.Contains(x)
+                    && !TargetParticipants.Contains(x)
+                    && x != CurrentTarget
+                    && !x.IsDead
+                    && x.PrisonLocation == null
+                    && x.IsAgent
+                    && (x.CurrentTaskEntity == null || x.CurrentTaskEntity.CurrentTask.Cancelable))
+                {
+                    Participants.Add(x);
+                }
+            }
+
+            RefreshUI();
+        }
+    }
+
+    public void SaveCache()
+    {
+        CachedSchemeType = CurrentSchemeType;
+        CachedTarget = CurrentTarget;
+        CachedPlotter = CurrentPlotter;
+        CachedEntry = CurrentEntry;
+        CachedMethod = CurrentMethod;
+
+        CachedParticipants.Clear();
+        CachedParticipants.AddRange(Participants);
+    }
+
     public void Hide()
     {
+        SaveCache();
+
         MouseLook.Instance.CurrentWindow = null;
         this.gameObject.SetActive(false);
     }
@@ -540,4 +602,5 @@ public class PlottingWindowUI : MonoBehaviour
         RefreshUI();
     }
 
+    
 }

@@ -78,11 +78,22 @@ public class NodeTreeUI : MonoBehaviour
 
         yield return StartCoroutine(GenerateNode(origin));
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(origin.nodeObject.GetComponent<RectTransform>());
         yield return 0;
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(origin.nodeObject.GetComponent<RectTransform>());
+
+
+        yield return 0;
+
+        yield return 0;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(origin.nodeObject.GetComponent<RectTransform>());
+
         //yield return StartCoroutine(GenerateLines(origin));
-        GenerateLinesInstant(origin);
+
+        //yield return StartCoroutine(GenerateLines(origin));
+
+        //CORE.Instance.DelayedInvokation(0.5F, () => { GenerateLinesInstant(origin);  });
 
     }
 
@@ -116,14 +127,22 @@ public class NodeTreeUI : MonoBehaviour
             List<Vector2> linePoints = new List<Vector2>();
 
             Vector2 localPortrait = node.nodeObject.transform.InverseTransformPoint(node.nodeObject.transform.GetChild(0).position);
+
             Vector2 parentPortrait = node.nodeObject.transform.InverseTransformPoint(node.Parent.nodeObject.transform.GetChild(0).position);
+            parentPortrait = new Vector2(parentPortrait.x, parentPortrait.y - 140);
+
             Vector2 midpointA = Vector2.Lerp(localPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
             Vector2 midpointB = Vector2.Lerp(parentPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
 
-            linePoints.Add(localPortrait);
-            linePoints.Add(midpointA);
-            linePoints.Add(midpointB);
-            linePoints.Add(parentPortrait);
+            //linePoints.Add(localPortrait);
+            //linePoints.Add(midpointA);
+            //linePoints.Add(midpointB);
+            //linePoints.Add(parentPortrait);
+
+            for (float i = 0f; i < 1f; i += 0.1f)
+            {
+                linePoints.Add(Util.SplineLerpY(localPortrait, parentPortrait, 120f, i));
+            }
 
             node.nodeObject.GetComponent<UILineRenderer>().Points = linePoints.ToArray();
         }
@@ -143,14 +162,22 @@ public class NodeTreeUI : MonoBehaviour
             List<Vector2> linePoints = new List<Vector2>();
 
             Vector2 localPortrait = node.nodeObject.transform.InverseTransformPoint(node.nodeObject.transform.GetChild(0).position);
+            
             Vector2 parentPortrait = node.nodeObject.transform.InverseTransformPoint(node.Parent.nodeObject.transform.GetChild(0).position);
+            parentPortrait = new Vector2(parentPortrait.x, parentPortrait.y - 140);
+
             Vector2 midpointA = Vector2.Lerp(localPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
             Vector2 midpointB = Vector2.Lerp(parentPortrait, new Vector2(localPortrait.x, parentPortrait.y), 0.5f);
 
-            linePoints.Add(localPortrait);
-            linePoints.Add(midpointA);
-            linePoints.Add(midpointB);
-            linePoints.Add(parentPortrait);
+            //linePoints.Add(localPortrait);
+            //linePoints.Add(midpointA);
+            //linePoints.Add(midpointB);
+            //linePoints.Add(parentPortrait);
+
+            for(float i=0f;i<1f;i+=0.1f)
+            {
+                linePoints.Add(Util.SplineLerpX(localPortrait, parentPortrait, 120f, i));
+            }
 
             node.nodeObject.GetComponent<UILineRenderer>().Points = linePoints.ToArray();
         }
