@@ -29,6 +29,7 @@ public class ResearchTechEntity : MonoBehaviour
 
     private void OnEnable()
     {
+
         if (CORE.Instance == null || CORE.Instance.TechTree == null)
         {
             Reset.Invoke();
@@ -43,7 +44,8 @@ public class ResearchTechEntity : MonoBehaviour
 
     private void OnResearchComplete()
     {
-        if(CORE.Instance.TechTree == null)
+
+        if (CORE.Instance.TechTree == null)
         {
             return;
         }
