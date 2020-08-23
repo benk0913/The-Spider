@@ -51,6 +51,11 @@ public class StatsOfLocationUI : MonoBehaviour
             return;
         }
 
+        if (CurrentLocation.OwnerCharacter == null || CurrentLocation.OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
         this.gameObject.SetActive(true);
         Refresh();
     }

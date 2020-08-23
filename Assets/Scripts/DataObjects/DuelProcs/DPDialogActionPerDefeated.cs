@@ -16,6 +16,7 @@ public class DPDialogActionPerDefeated : DuelProc
 
         if (!RollChance())
         {
+            PlottingDuelUI.Instance.SetProcEventFailed(this);
             yield break;
         }
 

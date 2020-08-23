@@ -16,6 +16,7 @@ public class DPDeathSingle : DuelProc
 
         if (!RollChance())
         {
+            PlottingDuelUI.Instance.SetProcEventFailed(this);
             yield break;
         }
 

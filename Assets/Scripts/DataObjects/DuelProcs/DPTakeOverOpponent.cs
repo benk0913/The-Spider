@@ -14,6 +14,7 @@ public class DPTakeOverOpponent : DuelProc
 
         if (!RollChance())
         {
+            PlottingDuelUI.Instance.SetProcEventFailed(this);
             yield break;
         }
 

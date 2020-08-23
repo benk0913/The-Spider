@@ -60,6 +60,8 @@ public class Property : ScriptableObject
 
     public bool AutoRestock = false;
 
+    public bool CantBurn = false;
+
     public bool EmployeesAreAgents;
 
     public DistrictBonuses DistrictBonus;

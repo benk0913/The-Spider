@@ -39,6 +39,11 @@ public class AgentActionLogListUI : MonoBehaviour
             return;
         }
 
+        if(CORE.Instance == null)
+        {
+            return;
+        }
+
         if(CORE.Instance.TurnPassedRoutineInstance != null)
         {
             return;

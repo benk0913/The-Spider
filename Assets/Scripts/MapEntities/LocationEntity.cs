@@ -1360,6 +1360,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void BecomeRuins()
     {
+        if(CurrentProperty.CantBurn)
+        {
+            return;
+        }
+
         if (Known.IsKnown("Existance", CORE.PC))
         {
             TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.Name + ": Has Been Destroyed!", CurrentProperty.Icon, null));

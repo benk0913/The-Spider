@@ -10,6 +10,7 @@ public class DPDeathAOE : DuelProc
     {
         if(!PassedConditions())
         {
+            PlottingDuelUI.Instance.SetProcEventFailed(this);
             yield break;
         }
 

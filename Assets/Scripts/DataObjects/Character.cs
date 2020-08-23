@@ -1406,10 +1406,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return false;
         }
 
-        if (CurrentTaskEntity != null)
-        {
-        }
-
 
         if (IsGuard && Random.Range(0,2) == 0) // Guards keep working
         {
@@ -1422,15 +1418,29 @@ public class Character : ScriptableObject, ISaveFileCompatible
         //    || GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Afternoon)
         //{
 
-            if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
+        if (Random.Range(0, 5) == 0) // Random slacking
+        {
+            if(TryHangout())
             {
-                if (WorkLocation.EmployeesCharacters.Contains(this))
-                {
-                    WorkLocation.CurrentAction.WorkAction.Execute(TopEmployer, this, WorkLocation);
-                }
+                return true;
+            }
+        }
+
+        //WORK WORK...
+        if (WorkLocation != null && WorkLocation.CurrentAction.WorkAction != null)
+        {
+            if (WorkLocation.EmployeesCharacters.Contains(this))
+            {
+                WorkLocation.CurrentAction.WorkAction.Execute(TopEmployer, this, WorkLocation);
 
                 return true;
             }
+        }
+
+        if(TryHangout())
+        {
+            return true;
+        }
         //}
         //else if (GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Night)
         //{
@@ -1443,11 +1453,20 @@ public class Character : ScriptableObject, ISaveFileCompatible
         //}
 
         //Hangoutime!
+       
+
+        // After evening? - Pass Time
+        return false;
+    }
+
+    public bool TryHangout()
+    {
         LocationEntity hangoutLocation = null;
 
-        if(Traits.Contains(CORE.Instance.Database.GetTrait("Drunkard")) )
+
+        if (Traits.Contains(CORE.Instance.Database.GetTrait("Drunkard")))
         {
-            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.RumorsHubTrait, HomeLocation);   
+            hangoutLocation = CORE.Instance.GetClosestLocationWithTrait(CORE.Instance.Database.RumorsHubTrait, HomeLocation);
         }
         else if (Traits.Contains(CORE.Instance.Database.GetTrait("Religious")))
         {
@@ -1472,7 +1491,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return true;
         }
 
-        // After evening? - Pass Time
         return false;
     }
 

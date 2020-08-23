@@ -621,6 +621,8 @@ public class PlottingDuelUI : MonoBehaviour
         ProcEventTitle.text = proc.name;
         ProcEventImage.sprite = proc.Icon;
 
+        AddToCombatLog("<color=green>" + proc.name + "!</color>");
+
         yield return new WaitForSeconds(2f);
 
         ProcEventPanel.gameObject.SetActive(false);
@@ -629,6 +631,11 @@ public class PlottingDuelUI : MonoBehaviour
         {
             RefreshProcsInstance = StartCoroutine(RefreshProcs());
         }
+    }
+
+    public void SetProcEventFailed(DuelProc proc)
+    {
+        AddToCombatLog("<color=red>"+proc.name + " failed...</color>");
     }
 
     public void ChangeMethod(PlotMethod method)

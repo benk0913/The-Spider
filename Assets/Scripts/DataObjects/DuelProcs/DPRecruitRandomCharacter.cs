@@ -16,6 +16,7 @@ public class DPRecruitRandomCharacter : DuelProc
 
         if (!RollChance())
         {
+            PlottingDuelUI.Instance.SetProcEventFailed(this);
             yield break;
         }
 

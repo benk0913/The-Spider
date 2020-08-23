@@ -51,16 +51,17 @@ public class AgentActionLogUI : MonoBehaviour
         else
         {
             TargetCharacterPortrait.gameObject.SetActive(false);
-        }
 
-        if (currentTask.CurrentTargetLocation != null)
-        {
-            TargetLocationPortrait.gameObject.SetActive(true);
-            TargetLocationPortrait.SetLocation(currentTask.CurrentTargetLocation);
-        }
-        else
-        {
-            TargetLocationPortrait.gameObject.SetActive(false);
+
+            if (currentTask.CurrentTargetLocation != null)
+            {
+                TargetLocationPortrait.gameObject.SetActive(true);
+                TargetLocationPortrait.SetLocation(currentTask.CurrentTargetLocation);
+            }
+            else
+            {
+                TargetLocationPortrait.gameObject.SetActive(false);
+            }
         }
 
         if (currentTask.TurnsLeft > 1)

@@ -16,6 +16,7 @@ public class DPRessurectAlly : DuelProc
 
         if (!RollChance())
         {
+            PlottingDuelUI.Instance.AddToCombatLog("<color=red>" + this.name + " chance failed...</color>");
             yield break;
         }
 
@@ -52,6 +53,10 @@ public class DPRessurectAlly : DuelProc
             rsPortrait = PlottingDuelUI.Instance.GenerateParticipant(ressurrected);
         }
 
+        if(rsPortrait == null)
+        {
+            PlottingDuelUI.Instance.AddToCombatLog("<color=yellow>" + this.name + " - no target...</color>");
+        }
         GenerateEffectOnPortrait(rsPortrait);
     }
 
