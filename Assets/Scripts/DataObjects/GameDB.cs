@@ -33,6 +33,8 @@ public class GameDB : ScriptableObject
     public PropertyTrait BurialGroundTrait;
 
     public LetterPreset BetrayalLetter;
+    public LetterPreset TurnSpamLetter;
+    public PopupDataPreset TurnSpamPopup;
 
     public GameObject UnknownFigurePrefab;
     public GameObject UnknownFigurePrefabBIG;

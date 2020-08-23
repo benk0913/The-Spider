@@ -37,6 +37,10 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
     public Quest LockingQuest;
     public LetterPreset LockingLetter;
 
+
+    float turnSpamTimer;
+    int turnSpamCounter;
+
     private void Awake()
     {
         Instance = this;
@@ -45,6 +49,11 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
     private void Start()
     {
         Initialize();
+    }
+
+    void Update()
+    {
+        turnSpamTimer += 1f * Time.deltaTime;
     }
 
     public void Initialize()
@@ -77,6 +86,64 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
         {
             GlobalMessagePrompterUI.Instance.Show("Can not pass time, an important letter is waiting for you.", 3f, Color.red);
             return;
+        }
+
+        if(turnSpamTimer <= 3f)
+        {
+            turnSpamCounter++;
+        }
+        else
+        {
+            turnSpamCounter = 0;
+        }
+
+        if(turnSpamCounter == 5)
+        {
+            List<Character> agents = CORE.PC.CharactersInCommand;
+
+            if(agents != null && agents.Count  > 0)
+            {
+
+                LetterPreset letterPreset = CORE.Instance.Database.TurnSpamLetter;
+
+                Dictionary<string, object> letterParameters = new Dictionary<string, object>();
+
+                letterParameters.Add("Letter_From", agents[Random.Range(0, agents.Count)]);
+                letterParameters.Add("Letter_To", CORE.PC);
+
+                LetterDispenserEntity.Instance.DispenseLetter(new Letter(letterPreset, letterParameters));
+            }
+        }
+
+        if (turnSpamCounter == 10)
+        {
+            List<Character> agents = CORE.PC.CharactersInCommand;
+
+            if (agents != null && agents.Count > 0)
+            {
+
+                PopupDataPreset popPreset = CORE.Instance.Database.TurnSpamPopup;
+
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+                parameters.Add("From", agents[0].name);
+                parameters.Add("To", CORE.PC.name);
+
+                PopupWindowUI.Instance.AddPopup(new PopupData(popPreset, new List<Character>() { agents[0] }, new List < Character >() { CORE.PC }, null, parameters));
+            }
+        }
+
+        if (turnSpamCounter > 10)
+        {
+            List<Character> agents = CORE.PC.CharactersInCommand;
+
+            if (agents != null && agents.Count > 0)
+            {
+                foreach(Character agent in agents)
+                {
+                    agent.DynamicRelationsModifiers.Add(new DynamicRelationsModifier(new RelationsModifier(CORE.PC.name + " is no-where to be found...", -2), 10, CORE.PC));
+                }
+            }
         }
 
         PassTimeRoutineInstance = StartCoroutine(PassTimeRoutine());
@@ -122,6 +189,8 @@ public class GameClock : MonoBehaviour, ISaveFileCompatible
 
         AudioControl.Instance.StopSound("turn_pass_loading");
         PassTimeRoutineInstance = null;
+
+        turnSpamTimer = 0;
     }
 
     public JSONNode ToJSON()

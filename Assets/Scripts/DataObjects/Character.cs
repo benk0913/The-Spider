@@ -1292,13 +1292,13 @@ public class Character : ScriptableObject, ISaveFileCompatible
             return;
         }
 
-        if(Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")))
+        if(Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) || Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))
         {
-            return;
-        }
+            if (GetRelationsWith(Employer) < -10)
+            {
+                WarningWindowUI.Instance.Show(this.name + " could not work with " + Employer.name + " anymore, and left...", () => { StopWorkingForCurrentLocation(); }, true);
+            }
 
-        if(Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))
-        {
             return;
         }
 
