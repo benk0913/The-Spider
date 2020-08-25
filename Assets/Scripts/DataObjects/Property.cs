@@ -69,6 +69,8 @@ public class Property : ScriptableObject
     public List<string> VisitRumors = new List<string>();
     public List<string> WorkRumors = new List<string>();
 
+    public List<PropertyEvent> PropertyEvents = new List<PropertyEvent>();
+
     [System.Serializable]
     public class DistrictBonuses
     {
@@ -120,4 +122,11 @@ public class Property : ScriptableObject
         public Uniform GuardUniform;
     }
 
+    [System.Serializable]
+    public class PropertyEvent
+    {
+        public int TurnInterval = 1;
+        public float Chance = 0.1f;
+        public PopupDataPreset Popup;
+    }
 }

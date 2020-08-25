@@ -286,6 +286,7 @@ public class PlottingDuelUI : MonoBehaviour
         {
             offenseSkill += CurrentEntry.BonusToSkill;
         }
+        offenseSkill += PlottingWindowUI.Instance.GetPlotterEffectiveness(CurrentPlot.Plotter);
 
         float defenceSkill = Target.CurrentCharacter.GetBonus(CurrentMethod.DefenceSkill).Value;
 

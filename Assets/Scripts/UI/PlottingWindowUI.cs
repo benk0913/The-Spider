@@ -105,6 +105,35 @@ public class PlottingWindowUI : MonoBehaviour
     public PlotMethod CurrentMethod;
     public PlotEntry CurrentEntry;
 
+    public int GetPlotterEffectiveness(Character plotter)
+    {
+        if(plotter == null)
+        {
+            return 0;
+        }
+
+        int intelValue = Mathf.RoundToInt(plotter.GetBonus(CORE.Instance.Database.GetBonusType("Intelligent")).Value);
+        if (intelValue <= 1)
+        {
+            return -1;
+        }
+        else if (intelValue == 2)
+        {
+            return 0;
+        }
+        else if (intelValue == 3)
+        {
+            return 1;
+        }
+        else if (intelValue >= 4)
+        {
+            return 2;
+        }
+
+        return 0;
+        
+    }
+
     #region WindowCache
 
     AgentInteractable CachedTarget;

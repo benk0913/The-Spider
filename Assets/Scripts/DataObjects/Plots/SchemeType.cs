@@ -42,63 +42,97 @@ public class SchemeType : ScriptableObject
 
     public virtual void Execute(PlotData data)
     {
-        Init(data, ()=> 
+        System.Action InitAction = () =>
         {
-            List<Character> entryTargets = new List<Character>();
-            entryTargets.AddRange(data.TargetParticipants);
-
-            List<Character> entryParticipants = new List<Character>();
-            entryParticipants.AddRange(data.Participants);
-
-            if (data.Target.GetType() == typeof(LocationEntity))
+            Init(data, () =>
             {
-                LocationEntity location = (LocationEntity)data.Target;
+                List<Character> entryTargets = new List<Character>();
+                entryTargets.AddRange(data.TargetParticipants);
 
-                if (location.OwnerCharacter != null)
+                List<Character> entryParticipants = new List<Character>();
+                entryParticipants.AddRange(data.Participants);
+
+                if (data.Target.GetType() == typeof(LocationEntity))
                 {
-                    if (location.OwnerCharacter.CurrentFaction.Relations != null)
-                    {
-                        location.OwnerCharacter.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
-                    }
+                    LocationEntity location = (LocationEntity)data.Target;
 
-                    if (entryParticipants[0].CurrentFaction.Relations != null)
+                    if (location.OwnerCharacter != null)
                     {
-                        entryParticipants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                        if (location.OwnerCharacter.CurrentFaction.Relations != null)
+                        {
+                            location.OwnerCharacter.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                        }
+
+                        if (entryParticipants[0].CurrentFaction.Relations != null)
+                        {
+                            entryParticipants[0].CurrentFaction.Relations.GetRelations(location.OwnerCharacter.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                        }
                     }
                 }
-            }
-            else if(data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
-            {
-                Character targetChar = data.TargetCharacter;
-
-                if (targetChar != null && targetChar.CurrentFaction != null && targetChar.CurrentFaction.Relations != null)
+                else if (data.Target.GetType() == typeof(PortraitUI) || data.Target.GetType() == typeof(PortraitUIEmployee))
                 {
-                    if (targetChar.CurrentFaction.Relations != null)
-                    {
-                        targetChar.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
-                    }
+                    Character targetChar = data.TargetCharacter;
 
-                    if (entryParticipants[0].CurrentFaction.Relations != null)
+                    if (targetChar != null && targetChar.CurrentFaction != null && targetChar.CurrentFaction.Relations != null)
                     {
-                        entryParticipants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                        if (targetChar.CurrentFaction.Relations != null)
+                        {
+                            targetChar.CurrentFaction.Relations.GetRelations(entryParticipants[0].CurrentFaction).TotalValue -= 3; //VANDETTA
+                        }
+
+                        if (entryParticipants[0].CurrentFaction.Relations != null)
+                        {
+                            entryParticipants[0].CurrentFaction.Relations.GetRelations(targetChar.CurrentFaction).TotalValue += 2; //GOT MY VANDETTA
+                        }
                     }
                 }
-            }
 
-            //Dueling
-            Dueling(data,
-                (result) =>
-                {
-                    if (result.FailReason == null)
+                //Dueling
+                Dueling(data,
+                    (result) =>
                     {
-                        WinResult(result);
-                    }
-                    else
-                    {
-                        LoseResult(result);
-                    }
-                });
-        });
+                        if (result.FailReason == null)
+                        {
+                            WinResult(result);
+                        }
+                        else
+                        {
+                            LoseResult(result);
+                        }
+                    });
+            });
+        };
+
+        if (data.Plotter.TopEmployer == CORE.PC)
+        {
+            string plotPopup = "OK Plot Popup";
+            int plotEffectiveness = PlottingWindowUI.Instance.GetPlotterEffectiveness(data.Plotter);
+
+            if(plotEffectiveness == -1)
+            {
+                plotPopup = "Bad Plot Popup";
+            }
+            else if (plotEffectiveness == 0)
+            {
+                plotPopup = "OK Plot Popup";
+            }
+            else if (plotEffectiveness == 1)
+            {
+                plotPopup = "Effective Plot Popup";
+            }
+            else if (plotEffectiveness == 0)
+            {
+                plotPopup = "Brilliant Plot Popup";
+            }
+            PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset(plotPopup);
+
+            PopupWindowUI.Instance.AddPopup(new PopupData(preset, new List<Character> { data.Plotter }, new List<Character> { }, InitAction, null));
+        }
+
+        else
+        {
+            InitAction();
+        }
     }
 
     public virtual void Init(PlotData data, System.Action OnInitComplete = null)
