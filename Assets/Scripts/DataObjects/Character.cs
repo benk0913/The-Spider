@@ -1234,7 +1234,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
             if(CProgress >= 50)
             {
-                PopupData popup = new PopupData(CORE.Instance.Database.AllPopupPresets.Find(x => x.name == "Promotion"), new List<Character> { this }, new List<Character> { this.Employer });
+                PopupData popup = new PopupData(CORE.Instance.Database.AllPopupPresets.Find(x => x.name == "Promotion"), new List<Character> { this }, new List<Character> { this.Employer != null? this.Employer  : CORE.PC });
                 PopupWindowUI.Instance.AddPopup(popup);
 
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(this.name + ": has been promoted!", ResourcesLoader.Instance.GetSprite("thumb-up"), this));
