@@ -96,6 +96,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 9146372209172139092, guid: 4f0cc0e695debac4b81fdb11db235267,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: 1
   MinAge: 18
@@ -110,6 +111,7 @@ MonoBehaviour:
   TechRequired: {fileID: 11400000, guid: 2f80dbd6c2eb8314685468b9befc808c, type: 2}
   IsVendor: 0
   AutoRestock: 0
+  CantBurn: 0
   EmployeesAreAgents: 0
   DistrictBonus:
     Description: 
@@ -124,3 +126,10 @@ MonoBehaviour:
   - '"Yeah, I saw her. she''s... You know... A Working Girl..."'
   - '"She''s a mudkicker, I even know where she works..."'
   - '"Yes, Yes, she knows her way around a man''s body, that''s for sure."'
+  PropertyEvents:
+  - TurnInterval: 11
+    Chance: 0.2
+    Dialog: {fileID: 11400000, guid: 3d17e256e6264f44a892b1435ac3961b, type: 2}
+  - TurnInterval: 12
+    Chance: 0.2
+    Dialog: {fileID: 11400000, guid: c41a47244d22ee64f965155921177e77, type: 2}

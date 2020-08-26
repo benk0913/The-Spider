@@ -68,6 +68,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 9146372209172139092, guid: 8a5a46af12da888419e45aa08ae7f181,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 16
@@ -82,6 +83,7 @@ MonoBehaviour:
   TechRequired: {fileID: 0}
   IsVendor: 0
   AutoRestock: 0
+  CantBurn: 0
   EmployeesAreAgents: 0
   DistrictBonus:
     Description: 
@@ -95,3 +97,13 @@ MonoBehaviour:
   - Spends a lot of time among criminals.
   - Spends a lot of time among sailors.
   - One of the harvesters of the sea!
+  PropertyEvents:
+  - TurnInterval: 16
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 321cf6b67ef60994e9efcc6cfb20d014, type: 2}
+  - TurnInterval: 16
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 54d83f3dfd4d0b148968f535fde98e66, type: 2}
+  - TurnInterval: 17
+    Chance: 0.5
+    Dialog: {fileID: 11400000, guid: 1d4cd414326ef65458d07b682d524de4, type: 2}

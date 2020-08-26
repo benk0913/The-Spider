@@ -296,13 +296,32 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             List<LocationEntity> properties = new List<LocationEntity>();
 
-            properties.AddRange(PropertiesOwned);
+            foreach(LocationEntity propertyOwned in PropertiesOwned)
+            {
+                if(properties.Contains(propertyOwned))
+                {
+                    Debug.LogError("Properties In COmmand Loop? " + this.name + " | " + propertyOwned.name);
+                    continue;
+                }
+
+                properties.Add(propertyOwned);
+            }
 
             foreach(LocationEntity property in PropertiesOwned)
             {
                 foreach(Character character in property.EmployeesCharacters)
                 {
-                    properties.AddRange(character.PropertiesInCommand);
+                    List<LocationEntity> incommand = character.PropertiesInCommand;
+                    foreach (LocationEntity propertyOwned in incommand)
+                    {
+                        if (properties.Contains(propertyOwned))
+                        {
+                            Debug.LogError("Properties In COmmand Loop? " + this.name + " | " + propertyOwned.name + " |"  + character.name);
+                            continue;
+                        }
+
+                        properties.Add(propertyOwned);
+                    }
                 }
             }
 
@@ -320,12 +339,25 @@ public class Character : ScriptableObject, ISaveFileCompatible
             {
                 foreach (Character character in property.EmployeesCharacters)
                 {
+                    if(characters.Contains(character))
+                    {
+                        Debug.LogError("Command Loop? " + this.name + " | " + character.name);
+
+                        continue;
+                    }
                     characters.Add(character);
                     characters.AddRange(character.CharactersInCommand);
                 }
 
                 foreach (Character character in property.GuardsCharacters)
                 {
+                    if (characters.Contains(character))
+                    {
+                        Debug.LogError("Command Loop? (GUARD) " + this.name + " | " + character.name);
+
+                        continue;
+                    }
+
                     characters.Add(character);
                     characters.AddRange(character.CharactersInCommand);
                 }

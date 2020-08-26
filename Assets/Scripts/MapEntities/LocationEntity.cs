@@ -454,6 +454,47 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         RefreshState();
 
         ValidityCheck();
+
+        RefreshPropertyEvents();
+    }
+
+    void RefreshPropertyEvents()
+    {
+        if(DialogWindowUI.Instance.IsShowingDialog)
+        {
+            return;
+        }
+
+        if(OwnerCharacter == null || OwnerCharacter.TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
+        foreach(Property.PropertyEvent pEvent in CurrentProperty.PropertyEvents)
+        {
+            if(GameClock.Instance.CurrentTurn % pEvent.TurnInterval == 0 && Random.Range(0f,1f) < pEvent.Chance)
+            {
+                PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset("Popup Of Property Event");
+
+                PopupData popupData = new PopupData(preset, new List<Character>(), new List<Character>(), () => 
+                {
+                    if (MapViewManager.Instance != null && MouseLook.Instance != null && MouseLook.Instance.isAbleToLookaround)
+                    {
+                        MapViewManager.Instance.ForceInteractWithMap();
+                    }
+
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("LocationName", Name);
+                    parameters.Add("Location", this);
+                    parameters.Add("DistrictName", NearestDistrict != null ? NearestDistrict.Name : "Glassden");
+                    DialogWindowUI.Instance.StartNewDialog(pEvent.Dialog, parameters);
+                });
+
+                PopupWindowUI.Instance.AddPopup(popupData);
+
+                return;
+            }
+        }
     }
 
     void ValidityCheck()
@@ -1517,6 +1558,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                                                     && X.PropertiesOwned.Count == 0 
                                                     && FiredEmployeees.Find(F=>F.name == X.name) == null
                                                     && !X.IsDead
+                                                    && X.WorkLocation == null
                                                     && X.PrisonLocation == null
                                                     && X.Age > CurrentProperty.MinAge
                                                     && X.Age < CurrentProperty.MaxAge

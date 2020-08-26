@@ -77,6 +77,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 9146372209172139092, guid: db0730b7a0b9aec409565e0396abc757,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 16
@@ -91,6 +92,7 @@ MonoBehaviour:
   TechRequired: {fileID: 0}
   IsVendor: 0
   AutoRestock: 0
+  CantBurn: 0
   EmployeesAreAgents: 0
   DistrictBonus:
     Description: 
@@ -102,3 +104,10 @@ MonoBehaviour:
   - '"I''ve seen this fella visit the fishmarket by the coast."'
   WorkRumors:
   - One of the harvesters of the sea.
+  PropertyEvents:
+  - TurnInterval: 15
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 87ca66c3002a923458598f2f12baf267, type: 2}
+  - TurnInterval: 14
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 14d891896dba547448962d45c541f29b, type: 2}

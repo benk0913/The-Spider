@@ -48,6 +48,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 9146372209172139092, guid: 7c6d6e404e11d604489b05f1057999f8,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 25
@@ -62,6 +63,7 @@ MonoBehaviour:
   TechRequired: {fileID: 11400000, guid: 9106a9a53887d3748ae155c15e5406d6, type: 2}
   IsVendor: 1
   AutoRestock: 0
+  CantBurn: 0
   EmployeesAreAgents: 0
   DistrictBonus:
     Description: 
@@ -77,3 +79,13 @@ MonoBehaviour:
   - Knows the way around a boat!
   - Too much seaweed everywhere on its boat.
   - '"Seen the fella covered in seaweed from head to toe."'
+  PropertyEvents:
+  - TurnInterval: 16
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 321cf6b67ef60994e9efcc6cfb20d014, type: 2}
+  - TurnInterval: 16
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 54d83f3dfd4d0b148968f535fde98e66, type: 2}
+  - TurnInterval: 17
+    Chance: 0.5
+    Dialog: {fileID: 11400000, guid: 1d4cd414326ef65458d07b682d524de4, type: 2}

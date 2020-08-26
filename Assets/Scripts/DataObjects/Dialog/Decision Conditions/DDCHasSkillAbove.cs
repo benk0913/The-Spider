@@ -12,7 +12,27 @@ public class DDCHasSkillAbove : DialogDecisionCondition
 
     public override bool CheckCondition()
     {
-        Character character = (Character)DialogWindowUI.Instance.GetDialogParameter(ParameterKey);
+        Character character = null;
+
+        if (!string.IsNullOrEmpty(ParameterKey))
+        {
+            character = (Character)DialogWindowUI.Instance.GetDialogParameter(ParameterKey);
+        }
+        else
+        {
+            List<Character> charsInCommand = CORE.PC.CharactersInCommand;
+            character = charsInCommand.Find(x => x.GetBonus(Skill).Value > AboveNumber);
+        }
+
+        if(character == null)
+        {
+            if (Inverted)
+            {
+                return base.CheckCondition();
+            }
+
+            return false;
+        }
 
         if(character.GetBonus(Skill).Value <= AboveNumber)
         {

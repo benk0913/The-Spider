@@ -89,6 +89,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 9146372209172139092, guid: ab861fcd9637f094793457c2eb20184b,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 12
@@ -105,6 +106,7 @@ MonoBehaviour:
   TechRequired: {fileID: 11400000, guid: b3007d6698f34c3499c1f95bf370928d, type: 2}
   IsVendor: 0
   AutoRestock: 0
+  CantBurn: 0
   EmployeesAreAgents: 0
   DistrictBonus:
     Description: 
@@ -118,3 +120,13 @@ MonoBehaviour:
   WorkRumors:
   - '"Served me a drink once!"'
   - '"A nice fella, tends the tavern for living."'
+  PropertyEvents:
+  - TurnInterval: 10
+    Chance: 0.2
+    Dialog: {fileID: 11400000, guid: 367c176fc00bfbd48b10178721ef8499, type: 2}
+  - TurnInterval: 9
+    Chance: 0.2
+    Dialog: {fileID: 11400000, guid: 3770517c1d7b5074782defb418ccabbc, type: 2}
+  - TurnInterval: 8
+    Chance: 0.2
+    Dialog: {fileID: 11400000, guid: b9d9f404980b7ad499e802918ef0b4aa, type: 2}

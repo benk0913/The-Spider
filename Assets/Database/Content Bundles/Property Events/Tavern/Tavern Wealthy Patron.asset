@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d431cca442f92e44ebdcbe5a083d4254, type: 3}
+  m_Name: Tavern Wealthy Patron
+  m_EditorClassIdentifier: 
+  Description: A wealthy patron has entered your {DistrictName} {LocationName}, his
+    pockets jiggle with coin and his hunger yet to be satisfied.
+  Image: {fileID: 21300000, guid: 6b9e79eff233c5c4c968603d123cb0c7, type: 3}
+  LobbyPiece: 0
+  Decisions:
+  - {fileID: 11400000, guid: dc68794405c927e49a112da44521f1c4, type: 2}
+  - {fileID: 11400000, guid: b90261c3983e75442b449748c99aec52, type: 2}
+  SimpleDecision:
+    Title: Good to know...
+    Icon: {fileID: 21300000, guid: 2d06051925237dc4da4434114175fe2b, type: 3}
+    NextPiece: {fileID: 11400000, guid: 15e287b8debe978469d1827a0a429fe0, type: 2}
+    Action: {fileID: 11400000, guid: 8f76601c691d8b547a32769ad2dc0e31, type: 2}
+  RandomDescriptions: []
+  TargetCharacters: []

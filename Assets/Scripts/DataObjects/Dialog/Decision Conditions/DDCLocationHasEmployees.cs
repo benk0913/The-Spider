@@ -6,6 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DDCLocationHasEmployees", menuName = "DataObjects/Dialog/Conditions/DDCLocationHasEmployees", order = 2)]
 public class DDCLocationHasEmployees : DialogDecisionCondition
 {
+    public int Amount = 1;
+    public bool Guards = false;
+
     public override bool CheckCondition()
     {
         LocationEntity location = (LocationEntity)DialogWindowUI.Instance.GetDialogParameter("Location");
@@ -14,13 +17,23 @@ public class DDCLocationHasEmployees : DialogDecisionCondition
 
         foreach (Character character in location.CharactersInLocation)
         {
-            if (location.EmployeesCharacters.Contains(character))
+            if (Guards)
             {
-                employeeInLocationCount++;
+                if (location.GuardsCharacters.Contains(character))
+                {
+                    employeeInLocationCount++;
+                }
+            }
+            else
+            {
+                if (location.EmployeesCharacters.Contains(character))
+                {
+                    employeeInLocationCount++;
+                }
             }
         }
 
-        if (employeeInLocationCount <= 1)
+        if (employeeInLocationCount <= Amount)
         {
             if (Inverted)
             {

@@ -127,6 +127,6 @@ public class Property : ScriptableObject
     {
         public int TurnInterval = 1;
         public float Chance = 0.1f;
-        public PopupDataPreset Popup;
+        public DialogPiece Dialog;
     }
 }

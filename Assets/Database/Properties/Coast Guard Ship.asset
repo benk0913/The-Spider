@@ -47,6 +47,7 @@ MonoBehaviour:
   HoverPrefab: {fileID: 1418353000759972474, guid: ee0a6138b2175734c9359ca3d4d39b82,
     type: 3}
   HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
   MaterialOverride: {fileID: 0}
   RecruitingGenderType: -1
   MinAge: 20
@@ -61,6 +62,7 @@ MonoBehaviour:
   TechRequired: {fileID: 0}
   IsVendor: 0
   AutoRestock: 0
+  CantBurn: 0
   EmployeesAreAgents: 1
   DistrictBonus:
     Description: 
@@ -74,3 +76,13 @@ MonoBehaviour:
   WorkRumors:
   - '"Serves the coastal guard."'
   - '"Saw this one with guarding the port, dressed as a member of the city''s watch..."'
+  PropertyEvents:
+  - TurnInterval: 16
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 321cf6b67ef60994e9efcc6cfb20d014, type: 2}
+  - TurnInterval: 16
+    Chance: 0.3
+    Dialog: {fileID: 11400000, guid: 54d83f3dfd4d0b148968f535fde98e66, type: 2}
+  - TurnInterval: 17
+    Chance: 0.5
+    Dialog: {fileID: 11400000, guid: 1d4cd414326ef65458d07b682d524de4, type: 2}

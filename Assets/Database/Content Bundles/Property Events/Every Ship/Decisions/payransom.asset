@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2184c756f2a3418ee443e87a01316, type: 3}
+  m_Name: payransom
+  m_EditorClassIdentifier: 
+  CustomTitle: Pay their ransom (200 Gold)
+  Icon: {fileID: 21300000, guid: 3c295ee4451e13e4d91e7d831d5ae1c0, type: 3}
+  AppearanceConditions: []
+  ActiveConditions:
+  - {fileID: 11400000, guid: 2e2e51d6c9effab488adca5ac9e2be5d, type: 2}
+  Actions:
+  - {fileID: 11400000, guid: cb5f978e9fabcbb4a968d315cd8e811f, type: 2}
+  NextPiece: {fileID: 11400000, guid: a73f50aa63c9cf9429bb247a095b75f3, type: 2}
+  RefreshCurrentPiece: 0
