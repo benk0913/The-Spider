@@ -94,6 +94,31 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
+        if(!string.IsNullOrEmpty(node["FactionHead"].Value))
+        {
+            factionHeadID = node["FactionHead"].Value;
+        }
+        else
+        {
+            if(ClonedFrom != null && ClonedFrom.FactionHead != null)
+            { 
+                Character cloneCharacter = CORE.Instance.Characters.Find(X => X.name == ClonedFrom.FactionHead.name);
+
+                if(cloneCharacter != null)
+                {
+                    factionHeadID = cloneCharacter.ID;
+                }
+                else
+                {
+                    factionHeadID = CORE.Instance.Database.GOD.ID;
+                }
+            }
+            else
+            {
+                factionHeadID = CORE.Instance.Database.GOD.ID;
+            }
+        }
+
         foreach (KnowledgeInstance item in Known.Items)
         {
             if (string.IsNullOrEmpty(node["Knowledge"][item.Key].ToString()))
@@ -119,9 +144,16 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     }
 
     public Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();
+    public string factionHeadID;
 
     public void ImplementIDs()
     {
+        FactionHead = CORE.Instance.Characters.Find(x => x.ID == factionHeadID);
+        if(FactionHead == null)
+        {
+            FactionHead = CORE.Instance.Database.GOD;
+        }
+
         foreach (string key in knowledgeCharacterIDs.Keys)
         {
             for (int i = 0; i < knowledgeCharacterIDs[key].Count; i++)
@@ -146,6 +178,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
         node["Key"] = this.name;
         node["ClonedFrom"] = ClonedFrom == null ? "" : ClonedFrom.name;
+        node["FactionHead"] = FactionHead != null ? FactionHead.ID : "GOD";
+
         foreach (KnowledgeInstance item in Known.Items)
         {
             for (int i = 0; i < item.KnownByCharacters.Count; i++)

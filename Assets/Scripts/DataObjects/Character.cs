@@ -1030,17 +1030,21 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         RefreshVisualTree();
 
+        InitKnowledge();
 
+        if (CurrentFaction.FactionHead != null && CurrentFaction.FactionHead.name == name)
+        {
+            AI = Instantiate(CurrentFaction.AI);
+        }
+    }
+
+    public void InitKnowledge()
+    {
         Known = new Knowledge(this);
 
         if (isKnownOnStart)
         {
             Known.KnowEverything(TopEmployer);
-        }
-
-        if(CurrentFaction.FactionHead != null && CurrentFaction.FactionHead.name == name)
-        {
-            AI = Instantiate(CurrentFaction.AI);
         }
     }
 

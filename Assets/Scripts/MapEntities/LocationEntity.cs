@@ -1259,9 +1259,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         LandValue = int.Parse(node["LandValue"]);
         IsDisabled = bool.Parse(node["IsDisabled"]);
 
-
-        transform.position = new Vector3(float.Parse(node["PositionX"]), float.Parse(node["PositionY"]), float.Parse(node["PositionZ"]));
-        transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"]), float.Parse(node["RotationY"]), float.Parse(node["RotationZ"]));
+        node["PositionX"] = node["PositionX"].Value.Replace(',', '.');
+        node["PositionY"] = node["PositionY"].Value.Replace(',', '.');
+        node["PositionZ"] = node["PositionZ"].Value.Replace(',', '.');
+        node["RotationX"] = node["RotationX"].Value.Replace(',', '.');
+        node["RotationY"] = node["RotationY"].Value.Replace(',', '.');
+        node["RotationZ"] = node["RotationZ"].Value.Replace(',', '.');
+        transform.position = new Vector3(float.Parse(node["PositionX"].Value), float.Parse(node["PositionY"].Value), float.Parse(node["PositionZ"].Value));
+        transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"].Value), float.Parse(node["RotationY"].Value), float.Parse(node["RotationZ"].Value));
 
         knowledgeCharacterIDs.Clear();
         foreach (KnowledgeInstance item in Known.Items)

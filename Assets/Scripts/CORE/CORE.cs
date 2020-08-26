@@ -1108,6 +1108,11 @@ public class CORE : MonoBehaviour
 
                 if (faction.FactionHead != null)
                 {
+                    //if(faction.FactionHead.Known == null)
+                    //{
+                    //    faction.FactionHead.InitKnowledge();
+                    //}
+
                     faction.FactionHead.Known.KnowAll("Name");
                     faction.FactionHead.Known.KnowAll("Faction");
                 }
