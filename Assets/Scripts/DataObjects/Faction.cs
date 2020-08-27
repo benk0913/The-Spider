@@ -88,6 +88,11 @@ public class Faction : ScriptableObject, ISaveFileCompatible
         newClone.Known = new FactionKnowledge(newClone);
         newClone.Relations = new FactionRelations(newClone);
         newClone.ClonedFrom = this;
+        newClone.GoldGeneratedPerDay = this.GoldGeneratedPerDay;
+        newClone.RumorsGeneratedPerDay = this.RumorsGeneratedPerDay;
+        newClone.ConnectionsGeneratedPerDay = this.ConnectionsGeneratedPerDay;
+        newClone.ProgressGeneratedPerDay = this.ProgressGeneratedPerDay;
+        newClone.HasPromotionSystem = this.HasPromotionSystem;
 
         return newClone;
     }

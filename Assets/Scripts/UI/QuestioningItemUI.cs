@@ -22,14 +22,15 @@ public class QuestioningItemUI : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     TooltipTargetUI TooltipTarget;
 
-    
+    public bool IsOpponents;
 
-    public void SetInfo(QuestioningItem item, bool hideIcon = false)
+    public void SetInfo(QuestioningItem item, bool isOpponents = false)
     {
         this.CurrentItem = item;
         this.Content.text = CurrentItem.Texts[Random.Range(0,CurrentItem.Texts.Count)];
-        
-        if(hideIcon)
+        IsOpponents = isOpponents;
+
+        if(IsOpponents)
         {
             this.SkillIcon.sprite = ResourcesLoader.Instance.GetSprite("uncertainty");
             TooltipTarget.SetTooltip("Skill Unknown");
@@ -70,12 +71,24 @@ public class QuestioningItemUI : MonoBehaviour, IPointerClickHandler
 
     public void UseWrong()
     {
+        RevealIcon();
+
         Anim.SetTrigger("UseWrong");
     }
 
     public void UseRight()
     {
+        RevealIcon();
         Anim.SetTrigger("UseRight");
+    }
+
+    public void RevealIcon()
+    {
+        if (IsOpponents)
+        {
+            this.SkillIcon.sprite = CurrentItem.RelevantSkill.icon;
+        }
+
     }
 
     public void Dispose()
@@ -85,7 +98,12 @@ public class QuestioningItemUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left)
+        if(IsOpponents)
+        {
+            return;
+        }
+
+            if (eventData.button == PointerEventData.InputButton.Left)
         {
             Use();
         }

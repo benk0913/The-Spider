@@ -1208,7 +1208,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     void AttemptPersonalMotives()
     {
-        if(TopEmployer != CORE.PC)
+        if (this == CORE.PC)
+        {
+            return;
+        }
+
+        if (TopEmployer != CORE.PC)
         {
             return;
         }
@@ -1251,7 +1256,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
                     WarningWindowUI.Instance.Show(this.name + " has been promoted by the Hand to replace YOU. Keep your agent's in check next time.", () => { LoseWindowUI.Instance.Show(); }, true);
                     return;
                 }
-                else if(this == CORE.PC || Employer == this)
+                else if(Employer == this)
                 {
                     return;
                 }

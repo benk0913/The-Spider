@@ -305,6 +305,7 @@ public class QuestioningWindowUI : MonoBehaviour
         }
         else
         {
+            TargetHand.RevealIcon();
             AudioControl.Instance.Play("researchchar_bad");
         }
 
