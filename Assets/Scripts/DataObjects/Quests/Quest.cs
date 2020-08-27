@@ -37,6 +37,8 @@ public class Quest : ScriptableObject, ISaveFileCompatible
 
     public TutorialScreenInstance RelevantTutorial;
 
+    public bool GlowHeadline = false;
+
     public bool HasSounds = true;
 
     public bool MustQuest = false;

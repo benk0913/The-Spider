@@ -12,6 +12,9 @@ public class QuestHeadlineUI : HeadlineUI
     [SerializeField]
     GameObject QuestTutorialButton;
 
+    [SerializeField]
+    GameObject QuestGlowObject;
+
     public void SetInfo(Quest quest, QuestsPanelUI parentPanel)
     {
         CurrentQuest = quest;
@@ -23,6 +26,8 @@ public class QuestHeadlineUI : HeadlineUI
         {
             QuestTutorialButton.SetActive(CurrentQuest.RelevantTutorial != null);
         }
+
+        QuestGlowObject.SetActive(CurrentQuest.GlowHeadline);
     }
 
     public override void Toggle()

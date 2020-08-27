@@ -1220,6 +1220,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 return;
             }
 
+            if(Employer == CORE.PC && !IsAgent)
+            {
+                return;
+            }
+
             int total = 0;
             Bonuses.ForEach((x) => 
             {
@@ -2385,6 +2390,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         //    }
         //}
 
+        foreach(DynamicRelationsModifier modifier in DynamicRelationsModifiers)
+        {
+            modifier.ImplementIDs();
+        }
+
 
         if (IsDead)
         {
@@ -2417,13 +2427,14 @@ public class DynamicRelationsModifier : ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
+
         RelationsModifier modifier = new RelationsModifier();
         modifier.FromJSON(node["Modifier"]);
         Modifier = modifier;
 
-        Turns = int.Parse(node["Turns"]);
+        Turns = int.Parse(node["Turns"].Value);
 
-        toCharacterID = node["ToCharacter"];
+        toCharacterID = node["ToCharacter"].Value;
     }
 
     public JSONNode ToJSON()
@@ -2467,7 +2478,7 @@ public class RelationsModifier : ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
-        Message = node["Message"];
+        Message = node["Message"].Value;
         Value = int.Parse(node["Value"]);
     }
 

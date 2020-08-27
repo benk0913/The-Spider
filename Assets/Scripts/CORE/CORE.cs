@@ -955,22 +955,6 @@ public class CORE : MonoBehaviour
             Stats.PlotsWithCunning = int.Parse(file.Content["PlotsWithCunning"]);
             Stats.PlotsWithStealth = int.Parse(file.Content["PlotsWithStealth"]);
 
-            if (RecruitmentPools.Count > 0)
-            {
-                for (int i = 0; i < file.Content["RecruitmentPools"].Count; i++)
-                {
-                    string key = file.Content["RecruitmentPools"][i]["Key"];
-                    RecruitmentPool pool = RecruitmentPools.Find(x => x.name == key);
-
-                    if (pool == null)
-                    {
-                        continue;
-                    }
-
-                    pool.FromJSON(file.Content["RecruitmentPools"][i]);
-                }
-            }
-
             Factions.Clear();
             for (int i = 0; i < file.Content["Factions"].Count; i++)
             {
@@ -1118,6 +1102,24 @@ public class CORE : MonoBehaviour
                 }
             }
         }
+
+        //Delayed recruitment pool... Why? Because fuck you.
+        if (RecruitmentPools.Count > 0)
+        {
+            for (int i = 0; i < file.Content["RecruitmentPools"].Count; i++)
+            {
+                string key = file.Content["RecruitmentPools"][i]["Key"];
+                RecruitmentPool pool = RecruitmentPools.Find(x => x.name == key);
+
+                if (pool == null)
+                {
+                    continue;
+                }
+
+                pool.FromJSON(file.Content["RecruitmentPools"][i]);
+            }
+        }
+
 
         DelayedInvokation(1f, () =>
         {

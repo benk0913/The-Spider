@@ -73,6 +73,8 @@ public class RecruitmentPool : ScriptableObject, ISaveFileCompatible
             }
         }
 
+        temp.Known.KnowEverything(CORE.PC);
+
         Characters.Add(temp);
 
     }
@@ -104,8 +106,17 @@ public class RecruitmentPool : ScriptableObject, ISaveFileCompatible
 
         for (int i = 0; i < node["Characters"].Count; i++)
         {
-            Character temp = CORE.Instance.GenerateSimpleCharacter();
-            temp.FromJSON(node["Characters"][i]);
+            Character temp;
+
+            temp = CORE.Instance.Characters.Find(x => x.ID == node["Characters"][i]["ID"].Value);
+
+            if (temp == null)
+            {
+                temp = CORE.Instance.GenerateSimpleCharacter();
+                temp.FromJSON(node["Characters"][i]);
+                temp.ImplementIDs();
+            }
+
             Characters.Add(temp);
         }
     }
