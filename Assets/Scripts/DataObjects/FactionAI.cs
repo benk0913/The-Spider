@@ -626,7 +626,7 @@ public class FactionAI : ScriptableObject
 
         Character factionHead = CORE.Instance.Characters.Find(x => x.name == againstFaction.FactionHead.name);
         
-        if(factionHead == null)
+        if(factionHead == null || factionHead.IsDead)
         {
             return null;
         }

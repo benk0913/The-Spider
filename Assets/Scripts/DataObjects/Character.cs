@@ -909,7 +909,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
     void RandomizeTraits()
     {
         this.Traits.Clear();
-        Trait[] newTraits = CORE.Instance.Database.GetRandomTraits();
+        Trait[] newTraits = CORE.Instance.Database.GetRandomTraits(Age);
 
         foreach (Trait trait in newTraits)
         {

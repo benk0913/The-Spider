@@ -22,6 +22,8 @@ public class Trait : ScriptableObject
 
     public float DropChance = 0f;
 
+    public int MinAge = 0;
+
     public string KnowledgeRumor = "\"What an interesting person!\"";
 }
 

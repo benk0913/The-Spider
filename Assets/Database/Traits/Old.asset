@@ -10,21 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c3506745b497741ac92abf0c9f070d, type: 3}
-  m_Name: Assassin
+  m_Name: Old
   m_EditorClassIdentifier: 
-  Description: Profession
-  icon: {fileID: 21300000, guid: 519354b9f6116a140981bb258962a2ff, type: 3}
+  Description: This person is not as agile bright and strong as it once was.
+  icon: {fileID: 21300000, guid: c560694649fd559419e09922514ceeb2, type: 3}
   Bonuses:
-  - Type: {fileID: 11400000, guid: 806729eebea73e84c8a24a1976d26ebe, type: 2}
-    Value: 2
-  - Type: {fileID: 11400000, guid: 56a54ee6d3c552545b78258b0971a5b2, type: 2}
-    Value: 2
   - Type: {fileID: 11400000, guid: 80303d32142d8e64bab8f5c83d5411e3, type: 2}
-    Value: 2
+    Value: -2
+  - Type: {fileID: 11400000, guid: 806729eebea73e84c8a24a1976d26ebe, type: 2}
+    Value: -2
+  - Type: {fileID: 11400000, guid: 8cceea28f292b754d94dc9c57e51b048, type: 2}
+    Value: -2
+  - Type: {fileID: 11400000, guid: 4dec0aed4fcb5114b9e4262a2f7b269b, type: 2}
+    Value: -2
   NextTrait: {fileID: 0}
   PreviousTrait: {fileID: 0}
   OppositeTraits: []
   RelationModifiers: []
-  DropChance: 0
-  MinAge: 18
-  KnowledgeRumor: '"I have no idea really... Fairly secretive."'
+  DropChance: 11
+  MinAge: 60
+  KnowledgeRumor: '"Old... Old and weak..."'

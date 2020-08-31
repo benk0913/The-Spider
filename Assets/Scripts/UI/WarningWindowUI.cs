@@ -10,6 +10,8 @@ public class WarningWindowUI : MonoBehaviour
 
     Action AcceptAction;
 
+    Action SkipAction;
+
     [SerializeField]
     TextMeshProUGUI Description;
 
@@ -28,8 +30,13 @@ public class WarningWindowUI : MonoBehaviour
         Hide();
     }
 
-    public void Hide()
+    public void Hide(bool accepted = false)
     {
+        if(!accepted)
+        {
+            SkipAction?.Invoke();
+        }
+
         this.gameObject.SetActive(false);
 
         if (WindowQueue.Count > 0)
@@ -51,11 +58,11 @@ public class WarningWindowUI : MonoBehaviour
         }
     }
 
-    public void Show(string message, Action acceptCallback, bool cantHide = false)
+    public void Show(string message, Action acceptCallback, bool cantHide = false, Action skipCallback = null)
     {
         if(this.gameObject.activeInHierarchy)
         {
-            WindowQueue.Add(new WarningWindowData(message, acceptCallback, cantHide));
+            WindowQueue.Add(new WarningWindowData(message, acceptCallback, cantHide, skipCallback));
             return;
         }
 
@@ -72,6 +79,7 @@ public class WarningWindowUI : MonoBehaviour
 
         Description.text = message;
         AcceptAction = acceptCallback;
+        SkipAction = skipCallback;
     }
 
     public void Accept()
@@ -86,7 +94,7 @@ public class WarningWindowUI : MonoBehaviour
         public Action AcceptCallback;
         public bool CantHide = false;
 
-        public WarningWindowData(string msg, Action callback, bool canHide = false)
+        public WarningWindowData(string msg, Action callback, bool canHide = false,Action skipCallback = null)
         {
             this.Message = msg;
             this.AcceptCallback = callback;

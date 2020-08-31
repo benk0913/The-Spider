@@ -1197,11 +1197,24 @@ public class CORE : MonoBehaviour
 
     public IEnumerator DisplayDayRumorRoutine()
     {
+        if(Random.Range(0,3) == 0)
+        {
+            yield break;
+        }
+
         List<PopupData> possibleRumors = new List<PopupData>();
 
         foreach(DayRumor rumor in DayRumors)
         {
-            PopupData temp = rumor.GetPopup();
+            PopupData temp = null;
+            try
+            {
+                temp = rumor.GetPopup();
+            }
+            catch
+            {
+                Debug.LogError("Issue with day rumors.");
+            }
 
             if (temp == null)
             {

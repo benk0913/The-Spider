@@ -487,6 +487,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                     parameters.Add("LocationName", Name);
                     parameters.Add("Location", this);
                     parameters.Add("DistrictName", NearestDistrict != null ? NearestDistrict.Name : "Glassden");
+                    parameters.Add("LocationOwner", OwnerCharacter == null ? "Someone" : OwnerCharacter.name);
                     DialogWindowUI.Instance.StartNewDialog(pEvent.Dialog, parameters);
                 });
 

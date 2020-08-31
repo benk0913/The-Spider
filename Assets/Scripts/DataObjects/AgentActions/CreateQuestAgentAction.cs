@@ -12,16 +12,18 @@ public class CreateQuestAgentAction : AgentAction //DO NOT INHERIT FROM
     {
         if (character.TopEmployer == CORE.PC)
         {
-            PossibleQuestLetters.RemoveAll(x => !ValidateCondition(x));
+            List<PossibleOpportunity> possibilities = new List<PossibleOpportunity>();
+            possibilities.AddRange(PossibleQuestLetters);
+            possibilities.RemoveAll(x => !ValidateCondition(x));
 
-            if(PossibleQuestLetters.Count == 0)
+            if(possibilities.Count == 0)
             {
                 return;
             }
 
             base.Execute(requester, character, target);
 
-            LetterPreset QuestLetterPreset = PossibleQuestLetters[Random.Range(0, PossibleQuestLetters.Count)].Letter.CreateClone();
+            LetterPreset QuestLetterPreset = possibilities[Random.Range(0, possibilities.Count)].Letter.CreateClone();
 
             Dictionary<string, object> letterParameters = new Dictionary<string, object>();
 

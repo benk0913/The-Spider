@@ -33,7 +33,7 @@ public class DDCLocationHasEmployees : DialogDecisionCondition
             }
         }
 
-        if (employeeInLocationCount <= Amount)
+        if (employeeInLocationCount < Amount)
         {
             if (Inverted)
             {

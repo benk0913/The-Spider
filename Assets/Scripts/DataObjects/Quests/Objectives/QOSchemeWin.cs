@@ -13,6 +13,7 @@ public class QOSchemeWin : QuestObjective
     public int RandomCharacterMaxAge;
     public int RandomCharacterGender = -1;
     public bool RandomCharacterGenerateNew = false;
+    public bool RandomTargetIsHostile;
 
     public override QuestObjective CreateClone()
     {
@@ -30,6 +31,9 @@ public class QOSchemeWin : QuestObjective
                     {
                         relevantLocations.RemoveAll(x => !x.Traits.Contains(trait));
                     }
+
+                    if (RandomTargetIsHostile)
+                        relevantLocations.RemoveAll(x => x.OwnerCharacter != null && x.OwnerCharacter.TopEmployer == CORE.PC);
 
                     clone.TargetLocation = relevantLocations[Random.Range(0, relevantLocations.Count)];
                 }
@@ -57,6 +61,9 @@ public class QOSchemeWin : QuestObjective
                         {
                             relevantCharacters.RemoveAll(x => !x.Traits.Contains(trait));
                         }
+
+                        if (RandomTargetIsHostile)
+                            relevantCharacters.RemoveAll(x => x.TopEmployer == CORE.PC);
 
                         clone.TargetCharacter = relevantCharacters[Random.Range(0, relevantCharacters.Count)];
                     }

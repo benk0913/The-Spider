@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "DDADestroyProperty", menuName = "DataObjects/Dialog/Actions/DDADestroyProperty", order = 2)]
-public class DDADestroyProperty : DialogDecisionAction
+[CreateAssetMenu(fileName = "DDAOwnerSkillChallenge", menuName = "DataObjects/Dialog/Actions/DDAOwnerSkillChallenge", order = 2)]
+public class DDAOwnerSkillChallenge : DialogDecisionAction
 {
     public Property TheProperty;
     public Faction OfFaction;
+    public BonusType SkillType;
+    public float ChallengeAmount;
+    public DialogPiece OnWin;
+    public DialogPiece OnLose;
 
     public override void Activate()
     {
@@ -27,18 +31,20 @@ public class DDADestroyProperty : DialogDecisionAction
             return;
         }
 
-        WarningWindowUI.Instance.Show("Would you like to pay for "+targetLocation.Name+"'s immidiate repairs? (125 Gold)", () =>
-         {
-             if (CORE.PC.CGold >= 125)
-             {
-                 CORE.PC.CGold -= 125;
-             }
-             else
-             {
-                 GlobalMessagePrompterUI.Instance.Show("Not enough gold...", 1f, Color.red);
-                 targetLocation.BecomeRuins();
-             }
-         }, false, () => { targetLocation.BecomeRuins(); });
-        
+        if(targetLocation.OwnerCharacter == null)
+        {
+            DialogWindowUI.Instance.ShowDialogPiece(OnLose);
+            return;
+        }
+
+        float ownerSkill = targetLocation.OwnerCharacter.GetBonus(SkillType).Value;
+
+        if(Random.Range(0f,ownerSkill+ChallengeAmount) > ownerSkill)
+        {
+            DialogWindowUI.Instance.ShowDialogPiece(OnLose);
+            return;
+        }
+
+        DialogWindowUI.Instance.ShowDialogPiece(OnWin);
     }
 }

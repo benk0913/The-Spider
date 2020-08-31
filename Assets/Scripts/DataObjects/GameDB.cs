@@ -246,13 +246,13 @@ public class GameDB : ScriptableObject
         return Traits[Random.Range(0, Traits.Count)];
     }
 
-    public Trait[] GetRandomTraits()
+    public Trait[] GetRandomTraits(int age = 25)
     {
         List<Trait> GeneratedTraits = new List<Trait>();
 
         for(int i=0;i<Traits.Count; i++)
         {
-            if (Random.Range(0f, 1f) <= Traits[i].DropChance)
+            if (age > Traits[i].MinAge && Random.Range(0f, 1f) <= Traits[i].DropChance)
             {
                 GeneratedTraits.Add(Traits[i]);
             }

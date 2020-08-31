@@ -24,7 +24,14 @@ public class DayRumor : ScriptableObject
                     {
                         break;
                     }
+
+                    if (property.PrisonersCharacters.Count <= 0)
+                    {
+                        break;
+                    }
+
                     Character agent = CORE.PC.RandomAgent;
+
                     Character prisoner = property.PrisonersCharacters[Random.Range(0, property.PrisonersCharacters.Count)];
 
                     if (agent == null)
@@ -41,6 +48,11 @@ public class DayRumor : ScriptableObject
                     LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.CurrentProperty.PropertyLevels.Count > x.Level && !x.IsUpgrading);
 
                     if (property == null)
+                    {
+                        break;
+                    }
+
+                    if (property.OwnerCharacter == null)
                     {
                         break;
                     }
@@ -66,6 +78,11 @@ public class DayRumor : ScriptableObject
 
                     Character agent = property.OwnerCharacter;
 
+                    if(agent == null)
+                    {
+                        break;
+                    }
+
                     Dictionary<string, string> parameters = new Dictionary<string, string>();
                     parameters.Add("LocationName", property.Name);
                     parameters.Add("DistrictName", property.NearestDistrict == null ? "Glassden" : property.NearestDistrict.Name);
@@ -89,6 +106,11 @@ public class DayRumor : ScriptableObject
                     }
 
                     Character agent = property.OwnerCharacter;
+
+                    if(agent == null)
+                    {
+                        break;
+                    }
 
                     Dictionary<string, string> parameters = new Dictionary<string, string>();
                     parameters.Add("LocationName", property.Name);
