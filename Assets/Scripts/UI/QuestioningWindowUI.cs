@@ -200,7 +200,7 @@ public class QuestioningWindowUI : MonoBehaviour
         TargetDeck.Remove(card);
 
         QuestioningItemUI cardUI = ResourcesLoader.Instance.GetRecycledObject("QuestioningItemUI").GetComponent<QuestioningItemUI>();
-        cardUI.SetInfo(card,true);
+        cardUI.SetInfo(card,true,CurrentTarget.Known.IsKnown("Personality",CORE.PC));
         TargetHand = cardUI;
 
         cardUI.transform.SetParent(transform);
@@ -217,7 +217,7 @@ public class QuestioningWindowUI : MonoBehaviour
     {
         if(CharacterDeck.Count == 0)
         {
-            if (Hand.Count == 0)
+            if (Hand.Count == 0 && (TargetDeck.Count > 0 || TargetHand.CurrentItem != null))
             {
                 Lose();
             }
@@ -299,6 +299,7 @@ public class QuestioningWindowUI : MonoBehaviour
         {
             AudioControl.Instance.Play("researchchar_good");
             TargetHand.UseRight();
+            TargetHand = null;
             TargetDrawCard();
             DrawCard();
             return true;

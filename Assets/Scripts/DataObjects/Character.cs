@@ -1883,6 +1883,10 @@ public class Character : ScriptableObject, ISaveFileCompatible
     {
         if(NeverDED && !forced)
         {
+            PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset("AvoidedDeath");
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("ActorName", this.name);
+            PopupWindowUI.Instance.AddPopup(new PopupData(preset, new List<Character> { this }, new List<Character>(), null, parameters));
             return; 
         }
 

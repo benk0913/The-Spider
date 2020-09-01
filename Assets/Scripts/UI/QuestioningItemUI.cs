@@ -24,16 +24,16 @@ public class QuestioningItemUI : MonoBehaviour, IPointerClickHandler
 
     public bool IsOpponents;
 
-    public void SetInfo(QuestioningItem item, bool isOpponents = false)
+    public void SetInfo(QuestioningItem item, bool isOpponents = false, bool personalityKnown = false)
     {
         this.CurrentItem = item;
         this.Content.text = CurrentItem.Texts[Random.Range(0,CurrentItem.Texts.Count)];
         IsOpponents = isOpponents;
 
-        if(IsOpponents)
+        if(IsOpponents && !personalityKnown)
         {
             this.SkillIcon.sprite = ResourcesLoader.Instance.GetSprite("uncertainty");
-            TooltipTarget.SetTooltip("Skill Unknown");
+            TooltipTarget.SetTooltip("<color=red>Skill Unknown</color> - To reveal, " + System.Environment.NewLine + "sacrifice one of your questions " + System.Environment.NewLine+ "OR research the characters personality " + System.Environment.NewLine + "OR use your brain.");
         }
         else
         {

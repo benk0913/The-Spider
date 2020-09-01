@@ -79,7 +79,8 @@ public class NodeTreeUI : MonoBehaviour
         yield return StartCoroutine(GenerateNode(origin));
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(origin.nodeObject.GetComponent<RectTransform>());
-        //yield return 0;
+
+        yield return 0;
 
         yield return StartCoroutine(GenerateLines(origin));
 
