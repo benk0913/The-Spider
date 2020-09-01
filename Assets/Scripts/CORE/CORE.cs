@@ -1268,6 +1268,7 @@ public class SaveFile
     public JSONNode Content;
 }
 
+[System.Serializable]
 public class SessionRulesManager
 {
     public List<SessionRule> Rules = new List<SessionRule>();

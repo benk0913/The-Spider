@@ -86,12 +86,12 @@ public class StatsOfLocationUI : MonoBehaviour
             return;
         }
 
-        int currentGold = (CurrentLocation.EmployeesCharacters.Count * CurrentLocation.CurrentAction.GoldGenerated);
-        int currentRumors = (CurrentLocation.EmployeesCharacters.Count * CurrentLocation.CurrentAction.RumorsGenerated);
-        int currentConnections = (CurrentLocation.EmployeesCharacters.Count * CurrentLocation.CurrentAction.ConnectionsGenerated);
-        int currentProgression = (CurrentLocation.EmployeesCharacters.Count * CurrentLocation.CurrentAction.ProgressGenerated);
+        int currentGold = CurrentLocation.GoldGenerated;
+        int currentRumors = CurrentLocation.RumorsGenerated;
+        int currentConnections = CurrentLocation.ConnectionsGenerated;
+        int currentProgression = CurrentLocation.ProgressionGenerated;
 
-        if(currentGold != previousGold || currentRumors != previousRumors || currentConnections != previousConnections || currentProgression != previousProgress)
+        if (currentGold != previousGold || currentRumors != previousRumors || currentConnections != previousConnections || currentProgression != previousProgress)
         {
             PopAnimer.SetTrigger("Pop");
         }

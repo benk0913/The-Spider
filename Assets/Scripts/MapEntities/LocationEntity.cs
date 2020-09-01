@@ -89,6 +89,38 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public int CurrentUpgradeLength;
 
+    public int GoldGenerated
+    {
+        get
+        {
+            return (EmployeesCharacters.Count * CurrentAction.GoldGenerated);
+        }
+    }
+
+    public int RumorsGenerated
+    {
+        get
+        {
+            return (EmployeesCharacters.Count * CurrentAction.RumorsGenerated);
+        }
+    }
+
+    public int ConnectionsGenerated
+    {
+        get
+        {
+            return (EmployeesCharacters.Count * CurrentAction.ConnectionsGenerated);
+        }
+    }
+
+    public int ProgressionGenerated
+    {
+        get
+        {
+            return (EmployeesCharacters.Count * CurrentAction.ProgressGenerated);
+        }
+    }
+
     public bool IsDisabled = false;
 
     public UnityEvent StateUpdated;
