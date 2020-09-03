@@ -1282,68 +1282,87 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
-        Level = int.Parse(node["Level"]);
-        SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), true);
-        IsUpgrading = bool.Parse(node["IsUpgrading"]);
-        IsRuined = bool.Parse(node["IsRuined"]);
-        CurrentUpgradeLength = int.Parse(node["CurrentUpgradeLength"]);
-        CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
-        _nearestDistrictID = node["NearestDistrict"];
-        LandValue = int.Parse(node["LandValue"]);
-        IsDisabled = bool.Parse(node["IsDisabled"]);
-
-        node["PositionX"] = node["PositionX"].Value.Replace(',', '.');
-        node["PositionY"] = node["PositionY"].Value.Replace(',', '.');
-        node["PositionZ"] = node["PositionZ"].Value.Replace(',', '.');
-        node["RotationX"] = node["RotationX"].Value.Replace(',', '.');
-        node["RotationY"] = node["RotationY"].Value.Replace(',', '.');
-        node["RotationZ"] = node["RotationZ"].Value.Replace(',', '.');
-        transform.position = new Vector3(float.Parse(node["PositionX"].Value), float.Parse(node["PositionY"].Value), float.Parse(node["PositionZ"].Value));
-        transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"].Value), float.Parse(node["RotationY"].Value), float.Parse(node["RotationZ"].Value));
-
-        knowledgeCharacterIDs.Clear();
-        foreach (KnowledgeInstance item in Known.Items)
+        try
         {
-            if(node["Knowledge"][item.Key].Count == 0)
+            if (!int.TryParse(node["Level"], out Level))
             {
-                continue;
+                Level = 1;
+            }
+            SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), true);
+            IsUpgrading = bool.Parse(node["IsUpgrading"]);
+            IsRuined = bool.Parse(node["IsRuined"]);
+
+            if (!int.TryParse(node["CurrentUpgradeLength"], out CurrentUpgradeLength))
+            {
+                CurrentUpgradeLength = 0;
             }
 
-            List<string> IDs = new List<string>();
-            for (int i = 0; i < node["Knowledge"][item.Key].Count; i++)
+            CurrentAction = CurrentProperty.GetActionByName(node["CurrentAction"]);
+            _nearestDistrictID = node["NearestDistrict"];
+
+            if (!int.TryParse(node["LandValue"], out LandValue))
             {
-                IDs.Add(node["Knowledge"][item.Key][i].Value);
+                LandValue = 100;
             }
 
-            knowledgeCharacterIDs.Add(item.Key, IDs);
-        }
+            IsDisabled = bool.Parse(node["IsDisabled"]);
 
-        Traits.Clear();
-        for (int i = 0; i < node["Traits"].Count; i++)
-        {
-            Traits.Add(CORE.Instance.Database.GetTrait(node["Traits"][i]));
-        }
+            node["PositionX"] = node["PositionX"].Value.Replace(',', '.');
+            node["PositionY"] = node["PositionY"].Value.Replace(',', '.');
+            node["PositionZ"] = node["PositionZ"].Value.Replace(',', '.');
+            node["RotationX"] = node["RotationX"].Value.Replace(',', '.');
+            node["RotationY"] = node["RotationY"].Value.Replace(',', '.');
+            node["RotationZ"] = node["RotationZ"].Value.Replace(',', '.');
+            transform.position = new Vector3(float.Parse(node["PositionX"].Value), float.Parse(node["PositionY"].Value), float.Parse(node["PositionZ"].Value));
+            transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"].Value), float.Parse(node["RotationY"].Value), float.Parse(node["RotationZ"].Value));
 
-        Inventory.Clear();
-        for (int i = 0; i < node["Inventory"].Count; i++)
-        {
-            Item itemPreset = CORE.Instance.Database.AllItems.Find(x => x.name == node["Inventory"][i].Value);
-            
-            if(itemPreset == null)
+            knowledgeCharacterIDs.Clear();
+            foreach (KnowledgeInstance item in Known.Items)
             {
-                Debug.LogError("COULDN'T LOAD " + node["Inventory"]);
-                continue;
+                if (node["Knowledge"][item.Key].Count == 0)
+                {
+                    continue;
+                }
+
+                List<string> IDs = new List<string>();
+                for (int i = 0; i < node["Knowledge"][item.Key].Count; i++)
+                {
+                    IDs.Add(node["Knowledge"][item.Key][i].Value);
+                }
+
+                knowledgeCharacterIDs.Add(item.Key, IDs);
             }
 
-            Inventory.Add(itemPreset.Clone());
-        }
+            Traits.Clear();
+            for (int i = 0; i < node["Traits"].Count; i++)
+            {
+                Traits.Add(CORE.Instance.Database.GetTrait(node["Traits"][i]));
+            }
 
-        CaseElements.Clear();
-        for (int i = 0; i < node["CaseElements"].Count; i++)
+            Inventory.Clear();
+            for (int i = 0; i < node["Inventory"].Count; i++)
+            {
+                Item itemPreset = CORE.Instance.Database.AllItems.Find(x => x.name == node["Inventory"][i].Value);
+
+                if (itemPreset == null)
+                {
+                    Debug.LogError("COULDN'T LOAD " + node["Inventory"]);
+                    continue;
+                }
+
+                Inventory.Add(itemPreset.Clone());
+            }
+
+            CaseElements.Clear();
+            for (int i = 0; i < node["CaseElements"].Count; i++)
+            {
+                CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"].Value));
+            }
+        }
+        catch
         {
-            CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"].Value));
+            Debug.LogError("Issue with loading location from save file...");
         }
-
     }
 
     Dictionary<string, List<string>> knowledgeCharacterIDs = new Dictionary<string, List<string>>();

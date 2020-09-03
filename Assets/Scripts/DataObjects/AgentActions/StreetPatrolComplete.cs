@@ -33,6 +33,32 @@ public class StreetPatrolComplete : AgentAction
 
         LocationEntity location = (LocationEntity)target;
 
+        if(character.TopEmployer == CORE.PC)//Patrol events.
+        {
+            if(Random.Range(0f,1f) < 0.1f)
+            {
+                PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset("Constabulary Patrol Scenario");
+
+                PopupData popupData = new PopupData(preset, new List<Character>() { character }, new List<Character>() { CORE.PC }, () =>
+                {
+                    DialogPiece patrolDialog = CORE.Instance.Database.AllDialogPieces.Find(X => X.name == "Known Criminal");
+
+                    if (MapViewManager.Instance != null && MouseLook.Instance != null && MouseLook.Instance.isAbleToLookaround)
+                    {
+                        MapViewManager.Instance.ForceInteractWithMap();
+                    }
+
+                    Dictionary<string, object> parameters = new Dictionary<string, object>();
+                    parameters.Add("ActorName", character.name);
+                    DialogWindowUI.Instance.StartNewDialog(patrolDialog, parameters);
+                });
+
+                PopupWindowUI.Instance.AddPopup(popupData);
+
+                return;
+            }
+        }
+
         float targetDiscreet;
         float heroAware;
 

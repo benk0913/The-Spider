@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d2184c756f2a3418ee443e87a01316, type: 3}
+  m_Name: patrol_ambushreinforce
+  m_EditorClassIdentifier: 
+  CustomTitle: SEND REINFORCEMENTS! No constable of mine is left behind! <color=red>Costs
+    40 Gold & 20 Connections</color>
+  Icon: {fileID: 21300000, guid: 81e885cbbb10d7d4a8d3d173e4641405, type: 3}
+  AppearanceConditions: []
+  ActiveConditions:
+  - {fileID: 11400000, guid: 0a87858206738b44b996520e06b8dafa, type: 2}
+  - {fileID: 11400000, guid: 5cdaf39524a99fa47b5ac9ccd5bfb928, type: 2}
+  Actions:
+  - {fileID: 11400000, guid: 12566b3663080d54b90291f9d7911841, type: 2}
+  - {fileID: 11400000, guid: 3e2751e18b743d4459c169e51c6f4b42, type: 2}
+  - {fileID: 11400000, guid: bc5e2aa2c335e34498bc862fe797d31f, type: 2}
+  NextPiece: {fileID: 11400000, guid: 3bfbaf472ac9b534c96533ac65294505, type: 2}
+  RefreshCurrentPiece: 0
