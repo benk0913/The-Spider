@@ -46,5 +46,14 @@ public class DDAEmployeesRelation : DialogDecisionAction
         {
             character.DynamicRelationsModifiers.Add(new DynamicRelationsModifier(new RelationsModifier(ModifierMessage, ModifierValue), ModifierTurnLength, CORE.PC));
         }
+
+        if(ModifierValue < 0)
+        {
+            GlobalMessagePrompterUI.Instance.Show(targetLocation.Name + ":" + ModifierMessage, 2f, Color.red);
+        }
+        else
+        {
+            GlobalMessagePrompterUI.Instance.Show(targetLocation.Name + ":" + ModifierMessage, 2f, Color.green);
+        }
     }
 }

@@ -22,6 +22,7 @@ public class DDAClose : DialogDecisionAction
             UniqueAction.Execute(CORE.Instance.Database.GOD, actor, location);
 
             endResult += "\n With Result: " + UniqueAction.name;
+
         }
 
         //if (actor.Belogings.Count > 0)

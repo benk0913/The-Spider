@@ -32,11 +32,6 @@ public class WarningWindowUI : MonoBehaviour
 
     public void Hide(bool accepted = false)
     {
-        if(!accepted)
-        {
-            SkipAction?.Invoke();
-        }
-
         this.gameObject.SetActive(false);
 
         if (WindowQueue.Count > 0)
@@ -44,6 +39,12 @@ public class WarningWindowUI : MonoBehaviour
             Show(WindowQueue[0].Message, WindowQueue[0].AcceptCallback, WindowQueue[0].CantHide);
             WindowQueue.RemoveAt(0);
         }
+
+        if (!accepted)
+        {
+            SkipAction?.Invoke();
+        }
+
     }
 
     private void Update()

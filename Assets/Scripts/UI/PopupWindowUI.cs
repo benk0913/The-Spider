@@ -101,6 +101,12 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
         {
             for(int i=0;i<data.Parameters.Keys.Count;i++)
             {
+                if(parameters.ContainsKey(data.Parameters.Keys.ElementAt(i)))
+                {
+                    parameters[data.Parameters.Keys.ElementAt(i)] = data.Parameters[data.Parameters.Keys.ElementAt(i)];
+                    continue;
+                }
+
                 parameters.Add(data.Parameters.Keys.ElementAt(i), data.Parameters[data.Parameters.Keys.ElementAt(i)]);
             }
         }

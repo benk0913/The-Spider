@@ -35,13 +35,17 @@ public class StreetPatrolComplete : AgentAction
 
         if(character.TopEmployer == CORE.PC)//Patrol events.
         {
-            if(Random.Range(0f,1f) < 0.1f)
+            
+            if(Random.Range(0f,1f) < 0.08f)
             {
                 PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset("Constabulary Patrol Scenario");
 
-                PopupData popupData = new PopupData(preset, new List<Character>() { character }, new List<Character>() { CORE.PC }, () =>
+                Dictionary<string, string> POPparameters = new Dictionary<string, string>();
+                POPparameters.Add("ActorName", character.name);
+
+                PopupData popupData = new PopupData(preset, new List<Character> { character }, new List<Character> { CORE.PC }, () =>
                 {
-                    DialogPiece patrolDialog = CORE.Instance.Database.AllDialogPieces.Find(X => X.name == "Known Criminal");
+                    DialogPiece patrolDialog = CORE.Instance.Database.AllDialogPieces.Find(X => X.name == "PATROL - Known Criminal");
 
                     if (MapViewManager.Instance != null && MouseLook.Instance != null && MouseLook.Instance.isAbleToLookaround)
                     {
@@ -50,8 +54,10 @@ public class StreetPatrolComplete : AgentAction
 
                     Dictionary<string, object> parameters = new Dictionary<string, object>();
                     parameters.Add("ActorName", character.name);
+                    parameters.Add("Actor", character);
+                    parameters.Add("Location", character.CurrentLocation);
                     DialogWindowUI.Instance.StartNewDialog(patrolDialog, parameters);
-                });
+                },POPparameters);
 
                 PopupWindowUI.Instance.AddPopup(popupData);
 
