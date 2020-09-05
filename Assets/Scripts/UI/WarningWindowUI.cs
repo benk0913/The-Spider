@@ -86,7 +86,7 @@ public class WarningWindowUI : MonoBehaviour
     public void Accept()
     {
         AcceptAction?.Invoke();
-        Hide();
+        Hide(true);
     }
 
     public class WarningWindowData

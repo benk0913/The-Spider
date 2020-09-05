@@ -243,7 +243,7 @@ public class SelectCharacterViewUI : MonoBehaviour
                 }
             case "Skill_Stealthy":
                 {
-                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Menacing")).Value.ToString();
+                    return character.GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value.ToString();
                 }
             case "Age":
                 {

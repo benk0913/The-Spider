@@ -1736,7 +1736,6 @@ public class Character : ScriptableObject, ISaveFileCompatible
         location.OwnerCharacter = this;
 
         location.Known.KnowEverything(TopEmployer);
-        
 
         location.RefreshState();
 
