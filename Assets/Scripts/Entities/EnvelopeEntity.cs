@@ -32,6 +32,9 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
     TextMeshProUGUI RetreiveActionText;
 
     [SerializeField]
+    TextMeshProUGUI RTLDescription;
+
+    [SerializeField]
     MeshRenderer SealRenderer;
 
     [SerializeField]
@@ -146,6 +149,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
         TitleText.text = CurrentLetter.Title;
 
         DescriptionText.text = CurrentLetter.Content;
+        RTLDescription.text = CurrentLetter.Preset.RTLDescription;
         SideNotesText.text = CurrentLetter.Preset.SideNotes;
 
         if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)

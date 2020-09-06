@@ -39,7 +39,12 @@ public class PopupWindowUI : MonoBehaviour, ISaveFileCompatible
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (CORE.Instance.TurnPassedRoutineInstance != null)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ShowNextPopup();
         }

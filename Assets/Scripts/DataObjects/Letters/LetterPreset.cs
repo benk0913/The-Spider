@@ -14,6 +14,9 @@ public class LetterPreset : ScriptableObject
     public string Description;
 
     [SerializeField]
+    public string RTLDescription;
+
+    [SerializeField]
     [TextArea(4, 6)]
     public string SideNotes;
 

@@ -41,7 +41,13 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
             }
 
             character.BetrayEmployer();
-            CORE.Instance.DelayedInvokation(0.5f, ()=> { character.StartWorkingFor(x); });
+            CORE.Instance.DelayedInvokation(0.5f, ()=> 
+            {
+                character.StartWorkingFor(x);
+
+
+
+            });
         }, x => possibleProperties.Contains(x), "Where the agent should join?");
         
     }

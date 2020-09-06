@@ -283,6 +283,9 @@ public class ForgeryWindowUI : MonoBehaviour
                     () =>
                     {
                         agent.StartOwningLocation(TargetLocation);
+
+                        TargetLocation.RefreshPropertyValidity();
+
                         CORE.PC.Reputation -= 2;
                         AudioControl.Instance.Play("courtgood");
                     }

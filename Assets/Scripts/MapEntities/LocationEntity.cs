@@ -1014,6 +1014,12 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public FailReason Rebrand(Character requester, Property newProperty)
     {
+        if(newProperty == null)
+        {
+            Debug.LogError("NO NEW PROPERTY GIVEN - " + this.Name);
+            return null;
+        }
+
         if (requester != OwnerCharacter.TopEmployer)
         {
             if (requester == CORE.PC)
@@ -1030,9 +1036,29 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         //TODO - Stop recruitments...
         Level = 1;
 
-        while (EmployeesCharacters.Count > newProperty.PropertyLevels[Level-1].MaxEmployees)
+        if (newProperty.PropertyLevels.Count > Level - 1)
         {
-            EmployeesCharacters[EmployeesCharacters.Count-1].StopWorkingForCurrentLocation();
+            while (EmployeesCharacters.Count > newProperty.PropertyLevels[Level - 1].MaxEmployees)
+            {
+                EmployeesCharacters[EmployeesCharacters.Count - 1].StopWorkingForCurrentLocation();
+            }
+
+            while (GuardsCharacters.Count > newProperty.PropertyLevels[Level - 1].MaxGuards)
+            {
+                GuardsCharacters[GuardsCharacters.Count - 1].StopWorkingForCurrentLocation();
+            }
+        }
+        else
+        {
+            foreach(Character character in EmployeesCharacters)
+            {
+                character.StopWorkingForCurrentLocation();
+            }
+
+            foreach (Character character in GuardsCharacters)
+            {
+                character.StopWorkingForCurrentLocation();
+            }
         }
 
         EmployeesCharacters.FindAll(x =>
@@ -1620,6 +1646,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                                                     && X.Age > CurrentProperty.MinAge
                                                     && X.Age < CurrentProperty.MaxAge
                                                     && !X.IsDisabled
+                                                    && !X.NeverDED
                                                     && (int)X.Gender == CurrentProperty.RecruitingGenderType);
 
             if (potentialExistingCharacter)
@@ -1747,20 +1774,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
 
-        bool existsInFactionProperties = false;
-        foreach(Property property in OwnerCharacter.CurrentFaction.FactionProperties)
-        {
-            if(property.name == CurrentProperty.name)
-            {
-                existsInFactionProperties = true;
-                break;
-            }
-        }
-
-        if(!existsInFactionProperties)
-        {
-            Rebrand(OwnerCharacter.TopEmployer, CurrentProperty.PlotType.BaseProperty);
-        }
+        RefreshPropertyValidity();
 
         return null;
     }
@@ -1810,7 +1824,29 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         , funder)
         );
 
+
+
+        RefreshPropertyValidity();
+
         return null;
+    }
+
+    public void RefreshPropertyValidity()
+    {
+        bool existsInFactionProperties = false;
+        foreach (Property property in OwnerCharacter.CurrentFaction.FactionProperties)
+        {
+            if (property.name == CurrentProperty.name)
+            {
+                existsInFactionProperties = true;
+                break;
+            }
+        }
+
+        if (!existsInFactionProperties)
+        {
+            Rebrand(OwnerCharacter.TopEmployer, CurrentProperty.PlotType.BaseProperty);
+        }
     }
 
     public enum VisibilityStateEnum

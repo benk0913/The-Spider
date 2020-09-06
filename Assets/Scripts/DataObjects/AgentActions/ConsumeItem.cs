@@ -37,13 +37,9 @@ public class ConsumeItem : AgentAction
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
         ItemUI item = (ItemUI)target;
+        reason = null;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
-        {
-            return false;
-        }
-
-        if(!requester.Belogings.Contains(item.CurrentItem))
+        if (!requester.Belogings.Contains(item.CurrentItem))
         {
             return false;
         }
@@ -53,11 +49,16 @@ public class ConsumeItem : AgentAction
             return false;
         }
 
-        if(!item.CurrentItem.Usable)
+        if (!item.CurrentItem.Usable)
         {
             return false;
         }
 
+
+        if (!base.CanDoAction(requester, character, target, out reason))
+        {
+            return false;
+        }
         
 
         return true;

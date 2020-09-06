@@ -15,12 +15,13 @@ MonoBehaviour:
   ID: 
   IsAlwaysKnown: 0
   IsDead: 0
-  Gold: 150
-  Connections: 10
-  Rumors: 0
-  Progress: 0
+  HiddenFromCharacterWindows: 0
+  _gold: 150
+  _connections: 10
+  _rumors: 0
+  _progress: 0
   IsDisabled: 0
-  NeverDED: 0
+  NeverDED: 1
   _currentFaction: {fileID: 11400000, guid: e67830ba9549f8940ae8e67d665f2f7c, type: 2}
   AI: {fileID: 0}
   WorkLocation: {fileID: 0}
@@ -28,7 +29,10 @@ MonoBehaviour:
   HomeLocation: {fileID: 0}
   CurrentLocation: {fileID: 0}
   PuppetOf: {fileID: 0}
+  PupperTurnsLeft: 0
   PropertiesOwned: []
+  CaseElements: []
+  CurrentQuestioningInstance: {fileID: 0}
   Traits: []
   VisualSet: {fileID: 11400000, guid: d85281ac662695d4c8936c96bac51df9, type: 2}
   gender: 0
@@ -46,6 +50,4 @@ MonoBehaviour:
   StateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   _isGuard: 0

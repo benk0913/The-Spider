@@ -30,14 +30,15 @@ public class ItemBeSentToPlayer : AgentAction
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        reason = null;
         ItemUI item = (ItemUI)target;
 
-        if (!base.CanDoAction(requester, character, target, out reason))
+        if (item.CurrentItem.RealWorldPrefab == null)
         {
             return false;
         }
 
-        if(item.CurrentItem.RealWorldPrefab == null)
+        if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }

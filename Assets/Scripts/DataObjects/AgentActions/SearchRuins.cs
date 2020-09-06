@@ -35,22 +35,24 @@ public class SearchRuins : AgentAction
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)
     {
+        reason = null;
         ItemUI item = (ItemUI)target;
+
+        if (!requester.Belogings.Contains(item.CurrentItem))
+        {
+            return false;
+        }
+
+        if (item.CurrentItem.ConsumeActions.Find(x => x.name == this.name) == null)
+        {
+            return false;
+        }
 
         if (!base.CanDoAction(requester, character, target, out reason))
         {
             return false;
         }
 
-        if(!requester.Belogings.Contains(item.CurrentItem))
-        {
-            return false;
-        }
-
-        if (item.CurrentItem.ConsumeActions.Find(x=>x.name == this.name) == null)
-        {
-            return false;
-        }
 
         return true;
     }

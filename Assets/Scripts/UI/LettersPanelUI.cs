@@ -19,6 +19,9 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
     TextMeshProUGUI DescText;
 
     [SerializeField]
+    TextMeshProUGUI RTLDescription;
+
+    [SerializeField]
     TextMeshProUGUI SideNotesText;
 
     [SerializeField]
@@ -128,6 +131,7 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
         TitleText.text = "Letter Removed...";
         DescText.text = "";
         FromText.text = "";
+        RTLDescription.text = "";
     }
 
 
@@ -144,6 +148,7 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
 
         TitleText.text = letter.CurrentLetter.Title;
         DescText.text = letter.CurrentLetter.Content;
+        RTLDescription.text = letter.CurrentLetter.Preset.RTLDescription;
         SideNotesText.text = letter.CurrentLetter.Preset.SideNotes;
 
         if (letter.CurrentLetter.Parameters != null)

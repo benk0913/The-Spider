@@ -49,6 +49,11 @@ public class WarningWindowUI : MonoBehaviour
 
     private void Update()
     {
+        if(CORE.Instance.TurnPassedRoutineInstance != null)
+        {
+            return;
+        }
+
         if (!CantHide && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space)))
         {
             Hide();

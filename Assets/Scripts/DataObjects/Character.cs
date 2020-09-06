@@ -1732,7 +1732,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             location.OwnerCharacter.StopOwningLocation(location);
         }
-
+        
         location.OwnerCharacter = this;
 
         location.Known.KnowEverything(TopEmployer);
@@ -2105,21 +2105,23 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CProgress = int.Parse(node["Progress"].Value);
         Reputation = int.Parse(node["Reputation"].Value);
 
-        if (!string.IsNullOrEmpty(node["NeverDED"].Value))
+        Character existingChar = CORE.Instance.Database.PresetCharacters.Find(x => x.name == this.name);
+        if (existingChar != null)
         {
-            NeverDED = bool.Parse(node["NeverDED"].Value);
-        }
-
-        if(!string.IsNullOrEmpty(node["IsDisabled"].Value))
-        {
-            IsDisabled = bool.Parse(node["IsDisabled"].Value);
+            IsDisabled = existingChar.IsDisabled;
+            NeverDED = existingChar.NeverDED;
+            HiddenFromCharacterWindows = existingChar.HiddenFromCharacterWindows;
         }
         else
         {
-            Character existingChar = CORE.Instance.Database.PresetCharacters.Find(x => x.name == this.name);
-            if (existingChar != null)
+            if (!string.IsNullOrEmpty(node["NeverDED"].Value))
             {
-                IsDisabled = existingChar.IsDisabled;
+                NeverDED = bool.Parse(node["NeverDED"].Value);
+            }
+
+            if (!string.IsNullOrEmpty(node["IsDisabled"].Value))
+            {
+                IsDisabled = bool.Parse(node["IsDisabled"].Value);
             }
         }
 
