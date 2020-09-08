@@ -5,6 +5,8 @@ using UnityEngine;
 public class AgentInteractable : MonoBehaviour
 {
 
+    public bool NoClicking = false;
+
     public virtual List<AgentAction> GetPossibleAgentActions(Character forCharacter)
     {
         return null;
@@ -17,6 +19,11 @@ public class AgentInteractable : MonoBehaviour
 
     public void ShowActionMenu(ActionCategory category = null)
     {
+        if(NoClicking)
+        {
+            return;
+        }
+
         if (ControlCharacterPanelUI.CurrentCharacter == null)
         {
             ShowPlayerActionMenu(null, category);
@@ -29,6 +36,11 @@ public class AgentInteractable : MonoBehaviour
 
     public void ShowActionMenu(Transform uniqueTransform, ActionCategory category = null)
     {
+        if (NoClicking)
+        {
+            return;
+        }
+
         if (ControlCharacterPanelUI.CurrentCharacter == null)
         {
             ShowPlayerActionMenu(uniqueTransform, category);
@@ -41,6 +53,11 @@ public class AgentInteractable : MonoBehaviour
 
     public void ShowAgentActionMenu(Transform uniqueTransform = null, ActionCategory category = null)
     {
+        if (NoClicking)
+        {
+            return;
+        }
+
         List<AgentAction> currentActions = new List<AgentAction>();
         currentActions.AddRange(GetPossibleAgentActions(ControlCharacterPanelUI.CurrentCharacter));
         List<DescribedAction> KeyActions = new List<DescribedAction>();
@@ -131,6 +148,10 @@ public class AgentInteractable : MonoBehaviour
 
     public void ShowPlayerActionMenu(Transform uniqueTransform = null, ActionCategory category = null)
     {
+        if (NoClicking)
+        {
+            return;
+        }
 
         List<PlayerAction> currentActions = new List<PlayerAction>();
         currentActions.AddRange(GetPossiblePlayerActions());

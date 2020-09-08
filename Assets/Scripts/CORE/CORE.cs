@@ -857,6 +857,8 @@ public class CORE : MonoBehaviour
             savefile["Name"] = "Save" + SaveFiles.Count;
         }
 
+        savefile["Version"] = Application.version.ToString();
+
         long UNIX = (long)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
 
         savefile["Date"] = System.DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
