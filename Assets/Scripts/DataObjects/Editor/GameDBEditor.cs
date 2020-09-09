@@ -393,7 +393,6 @@ public class GameDBEditor : Editor
             if (tt.text.Contains("avarage") || tt.text.Contains("Avarage"))
             {
                 Debug.LogError(tt.gameObject.name + " - error");
-            }
         }
 
         Debug.Log("Passed...");

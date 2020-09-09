@@ -53,8 +53,6 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
 
     [SerializeField]
     protected Image AgentRing;
-
-    public bool NoClicking = false;
     
 
     protected void Start()
