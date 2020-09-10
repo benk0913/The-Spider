@@ -12,7 +12,7 @@ public class GameDBEditor : Editor
     {
         GameDB db = (GameDB)target;
 
-        if(GUILayout.Button("Auto Load"))
+        if (GUILayout.Button("Auto Load"))
         {
             AutoLoad(db);
         }
@@ -180,7 +180,7 @@ public class GameDBEditor : Editor
         guids = AssetDatabase.FindAssets("t:DialogPiece", new[] { "Assets/" + db.DataPath });
 
         int wordCountTotal = 0;
-        int senencesCountTotal= 0;
+        int senencesCountTotal = 0;
         foreach (string guid in guids)
         {
             DialogPiece piece = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(DialogPiece)) as DialogPiece;
@@ -192,7 +192,7 @@ public class GameDBEditor : Editor
 
             senencesCountTotal += matches.Count;
 
-            for(int i=0;i<matches.Count;i++)
+            for (int i = 0; i < matches.Count; i++)
             {
                 for (int g = 1; g < matches[i].Groups.Count; g++)
                 {
@@ -236,7 +236,7 @@ public class GameDBEditor : Editor
         {
             LetterPreset letter = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LetterPreset)) as LetterPreset;
 
-            if(letter == null)
+            if (letter == null)
             {
                 continue;
             }
@@ -260,13 +260,13 @@ public class GameDBEditor : Editor
                     index++;
             }
 
-            if(letter.PresetSender == null)
+            if (letter.PresetSender == null)
             {
                 wordCountPerCharacter["Unknown"] += wordCount;
                 continue;
             }
 
-            if(!wordCountPerCharacter.ContainsKey(letter.PresetSender.name))
+            if (!wordCountPerCharacter.ContainsKey(letter.PresetSender.name))
             {
                 wordCountPerCharacter.Add(letter.PresetSender.name, 0);
             }
@@ -275,8 +275,8 @@ public class GameDBEditor : Editor
             wordCountTotal += wordCount;
         }
 
-        Debug.Log("- Total Words In Letterss - "+wordCountTotal);
-        foreach(string key in wordCountPerCharacter.Keys)
+        Debug.Log("- Total Words In Letterss - " + wordCountTotal);
+        foreach (string key in wordCountPerCharacter.Keys)
         {
             Debug.Log(key + " - " + wordCountPerCharacter[key]);
         }
@@ -293,11 +293,11 @@ public class GameDBEditor : Editor
             LetterPreset preset = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(LetterPreset)) as LetterPreset;
 
             string fromName;
-            if(preset.PresetSender != null)
+            if (preset.PresetSender != null)
             {
                 fromName = preset.PresetSender.name;
             }
-            else if(!string.IsNullOrEmpty(preset.From))
+            else if (!string.IsNullOrEmpty(preset.From))
             {
                 fromName = preset.From;
             }
@@ -318,7 +318,7 @@ public class GameDBEditor : Editor
 
         }
 
-        foreach(string letterKey in letters.Keys)
+        foreach (string letterKey in letters.Keys)
         {
             Debug.Log("-----" + letterKey + "-----" + System.Environment.NewLine + letters[letterKey]);
         }
@@ -327,9 +327,9 @@ public class GameDBEditor : Editor
 
     void PrintCustomAnalysis(GameDB db)
     {
-        foreach(LetterPreset letter in db.PresetLetters)
+        foreach (LetterPreset letter in db.PresetLetters)
         {
-            if(letter.Description.Contains("avarage") || letter.Description.Contains("Avarage"))
+            if (letter.Description.Contains("avarage") || letter.Description.Contains("Avarage"))
             {
                 Debug.LogError(letter.name + " - error");
             }
@@ -393,8 +393,9 @@ public class GameDBEditor : Editor
             if (tt.text.Contains("avarage") || tt.text.Contains("Avarage"))
             {
                 Debug.LogError(tt.gameObject.name + " - error");
-        }
+            }
 
-        Debug.Log("Passed...");
+            Debug.Log("Passed...");
+        }
     }
 }

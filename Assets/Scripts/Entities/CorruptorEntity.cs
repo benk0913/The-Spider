@@ -4,15 +4,81 @@ using UnityEngine;
 
 public class CorruptorEntity : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    MeshRenderer[] Meshes;
+
+    [SerializeField]
+    Material corruptMaterial;
+
+    public float Speed = 1f;
+
+    public int DelayTime = 5;
+
+    private void OnEnable()
     {
-        
+        StartCoroutine(CorruptRoutine());
+
+        CORE.Instance.SubscribeToEvent("PassTimeComplete", OnPassTurn);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        corruptMaterial.mainTextureOffset = new Vector2(corruptMaterial.mainTextureOffset.x * Speed * Time.deltaTime, corruptMaterial.mainTextureOffset.y);
+    }
+
+    void OnPassTurn()
+    {
+        if(!this.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
+        Character character = null;
+
+        while (character == null)
+        {
+            character = CORE.Instance.Characters[Random.Range(0, CORE.Instance.Characters.Count)];
+
+            if(character .isImportant || character.IsDead || character.IsDisabled || character.NeverDED)
+            {
+                character = null;
+            }
+        }
+
+        if (character.TopEmployer == CORE.PC)
+        {
+            PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset("CorruptionPopup");
+
+            PopupData popup = new PopupData(preset, new List<Character> { character }, new List<Character> { }, () => 
+            {
+                character.Death();
+            }
+            , null);
+
+            PopupWindowUI.Instance.AddPopup(popup);
+        }
+        else
+        {
+            character.Death();
+        }
+    }
+
+    IEnumerator CorruptRoutine()
+    {
+        Meshes = FindObjectsOfType<MeshRenderer>();
+
+
+        if (Meshes == null || Meshes.Length == 0)
+        {
+            Debug.LogError("NO MESHES");
+            yield break;
+        }
+
+        while (true)
+        {
+            yield return new WaitForSeconds(DelayTime);
+
+            Meshes[Random.Range(0, Meshes.Length)].material = corruptMaterial;
+
+        }
     }
 }
