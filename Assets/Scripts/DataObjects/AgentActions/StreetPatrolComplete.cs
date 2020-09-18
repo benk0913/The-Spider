@@ -63,6 +63,26 @@ public class StreetPatrolComplete : AgentAction
 
                 return;
             }
+            else if(Random.Range(0f,1f) < 0.1f)
+            {
+                int revenue = 5;
+
+                Sprite actionIcon = null;
+                if (Random.Range(0, 2) == 0)
+                {
+                    actionIcon = ResourcesLoader.Instance.GetSprite("pay_money");
+                    CORE.Instance.ShowHoverMessage("<color=yellow>Collected a fine +" + 5 + " Gold.</color>", actionIcon, character.CurrentLocation.transform);
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Collected a fine...", actionIcon, character));
+                    CORE.PC.CGold += revenue;
+                }
+                else
+                {
+                    actionIcon = ResourcesLoader.Instance.GetSprite("earicon");
+                    CORE.Instance.ShowHoverMessage("<color=purple>Collected Criminal Testimony - " + 5 + " Rumors.</color>", actionIcon, character.CurrentLocation.transform);
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Collected Testimony", actionIcon, character));
+                    CORE.PC.CRumors += revenue;
+                }
+            }
         }
 
         float targetDiscreet;

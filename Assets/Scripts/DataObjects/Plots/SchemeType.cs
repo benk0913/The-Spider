@@ -408,10 +408,11 @@ public class PlotData
     public PlotEntry Entry;
     public PlotMethod BaseMethod;
     public string Name;
+    public bool IsFleeOnFailure;
 
     public List<DuelProc> ProcsUsed = new List<DuelProc>();
 
-    public PlotData(string name,Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry)
+    public PlotData(string name,Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry, bool isFleeOnFailure = false)
     {
         this.Requester = requester;
         this.Plotter = plotter;
@@ -421,6 +422,7 @@ public class PlotData
         this.Method = method;
         this.Entry = entry;
         this.Name = name;
+        this.IsFleeOnFailure = isFleeOnFailure;
     }
 }
 

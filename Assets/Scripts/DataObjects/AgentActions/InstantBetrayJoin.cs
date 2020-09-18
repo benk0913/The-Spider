@@ -48,8 +48,8 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
 
 
             });
-        }, x => possibleProperties.Contains(x), "Where the agent should join?");
-        
+        }, x => possibleProperties.Contains(x), "Where the agent should join?",null,()=> { RefundAction(CORE.PC); });
+         
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

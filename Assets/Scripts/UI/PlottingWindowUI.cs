@@ -92,6 +92,9 @@ public class PlottingWindowUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI MethodBonus;
 
+    [SerializeField]
+    Toggle FleeOnFailureToggle;
+
 
 
 
@@ -164,6 +167,7 @@ public class PlottingWindowUI : MonoBehaviour
 
     public void Show(AgentInteractable target, SchemeType type,  Character plotter = null)
     {
+        FleeOnFailureToggle.isOn = false;
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
         TargetParticipants.Clear();
@@ -237,6 +241,16 @@ public class PlottingWindowUI : MonoBehaviour
 
         CurrentMethod = CurrentSchemeType.PossibleMethods[0];
         CurrentEntry  = CurrentSchemeType.PossibleEntries[0];
+
+        if (CurrentMethod == CurrentSchemeType.BaseMethod)
+        {
+            FleeOnFailureToggle.isOn = false;
+            FleeOnFailureToggle.interactable = false;
+        }
+        else
+        {
+            FleeOnFailureToggle.interactable = true;
+        }
 
         CORE.Instance.DelayedInvokation(0.1f, RefreshUI);
 
@@ -404,6 +418,16 @@ public class PlottingWindowUI : MonoBehaviour
         MethodFrame.color = methodRequirements == null? Color.black : Color.red;
         MethodName.text = (methodRequirements == null ? "<color=yellow>" : "<color=red>") + CurrentMethod.name + "</color>";
 
+        if (CurrentMethod == CurrentSchemeType.BaseMethod)
+        {
+            FleeOnFailureToggle.isOn = false;
+            FleeOnFailureToggle.interactable = false;
+        }
+        else
+        {
+            FleeOnFailureToggle.interactable = true;
+        }
+
         if (CurrentMethod.MethodBonus > 0)
         {
             MethodBonus.text = "+" + CurrentMethod.MethodBonus + " " + CurrentMethod.OffenseSkill.name;
@@ -524,7 +548,7 @@ public class PlottingWindowUI : MonoBehaviour
 
     public void Execute()
     {
-        PlotData Plot = new PlotData(CurrentSchemeType.name,CORE.PC, CurrentPlotter, Participants, TargetParticipants, CurrentTarget, CurrentMethod, CurrentEntry);
+        PlotData Plot = new PlotData(CurrentSchemeType.name,CORE.PC, CurrentPlotter, Participants, TargetParticipants, CurrentTarget, CurrentMethod, CurrentEntry, FleeOnFailureToggle.isOn);
 
         Plot.BaseMethod = CurrentSchemeType.BaseMethod;
 
@@ -559,6 +583,11 @@ public class PlottingWindowUI : MonoBehaviour
 
     public void RemoveLastParticipant()
     {
+        if(Participants.Count <= 0)
+        {
+            return;
+        }
+
         Participants.RemoveAt(Participants.Count - 1);
         RefreshUI();
     }

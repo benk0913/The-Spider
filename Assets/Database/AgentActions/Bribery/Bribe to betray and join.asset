@@ -13,25 +13,37 @@ MonoBehaviour:
   m_Name: Bribe to betray and join
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
-  Description: The character will betray it's current master and become your agent.
+  Description: 'The character will betray it''s current master and become your agent.
+
+
+    <color=red>Make
+    sure you have a free agent slot which may accommodate this character.</color>'
   Category: {fileID: 0}
   RequiredTraits: []
   MinimumAge: 0
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 0}
   ItemRequired: {fileID: 0}
+  MoreItemsRequired: []
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
     RarityValue: 0
     InvertedChance: 0
   FailureResult: {fileID: 0}
+  SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
   WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
+  InvokeEventOnExecute: 
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0

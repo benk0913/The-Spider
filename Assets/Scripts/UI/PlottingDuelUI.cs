@@ -72,6 +72,8 @@ public class PlottingDuelUI : MonoBehaviour
         }
     }
 
+    public bool Halted = false;
+
     private void Awake()
     {
         Instance = this;
@@ -106,6 +108,7 @@ public class PlottingDuelUI : MonoBehaviour
         AllDuelProcs.Clear();
         AllDuelProcs.AddRange(CORE.Instance.Database.DuelProcs);
 
+        Halted = false;
         SpeedMode = false;
 
         MouseLook.Instance.CurrentWindow = this.gameObject;
@@ -185,6 +188,11 @@ public class PlottingDuelUI : MonoBehaviour
 
             yield return StartCoroutine(SpecificDuelRoutine(Participant, Target));
 
+            if(Halted)
+            {
+                break;
+            }
+
             if (ParticipantsPortraits.Count == 0)
             {
                 yield return StartCoroutine(InvokeStage("MatchFailed"));
@@ -222,7 +230,7 @@ public class PlottingDuelUI : MonoBehaviour
     {
         FailReason reason = null;
 
-        if (ParticipantsPortraits.Count == 0)
+        if (Halted || ParticipantsPortraits.Count == 0)
         {
             reason = new FailReason("Lost Duels");
         }
@@ -230,15 +238,26 @@ public class PlottingDuelUI : MonoBehaviour
         List<Character> participants = new List<Character>();
         List<Character> targets = new List<Character>();
 
-        if (CurrentMethod == CurrentPlot.BaseMethod)//Ended Up Brutally
-        {
-            ParticipantsPortraits.ForEach((x) => { participants.Add(x.CurrentCharacter); });
-            TargetsPortraits.ForEach((x) => { targets.Add(x.CurrentCharacter); });
-        }
-        else
+        if (Halted)
         {
             participants = CurrentPlot.Participants;
             targets = CurrentPlot.TargetParticipants;
+
+            participants.RemoveAll(x => ParticipantsPortraits.Find(y => y.CurrentCharacter == x) != null);
+            targets.RemoveAll(x => TargetsPortraits.Find(y => y.CurrentCharacter == x) != null);
+        }
+        else
+        {
+            if (CurrentMethod == CurrentPlot.BaseMethod)//Ended Up Brutally
+            {
+                ParticipantsPortraits.ForEach((x) => { participants.Add(x.CurrentCharacter); });
+                TargetsPortraits.ForEach((x) => { targets.Add(x.CurrentCharacter); });
+            }
+            else
+            {
+                participants = CurrentPlot.Participants;
+                targets = CurrentPlot.TargetParticipants;
+            }
         }
 
         DuelResultData result = new DuelResultData(CurrentPlot, participants, targets, reason);
@@ -343,12 +362,21 @@ public class PlottingDuelUI : MonoBehaviour
                 GlobalMessagePrompterUI.Instance.Show("Plotters have been exposed!", 1f, Color.red);
                 AddToCombatLog("<color=yellow>Plotters fall back to violence...</color>");
 
+
                 ChangeMethod(CurrentPlot.BaseMethod);
 
                 ParticipantsPortraits.Add(Participant);
                 TargetsPortraits.Add(Target);
 
                 yield return StartCoroutine(InvokeStage("MethodFailure"));
+
+                if (CurrentPlot.IsFleeOnFailure)
+                {
+                    Halted = true;
+                    AddToCombatLog("<color=red>Plotters attempt to flee!</color>");
+                    yield return StartCoroutine(InvokeStage("MatchFailed"));
+
+                }
             }
             else //Normal State
             {

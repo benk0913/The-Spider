@@ -184,9 +184,7 @@ public class LongTermTaskEntity : AgentInteractable, IPointerClickHandler
 
         if(OriginAction != null)
         {
-            CurrentCharacter.TopEmployer.CGold += OriginAction.GoldCost;
-            CurrentCharacter.TopEmployer.CRumors += OriginAction.RumorsCost;
-            CurrentCharacter.TopEmployer.CConnections += OriginAction.ConnectionsCost;
+            OriginAction.RefundAction(CurrentCharacter.TopEmployer);
         }
 
         Destroy(this.gameObject);

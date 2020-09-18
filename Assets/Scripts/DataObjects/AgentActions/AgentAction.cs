@@ -467,4 +467,11 @@ public class AgentAction : ScriptableObject
 
         return bonuses;
     }
+
+    public virtual void RefundAction(Character toCharacter)
+    {
+        toCharacter.CGold += GoldCost;
+        toCharacter.CRumors += RumorsCost;
+        toCharacter.CConnections += ConnectionsCost;
+    }
 }

@@ -21,6 +21,8 @@ public class SelectLocationViewUI : MonoBehaviour
 
     Action<LocationEntity> CurrentonSelect;
 
+    Action CurrentOnCancel;
+
     Predicate<LocationEntity> CurrentFilter;
 
 
@@ -49,6 +51,11 @@ public class SelectLocationViewUI : MonoBehaviour
         MouseLook.Instance.CurrentWindow = null;
     }
 
+    public void Cancel()
+    {
+        CurrentOnCancel?.Invoke();
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -67,7 +74,7 @@ public class SelectLocationViewUI : MonoBehaviour
         }
     }
 
-    public virtual void Show(Action<LocationEntity> onSelect = null, Predicate<LocationEntity> filter = null, string title = "Select Location:", LocationEntity topLocation = null)
+    public virtual void Show(Action<LocationEntity> onSelect = null, Predicate<LocationEntity> filter = null, string title = "Select Location:", LocationEntity topLocation = null, Action OnCancel = null)
     {
         MouseLook.Instance.CurrentWindow = this.gameObject;
 
@@ -75,6 +82,7 @@ public class SelectLocationViewUI : MonoBehaviour
 
         CurrentTitle = title;
         CurrentonSelect = onSelect;
+        CurrentOnCancel = OnCancel;
         CurrentFilter = filter;
 
         Refresh();

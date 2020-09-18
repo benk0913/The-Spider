@@ -1272,13 +1272,13 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         }
 
 
-        node["PositionX"] = transform.position.x.ToString();
-        node["PositionY"] = transform.position.y.ToString();
-        node["PositionZ"] = transform.position.z.ToString();
+        node["PositionX"] = transform.position.x.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        node["PositionY"] = transform.position.y.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        node["PositionZ"] = transform.position.z.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-        node["RotationX"] = transform.rotation.eulerAngles.x.ToString();
-        node["RotationY"] = transform.rotation.eulerAngles.y.ToString();
-        node["RotationZ"] = transform.rotation.eulerAngles.z.ToString();
+        node["RotationX"] = transform.rotation.eulerAngles.x.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        node["RotationY"] = transform.rotation.eulerAngles.y.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        node["RotationZ"] = transform.rotation.eulerAngles.z.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         foreach (KnowledgeInstance item in Known.Items)
         {
@@ -1339,8 +1339,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             node["RotationX"] = node["RotationX"].Value.Replace(',', '.');
             node["RotationY"] = node["RotationY"].Value.Replace(',', '.');
             node["RotationZ"] = node["RotationZ"].Value.Replace(',', '.');
-            transform.position = new Vector3(float.Parse(node["PositionX"].Value), float.Parse(node["PositionY"].Value), float.Parse(node["PositionZ"].Value));
-            transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"].Value), float.Parse(node["RotationY"].Value), float.Parse(node["RotationZ"].Value));
+            transform.position = new Vector3(float.Parse(node["PositionX"].Value, System.Globalization.CultureInfo.InvariantCulture), float.Parse(node["PositionY"].Value, System.Globalization.CultureInfo.InvariantCulture), float.Parse(node["PositionZ"].Value, System.Globalization.CultureInfo.InvariantCulture));
+            transform.rotation = Quaternion.Euler(float.Parse(node["RotationX"].Value, System.Globalization.CultureInfo.InvariantCulture), float.Parse(node["RotationY"].Value, System.Globalization.CultureInfo.InvariantCulture), float.Parse(node["RotationZ"].Value, System.Globalization.CultureInfo.InvariantCulture));
 
             knowledgeCharacterIDs.Clear();
             foreach (KnowledgeInstance item in Known.Items)

@@ -65,7 +65,7 @@ public class InterrogatePerson : AgentAction //DO NOT INHERIT FROM
         if(win)
         {
 
-            PopupWindowUI.Instance.AddPopup(new PopupData(DeathPopup, new List<Character>() { character }, new List<Character>() { targetChar },
+            PopupWindowUI.Instance.AddPopup(new PopupData(WinPopup, new List<Character>() { character }, new List<Character>() { targetChar },
                   () =>
                   {
                       for(int i=0;i<12;i++)

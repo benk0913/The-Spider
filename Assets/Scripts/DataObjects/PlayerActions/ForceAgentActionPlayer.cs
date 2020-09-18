@@ -23,9 +23,18 @@ public class ForceAgentActionPlayer : PlayerAction
 
         if (SelectAgent)
         {
-            SelectAgentWindowUI.Instance.Show(
-                (Character character) => { ActionToForce.Execute(requester, character, target); SelectedPanelUI.Instance.Deselect(); }
-                , x => { return x.TopEmployer == CORE.PC && x.TopEmployer != x && x.IsAgent; },"Select Agent:",null,ActionToForce, target);
+            RightSelectCharacterPanelUI.Instance.Show(
+                (Character character) => { ActionToForce.Execute(requester, character, target); SelectedPanelUI.Instance.Deselect(); },
+                x => { return x.TopEmployer == CORE.PC && x.TopEmployer != x && x.IsAgent; },
+                "Select Agent:",
+                ActionToForce,
+                target,
+                ()=>
+                { 
+                    SelectAgentWindowUI.Instance.Show(
+                    (Character character) => { ActionToForce.Execute(requester, character, target); SelectedPanelUI.Instance.Deselect(); }
+                    , x => { return x.TopEmployer == CORE.PC && x.TopEmployer != x && x.IsAgent; }, "Select Agent:", null, ActionToForce, target);
+                });
         }
         else
         {

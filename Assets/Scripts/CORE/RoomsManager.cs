@@ -158,9 +158,9 @@ public class RoomItemData : ISaveFileCompatible
     public void FromJSON(JSONNode node)
     {
         this.PrefabKey = node["PrefabKey"];
-        this.PositionX = float.Parse(node["PositionX"]);
-        this.PositionY = float.Parse(node["PositionY"]);
-        this.PositionZ = float.Parse(node["PositionZ"]);
+        this.PositionX = float.Parse(node["PositionX"], System.Globalization.CultureInfo.InvariantCulture);
+        this.PositionY = float.Parse(node["PositionY"], System.Globalization.CultureInfo.InvariantCulture);
+        this.PositionZ = float.Parse(node["PositionZ"], System.Globalization.CultureInfo.InvariantCulture);
     }
 
     public void ImplementIDs()
@@ -173,9 +173,9 @@ public class RoomItemData : ISaveFileCompatible
         JSONClass node = new JSONClass();
 
         node["PrefabKey"] = this.PrefabKey;
-        node["PositionX"] = this.PositionX.ToString();
-        node["PositionY"] = this.PositionY.ToString();
-        node["PositionZ"] = this.PositionZ.ToString();
+        node["PositionX"] = this.PositionX.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        node["PositionY"] = this.PositionY.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        node["PositionZ"] = this.PositionZ.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
         return node;
     }

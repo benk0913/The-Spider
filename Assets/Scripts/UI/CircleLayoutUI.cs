@@ -8,7 +8,15 @@ public class CircleLayoutUI : MonoBehaviour
     float DistanceFromCenter = 1f;
 
     [SerializeField]
+    float SpiralDistance = 1f;
+
+    [SerializeField]
+    float SpiralAngleDistance= 60f;
+
+    [SerializeField]
     bool RefreshOnEnable;
+
+    public bool Spiral = false;
 
     private void OnEnable()
     {
@@ -26,11 +34,24 @@ public class CircleLayoutUI : MonoBehaviour
             return;
         }
 
-        float angleDistance = 360f / transform.childCount;
+        float angleDistance = 60f;
 
-        for (int i=0;i<transform.childCount;i++)
+        if (Spiral)
         {
-            transform.GetChild(i).transform.position = CirclePosition(transform.position, DistanceFromCenter, (i+1) * angleDistance);
+            angleDistance = SpiralAngleDistance;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).transform.position = CirclePosition(transform.position, DistanceFromCenter * (i * SpiralDistance) , (i + 1) * angleDistance);
+            }
+        }
+        else
+        {
+            angleDistance = 360f / transform.childCount;
+
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).transform.position = CirclePosition(transform.position, DistanceFromCenter, (i + 1) * angleDistance);
+            }
         }
     }
 
