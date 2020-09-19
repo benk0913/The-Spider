@@ -80,8 +80,9 @@ public class AllPropertiesViewUI : SelectLocationViewUI
         Show(null, null);
     }
 
-    public override void Show(Action<LocationEntity> onSelect = null, Predicate<LocationEntity> filter = null, string title = "Select Location:", LocationEntity topLocation = null)
+    public override void Show(Action<LocationEntity> onSelect = null, Predicate<LocationEntity> filter = null, string title = "Select Location:", LocationEntity topLocation = null, Action onCancel= null)
     {
+
         this.gameObject.SetActive(true);
         CORE.Instance.SubscribeToEvent("PassTimeComplete", Refresh);
         CORE.Instance.SubscribeToEvent("OnLocationChanged", Refresh);
