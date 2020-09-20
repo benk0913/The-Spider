@@ -28,6 +28,15 @@ public class InstantDoubleAgent : AgentAction //DO NOT INHERIT FROM
 
         character.PupperTurnsLeft = 35;
         character.PuppetOf = CORE.PC.CurrentFaction;
+
+        if(CORE.Instance.Factions.Find(X=>X.name == "Constabulary").FactionHead.name == character.name) //If head constable
+        {
+            if(character.PuppetOf.FactionHead == CORE.PC)
+            {
+                WarningWindowUI.Instance.Show("Your heat has been cleared.", null, false, null);
+                CORE.PC.Heat = 0;
+            }
+        }
         
     }
 

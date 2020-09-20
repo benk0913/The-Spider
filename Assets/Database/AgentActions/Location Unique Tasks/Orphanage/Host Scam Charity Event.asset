@@ -13,17 +13,21 @@ MonoBehaviour:
   m_Name: Host Scam Charity Event
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: c31dedf2bfe202d4d919603b6be3929a, type: 3}
-  Description: The orphanage will host a charity event that aims to improve the orphanage
-    and gather funds for the poor and helpless children of the city.  -Allegedly,
+  Description: 'The orphanage will host a charity event that aims to improve the
+    orphanage and gather funds for the poor and helpless children of the city.  -Allegedly,
     in truth, you will take the donations and use them as you see fit. After all,
-    you have funded this orphanage from the get-go, it's not like the poor children
+    you have funded this orphanage from the get-go, it''s not like the poor children
     are getting a bad deal.
+
+
+    -This action will also decrease "Heat".'
   Category: {fileID: 0}
   RequiredTraits: []
   MinimumAge: 0
   GoldCost: 20
   ConnectionsCost: 0
   RumorsCost: 0
+  HeatAdded: 0
   RequiredBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
   RequiredBonusValue: 2
   TechRequired: {fileID: 0}
@@ -46,6 +50,7 @@ MonoBehaviour:
   ActionDoneByTarget: 1
   InvokeEventOnExecute: 
   CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   Task: {fileID: 11400000, guid: eba733d03d24d6443aa6e44210070ff1, type: 2}
   RandomLocation: 0
   FriendlyLocation: 0

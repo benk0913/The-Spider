@@ -17,7 +17,8 @@ MonoBehaviour:
 
     <color=yellow>This will allow you to send an agent
     into hiding, an action which disables the agent but prevents any actions and
-    plots against it. This action will also clear the agent''s "Wanted" trait.</color>'
+    plots against it. This action will also clear the agent''s "Wanted" trait and
+    remove Heat.</color>'
   Icon: {fileID: 21300000, guid: 45913e39498d51a4698e8c16fb380230, type: 3}
   Price: 30
   Children:
@@ -26,6 +27,7 @@ MonoBehaviour:
   SubParents: []
   FactionsLocked:
   - {fileID: 11400000, guid: 1b8211c462c06164ca7e9f3f669a852d, type: 2}
+  FactionsHidden: []
   BoxColor: {r: 0, g: 0, b: 0, a: 0}
   TutorialScreen: {fileID: 11400000, guid: 21ea6e7e908b7d04d9588f05b2b53e86, type: 2}
   IsHidden: 0

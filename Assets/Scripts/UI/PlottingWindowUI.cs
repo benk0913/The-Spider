@@ -545,9 +545,46 @@ public class PlottingWindowUI : MonoBehaviour
 
 
 
+    void ConstabularySabotage()
+    {
+        PopupDataPreset preset = CORE.Instance.Database.GetPopupPreset("Plot Sabotage");
+
+        PopupWindowUI.Instance.AddPopup(new PopupData(preset, Participants, new List<Character> { CORE.Instance.Factions.Find(X => X.name == "Constabulary").FactionHead }
+        ,
+        () =>
+        {
+            foreach (Character character in Participants)
+            {
+                CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
+            }
+
+            CORE.PC.Heat++;
+        }
+        , null));
+
+        AudioControl.Instance.Play("plot_fail");
+
+        Hide();
+    }
 
     public void Execute()
     {
+        if (CurrentPlotter.TopEmployer == CORE.PC && CORE.PC.Heat == 3 && Random.Range(0f,1f) < 0.25f)
+        {
+            ConstabularySabotage();
+            return;
+        }
+        else if (CurrentPlotter.TopEmployer == CORE.PC && CORE.PC.Heat == 4 && Random.Range(0f, 1f) < 0.5f)
+        {
+            ConstabularySabotage();
+            return;
+        }
+        else if (CurrentPlotter.TopEmployer == CORE.PC && CORE.PC.Heat == 5)
+        {
+            ConstabularySabotage();
+            return;
+        }
+
         PlotData Plot = new PlotData(CurrentSchemeType.name,CORE.PC, CurrentPlotter, Participants, TargetParticipants, CurrentTarget, CurrentMethod, CurrentEntry, FleeOnFailureToggle.isOn);
 
         Plot.BaseMethod = CurrentSchemeType.BaseMethod;

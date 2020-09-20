@@ -20,6 +20,9 @@ MonoBehaviour:
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  HeatAdded: -1
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 0}
   ItemRequired: {fileID: 0}
   MoreItemsRequired: []
@@ -32,6 +35,7 @@ MonoBehaviour:
   SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 1478687570250304421, guid: 1e3eb1b98bd3df243b52f4f0d08aa27d,
     type: 3}
   WorldPortraitEffectOnTarget: {fileID: 0}
@@ -39,6 +43,8 @@ MonoBehaviour:
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
   InvokeEventOnExecute: 
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   TraitsToAdd: []
   TraitsToRemove:
   - {fileID: 11400000, guid: 5e1f076862722c64fa503c7715275814, type: 2}

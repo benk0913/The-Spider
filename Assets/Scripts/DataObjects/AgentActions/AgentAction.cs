@@ -20,6 +20,8 @@ public class AgentAction : ScriptableObject
     public int ConnectionsCost;
     public int RumorsCost;
 
+    public int HeatAdded;
+
     public BonusType RequiredBonus = null;
     public int RequiredBonusValue = 0;
 
@@ -234,6 +236,9 @@ public class AgentAction : ScriptableObject
             requester.CGold -= GoldCost;
             requester.CConnections -= ConnectionsCost;
             requester.CRumors -= RumorsCost;
+
+            if(requester.TopEmployer == CORE.PC)
+                requester.Heat += HeatAdded;
 
             if (ItemRequired != null)
             {

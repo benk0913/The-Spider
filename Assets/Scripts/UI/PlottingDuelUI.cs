@@ -252,6 +252,11 @@ public class PlottingDuelUI : MonoBehaviour
             {
                 ParticipantsPortraits.ForEach((x) => { participants.Add(x.CurrentCharacter); });
                 TargetsPortraits.ForEach((x) => { targets.Add(x.CurrentCharacter); });
+
+                if(CurrentPlot.Plotter.TopEmployer == CORE.PC)
+                {
+                    CORE.PC.Heat++;
+                }
             }
             else
             {

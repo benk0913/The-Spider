@@ -51,7 +51,12 @@ public class TutorialScreenUI : MonoBehaviour
 
             if (instance == null)
             {
-                return;
+                instance = CORE.Instance.Database.TutorialScreenInstances.Find(X => X.name == byKey);
+
+                if (instance == null)
+                {
+                    return;
+                }
             }
 
             if (instance.WasSeen && !forced)

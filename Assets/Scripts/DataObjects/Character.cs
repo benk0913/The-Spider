@@ -241,6 +241,40 @@ public class Character : ScriptableObject, ISaveFileCompatible
     [FormerlySerializedAs("Progress")]
     public int _progress;
 
+    public int Heat
+    {
+        get
+        {
+            return _heat;
+        }
+        set
+        {
+            if (value > _heat)
+            {
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Heat has been increased!", ResourcesLoader.Instance.GetSprite("knight"), CORE.PC));
+            }
+            else if (value < _heat)
+            {
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Heat has been decreased!", ResourcesLoader.Instance.GetSprite("LookAroundAction"), CORE.PC));
+            }
+
+            if (value > 5)
+            {
+                _heat = 5;
+                Death();
+            }
+            else if(value < 0)
+            {
+                _heat = 0;
+            }
+
+            _heat = value;
+
+            CORE.Instance.InvokeEvent("HeatChanged");
+        }
+    }
+    public int _heat = 0;
+
     public bool IsDisabled = false;
 
     public bool NeverDED = false;
@@ -1973,6 +2007,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         node["Rumors"] = CRumors.ToString();
         node["Progress"] = CProgress.ToString();
         node["Reputation"] = Reputation.ToString();
+        node["Heat"] = Heat.ToString();
 
         node["NeverDED"] = NeverDED.ToString();
         node["IsDisabled"] = IsDisabled.ToString();
@@ -2104,6 +2139,9 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CRumors = int.Parse(node["Rumors"].Value);
         CProgress = int.Parse(node["Progress"].Value);
         Reputation = int.Parse(node["Reputation"].Value);
+
+        if(!string.IsNullOrEmpty(node["Heat"].Value))
+            Heat = int.Parse(node["Heat"].Value);
 
         Character existingChar = CORE.Instance.Database.PresetCharacters.Find(x => x.name == this.name);
         if (existingChar != null)

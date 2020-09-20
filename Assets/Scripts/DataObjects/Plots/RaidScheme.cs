@@ -51,7 +51,7 @@ public class RaidScheme : SchemeType
             data.Plot.Plotter.TopEmployer.CProgress += prog;
         }
 
-        if (targetLocation.OwnerCharacter.TopEmployer == CORE.PC)
+        if (targetLocation.OwnerCharacter != null && targetLocation.OwnerCharacter.TopEmployer == CORE.PC)
         {
 
             List<Item> stoledItems = new List<Item>();

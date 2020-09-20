@@ -44,6 +44,8 @@ public class ForageEmployeeReleaseDocuments : AgentAction
                 selected.GoToLocation(selected.HomeLocation);
 
                 CORE.Instance.ShowPortraitEffect(PortraitEffectOnReleasedTarget, selected, selected.CurrentLocation);
+
+                CORE.PC.Heat--;
             },
             (x) =>
             {

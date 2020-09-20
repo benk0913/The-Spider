@@ -19,13 +19,19 @@ MonoBehaviour:
 
 
     - The character will also not be "Wanted" by the constabulary
-    any longer.'
+    any longer.
+
+
+    - This action will also decrease the "Heat"'
   Category: {fileID: 11400000, guid: b1d19a2222cc4a049ae93ef19da86f30, type: 2}
   RequiredTraits: []
   MinimumAge: 0
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 20
+  HeatAdded: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 11400000, guid: 1710f8a225fc0444d93e2bd2c4c2498b, type: 2}
   ItemRequired: {fileID: 0}
   MoreItemsRequired: []
@@ -38,12 +44,15 @@ MonoBehaviour:
   SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
   WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 1
   InvokeEventOnExecute: 
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   Task: {fileID: 11400000, guid: 94cd0e818cc859b4c91c942045f3663a, type: 2}
   RandomLocation: 1
   FriendlyLocation: 0
