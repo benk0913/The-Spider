@@ -29,6 +29,9 @@ public class LocationInfoUI : MonoBehaviour
     TextMeshProUGUI RankText;
 
     [SerializeField]
+    TextMeshProUGUI CorpsesBuriedLabel;
+
+    [SerializeField]
     Transform TraitsContainer;
 
     [SerializeField]
@@ -131,6 +134,10 @@ public class LocationInfoUI : MonoBehaviour
         }
 
         HasCaseInProgressPanel.SetActive(CurrentLocation.CaseElements.Count > 0);
+
+        CorpsesBuriedLabel.transform.parent.gameObject.SetActive(CurrentLocation.OwnerCharacter != null && CurrentLocation.OwnerCharacter.TopEmployer == CORE.PC && CurrentLocation.CorpsesBuried > 0);
+
+        CorpsesBuriedLabel.text = CurrentLocation.CorpsesBuried.ToString();
     }
 
     void ClearContainer(Transform containerTransform)

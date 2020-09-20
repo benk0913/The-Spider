@@ -173,6 +173,35 @@ public class StreetPatrolComplete : AgentAction
                 continue;
             }
         }
+
+        //Hunt for corpses
+        if (character.CurrentLocation.CorpsesBuried > 0)
+        {
+            for (int i = 0; i < character.CurrentLocation.CorpsesBuried; i++)
+            {
+                if(Random.Range(0f,1f) < 0.05f)
+                {
+                    if(character.CurrentLocation.OwnerCharacter != null && character.CurrentLocation.OwnerCharacter.PrisonLocation == null)
+                    {
+
+                        List<Character> pplInvolved = new List<Character>();
+
+                        pplInvolved.Add(character.CurrentLocation.OwnerCharacter);
+
+                        pplInvolved.AddRange(character.CurrentLocation.EmployeesCharacters.FindAll(x => x.CurrentLocation == character.CurrentLocation));
+                        pplInvolved.AddRange(character.CurrentLocation.GuardsCharacters.FindAll(x => x.CurrentLocation == character.CurrentLocation));
+
+                        foreach (Character involved in pplInvolved)
+                        {
+                            CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(CORE.Instance.Database.GOD, involved, target);
+                        }
+                    }
+
+                    character.CurrentLocation.CorpsesBuried--;
+                    break;
+                }
+            }
+        }
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

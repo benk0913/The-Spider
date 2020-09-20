@@ -88,6 +88,11 @@ public class RaidScheme : SchemeType
         {
             WarningWindowUI.Instance.Show("You managed to steal 20% of their resources!", null);
         }
+
+        if(data.Plot.Plotter.TopEmployer == CORE.PC && data.Plot.Corpses.Count > 0)
+        {
+            CorpseDisposalUI.Instance.Show(data.Plot.Corpses);
+        }
         }));
 
     }

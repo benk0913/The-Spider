@@ -257,6 +257,8 @@ public class PlottingDuelUI : MonoBehaviour
                 {
                     CORE.PC.Heat++;
                 }
+
+
             }
             else
             {

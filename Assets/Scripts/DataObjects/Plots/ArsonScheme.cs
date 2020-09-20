@@ -50,6 +50,7 @@ public class ArsonScheme : SchemeType
                         PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>(){ data.Plot.Plotter } ,
                         () =>
                         {
+                            data.Plot.Corpses.Add(character);
                             CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
                         }));
                     }
@@ -61,7 +62,7 @@ public class ArsonScheme : SchemeType
                         PopupWindowUI.Instance.AddPopup(new PopupData(CharacterBurnt, new List<Character>() { character }, new List<Character>() { data.Plot.Plotter },
                         () =>
                         {
-
+                            data.Plot.Corpses.Add(character);
                             CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, character, character.CurrentLocation);
                         }));
                     }
@@ -70,7 +71,10 @@ public class ArsonScheme : SchemeType
 
             targetLocation.BecomeRuins();
 
+            if (data.Plot.Plotter.TopEmployer == CORE.PC && data.Plot.Corpses.Count > 0)
+            {
+                CorpseDisposalUI.Instance.Show(data.Plot.Corpses);
+            }
         }));
-
     }
 }

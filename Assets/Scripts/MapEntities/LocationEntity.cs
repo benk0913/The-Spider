@@ -123,6 +123,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public bool IsDisabled = false;
 
+    public int CorpsesBuried = 0;
+
     public UnityEvent StateUpdated;
 
     public Property.PropertyAction CurrentAction;
@@ -1259,6 +1261,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         node["ID"] = ID;
         node["CurrentProperty"] = CurrentProperty.name;
         node["Level"] = Level.ToString();
+        node["CorpsesBuried"] = CorpsesBuried.ToString();
         node["IsUpgrading"] = IsUpgrading.ToString();
         node["IsRuined"] = IsRuined.ToString();
         node["CurrentUpgradeLength"] = CurrentUpgradeLength.ToString();
@@ -1310,10 +1313,16 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         try
         {
-            if (!int.TryParse(node["Level"], out Level))
+            if (!int.TryParse(node["Level"].Value, out Level))
             {
                 Level = 1;
             }
+
+            if(!int.TryParse(node["CorpsesBuried"].Value, out CorpsesBuried))
+            {
+                CorpsesBuried = 0;
+            }
+
             SetInfo(node["ID"], CORE.Instance.Database.GetPropertyByName(node["CurrentProperty"]), true);
             IsUpgrading = bool.Parse(node["IsUpgrading"]);
             IsRuined = bool.Parse(node["IsRuined"]);

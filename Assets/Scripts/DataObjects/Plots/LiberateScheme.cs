@@ -27,7 +27,12 @@ public class LiberateScheme : SchemeType
                         CORE.Instance.Database.GetAgentAction("Get Liberated").Execute(CORE.Instance.Database.GOD, prisoner, prisoner.HomeLocation);
                     });
                 }
-            }));
+
+       if (data.Plot.Plotter.TopEmployer == CORE.PC && data.Plot.Corpses.Count > 0)
+       {
+           CorpseDisposalUI.Instance.Show(data.Plot.Corpses);
+       }
+   }));
 
     }
 }

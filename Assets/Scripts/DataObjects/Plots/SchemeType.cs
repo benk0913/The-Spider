@@ -281,7 +281,7 @@ public class SchemeType : ScriptableObject
         {
             if (!result.LeftParticipants.Contains(participant))
             {
-                AggressiveDuelResult(participant, false);
+                AggressiveDuelResult(participant, false, result.Plot);
             }
         }
 
@@ -295,7 +295,7 @@ public class SchemeType : ScriptableObject
         {
             if (!result.LeftTargets.Contains(target))
             {
-                AggressiveDuelResult(target, false);
+                AggressiveDuelResult(target, false, result.Plot);
             }
         }
 
@@ -323,7 +323,7 @@ public class SchemeType : ScriptableObject
         {
             if(!result.LeftParticipants.Contains(participant))
             {
-                AggressiveDuelResult(participant, true);
+                AggressiveDuelResult(participant, true, result.Plot);
             }
         }
 
@@ -337,14 +337,14 @@ public class SchemeType : ScriptableObject
         {
             if (!result.LeftTargets.Contains(target))
             {
-                AggressiveDuelResult(target, false);
+                AggressiveDuelResult(target, false, result.Plot);
             }
         }
 
 
     }
 
-    public virtual void AggressiveDuelResult(Character loser, bool allowArrest = false)
+    public virtual void AggressiveDuelResult(Character loser, bool allowArrest = false, PlotData plot = null)
     {
         float randomResult = Random.Range(0f, 1f);
 
@@ -368,6 +368,8 @@ public class SchemeType : ScriptableObject
         {
             PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character>()
                  , () => { CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
+
+            plot.Corpses.Add(loser);
         }
     }
 }
@@ -411,6 +413,8 @@ public class PlotData
     public bool IsFleeOnFailure;
 
     public List<DuelProc> ProcsUsed = new List<DuelProc>();
+
+    public List<Character> Corpses = new List<Character>();
 
     public PlotData(string name,Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry, bool isFleeOnFailure = false)
     {

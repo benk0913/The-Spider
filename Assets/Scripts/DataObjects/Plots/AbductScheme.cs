@@ -28,7 +28,11 @@ public class AbductScheme : SchemeType
         {
             CORE.Instance.Database.GetAgentAction("Get Abducted").Execute(CORE.Instance.Database.GOD, data.Plot.TargetCharacter, location);
         }
-        
+
+        if (data.Plot.Plotter.TopEmployer == CORE.PC && data.Plot.Corpses.Count > 0)
+        {
+            CorpseDisposalUI.Instance.Show(data.Plot.Corpses);
+        }
     }));
     }
 }
