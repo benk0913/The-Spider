@@ -369,7 +369,7 @@ public class SchemeType : ScriptableObject
             PopupWindowUI.Instance.AddPopup(new PopupData(DuelResultDeathScenario.PopupData, new List<Character> { loser }, new List<Character>()
                  , () => { CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, loser, loser.CurrentLocation); }));
 
-            plot.Corpses.Add(loser);
+            plot.AddCorpse(loser);
         }
     }
 }
@@ -415,6 +415,16 @@ public class PlotData
     public List<DuelProc> ProcsUsed = new List<DuelProc>();
 
     public List<Character> Corpses = new List<Character>();
+
+    public void AddCorpse(Character character)
+    {
+        if(Corpses.Contains(character))
+        {
+            return;
+        }
+
+        Corpses.Add(character);
+    }
 
     public PlotData(string name,Character requester, Character plotter, List<Character> participants, List<Character> targetParticipants, AgentInteractable target, PlotMethod method, PlotEntry entry, bool isFleeOnFailure = false)
     {

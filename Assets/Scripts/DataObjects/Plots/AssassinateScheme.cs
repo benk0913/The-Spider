@@ -20,7 +20,7 @@ public class AssassinateScheme : SchemeType
 
     CORE.Instance.Database.GetAgentAction("Death").Execute(CORE.Instance.Database.GOD, data.Plot.TargetCharacter, data.Plot.TargetCharacter.CurrentLocation);
 
-        data.Plot.Corpses.Add(data.Plot.TargetCharacter);
+        data.Plot.AddCorpse(data.Plot.TargetCharacter);
 
         if (data.Plot.Plotter.TopEmployer == CORE.PC && data.Plot.Corpses.Count > 0)
         {
