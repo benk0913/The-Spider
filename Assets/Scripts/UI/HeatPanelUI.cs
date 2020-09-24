@@ -288,6 +288,7 @@ public class HeatPanelUI : MonoBehaviour
 
         TooltipTarget.Text = "<color=red>Heat:</color> How suspicious is your faction the eyes of the Constabulary.";
         TooltipTarget.Text += System.Environment.NewLine;
+
         TooltipTarget.Text += SuspicionTooltips[CORE.PC.Heat];
     }
 

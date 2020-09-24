@@ -13,4 +13,9 @@ public class MainMenuUI : MonoBehaviour
     {
         LoadGameWindowUI.Instance.Show();
     }
+
+    public void LinkToCommunity()
+    {
+        Application.OpenURL("https://steamcommunity.com/app/1380010/discussions/");
+    }
 }

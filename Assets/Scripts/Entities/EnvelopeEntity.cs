@@ -11,7 +11,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
     public LetterPreset PresetLetter;
 
     [SerializeField]
-    Letter CurrentLetter;
+    public Letter CurrentLetter;
 
     [SerializeField]
     TextMeshProUGUI TitleText;

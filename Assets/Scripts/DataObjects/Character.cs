@@ -263,12 +263,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
                 _heat = 5;
                 Death();
             }
-            else if(value < 0)
+            else if (value < 0)
             {
                 _heat = 0;
             }
-
-            _heat = value;
+            else
+            {
+                _heat = value;
+            }
 
             CORE.Instance.InvokeEvent("HeatChanged");
         }

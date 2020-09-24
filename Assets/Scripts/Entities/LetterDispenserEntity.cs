@@ -79,7 +79,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
         yield return 0;
 
         Quaternion targetRotation = Quaternion.Euler(letterTransform.rotation.x+90f, letterTransform.rotation.y, letterTransform.rotation.z+ Random.Range(0f, 180f));
-
+        
         float t = 0f;
         while(t<1f)
         {
@@ -106,7 +106,7 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     {
         for(int i=0;i<Envelopes.Count;i++)
         {
-            if (Envelopes[i].PresetLetter != null && Envelopes[i].PresetLetter.FromRaven)
+            if ((Envelopes[i].PresetLetter != null && Envelopes[i].PresetLetter.FromRaven) || Envelopes[i].CurrentLetter.FromRaven)
             {
                 Envelopes[i].transform.position = targetPointRaven.position + new Vector3(0f, i / 100f, 0f);
             }
@@ -121,7 +121,18 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     {
         GameObject tempLetter;
 
-        if (letter.FromRaven)
+        bool fromRaven = false;
+
+        if(letter.Preset != null)
+        {
+            fromRaven = letter.Preset.FromRaven;
+        }
+        else
+        {
+            fromRaven = letter.FromRaven;
+        }
+
+        if (letter.FromRaven || letter.Preset.FromRaven)
         {
             tempLetter = Instantiate(LetterPrefabRaven);
             tempLetter.transform.position = targetPointRaven.position;
@@ -167,12 +178,13 @@ public class LetterDispenserEntity : MonoBehaviour, ISaveFileCompatible
     {
         Envelopes.Clear();
 
-        for (int i=0;i<node["Envelopes"].Count;i++)
+        for (int i = 0; i < node["Envelopes"].Count; i++)
         {
             Letter tempLetter = new Letter(CORE.Instance.Database.PresetLetters.Find(x => x.name == node["Envelopes"][i]["Preset"]));
+            tempLetter.FromJSON(node["Envelopes"][i]["Letter"]);
             EnvelopeEntity tempEnvelope = GenerateLetter(tempLetter).GetComponent<EnvelopeEntity>();
             tempEnvelope.FromJSON(node["Envelopes"][i]);
-            StartCoroutine(DispenseLetterRoutine(tempLetter, tempEnvelope.transform,0f,tempLetter.Preset.FromRaven));
+            StartCoroutine(DispenseLetterRoutine(tempLetter, tempEnvelope.transform,0f, tempLetter.Preset.FromRaven));
         }
     }
 
