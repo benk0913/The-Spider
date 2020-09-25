@@ -126,6 +126,11 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
+        if(string.IsNullOrEmpty(node["IsResearched"]))
+        {
+            return;
+        }
+
         IsResearched = bool.Parse(node["IsResearched"]);
         for (int i = 0; i < Children.Count; i++)
         {
