@@ -493,6 +493,7 @@ public class CharacterInfoUI : MonoBehaviour
         }
 
         CORE.PC.CProgress -= 3;
+        GlobalMessagePrompterUI.Instance.Show("Spent 3 Progression Points", 1f, Color.red);
 
         ChangePerkWindowUI.Instance.Show(CurrentCharacter, false);
 
@@ -514,6 +515,7 @@ public class CharacterInfoUI : MonoBehaviour
         }
 
         CORE.PC.CProgress -= 3;
+        GlobalMessagePrompterUI.Instance.Show("Spent 3 Progression Points", 1f, Color.red);
 
         ChangePerkWindowUI.Instance.Show(CurrentCharacter, true);
 

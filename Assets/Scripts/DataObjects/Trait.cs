@@ -25,6 +25,8 @@ public class Trait : ScriptableObject
     public int MinAge = 0;
 
     public string KnowledgeRumor = "\"What an interesting person!\"";
+
+    public bool Manipulable = false;
 }
 
 [System.Serializable]

@@ -61,7 +61,7 @@ public class RebrandWindowUI : MonoBehaviour
     public void Show(LocationEntity currentLocation)
     {
         MouseLook.Instance.CurrentWindow = this.gameObject;
-
+        
         CurrentIndex = 0;
         CurrentLocation = currentLocation;
 
@@ -82,6 +82,10 @@ public class RebrandWindowUI : MonoBehaviour
                 continue;
             }
 
+            if(CORE.PlayerFaction.FactionProperties[i] == CurrentLocation.CurrentProperty)
+            {
+                CurrentIndex = i;
+            }
 
             propertiesAvailable++;
         }

@@ -61,11 +61,12 @@ public class ChangePerkWindowUI : MonoBehaviour
         if(isRemove)
         {
             traits.AddRange(CurrentCharacter.Traits);
+            traits.RemoveAll(x => !x.Manipulable);
         }
         else
         {
             traits.AddRange(CORE.Instance.Database.Traits);
-            traits.RemoveAll(x => CurrentCharacter.Traits.Find(y => y.name == x.name) != null);
+            traits.RemoveAll(x => !x.Manipulable && CurrentCharacter.Traits.Find(y => y.name == x.name) != null);
         }
 
         traits = traits.OrderBy(x => Guid.NewGuid()).ToList();

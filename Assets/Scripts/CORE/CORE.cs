@@ -376,7 +376,7 @@ public class CORE : MonoBehaviour
     public Coroutine TurnPassedRoutineInstance;
     IEnumerator TurnPassedRoutine()
     {
-        if(GameClock.Instance.CurrentTurn % 15 == 0)
+        if (GameClock.Instance.CurrentTurn % 15 == 0)
         {
             GlobalMessagePrompterUI.Instance.Show("Auto Save", 3f, Color.green);
 
@@ -395,22 +395,22 @@ public class CORE : MonoBehaviour
 
             Character factionHead = CORE.Instance.Characters.Find(x => x.name == faction.FactionHead.name);
 
-            if(factionHead == null)
+            if (factionHead == null)
             {
                 continue;
             }
 
-            if(factionHead.AI == null)
+            if (factionHead.AI == null)
             {
                 continue;
             }
 
-            if(factionHead.name == CORE.PC.name)
+            if (factionHead.name == CORE.PC.name)
             {
                 continue;
             }
 
-            if(factionHead.IsDead)
+            if (factionHead.IsDead)
             {
                 continue;
             }
@@ -423,7 +423,7 @@ public class CORE : MonoBehaviour
 
         TurnLoadingWindowUI.Instance.SetLoadingTitle("Locations... ");//(" + Locations.Count + ")
 
-        for (int i=0;i<Locations.Count;i++)
+        for (int i = 0; i < Locations.Count; i++)
         {
             TurnLoadingWindowUI.Instance.SetProgress(i * 1f / (Locations.Count + Characters.Count) * 1f);
 
@@ -436,8 +436,8 @@ public class CORE : MonoBehaviour
         }
 
         TurnLoadingWindowUI.Instance.SetLoadingTitle("Characters... ");//("+Characters.Count + ")
-        
-        for (int i=0;i<Characters.Count;i++)
+
+        for (int i = 0; i < Characters.Count; i++)
         {
 
             TurnLoadingWindowUI.Instance.SetProgress((Locations.Count + i) * 1f / (Locations.Count + Characters.Count) * 1f);
@@ -452,16 +452,16 @@ public class CORE : MonoBehaviour
 
         //if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
         //{
-        foreach(Faction faction in CORE.Instance.Factions)
+        foreach (Faction faction in CORE.Instance.Factions)
         {
-            if(faction.FactionHead == null)
+            if (faction.FactionHead == null)
             {
                 continue;
             }
 
             Character factionHead = GetCharacter(faction.FactionHead.name);
 
-            if(factionHead == null)
+            if (factionHead == null)
             {
                 continue;
             }
@@ -481,21 +481,21 @@ public class CORE : MonoBehaviour
         {
             rule.PassTurn(out shouldRemoveRule);
 
-            if(shouldRemoveRule)
+            if (shouldRemoveRule)
             {
                 rulesToRemove.Add(rule);
             }
         }
 
-        while(rulesToRemove.Count > 0)
+        while (rulesToRemove.Count > 0)
         {
             SessionRules.Rules.Remove(rulesToRemove[0]);
             rulesToRemove.RemoveAt(0);
         }
 
-        foreach(RecruitmentPool pool in Database.RecruitmentPools)
+        foreach (RecruitmentPool pool in Database.RecruitmentPools)
         {
-            if(pool.Characters.Count == 0)
+            if (pool.Characters.Count == 0)
             {
                 continue;
             }
@@ -508,6 +508,109 @@ public class CORE : MonoBehaviour
             TurnLoadingWindowUI.Instance.SetLoadingTitle("Whispers...");
 
             yield return StartCoroutine(DisplayDayRumorRoutine());
+        }
+
+
+        TurnLoadingWindowUI.Instance.SetLoadingTitle("Cults");
+
+        yield return 0;
+
+        if (TechTree.Find(X => X.name == Database.CultTech.name).IsResearched)
+        {
+            int CharactersConverted = 0;
+
+            List<Character> Cultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) != null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
+            List<Character> NonCultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) == null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
+            
+            if(NonCultists.Count > 0)
+            {
+                if (Cultists.Count == 0)
+                {
+                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                    CharactersConverted += 5;
+                }
+
+                for (int i = 0; i < Cultists.Count; i++)
+                {
+                    if (Random.Range(0f, 1f) < 0.05f)
+                    {
+                        NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                        CharactersConverted++;
+                    }
+                }
+            }
+
+            if (CharactersConverted > 0)
+            {
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersConverted + " characters have joined the cult this turn...", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
+            }
+
+            List<Character> DevotedCultists = new List<Character>();
+            if (TechTree.Find(X => X.name == Database.CultTechReligious.name).IsResearched)
+            {
+                    
+                DevotedCultists.AddRange(Cultists.FindAll(x => x.Traits.Find(t => t==Database.CultistReligiousTrait) != null));
+                Cultists.RemoveAll(x=>DevotedCultists.Contains(x));
+
+                int CharactersDevoted = 0;
+
+
+
+                if (Cultists.Count > 0)
+                {
+                    if (DevotedCultists.Count == 0)
+                    {
+                        Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
+                        Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
+                        Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
+                        CharactersDevoted += 3;
+                    }
+
+                    for (int i = 0; i < DevotedCultists.Count; i++)
+                    {
+                        if (Random.Range(0f, 1f) < 0.01f)
+                        {
+                            Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
+                            CharactersDevoted++;
+                        }
+                    }
+                }
+
+                if (CharactersDevoted > 0)
+                {
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersDevoted + " cultists became devoted this turn.", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
+                }
+
+
+            }
+
+            if (TechTree.Find(y => y.name == Database.CultistTechCommercial.name).IsResearched)
+            {
+                int commercialEarn = (Cultists.Count + DevotedCultists.Count)/2;
+
+                    PC.CGold += commercialEarn;
+
+                if (commercialEarn > 0)
+                {
+                    if (PC.PropertiesOwned.Count > 0)
+                    {
+                        SplineAnimationObject(
+                        "CoinCollectedWorld",
+                        PC.PropertiesOwned[0].transform,
+                        StatsViewUI.Instance.GoldText.transform,
+                        () => { StatsViewUI.Instance.RefreshGold(); },
+                        false);
+
+                        AudioControl.Instance.PlayInPosition("resource_gold", PC.PropertiesOwned[0].transform.position);
+                    }
+
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+"+commercialEarn + " Gold from your Pyramid Scheme.", ResourcesLoader.Instance.GetSprite("painting_commercial"), CORE.PC));
+                }
+            }
         }
 
         TurnPassedRoutineInstance = null;

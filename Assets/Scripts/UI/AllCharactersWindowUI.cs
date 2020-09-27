@@ -21,7 +21,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
         Refresh();
     }
 
-    void Refresh()
+    public void Refresh()
     {
         switch (CurrentType)
         {
@@ -61,6 +61,17 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
                     });
                     break;
                 }
+            case GridType.Cultists:
+                {
+                    base.Show(null, (Character charInQuestion) =>
+                    {
+                        return charInQuestion.Traits.Find(x=>x == CORE.Instance.Database.CultistTrait) != null
+                        && charInQuestion != CORE.PC
+                        && !charInQuestion.IsDisabled
+                        && !charInQuestion.HiddenFromCharacterWindows;
+                    });
+                    break;
+                }
         }
     }
 
@@ -86,6 +97,6 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
     [System.Serializable]
     public enum GridType
     {
-        All,Agents,Important
+        All,Agents,Important,Cultists
     }
 }

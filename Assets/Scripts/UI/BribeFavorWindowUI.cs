@@ -30,6 +30,12 @@ public class BribeFavorWindowUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI FavorOwedText;
 
+    [SerializeField]
+    GameObject CultistObject;
+
+    [SerializeField]
+    GameObject DevotedCultistObject;
+
     private void Awake()
     {
         Instance = this;
@@ -83,6 +89,7 @@ public class BribeFavorWindowUI : MonoBehaviour
         AudioControl.Instance.MuteMusic();
 
         CurrentCharacter = ofCharacter;
+
         this.gameObject.SetActive(true);
 
         RefreshUI();
@@ -90,6 +97,9 @@ public class BribeFavorWindowUI : MonoBehaviour
 
     void RefreshUI()
     {
+        CultistObject.gameObject.SetActive(CurrentCharacter.Traits.Find(x => x == CORE.Instance.Database.CultistTrait) != null);
+        DevotedCultistObject.gameObject.SetActive(CurrentCharacter.Traits.Find(x => x == CORE.Instance.Database.CultistReligiousTrait) != null);
+
         CurrentCharacterPortrait.SetCharacter(CurrentCharacter);
         PlayerCharacterPortrait.SetCharacter(CORE.PC);
 

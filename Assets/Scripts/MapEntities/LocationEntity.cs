@@ -504,6 +504,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             return;
         }
 
+        if(Random.Range(0f,1f) < 0.5f)
+        {
+            return;
+        }
+
         foreach(Property.PropertyEvent pEvent in CurrentProperty.PropertyEvents)
         {
             if(GameClock.Instance.CurrentTurn % pEvent.TurnInterval == 0 && Random.Range(0f,1f) < pEvent.Chance)

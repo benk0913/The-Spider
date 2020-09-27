@@ -861,26 +861,62 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public int FavorPointGoldPrice(Character withCharacter)
     {
-        return Mathf.RoundToInt(Mathf.Max(
+        if (withCharacter == CORE.PC && Traits.Find(x => x == CORE.Instance.Database.CultistReligiousTrait) != null)
+        {
+            return 0;
+        }
+
+        int value = Mathf.RoundToInt(Mathf.Max(
             10
             ,
             (100) - (GetRelationsWith(withCharacter) * 5f)));
+
+        if (withCharacter == CORE.PC && Traits.Find(x => x == CORE.Instance.Database.CultistTrait) != null)
+        {
+            return value / 2;
+        }
+
+        return value;
     }
 
     public int FavorPointRumorsPrice(Character withCharacter)
     {
-        return Mathf.RoundToInt(Mathf.Max(
-            10
-            ,
-            (50) + (GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value * 10f)));
+        if (withCharacter == CORE.PC && Traits.Find(x => x == CORE.Instance.Database.CultistReligiousTrait) != null)
+        {
+            return 0;
+        }
+
+        int value = Mathf.RoundToInt(Mathf.Max(
+           10
+           ,
+           (100) - (GetRelationsWith(withCharacter) * 5f)));
+
+        if (withCharacter == CORE.PC && Traits.Find(x => x == CORE.Instance.Database.CultistTrait) != null)
+        {
+            return value / 2;
+        }
+
+        return value;
     }
 
     public int FavorPointConnectionsPrice(Character withCharacter)
     {
-        return Mathf.RoundToInt(Mathf.Max(
+        if (withCharacter == CORE.PC && Traits.Find(x => x == CORE.Instance.Database.CultistReligiousTrait) != null)
+        {
+            return 0;
+        }
+
+        int value = Mathf.RoundToInt(Mathf.Max(
             10
             ,
-            (60) + (PropertiesInCommand.Count * 10f)));
+            (100) - (GetRelationsWith(withCharacter) * 5f)));
+
+        if (withCharacter == CORE.PC &&  Traits.Find(x => x == CORE.Instance.Database.CultistTrait) != null)
+        {
+            return value / 2;
+        }
+
+        return value;
     }
 
 
@@ -1128,7 +1164,17 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
-        foreach(DynamicRelationsModifier dynamicMod in DynamicRelationsModifiers)
+        if (otherCharacter == CORE.PC && Traits.Contains(CORE.Instance.Database.CultistTrait))
+        {
+            modifiers.Add(new RelationsModifier("Cult Leader", 5));
+        }
+
+        if (otherCharacter == CORE.PC && Traits.Contains(CORE.Instance.Database.CultistReligiousTrait))
+        {
+            modifiers.Add(new RelationsModifier("Devotion", 5));
+        }
+
+        foreach (DynamicRelationsModifier dynamicMod in DynamicRelationsModifiers)
         {
             if(dynamicMod.ToCharacter == otherCharacter)
             {
@@ -1352,6 +1398,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     void LeaveFaction()
     {
+        if (TopEmployer == CORE.PC && Traits.Contains(CORE.Instance.Database.CultistReligiousTrait))
+        {
+            return;
+        }
+
         WarningWindowUI.Instance.Show(this.name+" has left your faction.",null);
 
         while(PropertiesOwned.Count > 0)
@@ -1370,6 +1421,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
 
         if(TopEmployer != CORE.PC)
+        {
+            return;
+        }
+
+        if(Traits.Contains(CORE.Instance.Database.CultistReligiousTrait))
         {
             return;
         }

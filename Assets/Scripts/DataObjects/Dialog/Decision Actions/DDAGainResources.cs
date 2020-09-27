@@ -109,7 +109,7 @@ public class DDAGainResources : DialogDecisionAction
             CORE.Instance.SplineAnimationObject(
              "CoinCollectedWorld",
              resourceSource,
-             StatsViewUI.Instance.RumorsText.transform,
+             StatsViewUI.Instance.GoldText.transform,
              () => { StatsViewUI.Instance.RefreshGold(); },
              false);
 

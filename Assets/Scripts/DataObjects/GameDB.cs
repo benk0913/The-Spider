@@ -32,6 +32,13 @@ public class GameDB : ScriptableObject
     public PropertyTrait SourceForDrugsTrait;
     public PropertyTrait BurialGroundTrait;
 
+    public Trait CultistTrait;
+    public Trait CultistReligiousTrait;
+
+    public TechTreeItem CultTech;
+    public TechTreeItem CultTechReligious;
+    public TechTreeItem CultistTechCommercial;
+
     public LetterPreset BetrayalLetter;
     public LetterPreset TurnSpamLetter;
     public PopupDataPreset TurnSpamPopup;

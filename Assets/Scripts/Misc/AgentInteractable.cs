@@ -224,7 +224,7 @@ public class AgentInteractable : MonoBehaviour
                     , action.Icon
                     , action.CanDoAction(CORE.PC, this, out reason)
                     , action.GetType() == typeof(ForceAgentActionPlayer) ?
-                        ((ForceAgentActionPlayer)action).ActionToForce.GetBonuses() : null));
+                        ((ForceAgentActionPlayer)action).ActionToForce.GetBonuses() : action.GetTooltipBonuses()));
         }
 
         if (KeyActions.Count == 0)
