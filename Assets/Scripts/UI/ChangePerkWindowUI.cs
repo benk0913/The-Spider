@@ -66,7 +66,7 @@ public class ChangePerkWindowUI : MonoBehaviour
         else
         {
             traits.AddRange(CORE.Instance.Database.Traits);
-            traits.RemoveAll(x => !x.Manipulable && CurrentCharacter.Traits.Find(y => y.name == x.name) != null);
+            traits.RemoveAll(x => !x.Manipulable || CurrentCharacter.Traits.Find(y => y.name == x.name) != null);
         }
 
         traits = traits.OrderBy(x => Guid.NewGuid()).ToList();
@@ -81,6 +81,7 @@ public class ChangePerkWindowUI : MonoBehaviour
             GameObject traitObj = ResourcesLoader.Instance.GetRecycledObject("ClickableTrait");
             traitObj.transform.SetParent(PerkContainer, false);
             traitObj.GetComponent<ClickableTraitUI>().SetInfo(traits[i]);
+            traitObj.transform.localScale = Vector3.one;
         }
         
     }

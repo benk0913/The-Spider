@@ -52,19 +52,29 @@ public class HeatPanelUI : MonoBehaviour
 
         if(CORE.PC.Heat > 0)
         {
-            TechTreeItem deceptive = CORE.Instance.TechTree.Find(X => X.name == "Deceptive Measures");
-            if (deceptive != null && deceptive.IsResearched)
+
+
+            TechTreeItem rebels = CORE.Instance.TechTree.Find(X => X.name == "Rebels");
+
+            if (rebels != null && rebels.IsResearched)
             {
-                if (Random.Range(0f, 1f) < 0.3f)
-                {
-                    CORE.PC.Heat--;
-                }
             }
             else
             {
-                if (Random.Range(0f, 1f) < 0.1f)
+                TechTreeItem deceptive = CORE.Instance.TechTree.Find(X => X.name == "Deceptive Measures");
+                if (deceptive != null && deceptive.IsResearched)
                 {
-                    CORE.PC.Heat--;
+                    if (Random.Range(0f, 1f) < 0.3f)
+                    {
+                        CORE.PC.Heat--;
+                    }
+                }
+                else
+                {
+                    if (Random.Range(0f, 1f) < 0.1f)
+                    {
+                        CORE.PC.Heat--;
+                    }
                 }
             }
         }

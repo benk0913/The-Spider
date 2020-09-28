@@ -33,10 +33,17 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
 
         SelectLocationViewUI.Instance.Show((x) =>
         {
-            if(character.TopEmployer != null)
+            if(character.TopEmployer != null && character.CurrentFaction != null)
             {
-                CORE.Instance.Factions.Find(cf => cf.name == character.CurrentFaction.name)
-                .Relations.GetRelations(CORE.Instance.Factions.Find(f => f.name == CORE.PC.CurrentFaction.name))
+                Faction foundFaciton = CORE.Instance.Factions.Find(cf => cf.name == character.CurrentFaction.name);
+
+                if(foundFaciton == null)
+                {
+                    Debug.LogError("NO FACTION " + character.CurrentFaction.name);
+                    foundFaciton = character.CurrentFaction;
+                }
+
+                foundFaciton.Relations.GetRelations(CORE.Instance.Factions.Find(f => f.name == CORE.PC.CurrentFaction.name))
                 .TotalValue -= 10;
             }
 

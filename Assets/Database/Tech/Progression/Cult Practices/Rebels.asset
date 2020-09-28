@@ -21,8 +21,8 @@ MonoBehaviour:
     </color>
 
     <color=yellow>May convert Cultists into Rebels, prevent you from
-    losing Heat per turn, generate an additional +1 rumour for every time you gain
-    rumours and make Rebels like you more. </color>'
+    losing Heat per turn, generate funds from external parties (+5 of every resource)
+    each turn and make Rebels like you more. </color>'
   Icon: {fileID: 21300000, guid: 32ec28863c2cf344eb480b8ac3814d67, type: 3}
   Price: 30
   Children: []
@@ -30,6 +30,8 @@ MonoBehaviour:
   SubParents: []
   FactionsLocked: []
   FactionsHidden: []
+  TechThatLocksMeFromResearch:
+  - {fileID: 11400000, guid: 1e92816abc2349147a60327399d30262, type: 2}
   BoxColor: {r: 0, g: 0, b: 0, a: 0}
   TutorialScreen: {fileID: 0}
   IsHidden: 0

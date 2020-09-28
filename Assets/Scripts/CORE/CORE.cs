@@ -588,6 +588,18 @@ public class CORE : MonoBehaviour
 
             }
 
+            TechTreeItem rebels = CORE.Instance.TechTree.Find(X => X.name == "Rebels");
+
+            if (rebels != null && rebels.IsResearched)
+            {
+                PC.CGold += 5;
+                PC.CRumors += 5;
+                PC.CConnections += 5;
+                PC.CProgress += 5;
+
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+5 To ALL resources from your remote advocates.", ResourcesLoader.Instance.GetSprite("painting_rebel"), CORE.PC));
+            }
+
             if (TechTree.Find(y => y.name == Database.CultistTechCommercial.name).IsResearched)
             {
                 int commercialEarn = (Cultists.Count + DevotedCultists.Count)/2;

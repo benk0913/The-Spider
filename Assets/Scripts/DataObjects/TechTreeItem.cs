@@ -22,9 +22,12 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
 
     public List<Faction> FactionsHidden = new List<Faction>();
 
+    public List<TechTreeItem> TechThatLocksMeFromResearch = new List<TechTreeItem>();
+
     public Color BoxColor;
 
     public TutorialScreenInstance TutorialScreen;
+
 
     public int TotalPointsSpentOnBranch
     {
@@ -62,6 +65,24 @@ public class TechTreeItem : ScriptableObject, ISaveFileCompatible
                 if(!subparent.IsResearched)
                 {
                     return false;
+                }
+            }
+
+            if(CORE.Instance.TechTree != null)
+            {
+                foreach(TechTreeItem lockingItem in TechThatLocksMeFromResearch)
+                {
+                    TechTreeItem foundItem = CORE.Instance.TechTree.Find(x => x.name == lockingItem.name);
+
+                    if(foundItem == null)
+                    {
+                        continue;
+                    }
+
+                    if(foundItem.IsResearched)
+                    {
+                        return false;
+                    }
                 }
             }
 

@@ -251,6 +251,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             if (value > _heat)
             {
+                TechTreeItem loyalists = CORE.Instance.TechTree.Find(X => X.name == "Loyalists");
+
+                if (loyalists != null && loyalists.IsResearched)
+                {
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("The Constabulary turns it's head to the other direction...", ResourcesLoader.Instance.GetSprite("knight"), CORE.PC));
+                    return;
+                }
+
                 TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Heat has been increased!", ResourcesLoader.Instance.GetSprite("knight"), CORE.PC));
             }
             else if (value < _heat)
@@ -1164,14 +1172,45 @@ public class Character : ScriptableObject, ISaveFileCompatible
             }
         }
 
-        if (otherCharacter == CORE.PC && Traits.Contains(CORE.Instance.Database.CultistTrait))
+        if (otherCharacter == CORE.PC)
         {
-            modifiers.Add(new RelationsModifier("Cult Leader", 5));
-        }
+            if (Traits.Contains(CORE.Instance.Database.CultistTrait))
+            {
+                modifiers.Add(new RelationsModifier("Cult Leader", 5));
+            }
 
-        if (otherCharacter == CORE.PC && Traits.Contains(CORE.Instance.Database.CultistReligiousTrait))
-        {
-            modifiers.Add(new RelationsModifier("Devotion", 5));
+            if (Traits.Contains(CORE.Instance.Database.CultistReligiousTrait))
+            {
+                modifiers.Add(new RelationsModifier("Devotion", 5));
+            }
+
+            TechTreeItem techItem = CORE.Instance.TechTree.Find(t => t.name == "Loyalists");
+
+            if (techItem != null && techItem.IsResearched)
+            {
+                if (Traits.Find(X => X.name == "Political Party - Loyalists") != null)
+                {
+                    modifiers.Add(new RelationsModifier("Loyalists Leader!", 5));
+                }
+                else if (Traits.Find(X => X.name == "Political Party - Rebels") != null)
+                {
+                    modifiers.Add(new RelationsModifier("Loyalists Leader!", -5));
+                }
+            }
+
+            techItem = CORE.Instance.TechTree.Find(t => t.name == "Rebels");
+            
+            if (techItem != null && techItem.IsResearched)
+            {
+                if (Traits.Find(X => X.name == "Political Party - Loyalists") != null)
+                {
+                    modifiers.Add(new RelationsModifier("Rebels Leader!", -5));
+                }
+                else if (Traits.Find(X => X.name == "Political Party - Rebels") != null)
+                {
+                    modifiers.Add(new RelationsModifier("Rebels Leader!", 5));
+                }
+            }
         }
 
         foreach (DynamicRelationsModifier dynamicMod in DynamicRelationsModifiers)
@@ -1784,6 +1823,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public void StopWorkingForCurrentLocation()
     {
+        if(WorkLocation == null)
+        {
+            return;
+        }
+
         LocationEntity location = WorkLocation;
 
         if (location.EmployeesCharacters.Contains(this))

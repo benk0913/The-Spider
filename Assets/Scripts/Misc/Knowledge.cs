@@ -254,7 +254,12 @@ public class Knowledge
         {
             if (CurrentCharacter.CurrentFaction != null)
             {
-                CORE.Instance.Factions.Find(x => x.name == CurrentCharacter.CurrentFaction.name).Known.Know("Existance", byCharacter, false);
+                Faction foundFaction = CORE.Instance.Factions.Find(x => x.name == CurrentCharacter.CurrentFaction.name);
+
+                if (foundFaction == null)
+                    foundFaction = CurrentCharacter.CurrentFaction;
+
+                foundFaction.Known.Know("Existance", byCharacter, false);
             }
 
             foreach(LocationEntity location in CurrentCharacter.PropertiesOwned)
