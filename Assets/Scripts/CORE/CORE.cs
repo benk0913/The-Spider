@@ -121,6 +121,7 @@ public class CORE : MonoBehaviour
                 faction.isLocked = bool.Parse(PlayerPrefs.GetString(faction.name + "LOCK", true.ToString()));
             }
         }
+
     }
 
     public void NewGame(Faction selectedFaction)
@@ -216,7 +217,9 @@ public class CORE : MonoBehaviour
                 
                 if(factionHead != null)
                 {
-                    CORE.Instance.Characters.Find(x => x.name == factionHead.name).CurrentFaction = faction;
+                    factionHead.CurrentFaction = faction;
+                    faction.FactionHead = factionHead;
+                    faction.factionHeadID = factionHead.ID;
                 }
 
                 if (faction.isAlwaysKnown)

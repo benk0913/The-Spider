@@ -99,17 +99,17 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public void FromJSON(JSONNode node)
     {
-        if(!string.IsNullOrEmpty(node["FactionHead"].Value))
+        if (!string.IsNullOrEmpty(node["FactionHead"].Value))
         {
             factionHeadID = node["FactionHead"].Value;
         }
         else
         {
-            if(ClonedFrom != null && ClonedFrom.FactionHead != null)
-            { 
+            if (ClonedFrom != null && ClonedFrom.FactionHead != null)
+            {
                 Character cloneCharacter = CORE.Instance.Characters.Find(X => X.name == ClonedFrom.FactionHead.name);
 
-                if(cloneCharacter != null)
+                if (cloneCharacter != null)
                 {
                     factionHeadID = cloneCharacter.ID;
                 }
@@ -123,6 +123,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
                 factionHeadID = CORE.Instance.Database.GOD.ID;
             }
         }
+        
 
         foreach (KnowledgeInstance item in Known.Items)
         {
@@ -153,10 +154,17 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
     public void ImplementIDs()
     {
-        FactionHead = CORE.Instance.Characters.Find(x => x.ID == factionHeadID);
-        if(FactionHead == null)
+        if (CORE.PC.CurrentFaction.name == this.name) // patch
         {
-            FactionHead = CORE.Instance.Database.GOD;
+            FactionHead = CORE.PC;
+        }
+        else
+        {
+            FactionHead = CORE.Instance.Characters.Find(x => x.ID == factionHeadID);
+            if (FactionHead == null)
+            {
+                FactionHead = CORE.Instance.Database.GOD;
+            }
         }
 
         foreach (string key in knowledgeCharacterIDs.Keys)
@@ -183,7 +191,16 @@ public class Faction : ScriptableObject, ISaveFileCompatible
 
         node["Key"] = this.name;
         node["ClonedFrom"] = ClonedFrom == null ? "" : ClonedFrom.name;
-        node["FactionHead"] = FactionHead != null ? FactionHead.ID : "GOD";
+
+        
+        if (CORE.PC.CurrentFaction.name == this.name) // patch
+        {
+            node["FactionHead"] = CORE.PC.ID;
+        }
+        else
+        {
+            node["FactionHead"] = FactionHead != null ? FactionHead.ID : "GOD";
+        }
 
         foreach (KnowledgeInstance item in Known.Items)
         {
