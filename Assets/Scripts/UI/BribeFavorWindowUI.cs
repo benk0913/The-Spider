@@ -41,7 +41,7 @@ public class BribeFavorWindowUI : MonoBehaviour
         Instance = this;
         this.gameObject.SetActive(false);
     }
-
+    
     private void OnDisable()
     {
         if (AudioControl.Instance != null)
@@ -50,9 +50,10 @@ public class BribeFavorWindowUI : MonoBehaviour
             AudioControl.Instance.UnmuteMusic();
         }
 
-        if (MouseLook.Instance == null) return;
-
-        MouseLook.Instance.CurrentWindow = null;
+        if (MouseLook.Instance != null)
+        {
+            MouseLook.Instance.CurrentWindow = null;
+        }
     }
 
     private void Update()
