@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FactionBriefPanelUI : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class FactionBriefPanelUI : MonoBehaviour
     [SerializeField]
     Transform GoalsContainer;
 
+    [SerializeField]
+    Image BriefBG;
+
     public void Show(Faction faction)
     {
         this.gameObject.SetActive(true);
@@ -26,6 +30,7 @@ public class FactionBriefPanelUI : MonoBehaviour
         CurrentFaction = faction;
         Title.text = faction.name;
         Description.text = faction.Description;
+        BriefBG.sprite = faction.BriefBGSprite;
 
         ClearContainer(AvatarContainer);
         ClearContainer(GoalsContainer);

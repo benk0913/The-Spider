@@ -22,16 +22,17 @@ MonoBehaviour:
   HowToPlayDescription: 
   Icon: {fileID: 21300000, guid: c47b6d7fac0177b47a7e5985830e55ee, type: 3}
   WaxMaterial: {fileID: 2100000, guid: 6d4ab5f4b9eec6a44a1aac67f4e75fc9, type: 2}
-  FactionColor: {r: 0.8584906, g: 0, b: 0.04200363, a: 1}
+  FactionColor: {r: 1, g: 0, b: 0.47008705, a: 1}
   RoomScene: SSOFRoom
   FactionHead: {fileID: 11400000, guid: 778286e32a21e724f959b8958d6db6bd, type: 2}
   FactionSelectionPrefab: {fileID: 7751119065974739799, guid: d8cdd431017206b4e88fd3732939d462,
     type: 3}
+  BriefBGSprite: {fileID: 21300000, guid: ee5b070a143a02e42a577cfc97156fa0, type: 3}
   AI: {fileID: 11400000, guid: 251e6057d34345c45b0b719f6280816c, type: 2}
   FactionProperties:
   - {fileID: 11400000, guid: 40bebe8495203e549b7b5371cab5308d, type: 2}
   - {fileID: 11400000, guid: d5e8886a201a0ff499b551d0d0c9d528, type: 2}
-  - {fileID: 11400000, guid: 0db4060a1d1ff9f48a5615b3e55ca27c, type: 2}
+  - {fileID: 11400000, guid: 8e00e3c661d93f942990d2b125c548c7, type: 2}
   - {fileID: 11400000, guid: a2af00f180e25fa43a2d2de513315e88, type: 2}
   - {fileID: 11400000, guid: 45490a63f8d104c4aa5542f43bc64250, type: 2}
   - {fileID: 11400000, guid: 8cb6f139d857ef547a84a38d2de45e70, type: 2}
@@ -41,15 +42,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6eeacc3163a8bce46af399a2b33e6ada, type: 2}
   - {fileID: 11400000, guid: a05f8ca5c62168f4ea4ae5ee1da0084a, type: 2}
   - {fileID: 11400000, guid: ac6fb076389be28498d47a4afc965250, type: 2}
-  - {fileID: 11400000, guid: 8e00e3c661d93f942990d2b125c548c7, type: 2}
+  - {fileID: 11400000, guid: 0db4060a1d1ff9f48a5615b3e55ca27c, type: 2}
+  - {fileID: 11400000, guid: 955b8e6072c4d954e834eb5c79a2797a, type: 2}
   StartingLetters: []
   AgentActionsOnLocation: []
   AgentActionsOnAgent: []
   PlayerActionsOnLocation: []
   PlayerActionsOnAgent: []
-  isLockedByDefault: 1
+  isLockedByDefault: 0
   UnlockDescription: ???
-  isLocked: 1
+  isLocked: 0
   isPlayable: 1
   isAlwaysKnown: 0
   HasPromotionSystem: 0
@@ -62,7 +64,8 @@ MonoBehaviour:
   ClonedFrom: {fileID: 0}
   LeaveRoomDescription: There's no way out of here...
   IntroCutscene: {fileID: 0}
-  Goals: []
+  Goals:
+  - {fileID: 11400000, guid: 6d0af6806da793743a50a26302ab0859, type: 2}
   FactionRumors:
   - Member of a secret society...
   - Doesn't seem to eat anything out in the open...

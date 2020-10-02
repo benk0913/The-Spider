@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac6c4998b577dd4a92393bf81950553, type: 3}
+  m_Name: The Floating Manor
+  m_EditorClassIdentifier: 
+  Description: This seems like a badly maintained ship, no laber nor name visible
+    on its hull.
+  PropertyLevels:
+  - LevelName: Small Ship
+    MaxEmployees: 2
+    MaxGuards: 2
+    MaxPrisoners: 2
+    MaxActions: 1
+    UpgradePrice: 0
+    UpgradeLength: 2
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: Medium Ship
+    MaxEmployees: 3
+    MaxGuards: 4
+    MaxPrisoners: 4
+    MaxActions: 2
+    UpgradePrice: 100
+    UpgradeLength: 4
+    InventoryCap: 0
+    PossibleMerchantise: []
+  - LevelName: Large Ship
+    MaxEmployees: 4
+    MaxGuards: 6
+    MaxPrisoners: 6
+    MaxActions: 3
+    UpgradePrice: 200
+    UpgradeLength: 6
+    InventoryCap: 0
+    PossibleMerchantise: []
+  OwnerWorkAction: {fileID: 0}
+  Actions:
+  - Name: 'Business As Usual '
+    Description: This location currently does nothing particular.
+    Icon: {fileID: -6353499345697145280, guid: 42dee3e90c3a20f49966b60bb6c3276b, type: 3}
+    GoldGenerated: 0
+    ConnectionsGenerated: 0
+    RumorsGenerated: 0
+    ProgressGenerated: 0
+    WorkAction: {fileID: 0}
+    PossibleEvents: []
+    EmployeeUniform: {fileID: 0}
+    GuardUniform: {fileID: 11400000, guid: 6e13053c3adfb654c85fe9d0c587e572, type: 2}
+  Traits:
+  - {fileID: 11400000, guid: e7ac1d93bf83d334ca30c1b5e5b2f5d1, type: 2}
+  Icon: {fileID: 21300000, guid: 1b544b1f6b29442438da250266dc28a7, type: 3}
+  FigurePrefab: {fileID: 4410676136326942142, guid: 77ab17d81da6ac74b9a6881ee5b028a3,
+    type: 3}
+  HoverPrefab: {fileID: 4561263665114320258, guid: 5c14239076908524ab4c7153fe33bfd7,
+    type: 3}
+  HiddenObject: {fileID: 0}
+  SelectedObject: {fileID: 0}
+  MaterialOverride: {fileID: 0}
+  RecruitingGenderType: -1
+  MinAge: 20
+  MaxAge: 70
+  PlotType: {fileID: 11400000, guid: a1ab827bf97116440b46b833ba1e68e6, type: 2}
+  ManagementBonus: {fileID: 11400000, guid: cb89859e3578ee04f9ed3cc827cd6622, type: 2}
+  isHomeOfEmployees: 1
+  UniquePlayerActions: []
+  UniqueAgentActions: []
+  EmployeeRole: agent
+  AlwaysKnown: 0
+  TechRequired: {fileID: 0}
+  IsVendor: 0
+  AutoRestock: 0
+  CantBurn: 0
+  EmployeesAreAgents: 1
+  DistrictBonus:
+    Description: 
+    GoldPerTurn: 0
+    ConnectionsPerTurn: 0
+    RumorsPerTurn: 0
+    ProgressionPerTurn: 0
+  VisitRumors:
+  - Was spotted on a strange and nameless ship.
+  WorkRumors:
+  - '"Saw this one working on a strange ship with no name."'
+  PropertyEvents: []

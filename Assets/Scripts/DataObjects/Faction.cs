@@ -20,6 +20,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public string RoomScene;
     public Character FactionHead;
     public GameObject FactionSelectionPrefab;
+    public Sprite BriefBGSprite;
 
     public FactionAI AI;
 
