@@ -124,9 +124,15 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
                 ActionPortrait.gameObject.SetActive(false);
             }
 
-            TooltipTarget?.SetTooltip("Empty Slot");
+            if (TooltipTarget != null)
+            {
+                TooltipTarget.SetTooltip("Empty Slot");
+            }
 
-            PrisonBars?.SetActive(false);
+            if (PrisonBars != null)
+            {
+                PrisonBars.SetActive(false);
+            }
 
             CurrentCharacter = character;
 

@@ -102,7 +102,21 @@ public class InterrogatePerson : AgentAction //DO NOT INHERIT FROM
                 }
             }
         }
-       
+
+
+        if (targetChar != null)
+        {
+            CORE.Instance.SplineAnimationObject(
+                        "EarCollectedWorld",
+                        targetChar.CurrentLocation.transform,
+                        StatsViewUI.Instance.RumorsText.transform,
+                        () => { StatsViewUI.Instance.RefreshRumors(); },
+                        false);
+
+            AudioControl.Instance.PlayInPosition("resource_rumors", targetChar.CurrentLocation.transform.position);
+
+            CORE.PC.CRumors += 30;
+        }
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

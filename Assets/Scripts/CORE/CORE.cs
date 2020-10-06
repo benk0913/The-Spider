@@ -541,8 +541,12 @@ public class CORE : MonoBehaviour
                 {
                     if (Random.Range(0f, 1f) < 0.05f)
                     {
-                        NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                        Character target = NonCultists[Random.Range(0, NonCultists.Count)];
+                        target.Traits.Add(Database.CultistTrait);
                         CharactersConverted++;
+                        
+
+                        CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
                     }
                 }
             }

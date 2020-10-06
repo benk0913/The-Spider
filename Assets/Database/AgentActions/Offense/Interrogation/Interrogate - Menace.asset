@@ -18,15 +18,24 @@ MonoBehaviour:
     will result in 12 information items about this character & his colleagues & employer.</color>
 
     <color=green>Interrogator''s
-    Menacing VS Target''s Menacing + Discreet Skill</color>'
+    Menacing VS Target''s Menacing + Discreet Skill</color>
+
+    <color=yellow>+30
+    Rumors</color>
+
+'
   Category: {fileID: 11400000, guid: 68848daf1751c4f4ea60aa9649180069, type: 2}
   RequiredTraits: []
   MinimumAge: 16
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  HeatAdded: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 11400000, guid: e75476d3c549b4946a395898688d823f, type: 2}
   ItemRequired: {fileID: 0}
+  MoreItemsRequired: []
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
@@ -36,11 +45,15 @@ MonoBehaviour:
   SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
   WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
+  InvokeEventOnExecute: 
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   Task: {fileID: 11400000, guid: 612f68bff9ab5474db0a932b1c2afc1f, type: 2}
   RandomLocation: 0
   FriendlyLocation: 0
