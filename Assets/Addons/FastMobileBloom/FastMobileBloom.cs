@@ -13,6 +13,8 @@ public class FastMobileBloom : MonoBehaviour
 
 	public Material fastBloomMaterial = null;
 
+    public bool IsActive = true;
+
     private void Start()
     {
         CORE.Instance.SubscribeToEvent("BloomUpdated", OnBloomUpdated);
@@ -25,11 +27,16 @@ public class FastMobileBloom : MonoBehaviour
 
     void OnBloomUpdated()
     {
-        this.enabled = bl_PauseOptions.BloomOn;
+        IsActive = bl_PauseOptions.BloomOn;
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
+        if(!IsActive)
+        {
+            return;
+        }
+
 		int rtW = source.width / 4;
 		int rtH = source.height / 4;
 		

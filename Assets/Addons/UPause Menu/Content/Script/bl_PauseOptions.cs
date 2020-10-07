@@ -170,11 +170,11 @@ public class bl_PauseOptions : MonoBehaviour {
 
     public void ToggleBloom()
     {
-        BloomOn = !BloomOn;
-        BloomOnToggle.isOn = BloomOn;
+        BloomOn = BloomOnToggle.isOn;
         CORE.Instance.InvokeEvent("BloomUpdated");
 
         PlayerPrefs.SetInt("BloomOn", BloomOn ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     /// <summary>
