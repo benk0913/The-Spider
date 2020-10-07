@@ -25,6 +25,11 @@ public class PromotionControlPanelUI : MonoBehaviour
 
     void Refresh()
     {
+        if(!CORE.PC.CurrentFaction.HasPromotionSystem)
+        {
+            return;
+        }
+
         List<LocationEntity> PropertiesInCommand = new List<LocationEntity>();
         PropertiesInCommand = CORE.PC.PropertiesInCommand;
         if (PropertiesInCommand.Count <= 0)
