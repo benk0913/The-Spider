@@ -13,29 +13,28 @@ public class FastMobileBloom : MonoBehaviour
 
 	public Material fastBloomMaterial = null;
 
-    public bool IsActive = true;
 
-    private void Start()
-    {
-        CORE.Instance.SubscribeToEvent("BloomUpdated", OnBloomUpdated);
-    }
+    bool Initialized = false;
 
     private void OnEnable()
     {
+        if(!Initialized)
+        {
+            CORE.Instance.SubscribeToEvent("BloomUpdated", OnBloomUpdated);
+            CORE.Instance.SubscribeToEvent("GameLoadComplete", OnBloomUpdated);
+            Initialized = true;
+        }
+
         OnBloomUpdated();
     }
 
     void OnBloomUpdated()
     {
-        IsActive = bl_PauseOptions.BloomOn;
+        this.enabled = bl_PauseOptions.BloomOn;
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
-        if(!IsActive)
-        {
-            return;
-        }
 
 		int rtW = source.width / 4;
 		int rtH = source.height / 4;
