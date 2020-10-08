@@ -529,11 +529,11 @@ public class CORE : MonoBehaviour
             {
                 if (Cultists.Count == 0)
                 {
-                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].Traits.Add(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
                     CharactersConverted += 5;
                 }
 
@@ -571,9 +571,9 @@ public class CORE : MonoBehaviour
                 {
                     if (DevotedCultists.Count == 0)
                     {
-                        Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
-                        Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
-                        Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
+                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
                         CharactersDevoted += 3;
                     }
 
@@ -581,7 +581,7 @@ public class CORE : MonoBehaviour
                     {
                         if (Random.Range(0f, 1f) < 0.01f)
                         {
-                            Cultists[Random.Range(0, Cultists.Count)].Traits.Add(Database.CultistReligiousTrait);
+                            Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
                             CharactersDevoted++;
                         }
                     }
