@@ -518,116 +518,152 @@ public class CORE : MonoBehaviour
 
         yield return 0;
 
-        if (TechTree.Find(X => X.name == Database.CultTech.name).IsResearched)
+        TechTreeItem cultTech = TechTree.Find(X => X.name == Database.CultTech.name);
+
+        if (cultTech != null)
         {
-            int CharactersConverted = 0;
-
-            List<Character> Cultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) != null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
-            List<Character> NonCultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) == null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
-            
-            if(NonCultists.Count > 0)
+            if (cultTech.IsResearched)
             {
-                if (Cultists.Count == 0)
+                int CharactersConverted = 0;
+
+                List<Character> Cultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) != null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
+                List<Character> NonCultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) == null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
+
+                if(Cultists == null)
                 {
-                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
-                    NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
-                    CharactersConverted += 5;
+                    Cultists = new List<Character>();
                 }
 
-                for (int i = 0; i < Cultists.Count; i++)
+                if(NonCultists == null)
                 {
-                    if (Random.Range(0f, 1f) < 0.05f)
-                    {
-                        Character target = NonCultists[Random.Range(0, NonCultists.Count)];
-                        target.Traits.Add(Database.CultistTrait);
-                        CharactersConverted++;
-                        
-
-                        CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
-                    }
+                    NonCultists = new List<Character>();
                 }
-            }
 
-            if (CharactersConverted > 0)
-            {
-                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersConverted + " characters have joined the cult this turn...", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
-            }
-
-            List<Character> DevotedCultists = new List<Character>();
-            if (TechTree.Find(X => X.name == Database.CultTechReligious.name).IsResearched)
-            {
-                    
-                DevotedCultists.AddRange(Cultists.FindAll(x => x.Traits.Find(t => t==Database.CultistReligiousTrait) != null));
-                Cultists.RemoveAll(x=>DevotedCultists.Contains(x));
-
-                int CharactersDevoted = 0;
-
-
-
-                if (Cultists.Count > 0)
+                if (NonCultists.Count > 0)
                 {
-                    if (DevotedCultists.Count == 0)
+                    if (Cultists.Count == 0)
                     {
-                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                        CharactersDevoted += 3;
+                        NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                        NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                        NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                        NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                        NonCultists[Random.Range(0, NonCultists.Count)].AddTrait(Database.CultistTrait);
+                        CharactersConverted += 5;
                     }
 
-                    for (int i = 0; i < DevotedCultists.Count; i++)
+                    for (int i = 0; i < Cultists.Count; i++)
                     {
-                        if (Random.Range(0f, 1f) < 0.01f)
+                        float rnd = Random.Range(0f, 1f);
+                        if (rnd < 0.01f)
                         {
-                            Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                            CharactersDevoted++;
+                            Character target = NonCultists[Random.Range(0, NonCultists.Count)];
+                            target.Traits.Add(Database.CultistTrait);
+                            CharactersConverted++;
+
+
+                            CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
+                        }
+                        else if(rnd < 0.05f)
+                        {
+                            Character newChar = CORE.Instance.GenerateSimpleCharacter();
+                            newChar.Randomize();
+                            newChar.Traits.Add(Database.CultistTrait);
+                            CharactersConverted++;
+                            newChar.GoToLocation(CORE.Instance.GetRandomLocation());
+
+                            CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), newChar, newChar.CurrentLocation);
                         }
                     }
                 }
 
-                if (CharactersDevoted > 0)
+                if (CharactersConverted > 0)
                 {
-                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersDevoted + " cultists became devoted this turn.", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersConverted + " characters have joined the cult this turn...", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
                 }
 
+                List<Character> DevotedCultists = new List<Character>();
+                TechTreeItem religiousCultTech = TechTree.Find(X => X.name == Database.CultTechReligious.name);
 
-            }
-
-            TechTreeItem rebels = CORE.Instance.TechTree.Find(X => X.name == "Rebels");
-
-            if (rebels != null && rebels.IsResearched)
-            {
-                PC.CGold += 5;
-                PC.CRumors += 5;
-                PC.CConnections += 5;
-                PC.CProgress += 5;
-
-                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+5 To ALL resources from your remote advocates.", ResourcesLoader.Instance.GetSprite("painting_rebel"), CORE.PC));
-            }
-
-            if (TechTree.Find(y => y.name == Database.CultistTechCommercial.name).IsResearched)
-            {
-                int commercialEarn = (Cultists.Count + DevotedCultists.Count)/2;
-
-                    PC.CGold += commercialEarn;
-
-                if (commercialEarn > 0)
+                if (religiousCultTech != null)
                 {
-                    if (PC.PropertiesOwned.Count > 0)
+                    if (religiousCultTech.IsResearched)
                     {
-                        SplineAnimationObject(
-                        "CoinCollectedWorld",
-                        PC.PropertiesOwned[0].transform,
-                        StatsViewUI.Instance.GoldText.transform,
-                        () => { StatsViewUI.Instance.RefreshGold(); },
-                        false);
 
-                        AudioControl.Instance.PlayInPosition("resource_gold", PC.PropertiesOwned[0].transform.position);
+                        DevotedCultists.AddRange(Cultists.FindAll(x => x.Traits.Find(t => t == Database.CultistReligiousTrait) != null));
+                        Cultists.RemoveAll(x => DevotedCultists.Contains(x));
+
+                        int CharactersDevoted = 0;
+
+
+
+                        if (Cultists.Count > 0)
+                        {
+                            if (DevotedCultists.Count == 0)
+                            {
+                                Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                CharactersDevoted += 3;
+                            }
+
+                            for (int i = 0; i < DevotedCultists.Count; i++)
+                            {
+                                if (Random.Range(0f, 1f) < 0.01f)
+                                {
+                                    Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                    CharactersDevoted++;
+                                }
+                            }
+                        }
+
+                        if (CharactersDevoted > 0)
+                        {
+                            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersDevoted + " cultists became devoted this turn.", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
+                        }
+
+
                     }
+                }
 
-                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+"+commercialEarn + " Gold from your Pyramid Scheme.", ResourcesLoader.Instance.GetSprite("painting_commercial"), CORE.PC));
+                TechTreeItem rebels = CORE.Instance.TechTree.Find(X => X.name == "Rebels");
+
+                if (rebels != null && rebels.IsResearched)
+                {
+                    PC.CGold += 5;
+                    PC.CRumors += 5;
+                    PC.CConnections += 5;
+                    PC.CProgress += 5;
+
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+5 To ALL resources from your remote advocates.", ResourcesLoader.Instance.GetSprite("painting_rebel"), CORE.PC));
+                }
+
+                TechTreeItem cultCommercialTech = TechTree.Find(y => y.name == Database.CultistTechCommercial.name);
+
+                if (cultCommercialTech != null)
+                {
+                    if (cultCommercialTech.IsResearched)
+                    {
+                        int commercialEarn = (Cultists.Count + DevotedCultists.Count) / 2;
+
+                        PC.CGold += commercialEarn;
+
+                        if (commercialEarn > 0)
+                        {
+                            if (PC.PropertiesOwned.Count > 0)
+                            {
+                                SplineAnimationObject(
+                                "CoinCollectedWorld",
+                                PC.PropertiesOwned[0].transform,
+                                StatsViewUI.Instance.GoldText.transform,
+                                () => { StatsViewUI.Instance.RefreshGold(); },
+                                false);
+
+                                AudioControl.Instance.PlayInPosition("resource_gold", PC.PropertiesOwned[0].transform.position);
+                            }
+
+                            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+" + commercialEarn + " Gold from your Pyramid Scheme.", ResourcesLoader.Instance.GetSprite("painting_commercial"), CORE.PC));
+                        }
+                    }
                 }
             }
         }
