@@ -211,7 +211,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
             }
         }
 
-        node["Relations"] = Relations.ToJSON();
+        node["Relations"] = Relations.ToJSON(this);
 
         return node;
     }
@@ -304,11 +304,26 @@ public class FactionRelations : ISaveFileCompatible
         }
     }
 
-    public JSONNode ToJSON()
+    public JSONNode ToJSON(Faction backupFaction = null)
     {
         JSONClass node = new JSONClass();
 
-        node["OfFaction"] = OfFaction.name;
+        if (OfFaction == null)
+        {
+            Debug.LogError("No OfFaction in factions relations....");
+            if (backupFaction != null)
+            {
+                node["OfFaction"] = backupFaction.name;
+            }
+            else
+            {
+                node["OfFaction"] = "Faction Of The Past "+Random.Range(1, 999).ToString();
+            }
+        }
+        else
+        {
+            node["OfFaction"] = OfFaction.name;
+        }
 
         for (int i=0;i<Relations.Count;i++)
         {
@@ -316,6 +331,11 @@ public class FactionRelations : ISaveFileCompatible
         }
 
         return node;
+    }
+
+    public JSONNode ToJSON()
+    {
+        return ToJSON(null);
     }
 }
 

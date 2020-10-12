@@ -17,7 +17,7 @@ public class DDAEnableProperty : DialogDecisionAction
         
         if(location == null)
         {
-            Debug.LogError("Couldn't find location!");
+            Debug.LogError("Couldn't find location! "+LocationID);
             return;
         }
 
