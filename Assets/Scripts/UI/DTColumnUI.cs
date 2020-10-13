@@ -13,6 +13,8 @@ public class DTColumnUI : MonoBehaviour, IPointerEnterHandler,  IPointerDownHand
 
     public int OriginalIndex;
 
+    public char RelevantKeywordCharacter;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         OnClickDown?.Invoke();

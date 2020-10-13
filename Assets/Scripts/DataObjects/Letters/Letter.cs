@@ -33,6 +33,23 @@ public class Letter : ISaveFileCompatible
         }
     }
     int _fromRaven = -1;
+    public string DTKeyword
+    {
+        get
+        {
+            if(string.IsNullOrEmpty(_dtkeyword) && Preset != null && !string.IsNullOrEmpty(Preset.DTKeyword))
+            {
+                _dtkeyword = Preset.DTKeyword;
+            }
+
+            return _dtkeyword;
+        }
+        set
+        {
+            _dtkeyword = value;
+        }
+    }
+    public string _dtkeyword;
 
     public string Title
     {
@@ -105,7 +122,7 @@ public class Letter : ISaveFileCompatible
             
             if(Preset.Encryption != null && !IsDeciphered)
             {
-                return Preset.Encryption.Convert(description);    
+                return Preset.Encryption.Convert(description,Preset.DTKeyword);    
             }
 
             return description;
@@ -129,6 +146,11 @@ public class Letter : ISaveFileCompatible
         if (Preset != null)
         {
             node["Preset"] = Preset.name;
+        }
+
+        if (!string.IsNullOrEmpty(DTKeyword))
+        {
+            node["DTKeyword"] = DTKeyword;
         }
 
         if (Parameters != null)
@@ -178,6 +200,11 @@ public class Letter : ISaveFileCompatible
         Preset = CORE.Instance.Database.PresetLetters.Find(x=>x.name == node["Preset"].Value.ToString());
 
         FromRaven = bool.Parse(node["FromRaven"]);
+
+        if(!string.IsNullOrEmpty(node["DTKeyword"]))
+        {
+            DTKeyword = node["DTKeyword"];
+        }
 
         tempParameters = new Dictionary<string, string>();
         for(int i=0;i<node["Parameters"].Count;i++)

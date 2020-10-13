@@ -16,8 +16,12 @@ public class Cipher : ScriptableObject
 
     public float LetterSpacing = 40f;
 
-    public string Convert(string message)
+    public string Convert(string message, string keyword = "")
     {
+        if(IsDoubleTransposition)
+        {
+            return Util.DTEncipher(message,keyword,'-');
+        }
 
         string encryptedString = "";
 
@@ -43,8 +47,13 @@ public class Cipher : ScriptableObject
         return encryptedString;
     }
     
-    public string Decipher(string message)
+    public string Decipher(string message, string keyword = "")
     {
+        if (IsDoubleTransposition)
+        {
+            return Util.DTEncipher(message, keyword, '-');
+        }
+
         string decryptedString = "";
 
         if (!SupportUpperCase)
@@ -94,6 +103,8 @@ public class Cipher : ScriptableObject
 
         return letters.ToArray();
     }
+
+    public bool IsDoubleTransposition;
 
 }
 

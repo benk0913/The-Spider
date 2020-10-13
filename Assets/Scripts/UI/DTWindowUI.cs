@@ -23,18 +23,25 @@ public class DTWindowUI : MonoBehaviour
     [SerializeField]
     Transform ColumnContainer;
 
+    [SerializeField]
+    GameObject ResolveButton;
+
     public string abcIndex = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public string OriginalInput;
     public string EncryptedText;
     public string OriginalKeyword;
     public int SplitsNumber = 1;
-    
+
 
     /// <summary>
     /// DEBUG
-    public string messageTEST;
-    public string KEYWORDTEST;
-    public bool Test;
+    ///public string messageTEST;
+    ///public string KEYWORDTEST;
+    ///public bool Test;
+    ///
+    /// </summary>
+    /// 
+
     public char KeyHoveredLetter;
     public int KeySelectedIndex;
 
@@ -51,7 +58,8 @@ public class DTWindowUI : MonoBehaviour
     }
 
     List<char> SortedKeywordLetters = new List<char>();
-    /// </summary>
+
+    public Action OnResolve;
 
     private void Awake()
     {
@@ -73,16 +81,19 @@ public class DTWindowUI : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        if(Test)
-        {
-            Show(messageTEST, KEYWORDTEST, null);
-            Test = false;
-        }
+        //if(Test)
+        //{
+        //    Show(messageTEST, KEYWORDTEST, null);
+        //    Test = false;
+        //}
     }
 
-    public void Show(string encryptedMessage, string keyword, System.Action OnResolve = null)
+    public void Show(string encryptedMessage, string keyword, System.Action onResolve = null)
     {
-        this.OriginalInput = encryptedMessage;
+        this.OnResolve = onResolve;
+
+        this.OriginalInput = encryptedMessage; // Remove later...
+        this.EncryptedText = encryptedMessage;
 
         this.OriginalKeyword = keyword;
 
@@ -94,12 +105,11 @@ public class DTWindowUI : MonoBehaviour
 
         SortedKeywordLetters = SortedKeywordLetters.OrderBy(x => abcIndex.IndexOf(x)).ToList();
 
-        this.EncryptedText = Util.DTEncipher(OriginalInput, OriginalKeyword, '-');
+        //this.EncryptedText = Util.DTEncipher(OriginalInput, OriginalKeyword, '-');
 
         this.gameObject.SetActive(true);
-
-        //Remove comment later... TODO
-        //MouseLook.Instance.FocusOnItemInHands();
+        
+        MouseLook.Instance.FocusOnItemInHands();
         
         SplitsNumber = 1;
         RefreshSplitAmount();
@@ -114,7 +124,7 @@ public class DTWindowUI : MonoBehaviour
 
         if (string.IsNullOrEmpty(InputArea.text))
         {
-            InputArea.text = "2";
+            InputArea.text = "3";
         }
 
         SplitsNumber = int.Parse(InputArea.text);
@@ -151,6 +161,9 @@ public class DTWindowUI : MonoBehaviour
             int capturedIndex = new int();
             capturedIndex += i;
             column.OriginalIndex = capturedIndex;
+
+            if (i < SortedKeywordLetters.Count)
+                column.RelevantKeywordCharacter = SortedKeywordLetters[i];
 
             column.OnHover.RemoveAllListeners();
             column.OnHover.AddListener(()=>
@@ -205,7 +218,6 @@ public class DTWindowUI : MonoBehaviour
 
     public void HoverLetterSentence(char character, int index)
     {
-        //Max lenght / index - ceil = index in keyword
         int chunkIndex = (index - (index % ChunkSize)) / ChunkSize;
         char keywordLetter = SortedKeywordLetters[chunkIndex];
 
@@ -263,6 +275,7 @@ public class DTWindowUI : MonoBehaviour
             if(CurrentlyDRAGGED != null)
             {
                 CurrentlyDRAGGED.GetComponent<_2dxFX_Outline>().enabled = false;
+                CurrentlyDRAGGED.localScale = Vector3.one;
             }
             StopCoroutine(DragColumnRoutineInstance);
         }
@@ -276,6 +289,7 @@ public class DTWindowUI : MonoBehaviour
     {
         CurrentlyDRAGGED = columnTrans;
         columnTrans.GetComponent<_2dxFX_Outline>().enabled = true;
+        columnTrans.localScale = Vector3.one * 1.2f;
         while (Input.GetMouseButton(0))
         {
             if(Input.GetAxis("Mouse X") > 0.5f)
@@ -293,6 +307,7 @@ public class DTWindowUI : MonoBehaviour
         }
 
         columnTrans.GetComponent<_2dxFX_Outline>().enabled = false;
+        columnTrans.localScale = Vector3.one;
         DragColumnRoutineInstance = null;
     }
 
@@ -303,9 +318,10 @@ public class DTWindowUI : MonoBehaviour
         {
             return;
         }
-        Debug.LogError("REACH " + siblingIndex );
 
         columnTrans.SetSiblingIndex(siblingIndex-1);
+
+        ValidateAnswer();
     }
 
     public void RepositionColumnToRight(Transform columnTrans)
@@ -315,15 +331,33 @@ public class DTWindowUI : MonoBehaviour
         {
             return;
         }
-        Debug.LogError("REACH " + siblingIndex);
 
         columnTrans.SetSiblingIndex(siblingIndex+1);
+
+        ValidateAnswer();
+    }
+
+    void ValidateAnswer()
+    {
+        for(int i=0;i<ColumnContainer.childCount;i++)
+        {
+            if(OriginalKeyword.Length <= i || ColumnContainer.GetChild(i).GetComponent<DTColumnUI>().RelevantKeywordCharacter != OriginalKeyword[i])
+            {
+                ResolveButton.SetActive(false);
+                return;
+            }
+        }
+
+        ResolveButton.SetActive(true);
     }
 
     public void ResolvePuzzle()
     {
         this.gameObject.SetActive(false);
 
+        OnResolve?.Invoke();
+
         CORE.Instance.InvokeEvent("Letter Deciphered");
+        CORE.Instance.InvokeEvent("Letter Deciphered-" + this.OriginalKeyword);
     }
 }

@@ -286,7 +286,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
     {
         if(CurrentLetter.Preset.Encryption != null && !CurrentLetter.IsDeciphered)
         {
-            DecipherWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.Preset.Encryption, ()=> 
+            System.Action onDecipherAction = () =>
             {
                 this.CurrentLetter.IsDeciphered = true;
                 RefreshUI();
@@ -295,7 +295,15 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
                 {
                     SealRenderer.gameObject.SetActive(false);
                 }
-            });
+            };
+            if (CurrentLetter.Preset.Encryption.IsDoubleTransposition)
+            {
+                DTWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.DTKeyword, onDecipherAction);
+            }
+            else
+            {
+                DecipherWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.Preset.Encryption, onDecipherAction);
+            }
             return;
         }
 

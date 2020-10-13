@@ -41,6 +41,9 @@ public class LetterPreset : ScriptableObject
     [SerializeField]
     public bool FromRaven = false;
 
+    [SerializeField]
+    public string DTKeyword;
+
     public bool LockPassTime = false;
 
     public string VoiceLine;
