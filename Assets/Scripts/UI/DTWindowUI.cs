@@ -353,11 +353,12 @@ public class DTWindowUI : MonoBehaviour
 
     public void ResolvePuzzle()
     {
-        this.gameObject.SetActive(false);
-
         OnResolve?.Invoke();
 
         CORE.Instance.InvokeEvent("Letter Deciphered");
         CORE.Instance.InvokeEvent("Letter Deciphered-" + this.OriginalKeyword);
+
+        this.gameObject.SetActive(false);
+        //MouseLook.Instance.UnfocusOnItemInHands();
     }
 }

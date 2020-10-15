@@ -60,11 +60,11 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: f77032c88e67c844a9dbc3197192261d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -140,11 +140,11 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: da31c55a963e38d4e90c95a1c5ba20f7, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27d42f327edbf142984b992a4799e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NoClicking: 0
   Icon: {fileID: 2636967939132204174}
   TooltipTarget: {fileID: 8625504704428441192}
   CurrentItem: {fileID: 0}
@@ -192,6 +193,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6465f39e19ef43e4e8464f987d09bb11, type: 2}
   - {fileID: 11400000, guid: 5089f6a21b0ef8a4d831b227f9700664, type: 2}
   - {fileID: 11400000, guid: ad8c1cbeb11e06d4fa0de41a3b7b1374, type: 2}
+  - {fileID: 11400000, guid: c8ab16b9b896e9b4ca578c9ec61871b5, type: 2}
   PlayerActions:
   - {fileID: 11400000, guid: 9efafff832b773043ae2fb9fbe1df7e6, type: 2}
   - {fileID: 11400000, guid: b174a126fbda960459186d59f20e31fa, type: 2}
@@ -201,6 +203,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e28fe46b7a5f9784984aee4920821563, type: 2}
   - {fileID: 11400000, guid: 53019c6df191ac34288ddfbe147a6e0e, type: 2}
   - {fileID: 11400000, guid: 119c5efa94817994db04120274e2506a, type: 2}
+  - {fileID: 11400000, guid: 2b853b700a44d6646a2612bb7af0498b, type: 2}
   LocationParent: {fileID: 0}
 --- !u!114 &4663197356025147904
 MonoBehaviour:
@@ -258,5 +261,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null

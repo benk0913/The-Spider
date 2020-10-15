@@ -8,6 +8,8 @@ public class InvestigateItem : AgentAction
 {
     public LongTermTask TaskToExecute;
 
+    public bool DontDestroyItem = false;
+
     public override void Execute(Character requester, Character character, AgentInteractable target)
     {
         base.Execute(requester, character, target);
@@ -23,12 +25,15 @@ public class InvestigateItem : AgentAction
 
         CORE.Instance.GenerateLongTermTask(TaskToExecute, requester, character, character.CurrentLocation, null, -1, null, this);
 
-        Item item = CORE.PC.Belogings.Find(X => X.name == itemUI.CurrentItem.name);
-
-        if (item != null)
+        if (!DontDestroyItem)
         {
-            CORE.PC.Belogings.Remove(item);
-            InventoryPanelUI.Instance.RefreshInventory();
+            Item item = CORE.PC.Belogings.Find(X => X.name == itemUI.CurrentItem.name);
+
+            if (item != null)
+            {
+                CORE.PC.Belogings.Remove(item);
+                InventoryPanelUI.Instance.RefreshInventory();
+            }
         }
     }
 

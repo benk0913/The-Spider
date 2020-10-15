@@ -327,6 +327,11 @@ public class GameDBEditor : Editor
 
     void PrintCustomAnalysis(GameDB db)
     {
+        //string dt = Util.DTEncipher("THE---SECRETPASS--IS----TERROR", "SIMPLE", '-');
+        //Debug.LogError("$3$3$ " + dt);
+        //Debug.LogError("$$$ " + Util.DTDecipher(dt, "SIMPLE"));
+        //return;
+
         foreach (LetterPreset letter in db.PresetLetters)
         {
             if (letter.Description.Contains("avarage") || letter.Description.Contains("Avarage"))

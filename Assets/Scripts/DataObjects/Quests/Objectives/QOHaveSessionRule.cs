@@ -14,6 +14,11 @@ public class QOHaveSessionRule : QuestObjective
             return false;
         }
 
+        if(TargetRule == null)
+        {
+            Debug.LogError("NO TARGET RULE " + this.name);
+        }
+
         if(CORE.Instance.SessionRules.Rules.Find(x => x.name == TargetRule.name) == null)
         {
             return false;

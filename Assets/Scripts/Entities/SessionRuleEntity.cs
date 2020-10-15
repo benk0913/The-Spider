@@ -15,6 +15,8 @@ public class SessionRuleEntity : MonoBehaviour
     [SerializeField]
     UnityEvent Reset;
 
+    public bool OnlyOnGameLoad = false;
+
     private void Start()
     {
         if(RequiresRule == null)
@@ -22,7 +24,11 @@ public class SessionRuleEntity : MonoBehaviour
             return;
         }
 
-        CORE.Instance.SubscribeToEvent("GainSessionRule", OnHaveRule);
+        if (!OnlyOnGameLoad)
+        {
+            CORE.Instance.SubscribeToEvent("GainSessionRule", OnHaveRule);
+        }
+
         CORE.Instance.SubscribeToEvent("GameLoadComplete", OnHaveRule);
         OnHaveRule();
     }

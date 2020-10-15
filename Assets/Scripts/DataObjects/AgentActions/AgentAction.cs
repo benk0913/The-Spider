@@ -54,6 +54,7 @@ public class AgentAction : ScriptableObject
 
     public string InvokeEventOnExecute = "";
 
+    public DialogDecisionAction OnExecuteDialogAction;
 
     [SerializeField]
     bool CanDoInPrison = false;
@@ -260,6 +261,8 @@ public class AgentAction : ScriptableObject
         {
             CORE.Instance.InvokeEvent(InvokeEventOnExecute);
         }
+
+        OnExecuteDialogAction?.Activate();
     }
 
     public virtual bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

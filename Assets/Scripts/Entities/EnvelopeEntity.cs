@@ -72,6 +72,10 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
     public bool RoomSetLetter = false;
 
+    void OnDisable()
+    {
+        Debug.LogError("SOMEONE DISABLED ME!");
+    }
 
     private void Start()
     {
@@ -296,6 +300,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
                     SealRenderer.gameObject.SetActive(false);
                 }
             };
+
             if (CurrentLetter.Preset.Encryption.IsDoubleTransposition)
             {
                 DTWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.DTKeyword, onDecipherAction);
@@ -304,6 +309,7 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
             {
                 DecipherWindowUI.Instance.Show(CurrentLetter.Content, CurrentLetter.Preset.Encryption, onDecipherAction);
             }
+
             return;
         }
 
