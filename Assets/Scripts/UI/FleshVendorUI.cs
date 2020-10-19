@@ -20,6 +20,7 @@ public class FleshVendorUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI ProgressionWorth;
 
+    public int CharacterValueMultiplier = 2;
     Button SacrificeButton;
 
     private void Awake()
@@ -82,9 +83,9 @@ public class FleshVendorUI : MonoBehaviour
 
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
-        GoldWorth.text = ""+charWorth * 5;
-        ConnectionsWorth.text = "" + charWorth * 2;
-        ProgressionWorth.text = "" + charWorth;
+        GoldWorth.text = ""+charWorth * 5 * CharacterValueMultiplier;
+        ConnectionsWorth.text = "" + charWorth * 2 * CharacterValueMultiplier;
+        ProgressionWorth.text = "" + charWorth * CharacterValueMultiplier;
     }
 
     public void SelectCharacter()
@@ -105,12 +106,11 @@ public class FleshVendorUI : MonoBehaviour
     {
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
-        PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Malechite Road Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { }, null);
-        popData.OnPopupDisplayed = () =>
+        PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Malechite Road Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { }, () =>
         {
-            CORE.PC.CGold += charWorth * 5;
+            CORE.PC.CGold += charWorth * 5 * CharacterValueMultiplier;
             SelectedCharacter.CurrentCharacter.Death(true, true);
-        };
+        });
 
         PopupWindowUI.Instance.AddPopup(popData);
 
@@ -124,12 +124,12 @@ public class FleshVendorUI : MonoBehaviour
     {
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
-        PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Nobility Client Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { }, null);
-        popData.OnPopupDisplayed = () =>
+        PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Nobility Client Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { },
+            () =>
         {
-            CORE.PC.CConnections += charWorth * 2;
+            CORE.PC.CConnections += charWorth * 2 * CharacterValueMultiplier;
             SelectedCharacter.CurrentCharacter.Death(true, true);
-        };
+        });
 
         PopupWindowUI.Instance.AddPopup(popData);
 
@@ -140,8 +140,15 @@ public class FleshVendorUI : MonoBehaviour
     {
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
-        CORE.PC.CProgress += charWorth;
-        SelectedCharacter.CurrentCharacter.Death(true, true);
+        PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("Flesh Ceremony Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { },
+            () =>
+            {
+                CORE.PC.CProgress += charWorth * CharacterValueMultiplier;
+                SelectedCharacter.CurrentCharacter.Death(true, true);
+            });
+
+        PopupWindowUI.Instance.AddPopup(popData);
+
         this.gameObject.SetActive(false);
     }
 }

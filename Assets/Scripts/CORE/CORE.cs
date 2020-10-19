@@ -57,6 +57,27 @@ public class CORE : MonoBehaviour
 
     public List<SplineLerperWorldUI> ActiveLerpers = new List<SplineLerperWorldUI>();
 
+    public int PsychoEffectRate
+    {
+        get
+        {
+            return _psychoEffectRate;
+        }
+        set
+        {
+            if(value < 0)
+            {
+                _psychoEffectRate = 0;
+            }
+            else if( value >= 10)
+            {
+                _psychoEffectRate = 10;
+            }
+            _psychoEffectRate = value;
+        }
+    }
+    int _psychoEffectRate;
+
     public static SessionStats Stats;
 
     public bool isLoading
@@ -669,6 +690,12 @@ public class CORE : MonoBehaviour
         }
 
         TurnPassedRoutineInstance = null;
+
+        if (CORE.PC.CurrentFaction.HasPsychoEffect)
+        {
+            PsychoEffectRate++;
+            InvokeEvent("PsychoEffectRefresh");
+        }
     }
 
     #endregion

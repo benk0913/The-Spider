@@ -25,8 +25,12 @@ MonoBehaviour:
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  HeatAdded: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 0}
   ItemRequired: {fileID: 0}
+  MoreItemsRequired: []
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
@@ -36,6 +40,7 @@ MonoBehaviour:
   SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 1478687570250304421, guid: 55fffd0118943ee45b8cdd33230ec01c,
     type: 3}
   WorldPortraitEffectOnTarget: {fileID: 0}
@@ -43,6 +48,9 @@ MonoBehaviour:
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
   InvokeEventOnExecute: Interrogated
+  OnExecuteDialogAction: {fileID: 0}
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   Type: 1
   DeathPopup: {fileID: 0}
   WinPopup: {fileID: 11400000, guid: 57b0f6e4fd7b13f4fbf24b3a9a2284bf, type: 2}

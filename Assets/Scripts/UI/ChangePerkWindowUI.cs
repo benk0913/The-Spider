@@ -88,14 +88,26 @@ public class ChangePerkWindowUI : MonoBehaviour
 
     public void SelectTrait(Trait trait)
     {
+        PopupDataPreset preset;
+
         if (IsRemove)
         {
             CurrentCharacter.RemoveTrait(trait);
+
+            preset = CORE.Instance.Database.AllPopupPresets.Find(X => X.name == "RemoveTraitPop" + UnityEngine.Random.Range(1, 4));
         }
         else
         {
             CurrentCharacter.AddTrait(trait);
+
+            preset = CORE.Instance.Database.AllPopupPresets.Find(X => X.name == "AddTraitPop" + UnityEngine.Random.Range(1, 4));
         }
+
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        parameters.Add("ActorName", CurrentCharacter.name);
+        parameters.Add("TraitName", trait.name);
+
+        PopupWindowUI.Instance.AddPopup(new PopupData(preset, new List<Character> { CurrentCharacter }, new List<Character> { }, null, parameters));
 
         Hide();
     }

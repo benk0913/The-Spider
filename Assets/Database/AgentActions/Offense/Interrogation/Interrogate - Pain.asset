@@ -17,15 +17,19 @@ MonoBehaviour:
     the brain to puke information, it is being blackmailed by the body after all.
     \n<color=yellow>Success will result in 12 information items about this character
     & his colleagues & employer.</color>\n<color=green>Interrogators Intelligence
-    Reputation VS Target's Discreet Skill</color>"
+    Reputation VS Target's Discreet Skill</color>\n<color=yellow>+30 Rumors</color>"
   Category: {fileID: 11400000, guid: 68848daf1751c4f4ea60aa9649180069, type: 2}
   RequiredTraits: []
   MinimumAge: 16
   GoldCost: 0
   ConnectionsCost: 0
   RumorsCost: 0
+  HeatAdded: 0
+  RequiredBonus: {fileID: 0}
+  RequiredBonusValue: 0
   TechRequired: {fileID: 11400000, guid: e75476d3c549b4946a395898688d823f, type: 2}
   ItemRequired: {fileID: 0}
+  MoreItemsRequired: []
   Challenge:
     Type: {fileID: 0}
     ChallengeValue: 0
@@ -35,11 +39,16 @@ MonoBehaviour:
   SuccessResult: {fileID: 0}
   ShowHover: 1
   employerLetterPreset: {fileID: 0}
+  characterLetterPreset: {fileID: 0}
   WorldPortraitEffect: {fileID: 0}
   WorldPortraitEffectOnTarget: {fileID: 0}
   RecentTaret: {fileID: 0}
   OnExecutePopup: {fileID: 0}
   ActionDoneByTarget: 0
+  InvokeEventOnExecute: 
+  OnExecuteDialogAction: {fileID: 0}
+  CanDoInPrison: 0
+  CanTargetQuestionmarks: 0
   Task: {fileID: 11400000, guid: 0abaa2fe3ff74bc4c9fa5c413985358a, type: 2}
   RandomLocation: 0
   FriendlyLocation: 0

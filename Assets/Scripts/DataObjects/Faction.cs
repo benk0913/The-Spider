@@ -98,6 +98,8 @@ public class Faction : ScriptableObject, ISaveFileCompatible
         return newClone;
     }
 
+    public bool HasPsychoEffect = false;
+
     public void FromJSON(JSONNode node)
     {
         if (!string.IsNullOrEmpty(node["FactionHead"].Value))

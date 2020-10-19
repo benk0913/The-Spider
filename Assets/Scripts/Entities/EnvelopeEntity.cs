@@ -72,11 +72,6 @@ public class EnvelopeEntity : MonoBehaviour, ISaveFileCompatible
 
     public bool RoomSetLetter = false;
 
-    void OnDisable()
-    {
-        Debug.LogError("SOMEONE DISABLED ME!");
-    }
-
     private void Start()
     {
         if(CurrentLetter != null)
