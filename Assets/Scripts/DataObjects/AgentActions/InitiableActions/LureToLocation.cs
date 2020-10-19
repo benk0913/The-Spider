@@ -49,11 +49,11 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                     && !charInQuestion.IsDisabled
                     && charInQuestion.TopEmployer != requester
                     && charInQuestion != requester
-                    && charInQuestion.GetRelationsWith(character) > 6
-                    && charInQuestion.CurrentTaskEntity == null 
-                    || (charInQuestion.CurrentTaskEntity != null && charInQuestion.CurrentTaskEntity.CurrentTask.Cancelable);
+                    && charInQuestion.GetRelationsWith(character) > 10
+                    && (charInQuestion.CurrentTaskEntity == null 
+                            || (charInQuestion.CurrentTaskEntity != null && charInQuestion.CurrentTaskEntity.CurrentTask.Cancelable));
                }
-               , "Select Who To Invite (Relations above 6)",null,this);
+               , "Select Who To Invite <color=red>(Relations above 10)</color>",null,this);
 
     }
 

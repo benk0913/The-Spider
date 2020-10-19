@@ -70,12 +70,6 @@ public class BrainwashPrisoner : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
-        if (targetChar.NeverDED)
-        {
-            reason = new FailReason("You are not allowed to execute this character.");
-            return false;
-        }
-
         if (character.Traits.Contains(CORE.Instance.Database.GetTrait("Good Moral Standards")) || character.Traits.Contains(CORE.Instance.Database.GetTrait("Virtuous")))
         {
             reason = new FailReason(character.name + " refuses. This act is too evil (Good Moral Standards)");

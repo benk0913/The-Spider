@@ -109,7 +109,7 @@ public class FleshVendorUI : MonoBehaviour
         PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Malechite Road Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { }, () =>
         {
             CORE.PC.CGold += charWorth * 5 * CharacterValueMultiplier;
-            SelectedCharacter.CurrentCharacter.Death(true, true);
+            SelectedCharacter.CurrentCharacter.Death(true, false);
         });
 
         PopupWindowUI.Instance.AddPopup(popData);
@@ -128,7 +128,7 @@ public class FleshVendorUI : MonoBehaviour
             () =>
         {
             CORE.PC.CConnections += charWorth * 2 * CharacterValueMultiplier;
-            SelectedCharacter.CurrentCharacter.Death(true, true);
+            SelectedCharacter.CurrentCharacter.Death(true, false);
         });
 
         PopupWindowUI.Instance.AddPopup(popData);
@@ -144,7 +144,7 @@ public class FleshVendorUI : MonoBehaviour
             () =>
             {
                 CORE.PC.CProgress += charWorth * CharacterValueMultiplier;
-                SelectedCharacter.CurrentCharacter.Death(true, true);
+                SelectedCharacter.CurrentCharacter.Death(true, false);
             });
 
         PopupWindowUI.Instance.AddPopup(popData);

@@ -547,14 +547,32 @@ public class CORE : MonoBehaviour
             {
                 int CharactersConverted = 0;
 
-                List<Character> Cultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) != null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
-                List<Character> NonCultists = Characters.FindAll(X => X.Traits.Find(T => T == Database.CultistTrait) == null && !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X);
+                List<Character> Cultists = new List<Character>();
+                List<Character> NonCultists = new List<Character>();
 
-                if(Cultists == null)
+                for (int i=0;i<Characters.Count;i++)
                 {
-                    Cultists = new List<Character>();
+                    if(i%10 == 0)
+                    {
+                        yield return 0;
+                    }
+
+                    Character X = Characters[i];
+                    if(!X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X)
+                    {
+                        if (X.Traits.Find(T => T == Database.CultistTrait) != null)
+                        {
+                            Cultists.Add(X);
+                        }
+                        else
+                        {
+                            NonCultists.Add(X);
+                        }
+                    }
+
                 }
 
+                
                 if(NonCultists == null)
                 {
                     NonCultists = new List<Character>();
@@ -575,7 +593,7 @@ public class CORE : MonoBehaviour
                     for (int i = 0; i < Cultists.Count; i++)
                     {
                         float rnd = Random.Range(0f, 1f);
-                        if (rnd < 0.01f)
+                        if (rnd < 0.02f)
                         {
                             Character target = NonCultists[Random.Range(0, NonCultists.Count)];
                             target.Traits.Add(Database.CultistTrait);
@@ -584,7 +602,7 @@ public class CORE : MonoBehaviour
 
                             CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
                         }
-                        else if(rnd < 0.05f)
+                        else if(rnd < 0.1f)
                         {
                             Character newChar = CORE.Instance.GenerateSimpleCharacter();
                             newChar.Randomize();
@@ -593,6 +611,11 @@ public class CORE : MonoBehaviour
                             newChar.GoToLocation(CORE.Instance.GetRandomLocation());
 
                             CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), newChar, newChar.CurrentLocation);
+                        }
+
+                        if(i % 5 == 0)
+                        {
+                            yield return 0;
                         }
                     }
                 }
@@ -609,14 +632,30 @@ public class CORE : MonoBehaviour
                 {
                     if (religiousCultTech.IsResearched)
                     {
+                        List<Character> cultistsToRemove = new List<Character>();
 
-                        DevotedCultists.AddRange(Cultists.FindAll(x => x.Traits.Find(t => t == Database.CultistReligiousTrait) != null));
-                        Cultists.RemoveAll(x => DevotedCultists.Contains(x));
+                        for (int i=0;i<Cultists.Count;i++)
+                        {
+                            if(i%5 == 0)
+                            {
+                                yield return 0;
+                            }
+
+                            if(Cultists[i].Traits.Find(t => t == Database.CultistReligiousTrait) != null)
+                            {
+                                DevotedCultists.Add(Cultists[i]);
+                                cultistsToRemove.Add(Cultists[i]);
+                            }
+                        }
+
+                        foreach(Character cultist in cultistsToRemove)
+                        {
+                            Cultists.Remove(cultist);
+                        }
+                        
 
                         int CharactersDevoted = 0;
-
-
-
+                        
                         if (Cultists.Count > 0)
                         {
                             if (DevotedCultists.Count == 0)
@@ -629,10 +668,15 @@ public class CORE : MonoBehaviour
 
                             for (int i = 0; i < DevotedCultists.Count; i++)
                             {
-                                if (Random.Range(0f, 1f) < 0.01f)
+                                if (Random.Range(0f, 1f) < 0.05f)
                                 {
                                     Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
                                     CharactersDevoted++;
+                                }
+
+                                if (i % 5 == 0)
+                                {
+                                    yield return 0;
                                 }
                             }
                         }

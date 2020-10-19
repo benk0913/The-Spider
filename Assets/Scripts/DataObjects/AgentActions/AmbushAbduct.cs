@@ -70,7 +70,7 @@ public class AmbushAbduct : AgentAction //DO NOT INHERIT FROM
         else
         {
             CORE.Instance.ShowPortraitEffect(CORE.Instance.Database.FailWorldEffectPrefab, character, targetChar.CurrentLocation);
-            CORE.Instance.Database.GetAgentAction("Wound").Execute(character.TopEmployer, character, character.HomeLocation);
+            CORE.Instance.Database.GetAgentAction("Wounded").Execute(character.TopEmployer, character, character.HomeLocation);
         }
     }
 
