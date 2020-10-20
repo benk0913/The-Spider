@@ -42,6 +42,12 @@ public class BefriendPerson : AgentAction //DO NOT INHERIT FROM
             return false;
         }
 
+        if (targetChar.UnManipulable)
+        {
+            reason = new FailReason("You can not manipulate "+targetChar.name+"...");
+            return false;
+        }
+
         int relations = targetChar.GetRelationsWith(character);
         float targetDiscreetValue = targetChar.GetBonus(CORE.Instance.Database.GetBonusType("Discreet")).Value;
 
@@ -53,6 +59,7 @@ public class BefriendPerson : AgentAction //DO NOT INHERIT FROM
                 + relations + " \\ " + targetDiscreetValue + ")");
             return false;
         }
+
 
         return true;
     }

@@ -17,6 +17,8 @@ public class SessionRuleEntity : MonoBehaviour
 
     public bool OnlyOnGameLoad = false;
 
+    public bool ListenOnce = true;
+
     private void Start()
     {
         if(RequiresRule == null)
@@ -58,7 +60,11 @@ public class SessionRuleEntity : MonoBehaviour
         }
 
         OnGainRule.Invoke();
-        StopListening();
+
+        if (ListenOnce)
+        {
+            StopListening();
+        }
     }
 
     public void StopListening()

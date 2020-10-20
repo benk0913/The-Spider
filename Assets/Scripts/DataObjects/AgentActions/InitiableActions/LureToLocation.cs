@@ -50,6 +50,7 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
                     && charInQuestion.TopEmployer != requester
                     && charInQuestion != requester
                     && charInQuestion.GetRelationsWith(character) > 10
+                    && !charInQuestion.UnManipulable
                     && (charInQuestion.CurrentTaskEntity == null 
                             || (charInQuestion.CurrentTaskEntity != null && charInQuestion.CurrentTaskEntity.CurrentTask.Cancelable));
                }
@@ -70,6 +71,7 @@ public class LureToLocation : AgentAction //DO NOT INHERIT FROM
         {
             return false;
         }
+
         if (!targetEntity.Known.GetKnowledgeInstance("Existance").IsKnownByCharacter(character.TopEmployer))
         {
             //reason = new FailReason("This location is not known to you.");

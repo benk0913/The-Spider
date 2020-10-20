@@ -14,6 +14,7 @@ public class DDAAddSessionRule : DialogDecisionAction
         if (Remove)
         {
             CORE.Instance.SessionRules.Rules.Remove(CORE.Instance.SessionRules.Rules.Find(x => x.name == Rule.name));
+            CORE.Instance.InvokeEvent("GainSessionRule");
         }
         else
         {

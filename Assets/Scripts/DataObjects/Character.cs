@@ -129,6 +129,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
 
+    public bool UnManipulable = false;
+
     public int Reputation
     {
         get

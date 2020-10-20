@@ -602,10 +602,11 @@ public class CORE : MonoBehaviour
 
                             CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
                         }
-                        else if(rnd < 0.1f)
+                        else if(rnd < 0.05f)
                         {
                             Character newChar = CORE.Instance.GenerateSimpleCharacter();
                             newChar.Randomize();
+                            Characters.Add(newChar);
                             newChar.Traits.Add(Database.CultistTrait);
                             CharactersConverted++;
                             newChar.GoToLocation(CORE.Instance.GetRandomLocation());

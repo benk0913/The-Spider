@@ -45,6 +45,9 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
     [SerializeField]
     TextMeshProUGUI QuestFIrstObjective;
 
+    [SerializeField]
+    GameObject RemoveButton;
+
     LogLetterUI SelectedLetter;
 
     public static LettersPanelUI Instance;
@@ -208,10 +211,13 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
             {
                 QuestFIrstObjective.text = letter.CurrentLetter.Preset.QuestAttachment.Objectives[0].name;
             }
+
+            RemoveButton.gameObject.SetActive(false);
         }
         else
         {
             QuestPanel.gameObject.SetActive(false);
+            RemoveButton.gameObject.SetActive(true);
         }
 
         if (withSound && !string.IsNullOrEmpty(SelectedLetter.CurrentLetter.Preset.VoiceLine))

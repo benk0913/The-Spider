@@ -58,6 +58,11 @@ public class CancelTaskPlayerAction : PlayerAction
                 return false;
             }
 
+            if(portrait.CurrentCharacter == null)
+            {
+                return false;
+            }
+
             if (portrait.CurrentCharacter.TopEmployer != requester)
             {
                 return false;
