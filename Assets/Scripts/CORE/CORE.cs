@@ -74,6 +74,25 @@ public class CORE : MonoBehaviour
                 _psychoEffectRate = 10;
             }
             _psychoEffectRate = value;
+
+            InvokeEvent("PsychoEffectRefresh");
+
+            if(_psychoEffectRate > 9)
+            {
+                ShadedViewUI.Instance.Show(2);
+            }
+            else if (_psychoEffectRate > 6)
+            {
+                ShadedViewUI.Instance.Show(1);
+            }
+            else if (_psychoEffectRate > 3)
+            {
+                ShadedViewUI.Instance.Show(0);
+            }
+            else
+            {
+                ShadedViewUI.Instance.Hide();
+            }
         }
     }
     int _psychoEffectRate;
@@ -323,6 +342,8 @@ public class CORE : MonoBehaviour
         {
             ListenerOfSound = newListener;
         }
+
+        PsychoEffectRate = 0;
     }
 
     void AddListeners()
@@ -739,7 +760,10 @@ public class CORE : MonoBehaviour
         if (CORE.PC.CurrentFaction.HasPsychoEffect)
         {
             PsychoEffectRate++;
-            InvokeEvent("PsychoEffectRefresh");
+        }
+        else
+        {
+            PsychoEffectRate = 0;
         }
     }
 
@@ -1102,7 +1126,9 @@ public class CORE : MonoBehaviour
 
         savefile["GameClock"] = GameClock.Instance.ToJSON();
 
-        for(int i=0;i<RecruitmentPools.Count;i++)
+        savefile["PsychoEffectRate"] = PsychoEffectRate.ToString();
+
+        for (int i=0;i<RecruitmentPools.Count;i++)
         {
             savefile["RecruitmentPools"][i] = RecruitmentPools[i].ToJSON();
         }
@@ -1186,6 +1212,11 @@ public class CORE : MonoBehaviour
             Stats.PlotsWithBrute = int.Parse(file.Content["PlotsWithBrute"]);
             Stats.PlotsWithCunning = int.Parse(file.Content["PlotsWithCunning"]);
             Stats.PlotsWithStealth = int.Parse(file.Content["PlotsWithStealth"]);
+
+            if (!string.IsNullOrEmpty(file.Content["PsychoEffectRate"]))
+            {
+                PsychoEffectRate = int.Parse(file.Content["PsychoEffectRate"]);
+            }
 
             Factions.Clear();
             for (int i = 0; i < file.Content["Factions"].Count; i++)
