@@ -37,6 +37,11 @@ public class ShadedViewUI : MonoBehaviour
             AudioControl.Instance.Play(ShadeRate[rate].StateAudio, true);
             lastAudio = ShadeRate[rate].StateAudio;
         }
+
+        if (rate > 0)
+        {
+            TutorialScreenUI.Instance.Show("Voices1");
+        }
     }
 
     public void Hide()
