@@ -20,6 +20,10 @@ public class FastMobileBloom : MonoBehaviour
     {
         if(!Initialized)
         {
+            if(CORE.Instance == null)
+            {
+                return;
+            }
             CORE.Instance.SubscribeToEvent("BloomUpdated", OnBloomUpdated);
             CORE.Instance.SubscribeToEvent("GameLoadComplete", OnBloomUpdated);
             Initialized = true;

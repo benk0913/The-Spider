@@ -20,14 +20,20 @@ public class MouseLook : MonoBehaviour
                     {
                         Cursor.visible = false;
                         Cursor.lockState = CursorLockMode.Locked;
+
+                        if(ReticleViewUI.Instance != null)
                         ReticleViewUI.Instance.Show();
+
                         break;
                     }
                 case ActorState.ItemInHands:
                     {
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
-                        ReticleViewUI.Instance.Hide();
+
+                        if (ReticleViewUI.Instance != null)
+                            ReticleViewUI.Instance.Hide();
+
                         OnZoom = false;
                         break;
                     }
@@ -35,7 +41,10 @@ public class MouseLook : MonoBehaviour
                     {
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
-                        ReticleViewUI.Instance.Hide();
+
+                        if (ReticleViewUI.Instance != null)
+                            ReticleViewUI.Instance.Hide();
+
                         OnZoom = false;
                         break;
                     }
@@ -150,6 +159,17 @@ public class MouseLook : MonoBehaviour
 
     public GameObject CurrentWindow;
 
+    public bool CanJump = false;
+    public float DistFromGround = 5f;
+    public float JumpForce = 5f;
+    public LayerMask Jumplayermask;
+    public bool recentlyJumped;
+
+    public Rigidbody rBody;
+    
+
+    public bool TestInput = false;
+
     public bool isAbleToMove
     {
         get
@@ -186,9 +206,12 @@ public class MouseLook : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(CORE.Instance.isLoading)
+        if (CORE.Instance != null)
         {
-            return;
+            if (CORE.Instance.isLoading)
+            {
+                return;
+            }
         }
 
         if (isAbleToMove)
@@ -222,9 +245,12 @@ public class MouseLook : MonoBehaviour
 
     private void Update()
     {
-        if (CORE.Instance.isLoading)
+        if (CORE.Instance != null)
         {
-            return;
+            if (CORE.Instance.isLoading)
+            {
+                return;
+            }
         }
 
         RefreshCancelInput();
@@ -272,23 +298,84 @@ public class MouseLook : MonoBehaviour
 
     void RefreshMovementInput()
     {
-        if (Input.GetKey(InputMap.Map["MoveForward"]))
+        if (TestInput)
         {
-            transform.position += transform.forward * MovementSpeed * Time.deltaTime;
-        }
-        else if (Input.GetKey(InputMap.Map["MoveBackward"]))
-        {
-            transform.position += -transform.forward * MovementSpeed / 2f * Time.deltaTime;
-        }
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += transform.forward * MovementSpeed * Time.deltaTime;
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                transform.position += -transform.forward * MovementSpeed / 2f * Time.deltaTime;
+            }
 
-        if (Input.GetKey(InputMap.Map["MoveLeft"]))
-        {
-            transform.position += -transform.right * MovementSpeed / 2f * Time.deltaTime;
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position += -transform.right * MovementSpeed / 2f * Time.deltaTime;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                transform.position += transform.right * MovementSpeed / 2f * Time.deltaTime;
+            }
+
+            if (CanJump && Input.GetKey(KeyCode.Space))
+            {
+                if (!recentlyJumped)
+                {
+                    RaycastHit raycastHit;
+                    if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, DistFromGround, Jumplayermask))
+                    {
+                        rBody.velocity = Vector2.zero;
+                        rBody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                        recentlyJumped = true;
+                        StartCoroutine(ResetJumpRoutine());
+                    }
+                }
+
+            }
         }
-        else if (Input.GetKey(InputMap.Map["MoveRight"]))
+        else
         {
-            transform.position += transform.right * MovementSpeed / 2f * Time.deltaTime;
+            if (Input.GetKey(InputMap.Map["MoveForward"]))
+            {
+                transform.position += transform.forward * MovementSpeed * Time.deltaTime;
+            }
+            else if (Input.GetKey(InputMap.Map["MoveBackward"]))
+            {
+                transform.position += -transform.forward * MovementSpeed / 2f * Time.deltaTime;
+            }
+
+            if (Input.GetKey(InputMap.Map["MoveLeft"]))
+            {
+                transform.position += -transform.right * MovementSpeed / 2f * Time.deltaTime;
+            }
+            else if (Input.GetKey(InputMap.Map["MoveRight"]))
+            {
+                transform.position += transform.right * MovementSpeed / 2f * Time.deltaTime;
+            }
+
+            if (CanJump && Input.GetKey(InputMap.Map["Jump"]))
+            {
+                if (!recentlyJumped)
+                {
+                    RaycastHit raycastHit;
+                    if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, DistFromGround, Jumplayermask))
+                    {
+                        rBody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                        recentlyJumped = true;
+                        StartCoroutine(ResetJumpRoutine());
+                    }
+                }
+
+            }
         }
+    }
+
+    IEnumerator ResetJumpRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+
+        recentlyJumped = false;
     }
 
     void RefreshMouseLookInput()
