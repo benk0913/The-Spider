@@ -23,7 +23,7 @@ public class WorldMissionPanelUI : MonoBehaviour
     CanvasGroup CG;
 
     [SerializeField]
-    GameObject FoldedPanel;
+    public GameObject FoldedPanel;
 
     Quest CurrentQuest;
 

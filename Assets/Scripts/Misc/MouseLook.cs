@@ -163,18 +163,23 @@ public class MouseLook : MonoBehaviour
     public float DistFromGround = 5f;
     public float JumpForce = 5f;
     public LayerMask Jumplayermask;
-    public bool recentlyJumped;
+    public bool RecentlyJumped;
+    public bool Grounded;
 
     public Rigidbody rBody;
-    
 
+    /// <summary>
+    /// TEST
     public bool TestInput = false;
+    /// </summary>
+
+    public bool ForceBlockMovement;
 
     public bool isAbleToMove
     {
         get
         {
-            return (State == ActorState.Idle || State == ActorState.ItemInHands) && FocusingRoutineInstance == null;
+            return !ForceBlockMovement && ((State == ActorState.Idle || State == ActorState.ItemInHands) && FocusingRoutineInstance == null);
         }
     }
 
@@ -241,6 +246,16 @@ public class MouseLook : MonoBehaviour
         }
 
         Cam.fieldOfView = Mathf.Lerp(Cam.fieldOfView, targetFOV, Time.deltaTime * 2f);
+    }
+
+    public void BlockMovement()
+    {
+        ForceBlockMovement = true;
+    }
+
+    public void ReleaseMovement()
+    {
+        ForceBlockMovement = false;
     }
 
     private void Update()
@@ -318,20 +333,35 @@ public class MouseLook : MonoBehaviour
                 transform.position += transform.right * MovementSpeed / 2f * Time.deltaTime;
             }
 
-            if (CanJump && Input.GetKey(KeyCode.Space))
+            if (!RecentlyJumped)
             {
-                if (!recentlyJumped)
-                {
+
+
                     RaycastHit raycastHit;
-                    if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, DistFromGround, Jumplayermask))
+                if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, DistFromGround, Jumplayermask))
+                {
+                    if (CanJump && Input.GetKey(KeyCode.Space))
                     {
-                        rBody.velocity = Vector2.zero;
-                        rBody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-                        recentlyJumped = true;
-                        StartCoroutine(ResetJumpRoutine());
+                        if (!raycastHit.collider.isTrigger)
+                        {
+                           
+                            rBody.velocity = Vector2.zero;
+                            rBody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                            RecentlyJumped = true;
+                            StartCoroutine(ResetJumpRoutine());
+                            Grounded = false;
+                        }
+
+                    }
+
+                    if(!Grounded && !RecentlyJumped)
+                    {
+                        Grounded = true;
                     }
                 }
 
+
+                
             }
         }
         else
@@ -356,13 +386,13 @@ public class MouseLook : MonoBehaviour
 
             if (CanJump && Input.GetKey(InputMap.Map["Jump"]))
             {
-                if (!recentlyJumped)
+                if (!RecentlyJumped)
                 {
                     RaycastHit raycastHit;
                     if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, DistFromGround, Jumplayermask))
                     {
                         rBody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-                        recentlyJumped = true;
+                        RecentlyJumped = true;
                         StartCoroutine(ResetJumpRoutine());
                     }
                 }
@@ -375,7 +405,7 @@ public class MouseLook : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        recentlyJumped = false;
+        RecentlyJumped = false;
     }
 
     void RefreshMouseLookInput()
