@@ -100,6 +100,14 @@ public class MeditatePanelUI : MonoBehaviour
 
     IEnumerator MeditationRoutine()
     {
+        CORE.Instance.FadeOutScreen();
+
+        yield return new WaitForSeconds(1f);
+
+        CORE.Instance.FadeOutScreen();
+
+        yield return new WaitForSeconds(1f);
+
         MeditateSentenceUI sentence;
         while (CORE.Instance.PsychoEffectRate > 0)
         {

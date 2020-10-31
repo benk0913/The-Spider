@@ -27,6 +27,12 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
             return;
         }
 
+        if (character.TopEmployer == character || character.TopEmployer == null)
+        {
+            GlobalMessagePrompterUI.Instance.Show(character.name + " is not stupid. (Will not betray self)", 3f, Color.red);
+            return;
+        }
+
         List<LocationEntity> possibleProperties = CORE.PC.PropertiesInCommand;
         possibleProperties.RemoveAll(
             x => !x.CurrentProperty.EmployeesAreAgents || x.EmployeesCharacters.Count >= x.CurrentProperty.PropertyLevels[x.Level - 1].MaxEmployees);

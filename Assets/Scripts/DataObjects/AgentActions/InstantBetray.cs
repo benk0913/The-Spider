@@ -27,6 +27,12 @@ public class InstantBetray : AgentAction //DO NOT INHERIT FROM
             return;
         }
 
+        if(character.TopEmployer == character || character.TopEmployer == null)
+        {
+            GlobalMessagePrompterUI.Instance.Show(character.name + " is not stupid. (Will not betray self)", 3f, Color.red);
+            return;
+        }
+
         character.BetrayEmployer();
     }
 

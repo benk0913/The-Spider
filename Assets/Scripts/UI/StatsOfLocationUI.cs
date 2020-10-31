@@ -90,6 +90,18 @@ public class StatsOfLocationUI : MonoBehaviour
         int currentRumors = CurrentLocation.RumorsGenerated;
         int currentConnections = CurrentLocation.ConnectionsGenerated;
         int currentProgression = CurrentLocation.ProgressionGenerated;
+        int turnsToComplete = 0;
+        if (CurrentLocation.CurrentAction != null && CurrentLocation.CurrentAction.WorkAction != null)
+        {
+            if(CurrentLocation.CurrentAction.WorkAction.GetType() == typeof(LongTermTaskExecuter))
+            {
+                LongTermTaskExecuter task = (LongTermTaskExecuter)CurrentLocation.CurrentAction.WorkAction;
+                if (task.Task != null)
+                {
+                    turnsToComplete = task.Task.TurnsToComplete;
+                }
+            }
+        }
 
         if (currentGold != previousGold || currentRumors != previousRumors || currentConnections != previousConnections || currentProgression != previousProgress)
         {
@@ -108,6 +120,13 @@ public class StatsOfLocationUI : MonoBehaviour
         ConnectionsText.text = currentConnections.ToString();
         ProgressionText.text = currentProgression.ToString();
 
+        if(turnsToComplete > 1)
+        {
+            GoldText.text += "- " + turnsToComplete + "T.";
+            RumorsText.text += "- " + turnsToComplete + "T.";
+            ConnectionsText.text += "- " + turnsToComplete + "T.";
+            ProgressionText.text += "- " + turnsToComplete + "T.";
+        }
         GoldText.transform.parent.gameObject.SetActive(CurrentLocation.CurrentAction.GoldGenerated > 0);
         RumorsText.transform.parent.gameObject.SetActive(CurrentLocation.CurrentAction.RumorsGenerated> 0);
         ConnectionsText.transform.parent.gameObject.SetActive(CurrentLocation.CurrentAction.ConnectionsGenerated> 0);

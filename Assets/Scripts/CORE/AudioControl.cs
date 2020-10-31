@@ -357,7 +357,6 @@ public class AudioControl : MonoBehaviour {
 
     protected void SetMusic(string gClip, float fPitch = 1f)
     {
-
         if(WaitForMusicEndRoutineInstance != null)
         {
             StopCoroutine(WaitForMusicEndRoutineInstance);

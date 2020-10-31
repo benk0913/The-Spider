@@ -18,7 +18,12 @@ public class LoadLevelEntity : MonoBehaviour
     IEnumerator LoadLevelRoutine()
     {
 
+        CORE.Instance.FadeOutScreen();
+
+        yield return new WaitForSeconds(1f);
+
         SceneManager.LoadScene(LevelName);
+
 
         yield return 0;
         while (SceneManager.GetActiveScene().name != LevelName)
@@ -29,10 +34,9 @@ public class LoadLevelEntity : MonoBehaviour
         yield return new WaitForSeconds(1f);
         if (StopMusic)
         {
-            Debug.LogError("STOPPED MUSIC");
-            AudioControl.Instance.MuteMusic();
+            AudioControl.Instance.StopAllCoroutines();
+            AudioControl.Instance.SetPlaylist(0);
             AudioControl.Instance.SetPlaylistIndex(0);
-            AudioControl.Instance.GetComponent<AudioSource>().Stop();
         }
 
         if (HideObjectives)
@@ -40,6 +44,10 @@ public class LoadLevelEntity : MonoBehaviour
             WorldMissionPanelUI.Instance.FoldedPanel.gameObject.SetActive(false);
             WorldMissionPanelUI.Instance.gameObject.SetActive(false);
         }
+
+        yield return new WaitForSeconds(1f);
+
+        CORE.Instance.FadeInScreen();
     }
 
     public void LoadLevel(string levelName)

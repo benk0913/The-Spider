@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using Steamworks;
+using UnityEngine.UI;
 
 public class CORE : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public class CORE : MonoBehaviour
 
     [SerializeField]
     AudioListener ListenerOfSound;
+
+    [SerializeField]
+    public Image ScreenFader; 
 
     public TechTreeItem TechTree;
 
@@ -1499,6 +1503,64 @@ public class CORE : MonoBehaviour
 
 
     #endregion
+
+    public void FadeOutScreen()
+    {
+        if(FadeScreenRoutineInstance != null)
+        {
+            StopCoroutine(FadeScreenRoutineInstance);
+        }
+
+        FadeScreenRoutineInstance = StartCoroutine(FadeOutScreenRoutine());
+    }
+
+    public void FadeInScreen()
+    {
+        if (FadeScreenRoutineInstance != null)
+        {
+            StopCoroutine(FadeScreenRoutineInstance);
+        }
+
+        FadeScreenRoutineInstance = StartCoroutine(FadeInScreenRoutine());
+    }
+
+    public Coroutine FadeScreenRoutineInstance;
+    IEnumerator FadeInScreenRoutine()
+    {
+        ScreenFader.gameObject.SetActive(true);
+        float t = 0f;
+        while(t<1f)
+        {
+
+            t += 0.5f * Time.deltaTime;
+
+            ScreenFader.color = Color.Lerp(ScreenFader.color, Color.clear, t);
+
+            yield return 0;
+        }
+
+        ScreenFader.gameObject.SetActive(false);
+        FadeScreenRoutineInstance = null;
+    }
+
+    IEnumerator FadeOutScreenRoutine()
+    {
+        ScreenFader.gameObject.SetActive(true);
+        float t = 0f;
+        while (t < 1f)
+        {
+
+            t += 0.5f * Time.deltaTime;
+
+            ScreenFader.color = Color.Lerp(ScreenFader.color, Color.black, t);
+
+            yield return 0;
+        }
+
+        FadeScreenRoutineInstance = null;
+    }
+
+
 }
 
 public class ScehemWon : UnityEvent<SchemeType, LocationEntity, Character>

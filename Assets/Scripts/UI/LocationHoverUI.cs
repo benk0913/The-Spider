@@ -30,6 +30,14 @@ public class LocationHoverUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
     public void Show(LocationEntity location, bool isUnknown = false)
     {
         this.IsUnknown = isUnknown;
