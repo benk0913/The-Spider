@@ -62,6 +62,15 @@ public class ActionUI : MonoBehaviour
                 Bonuses.Add(new TooltipBonus("Rumors +" + action.RumorsGenerated, ResourcesLoader.Instance.GetSprite("earIcon")));
             }
 
+            if (action.WorkAction != null && action.WorkAction.GetType() == (typeof(LongTermTaskExecuter)))
+            {
+                LongTermTaskExecuter longTermTask = (LongTermTaskExecuter)action.WorkAction;
+                if (longTermTask.Task != null && longTermTask.Task.TurnsToComplete > 1)
+                {
+                    Bonuses.Add(new TooltipBonus("<color=red>PER "+longTermTask.Task.TurnsToComplete+" TURNS.</color>", ResourcesLoader.Instance.GetSprite("icon_coins")));
+                }
+            }
+
             if (TooltipTarget != null)
             {
                 TooltipTarget.SetTooltip(action.Description, Bonuses);

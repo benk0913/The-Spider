@@ -5,7 +5,6 @@ using UnityEngine;
 public class PauseInWierdRoomsEntity : MonoBehaviour
 {
     public bool ShowingWindow = false;
-    public FocusView focusView;
 
     private void Update()
     {
@@ -16,15 +15,14 @@ public class PauseInWierdRoomsEntity : MonoBehaviour
                 return;
             }
 
-            focusView.Activate();
+            MouseLook.Instance.State = MouseLook.ActorState.Focusing;
             ShowingWindow = true;
             WarningWindowUI.Instance.Show("Quit to the main menu?", () =>
             {
                 CORE.Instance.DisposeCurrentGame();
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
                 ShowingWindow = false;
-                focusView.Deactivate();
-            },false,()=> { ShowingWindow = false; focusView.Deactivate(); });
+            },false,()=> { CORE.Instance.DelayedInvokation(1f, () => { ShowingWindow = false; }); MouseLook.Instance.State = MouseLook.ActorState.Idle; });
         }
     }
 }

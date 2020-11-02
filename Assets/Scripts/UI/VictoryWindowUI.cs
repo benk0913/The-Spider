@@ -15,6 +15,9 @@ public class VictoryWindowUI : MonoBehaviour
     [SerializeField]
     GameObject StatsPanel;
 
+    [SerializeField]
+    GameObject ContinuePlayingButton;
+
     public static VictoryWindowUI Instance;
 
     private void Awake()
@@ -24,7 +27,7 @@ public class VictoryWindowUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void Show()
+    public void Show(bool noContinue = false)
     {
         this.gameObject.SetActive(true);
 
@@ -34,6 +37,8 @@ public class VictoryWindowUI : MonoBehaviour
         tempObj.transform.SetParent(AvatarContainer, false);
         tempObj.transform.localScale = Vector3.one;
         tempObj.transform.position = AvatarContainer.position;
+
+        ContinuePlayingButton.gameObject.SetActive(!noContinue);
     }
 
     public void ShowStats()

@@ -82,6 +82,17 @@ public class InstantBetrayJoin : AgentAction //DO NOT INHERIT FROM
                 }
             }
         }
+        else
+        {
+            if (character != null)
+            {
+                if (character.TopEmployer == character)
+                {
+                    reason = new FailReason(character.name + " is not stupid. (Will not betray self)");
+                    return false;
+                }
+            }
+        }
 
         LocationEntity targetProperty = CORE.PC.PropertiesInCommand.Find(
             x => x.CurrentProperty.EmployeesAreAgents && x.EmployeesCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level - 1].MaxEmployees);

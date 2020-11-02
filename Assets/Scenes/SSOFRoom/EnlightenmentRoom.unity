@@ -21258,7 +21258,6 @@ GameObject:
   m_Component:
   - component: {fileID: 707075575}
   - component: {fileID: 707075574}
-  - component: {fileID: 707075573}
   m_Layer: 0
   m_Name: EscapeMenu
   m_TagString: Untagged
@@ -21266,26 +21265,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &707075573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 707075572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50cb062b6c15c814da008c434441fde0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentCamera: {fileID: 1951345896}
-  OnActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeactivate:
-    m_PersistentCalls:
-      m_Calls: []
-  IsFocusing: 0
 --- !u!114 &707075574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21299,7 +21278,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowingWindow: 0
-  focusView: {fileID: 707075573}
 --- !u!4 &707075575
 Transform:
   m_ObjectHideFlags: 0

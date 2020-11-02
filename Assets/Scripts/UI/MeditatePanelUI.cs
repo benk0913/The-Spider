@@ -30,6 +30,7 @@ public class MeditatePanelUI : MonoBehaviour
 
     void Hide()
     {
+        CORE.Instance.FadeInScreen();
         MeditationRoutineInstance = null;
         this.gameObject.SetActive(false);
     }
@@ -41,17 +42,22 @@ public class MeditatePanelUI : MonoBehaviour
 
     public void Show()
     {
-        Animer.SetBool("Exit", false);
-        Animer.SetTrigger("Reset");
-        this.gameObject.SetActive(true);
+        CORE.Instance.FadeOutScreen();
 
-
-        if(MeditationRoutineInstance != null)
+        CORE.Instance.DelayedInvokation(1F, () =>
         {
-            StopCoroutine(MeditationRoutineInstance);
-        }
+            Animer.SetBool("Exit", false);
+            Animer.SetTrigger("Reset");
+            this.gameObject.SetActive(true);
 
-        MeditationRoutineInstance = StartCoroutine(MeditationRoutine());
+
+            if (MeditationRoutineInstance != null)
+            {
+                StopCoroutine(MeditationRoutineInstance);
+            }
+
+            MeditationRoutineInstance = StartCoroutine(MeditationRoutine());
+        });
     }
 
     public void PressedOnGood()
@@ -100,11 +106,8 @@ public class MeditatePanelUI : MonoBehaviour
 
     IEnumerator MeditationRoutine()
     {
-        CORE.Instance.FadeOutScreen();
 
-        yield return new WaitForSeconds(1f);
-
-        CORE.Instance.FadeOutScreen();
+        CORE.Instance.FadeInScreen();
 
         yield return new WaitForSeconds(1f);
 

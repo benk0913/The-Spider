@@ -34,15 +34,25 @@ public class FavorDecisionUI : MonoBehaviour
         }
         else
         {
-            ImgButton.interactable = true;
-            TooltipTarget.SetTooltip(CurrentDecision.Description);
+            FailReason reason = null;
+            if (CurrentDecision.ActionToExecute != null && !CurrentDecision.ActionToExecute.CanDoAction(CORE.PC, CurrentCharacter, CurrentCharacter.CurrentLocation, out reason))
+            {
+                ImgButton.interactable = false;
+
+                TooltipTarget.SetTooltip("<color=red> " + reason?.Key + " - </color>" + CurrentDecision.Description);
+            }
+            else
+            {
+
+                ImgButton.interactable = true;
+                TooltipTarget.SetTooltip(CurrentDecision.Description);
+            }
         }
     }
 
     public void BuyDecision()
     {
         int favorPoints = CurrentCharacter.GetFavorPoints(CORE.PC);
-
 
         if (CurrentDecision.RequiresTech != null)
         {
@@ -62,8 +72,10 @@ public class FavorDecisionUI : MonoBehaviour
             return;
         }
 
+
         if (CurrentDecision.ActionToExecute != null)
         {
+
             FailReason reason = null;
             if (!CurrentDecision.ActionToExecute.CanDoAction(CORE.PC, CurrentCharacter, CurrentCharacter.CurrentLocation, out reason))
             {
