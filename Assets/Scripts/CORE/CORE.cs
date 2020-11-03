@@ -35,7 +35,10 @@ public class CORE : MonoBehaviour
     AudioListener ListenerOfSound;
 
     [SerializeField]
-    public Image ScreenFader; 
+    public Image ScreenFader;
+
+    [SerializeField]
+    GameObject SavingGamePanel;
 
     public TechTreeItem TechTree;
 
@@ -429,7 +432,11 @@ public class CORE : MonoBehaviour
         {
             GlobalMessagePrompterUI.Instance.Show("Auto Save", 3f, Color.green);
 
-            CORE.Instance.DelayedInvokation(0.1f, () => CORE.Instance.SaveGame("Auto Save"));
+            SavingGamePanel.SetActive(true);
+
+            yield return new WaitForSeconds(1f);
+            CORE.Instance.SaveGame("Auto Save");
+            yield return 0;
         }
 
         //AI DECISIONS
@@ -460,6 +467,16 @@ public class CORE : MonoBehaviour
             }
 
             if (factionHead.IsDead)
+            {
+                continue;
+            }
+
+            if(factionHead.CurrentFaction == null)
+            {
+                factionHead.CurrentFaction = faction;
+            }
+
+            if(factionHead.CurrentFaction.name != faction.name)
             {
                 continue;
             }
@@ -520,6 +537,13 @@ public class CORE : MonoBehaviour
             factionHead.CRumors += faction.RumorsGeneratedPerDay;
             factionHead.CProgress += faction.ProgressGeneratedPerDay;
             factionHead.Reputation += faction.ReputationGeneratedPerDay;
+
+            if(faction.FactionHead.name == CORE.PC.name && faction.ReputationGeneratedPerDay != 0)
+            {
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Daily Reputation " + faction.ReputationGeneratedPerDay, 
+                    ResourcesLoader.Instance.GetSprite("pointing"), 
+                    CORE.PC));
+            }
         }
         //}
 
@@ -1169,6 +1193,8 @@ public class CORE : MonoBehaviour
         ReadAllSaveFiles();
 
         AudioControl.Instance.Play("save");
+
+        SavingGamePanel.SetActive(false);
     }
 
     public void LoadGame(SaveFile file = null)

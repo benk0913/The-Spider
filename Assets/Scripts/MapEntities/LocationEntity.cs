@@ -1264,6 +1264,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         JSONClass node = new JSONClass();
 
         node["ID"] = ID;
+        node["GOName"] = this.gameObject.name;
         node["CurrentProperty"] = CurrentProperty.name;
         node["Level"] = Level.ToString();
         node["CorpsesBuried"] = CorpsesBuried.ToString();
@@ -1318,6 +1319,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     {
         try
         {
+            if(!string.IsNullOrEmpty(node["GOName"]))
+            {
+                this.gameObject.name = node["GOName"];
+            }
+
             if (!int.TryParse(node["Level"].Value, out Level))
             {
                 Level = 1;

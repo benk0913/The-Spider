@@ -29,6 +29,8 @@ public class QOCharacterHasTrait : QuestObjective
             CORE.Instance.SubscribeToEvent("PassTimeComplete", OnEventInvoked);
 
             ValidRefresh();
+
+            initialized = true;
         }
 
         if (valid)

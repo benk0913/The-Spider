@@ -51,6 +51,13 @@ public class FireAgent : PlayerAction
                     }
 
                     character.TopEmployer.Reputation -= 2;
+
+                    if (character.TopEmployer == CORE.PC)
+                    {
+                        TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Abandoning your 'Agents in Trouble'. - Reputation -2",
+                        ResourcesLoader.Instance.GetSprite("pointing"),
+                        CORE.PC));
+                    }
                 }
             }
 

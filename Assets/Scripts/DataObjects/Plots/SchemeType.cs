@@ -198,6 +198,13 @@ public class SchemeType : ScriptableObject
         result.Plot.Plotter.Reputation += 1;
         result.Plot.Plotter.TopEmployer.Reputation += 1;
 
+        if (result.Plot.Plotter.TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Successful Scheme - Reputation +1",
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
+
         if (result.Plot.Target.GetType() == typeof(LocationEntity))
         {
             LocationEntity location = (LocationEntity)result.Plot.Target;
@@ -221,6 +228,13 @@ public class SchemeType : ScriptableObject
             {
                 location.OwnerCharacter.Reputation -= 1;
                 location.OwnerCharacter.TopEmployer.Reputation -= 1;
+
+                if (result.Plot.Plotter.TopEmployer == CORE.PC)
+                {
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Unsuccessful Scheme - Reputation -1",
+                    ResourcesLoader.Instance.GetSprite("pointing"),
+                    CORE.PC));
+                }
 
                 if (location.OwnerCharacter.TopEmployer == CORE.PC)
                 {
@@ -255,6 +269,13 @@ public class SchemeType : ScriptableObject
             {
                 targetChar.Reputation -= 1;
                 targetChar.TopEmployer.Reputation -= 1;
+
+                if (result.Plot.Plotter.TopEmployer == CORE.PC)
+                {
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Unsuccessful Scheme - Reputation -1",
+                    ResourcesLoader.Instance.GetSprite("pointing"),
+                    CORE.PC));
+                }
 
                 if (targetChar.TopEmployer == CORE.PC)
                 {

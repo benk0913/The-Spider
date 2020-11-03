@@ -21,6 +21,13 @@ public class QRGainResource : QuestReward
         byCharacter.TopEmployer.CProgress += Progression;
         byCharacter.TopEmployer.Reputation += Reputation;
 
+        if (byCharacter.TopEmployer == CORE.PC && Reputation != 0)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Quest Reward - Reputation "+Reputation,
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
+
         Transform resourceSource = byCharacter.TopEmployer.CurrentLocation.transform;
         if (Progression > 0)
         {

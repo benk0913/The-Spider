@@ -53,6 +53,17 @@ public class InstantBetray : AgentAction //DO NOT INHERIT FROM
                 }
             }
         }
+        else
+        {
+            if (character != null)
+            {
+                if (character.TopEmployer == character)
+                {
+                    reason = new FailReason(character.name + " is not stupid. (Will not betray self)");
+                    return false;
+                }
+            }
+        }
         
 
         

@@ -18,7 +18,14 @@ public class FalseArrestPerson : AgentAction //DO NOT INHERIT FROM
 
         character.TopEmployer.Reputation--;
 
-        if(Random.Range(0f, (charSTR+targetSTR)) < charSTR)
+        if (character.TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Arresting people for no reason... Reputation -1",
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
+
+        if (Random.Range(0f, (charSTR+targetSTR)) < charSTR)
         {
             character.GoToLocation(targetChar.CurrentLocation);
             targetChar.StopDoingCurrentTask(false);

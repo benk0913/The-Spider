@@ -28,6 +28,8 @@ public class QOInformationGathered : QuestObjective
                 valid = false;
                 return false;
             }
+
+            initialized = true;
         }
 
         if(valid)

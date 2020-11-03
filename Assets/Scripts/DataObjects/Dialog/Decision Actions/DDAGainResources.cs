@@ -84,11 +84,18 @@ public class DDAGainResources : DialogDecisionAction
             GlobalMessagePrompterUI.Instance.Show("Lost " + tempReputation + " Reputation", 1f, Color.red);
         }
 
-        CORE.PC.TopEmployer.CGold += tempGold;
-        CORE.PC.TopEmployer.CRumors += tempRumors;
-        CORE.PC.TopEmployer.CConnections += tempConnections;
-        CORE.PC.TopEmployer.CProgress += tempProgression;
-        CORE.PC.TopEmployer.Reputation += tempReputation;
+        CORE.PC.CGold += tempGold;
+        CORE.PC.CRumors += tempRumors;
+        CORE.PC.CConnections += tempConnections;
+        CORE.PC.CProgress += tempProgression;
+        CORE.PC.Reputation += tempReputation;
+
+        if(Reputation != 0)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Recent Events - Reputation " + this.Reputation,
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
 
         Transform resourceSource = CORE.PC.TopEmployer.CurrentLocation.transform;
         if (tempProgression > 0)

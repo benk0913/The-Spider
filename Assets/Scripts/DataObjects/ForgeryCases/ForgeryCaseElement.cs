@@ -38,7 +38,14 @@ public class ForgeryCaseElement : ScriptableObject
         CORE.PC.CProgress-= ProgressionCost;
         CORE.PC.Reputation-= ReputationCost;
 
-        foreach(Item item in RequiredItems)
+        if (CORE.PC.Reputation != 0)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Forgery Case - Reputation " + this.ReputationCost,
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
+
+        foreach (Item item in RequiredItems)
         {
             CORE.PC.Belogings.Remove(CORE.PC.Belogings.Find(x => x.name == item.name));
         }

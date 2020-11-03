@@ -127,6 +127,13 @@ public class GainResources : AgentAction //DO NOT INHERIT FROM
 
         character.TopEmployer.Reputation += this.Reputation;
         Items.ForEach((x) => requester.Belogings.Add(x.Clone()));
+
+        if (this.Reputation != 0 && character.TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Recent Events - Reputation "+this.Reputation,
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
     }
 
     public override bool CanDoAction(Character requester, Character character, AgentInteractable target, out FailReason reason)

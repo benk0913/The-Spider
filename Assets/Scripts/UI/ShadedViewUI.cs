@@ -53,8 +53,17 @@ public class ShadedViewUI : MonoBehaviour
 
     public void StopAllSounds()
     {
+        if(AudioControl.Instance == null)
+        {
+            return;
+        }
+
         foreach(ShadeState state in ShadeRate)
         {
+            if(state == null)
+            {
+                continue;
+            }
             AudioControl.Instance.StopSound(state.StateAudio);
         }
     }

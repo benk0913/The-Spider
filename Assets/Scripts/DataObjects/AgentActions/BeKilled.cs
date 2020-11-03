@@ -21,5 +21,12 @@ public class BeKilled : AgentAction
 
         character.TopEmployer.Reputation -= 1;
         character.Death();
+
+        if (character.TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("People who work for you are often in danger. Reputation -1",
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
     }
 }

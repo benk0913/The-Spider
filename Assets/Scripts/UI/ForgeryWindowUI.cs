@@ -242,6 +242,10 @@ public class ForgeryWindowUI : MonoBehaviour
                         CORE.Instance.Database.GetAgentAction("Get Arrested").Execute(TargetCharacter.TopEmployer, TargetCharacter, TargetCharacter.CurrentLocation);
                         CORE.PC.Reputation -= 2;
                         AudioControl.Instance.Play("courtgood");
+
+                        TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Abused the law to scheme - Reputation -2",
+                        ResourcesLoader.Instance.GetSprite("pointing"),
+                        CORE.PC));
                     }
                     , true);
                 };
@@ -259,6 +263,11 @@ public class ForgeryWindowUI : MonoBehaviour
                     {
                         CORE.PC.Reputation -= 3;
                         AudioControl.Instance.Play("courtbad");
+
+                        TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Abused the law to scheme and faild - Reputation -3",
+                        ResourcesLoader.Instance.GetSprite("pointing"),
+                        CORE.PC));
+
                     }, true);
                 };
 
@@ -288,6 +297,10 @@ public class ForgeryWindowUI : MonoBehaviour
 
                         CORE.PC.Reputation -= 2;
                         AudioControl.Instance.Play("courtgood");
+
+                        TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Abused the law to scheme - Reputation -2",
+                        ResourcesLoader.Instance.GetSprite("pointing"),
+                        CORE.PC));
                     }
                     , true);
                 };
@@ -308,6 +321,10 @@ public class ForgeryWindowUI : MonoBehaviour
                     {
                         CORE.PC.Reputation -= 3;
                         AudioControl.Instance.Play("courtbad");
+
+                        TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Abused the law to scheme and failed- Reputation -3",
+                        ResourcesLoader.Instance.GetSprite("pointing"),
+                        CORE.PC));
                     }, true);
                 };
 

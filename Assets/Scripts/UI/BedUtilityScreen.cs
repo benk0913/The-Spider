@@ -56,7 +56,7 @@ public class BedUtilityScreen : MonoBehaviour
     {
         TextInputWindowUI.Instance.Show((saveName) =>
         {
-            WarningWindowUI.Instance.Show("Game Has Been Saved.", () =>
+            WarningWindowUI.Instance.Show("Save Game?", () =>
             {
                 CORE.Instance.SaveGame(saveName); Resume();
             });

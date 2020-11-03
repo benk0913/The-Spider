@@ -39,6 +39,14 @@ public class GetAbducted : AgentAction //DO NOT INHERIT FROM
         character.Reputation -= 1;
         character.TopEmployer.Reputation -= 1;
 
+
+        if (character.TopEmployer == CORE.PC)
+        {
+            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Your agents are being abducted! Reputation -1",
+            ResourcesLoader.Instance.GetSprite("pointing"),
+            CORE.PC));
+        }
+
         if (target.GetType() == typeof(LocationEntity))
         {
             LocationEntity targetLocation = (LocationEntity)target;

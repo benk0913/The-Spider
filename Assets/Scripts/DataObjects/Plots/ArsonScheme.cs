@@ -27,6 +27,7 @@ public class ArsonScheme : SchemeType
                 data.Plot.Plotter.Reputation -= 5;
                 data.Plot.Plotter.TopEmployer.Reputation -= 5;
 
+
                 if (data.Plot.Plotter.TopEmployer == CORE.PC)
                 {
                     WarningWindowUI.Instance.Show("Burning an orphanage, such a violent and ruthless act has decreased your reputation in 5! ", () =>

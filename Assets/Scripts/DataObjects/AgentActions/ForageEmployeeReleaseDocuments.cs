@@ -46,6 +46,12 @@ public class ForageEmployeeReleaseDocuments : AgentAction
                 CORE.Instance.ShowPortraitEffect(PortraitEffectOnReleasedTarget, selected, selected.CurrentLocation);
 
                 CORE.PC.Heat--;
+
+                CORE.PC.Reputation++;
+
+                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Your agents do not stay in jail for long...- Reputation +1 ",
+           ResourcesLoader.Instance.GetSprite("pointing"),
+           CORE.PC));
             },
             (x) =>
             {
