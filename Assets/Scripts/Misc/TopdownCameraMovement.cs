@@ -134,6 +134,11 @@ public class TopdownCameraMovement : MonoBehaviour
 
     void RefreshInput()
     {
+        if(AllCharactersWindowUI.Instance.gameObject.activeInHierarchy || SelectCharacterViewUI.Instance.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         if (!EventSystem.current.IsPointerOverGameObject())
         { 
             if (Input.mousePosition.x > Screen.width - Screen.width / 100f)

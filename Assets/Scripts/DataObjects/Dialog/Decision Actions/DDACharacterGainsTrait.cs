@@ -12,9 +12,24 @@ public class DDACharacterGainsTrait : DialogDecisionAction
     [SerializeField]
     Character TargetCharacter;
 
+    public bool RandomCharacter;
+
     public override void Activate()
     {
-        Character actor = CORE.Instance.Characters.Find(x => x.name == TargetCharacter.name);
+        Character actor;
+
+        if (RandomCharacter)
+        {
+            actor = CORE.Instance.Characters.Find(X => !X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X && !X.Traits.Contains(TraitToGain));
+            if(actor == null)
+            {
+                return;
+            }
+            actor.AddTrait(TraitToGain);
+            return;
+        }
+
+        actor = CORE.Instance.Characters.Find(x => x.name == TargetCharacter.name);
         actor.AddTrait(TraitToGain);
     }
 }

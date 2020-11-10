@@ -23,6 +23,9 @@ public class SelectCharacterViewUI : MonoBehaviour
 
     Predicate<Character> CurrentFilter;
 
+    [SerializeField]
+    TMP_InputField SortByNameField;
+
 
 
     string CurrentTitle;
@@ -82,7 +85,7 @@ public class SelectCharacterViewUI : MonoBehaviour
         Refresh();
     }
 
-    void Refresh()
+    public void Refresh()
     {
         if (!this.gameObject.activeInHierarchy)
         {
@@ -119,6 +122,11 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         List<Character> characters = CORE.Instance.Characters.FindAll(filter != null? filter : CommonFilter);
         characters.RemoveAll(x => x.HiddenFromCharacterWindows);
+
+        if (SortByNameField != null && !string.IsNullOrEmpty(SortByNameField.text))
+        {
+            characters.RemoveAll(x => !x.name.ToLower().Contains(SortByNameField.text.ToLower()));
+        }
 
         characters = SortCharacters(CurrentSortKey, characters);
 

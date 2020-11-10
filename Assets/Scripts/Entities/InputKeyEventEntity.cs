@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class InputKeyEventEntity : MonoBehaviour
 {
     public List<InputKeyInstance> Instances = new List<InputKeyInstance>();
 
     private void Update()
     {
+
         foreach(InputKeyInstance input in Instances)
         {
             if(Input.GetKeyDown(InputMap.Map[input.InputKey]))
             {
+                if(SelectCharacterViewUI.Instance.gameObject.activeInHierarchy || AllCharactersWindowUI.Instance.gameObject.activeInHierarchy)
+                {
+                    return;
+                }
+
                 input.Event.Invoke();
             }
         }

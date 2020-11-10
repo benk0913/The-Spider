@@ -15,10 +15,13 @@ MonoBehaviour:
   ID: 
   IsAlwaysKnown: 0
   IsDead: 0
+  HiddenFromCharacterWindows: 0
+  UnManipulable: 0
   _gold: 0
   _connections: 0
   _rumors: 0
   _progress: 0
+  _heat: 0
   IsDisabled: 0
   NeverDED: 1
   _currentFaction: {fileID: 11400000, guid: 8f98b869a09e72540b0db996dfbb2ebd, type: 2}
@@ -35,6 +38,7 @@ MonoBehaviour:
   Traits:
   - {fileID: 11400000, guid: cba3c6d382ce38e439b5a1f16c926a4c, type: 2}
   - {fileID: 11400000, guid: d350762de006e9e40b4a2b8ac6945973, type: 2}
+  - {fileID: 11400000, guid: 2fa2c0b3560e581449fb53305ffa5e63, type: 2}
   VisualSet: {fileID: 11400000, guid: d85281ac662695d4c8936c96bac51df9, type: 2}
   gender: 0
   age: 52
@@ -51,6 +55,4 @@ MonoBehaviour:
   StateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   _isGuard: 0

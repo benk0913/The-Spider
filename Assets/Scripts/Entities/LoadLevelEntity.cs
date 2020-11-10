@@ -8,6 +8,7 @@ public class LoadLevelEntity : MonoBehaviour
     public string LevelName;
     public bool StopMusic;
     public bool HideObjectives;
+    public bool ClearPsych = true;
     
     public void LoadLevel()
     {
@@ -43,6 +44,11 @@ public class LoadLevelEntity : MonoBehaviour
         {
             WorldMissionPanelUI.Instance.FoldedPanel.gameObject.SetActive(false);
             WorldMissionPanelUI.Instance.gameObject.SetActive(false);
+        }
+
+        if(ClearPsych)
+        {
+            CORE.Instance.PsychoEffectRate = 0;
         }
 
         yield return new WaitForSeconds(1f);

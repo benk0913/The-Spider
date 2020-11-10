@@ -566,7 +566,7 @@ public class CORE : MonoBehaviour
             rulesToRemove.RemoveAt(0);
         }
 
-        foreach (RecruitmentPool pool in Database.RecruitmentPools)
+        foreach (RecruitmentPool pool in RecruitmentPools)
         {
             if (pool.Characters.Count == 0)
             {
@@ -787,7 +787,10 @@ public class CORE : MonoBehaviour
 
         if (CORE.PC.CurrentFaction.HasPsychoEffect)
         {
-            PsychoEffectRate++;
+            if (Random.Range(0, 2) == 0)
+            {
+                PsychoEffectRate++;
+            }
         }
         else
         {

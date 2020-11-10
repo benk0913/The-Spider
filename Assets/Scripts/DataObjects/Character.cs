@@ -131,6 +131,8 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
     public bool UnManipulable = false;
 
+    public bool UnsellablePrisoner = false;
+
     public int Reputation
     {
         get
@@ -251,6 +253,12 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
         set
         {
+            if (this.CurrentFaction.HasPromotionSystem)//iS  CONSTABULARY?
+            {
+                _heat = 0;
+                return;
+            }
+
             if (value > _heat)
             {
                 TechTreeItem loyalists = CORE.Instance.TechTree.Find(X => X.name == "Loyalists");
@@ -1786,6 +1794,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         {
             return;
         }
+        
 
         StopDoingCurrentTask(true);
         GoToLocation(location);
@@ -2115,6 +2124,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         node["NeverDED"] = NeverDED.ToString();
         node["IsDisabled"] = IsDisabled.ToString();
+        node["UnsellablePrisoner"] = UnsellablePrisoner.ToString();
 
         node["PrisonLocation"] = PrisonLocation == null ? "" : PrisonLocation.ID;
 
@@ -2265,6 +2275,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
             {
                 IsDisabled = bool.Parse(node["IsDisabled"].Value);
             }
+        }
+
+        if (!string.IsNullOrEmpty(node["UnsellablePrisoner"].Value))
+        {
+            UnsellablePrisoner = bool.Parse(node["UnsellablePrisoner"].Value);
         }
 
         _prisonLocationID = node["PrisonLocation"].Value;

@@ -104,11 +104,19 @@ public class FleshVendorUI : MonoBehaviour
 
     public void GoldVictim()
     {
+        if(SelectedCharacter.CurrentCharacter.UnsellablePrisoner)
+        {
+            WarningWindowUI.Instance.Show("Nobody is interested in this prisoner (For some strange reason...).", null);
+            return;
+        }
+
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
         PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Malechite Road Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { }, () =>
         {
             CORE.PC.CGold += charWorth * 5 * CharacterValueMultiplier;
+            SelectedCharacter.CurrentCharacter.ExitPrison();
+            SelectedCharacter.CurrentCharacter.UnsellablePrisoner = true;
             SelectedCharacter.CurrentCharacter.Death(true, false);
         });
 
@@ -122,28 +130,45 @@ public class FleshVendorUI : MonoBehaviour
 
     public void ConnectionsVictim()
     {
+        if (SelectedCharacter.CurrentCharacter.UnsellablePrisoner)
+        {
+            WarningWindowUI.Instance.Show("Nobody is interested in this prisoner (For some strange reason...).", null);
+            return;
+        }
+
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
         PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("The Nobility Client Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { },
             () =>
         {
             CORE.PC.CConnections += charWorth * 2 * CharacterValueMultiplier;
+            SelectedCharacter.CurrentCharacter.ExitPrison();
+            SelectedCharacter.CurrentCharacter.UnsellablePrisoner = true;
             SelectedCharacter.CurrentCharacter.Death(true, false);
         });
 
         PopupWindowUI.Instance.AddPopup(popData);
+
 
         this.gameObject.SetActive(false);
     }
 
     public void ProgressionVictim()
     {
+        if (SelectedCharacter.CurrentCharacter.UnsellablePrisoner)
+        {
+            WarningWindowUI.Instance.Show("Nobody is interested in this prisoner (For some strange reason...).", null);
+            return;
+        }
+
         int charWorth = SelectedCharacter.CurrentCharacter.TotalBonusScore;
 
         PopupData popData = new PopupData(CORE.Instance.Database.GetPopupPreset("Flesh Ceremony Complete Popup"), new List<Character> { SelectedCharacter.CurrentCharacter }, new List<Character> { },
             () =>
             {
                 CORE.PC.CProgress += charWorth * CharacterValueMultiplier;
+                SelectedCharacter.CurrentCharacter.ExitPrison();
+                SelectedCharacter.CurrentCharacter.UnsellablePrisoner = true;
                 SelectedCharacter.CurrentCharacter.Death(true, false);
             });
 

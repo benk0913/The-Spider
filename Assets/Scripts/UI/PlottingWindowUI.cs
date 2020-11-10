@@ -280,8 +280,9 @@ public class PlottingWindowUI : MonoBehaviour
             if (CachedEntry != null)
                 CurrentEntry = CachedEntry;
 
-            if (CachedPlotter != null)
+            if (CachedPlotter != null && !CachedPlotter.IsDead && !CachedPlotter.IsInTrouble && CachedPlotter.TopEmployer == CORE.PC && CachedPlotter.IsAgent)
                 CurrentPlotter = CachedPlotter;
+
 
             foreach (Character x in CachedParticipants)
             {
