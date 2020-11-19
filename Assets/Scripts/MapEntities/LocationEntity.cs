@@ -1309,6 +1309,11 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         for (int i = 0; i < CaseElements.Count; i++)
         {
+            if(CaseElements[i] == null)
+            {
+                continue;
+            }
+
             node["CaseElements"][i] = CaseElements[i].name;
         }
 

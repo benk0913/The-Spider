@@ -2198,6 +2198,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
 
         for(int i=0;i<CaseElements.Count;i++)
         {
+            if(CaseElements[i] == null)
+            {
+                continue;
+            }
+
             node["CaseElements"][i] = CaseElements[i].name;
         }
 
@@ -2373,7 +2378,7 @@ public class Character : ScriptableObject, ISaveFileCompatible
         CaseElements.Clear();
         for (int i = 0; i < node["CaseElements"].Count; i++)
         {
-            CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"].Value));
+            CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"][i].Value));
         }
 
         for (int i = 0; i < node["DynamicRelationsModifiers"].Count; i++)
