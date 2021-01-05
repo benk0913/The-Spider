@@ -163,6 +163,15 @@ public class LettersPanelUI : MonoBehaviour, ISaveFileCompatible
             FromPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_From"]));
             ToPortrait.SetCharacter(((Character)letter.CurrentLetter.Parameters["Letter_To"]));
 
+            if(FromPortrait.CurrentCharacter.HiddenFromCharacterWindows)
+            {
+                FromPortrait.NoClicking = true;
+            }
+            else if (ToPortrait.CurrentCharacter.HiddenFromCharacterWindows)
+            {
+                ToPortrait.NoClicking = true;
+            }
+
             if (letter.CurrentLetter.Parameters.ContainsKey("Letter_From"))
             {
                 FromPortrait.gameObject.SetActive(true);

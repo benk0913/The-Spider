@@ -67,6 +67,13 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
         SetCharacter(CurrentCharacter);
     }
 
+    public virtual void SetMaterial(Material material)
+    {
+        Face.material = material;
+        Clothing.material = material;
+        Hair.material = material;
+    }
+
     public virtual void SetCharacter(Character character, Vector3 position)
     {
         Lerper.SetTransform(transform);

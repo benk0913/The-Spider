@@ -547,7 +547,12 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         for (int i = 0; i < node["ActiveQuests"].Count; i++)
         {
-            Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]).CreateClone();
+            Quest quest = CORE.Instance.Database.GetQuest(node["ActiveQuests"][i]["Key"]);
+
+            if (quest == null)
+                continue;
+
+            quest = quest.CreateClone();
             quest.FromJSON(node["ActiveQuests"][i]);
 
             AddNewExistingQuest(quest, true);
@@ -555,7 +560,12 @@ public class QuestsPanelUI : MonoBehaviour, ISaveFileCompatible
 
         for (int i = 0; i < node["CompletedQuests"].Count; i++)
         {
-            Quest quest = CORE.Instance.Database.GetQuest(node["CompletedQuests"][i]["Key"]).CreateClone();
+            Quest quest = CORE.Instance.Database.GetQuest(node["CompletedQuests"][i]["Key"]);
+
+            if (quest == null)
+                continue;
+
+            quest = quest.CreateClone();
             quest.FromJSON(node["CompletedQuests"][i]);
 
             AddCompletedQuest(quest);

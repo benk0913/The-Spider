@@ -1601,16 +1601,28 @@ public class SaveFile
 {
     public SaveFile(string content, string path)
     {
-        this.Content = JSON.Parse(content);
-
-        this.Name = this.Content["Name"].Value;
-        this.Date = this.Content["Date"].Value;
-
-        if(!string.IsNullOrEmpty(this.Content["UNIX"]))
+        try
         {
-            this.RealDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
-            this.RealDate = this.RealDate.AddSeconds(long.Parse(this.Content["UNIX"]));
+            this.Content = JSON.Parse(content);
+
+            this.Corrupt = false;
+            this.Name = this.Content["Name"].Value;
+            this.Date = this.Content["Date"].Value;
+
+            if (!string.IsNullOrEmpty(this.Content["UNIX"]))
+            {
+                this.RealDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
+                this.RealDate = this.RealDate.AddSeconds(long.Parse(this.Content["UNIX"]));
+            }
         }
+        catch
+        {
+            this.Corrupt = true;
+            this.Name = "Save File's Json is broken...";
+            this.Date = "Fixing it will most likely restore this file...";
+            this.RealDate = System.DateTime.Now;
+        }
+            
 
         this.Path = path;
     }
@@ -1619,6 +1631,7 @@ public class SaveFile
     public string Name;
     public string Date;
     public string Path;
+    public bool Corrupt = false;
     public JSONNode Content;
 }
 

@@ -295,6 +295,7 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         Sensitivity = s;
         PlayerPrefs.SetFloat("MouseSensitivity", s);
+        PlayerPrefs.Save();
     }
 
     public void AntiAliasing(int a)
@@ -392,6 +393,7 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         TutorialOn = b;
         PlayerPrefs.SetInt("TutorialOn", TutorialOn ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public void ResetTutorial()
@@ -404,6 +406,7 @@ public class bl_PauseOptions : MonoBehaviour {
         Brightness = v;
         Screen.brightness = Brightness;
         PlayerPrefs.SetFloat("Brightness", Brightness);
+        PlayerPrefs.Save();
     }
 
     public void RefreshTextureQualityUI()

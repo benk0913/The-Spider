@@ -5,13 +5,19 @@ using UnityEngine;
 public class CorruptorEntity : MonoBehaviour
 {
     MeshRenderer[] Meshes;
+    PortraitUI[] Portraits;
 
     [SerializeField]
     Material corruptMaterial;
 
+    [SerializeField]
+    Material CorruptorPortraitMaterial;
+
     public float Speed = 1f;
 
     public int DelayTime = 5;
+
+
 
     private void OnEnable()
     {
@@ -65,7 +71,7 @@ public class CorruptorEntity : MonoBehaviour
     IEnumerator CorruptRoutine()
     {
         Meshes = FindObjectsOfType<MeshRenderer>();
-
+        Portraits = FindObjectsOfType<PortraitUI>();
 
         if (Meshes == null || Meshes.Length == 0)
         {
@@ -79,6 +85,16 @@ public class CorruptorEntity : MonoBehaviour
 
             Meshes[Random.Range(0, Meshes.Length)].material = corruptMaterial;
 
+            yield return new WaitForSeconds(DelayTime);
+
+            Portraits = FindObjectsOfType<PortraitUI>();
+
+            if (Portraits != null && Portraits.Length > 0)
+            {
+                Portraits[Random.Range(0, Portraits.Length)].SetMaterial(CorruptorPortraitMaterial);
+            }
+
+            
         }
     }
 }

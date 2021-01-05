@@ -40,6 +40,12 @@ public class SaveFileLineUI : MonoBehaviour
 
     public void Load()
     {
+        if(CurrentSave.Corrupt)
+        {
+            WarningWindowUI.Instance.Show("This save file is corrupt...",null);
+            return;
+        }
+
         WarningWindowUI.Instance.Show("Load this save file?", ConfirmLoad);
     }
 
