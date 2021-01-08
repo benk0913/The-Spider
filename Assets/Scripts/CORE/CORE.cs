@@ -14,6 +14,8 @@ public class CORE : MonoBehaviour
 {
     public static CORE Instance;
 
+    public string FEEDBACK_URL;
+
     public bool DEBUG;
 
     [SerializeField]
@@ -439,49 +441,57 @@ public class CORE : MonoBehaviour
             yield return 0;
         }
 
-        //AI DECISIONS
-        foreach (Faction faction in CORE.Instance.Factions)
+        try
         {
-            faction.OnTurnPassed();
 
-            if (faction.FactionHead == null)
+            //AI DECISIONS
+            foreach (Faction faction in CORE.Instance.Factions)
             {
-                continue;
+                faction.OnTurnPassed();
+
+                if (faction.FactionHead == null)
+                {
+                    continue;
+                }
+
+                Character factionHead = CORE.Instance.Characters.Find(x => x.name == faction.FactionHead.name);
+
+                if (factionHead == null)
+                {
+                    continue;
+                }
+
+                if (factionHead.AI == null)
+                {
+                    continue;
+                }
+
+                if (factionHead.name == CORE.PC.name)
+                {
+                    continue;
+                }
+
+                if (factionHead.IsDead)
+                {
+                    continue;
+                }
+
+                if (factionHead.CurrentFaction == null)
+                {
+                    factionHead.CurrentFaction = faction;
+                }
+
+                if (factionHead.CurrentFaction.name != faction.name)
+                {
+                    continue;
+                }
+
+                factionHead.AI.MakeDecision(factionHead);
             }
-
-            Character factionHead = CORE.Instance.Characters.Find(x => x.name == faction.FactionHead.name);
-
-            if (factionHead == null)
-            {
-                continue;
-            }
-
-            if (factionHead.AI == null)
-            {
-                continue;
-            }
-
-            if (factionHead.name == CORE.PC.name)
-            {
-                continue;
-            }
-
-            if (factionHead.IsDead)
-            {
-                continue;
-            }
-
-            if(factionHead.CurrentFaction == null)
-            {
-                factionHead.CurrentFaction = faction;
-            }
-
-            if(factionHead.CurrentFaction.name != faction.name)
-            {
-                continue;
-            }
-
-            factionHead.AI.MakeDecision(factionHead);
+        }
+        catch (System.Exception error)
+        {
+            SendFeedBack(error.Message);
         }
 
         yield return 0;
@@ -493,7 +503,14 @@ public class CORE : MonoBehaviour
         {
             TurnLoadingWindowUI.Instance.SetProgress(i * 1f / (Locations.Count + Characters.Count) * 1f);
 
-            Locations[i].TurnPassed();
+            try
+            {
+                Locations[i].TurnPassed();
+            }
+            catch (System.Exception error)
+            {
+                SendFeedBack(error.Message);
+            }
 
             if (i % 2 == 0)
             {
@@ -508,7 +525,14 @@ public class CORE : MonoBehaviour
 
             TurnLoadingWindowUI.Instance.SetProgress((Locations.Count + i) * 1f / (Locations.Count + Characters.Count) * 1f);
 
-            Characters[i].OnTurnPassedAI();
+            try
+            {
+                Characters[i].OnTurnPassedAI();
+            }
+            catch (System.Exception error)
+            {
+                SendFeedBack(error.Message);
+            }
 
             if (i % 2 == 0)
             {
@@ -516,64 +540,72 @@ public class CORE : MonoBehaviour
             }
         }
 
-        //if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
-        //{
-        foreach (Faction faction in CORE.Instance.Factions)
+        try
         {
-            if (faction.FactionHead == null)
+            //if(GameClock.Instance.CurrentTimeOfDay == GameClock.GameTime.Morning)
+            //{
+            foreach (Faction faction in CORE.Instance.Factions)
             {
-                continue;
+                if (faction.FactionHead == null)
+                {
+                    continue;
+                }
+
+                Character factionHead = GetCharacter(faction.FactionHead.name);
+
+                if (factionHead == null)
+                {
+                    continue;
+                }
+
+                factionHead.CGold += faction.GoldGeneratedPerDay;
+                factionHead.CConnections += faction.ConnectionsGeneratedPerDay;
+                factionHead.CRumors += faction.RumorsGeneratedPerDay;
+                factionHead.CProgress += faction.ProgressGeneratedPerDay;
+                factionHead.Reputation += faction.ReputationGeneratedPerDay;
+
+                if (faction.FactionHead.name == CORE.PC.name && faction.ReputationGeneratedPerDay != 0)
+                {
+                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Daily Reputation " + faction.ReputationGeneratedPerDay,
+                        ResourcesLoader.Instance.GetSprite("pointing"),
+                        CORE.PC));
+                }
+            }
+            //}
+
+            bool shouldRemoveRule = false;
+            List<SessionRule> rulesToRemove = new List<SessionRule>();
+
+            foreach (SessionRule rule in SessionRules.Rules)
+            {
+                rule.PassTurn(out shouldRemoveRule);
+
+                if (shouldRemoveRule)
+                {
+                    rulesToRemove.Add(rule);
+                }
             }
 
-            Character factionHead = GetCharacter(faction.FactionHead.name);
-
-            if (factionHead == null)
+            while (rulesToRemove.Count > 0)
             {
-                continue;
+                SessionRules.Rules.Remove(rulesToRemove[0]);
+                rulesToRemove.RemoveAt(0);
             }
 
-            factionHead.CGold += faction.GoldGeneratedPerDay;
-            factionHead.CConnections += faction.ConnectionsGeneratedPerDay;
-            factionHead.CRumors += faction.RumorsGeneratedPerDay;
-            factionHead.CProgress += faction.ProgressGeneratedPerDay;
-            factionHead.Reputation += faction.ReputationGeneratedPerDay;
-
-            if(faction.FactionHead.name == CORE.PC.name && faction.ReputationGeneratedPerDay != 0)
+            foreach (RecruitmentPool pool in RecruitmentPools)
             {
-                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("Daily Reputation " + faction.ReputationGeneratedPerDay, 
-                    ResourcesLoader.Instance.GetSprite("pointing"), 
-                    CORE.PC));
+                if (pool.Characters.Count == 0)
+                {
+                    continue;
+                }
+
+                pool.Remove(pool.Characters[Random.Range(0, pool.Characters.Count)]);
             }
+
         }
-        //}
-
-        bool shouldRemoveRule = false;
-        List<SessionRule> rulesToRemove = new List<SessionRule>();
-
-        foreach (SessionRule rule in SessionRules.Rules)
+        catch (System.Exception error)
         {
-            rule.PassTurn(out shouldRemoveRule);
-
-            if (shouldRemoveRule)
-            {
-                rulesToRemove.Add(rule);
-            }
-        }
-
-        while (rulesToRemove.Count > 0)
-        {
-            SessionRules.Rules.Remove(rulesToRemove[0]);
-            rulesToRemove.RemoveAt(0);
-        }
-
-        foreach (RecruitmentPool pool in RecruitmentPools)
-        {
-            if (pool.Characters.Count == 0)
-            {
-                continue;
-            }
-
-            pool.Remove(pool.Characters[Random.Range(0, pool.Characters.Count)]);
+            SendFeedBack(error.Message);
         }
 
         if (GameClock.Instance.CurrentTurn % 3 == 0)
@@ -587,7 +619,7 @@ public class CORE : MonoBehaviour
         TurnLoadingWindowUI.Instance.SetLoadingTitle("Cults");
 
         yield return 0;
-
+        
         TechTreeItem cultTech = TechTree.Find(X => X.name == Database.CultTech.name);
 
         if (cultTech != null)
@@ -599,30 +631,37 @@ public class CORE : MonoBehaviour
                 List<Character> Cultists = new List<Character>();
                 List<Character> NonCultists = new List<Character>();
 
-                for (int i=0;i<Characters.Count;i++)
+                for (int i = 0; i < Characters.Count; i++)
                 {
-                    if(i%10 == 0)
+                    if (i % 10 == 0)
                     {
                         yield return 0;
                     }
 
-                    Character X = Characters[i];
-                    if(!X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X)
+                    try
                     {
-                        if (X.Traits.Find(T => T == Database.CultistTrait) != null)
+                        Character X = Characters[i];
+                        if (!X.IsDisabled && !X.HiddenFromCharacterWindows && X.TopEmployer != X)
                         {
-                            Cultists.Add(X);
+                            if (X.Traits.Find(T => T == Database.CultistTrait) != null)
+                            {
+                                Cultists.Add(X);
+                            }
+                            else
+                            {
+                                NonCultists.Add(X);
+                            }
                         }
-                        else
-                        {
-                            NonCultists.Add(X);
-                        }
-                    }
 
+                    }
+                    catch(System.Exception error)
+                    {
+                        SendFeedBack(error.Message);
+                    }
                 }
 
-                
-                if(NonCultists == null)
+
+                if (NonCultists == null)
                 {
                     NonCultists = new List<Character>();
                 }
@@ -641,35 +680,43 @@ public class CORE : MonoBehaviour
 
                     for (int i = 0; i < Cultists.Count; i++)
                     {
-                        float rnd = Random.Range(0f, 1f);
-                        if (rnd < 0.02f)
+                        try
                         {
-                            Character target = NonCultists[Random.Range(0, NonCultists.Count)];
-                            target.Traits.Add(Database.CultistTrait);
-                            CharactersConverted++;
+                            float rnd = Random.Range(0f, 1f);
+                            if (rnd < 0.02f)
+                            {
+                                Character target = NonCultists[Random.Range(0, NonCultists.Count)];
+                                target.Traits.Add(Database.CultistTrait);
+                                CharactersConverted++;
 
 
-                            CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
+                                CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), target, target.CurrentLocation);
+                            }
+                            else if (rnd < 0.05f)
+                            {
+                                Character newChar = CORE.Instance.GenerateSimpleCharacter();
+                                newChar.Randomize();
+                                Characters.Add(newChar);
+                                newChar.Traits.Add(Database.CultistTrait);
+                                CharactersConverted++;
+                                newChar.GoToLocation(CORE.Instance.GetRandomLocation());
+
+                                CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), newChar, newChar.CurrentLocation);
+                            }
+
                         }
-                        else if(rnd < 0.05f)
+                        catch (System.Exception error)
                         {
-                            Character newChar = CORE.Instance.GenerateSimpleCharacter();
-                            newChar.Randomize();
-                            Characters.Add(newChar);
-                            newChar.Traits.Add(Database.CultistTrait);
-                            CharactersConverted++;
-                            newChar.GoToLocation(CORE.Instance.GetRandomLocation());
-
-                            CORE.Instance.ShowPortraitEffect(ResourcesLoader.Instance.GetRecycledObject("PortraitEffectJoinedCult"), newChar, newChar.CurrentLocation);
+                            SendFeedBack(error.Message);
                         }
 
-                        if(i % 5 == 0)
+                        if (i % 5 == 0)
                         {
                             yield return 0;
                         }
                     }
                 }
-
+                
                 if (CharactersConverted > 0)
                 {
                     TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance(CharactersConverted + " characters have joined the cult this turn...", ResourcesLoader.Instance.GetSprite("therapy"), CORE.PC));
@@ -684,44 +731,73 @@ public class CORE : MonoBehaviour
                     {
                         List<Character> cultistsToRemove = new List<Character>();
 
-                        for (int i=0;i<Cultists.Count;i++)
+                        for (int i = 0; i < Cultists.Count; i++)
                         {
-                            if(i%5 == 0)
+                            if (i % 5 == 0)
                             {
                                 yield return 0;
                             }
 
-                            if(Cultists[i].Traits.Find(t => t == Database.CultistReligiousTrait) != null)
+                            try
                             {
-                                DevotedCultists.Add(Cultists[i]);
-                                cultistsToRemove.Add(Cultists[i]);
+
+                                if (Cultists[i].Traits.Find(t => t == Database.CultistReligiousTrait) != null)
+                                {
+                                    DevotedCultists.Add(Cultists[i]);
+                                    cultistsToRemove.Add(Cultists[i]);
+                                }
+                            }
+                            catch (System.Exception error)
+                            {
+                                SendFeedBack(error.Message);
                             }
                         }
 
-                        foreach(Character cultist in cultistsToRemove)
+                        try
                         {
-                            Cultists.Remove(cultist);
+                            foreach (Character cultist in cultistsToRemove)
+                            {
+                                Cultists.Remove(cultist);
+                            }
                         }
-                        
+                        catch (System.Exception error)
+                        {
+                            SendFeedBack(error.Message);
+                        }
+
 
                         int CharactersDevoted = 0;
-                        
+
                         if (Cultists.Count > 0)
                         {
-                            if (DevotedCultists.Count == 0)
+                            try
                             {
-                                Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                                Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                                Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                                CharactersDevoted += 3;
+                                if (DevotedCultists.Count == 0)
+                                {
+                                    Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                    Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                    Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                    CharactersDevoted += 3;
+                                }
+                            }
+                            catch (System.Exception error)
+                            {
+                                SendFeedBack(error.Message);
                             }
 
                             for (int i = 0; i < DevotedCultists.Count; i++)
                             {
-                                if (Random.Range(0f, 1f) < 0.05f)
+                                try
                                 {
-                                    Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
-                                    CharactersDevoted++;
+                                    if (Random.Range(0f, 1f) < 0.05f)
+                                    {
+                                        Cultists[Random.Range(0, Cultists.Count)].AddTrait(Database.CultistReligiousTrait);
+                                        CharactersDevoted++;
+                                    }
+                                }
+                                catch (System.Exception error)
+                                {
+                                    SendFeedBack(error.Message);
                                 }
 
                                 if (i % 5 == 0)
@@ -740,62 +816,114 @@ public class CORE : MonoBehaviour
                     }
                 }
 
-                TechTreeItem rebels = CORE.Instance.TechTree.Find(X => X.name == "Rebels");
-
-                if (rebels != null && rebels.IsResearched)
+                try
                 {
-                    PC.CGold += 5;
-                    PC.CRumors += 5;
-                    PC.CConnections += 5;
-                    PC.CProgress += 5;
+                    TechTreeItem rebels = CORE.Instance.TechTree.Find(X => X.name == "Rebels");
 
-                    TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+5 To ALL resources from your remote advocates.", ResourcesLoader.Instance.GetSprite("painting_rebel"), CORE.PC));
-                }
-
-                TechTreeItem cultCommercialTech = TechTree.Find(y => y.name == Database.CultistTechCommercial.name);
-
-                if (cultCommercialTech != null)
-                {
-                    if (cultCommercialTech.IsResearched)
+                    if (rebels != null && rebels.IsResearched)
                     {
-                        int commercialEarn = (Cultists.Count + DevotedCultists.Count) / 2;
+                        PC.CGold += 5;
+                        PC.CRumors += 5;
+                        PC.CConnections += 5;
+                        PC.CProgress += 5;
 
-                        PC.CGold += commercialEarn;
+                        TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+5 To ALL resources from your remote advocates.", ResourcesLoader.Instance.GetSprite("painting_rebel"), CORE.PC));
+                    }
+                
 
-                        if (commercialEarn > 0)
+                    TechTreeItem cultCommercialTech = TechTree.Find(y => y.name == Database.CultistTechCommercial.name);
+
+                    if (cultCommercialTech != null)
+                    {
+                        if (cultCommercialTech.IsResearched)
                         {
-                            if (PC.PropertiesOwned.Count > 0)
+                            int commercialEarn = (Cultists.Count + DevotedCultists.Count) / 2;
+
+                            PC.CGold += commercialEarn;
+
+                            if (commercialEarn > 0)
                             {
-                                SplineAnimationObject(
-                                "CoinCollectedWorld",
-                                PC.PropertiesOwned[0].transform,
-                                StatsViewUI.Instance.GoldText.transform,
-                                () => { StatsViewUI.Instance.RefreshGold(); },
-                                false);
+                                if (PC.PropertiesOwned.Count > 0)
+                                {
+                                    SplineAnimationObject(
+                                    "CoinCollectedWorld",
+                                    PC.PropertiesOwned[0].transform,
+                                    StatsViewUI.Instance.GoldText.transform,
+                                    () => { StatsViewUI.Instance.RefreshGold(); },
+                                    false);
 
-                                AudioControl.Instance.PlayInPosition("resource_gold", PC.PropertiesOwned[0].transform.position);
+                                    AudioControl.Instance.PlayInPosition("resource_gold", PC.PropertiesOwned[0].transform.position);
+                                }
+
+                                TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+" + commercialEarn + " Gold from your Pyramid Scheme.", ResourcesLoader.Instance.GetSprite("painting_commercial"), CORE.PC));
                             }
-
-                            TurnReportUI.Instance.Log.Add(new TurnReportLogItemInstance("+" + commercialEarn + " Gold from your Pyramid Scheme.", ResourcesLoader.Instance.GetSprite("painting_commercial"), CORE.PC));
                         }
                     }
                 }
+                catch (System.Exception error)
+                {
+                    SendFeedBack(error.Message);
+                }
             }
         }
 
-        TurnPassedRoutineInstance = null;
-
-        if (CORE.PC.CurrentFaction.HasPsychoEffect)
+        try
         {
-            if (Random.Range(0, 2) == 0)
+            TurnPassedRoutineInstance = null;
+
+            if (CORE.PC.CurrentFaction.HasPsychoEffect)
             {
-                PsychoEffectRate++;
+                if (Random.Range(0, 2) == 0)
+                {
+                    PsychoEffectRate++;
+                }
+            }
+            else
+            {
+                PsychoEffectRate = 0;
             }
         }
-        else
+        catch (System.Exception error)
         {
-            PsychoEffectRate = 0;
+            SendFeedBack(error.Message);
         }
+    }
+
+    public void SendFeedBack(string text)
+    {
+        try
+        {
+            if (SendFeedbackInstance != null)
+            {
+                return;
+            }
+
+            SendFeedbackInstance = StartCoroutine(SendFeedbackRoutine(text));
+        }
+        catch (System.Exception error)
+        {
+            SendFeedBack(error.Message);
+        }
+    }
+
+    Coroutine SendFeedbackInstance;
+    IEnumerator SendFeedbackRoutine(string text)
+    {
+        WWWForm form = new WWWForm();
+
+        form.AddField("entry.459344423", text);
+
+
+        byte[] rawData = form.data;
+
+        WWW request = new WWW(FEEDBACK_URL, form);
+
+        while (!request.isDone)
+        {
+            yield return 0;
+        }
+
+        SendFeedbackInstance = null;
     }
 
     #endregion
@@ -1305,21 +1433,42 @@ public class CORE : MonoBehaviour
 
             foreach(LocationEntity location in Locations)
             {
+                if(PresetLocations.Find(x=>x.gameObject.name == location.gameObject.name) != null)
+                {
+                    continue;
+                }
+
                 Destroy(location.gameObject);
             }
 
             Locations.Clear();
-            PresetLocations.Clear();
             
             for (int i = 0; i < file.Content["Locations"].Count; i++)
             {
                 LocationEntity tempLocation = GenerateNewLocation(Vector3.zero, new Quaternion(0,0,0,0));
 
                 tempLocation.FromJSON(file.Content["Locations"][i]);
+
+                LocationEntity presetLocation = PresetLocations.Find(x => x.gameObject.name == tempLocation.gameObject.name);
+                if(PresetLocations != null)
+                {
+                    tempLocation.PossiblePlayerActions.Clear();
+                    tempLocation.PossiblePlayerActions.AddRange(presetLocation.PossiblePlayerActions);
+
+                    tempLocation.PossibleAgentActions.Clear();
+                    tempLocation.PossibleAgentActions.AddRange(presetLocation.PossibleAgentActions);
+                }
+
                 Locations.Add(tempLocation);
 
                 yield return 0;
             }
+
+            foreach (LocationEntity location in PresetLocations)
+            {
+                Destroy(location.gameObject);
+            }
+            PresetLocations.Clear();
 
             LetterDispenserEntity.Instance.FromJSON(file.Content["LetterDispenser"]);
             LettersPanelUI.Instance.FromJSON(file.Content["LettersPanel"]);
@@ -1507,9 +1656,9 @@ public class CORE : MonoBehaviour
             {
                 temp = rumor.GetPopup();
             }
-            catch
+            catch (System.Exception error)
             {
-                Debug.LogError("Issue with day rumors.");
+                SendFeedBack(error.Message);
             }
 
             if (temp == null)
@@ -1615,8 +1764,9 @@ public class SaveFile
                 this.RealDate = this.RealDate.AddSeconds(long.Parse(this.Content["UNIX"]));
             }
         }
-        catch
+        catch (System.Exception error)
         {
+            CORE.Instance.SendFeedBack(error.Message);
             this.Corrupt = true;
             this.Name = "Save File's Json is broken...";
             this.Date = "Fixing it will most likely restore this file...";

@@ -46,7 +46,7 @@ public class CheatMenuUI : MonoBehaviour
             WarningWindowUI.Instance.Show("DEV CHEATS: " + IsCheatOn.ToString()
                 + System.Environment.NewLine + " 0 - attempt to auto buy all plots"
                 + System.Environment.NewLine + " 1 - Add to turn number"
-                + System.Environment.NewLine + " 2 - test custom action (dont touch)"
+                + System.Environment.NewLine + " 2 - Unlock Constabulray and Cult"
                 + System.Environment.NewLine + " 3 - decrease turn number..."
                 + System.Environment.NewLine + " 4 - Auto defenders win duel"
                 + System.Environment.NewLine + " 5 - Auto attackers win duel"

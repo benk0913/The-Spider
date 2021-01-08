@@ -145,10 +145,10 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
     StatsOfLocationUI StatsOfLocationUIInstance;
 
     [SerializeField]
-    protected List<AgentAction> PossibleAgentActions = new List<AgentAction>();
+    public List<AgentAction> PossibleAgentActions = new List<AgentAction>();
 
     [SerializeField]
-    protected List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
+    public List<PlayerAction> PossiblePlayerActions = new List<PlayerAction>();
 
     public LongTermTaskDurationUI TaskDurationUI;
 
@@ -1409,6 +1409,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             {
                 CaseElements.Add(CORE.Instance.Database.CaseElements.Find(x => x.name == node["CaseElements"].Value));
             }
+
         }
         catch
         {

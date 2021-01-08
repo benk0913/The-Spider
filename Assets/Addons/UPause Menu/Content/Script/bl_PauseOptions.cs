@@ -24,6 +24,8 @@ public class bl_PauseOptions : MonoBehaviour {
 
     public static bool TutorialOn = true;
 
+    public static bool InvertMouseOn = false;
+
     public static bool BloomOn = true;
 
     public float Brightness = 1f;
@@ -42,6 +44,9 @@ public class bl_PauseOptions : MonoBehaviour {
 
     [SerializeField]
     Toggle TutorialOnToggle;
+
+    [SerializeField]
+    Toggle InvertMouseOnToggle;
 
     [SerializeField]
     Slider BrightnessSlider;
@@ -99,8 +104,10 @@ public class bl_PauseOptions : MonoBehaviour {
         SoundSlider.value = AudioControl.Instance.VolumeGroups["Untagged"];
         MusicSlider.value = AudioControl.Instance.VolumeGroups["Music"];
         TutorialOn = PlayerPrefs.GetInt("TutorialOn", 1) == 1? true : false;
+        InvertMouseOn = PlayerPrefs.GetInt("InvertMouseOn", 0) == 1 ? true : false;
         BloomOn = PlayerPrefs.GetInt("BloomOn", 1) == 1 ? true : false;
         TutorialOnToggle.isOn = TutorialOn;
+        InvertMouseOnToggle.isOn = InvertMouseOn;
         Brightness = PlayerPrefs.GetFloat("Brightness", Screen.brightness);
         BloomOnToggle.isOn = BloomOn;
     }
@@ -393,6 +400,13 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         TutorialOn = b;
         PlayerPrefs.SetInt("TutorialOn", TutorialOn ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public void InvertMouse(bool b)
+    {
+        InvertMouseOn = b;
+        PlayerPrefs.SetInt("InvertMouseOn", InvertMouseOn ? 1 : 0);
         PlayerPrefs.Save();
     }
 

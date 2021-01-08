@@ -419,7 +419,7 @@ public class MouseLook : MonoBehaviour
         {
             float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
 
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+            rotationY += Input.GetAxis("Mouse Y") * sensitivityY * (bl_PauseOptions.InvertMouseOn ? -1f : 1f);
             rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
 
             transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
@@ -432,7 +432,7 @@ public class MouseLook : MonoBehaviour
         }
         else
         {
-            rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+            rotationY += Input.GetAxis("Mouse Y") * sensitivityY * (bl_PauseOptions.InvertMouseOn? -1f : 1f);
             rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
 
             CameraTransform.localEulerAngles = new Vector3(-rotationY, CameraTransform.localEulerAngles.y, 0);

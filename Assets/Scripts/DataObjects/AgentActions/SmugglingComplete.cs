@@ -16,6 +16,21 @@ public class SmugglingComplete : WorkComplete
 
     public void GenerateNewItemToProperty(Character character)
     {
+        if(character == null)
+        {
+            return;
+        }
+
+        if(character.WorkLocation == null)
+        {
+            return;
+        }
+
+        if (character.WorkLocation.CurrentProperty == null)
+        {
+            return;
+        }
+
         int inventoryCap = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].InventoryCap;
         Item[] possibleItems = character.WorkLocation.CurrentProperty.PropertyLevels[character.WorkLocation.Level-1].PossibleMerchantise;
 
