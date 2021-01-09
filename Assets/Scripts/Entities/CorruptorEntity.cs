@@ -81,9 +81,9 @@ public class CorruptorEntity : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForSeconds(DelayTime);
+            //yield return new WaitForSeconds(DelayTime);
 
-            Meshes[Random.Range(0, Meshes.Length)].material = corruptMaterial;
+            //Meshes[Random.Range(0, Meshes.Length)].material = corruptMaterial;
 
             yield return new WaitForSeconds(DelayTime);
 

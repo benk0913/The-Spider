@@ -1450,7 +1450,7 @@ public class CORE : MonoBehaviour
                 tempLocation.FromJSON(file.Content["Locations"][i]);
 
                 LocationEntity presetLocation = PresetLocations.Find(x => x.gameObject.name == tempLocation.gameObject.name);
-                if(PresetLocations != null)
+                if(presetLocation != null)
                 {
                     tempLocation.PossiblePlayerActions.Clear();
                     tempLocation.PossiblePlayerActions.AddRange(presetLocation.PossiblePlayerActions);
