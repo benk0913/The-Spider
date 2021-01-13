@@ -27,6 +27,8 @@ public class bl_PauseOptions : MonoBehaviour {
     public static bool InvertMouseOn = false;
 
     public static bool BloomOn = true;
+    
+    public static bool WindowOn = true;
 
     public float Brightness = 1f;
 
@@ -65,6 +67,9 @@ public class bl_PauseOptions : MonoBehaviour {
 
     [SerializeField]
     Toggle BloomOnToggle;
+
+    [SerializeField]
+    Toggle WindowOnToggle;
 
     /// <summary>
     /// 
@@ -106,10 +111,12 @@ public class bl_PauseOptions : MonoBehaviour {
         TutorialOn = PlayerPrefs.GetInt("TutorialOn", 1) == 1? true : false;
         InvertMouseOn = PlayerPrefs.GetInt("InvertMouseOn", 0) == 1 ? true : false;
         BloomOn = PlayerPrefs.GetInt("BloomOn", 1) == 1 ? true : false;
+        WindowOn = PlayerPrefs.GetInt("WindowOn", 0) == 1 ? true : false;
         TutorialOnToggle.isOn = TutorialOn;
         InvertMouseOnToggle.isOn = InvertMouseOn;
         Brightness = PlayerPrefs.GetFloat("Brightness", Screen.brightness);
         BloomOnToggle.isOn = BloomOn;
+        WindowOnToggle.isOn = WindowOn;
     }
 
 
@@ -181,6 +188,17 @@ public class bl_PauseOptions : MonoBehaviour {
         CORE.Instance.InvokeEvent("BloomUpdated");
 
         PlayerPrefs.SetInt("BloomOn", BloomOn ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public void ToggleWindow()
+    {
+        WindowOn = WindowOnToggle.isOn;
+        CORE.Instance.InvokeEvent("WindowUpdated");
+
+        Screen.fullScreen = !WindowOn;
+
+        PlayerPrefs.SetInt("WindowOn", WindowOn ? 1 : 0);
         PlayerPrefs.Save();
     }
 

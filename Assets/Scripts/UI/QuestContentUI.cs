@@ -144,4 +144,9 @@ public class QuestContentUI : HeadlineContentUI
             RewardsContainer.GetChild(0).SetParent(transform);
         }
     }
+
+    public void ShowInFullScreen()
+    {
+        FullscreenMissionWindowUI.Instance.Show(CurrentQuest);
+    }
 }

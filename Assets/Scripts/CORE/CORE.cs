@@ -135,6 +135,8 @@ public class CORE : MonoBehaviour
             }
         }
 
+        Screen.fullScreen = PlayerPrefs.GetInt("WindowOn", 0) == 0;
+
         DontDestroyOnLoad(this.gameObject);
         Stats = new SessionStats();
         Instance = this;

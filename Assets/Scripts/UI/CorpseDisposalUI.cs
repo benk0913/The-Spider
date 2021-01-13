@@ -60,10 +60,10 @@ public class CorpseDisposalUI : MonoBehaviour
             return;
         }
 
-        Character agent = CORE.PC.CharactersInCommand.Find(X => X.GetBonus(CORE.Instance.Database.GetBonusType("Sneaky")).Value > 2 && X.IsAgent);
+        Character agent = CORE.PC.CharactersInCommand.Find(X => X.GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value > 2 && X.IsAgent);
         if (agent == null)
         {
-            GlobalMessagePrompterUI.Instance.Show("You don't have an agent which is stealthy enough. (Sneaky - 3)", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show("You don't have an agent which is stealthy enough. (Stealthy - 3)", 1f, Color.red);
             return;
         }
 
@@ -73,7 +73,7 @@ public class CorpseDisposalUI : MonoBehaviour
 
                Hide();
 
-               float agentSkill = x.GetBonus(CORE.Instance.Database.GetBonusType("Sneaky")).Value;
+               float agentSkill = x.GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value;
                if (Random.Range(0f, agentSkill + 2f) > agentSkill)
                {
                    WarningWindowUI.Instance.Show("Your agent has failed!", () =>
@@ -101,10 +101,10 @@ public class CorpseDisposalUI : MonoBehaviour
             return;
         }
 
-        Character agent = CORE.PC.CharactersInCommand.Find(X => X.GetBonus(CORE.Instance.Database.GetBonusType("Sneaky")).Value > 2 && X.IsAgent);
+        Character agent = CORE.PC.CharactersInCommand.Find(X => X.GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value > 2 && X.IsAgent);
         if (agent == null)
         {
-            GlobalMessagePrompterUI.Instance.Show("You don't have an agent which is stealthy enough. (Sneaky - 3)", 1f, Color.red);
+            GlobalMessagePrompterUI.Instance.Show("You don't have an agent which is stealthy enough. (Stealthy - 3)", 1f, Color.red);
             return;
         }
 
@@ -114,7 +114,7 @@ public class CorpseDisposalUI : MonoBehaviour
 
                Hide();
 
-               float agentSkill = x.GetBonus(CORE.Instance.Database.GetBonusType("Sneaky")).Value;
+               float agentSkill = x.GetBonus(CORE.Instance.Database.GetBonusType("Stealthy")).Value;
                if (Random.Range(0f, agentSkill + 2f) > agentSkill)
                {
                    WarningWindowUI.Instance.Show("Your agent has failed!", () =>

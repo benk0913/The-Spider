@@ -28,19 +28,19 @@ class Utils : EditorWindow
     {
         Text[] texts = FindObjectsOfType<Text>();
  
-        TMP_FontAsset fontAwesome = Resources.Load("Fonts/fontawesome-webfont SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
+        TMP_FontAsset fontAwesome = Resources.Load("SHERWOOD DUPE SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
         if (fontAwesome == null) {
-            Debug.Log("Not so awesome...");
+            Debug.Log("Not so SHERWOOD...");
             return;
         }
         Dictionary<string, TMP_FontAsset> fontMap = new Dictionary<string, TMP_FontAsset>();
-        fontMap.Add("FontAwesome", fontAwesome);
+        fontMap.Add("SHERWOOD", fontAwesome);
  
         foreach(Text text in texts)
         {
+            Debug.LogError(text.gameObject.name);
             Font font = text.font;
-            if (font.fontNames[0] != "FontAwesome") continue;
- 
+
             GameObject gameObject = text.gameObject;
             Selectable[] selectables = FindObjectsOfType<Selectable>();
  
@@ -122,8 +122,8 @@ class Utils : EditorWindow
     [MenuItem("Utils/Log Text Properties")]
     public static void LogTextFontProperties(MenuCommand command)
     {
-        TMP_FontAsset fontAwesome = Resources.Load("fontawesome-webfont SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
-        if (fontAwesome == null) Debug.Log("Not so awesome...");
+        TMP_FontAsset fontAwesome = Resources.Load("SHERWOOD DUPE SDF", typeof(TMP_FontAsset)) as TMP_FontAsset;
+        if (fontAwesome == null) Debug.Log("Not so SHERWOOD...");
  
         var selected = Selection.activeObject;
         if (selected && selected is GameObject) {

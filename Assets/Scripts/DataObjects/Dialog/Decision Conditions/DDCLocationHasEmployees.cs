@@ -15,23 +15,32 @@ public class DDCLocationHasEmployees : DialogDecisionCondition
 
         int employeeInLocationCount = 0;
 
-        foreach (Character character in location.CharactersInLocation)
+        if(Guards)
         {
-            if (Guards)
-            {
-                if (location.GuardsCharacters.Contains(character))
-                {
-                    employeeInLocationCount++;
-                }
-            }
-            else
-            {
-                if (location.EmployeesCharacters.Contains(character))
-                {
-                    employeeInLocationCount++;
-                }
-            }
+            employeeInLocationCount = location.GuardsCharacters.Count;
         }
+        else
+        {
+            employeeInLocationCount = location.EmployeesCharacters.Count;
+        }
+
+        //foreach (Character character in location.CharactersInLocation)
+        //{
+        //    if (Guards)
+        //    {
+        //        if (location.GuardsCharacters.Contains(character))
+        //        {
+        //            employeeInLocationCount++;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (location.EmployeesCharacters.Contains(character))
+        //        {
+        //            employeeInLocationCount++;
+        //        }
+        //    }
+        //}
 
         if (employeeInLocationCount < Amount)
         {
