@@ -39,6 +39,7 @@ public class Faction : ScriptableObject, ISaveFileCompatible
     public bool isPlayable = true;
     public bool isAlwaysKnown = false;
     public bool HasPromotionSystem = false;
+    public bool IsCustomziable = false;
 
     public int GoldGeneratedPerDay;
     public int ConnectionsGeneratedPerDay;

@@ -73,6 +73,15 @@ public class FactionInfoUI : MonoBehaviour
         CORE.Instance.SubscribeToEvent("PassTimeComplete", RefreshUI);
     }
 
+public void Customize()
+    {
+        if(!CORE.PlayerFaction.IsCustomziable)
+        {
+        WarningWindowUI.Instance.Show("You may only use this in the Sandbox scenario",null,true,null);
+        return;
+        }
+        CustomizeFactionWindowUI.Instance.SetFaction(CurrentFaction);
+    }
     public void RefreshUI()
     {
         if(CurrentFaction == null)

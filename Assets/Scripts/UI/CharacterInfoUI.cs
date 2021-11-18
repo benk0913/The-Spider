@@ -452,6 +452,16 @@ public class CharacterInfoUI : MonoBehaviour
         }
     }
 
+    public void Customize()
+    {
+        if(!CORE.PlayerFaction.IsCustomziable)
+        {
+        WarningWindowUI.Instance.Show("You may only use this in the Sandbox scenario",null,true,null);
+        return;
+        }
+        CustomizeCharacterWindowUI.Instance.SetActor(CurrentCharacter);
+    }
+
     public void Command()
     {
         if (this.CurrentCharacter == null)

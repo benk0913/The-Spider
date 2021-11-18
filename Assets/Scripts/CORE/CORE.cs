@@ -207,6 +207,8 @@ public class CORE : MonoBehaviour
         LoadingGameRoutine = null;
 
         DelayedInvokation(1f, ()=> InvokeEvent("NewGameComplete"));
+
+
     }
 
     IEnumerator LoadMainScene(Faction selectedFaction, bool isLoadedFromSave = false)
@@ -355,6 +357,8 @@ public class CORE : MonoBehaviour
         }
 
         PsychoEffectRate = 0;
+
+
     }
 
     void AddListeners()
