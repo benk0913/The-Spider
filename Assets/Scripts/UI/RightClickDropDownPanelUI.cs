@@ -35,6 +35,12 @@ public class RightClickDropDownPanelUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    void OnDisable()
+    {
+         if(CORE.Instance != null)
+            CORE.Instance.UnoccupyFocusView(this);
+    }
+
     public void Show(List<DescribedAction> MenuItems, Transform targetTransform, Character byCharacter = null, AgentInteractable source = null)
     {
         CORE.Instance.DelayedInvokation(0.01f, () => {
@@ -42,6 +48,7 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
 
             this.gameObject.SetActive(true);
+            CORE.Instance.OccupyFocusView(this);
 
             CurrentSource = source;
             CurrentMenuItems = MenuItems;
@@ -145,6 +152,11 @@ public class RightClickDropDownPanelUI : MonoBehaviour
             {
                 transform.position = Camera.current.WorldToScreenPoint(CurrentTargetTransform.position);
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
         }
     }
 

@@ -68,7 +68,7 @@ public class RainEntity : MonoBehaviour
 
             Intensity = 0f;
 
-            float randomTime = Random.Range(DurationTimeMin,DurationTimeMax);
+            float randomTime = Random.Range(DurationTimeMin*2,DurationTimeMax*2);
             yield return new WaitForSeconds(randomTime);
 
             float targetIntensity = Random.Range(0.5f, 1f);

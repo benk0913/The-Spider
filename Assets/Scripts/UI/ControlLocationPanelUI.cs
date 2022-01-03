@@ -490,4 +490,70 @@ public class ControlLocationPanelUI : MonoBehaviour
     {
         SelectCharacterViewUI.Instance.Show((selected) => CharacterInfoUI.Instance.ShowInfo(selected), (x) => CurrentLocation.CharactersInLocation.Contains(x), "Characters In " + CurrentLocation.Name + ":");
     }
+
+    
+    public void NextLocation()
+    {
+        if(CurrentLocation == null)
+        {
+            return;
+        }   
+
+        if(CurrentLocation.OwnerCharacter == null)
+        {
+            return;
+        }
+
+        Character topEmployer = CurrentLocation.OwnerCharacter.TopEmployer;
+
+        if(!topEmployer.IsKnown("Faction",CORE.PC))
+        {
+            return;
+        }
+
+        List<LocationEntity> allLocations =  topEmployer.PropertiesInCommand;
+        allLocations.RemoveAll(x=>!x.Known.IsKnown("Existance",CORE.PC) && !x.OwnerCharacter.IsKnown("Faction",CORE.PC));
+
+        int indexOfLocation = allLocations.IndexOf(CurrentLocation);
+        indexOfLocation++;
+        if(indexOfLocation >= allLocations.Count)
+        {
+            indexOfLocation = 0;
+        }
+
+        SelectedPanelUI.Instance.Select(allLocations[indexOfLocation]);
+    }
+
+    public void PreviousLocation()
+    {
+         if(CurrentLocation == null)
+        {
+            return;
+        }   
+
+        if(CurrentLocation.OwnerCharacter == null)
+        {
+            return;
+        }
+
+        Character topEmployer = CurrentLocation.OwnerCharacter.TopEmployer;
+
+        if(!topEmployer.IsKnown("Faction",CORE.PC))
+        {
+            return;
+        }
+
+        List<LocationEntity> allLocations =  topEmployer.PropertiesInCommand;
+        allLocations.RemoveAll(x=>!x.Known.IsKnown("Existance",CORE.PC) && !x.OwnerCharacter.IsKnown("Faction",CORE.PC));
+
+        int indexOfLocation = allLocations.IndexOf(CurrentLocation);
+        indexOfLocation--;
+        if(indexOfLocation >= allLocations.Count)
+        {
+            indexOfLocation = 0;
+        }
+
+        SelectedPanelUI.Instance.Select(allLocations[indexOfLocation]);
+    }
+
 }

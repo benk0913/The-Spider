@@ -34,6 +34,8 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         this.gameObject.SetActive(true);
         base.Show(onSelect, filter);
         TitleText.text = title;
+
+        
     }
 
     protected override IEnumerator PopulateGrid(Action<Character> onSelect = null, Predicate<Character> filter = null)
@@ -51,5 +53,15 @@ public class SelectAgentWindowUI : SelectCharacterViewUI
         yield return 0;
 
         PopulateGridRoutine = null;
+    }
+
+    public new void SetSortingKey(string sortingKey)
+    {
+        CurrentSortKey = sortingKey;
+
+        SelectCharacterViewUI.Instance.Show(this.CurrentonSelect,(x)=>{return x.TopEmployer == CORE.PC && x.IsAgent;},"Select Agent:",TopCharacter);
+        SelectCharacterViewUI.Instance.SetSortingKey(CurrentSortKey);
+
+        this.gameObject.SetActive(false);
     }
 }

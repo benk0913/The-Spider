@@ -88,6 +88,7 @@ public class ForgeryWindowUI : MonoBehaviour
         if (MouseLook.Instance == null) return;
 
         MouseLook.Instance.CurrentWindow = null;
+
     }
 
     public void Show(Character targetCharacter)
@@ -100,6 +101,7 @@ public class ForgeryWindowUI : MonoBehaviour
         TargetLocation = null;
 
         MouseLook.Instance.CurrentWindow = this.gameObject;
+
 
         AudioControl.Instance.Play("soundscape_case", true);
         AudioControl.Instance.MuteMusic();

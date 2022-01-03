@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +22,11 @@ public class FocusView : MonoBehaviour
             return;
         }
 
+        if(MouseLook.Instance.CurrentWindow != null)
+        {
+            return;
+        }
+
         this.gameObject.SetActive(true);
         MouseLook.Instance.FocusOnView(this);
         OnActivate.Invoke();
@@ -34,6 +39,13 @@ public class FocusView : MonoBehaviour
 
         if (CORE.Instance.FocusViewLocked)
         {
+            if(CORE.Instance.DEBUG) Debug.LogError("Can't unfocus "+CORE.Instance.FocusViewLockers[0].name);
+            return;
+        }
+
+        if(MouseLook.Instance.CurrentWindow != null)
+        {
+            if(CORE.Instance.DEBUG) Debug.LogError("Can't unfocus | Current Window: "+MouseLook.Instance.CurrentWindow.gameObject.name);
             return;
         }
 

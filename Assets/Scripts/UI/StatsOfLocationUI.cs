@@ -21,6 +21,12 @@ public class StatsOfLocationUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI ProgressionText;
 
+    [SerializeField]
+    GameObject UpgradeIcon;
+
+    [SerializeField]
+    GameObject MerchIcon;
+
     LocationEntity CurrentLocation;
 
     [SerializeField]
@@ -131,6 +137,9 @@ public class StatsOfLocationUI : MonoBehaviour
         RumorsText.transform.parent.gameObject.SetActive(CurrentLocation.CurrentAction.RumorsGenerated> 0);
         ConnectionsText.transform.parent.gameObject.SetActive(CurrentLocation.CurrentAction.ConnectionsGenerated> 0);
         ProgressionText.transform.parent.gameObject.SetActive(CurrentLocation.CurrentAction.ProgressGenerated> 0);
+
+        UpgradeIcon.SetActive(CurrentLocation.IsUpgrading);
+        MerchIcon.SetActive(CurrentLocation.Inventory.Count > 0);
     }
 
 }

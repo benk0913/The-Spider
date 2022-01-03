@@ -102,6 +102,58 @@ public class Character : ScriptableObject, ISaveFileCompatible
         }
     }
 
+    public Character NextAgent
+    {
+        get
+        {
+            int indexOfAgent = 0;
+            List<Character> allAgents =  this.TopEmployer.CharactersInCommand;
+            allAgents.RemoveAll(x=>!x.IsKnown("Faction",CORE.PC));
+
+            if(!allAgents.Contains(this))
+            {
+                return null;
+            }
+
+            indexOfAgent = allAgents.IndexOf(this);
+
+            indexOfAgent++;
+
+            if(indexOfAgent >= allAgents.Count)
+            {
+                indexOfAgent = 0;
+            }
+
+            return allAgents[indexOfAgent];
+        }
+    }
+
+        public Character PreviousAgent
+        {
+            get
+            {
+                int indexOfAgent = 0;
+                List<Character> allAgents =  this.TopEmployer.CharactersInCommand;
+                allAgents.RemoveAll(x=>!x.IsKnown("Faction",CORE.PC));
+
+                if(!allAgents.Contains(this))
+                {
+                    return null;
+                }
+
+                indexOfAgent = allAgents.IndexOf(this);
+
+                indexOfAgent--;
+
+                if(indexOfAgent < 0)
+                {
+                    indexOfAgent = allAgents.Count - 1;
+                }
+
+                return allAgents[indexOfAgent];
+            }
+        }
+
     public int Rank
     {
         get
@@ -296,6 +348,14 @@ public class Character : ScriptableObject, ISaveFileCompatible
     public int _heat = 0;
 
     public bool IsDisabled = false;
+
+    public bool IsDorment
+    {
+        get
+        {
+            return WorkLocation == null && PropertiesOwned.Count == 0 && CurrentTaskEntity == null;
+        }
+    }
 
     public bool NeverDED = false;
 
@@ -1290,6 +1350,11 @@ public class Character : ScriptableObject, ISaveFileCompatible
     public void OnTurnPassedAI()
     {
         if(IsDisabled)
+        {
+            return;
+        }
+
+        if(IsDorment)
         {
             return;
         }

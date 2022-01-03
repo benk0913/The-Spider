@@ -45,7 +45,7 @@ public class DayRumor : ScriptableObject
                 }
             case DayRumorType.InvestmentRequest:
                 {
-                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.CurrentProperty.PropertyLevels.Count > x.Level && !x.IsUpgrading);
+                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x != CORE.PC && x.CurrentProperty.PropertyLevels.Count > x.Level && !x.IsUpgrading);
 
                     if (property == null)
                     {
@@ -69,7 +69,7 @@ public class DayRumor : ScriptableObject
                 }
             case DayRumorType.MorePeople:
                 {
-                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.EmployeesCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level-1].MaxEmployees);
+                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x != CORE.PC && x.EmployeesCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level-1].MaxEmployees);
 
                     if (property == null)
                     {
@@ -98,7 +98,8 @@ public class DayRumor : ScriptableObject
                         break;
                     }
 
-                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => x.OwnerCharacter != CORE.PC && x.GuardsCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level - 1].MaxGuards);
+                    LocationEntity property = CORE.PC.PropertiesInCommand.Find(x => 
+                    x.OwnerCharacter != CORE.PC && x != CORE.PC && x.GuardsCharacters.Count < x.CurrentProperty.PropertyLevels[x.Level - 1].MaxGuards);
 
                     if (property == null)
                     {
@@ -132,7 +133,8 @@ public class DayRumor : ScriptableObject
                     Character tellingAgent = CORE.PC.RandomAgent;
                     Character targetAgent = CORE.PC.CharactersInCommand.Find(X => X.IsAgent
                     && X != tellingAgent
-                    && X.PropertiesInCommand.Count > minToBetray);
+                    && X.PropertiesInCommand.Count > minToBetray
+                    && X != CORE.PC);
 
                     if (tellingAgent == null)
                     {
@@ -153,7 +155,8 @@ public class DayRumor : ScriptableObject
                     Character tellingAgent = CORE.PC.RandomAgent;
                     Character targetAgent = CORE.PC.CharactersInCommand.Find(X => X.IsAgent
                     && X != tellingAgent
-                    && X.GetRelationsWith(CORE.PC) < -7);
+                    && X.GetRelationsWith(CORE.PC) < -7
+                    && X != CORE.PC);
 
                     if (tellingAgent == null)
                     {
@@ -175,7 +178,8 @@ public class DayRumor : ScriptableObject
                     Character tellingAgent = CORE.PC.RandomAgent;
                     Character targetAgent = CORE.PC.CharactersInCommand.Find(X => X.IsAgent
                     && X != tellingAgent
-                    && X.GetRelationsWith(CORE.PC) > 9);
+                    && X.GetRelationsWith(CORE.PC) > 9
+                    && X != CORE.PC);
 
                     if (tellingAgent == null)
                     {

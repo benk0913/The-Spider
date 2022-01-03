@@ -88,4 +88,39 @@ public class ControlCharacterPanelUI : MonoBehaviour
         }
     }
 
+
+    public void NextAgent()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        Character nextAgent = CurrentCharacter.NextAgent;
+        if(nextAgent == null)
+        {
+            return;
+        }
+
+
+        SelectedPanelUI.Instance.SetSelected(nextAgent);
+    }
+
+    public void PreviousAgent()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        Character prevAgent = CurrentCharacter.PreviousAgent;
+        if(prevAgent == null)
+        {
+            return;
+        }
+
+        SelectedPanelUI.Instance.SetSelected(prevAgent);
+    }
+
+
 }

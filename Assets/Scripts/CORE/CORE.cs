@@ -117,6 +117,32 @@ public class CORE : MonoBehaviour
     }
 
     public bool FocusViewLocked = false;
+    public List<Object> FocusViewLockers = new List<Object>();
+
+    public void OccupyFocusView(Object who)
+    {
+        FocusViewLocked = true;
+
+        if(FocusViewLockers.Contains(who))
+        {
+            return;
+        }
+
+        FocusViewLockers.Add(who);
+    }
+
+    public void UnoccupyFocusView(Object who)
+    {
+        FocusViewLockers.Remove(who);
+
+        CORE.Instance.DelayedInvokation(0.1f,()=>
+        {
+            if(FocusViewLockers.Count == 0)
+        {
+            FocusViewLocked = false;
+        }
+        });
+    }
 
     private void Awake()
     {
@@ -526,23 +552,23 @@ public class CORE : MonoBehaviour
 
         TurnLoadingWindowUI.Instance.SetLoadingTitle("Characters... ");//("+Characters.Count + ")
 
+        //int interval = Mathf.FloorToInt(Characters.Count/10);
         for (int i = 0; i < Characters.Count; i++)
         {
 
             TurnLoadingWindowUI.Instance.SetProgress((Locations.Count + i) * 1f / (Locations.Count + Characters.Count) * 1f);
 
-            try
+            if (!Characters[i].IsDorment)
             {
-                Characters[i].OnTurnPassedAI();
-            }
-            catch (System.Exception error)
-            {
-                SendFeedBack(error.Message);
-            }
-
-            if (i % 2 == 0)
-            {
-                yield return 0;
+                try
+                {
+                    Characters[i].OnTurnPassedAI();
+                }
+                catch (System.Exception error)
+                {
+                    SendFeedBack(error.Message);
+                }
+               yield return 0;
             }
         }
 

@@ -29,6 +29,7 @@ public class AudioControl : MonoBehaviour {
 
         VolumeGroups.Add("Untagged", PlayerPrefs.GetFloat("Untagged", 1f));
         VolumeGroups.Add("Music", PlayerPrefs.GetFloat("Music", 0.6f));
+        VolumeGroups.Add("Ambience", PlayerPrefs.GetFloat("Ambience", 1f));
 
         SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume", 1f));
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -80,6 +80,8 @@ public class SelectedPanelUI : MonoBehaviour
         RightClickDropDownPanelUI.Instance.Hide();
 
         CharacterPanel.Select(character);
+
+        CORE.Instance.OccupyFocusView(this);
     }
 
     public void Select(LocationEntity location)
@@ -94,12 +96,16 @@ public class SelectedPanelUI : MonoBehaviour
         RightClickDropDownPanelUI.Instance.Hide();
 
         LocationPanel.Select(location);
+
+        CORE.Instance.OccupyFocusView(this);
     }
 
     public void Deselect()
     {
         CurrentSelectionType = SelectionType.None;
+        CORE.Instance.UnoccupyFocusView(this);
     }
+
 
 
 

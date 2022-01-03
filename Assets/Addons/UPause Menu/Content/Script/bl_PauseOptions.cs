@@ -45,6 +45,9 @@ public class bl_PauseOptions : MonoBehaviour {
     Slider MusicSlider;
 
     [SerializeField]
+    Slider AmbienceSlider;
+
+    [SerializeField]
     Toggle TutorialOnToggle;
 
     [SerializeField]
@@ -108,6 +111,7 @@ public class bl_PauseOptions : MonoBehaviour {
         MouseSensitivity.value = PlayerPrefs.GetFloat("MouseSensitivity", 3f);
         SoundSlider.value = AudioControl.Instance.VolumeGroups["Untagged"];
         MusicSlider.value = AudioControl.Instance.VolumeGroups["Music"];
+        AmbienceSlider.value = AudioControl.Instance.VolumeGroups["Ambience"];
         TutorialOn = PlayerPrefs.GetInt("TutorialOn", 1) == 1? true : false;
         InvertMouseOn = PlayerPrefs.GetInt("InvertMouseOn", 0) == 1 ? true : false;
         BloomOn = PlayerPrefs.GetInt("BloomOn", 1) == 1 ? true : false;
@@ -310,6 +314,12 @@ public class bl_PauseOptions : MonoBehaviour {
     {
         //Apply volumen
         AudioControl.Instance.SetVolume("Music", v);
+    }
+
+      public void UpdateVolumenAmbience(float v)
+    {
+        //Apply volumen
+        AudioControl.Instance.SetVolume("Ambience", v);
     }
 
     /// <summary>

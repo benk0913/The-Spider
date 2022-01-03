@@ -89,6 +89,14 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public int CurrentUpgradeLength;
 
+    public bool ShouldDisplayLocationHoverOnDefault
+    {
+        get
+        {
+            return OwnerCharacter != null && OwnerCharacter.CurrentFaction.name == CORE.PlayerFaction.name;
+        }
+    } 
+
     public int GoldGenerated
     {
         get
@@ -690,7 +698,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         {
             return;
         }
-
+        
         if (VisibilityState == VisibilityStateEnum.Visible || VisibilityState == VisibilityStateEnum.QuestionMark)
         {
             LocationHoverUI.Instance.Show(this, VisibilityState == VisibilityStateEnum.QuestionMark);
@@ -699,6 +707,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
     public void OnUnhover()
     {
+
         LocationHoverUI.Instance.Hide();
     }
 
@@ -719,7 +728,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         SelectedMarkerObject.gameObject.SetActive(false);
         SelectedMarkerObject = null;
 
-        if (IdleStateObject != null)
+        if (IdleStateObject != null && !ShouldDisplayLocationHoverOnDefault)
         {
             IdleStateObject.gameObject.SetActive(false);
         }
@@ -764,6 +773,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         if (OnClickTransform != null)
         {
             IdleStateObject = OnClickTransform.gameObject;
+            IdleStateObject.SetActive(ShouldDisplayLocationHoverOnDefault);
         }
 
         if(CurrentProperty.HiddenObject != null)
@@ -891,6 +901,8 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
             hoverModel.transform.SetParent(HoverPoint);
             hoverModel.transform.position = HoverPoint.position;
             hoverModel.transform.rotation = HoverPoint.rotation;
+
+            
         }
 
 
@@ -1504,7 +1516,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 }
             }
 
-            OwnerCharacter.StopOwningLocation(this);
+            // OwnerCharacter.StopOwningLocation(this);
         }
     }
 

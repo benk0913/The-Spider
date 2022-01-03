@@ -428,6 +428,7 @@ public class PortraitUI : AgentInteractable, IPointerClickHandler
             else
             {
                 CharacterInfoUI.Instance.ShowInfo(CurrentCharacter);
+                
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)

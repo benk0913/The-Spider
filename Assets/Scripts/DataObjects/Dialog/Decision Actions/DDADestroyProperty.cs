@@ -27,11 +27,11 @@ public class DDADestroyProperty : DialogDecisionAction
             return;
         }
 
-        WarningWindowUI.Instance.Show("Would you like to pay for "+targetLocation.Name+"'s immidiate repairs? (125 Gold)", () =>
+        WarningWindowUI.Instance.Show("Would you like to pay for "+targetLocation.Name+"'s immidiate repairs? (40 Gold)", () =>
          {
-             if (CORE.PC.CGold >= 125)
+             if (CORE.PC.CGold >= 40)
              {
-                 CORE.PC.CGold -= 125;
+                 CORE.PC.CGold -= 40;
              }
              else
              {

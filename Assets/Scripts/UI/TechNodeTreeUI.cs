@@ -40,6 +40,11 @@ public class TechNodeTreeUI : NodeTreeUI
         CORE.Instance.SubscribeToEvent("GameLoadComplete", () => { Initialized = false; });
     }
 
+    void OnDisable()
+    {
+        Debug.LogError("WHAT");
+    }
+
     public void Hide()
     {
         if (AudioControl.Instance != null)
@@ -53,9 +58,11 @@ public class TechNodeTreeUI : NodeTreeUI
         CG.blocksRaycasts = false;
         IsHidden = true;
 
+        CORE.Instance.UnoccupyFocusView(this);
+
     }
 
-    private void Update()
+    void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -88,6 +95,8 @@ public class TechNodeTreeUI : NodeTreeUI
         }
 
         IsHidden = false;
+
+        CORE.Instance.OccupyFocusView(this);
 
     }
 

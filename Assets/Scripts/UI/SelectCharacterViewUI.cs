@@ -19,7 +19,7 @@ public class SelectCharacterViewUI : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI TitleText;
 
-    Action<Character> CurrentonSelect;
+    public Action<Character> CurrentonSelect;
 
     Predicate<Character> CurrentFilter;
 
@@ -48,6 +48,7 @@ public class SelectCharacterViewUI : MonoBehaviour
         if (MouseLook.Instance == null) return;
 
         MouseLook.Instance.CurrentWindow = null;
+
     }
 
     private void Update()
@@ -78,6 +79,7 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         this.gameObject.SetActive(true);
 
+
         CurrentTitle = title;
         CurrentonSelect = onSelect;
         CurrentFilter = filter;
@@ -94,7 +96,8 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         if (PopulateGridRoutine != null)
         {
-            return;
+            StopCoroutine(PopulateGridRoutine);
+            PopulateGridRoutine = null;
         }
 
         PopulateGridRoutine = StartCoroutine(PopulateGrid(CurrentonSelect, CurrentFilter));
@@ -132,8 +135,10 @@ public class SelectCharacterViewUI : MonoBehaviour
 
         //yield return 0;
 
+        int index = 0;
         foreach (Character character in characters)
         {
+            index++;
             GameObject selectableChar = ResourcesLoader.Instance.GetRecycledObject(PortraitPrefab);
 
             selectableChar.transform.SetParent(Container, false);
@@ -155,8 +160,8 @@ public class SelectCharacterViewUI : MonoBehaviour
             
             selectableChar.transform.GetComponentInChildren<PortraitUI>().transform.Find("ExternalUseText").GetComponent<TextMeshProUGUI>().text = GetTextOnPortrait(character);
 
-
-            //yield return 0;
+            if(index % 3 == 0)
+                yield return 0;
         }
 
         PopulateGridRoutine = null;

@@ -33,6 +33,14 @@ public class RightSelectCharacterPanelUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    void OnDisable()
+    {
+        if(CORE.Instance != null)
+            CORE.Instance.UnoccupyFocusView(this);
+    }
+
+
+
     public void Show(Action<Character> onSelect, Predicate<Character> filter, string title = "Select Agent:", AgentAction agentAction = null, AgentInteractable relevantTarget = null, UnityAction fallbackAction = null)
     {
        
@@ -40,8 +48,6 @@ public class RightSelectCharacterPanelUI : MonoBehaviour
         CORE.Instance.DelayedInvokation(0.01f, () => {
             CORE.Instance.UnsubscribeFromEvent("PassTimeComplete", OnTurnPassed);
             CORE.Instance.SubscribeToEvent("PassTimeComplete", OnTurnPassed);
-
-            this.gameObject.SetActive(true);
 
             CurrentFilter = filter;
             CurrentOnSelect = onSelect;
@@ -52,6 +58,8 @@ public class RightSelectCharacterPanelUI : MonoBehaviour
             RelevantTarget = relevantTarget;
 
             this.gameObject.SetActive(true);
+
+            CORE.Instance.OccupyFocusView(this);
 
             //TitleText.text = title;
 
@@ -159,7 +167,7 @@ public class RightSelectCharacterPanelUI : MonoBehaviour
         Hide();
     }
 
-    private void Update()
+    void Update()
     {
         if (CurrentTargetTransform != null && Camera.current != null)
         {
@@ -171,6 +179,16 @@ public class RightSelectCharacterPanelUI : MonoBehaviour
             {
                 transform.position = Camera.current.WorldToScreenPoint(CurrentTargetTransform.position);
             }
+        }
+
+        if(Input.GetMouseButtonDown(0) && this.gameObject.activeInHierarchy && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            Hide();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
         }
     }
 

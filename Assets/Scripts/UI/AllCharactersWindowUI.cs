@@ -80,6 +80,7 @@ public class AllCharactersWindowUI : SelectCharacterViewUI
     public void Show()
     {
         Show(null, null);
+        CurrentType = GridType.Agents;
     }
 
     public override void Show(Action<Character> onSelect = null, Predicate<Character> filter = null, string title = "Characters View", Character topCharacter = null,  AgentAction agentAction = null,AgentInteractable relevantTarget = null)

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -110,12 +110,58 @@ public class CharacterInfoUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    void OnDisable()
+    {
+        if(CORE.Instance != null)    
+            CORE.Instance.UnoccupyFocusView(this);
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Hide();
         }
+    }
+
+    public void NextAgent()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        if(!CurrentCharacter.IsKnown("Faction",CORE.PC))
+        {
+            return;
+        }
+
+        Character nextAgent = CurrentCharacter.NextAgent;
+        if(nextAgent == null)
+        {
+            return;
+        }
+        ShowInfo(nextAgent);
+    }
+
+    public void PreviousAgent()
+    {
+        if(CurrentCharacter == null)
+        {
+            return;
+        }
+
+        if(!CurrentCharacter.IsKnown("Faction",CORE.PC))
+        {
+            return;
+        }
+
+        Character prevAgent = CurrentCharacter.PreviousAgent;
+        if(prevAgent == null)
+        {
+            return;
+        }
+        ShowInfo(prevAgent);
     }
 
     void RefreshTurnPassed()
@@ -338,6 +384,8 @@ public class CharacterInfoUI : MonoBehaviour
 
         this.gameObject.SetActive(true);
 
+        CORE.Instance.OccupyFocusView(this);
+
         PinImage.color = character.Pinned ? Color.yellow : Color.black;
         ControlButton.interactable = (character.TopEmployer != character && character.TopEmployer == CORE.PC);
         XImage.SetActive(!ControlButton.interactable);
@@ -486,6 +534,7 @@ public class CharacterInfoUI : MonoBehaviour
     public void Hide()
     {
         this.gameObject.SetActive(false);
+
     }
 
     public void TogglePin()
