@@ -22,6 +22,7 @@ public class Property : ScriptableObject
     public GameObject HiddenObject;// Usually for FOG 
     public GameObject SelectedObject; // Usually for DISTRICT MARK
 
+    public string SelectionSound;
     public Material MaterialOverride;
 
     public int RecruitingGenderType = -1;

@@ -30,8 +30,8 @@ public class TechTreeItemUI : MonoBehaviour
     [SerializeField]
     GameObject NotDiscoveredPanel;
 
-    [SerializeField]
-    UILineRenderer Liner;
+    // [SerializeField]
+    // UILineRenderer Liner;
 
     [SerializeField]
     Color UnresearchedColor;
@@ -49,20 +49,34 @@ public class TechTreeItemUI : MonoBehaviour
         RefreshUI();
     }
     
-
+    void Start()
+    {
+        if(CurrentItem != null)
+        {
+            SetItem(CORE.Instance.TechTree.Find(x=>x.name == CurrentItem.name));
+        }
+    }
+    
     public void RefreshUI()
     {
+        if(CORE.Instance == null)
+        {
+            return;
+        }
+
+        if(CurrentItem == null)
+        {
+            return;
+        }
 
         if ((CurrentItem.IsHidden || CurrentItem.FactionsHidden.Find(x => x.name == CORE.PlayerFaction.name) != null )
             && !CurrentItem.IsResearched)
         {
             this.gameObject.SetActive(false);
-            transform.parent.parent.GetComponent<UILineRenderer>().enabled = false;
         }
         else
         {
             this.gameObject.SetActive(true);
-            transform.parent.parent.GetComponent<UILineRenderer>().enabled = true;
         }
 
 
@@ -78,7 +92,7 @@ public class TechTreeItemUI : MonoBehaviour
             {
                 NotResearchedPanel.SetActive(false);
 
-                Liner.color = ResearchedColor;
+                // Liner.color = ResearchedColor;
 
                 Cost.color = Color.green;
                 Cost.text = "DONE";
@@ -87,7 +101,7 @@ public class TechTreeItemUI : MonoBehaviour
             {
                 NotResearchedPanel.SetActive(true);
 
-                Liner.color = UnresearchedColor;
+                // Liner.color = UnresearchedColor;
 
                 Cost.color = CORE.PC.CProgress >= CurrentItem.Price ? Color.white : Color.red;
                 Cost.text = CurrentItem.Price.ToString();
@@ -96,7 +110,7 @@ public class TechTreeItemUI : MonoBehaviour
         else
         {
             NotDiscoveredPanel.SetActive(true);
-            Liner.color = Color.grey;
+            // Liner.color = Color.grey;
 
             Cost.color = Color.white;
             Cost.text = "LOCKED";

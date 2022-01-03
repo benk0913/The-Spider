@@ -716,6 +716,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
         SelectedMarkerObject = ResourcesLoader.Instance.GetRecycledObject("LocationMarker");
         SelectedMarkerObject.transform.SetParent(transform);
         SelectedMarkerObject.transform.position = transform.position;
+        if(!string.IsNullOrEmpty(CurrentProperty.SelectionSound)) AudioControl.Instance.PlayInPosition(CurrentProperty.SelectionSound,transform.position);
 
         if (IdleStateObject != null)
         {

@@ -15,6 +15,8 @@ public class ResearchTechEntity : MonoBehaviour
     [SerializeField]
     UnityEvent Reset;
 
+    public bool Repeat=false;
+
     private void Start()
     {
         if(RequiredTech == null)
@@ -40,6 +42,14 @@ public class ResearchTechEntity : MonoBehaviour
         {
             Reset.Invoke();
         }
+        else
+        {
+            if(Repeat)
+            {
+                OnResearch.Invoke();
+            }
+        }
+        
     }
 
     private void OnResearchComplete()

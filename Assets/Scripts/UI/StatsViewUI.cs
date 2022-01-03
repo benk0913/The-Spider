@@ -130,7 +130,7 @@ public class StatsViewUI : MonoBehaviour
         if (ProgressText.text != CORE.PC.CProgress.ToString())
         {
             AudioControl.Instance.PlayInPosition("resource_collect", transform.position);
-            ProgressText.text = CORE.PC.CProgress.ToString();
+            ProgressText.text  = System.String.Format("{0:n0}", CORE.PC.CProgress);
             OnProgressChanged?.Invoke();
         }
     }

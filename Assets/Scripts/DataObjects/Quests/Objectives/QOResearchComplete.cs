@@ -79,23 +79,19 @@ public class QOResearchComplete : QuestObjective
         }
 
 
-        TechNodeTreeUIInstance node = TechNodeTreeUI.Instance.FindNode(item);
+        TechTreeItemUI node = TechNodeTreeUI.Instance.TechTreeItems.Find(x=>x.CurrentItem.name == item.name);
 
+        
         if (node == null)
         {
             return null;
         }
 
-        if(node.nodeObject == null)
+        if(node.transform.childCount == 0)
         {
             return null;
         }
 
-        if(node.nodeObject.transform.childCount == 0)
-        {
-            return null;
-        }
-
-        return node.nodeObject.transform.GetChild(0).gameObject;
+        return node.transform.gameObject;
     }
 }
