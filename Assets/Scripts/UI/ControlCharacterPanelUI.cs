@@ -26,6 +26,15 @@ public class ControlCharacterPanelUI : MonoBehaviour
         RefreshUI();
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Deselect();
+            SelectedPanelUI.Instance.Deselect();
+        }
+    }
+
     public void Deselect()
     {
         if(CurrentCharacter == null)

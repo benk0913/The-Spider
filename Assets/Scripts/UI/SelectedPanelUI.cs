@@ -96,7 +96,7 @@ public class SelectedPanelUI : MonoBehaviour
         RightClickDropDownPanelUI.Instance.Hide();
 
         LocationPanel.Select(location);
-
+        
         CORE.Instance.OccupyFocusView(this);
     }
 

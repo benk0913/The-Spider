@@ -100,7 +100,7 @@ public class RainEntity : MonoBehaviour
     {
         AudioSources.ForEach((x) =>
         {
-            x.volume = _intensity * AudioControl.Instance.VolumeGroups["Untagged"];
+            x.volume = _intensity * AudioControl.Instance.VolumeGroups["Ambience"];
         });
     }
 

@@ -134,6 +134,15 @@ public class ControlLocationPanelUI : MonoBehaviour
         RefreshPortraits();
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Deselect();
+            SelectedPanelUI.Instance.Deselect();
+        }
+    }
+
     public void RefreshUI()
     {
         RebrandBlockedSymbol.gameObject.SetActive(CurrentLocation.CurrentProperty.PlotType == CORE.Instance.Database.UniquePlotType);
