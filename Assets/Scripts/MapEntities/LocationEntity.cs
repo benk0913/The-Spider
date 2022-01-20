@@ -1505,6 +1505,7 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
 
         if(OwnerCharacter != null)
         {
+
             if (OwnerCharacter.PropertiesOwned.Count == 1 && OwnerCharacter.TopEmployer == OwnerCharacter) //If head of faction and this is the last property.
             {
                 if (OwnerCharacter == CORE.PC)
@@ -1513,11 +1514,13 @@ public class LocationEntity : AgentInteractable, ISaveFileCompatible
                 }
                 else
                 {
-                    //TODO FACTION DED
+                    OwnerCharacter.CurrentFaction.Description +=" - Disbanded";
+                    OwnerCharacter.CurrentFaction.name += " - Disbanded";
+                    OwnerCharacter.CurrentFaction = null;
                 }
             }
-
-            // OwnerCharacter.StopOwningLocation(this);
+            OwnerCharacter.StopOwningLocation(this);
+            
         }
     }
 

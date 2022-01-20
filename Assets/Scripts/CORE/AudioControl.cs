@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent (typeof(ResourcesLoader))]
-public class AudioControl : MonoBehaviour {
+[RequireComponent(typeof(ResourcesLoader))]
+public class AudioControl : MonoBehaviour
+{
 
     #region Essential
-    public  string m_sInstancePrefab;
+    public string m_sInstancePrefab;
 
-    public List<GameObject> Instances   = new List<GameObject>();
+    public List<GameObject> Instances = new List<GameObject>();
     public Dictionary<string, float> VolumeGroups = new Dictionary<string, float>();
 
     public static AudioControl Instance;
@@ -46,16 +47,30 @@ public class AudioControl : MonoBehaviour {
 
     public void PlayInPosition(string gClip, Vector3 pos, float MaxDistance = 47f, bool gLoop = false)
     {
-        if(CORE.Instance.isLoading)
+        if (CORE.Instance.isLoading)
         {
             return;
         }
 
         GameObject currentInstance = null;
 
+        if (Instances != null)
+        {
+            List<GameObject> existing = Instances.FindAll((x) =>
+        {
+            AudioSource aus = x.GetComponent<AudioSource>();
+
+            return aus != null && aus.clip != null && aus.clip.name == gClip && aus.isPlaying;
+        });
+            if (existing == null || existing.Count > 3)
+            {
+                return;
+            }
+        }
+
         for (int i = 0; i < Instances.Count; i++)
         {
-            if(Instances[i] == null || Instances[i].GetComponent<AudioSource>() == null)
+            if (Instances[i] == null || Instances[i].GetComponent<AudioSource>() == null)
             {
                 Instances.RemoveAt(i);
                 continue;
@@ -76,7 +91,7 @@ public class AudioControl : MonoBehaviour {
         }
 
         currentInstance.transform.position = pos;
-        
+
         AudioSource source = currentInstance.GetComponent<AudioSource>();
         source.spatialBlend = 1f;
         source.maxDistance = MaxDistance;
@@ -100,23 +115,36 @@ public class AudioControl : MonoBehaviour {
         {
             return;
         }
+        if (Instances != null)
+        {
+            List<GameObject> existing = Instances.FindAll((x) =>
+             {
+                 AudioSource aus = x.GetComponent<AudioSource>();
+
+                 return aus != null &&aus.clip != null &&  aus.clip.name == gClip && aus.isPlaying;
+             });
+            if (existing == null || existing.Count > 3)
+            {
+                return;
+            }
+        }
 
         GameObject currentInstance = null;
 
-        for (int i=0;i<Instances.Count;i++)
+        for (int i = 0; i < Instances.Count; i++)
         {
-            if(!Instances[i].GetComponent<AudioSource>().isPlaying)
+            if (!Instances[i].GetComponent<AudioSource>().isPlaying)
             {
                 currentInstance = Instances[i];
                 break;
             }
         }
 
-        if(currentInstance==null)
+        if (currentInstance == null)
         {
             GameObject prefab = ResourcesLoader.Instance.GetObject(m_sInstancePrefab);
 
-            if(prefab == null)
+            if (prefab == null)
             {
                 return;
             }
@@ -145,7 +173,19 @@ public class AudioControl : MonoBehaviour {
         {
             return;
         }
+        if (Instances != null)
+        {
+            List<GameObject> existing = Instances.FindAll((x) =>
+            {
+                AudioSource aus = x.GetComponent<AudioSource>();
 
+                return aus != null &&aus.clip != null &&  aus.clip.name == gClip && aus.isPlaying;
+            });
+            if (existing == null || existing.Count > 3)
+            {
+                return;
+            }
+        }
         GameObject currentInstance = null;
 
         for (int i = 0; i < Instances.Count; i++)
@@ -184,6 +224,19 @@ public class AudioControl : MonoBehaviour {
         {
             return;
         }
+        if (Instances != null)
+        {
+            List<GameObject> existing = Instances.FindAll((x) =>
+            {
+                AudioSource aus = x.GetComponent<AudioSource>();
+
+                return aus != null &&aus.clip != null &&  aus.clip.name == gClip && aus.isPlaying;
+            });
+            if (existing == null || existing.Count > 3)
+            {
+                return;
+            }
+        }
 
         GameObject currentInstance = null;
 
@@ -212,7 +265,7 @@ public class AudioControl : MonoBehaviour {
 
         currentInstance.tag = gTag;
 
-        if(VolumeGroups.ContainsKey(currentInstance.tag))
+        if (VolumeGroups.ContainsKey(currentInstance.tag))
         {
             source.volume = VolumeGroups[currentInstance.tag];
         }
@@ -228,8 +281,8 @@ public class AudioControl : MonoBehaviour {
         {
             MusicSource.volume = gVolume;
         }
-        
-        if(!VolumeGroups.ContainsKey(gTag))
+
+        if (!VolumeGroups.ContainsKey(gTag))
         {
             VolumeGroups.Add(gTag, gVolume);
         }
@@ -266,7 +319,7 @@ public class AudioControl : MonoBehaviour {
 
         for (int i = 0; i < Instances.Count; i++)
         {
-            if(Instances[i] == null)
+            if (Instances[i] == null)
             {
                 Instances.RemoveAt(i);
                 continue;
@@ -280,7 +333,7 @@ public class AudioControl : MonoBehaviour {
 
     public void ResetTemporaryVolume(string gTag)
     {
-        SetTemporaryVolume(gTag,PlayerPrefs.GetFloat(gTag,0.6f));
+        SetTemporaryVolume(gTag, PlayerPrefs.GetFloat(gTag, 0.6f));
     }
 
 
@@ -291,11 +344,25 @@ public class AudioControl : MonoBehaviour {
         PlayerPrefs.Save();
     }
 
-    public void PlayWithPitch(string gClip,float fPitch)
+    public void PlayWithPitch(string gClip, float fPitch)
     {
         if (CORE.Instance.isLoading)
         {
             return;
+        }
+        if (Instances != null)
+        {
+            List<GameObject> existing = Instances.FindAll((x) =>
+            {
+                AudioSource aus = x.GetComponent<AudioSource>();
+
+                return aus != null && aus.clip != null && aus.clip.name == gClip && aus.isPlaying;
+            });
+
+            if (existing == null || existing.Count > 3)
+            {
+                return;
+            }
         }
 
         GameObject currentInstance = null;
@@ -341,13 +408,13 @@ public class AudioControl : MonoBehaviour {
 
     public void SetPlaylistIndex(int index)
     {
-        if(CurrentPlaylist == null)
+        if (CurrentPlaylist == null)
         {
             Debug.LogError("AUDIO - NO ACTIVE PLAYLIST");
             return;
         }
 
-        if(CurrentPlaylist.Playlist.Count <= index)
+        if (CurrentPlaylist.Playlist.Count <= index)
         {
             Debug.LogError("AUDIO - BAD INDEX OF PLAYLIST");
             return;
@@ -358,7 +425,7 @@ public class AudioControl : MonoBehaviour {
 
     protected void SetMusic(string gClip, float fPitch = 1f)
     {
-        if(WaitForMusicEndRoutineInstance != null)
+        if (WaitForMusicEndRoutineInstance != null)
         {
             StopCoroutine(WaitForMusicEndRoutineInstance);
         }
@@ -378,7 +445,7 @@ public class AudioControl : MonoBehaviour {
 
         MusicSource.Stop();
         MusicSource.clip = ResourcesLoader.Instance.GetClip(gClip);
-        MusicSource.Play();    
+        MusicSource.Play();
 
         WaitForMusicEndRoutineInstance = StartCoroutine(WaitForMusicEndRoutine());
     }
@@ -386,10 +453,10 @@ public class AudioControl : MonoBehaviour {
     Coroutine WaitForMusicEndRoutineInstance;
 
     IEnumerator WaitForMusicEndRoutine()
-    { 
+    {
         yield return 0;
 
-        while(MusicSource.isPlaying)
+        while (MusicSource.isPlaying)
         {
             yield return 0;
         }
@@ -399,32 +466,32 @@ public class AudioControl : MonoBehaviour {
         if (CurrentPlaylist != null)
         {
             int targetIndex = CurrentPlaylist.Playlist.IndexOf(MusicSource.clip.name) + 1;
-            if(targetIndex >= CurrentPlaylist.Playlist.Count)
+            if (targetIndex >= CurrentPlaylist.Playlist.Count)
             {
                 targetIndex = 0;
             }
 
             SetMusic(CurrentPlaylist.Playlist[targetIndex]);
-        }        
+        }
     }
 
     public void StopSound(string gClip)
     {
 
-        foreach(GameObject obj in Instances)
+        foreach (GameObject obj in Instances)
         {
-            if(obj == null)
+            if (obj == null)
             {
-                Instances.RemoveAll(x=>x == null);
+                Instances.RemoveAll(x => x == null);
                 StopSound(gClip);
                 return;
             }
 
             AudioSource source = obj.GetComponent<AudioSource>();
-            
+
             if (source.isPlaying)
             {
-                if(obj.GetComponent<AudioSource>().clip.name == gClip)
+                if (obj.GetComponent<AudioSource>().clip.name == gClip)
                 {
                     obj.GetComponent<AudioSource>().Stop();
                 }
@@ -434,7 +501,7 @@ public class AudioControl : MonoBehaviour {
 
     public void RegisterAudiosource(AudioSource source)
     {
-        if(!VolumeGroups.ContainsKey(source.gameObject.tag))
+        if (!VolumeGroups.ContainsKey(source.gameObject.tag))
         {
             VolumeGroups.Add(source.gameObject.tag, 1f);
         }
